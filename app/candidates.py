@@ -53,6 +53,51 @@ def generate_one(candidate_id: int) -> int | None:
     return draft_id
 
 
+def generate_for_lead(campaign_id: int, lead_id: int, steering_note: str | None = None) -> int | None:
+    """Draft a message for any inbox lead, keyed by lead rather than candidate.
+
+    Used by the two-pane inbox (Generate / Regenerate). Picks kind from the live
+    thread — a reply if the lead spoke last, otherwise a follow-up — creates the
+    draft, and marks any matching open follow-up candidate as drafted so the old
+    candidate bookkeeping stays consistent. Returns the new draft id."""
+    with db.db_session() as conn:
+        lead_row = db.get_lead_state(conn, lead_id, campaign_id)
+    if lead_row is None:
+        log.warning("generate_for_lead: no lead_state for %s/%s", campaign_id, lead_id)
+        return None
+
+    lead = {
+        "id": lead_id,
+        "campaign_id": campaign_id,
+        "email": lead_row["email"],
+        "first_name": lead_row["name"],
+        "company_name": lead_row["company"],
+        "website": lead_row["website"],
+        "custom_fields": None,
+    }
+    campaign_name = lead_row["campaign_name"] or ""
+
+    thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
+    if not thread:
+        log.info("generate_for_lead: empty thread for %s/%s", campaign_id, lead_id)
+        return None
+
+    kind = "reply" if thread[-1].kind == "reply" else "followup"
+
+    with db.db_session() as conn:
+        draft_id = pipeline.create_draft(conn, lead, campaign_name, kind, thread, steering_note)
+        candidate = conn.execute(
+            """SELECT id FROM candidates WHERE lead_id = ? AND campaign_id = ? AND kind = ?
+               AND status IN ('open', 'generating')""",
+            (lead_id, campaign_id, kind),
+        ).fetchone()
+        if candidate is not None:
+            db.update_candidate(conn, candidate["id"], status="drafted", draft_id=draft_id)
+
+    log.info("generated draft %s for lead %s/%s (%s)", draft_id, campaign_id, lead_id, kind)
+    return draft_id
+
+
 def generate_many_in_background(candidate_ids: list[int]) -> None:
     with db.db_session() as conn:
         for cid in candidate_ids:

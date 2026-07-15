@@ -18,6 +18,14 @@ CREATE TABLE IF NOT EXISTS leads_state (
     last_followup_at TEXT,
     status TEXT NOT NULL DEFAULT 'active',  -- active|stopped|awaiting_reply|blacklisted
     updated_at TEXT NOT NULL,
+    -- inbox summary, recorded by the daily/on-demand scan (see scheduler._process_lead)
+    interested INTEGER NOT NULL DEFAULT 0,
+    campaign_name TEXT,
+    category TEXT,              -- reply|followup|waiting  (drives the row colour)
+    language TEXT,              -- 2-letter code of the lead's last message
+    last_message_preview TEXT,
+    last_message_at TEXT,
+    last_message_kind TEXT,     -- sent|reply  (who spoke last)
     PRIMARY KEY (lead_id, campaign_id)
 );
 
@@ -103,9 +111,23 @@ def init_db() -> None:
 def _migrate(conn) -> None:
     """Additive column migrations for databases created before a schema change.
     CREATE TABLE IF NOT EXISTS above doesn't add columns to an existing table."""
-    existing_cols = {row["name"] for row in conn.execute("PRAGMA table_info(drafts)")}
-    if "sender_email" not in existing_cols:
+    draft_cols = {row["name"] for row in conn.execute("PRAGMA table_info(drafts)")}
+    if "sender_email" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN sender_email TEXT")
+
+    lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
+    inbox_columns = {
+        "interested": "INTEGER NOT NULL DEFAULT 0",
+        "campaign_name": "TEXT",
+        "category": "TEXT",
+        "language": "TEXT",
+        "last_message_preview": "TEXT",
+        "last_message_at": "TEXT",
+        "last_message_kind": "TEXT",
+    }
+    for name, decl in inbox_columns.items():
+        if name not in lead_cols:
+            conn.execute(f"ALTER TABLE leads_state ADD COLUMN {name} {decl}")
 
 
 # ---- leads_state helpers ----
@@ -145,6 +167,23 @@ def increment_followup_count(conn, lead_id: int, campaign_id: int) -> None:
            WHERE lead_id = ? AND campaign_id = ?""",
         (now_iso(), now_iso(), lead_id, campaign_id),
     )
+
+
+def list_inbox(conn):
+    """Every interested, non-stopped lead for the unified inbox, ordered by
+    urgency: awaiting-our-reply (red) first, then follow-up-due (amber), then the
+    rest (neutral); within a group, most recent activity first."""
+    return conn.execute(
+        """SELECT * FROM leads_state
+           WHERE interested = 1 AND status != 'stopped'
+           ORDER BY
+             CASE category
+               WHEN 'reply' THEN 0
+               WHEN 'followup' THEN 1
+               ELSE 2
+             END,
+             last_message_at DESC"""
+    ).fetchall()
 
 
 # ---- drafts helpers ----
@@ -200,6 +239,17 @@ def has_open_draft(conn, lead_id: int, campaign_id: int) -> bool:
         (lead_id, campaign_id),
     ).fetchone()
     return row is not None
+
+
+def get_open_draft(conn, lead_id: int, campaign_id: int):
+    """The current editable draft (pending or scheduled) for a lead, if any —
+    what the detail pane shows when you open the lead."""
+    return conn.execute(
+        """SELECT * FROM drafts WHERE lead_id = ? AND campaign_id = ?
+           AND status IN ('pending', 'scheduled')
+           ORDER BY created_at DESC LIMIT 1""",
+        (lead_id, campaign_id),
+    ).fetchone()
 
 
 # ---- candidates helpers ----
