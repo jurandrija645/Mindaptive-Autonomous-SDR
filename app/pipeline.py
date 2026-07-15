@@ -1,7 +1,7 @@
 import json
 
-from app import db, drafter, smartlead
-from app.detector import normalize_thread
+from app import db, drafter, signatures, smartlead
+from app.detector import last_sender_email, normalize_thread
 from app.thread_utils import render_thread_text, text_to_html
 
 
@@ -24,13 +24,19 @@ def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steeri
     result = drafter.generate_draft(kind, lead_payload, thread_text, steering_note)
     last_message = thread[-1]
 
+    sender_email = last_sender_email(thread)
+    signature_html = signatures.get_signature_html(sender_email)
+    body_html = text_to_html(result.body_original)
+    if signature_html:
+        body_html += f"<br><br>{signature_html}"
+
     draft_id = db.create_draft(
         conn,
         lead_id=lead["id"],
         campaign_id=lead["campaign_id"],
         kind=kind,
         triage_summary=result.triage_summary,
-        body_html=text_to_html(result.body_original),
+        body_html=body_html,
         body_translation=result.body_translation,
         thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
         reply_message_id=last_message.message_id,
@@ -39,5 +45,6 @@ def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steeri
         lead_name=lead_payload["name"],
         lead_company=lead_payload["company"],
         lead_email=lead_payload["email"],
+        sender_email=sender_email,
     )
     return draft_id

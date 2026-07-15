@@ -15,11 +15,12 @@ These are plain markdown files, not code — edit them directly, no Python knowl
 
 ## How a message actually gets generated
 
-1. **Daily scan** (`app/scheduler.py: run_daily_scan`) — cron job, Smartlead API only, no Claude. For every "Interested" lead it checks the thread and decides: due for a follow-up (3+ days since our last message, under the follow-up cap) → adds a row to the `candidates` table; lead's message unanswered → auto-drafts a reply immediately (fast response to hot leads); otherwise → nothing.
+1. **Daily scan** (`app/scheduler.py: run_daily_scan`) — cron job (`DAILY_SCAN_HOUR_UTC`), Smartlead API only, no Claude. Also triggerable on demand from the dashboard ("Rescan now" button → `scheduler.trigger_scan_in_background`, lock-protected so it can't stack). For every "Interested" lead it checks the thread and decides: due for a follow-up (3+ days since our last message, under the follow-up cap) → adds a row to the `candidates` table; lead's message unanswered → auto-drafts a reply immediately (fast response to hot leads); otherwise → nothing.
 2. **Dashboard "Follow-ups due" tab** — lists open candidates as checkboxes, nothing drafted yet.
 3. **Generate / Bulk generate** (`app/candidates.py`) — user-triggered. Re-fetches the thread fresh (race-check: skip if the lead already replied), then calls `app/pipeline.py: create_draft` → `app/drafter.py: generate_draft`, which calls Claude with web search/fetch tools enabled so it can research the lead's website. Bulk generate runs in a background thread so it doesn't block on Cloudflare's ~100s tunnel timeout.
-4. **Review** — draft appears as an editable card (triage summary, English translation, edit body, thread history). Actions: Send now, Schedule, Regenerate (with an optional steering note), Skip, Stop following up this lead.
-5. **Send** — `app/smartlead.py: reply_to_thread`. Re-checks the thread once more immediately before sending (abort if the lead replied in the meantime).
+4. **Signature** — `pipeline.create_draft` also looks up which mailbox sent the thread's last message (`detector.last_sender_email`) and appends that persona's HTML signature (`app/signatures.py`, files in `signatures/`) directly onto `body_html` *before* saving the draft — deliberately not at send time, so the full email (message + signature) is what's shown and editable in the dashboard, and Send ships exactly that with no hidden transformation. Persona is detected from Smartlead's own `from_name` on each of the 90+ rotating sending accounts (`GET /email-accounts`), not a hand-maintained email list — see `PERSONA_FILES` in `signatures.py` if a new persona/name is added.
+5. **Review** — draft appears as an editable card (triage summary, English translation, edit body incl. signature, thread history). Actions: Send now, Schedule, Regenerate (with an optional steering note), Skip, Stop following up this lead.
+6. **Send** — `app/smartlead.py: reply_to_thread`. Re-checks the thread once more immediately before sending (abort if the lead replied in the meantime).
 
 ## Key config (`.env`, see `.env.example`)
 
@@ -44,3 +45,5 @@ Dashboard at `http://localhost:8080` (password = `APP_PASSWORD`). Keep `DRY_RUN=
 - `app/db.py` schema (`leads_state`, `drafts`, `candidates`) — other modules assume these exact columns.
 - `app/smartlead.py` field-name guesses in `normalize_lead`/`normalize_message` — verified against the real Smartlead API response shape (nested `lead{}` object, `lead_category_id` at the top level, message-history fields `type`/`time`/`message_id`/`email_body`).
 - The webhook payload shape in `app/webhook.py` (`campaign_id`, `sl_email_lead_id`, `reply_message.text`, `to_name`, `to_email`) — confirmed from the existing n8n workflow, not guessed.
+- `signatures/andrew.html` / `signatures/mia.html` — real signatures pulled from Smartlead's actual sending accounts, HTML/inline-styled, not meant to be hand-edited casually. `PERSONA_FILES` in `app/signatures.py` maps a Smartlead `from_name` to one of these files.
+- Smartlead API response shapes are inconsistent per endpoint (some wrap in `{"data": [...]}`, others return a bare list) — always check `isinstance(data, list)` *before* falling back to `.get("data")`, not after (a real bug fixed in `smartlead.py`'s pagination helpers).

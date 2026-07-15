@@ -87,10 +87,21 @@ def dashboard(request: Request, tab: str = "pending"):
             "drafts": drafts,
             "due_candidates": due_candidates,
             "generating_candidates": generating_candidates,
+            "scan_running": scheduler.is_scan_running(),
             "dry_run": settings.dry_run,
             "auto_send": settings.auto_send_followups,
         },
     )
+
+
+@app.post("/scan/trigger")
+def trigger_scan(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+
+    scheduler.trigger_scan_in_background()
+    return RedirectResponse(url="/dashboard?tab=pending", status_code=303)
 
 
 @app.post("/candidates/{candidate_id}/generate")

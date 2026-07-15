@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS drafts (
     sent_at TEXT,
     lead_name TEXT,
     lead_company TEXT,
-    lead_email TEXT
+    lead_email TEXT,
+    sender_email TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON drafts (status);
@@ -96,6 +97,15 @@ def db_session():
 def init_db() -> None:
     with db_session() as conn:
         conn.executescript(SCHEMA)
+        _migrate(conn)
+
+
+def _migrate(conn) -> None:
+    """Additive column migrations for databases created before a schema change.
+    CREATE TABLE IF NOT EXISTS above doesn't add columns to an existing table."""
+    existing_cols = {row["name"] for row in conn.execute("PRAGMA table_info(drafts)")}
+    if "sender_email" not in existing_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN sender_email TEXT")
 
 
 # ---- leads_state helpers ----

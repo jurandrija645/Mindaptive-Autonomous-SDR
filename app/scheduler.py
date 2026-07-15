@@ -1,4 +1,5 @@
 import logging
+import threading
 from datetime import datetime, timezone
 
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -9,6 +10,32 @@ from app.config import settings
 from app.thread_utils import guess_timezone
 
 log = logging.getLogger("scheduler")
+
+_scan_lock = threading.Lock()
+
+
+def is_scan_running() -> bool:
+    return _scan_lock.locked()
+
+
+def _run_scan_locked() -> None:
+    if _scan_lock.locked():
+        log.info("scan already running, skipping this trigger")
+        return
+    with _scan_lock:
+        try:
+            run_daily_scan()
+        except Exception:
+            log.exception("scan failed")
+
+
+def trigger_scan_in_background() -> bool:
+    """Starts a scan in a background thread. Returns False (no-op) if one is
+    already running, so a second click can't stack scans on top of each other."""
+    if _scan_lock.locked():
+        return False
+    threading.Thread(target=_run_scan_locked, daemon=True).start()
+    return True
 
 
 def run_daily_scan() -> None:
@@ -153,7 +180,7 @@ def start_scheduler() -> BackgroundScheduler:
 
     sched = BackgroundScheduler(timezone=timezone.utc)
     sched.add_job(
-        run_daily_scan,
+        _run_scan_locked,
         CronTrigger(hour=settings.daily_scan_hour_utc, minute=0),
         id="daily_scan",
     )

@@ -59,16 +59,25 @@ Visit `https://sdr.yourdomain.com`, confirm login works. Leave `DRY_RUN=true` fo
 **Register the Smartlead webhook** (for instant reply drafting — separate from your existing n8n webhook, both can coexist):
 - Smartlead → Settings → Webhooks → add one for the "Reply" event, URL `https://sdr.yourdomain.com/webhooks/smartlead`. If you set `SMARTLEAD_WEBHOOK_SECRET` in `.env`, configure Smartlead to send it as a header or query param matching what `app/webhook.py` checks.
 
-**Redeploying after code changes:**
+**Redeploying after code changes (manual):**
 ```
 git pull && docker compose up -d --build
 ```
 
+**Auto-deploy on push:** `deploy/auto-deploy.sh` checks `origin/main` for new commits and redeploys if found. Set it up once via cron so every push to `main` goes live within a couple minutes, no manual step needed:
+
+```
+chmod +x deploy/auto-deploy.sh
+(crontab -l 2>/dev/null; echo "*/2 * * * * $(pwd)/deploy/auto-deploy.sh >> $(pwd)/deploy/deploy.log 2>&1") | crontab -
+```
+
+Check `deploy/deploy.log` on the droplet to see deploy history. This polls rather than reacts instantly (up to a 2-minute delay) — deliberately chosen over a GitHub Actions + SSH webhook setup since the droplet's firewall only allows outbound connections plus inbound SSH, so nothing needs to reach in to trigger it.
+
 ## 3. Day-to-day usage
 
-- **Follow-ups due tab** — leads with no reply for 3+ days (and under the 4-follow-up cap). Nothing is drafted yet. Click **Generate** on one, or check several + **Generate selected** to draft a batch in the background (refresh after a bit — it doesn't block the page).
+- **Follow-ups due tab** — leads with no reply for 3+ days (and under the 4-follow-up cap). Nothing is drafted yet. Click **Generate** on one, or check several + **Generate selected** to draft a batch in the background (refresh after a bit — it doesn't block the page). Click **Rescan now** any time to refresh this list immediately instead of waiting for the next cron run (takes a couple minutes; the button shows "Scan running…" while it works, and won't let you stack a second one).
 - **Inbox tab** — replies from leads, auto-drafted the moment they come in (via the webhook) or caught by the next daily scan if the webhook was missed. Review and send same as follow-ups.
-- Every draft card: edit the body directly, see the English translation (if the thread's in another language), view the full thread, then **Send now**, **Schedule** (pick a time — useful for a USA lead's morning), **Regenerate** (optionally with a steering note, e.g. "shorter" or "mention the review system instead"), **Skip** (dismiss just this draft), or **Stop following up this lead** (removes them from future automated follow-ups entirely).
+- Every draft card: edit the body directly (the correct Andrew/Mia signature is already baked into the text, based on which mailbox sent the original outreach — edit it like part of the email, since that's exactly what gets sent), see the English translation (if the thread's in another language), view the full thread, then **Send now**, **Schedule** (pick a time — useful for a USA lead's morning), **Regenerate** (optionally with a steering note, e.g. "shorter" or "mention the review system instead"), **Skip** (dismiss just this draft), or **Stop following up this lead** (removes them from future automated follow-ups entirely).
 - **Scheduled tab** — anything you scheduled for later; the background loop sends it automatically at the chosen time (with a race-check: if the lead replies before then, the send is aborted and flagged instead).
 - **Sent log** — history of everything actually sent.
 

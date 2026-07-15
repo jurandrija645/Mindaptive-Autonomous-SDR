@@ -18,10 +18,18 @@
   {% endif %}
 
   {% if tab == 'pending' %}
-  {% if due_candidates or generating_candidates %}
   <div class="card">
-    <h3>Due for a follow-up ({{ due_candidates|length + generating_candidates|length }})</h3>
-    <div class="meta">No contact from the lead for 3+ days. Nothing is drafted until you click Generate.</div>
+    <div class="actions" style="justify-content: space-between; align-items: center;">
+      <h3 style="margin:0">Due for a follow-up ({{ due_candidates|length + generating_candidates|length }})</h3>
+      {% if scan_running %}
+      <span class="meta">&#8635; Scan running&hellip; refresh in a bit</span>
+      {% else %}
+      <form method="post" action="/scan/trigger">
+        <button class="btn-secondary" type="submit">Rescan now</button>
+      </form>
+      {% endif %}
+    </div>
+    <div class="meta">No contact from the lead for 3+ days. Nothing is drafted until you click Generate. A rescan checks every "Interested" lead's thread — takes a couple of minutes.</div>
 
     <form id="bulk-form" method="post" action="/candidates/bulk-generate"></form>
 
@@ -56,7 +64,6 @@
     </div>
     {% endfor %}
   </div>
-  {% endif %}
   {% endif %}
 
   {% if not drafts and not due_candidates and not generating_candidates %}

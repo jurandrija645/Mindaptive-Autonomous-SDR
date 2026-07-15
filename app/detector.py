@@ -24,6 +24,7 @@ class NormalizedMessage:
     timestamp: datetime
     message_id: str
     body: str
+    from_email: str = ""
 
 
 @dataclass
@@ -62,13 +63,24 @@ def normalize_message(msg: dict) -> NormalizedMessage:
         msg.get("message_id") or msg.get("stats_id") or msg.get("id") or ""
     )
     body = msg.get("email_body") or msg.get("body") or msg.get("message") or ""
+    from_email = msg.get("from") or msg.get("from_email") or ""
 
     return NormalizedMessage(
         kind=kind,
         timestamp=_parse_timestamp(timestamp_raw),
         message_id=message_id,
         body=body,
+        from_email=from_email,
     )
+
+
+def last_sender_email(thread: list[NormalizedMessage]) -> str:
+    """The mailbox that owns this conversation — the from-address of our most
+    recent SENT message, used to pick which persona's signature to append."""
+    for msg in reversed(thread):
+        if msg.kind == "sent" and msg.from_email:
+            return msg.from_email
+    return ""
 
 
 def normalize_thread(raw_thread: list[dict]) -> list[NormalizedMessage]:

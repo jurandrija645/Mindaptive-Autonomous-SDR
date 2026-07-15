@@ -58,12 +58,28 @@ def list_campaign_leads(campaign_id: int, page_size: int = 100) -> Iterator[dict
             f"/campaigns/{campaign_id}/leads",
             params={"offset": offset, "limit": page_size},
         )
-        leads = (data or {}).get("data") or (data if isinstance(data, list) else [])
+        leads = data if isinstance(data, list) else (data or {}).get("data") or []
         if not leads:
             return
         for lead in leads:
             yield lead
         if len(leads) < page_size:
+            return
+        offset += page_size
+
+
+def list_email_accounts(page_size: int = 100) -> Iterator[dict]:
+    offset = 0
+    while True:
+        data = _request(
+            "GET", "/email-accounts", params={"offset": offset, "limit": page_size}
+        )
+        accounts = data if isinstance(data, list) else (data or {}).get("data") or []
+        if not accounts:
+            return
+        for account in accounts:
+            yield account
+        if len(accounts) < page_size:
             return
         offset += page_size
 
