@@ -1,0 +1,76 @@
+# SmartLead API
+
+> SmartLead is a cold email outreach platform. The SmartLead API lets you automate campaign creation, lead management, email account configuration, sequence building, and analytics tracking programmatically.
+
+## Base URL
+
+All API requests use: `https://server.smartlead.ai/api/v1`
+
+## Authentication
+
+Pass your API key as a query parameter: `?api_key=YOUR_API_KEY`
+
+## Documentation
+
+- [Introduction](https://api.smartlead.ai/introduction): Overview of SmartLead API capabilities
+- [Quickstart](https://api.smartlead.ai/quickstart): Make your first API call in 5 minutes
+- [Authentication](https://api.smartlead.ai/authentication): API key setup and security
+
+## Core Concepts
+
+- [Campaigns](https://api.smartlead.ai/core/campaigns): Campaign lifecycle, statuses, and architecture
+- [Leads](https://api.smartlead.ai/core/leads): Lead statuses, custom fields, and lifecycle
+- [Email Accounts](https://api.smartlead.ai/core/email-accounts): SMTP/Gmail/Outlook accounts, warmup, and rotation
+- [Sequences](https://api.smartlead.ai/core/sequences): Email sequences, delays, A/B testing
+- [Webhooks](https://api.smartlead.ai/core/webhooks): Real-time event notifications
+
+## Guides
+
+- [Getting Started](https://api.smartlead.ai/guides/getting-started): End-to-end setup from API key to live campaign
+- [Campaign Setup](https://api.smartlead.ai/guides/campaign-setup): Create and configure campaigns with sequences and A/B tests
+- [Email Warmup](https://api.smartlead.ai/guides/email-warmup): Build sender reputation before sending campaigns
+- [Lead Management](https://api.smartlead.ai/guides/lead-management): Import, segment, and manage leads at scale
+- [Webhook Integration](https://api.smartlead.ai/guides/webhook-integration): Set up webhooks for CRM sync and notifications
+- [Error Handling](https://api.smartlead.ai/guides/error-handling): HTTP status codes, retry logic, and debugging
+- [Rate Limits](https://api.smartlead.ai/guides/rate-limits): Rate limit structure and backoff strategies
+- [Best Practices](https://api.smartlead.ai/guides/best-practices): Deliverability, personalization, and scaling
+
+## API Reference
+
+### Campaigns
+
+- POST /campaigns/create - Create a new campaign
+- GET /campaigns/ - List all campaigns
+- GET /campaigns/{id} - Get campaign by ID
+- PATCH /campaigns/{id}/status - Update campaign status (ACTIVE, PAUSED, STOPPED)
+- PATCH /campaigns/{id}/settings - Update campaign settings
+- POST /campaigns/{id}/schedule - Set sending schedule
+- POST /campaigns/{id}/sequences - Create email sequences
+- POST /campaigns/{id}/email-accounts - Link email accounts
+- POST /campaigns/{id}/leads - Import leads (max 400 per request)
+
+### Email Accounts
+
+- POST /email-accounts/save - Add SMTP email account
+- GET /email-accounts - List all email accounts
+- PATCH /email-accounts/{id} - Update account settings
+- GET /email-accounts/{id}/warmup-stats - Get warmup statistics
+
+### Leads
+
+- POST /campaigns/{id}/leads - Add leads to campaign
+- GET /campaigns/{id}/leads - Get leads by campaign
+- PATCH /campaigns/{id}/leads/{lead_id}/status - Update lead status
+- GET /leads/by-email - Search lead by email
+
+### Webhooks
+
+- POST /webhooks - Create webhook
+- GET /webhooks - List webhooks
+- PATCH /webhooks/{id} - Update webhook
+- DELETE /webhooks/{id} - Delete webhook
+
+### Analytics
+
+- GET /campaigns/{id}/analytics - Campaign performance metrics
+- GET /analytics/overview - Global analytics overview

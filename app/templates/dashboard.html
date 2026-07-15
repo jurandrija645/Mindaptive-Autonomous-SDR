@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block body %}
+<header>
+  <h1>Mindaptive Responder</h1>
+  <form method="post" action="/logout"><button class="btn-secondary" type="submit">Log out</button></form>
+</header>
+<div class="tabs">
+  <a href="/dashboard?tab=pending" class="{{ 'active' if tab == 'pending' }}">Follow-ups due</a>
+  <a href="/dashboard?tab=inbox" class="{{ 'active' if tab == 'inbox' }}">Inbox</a>
+  <a href="/dashboard?tab=scheduled" class="{{ 'active' if tab == 'scheduled' }}">Scheduled</a>
+  <a href="/dashboard?tab=sent" class="{{ 'active' if tab == 'sent' }}">Sent log</a>
+</div>
+<main>
+  {% if dry_run %}
+  <div class="banner">DRY_RUN is on — sends are logged but not actually delivered to Smartlead.</div>
+  {% elif auto_send %}
+  <div class="banner">AUTO_SEND_FOLLOWUPS is on — follow-ups are scheduled automatically. This queue is for review only.</div>
+  {% endif %}
+
+  {% if tab == 'pending' %}
+  {% if due_candidates or generating_candidates %}
+  <div class="card">
+    <h3>Due for a follow-up ({{ due_candidates|length + generating_candidates|length }})</h3>
+    <div class="meta">No contact from the lead for 3+ days. Nothing is drafted until you click Generate.</div>
+
+    <form id="bulk-form" method="post" action="/candidates/bulk-generate"></form>
+
+    {% if due_candidates %}
+    <div class="actions" style="margin: 10px 0">
+      <label><input type="checkbox" onclick="document.querySelectorAll('.cand-checkbox').forEach(c => c.checked = this.checked)"> Select all</label>
+      <button class="btn-send" type="submit" form="bulk-form">Generate selected</button>
+    </div>
+    {% endif %}
+
+    {% for c in generating_candidates %}
+    <div class="candidate-row">
+      <span>&#8635; Generating&hellip; {{ c.lead_name or c.lead_email }}{% if c.lead_company %} &middot; {{ c.lead_company }}{% endif %}</span>
+    </div>
+    {% endfor %}
+
+    {% for c in due_candidates %}
+    <div class="candidate-row">
+      <label>
+        <input type="checkbox" class="cand-checkbox" name="candidate_ids" value="{{ c.id }}" form="bulk-form">
+        <strong>{{ c.lead_name or c.lead_email }}</strong>{% if c.lead_company %} &middot; {{ c.lead_company }}{% endif %}
+        <span class="meta">&mdash; {{ c.reason }}</span>
+      </label>
+      <div class="candidate-row-actions">
+        <form method="post" action="/candidates/{{ c.id }}/generate" style="display:inline">
+          <button class="btn-secondary" type="submit">Generate</button>
+        </form>
+        <form method="post" action="/candidates/{{ c.id }}/dismiss" style="display:inline">
+          <button class="btn-secondary" type="submit">Dismiss</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endif %}
+
+  {% if not drafts and not due_candidates and not generating_candidates %}
+  <p class="empty">Nothing here right now.</p>
+  {% endif %}
+
+  {% for d in drafts %}
+  <div class="card">
+    <h3>{{ d.lead_name or d.lead_email }}{% if d.lead_company %} &middot; {{ d.lead_company }}{% endif %}</h3>
+    <div class="meta">
+      {{ d.kind }} &middot; {{ d.lead_email }}
+      {% if d.status == 'scheduled' %} &middot; scheduled for {{ d.scheduled_at }}{% endif %}
+      {% if d.status == 'sent' %} &middot; sent at {{ d.sent_at }}{% endif %}
+    </div>
+
+    {% if d.triage_summary %}
+    <pre class="triage">{{ d.triage_summary }}</pre>
+    {% endif %}
+
+    {% if d.thread_snapshot %}
+    <details>
+      <summary>View full email thread</summary>
+      <div class="thread">
+        {% for m in d.thread_snapshot|from_json %}
+          <p><strong>{{ 'US' if m.kind == 'sent' else 'LEAD' }}</strong> &middot; {{ m.timestamp }}<br>{{ m.body }}</p>
+        {% endfor %}
+      </div>
+    </details>
+    {% endif %}
+
+    {% if d.status in ('pending', 'scheduled') %}
+    <textarea id="body_{{ d.id }}">{{ d.body_html }}</textarea>
+
+    {% if d.body_translation %}
+    <details class="translation">
+      <summary>English translation</summary>
+      <p>{{ d.body_translation }}</p>
+    </details>
+    {% endif %}
+
+    <div class="actions">
+      <form method="post" action="/drafts/{{ d.id }}/send" style="display:inline" onsubmit="return copyBody({{ d.id }}, this)">
+        <input type="hidden" name="body_html">
+        <button class="btn-send" type="submit">Send now</button>
+      </form>
+
+      <form method="post" action="/drafts/{{ d.id }}/schedule" style="display:inline" onsubmit="return copyBody({{ d.id }}, this)">
+        <input type="hidden" name="body_html">
+        <input type="datetime-local" name="scheduled_at" required>
+        <button class="btn-secondary" type="submit">Schedule</button>
+      </form>
+
+      <form method="post" action="/drafts/{{ d.id }}/regenerate" style="display:inline-flex; gap:6px">
+        <input type="text" name="steering_note" placeholder="Steer regeneration (optional)" style="padding:8px; border-radius:8px; border:1px solid var(--border)">
+        <button class="btn-secondary" type="submit">Regenerate</button>
+      </form>
+
+      <form method="post" action="/drafts/{{ d.id }}/skip" style="display:inline">
+        <button class="btn-secondary" type="submit">Skip</button>
+      </form>
+
+      <form method="post" action="/drafts/{{ d.id }}/stop" style="display:inline" onsubmit="return confirm('Stop all automated follow-ups for this lead?')">
+        <button class="btn-danger" type="submit">Stop following up</button>
+      </form>
+    </div>
+
+    <script>
+      function copyBody(id, form) {
+        form.querySelector('input[name="body_html"]').value = document.getElementById('body_' + id).value;
+        return true;
+      }
+    </script>
+    {% else %}
+    <div style="white-space: pre-wrap; font-size: 14px;">{{ d.body_html|striptags }}</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</main>
+{% endblock %}

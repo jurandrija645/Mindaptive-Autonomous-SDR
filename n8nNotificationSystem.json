@@ -1,0 +1,525 @@
+{
+  "name": "Smartlead  notification",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e598ef89-fb79-44be-8a72-0b17754d40d0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        0
+      ],
+      "id": "5e55092a-1760-4281-9f0a-93fa5cf35ab1",
+      "name": "Smartlead Webhook",
+      "webhookId": "e598ef89-fb79-44be-8a72-0b17754d40d0"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1362394063856205964",
+          "mode": "list",
+          "cachedResultName": "Mindaptive",
+          "cachedResultUrl": "https://discord.com/channels/1362394063856205964"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1402663079354962042",
+          "mode": "list",
+          "cachedResultName": "notfy",
+          "cachedResultUrl": "https://discord.com/channels/1362394063856205964/1402663079354962042"
+        },
+        "content": "=------ NOVA PORUKA ----- {{ $('Smartlead Webhook').item.json.body.to_name }}\n\nPoslao: {{ $('Smartlead Webhook').item.json.body.to_email }}\n\n{{ $('Prevedi poruku').item.json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1872,
+        -688
+      ],
+      "id": "fb98ece9-662b-4ddc-8411-7cfa9be6bbd6",
+      "name": "Discord",
+      "webhookId": "255d86ef-72bc-467c-b4ad-9477fd41660e",
+      "credentials": {
+        "discordBotApi": {
+          "id": "MLo8YqiBGFj9effx",
+          "name": "Discord Bot account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "RELEVANT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4f2bddea-57a2-41c8-a373-534e6e4d73ad"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b02aa806-c5d1-4e26-84eb-c8ea59841430",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "NOT_RELEVANT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        768,
+        0
+      ],
+      "id": "a4605e1b-fa67-4385-8245-e8ac6a343ee5",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an AI text classification system. Your sole function is to analyze the provided text and assign it one of two categories: `RELEVANT` or `NOT_RELEVANT`.\n",
+              "role": "system"
+            },
+            {
+              "content": "=**CATEGORY DEFINITIONS:**\n* **RELEVANT:** \n- Any interest in continuing the conversation. \n- Inquiries about price, a demo, a meeting\n- Forwarding the email to a relevant colleague.\n\n* **NOT_RELEVANT:** \n- Rejection\n- unsubscribe request\n- \"out of office\" message\n- reply that clearly ends the communication.\n- Auto-reply or an Autoresponder message\n- Response like -- \"We will respond within X hours/days...\"\n\n**MANDATORY COMMAND:**\nCarefully read the text inside the quotation marks below. After your analysis, your output **must be only one word**: `RELEVANT` or `NOT_RELEVANT`.\nYou must not write anything else. No explanations, no greetings, and no period at the end.\n\n**TEXT TO ANALYZE:**\n{{ $json.body.reply_message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c2d2e7f7-6a6e-4bfe-b559-61f9ed52e096",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "32KT8gO87t4GoFVd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        432
+      ],
+      "id": "d655f252-4072-47b0-9695-3b74cdc16705",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "url": "=https://server.smartlead.ai/api/v1/campaigns/{{ $('Smartlead Webhook').item.json.body.campaign_id }}/leads/{{ $('Smartlead Webhook').item.json.body.sl_email_lead_id }}/message-history?api_key=2712344d-01e4-4573-aca5-5bc7e5b3e5d3_edply4a",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1664,
+        -144
+      ],
+      "id": "576a2b5c-d9db-45b7-93c8-9dcdeb03e1c5",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are the best sales person in the world. You know how to target peoples pain points and sell to them.\nYou are the AI Sales Agent for Mindaptive (SparkSender), specializing in B2B AI automation and generating responses for mid-to-high ticket offers.\n\nYour task is to analyze chat history with the current prospect and generate a message that will be send back to them as a response.\n\nCONTEXT:\nThe service you are selling is call Sparksender. SparkSender is a fully managed, AI-powered cold email marketing service offered by Mindaptive. It's an end-to-end solution designed to secure high-quality sales meetings for B2B companies with mid-to-high ticket offers.\n\nWhat It Does:\nThe core function of SparkSender is to generate a predictable flow of qualified leads by eliminating generic outreach. It achieves this through a three-step process driven by AI Agents:\n\nReal-Time Research: Mindaptive generates a list of customers and an AI Agent researches each prospect in real-time, analyzing their latest activity (e.g., LinkedIn posts, company updates) to understand their context and needs.\n\nHyper-Personalization: It then uses these data points to write unique, one-to-one emails that are highly relevant and cut through a crowded inbox.\n\nPerformance-Based Results: The service is structured to automatically manage follow-ups and book qualified meetings directly into the client's calendar. It often operates on a pay-per-meeting model, ensuring its goals are perfectly aligned with the client's success.\n\nEXAMPLES:\n\n1. -----------\n- If the prospect responds in a way that they need more information or would like to know more about the service the answer should be something like:\n\n\"\nHi prospectName,\n\nTo answer your question, we provide a complete, end-to-end system that delivers qualified meetings booked directly onto your calendar. Our model is designed to be entirely no-risk for you.\nYou only pay for the qualified meetings we successfully book. There are no setup fees, retainers, or hidden costs.\n\nOur three-step process to achieve this is:\nFoundation & Strategy: We build and warm up a dedicated outreach infrastructure to ensure pristine deliverability and work with you to define your ideal client profile.\nAI Agent Customization: We then train a custom AI agent to research each prospect in real-time and write hyper-personalized outreach that gets responses.\nFull-Cycle Management: We manage the entire campaign—from sending, to handling replies, to booking the qualified prospect into an open slot in your team's calendar.\n\nThe exact cost-per-meeting depends on the target market, but is usually around $200 - $400. There are no additional charges, if we dont deliver you dont pay, simple as that.\n\nKind regards\"\n\n2. -------------\n- If the prospect wants to Mindaptive to record a video for them the answer should be something like: \n\n\"\nHi prospectName,\n\nthanks for you interest. I have a couple of things to take care and then I will personally record that video for you. I will send it today or tomorrow at latest.\n\nBest Regards\"\n\n-> Do not offer a meeting in this case \n\n3. -----------\nIf the prospect wants to schedule a meeting the message should be something like:\n\n\"Hi prospectName,\n\nSounds great. I'm looking forward to showing you what we're doing, and how we can help you. \n\nYou can find a time that works for you directly on my calendar here: https://calendar.app.google/PL5DzwyjyC88oX167\n\nTalk soon,\n\"\n\n-----------\n\nYOUR RULES:\n1. The ultimate goal is to generate a response that confirms the prospect's interest and moves them towards a 10-minute demo call (or similar next step).\n2. The response must be highly valuable, contextual, and maintain a professional yet friendly tone.\n3. You must analyze the ENTIRE conversation history provided in the User Prompt.\n4. Output ONLY the response text. DO NOT include any explanatory notes, introductory greetings (e.g., \"Hi [Name]\"), or full sign-offs (e.g., \"Best regards, [Name]\"). The human salesperson will add these.\n5. Make sure to write in the language that was spoken during the whole conversation between the prospect and mindaptive sales rep.\n6. If the language spoken is not English make sure to add an additional section of the message that is in English. And output it like - HOME VERSION: \"write swedish message here...\" \\n\\n ENG VERSION: \"write english translation here...\". (HOME represent the language that was spoken during the previous email exchange)",
+              "role": "system"
+            },
+            {
+              "content": "=-- CONVERSATION HISTORY --\n{{ $('Code').item.json.chat_history_text }}\n\n-- LAST MESSAGE THAT PROSPECT SENT --\n{{ $('Smartlead Webhook').item.json.body.reply_message.text }}\n\n-- GENERATE RESPONSE --\nBased on the full history above, generate the SENDER's next immediate response draft that capitalizes on the prospect's latest message and gently guides them to the next step."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2352,
+        -288
+      ],
+      "id": "d09b3398-7537-4308-b8db-3254185402d5",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "32KT8gO87t4GoFVd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Dohvatite stvarni niz povijesti poruka\n// Na temelju vašeg izlaza, niz poruka se nalazi pod ključem 'history'\n// unutar prvog elementa izlaza HTTP Request čvora.\nconst httpResponse = $input.first().json;\nconst historyArray = httpResponse.history;\n\n// Email adrese: Vaša (Mindaptive) adresa i adresa prospekta\n// Koristimo email adrese iz prve poruke kao referencu\nconst yourEmail = historyArray[0].from; // \"mia@mindaptivedeep.com\" \nconst prospectEmail = historyArray[0].to; // \"mindaptive@gmail.com\" \n\n// 2. Funkcija za čišćenje HTML-a i uklanjanje citiranih (quoted) dijelova\nfunction cleanEmailBody(html) {\n    if (!html) return \"\";\n\n    // A. Uklonite citirane (quoted) dijelove (sve nakon prve <div class=\"gmail_quote)\n    const quoteIndex = html.indexOf('<div class=\"gmail_quote');\n    if (quoteIndex !== -1) {\n        html = html.substring(0, quoteIndex);\n    }\n    // Drugi način uklanjanja citiranih dijelova koji je sigurniji:\n    const altQuoteIndex = html.indexOf('<blockquote class=\"gmail_quote\"');\n    if (altQuoteIndex !== -1) {\n        html = html.substring(0, altQuoteIndex);\n    }\n\n    // B. Uklonite HTML tagove regex-om (može ostaviti višak razmaka, ali je brzo)\n    let text = html.replace(/<[^>]*>/g, '');\n\n    // C. Uklonite višak praznih linija i razmaka\n    text = text.replace(/(\\n\\s*){3,}/g, '\\n\\n'); // Zamjenjuje 3+ prazne linije s dvije\n    text = text.trim();\n\n    return text;\n}\n\n// 3. Kreiranje formatiranog stringa za OpenAI\nlet formattedHistory = \"--- FULL CONVERSATION HISTORY ---\\n\\n\";\n\nif (Array.isArray(historyArray)) {\n    // Sortirajte poruke po datumu, iako SmartLead obično vraća ispravan redoslijed\n    // Ostavljamo ih u originalnom redoslijedu jer SmartLead obično vraća starije poruke prve\n    \n    historyArray.forEach((message, index) => {\n        const type = message.type; // SENT ili REPLY \n        const senderAddress = message.from; // Adresa pošiljatelja \n        const rawContent = message.email_body; // Sadržaj poruke (HTML) \n        const time = new Date(message.time).toLocaleString('en-US', { timeZone: 'Europe/Zagreb' }); // Formatiranje vremena\n\n        // Odredite tko je poslao poruku\n        let senderName;\n        if (type === 'SENT' && senderAddress === yourEmail) {\n            senderName = \"MINDAPTIVE (Your Agent)\";\n        } else if (type === 'REPLY' && senderAddress === prospectEmail) {\n            senderName = \"PROSPECT (Lead)\";\n        } else {\n            // Ako je REPLY, ali nije adresa prospekta, provjerite tko je zapravo poslao.\n            // U SmartLeadu, REPLY su odgovori prospekta, ali je dobro biti siguran.\n            senderName = (senderAddress === yourEmail) ? \"MINDAPTIVE (Your Agent)\" : \"PROSPECT (Lead)\";\n        }\n\n        const cleanedContent = cleanEmailBody(rawContent);\n\n        // Dodavanje poruke u string\n        formattedHistory += `--- MESSAGE ${index + 1} (${time}) ---\\n`;\n        formattedHistory += `SENDER: ${senderName}\\n`;\n        formattedHistory += `CONTENT:\\n${cleanedContent}\\n\\n`;\n    });\n} else {\n    formattedHistory += \"ERROR: SmartLead API did not return a valid message history array.\\n\";\n}\n\nformattedHistory += \"--- END OF HISTORY ---\\n\";\n\n\n// 4. Vratite novi objekt s formatiranom povijesti\nreturn [\n    {\n        json: {\n            // Ostavljamo sve postojeće podatke\n            ...httpResponse, \n            // Dodajemo novi ključ s formatiranom povijesti\n            chat_history_text: formattedHistory\n        }\n    }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        -176
+      ],
+      "id": "d91f37f9-0279-42b0-885e-d2f5ee2751cf",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1362394063856205964",
+          "mode": "list",
+          "cachedResultName": "Mindaptive",
+          "cachedResultUrl": "https://discord.com/channels/1362394063856205964"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1402663079354962042",
+          "mode": "list",
+          "cachedResultName": "notfy",
+          "cachedResultUrl": "https://discord.com/channels/1362394063856205964/1402663079354962042"
+        },
+        "content": "=\n---- PREDLOŽENI ODGOVOR: -----\n{{ $('OpenAI1').item.json.message.content }} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2848,
+        -336
+      ],
+      "id": "e550a35d-738c-40a5-8cdd-1a6f30b3cf9a",
+      "name": "Discord2",
+      "webhookId": "255d86ef-72bc-467c-b4ad-9477fd41660e",
+      "credentials": {
+        "discordBotApi": {
+          "id": "MLo8YqiBGFj9effx",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "mia.malcic745@gmail.com",
+        "subject": "Miglia dosla je poruka",
+        "message": "Provjeri Smartlead jer je dosla nova poruka od zainteresirnog klijenta",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1792,
+        -384
+      ],
+      "id": "3364ac5e-a2d9-4144-8531-2b811edfeaa6",
+      "name": "Gmail",
+      "webhookId": "3f19e367-d1a3-468d-bc55-af7904b992e7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "7YCDV1jm6rOvDEzf",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1072,
+        -384
+      ],
+      "id": "dbe3a98f-b51f-4222-a90f-e245e133f8de",
+      "name": "Wait",
+      "webhookId": "e103c0f0-3abb-408e-a4e2-aad991dffd98"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=- Your task is to analyze the text you get and write it back cleanly. Remove the unnecessaryparts. The content of the message should remain the same word for word. Remove all extra spaces\n\n- You also need to translate the message to croatian language. The croatian version needs to make sense and just be translated word for word.\n\n**MANDATORY COMMAND:**\nCarefully read the text inside the quotation marks below. After your analysis, your output must be \"ORIGINAL MESSAGE: ____ \\n\\n CROATIAN VERSION: ____ \". In this output we need only the message the prospect wrote replying to us, we don't need the additional meta text that this email has, only content that was written excplicitly by the prospect we are messaging. We also do not need the previous messages that we sent to him, which might be included in his email response.\nYou must not write anything else. No explanations, no greetings, and no period at the end. Make sure the final text you are outputing has no more than 1900 characters\n\n**TEXT TO ANALYZE:**\n{{ $('Smartlead Webhook').item.json.body.reply_message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1360,
+        -608
+      ],
+      "id": "a15360b5-bc3c-4c0a-a8b5-4e42770e8673",
+      "name": "Prevedi poruku",
+      "credentials": {
+        "openAiApi": {
+          "id": "32KT8gO87t4GoFVd",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0A0CSC6492",
+          "mode": "list",
+          "cachedResultName": "mindaptive-kampanje"
+        },
+        "text": "=Ekipica dosla je poruka od {{ $('Smartlead Webhook').item.json.body.to_name }}\n\nPoslao: {{ $('Smartlead Webhook').item.json.body.to_email }}\n\n{{ $('Prevedi poruku').item.json.message.content }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        2144,
+        -496
+      ],
+      "id": "4af862fb-436a-4546-bddf-9172401035a1",
+      "name": "Slack",
+      "webhookId": "c35a1c81-b2e4-4fc7-bf76-e72333cb9115",
+      "credentials": {
+        "slackApi": {
+          "id": "mNInovdtpAnmStOr",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "U09P3V1JCF2",
+          "mode": "list",
+          "cachedResultName": "miamalcic745"
+        },
+        "text": "Yoo Mims, ajd pusti Insta nabrzaka i provjeri poruku koje je dosla na nas (Mindaptive) Smartlead.) ",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1872,
+        -896
+      ],
+      "id": "f5e7eee7-3c84-4cb2-934c-d60908cde922",
+      "name": "Slack1",
+      "webhookId": "623b64b6-0539-4da1-9c5a-37c16ac19701",
+      "credentials": {
+        "slackApi": {
+          "id": "mNInovdtpAnmStOr",
+          "name": "Slack account 2"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Smartlead Webhook": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord": {
+      "main": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Discord2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Prevedi poruku",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prevedi poruku": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9b4b259f-f562-4b12-a723-4abf3ee79bf7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f816eca152a33f384c3e3264b8e1f84a976f134689685a56c827c8aaefd38ff"
+  },
+  "id": "KkpOaRhwq7dLW63s",
+  "tags": []
+}
