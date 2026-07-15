@@ -5,11 +5,36 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
+from langdetect import DetectorFactory, detect
+
 from app import db, detector, pipeline, smartlead
 from app.config import settings
+from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
 
 log = logging.getLogger("scheduler")
+
+# Deterministic language detection (langdetect is randomised by default).
+DetectorFactory.seed = 0
+
+_CATEGORY = {
+    detector.Action.REPLY: "reply",
+    detector.Action.FOLLOWUP: "followup",
+    detector.Action.NONE: "waiting",
+}
+
+
+def _detect_language(thread) -> str | None:
+    """2-letter language of the lead's most recent message, for the inbox badge."""
+    for msg in reversed(thread):
+        if msg.kind == "reply":
+            text = to_plain_text(msg.body)
+            if len(text) >= 20:
+                try:
+                    return detect(text)
+                except Exception:
+                    return None
+    return None
 
 _scan_lock = threading.Lock()
 
@@ -74,60 +99,78 @@ def run_daily_scan() -> None:
 
 
 def _process_lead(lead: dict, campaign_name: str) -> bool:
-    """Returns True if this lead is currently an open follow-up candidate."""
+    """Record the lead's inbox summary and return True if it's an open follow-up
+    candidate. Every interested lead gets a leads_state row (so it shows in the
+    inbox); replies still auto-draft, follow-ups still become candidates."""
     with db.db_session() as conn:
-        if db.has_open_draft(conn, lead["id"], lead["campaign_id"]):
-            return False
         state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
         followup_count = state["followup_count"] if state else 0
         lead_status = state["status"] if state else "active"
+        has_open = db.has_open_draft(conn, lead["id"], lead["campaign_id"])
 
+    base_fields = dict(
+        email=lead["email"],
+        name=lead["first_name"],
+        company=lead["company_name"],
+        website=lead["website"],
+        timezone_guess=guess_timezone(campaign_name),
+        interested=1,
+        campaign_name=campaign_name,
+    )
+
+    # Stopped/blacklisted leads stay out of the inbox — record the flag, skip the
+    # (network) thread fetch, and don't touch their status.
+    if lead_status in ("stopped", "blacklisted"):
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], **base_fields)
+        return False
+
+    thread = pipeline.fetch_normalized_thread(lead["campaign_id"], lead["id"])
+    decision = detector.decide(thread, followup_count, lead_status)
+    last_msg = thread[-1] if thread else None
+
+    summary = dict(
+        category=_CATEGORY.get(decision.action, "waiting"),
+        language=_detect_language(thread),
+        last_message_preview=to_plain_text(last_msg.body)[:200] if last_msg else None,
+        last_message_at=last_msg.timestamp.isoformat() if last_msg else None,
+        last_message_kind=last_msg.kind if last_msg else None,
+    )
+
+    with db.db_session() as conn:
         db.upsert_lead_state(
-            conn,
-            lead["id"],
-            lead["campaign_id"],
-            email=lead["email"],
-            name=lead["first_name"],
-            company=lead["company_name"],
-            website=lead["website"],
-            timezone_guess=guess_timezone(campaign_name),
+            conn, lead["id"], lead["campaign_id"], **base_fields, **summary
         )
 
-        if lead_status in ("stopped", "blacklisted"):
-            return False
-
-        thread = pipeline.fetch_normalized_thread(lead["campaign_id"], lead["id"])
-        decision = detector.decide(thread, followup_count, lead_status)
-
-        if decision.action == detector.Action.NONE:
+        if has_open:
+            # Already have an editable draft for this lead — leave it be.
             return False
 
         if decision.action == detector.Action.REPLY:
-            existing_candidate = conn.execute(
-                "SELECT id FROM candidates WHERE lead_id = ? AND campaign_id = ? AND kind = 'reply' AND status = 'open'",
-                (lead["id"], lead["campaign_id"]),
-            ).fetchone()
-            if existing_candidate is None:
-                log.info("drafting reply for lead %s: %s", lead["id"], decision.reason)
-                pipeline.create_draft(conn, lead, campaign_name, "reply", thread)
-                db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], status="awaiting_reply")
+            log.info("drafting reply for lead %s: %s", lead["id"], decision.reason)
+            pipeline.create_draft(conn, lead, campaign_name, "reply", thread)
+            db.upsert_lead_state(
+                conn, lead["id"], lead["campaign_id"], status="awaiting_reply"
+            )
             return False
 
-        last_msg = thread[-1]
-        db.upsert_candidate(
-            conn,
-            lead["id"],
-            lead["campaign_id"],
-            "followup",
-            lead_name=lead["first_name"],
-            lead_company=lead["company_name"],
-            lead_email=lead["email"],
-            campaign_name=campaign_name,
-            reason=decision.reason,
-            last_message_preview=last_msg.body[:200],
-            last_message_at=last_msg.timestamp.isoformat(),
-        )
-        return True
+        if decision.action == detector.Action.FOLLOWUP:
+            db.upsert_candidate(
+                conn,
+                lead["id"],
+                lead["campaign_id"],
+                "followup",
+                lead_name=lead["first_name"],
+                lead_company=lead["company_name"],
+                lead_email=lead["email"],
+                campaign_name=campaign_name,
+                reason=decision.reason,
+                last_message_preview=summary["last_message_preview"],
+                last_message_at=summary["last_message_at"],
+            )
+            return True
+
+        return False
 
 
 def run_due_send_loop() -> None:

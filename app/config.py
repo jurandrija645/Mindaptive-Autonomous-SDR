@@ -38,6 +38,9 @@ class Settings:
     daily_scan_hour_utc: int = int(os.getenv("DAILY_SCAN_HOUR_UTC", "6"))
 
     anthropic_model: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5")
+    anthropic_translate_model: str = os.getenv(
+        "ANTHROPIC_TRANSLATE_MODEL", "claude-haiku-4-5"
+    )
 
     calendly_link: str = os.getenv(
         "CALENDLY_LINK", "https://calendly.com/andrew-mindaptive/30min"
