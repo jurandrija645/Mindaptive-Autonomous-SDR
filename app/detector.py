@@ -88,8 +88,12 @@ def normalize_thread(raw_thread: list[dict]) -> list[NormalizedMessage]:
     return sorted(messages, key=lambda m: m.timestamp)
 
 
+def category_matches(lead: dict, category_id: int | None) -> bool:
+    return category_id is not None and lead.get("lead_category_id") == category_id
+
+
 def is_interested(lead: dict, interested_category_id: int) -> bool:
-    return interested_category_id is not None and lead.get("lead_category_id") == interested_category_id
+    return category_matches(lead, interested_category_id)
 
 
 def decide(

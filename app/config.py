@@ -33,6 +33,9 @@ class Settings:
     interested_category_name: str = os.getenv(
         "INTERESTED_CATEGORY_NAME", "Interested"
     )
+    autoreply_category_name: str = os.getenv(
+        "AUTOREPLY_CATEGORY_NAME", "Auto-Reply"
+    )
     followup_wait_days: int = int(os.getenv("FOLLOWUP_WAIT_DAYS", "3"))
     max_followups: int = int(os.getenv("MAX_FOLLOWUPS", "4"))
     daily_scan_hour_utc: int = int(os.getenv("DAILY_SCAN_HOUR_UTC", "6"))

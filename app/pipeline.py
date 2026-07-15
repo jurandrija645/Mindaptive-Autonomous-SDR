@@ -27,8 +27,6 @@ def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steeri
     sender_email = last_sender_email(thread)
     signature_html = signatures.get_signature_html(sender_email)
     body_html = text_to_html(result.body_original)
-    if signature_html:
-        body_html += f"<br><br>{signature_html}"
 
     draft_id = db.create_draft(
         conn,
@@ -46,5 +44,6 @@ def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steeri
         lead_company=lead_payload["company"],
         lead_email=lead_payload["email"],
         sender_email=sender_email,
+        signature_html=signature_html or None,
     )
     return draft_id

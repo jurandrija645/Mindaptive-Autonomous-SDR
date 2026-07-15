@@ -56,10 +56,11 @@ def generate_one(candidate_id: int) -> int | None:
 def generate_for_lead(campaign_id: int, lead_id: int, steering_note: str | None = None) -> int | None:
     """Draft a message for any inbox lead, keyed by lead rather than candidate.
 
-    Used by the two-pane inbox (Generate / Regenerate). Picks kind from the live
-    thread — a reply if the lead spoke last, otherwise a follow-up — creates the
-    draft, and marks any matching open follow-up candidate as drafted so the old
-    candidate bookkeeping stays consistent. Returns the new draft id."""
+    Used by the two-pane inbox (Generate / Regenerate). Picks kind from the
+    lead's category: a nudge for auto-reply leads, otherwise a reply if the
+    lead spoke last or a follow-up if we did — creates the draft, and marks
+    any matching open follow-up candidate as drafted so the old candidate
+    bookkeeping stays consistent. Returns the new draft id."""
     with db.db_session() as conn:
         lead_row = db.get_lead_state(conn, lead_id, campaign_id)
     if lead_row is None:
@@ -82,7 +83,10 @@ def generate_for_lead(campaign_id: int, lead_id: int, steering_note: str | None 
         log.info("generate_for_lead: empty thread for %s/%s", campaign_id, lead_id)
         return None
 
-    kind = "reply" if thread[-1].kind == "reply" else "followup"
+    if lead_row["category"] == "auto_reply":
+        kind = "autoreply"
+    else:
+        kind = "reply" if thread[-1].kind == "reply" else "followup"
 
     with db.db_session() as conn:
         draft_id = pipeline.create_draft(conn, lead, campaign_name, kind, thread, steering_note)

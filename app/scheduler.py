@@ -5,17 +5,13 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from langdetect import DetectorFactory, detect
-
 from app import db, detector, pipeline, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
+from app.translator import detect_language
 
 log = logging.getLogger("scheduler")
-
-# Deterministic language detection (langdetect is randomised by default).
-DetectorFactory.seed = 0
 
 _CATEGORY = {
     detector.Action.REPLY: "reply",
@@ -28,13 +24,19 @@ def _detect_language(thread) -> str | None:
     """2-letter language of the lead's most recent message, for the inbox badge."""
     for msg in reversed(thread):
         if msg.kind == "reply":
-            text = to_plain_text(msg.body)
-            if len(text) >= 20:
-                try:
-                    return detect(text)
-                except Exception:
-                    return None
+            lang = detect_language(to_plain_text(msg.body))
+            if lang:
+                return lang
     return None
+
+
+def compose_send_body(draft: dict) -> str:
+    """The actual email body to send: the (possibly edited) message plus the
+    persona signature. Stored separately from body_html so contenteditable
+    edits and the English translate/localize round-trip never touch it."""
+    body = draft["body_html"] or ""
+    sig = draft.get("signature_html")
+    return f"{body}<br><br>{sig}" if sig else body
 
 _scan_lock = threading.Lock()
 
@@ -68,13 +70,22 @@ def run_daily_scan() -> None:
     Andrew to generate on demand (single or bulk) from the dashboard. Replies
     (a lead's message sitting unanswered) still auto-draft immediately, since
     that's the "respond fast to a live lead" path — see webhook.py for the
-    primary trigger; this is the safety net for any missed webhook."""
+    primary trigger; this is the safety net for any missed webhook. Leads
+    Smartlead's own classifier tagged Auto-Reply (out-of-office / autoresponder
+    bounces) get pulled in too, with a lightweight "please forward this" nudge
+    instead of the normal reply/follow-up pipeline."""
     log.info("daily scan starting")
     categories = smartlead.fetch_categories()
     interested_id = categories.get(settings.interested_category_name)
+    autoreply_id = categories.get(settings.autoreply_category_name)
     if interested_id is None:
         log.warning("could not resolve '%s' category id, skipping scan", settings.interested_category_name)
         return
+    if autoreply_id is None:
+        log.warning(
+            "could not resolve '%s' category id — auto-reply leads won't be pulled in this scan",
+            settings.autoreply_category_name,
+        )
 
     still_due_followups: set[tuple[int, int]] = set()
 
@@ -87,9 +98,10 @@ def run_daily_scan() -> None:
             lead = smartlead.normalize_lead(raw_lead, campaign_id)
             if lead["id"] is None:
                 continue
-            if not detector.is_interested(lead, interested_id):
+            is_autoreply = detector.category_matches(lead, autoreply_id)
+            if not detector.is_interested(lead, interested_id) and not is_autoreply:
                 continue
-            if _process_lead(lead, campaign_name):
+            if _process_lead(lead, campaign_name, is_autoreply):
                 still_due_followups.add((lead["id"], lead["campaign_id"]))
 
     with db.db_session() as conn:
@@ -98,10 +110,11 @@ def run_daily_scan() -> None:
     log.info("daily scan done: %d leads still due for a follow-up", len(still_due_followups))
 
 
-def _process_lead(lead: dict, campaign_name: str) -> bool:
+def _process_lead(lead: dict, campaign_name: str, is_autoreply: bool = False) -> bool:
     """Record the lead's inbox summary and return True if it's an open follow-up
-    candidate. Every interested lead gets a leads_state row (so it shows in the
-    inbox); replies still auto-draft, follow-ups still become candidates."""
+    candidate. Every interested (or auto-reply) lead gets a leads_state row (so
+    it shows in the inbox); replies still auto-draft, follow-ups still become
+    candidates, auto-replies get a one-shot nudge draft."""
     with db.db_session() as conn:
         state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
         followup_count = state["followup_count"] if state else 0
@@ -126,9 +139,28 @@ def _process_lead(lead: dict, campaign_name: str) -> bool:
         return False
 
     thread = pipeline.fetch_normalized_thread(lead["campaign_id"], lead["id"])
-    decision = detector.decide(thread, followup_count, lead_status)
     last_msg = thread[-1] if thread else None
 
+    if is_autoreply:
+        summary = dict(
+            category="auto_reply",
+            language=_detect_language(thread),
+            last_message_preview=to_plain_text(last_msg.body)[:200] if last_msg else None,
+            last_message_at=last_msg.timestamp.isoformat() if last_msg else None,
+            last_message_kind=last_msg.kind if last_msg else None,
+        )
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], **base_fields, **summary)
+            if (
+                not has_open
+                and last_msg is not None
+                and not db.has_drafted_reply_to(conn, lead["id"], lead["campaign_id"], last_msg.message_id)
+            ):
+                log.info("drafting auto-reply nudge for lead %s", lead["id"])
+                pipeline.create_draft(conn, lead, campaign_name, "autoreply", thread)
+        return False
+
+    decision = detector.decide(thread, followup_count, lead_status)
     summary = dict(
         category=_CATEGORY.get(decision.action, "waiting"),
         language=_detect_language(thread),
@@ -201,7 +233,7 @@ def _send_due_draft(draft: dict) -> None:
     smartlead.reply_to_thread(
         campaign_id,
         lead_id,
-        draft["body_html"],
+        compose_send_body(draft),
         draft["reply_message_id"],
         draft["reply_email_time"],
     )

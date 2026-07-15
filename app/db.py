@@ -51,7 +51,11 @@ CREATE TABLE IF NOT EXISTS drafts (
     lead_name TEXT,
     lead_company TEXT,
     lead_email TEXT,
-    sender_email TEXT
+    sender_email TEXT,
+    -- stored separately from body_html so contenteditable edits and the
+    -- English translate/localize round-trip (app/translator.py) can never
+    -- touch it; re-attached only at actual send time (scheduler.compose_send_body)
+    signature_html TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON drafts (status);
@@ -118,6 +122,8 @@ def _migrate(conn) -> None:
     draft_cols = {row["name"] for row in conn.execute("PRAGMA table_info(drafts)")}
     if "sender_email" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN sender_email TEXT")
+    if "signature_html" not in draft_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN signature_html TEXT")
 
     lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
     inbox_columns = {
@@ -191,7 +197,7 @@ def list_inbox(conn):
            ORDER BY
              CASE
                WHEN snooze_until IS NOT NULL AND snooze_until <= ? THEN 0
-               WHEN category = 'reply' THEN 1
+               WHEN category IN ('reply', 'auto_reply') THEN 1
                WHEN category = 'followup' THEN 2
                ELSE 3
              END,
@@ -269,6 +275,17 @@ def has_open_draft(conn, lead_id: int, campaign_id: int) -> bool:
         """SELECT 1 FROM drafts WHERE lead_id = ? AND campaign_id = ?
            AND status IN ('pending', 'scheduled') LIMIT 1""",
         (lead_id, campaign_id),
+    ).fetchone()
+    return row is not None
+
+
+def has_drafted_reply_to(conn, lead_id: int, campaign_id: int, message_id: str) -> bool:
+    """True if any draft (any status) already exists for this exact inbound
+    message — used to stop the Auto-Reply nudge path from re-drafting the
+    same auto-response every scan just because it was skipped rather than sent."""
+    row = conn.execute(
+        "SELECT 1 FROM drafts WHERE lead_id = ? AND campaign_id = ? AND reply_message_id = ? LIMIT 1",
+        (lead_id, campaign_id, message_id),
     ).fetchone()
     return row is not None
 

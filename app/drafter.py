@@ -31,6 +31,40 @@ Your response will be parsed by software, not read directly by Andrew. Wrap the 
 For a follow-up to a dead thread (Section 12 style, no new lead reply to triage), keep <triage> short (one or two lines: which follow-up number this is, and the angle you chose) and put your single best draft in <draft_original> — do not include multiple variations, just your strongest one.
 """
 
+# Auto-reply / out-of-office bounces (Smartlead's own "Auto-Reply" category) get
+# a separate, much lighter system prompt: no web research needed for a 2-4
+# sentence nudge, and none of the Solutions Catalog / VSL knowledge base
+# applies. Kept structurally consistent with the main prompt (same output
+# tags) so app/drafter.py's parsing stays a single code path.
+AUTOREPLY_SYSTEM_PROMPT = """You write short, casual nudge replies to auto-reply / out-of-office emails triggered by Andrew's cold outreach. The recipient's mailbox auto-responded (confirming receipt, promising a reply within some timeframe, or forwarding info) instead of a real person replying.
+
+Write a brief (2-4 sentence), light, slightly witty reply that:
+- Acknowledges you got their auto-reply.
+- If it fits naturally (don't force it), makes a light, non-snarky observation connecting the delayed-response theme to the value of fast response times in general — a small ironic nod, not a pitch.
+- Asks them to forward the original email to whoever handles this / the right person on their team, if they aren't it.
+
+Match this tone (adapt the idea to the specific situation — don't reuse the words verbatim):
+"Ha, funny timing. I got your auto-reply about delayed responses right after sending an email about how slow responses cost [industry] missed jobs. Not a dig at you, just kind of proves the point. If this is better suited for someone on the ops/leads side, mind forwarding it over? Appreciate it!"
+
+Detect the language the auto-reply was written in and reply in that same language. Casual tone, no corporate language, no greeting salutation needed, no sign-off or signature — one is appended separately, so don't write one.
+
+---
+
+Wrap your response in exactly these tags, nothing else inside them:
+
+<triage>
+(one line: what triggered the auto-reply, e.g. "Auto-reply / OOO from <domain>")
+</triage>
+
+<draft_original>
+(the exact ready-to-send nudge, in the auto-reply's own language — body only, no subject, no commentary)
+</draft_original>
+
+<draft_english>
+(faithful English translation of the draft above)
+</draft_english>
+"""
+
 
 def _load_system_prompt() -> str:
     base = (PROMPTS_DIR / "system.md").read_text(encoding="utf-8")
@@ -56,11 +90,12 @@ def _build_user_message(
     thread_text: str,
     steering_note: str | None = None,
 ) -> str:
-    task_desc = (
-        "follow-up (no new reply from the lead)"
-        if kind == "followup"
-        else "response to the lead's latest reply"
-    )
+    if kind == "autoreply":
+        task_desc = "short nudge reply to their auto-reply/out-of-office message"
+    elif kind == "followup":
+        task_desc = "follow-up (no new reply from the lead)"
+    else:
+        task_desc = "response to the lead's latest reply"
     lines = [
         f"Task: draft a {task_desc}.",
         "",
@@ -74,9 +109,12 @@ def _build_user_message(
     custom_fields = lead.get("custom_fields")
     if custom_fields:
         lines.append(f"- Custom fields: {custom_fields}")
+    if kind != "autoreply":
+        lines += [
+            "",
+            "Research the lead's website yourself using the web search / web fetch tools before drafting, per the Website Diagnostic Framework.",
+        ]
     lines += [
-        "",
-        "Research the lead's website yourself using the web search / web fetch tools before drafting, per the Website Diagnostic Framework.",
         "",
         "Full email thread (oldest to newest):",
         thread_text,
@@ -109,20 +147,28 @@ def generate_draft(
 
     user_message = _build_user_message(kind, lead, thread_text, steering_note)
     messages = [{"role": "user", "content": user_message}]
-    tools = [
-        {"type": "web_search_20260209", "name": "web_search"},
-        {"type": "web_fetch_20260209", "name": "web_fetch"},
-    ]
+
+    # Auto-reply nudges are short and need no research — skip the big
+    # knowledge-base prompt and the web tools entirely (faster, cheaper).
+    if kind == "autoreply":
+        system = AUTOREPLY_SYSTEM_PROMPT
+        tools = []
+    else:
+        system = system_prompt()
+        tools = [
+            {"type": "web_search_20260209", "name": "web_search"},
+            {"type": "web_fetch_20260209", "name": "web_fetch"},
+        ]
 
     response = client.messages.create(
         model=settings.anthropic_model,
         max_tokens=4096,
-        system=system_prompt(),
+        system=system,
         tools=tools,
         messages=messages,
     )
 
-    while response.stop_reason == "pause_turn":
+    while tools and response.stop_reason == "pause_turn":
         messages = [
             {"role": "user", "content": user_message},
             {"role": "assistant", "content": response.content},
@@ -130,7 +176,7 @@ def generate_draft(
         response = client.messages.create(
             model=settings.anthropic_model,
             max_tokens=4096,
-            system=system_prompt(),
+            system=system,
             tools=tools,
             messages=messages,
         )

@@ -13,6 +13,7 @@ from app import db, pipeline, scheduler, smartlead, translator, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
 from app.email_clean import clean_email_html, to_plain_text
+from app.thread_utils import text_to_html
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("main")
@@ -192,6 +193,7 @@ def _draft_payload(draft) -> dict | None:
         "status": draft["status"],
         "body_html": draft["body_html"],
         "body_translation": draft["body_translation"],
+        "signature_html": draft["signature_html"],
     }
 
 
@@ -276,43 +278,121 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     return JSONResponse({"draft": _draft_payload(draft)})
 
 
-# ---- lead status actions: not-interested / archive / snooze ----
+# ---- draft translation (English tab) ----
 
-@app.post("/api/leads/{campaign_id}/{lead_id}/not-interested")
-def api_not_interested(request: Request, campaign_id: int, lead_id: int):
-    """Mirrors Smartlead's own "Not Interested" category — recategorizes the
-    lead there (pausing its automated sequence) and archives it locally."""
+@app.post("/api/drafts/{draft_id}/translate")
+async def api_draft_translate(request: Request, draft_id: int):
+    """Cheap (Haiku), always-fresh: translates whatever is CURRENTLY in the
+    Original editor, not a stale value from generation time — this is what
+    keeps the English tab from ever going stale after an edit."""
     redirect = require_auth(request)
     if redirect:
         return redirect
+    body = await _json_body(request)
+    plain = to_plain_text(body.get("original_html", ""))
+    if not plain.strip():
+        return JSONResponse({"english_html": ""})
+    english = translator.translate_text(plain)
+    return JSONResponse({"english_html": clean_email_html(english)})
+
+
+@app.post("/api/drafts/{draft_id}/localize")
+async def api_draft_localize(request: Request, draft_id: int):
+    """Applies an English edit back onto the real (native-language) draft that
+    will actually be sent — runs on Sonnet, since this becomes the outgoing
+    message and quality matters here, unlike the cheap /translate above."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    english_text = to_plain_text(body.get("english_html", ""))
+    if not english_text.strip():
+        return JSONResponse({"error": "Nothing to apply."}, status_code=400)
+
+    with db.db_session() as conn:
+        draft = db.get_draft(conn, draft_id)
+        if draft is None:
+            return JSONResponse({"error": "Draft not found."}, status_code=404)
+        lead = db.get_lead_state(conn, draft["lead_id"], draft["campaign_id"])
+
+    target_lang = (lead["language"] if lead else None) or translator.detect_language(
+        to_plain_text(draft["body_html"])
+    )
+    localized = translator.localize_draft(english_text, target_lang)
+    new_body_html = text_to_html(localized)
+
+    with db.db_session() as conn:
+        db.update_draft(conn, draft_id, body_html=new_body_html, body_translation=english_text)
+        draft = db.get_draft(conn, draft_id)
+    return JSONResponse({"draft": _draft_payload(draft)})
+
+
+# ---- lead status actions: category change / archive / snooze ----
+
+# Categories where recategorizing should also stop Smartlead's own automated
+# sequence — the lead has told us (or a bounce/opt-out told us) to stop.
+PAUSE_CATEGORIES = {"Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"}
+
+
+@app.get("/api/categories")
+def api_categories(request: Request):
+    """Live list of every category Smartlead has configured (built-in + custom),
+    so the "Change status" dropdown always matches Andrew's actual account
+    instead of a hardcoded guess."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    try:
+        categories = smartlead.fetch_categories()
+    except smartlead.SmartleadError as e:
+        return JSONResponse({"error": str(e)}, status_code=502)
+    return JSONResponse({"categories": sorted(categories.keys())})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/category")
+async def api_set_category(request: Request, campaign_id: int, lead_id: int):
+    """Generic version of the old 'Not Interested' action — recategorizes the
+    lead in Smartlead to whatever category was picked (pausing its sequence
+    for the ones in PAUSE_CATEGORIES) and archives it locally under that
+    reason. Picking 'Interested' instead restores it to the active inbox."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    category_name = (body.get("category_name") or "").strip()
+    if not category_name:
+        return JSONResponse({"error": "category_name is required."}, status_code=400)
+
+    restoring = category_name == "Interested"
+    pause = category_name in PAUSE_CATEGORIES
 
     if settings.dry_run:
         log.info(
-            "[DRY_RUN] would mark lead %s/%s Not Interested in Smartlead (pause_lead=True)",
-            campaign_id, lead_id,
+            "[DRY_RUN] would set lead %s/%s Smartlead category to %r (pause_lead=%s)",
+            campaign_id, lead_id, category_name, pause,
         )
     else:
         categories = smartlead.fetch_categories()
-        category_id = categories.get("Not Interested")
+        category_id = categories.get(category_name)
         if category_id is None:
             return JSONResponse(
-                {"error": "Smartlead has no 'Not Interested' category configured."},
+                {"error": f"Smartlead has no '{category_name}' category configured."},
                 status_code=502,
             )
         try:
-            smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=True)
+            smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=pause)
         except smartlead.SmartleadError as e:
             return JSONResponse({"error": str(e)}, status_code=502)
 
     with db.db_session() as conn:
-        db.upsert_lead_state(
-            conn,
-            lead_id,
-            campaign_id,
-            status="not_interested",
-            archived_at=db.now_iso(),
-            archive_reason="not_interested",
-        )
+        if restoring:
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id, status="active", archived_at=None, archive_reason=None
+            )
+        else:
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id, archived_at=db.now_iso(), archive_reason=category_name
+            )
     return JSONResponse({"ok": True})
 
 

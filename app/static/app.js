@@ -8,13 +8,34 @@ const state = {
   detail: null,          // current lead detail {lead, thread, draft}
   translated: false,     // thread currently showing English
   englishSegments: null,
+  categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
 };
 
 const CHIP = {
   reply: "Awaiting your reply",
   followup: "Follow-up due",
+  auto_reply: "Auto-reply — nudge",
   waiting: "In conversation",
 };
+
+const DEFAULT_CATEGORIES = [
+  "Not Interested", "Meeting Request", "Do Not Contact", "Information Request",
+  "Out Of Office", "Wrong Person", "Uncategorizable by Ai", "Sender Originated Bounce",
+  "Meeting-Booked", "Interested for Video", "Auto-Reply", "Lead Opted Out",
+  "We opted Out", "Contact later", "Redirect", "Lead Done", "Interested for Toolkit",
+  "Interested for Calculator",
+];
+
+const PAUSE_CATEGORIES = new Set(["Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"]);
+
+async function loadCategories() {
+  try {
+    const data = await apiGet("/api/categories");
+    state.categoryList = data.categories.filter((c) => c !== "Interested");
+  } catch (e) {
+    state.categoryList = DEFAULT_CATEGORIES;
+  }
+}
 
 const $ = (id) => document.getElementById(id);
 
@@ -115,9 +136,7 @@ function renderList() {
 
     if (archiveMode) {
       const isSnoozed = i < state.snoozedCount;
-      const reason = isSnoozed
-        ? `Snoozed until ${lead.snooze_until}`
-        : lead.archive_reason === "not_interested" ? "Not interested" : "Archived";
+      const reason = isSnoozed ? `Snoozed until ${lead.snooze_until}` : archiveLabel(lead.archive_reason);
       row.appendChild(el("div", "lead-preview", reason));
       const quickBtn = el("button", "btn-secondary row-action", isSnoozed ? "Follow up now" : "Restore");
       quickBtn.addEventListener("click", (e) => {
@@ -204,11 +223,16 @@ function renderDetail() {
   renderDraftSection(body);
 }
 
+function archiveLabel(reason) {
+  if (!reason || reason === "manual") return "Archived";
+  return reason; // an actual Smartlead category name, e.g. "Wrong Person"
+}
+
 function renderLeadActionsBar(lead) {
   const bar = el("div", "lead-actions");
 
   if (lead.archive_reason) {
-    const label = lead.archive_reason === "not_interested" ? "Marked Not Interested" : "Archived";
+    const label = archiveLabel(lead.archive_reason);
     bar.appendChild(el("span", "status-banner", label + (lead.archived_at ? " · " + lead.archived_at : "")));
     const restore = el("button", "btn-secondary", "Restore to inbox");
     restore.addEventListener("click", () => withRowRemoval(() => {
@@ -234,9 +258,7 @@ function renderLeadActionsBar(lead) {
   archiveBtn.addEventListener("click", archiveLead);
   bar.appendChild(archiveBtn);
 
-  const niBtn = el("button", "btn-secondary", "Not interested");
-  niBtn.addEventListener("click", markNotInterested);
-  bar.appendChild(niBtn);
+  bar.appendChild(renderCategorySelect());
 
   const snoozeWrap = el("div", "snooze-control");
   const snoozeBtn = el("button", "btn-secondary", "Snooze…");
@@ -268,10 +290,34 @@ function currentLeadIds() {
   return { cid: lead.campaign_id, lid: lead.lead_id };
 }
 
-async function markNotInterested() {
-  if (!confirm("Mark as Not Interested in Smartlead and pause their sequence? This removes them from your inbox.")) return;
+function renderCategorySelect() {
+  const select = el("select", "cat-select");
+  select.title = "Change status in Smartlead";
+  const placeholder = document.createElement("option");
+  placeholder.textContent = "Change status…";
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+  (state.categoryList || DEFAULT_CATEGORIES).forEach((name) => {
+    const opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
+  select.addEventListener("change", () => {
+    const name = select.value;
+    select.value = "";
+    if (name) changeCategory(name);
+  });
+  return select;
+}
+
+async function changeCategory(name) {
+  const pauseNote = PAUSE_CATEGORIES.has(name) ? " and pause their sequence" : "";
+  if (!confirm(`Set Smartlead category to "${name}"${pauseNote}? This removes them from your inbox.`)) return;
   const { cid, lid } = currentLeadIds();
-  await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/not-interested`, {}));
+  await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name }));
 }
 
 async function archiveLead() {
@@ -306,24 +352,57 @@ function renderDraftSection(body) {
     return;
   }
 
+  // Fresh editor state for this draft. englishHtml stays null until the
+  // English tab is actually opened, so it's always translated from whatever
+  // is currently in the Original box rather than a stale generation-time value.
+  state.editMode = "original";
+  state.originalHtml = draft.body_html;
+  state.englishHtml = null;
+
   const box = el("div", "draft-box");
   box.appendChild(el("h3", null, "Draft reply"));
+
+  const tabs = el("div", "edit-tabs");
+  const origTab = el("button", "edit-tab active", "Original");
+  origTab.id = "tab-original";
+  origTab.type = "button";
+  const enTab = el("button", "edit-tab", "English");
+  enTab.id = "tab-english";
+  enTab.type = "button";
+  origTab.addEventListener("click", () => setEditMode("original"));
+  enTab.addEventListener("click", () => setEditMode("english"));
+  tabs.appendChild(origTab);
+  tabs.appendChild(enTab);
+  box.appendChild(tabs);
 
   const editor = el("div", "draft-editor");
   editor.id = "draft-editor";
   editor.contentEditable = "true";
   editor.innerHTML = draft.body_html;
+  editor.addEventListener("input", onEditorInput);
   box.appendChild(editor);
 
-  if (draft.body_translation) {
-    const det = el("details", "translation");
-    det.appendChild(el("summary", null, "English preview"));
-    det.appendChild(el("div", "translation-body", draft.body_translation));
-    box.appendChild(det);
+  const applyRow = el("div", "apply-row");
+  applyRow.id = "apply-row";
+  applyRow.hidden = true;
+  const applyBtn = el("button", "btn-send", "Apply to draft");
+  applyBtn.id = "apply-btn";
+  applyBtn.type = "button";
+  applyBtn.addEventListener("click", applyEnglishEdit);
+  applyRow.appendChild(applyBtn);
+  applyRow.appendChild(el("span", "muted", "Rewrites the outgoing message in the lead's language (Sonnet)."));
+  box.appendChild(applyRow);
+
+  if (draft.signature_html) {
+    const sig = el("div", "signature-preview");
+    sig.id = "signature-preview";
+    sig.innerHTML = draft.signature_html;
+    box.appendChild(sig);
   }
 
   const actions = el("div", "actions");
   const sendBtn = el("button", "btn-send", "Send now");
+  sendBtn.id = "send-btn";
   sendBtn.addEventListener("click", () => sendDraft(draft.id));
   actions.appendChild(sendBtn);
 
@@ -332,6 +411,7 @@ function renderDraftSection(body) {
   dt.id = "schedule-at";
   actions.appendChild(dt);
   const schedBtn = el("button", "btn-secondary", "Schedule");
+  schedBtn.id = "schedule-btn";
   schedBtn.addEventListener("click", () => scheduleDraft(draft.id));
   actions.appendChild(schedBtn);
 
@@ -341,6 +421,7 @@ function renderDraftSection(body) {
   noteInput.placeholder = "Steer regeneration (optional)";
   actions.appendChild(noteInput);
   const regenBtn = el("button", "btn-secondary", "Regenerate");
+  regenBtn.id = "regen-btn";
   regenBtn.addEventListener("click", () => generate(noteInput.value));
   actions.appendChild(regenBtn);
 
@@ -355,6 +436,78 @@ function renderDraftSection(body) {
   box.appendChild(actions);
   section.appendChild(box);
   body.appendChild(section);
+}
+
+function onEditorInput() {
+  const editor = $("draft-editor");
+  if (state.editMode === "original") {
+    state.originalHtml = editor.innerHTML;
+    state.englishHtml = null; // invalidate — refetch fresh next time English is viewed
+  } else {
+    state.englishHtml = editor.innerHTML;
+  }
+}
+
+function toggleActionButtons(enabled) {
+  ["send-btn", "schedule-btn", "regen-btn"].forEach((id) => {
+    const b = $(id);
+    if (b) b.disabled = !enabled;
+  });
+}
+
+async function setEditMode(mode, opts = {}) {
+  if (mode === state.editMode) return;
+  const editor = $("draft-editor");
+  if (!opts.skipStash) {
+    if (state.editMode === "original") state.originalHtml = editor.innerHTML;
+    else state.englishHtml = editor.innerHTML;
+  }
+  state.editMode = mode;
+  $("tab-original").classList.toggle("active", mode === "original");
+  $("tab-english").classList.toggle("active", mode === "english");
+  if ($("signature-preview")) $("signature-preview").hidden = mode === "english";
+  $("apply-row").hidden = mode !== "english";
+  toggleActionButtons(mode === "original");
+
+  if (mode === "english" && state.englishHtml == null) {
+    editor.setAttribute("contenteditable", "false");
+    editor.innerHTML = '<span class="muted"><span class="spinner"></span>Translating…</span>';
+    try {
+      const data = await apiPost(`/api/drafts/${state.detail.draft.id}/translate`, {
+        original_html: state.originalHtml,
+      });
+      state.englishHtml = data.english_html;
+    } catch (e) {
+      editor.innerHTML = `<span class="error-note">Translation failed: ${e.message}</span>`;
+      editor.setAttribute("contenteditable", "true");
+      return;
+    }
+    editor.setAttribute("contenteditable", "true");
+  }
+
+  editor.innerHTML = mode === "original" ? state.originalHtml : state.englishHtml;
+}
+
+async function applyEnglishEdit() {
+  const editor = $("draft-editor");
+  const englishHtml = editor.innerHTML;
+  const btn = $("apply-btn");
+  btn.disabled = true;
+  btn.textContent = "Rewriting in the lead's language…";
+  try {
+    const data = await apiPost(`/api/drafts/${state.detail.draft.id}/localize`, {
+      english_html: englishHtml,
+    });
+    state.detail.draft = data.draft;
+    state.originalHtml = data.draft.body_html;
+    state.englishHtml = englishHtml; // exactly what was just approved
+    await setEditMode("original", { skipStash: true });
+  } catch (e) {
+    alert("Couldn't rewrite the draft: " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Apply to draft";
+  }
 }
 
 // ---------- translate ----------
@@ -409,8 +562,10 @@ async function generate(note) {
 
 // ---------- draft actions ----------
 function editorHtml() {
-  const ed = $("draft-editor");
-  return ed ? ed.innerHTML : "";
+  // Always the Original (native-language) content — never whatever happens to
+  // be displayed in the shared editor at the moment, since that could be the
+  // English tab. Send/Schedule are also disabled while on the English tab.
+  return state.originalHtml || "";
 }
 
 async function sendDraft(id) {
@@ -513,3 +668,4 @@ loadInbox().catch((e) => {
   $("scan-status").textContent = "load failed";
   console.error(e);
 });
+loadCategories();

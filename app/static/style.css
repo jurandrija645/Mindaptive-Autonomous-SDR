@@ -8,10 +8,12 @@
   --accent-dark: #8f4a22;
   --danger: #a6402f;
 
-  --reply: #c0392b;      /* red   — lead replied, awaiting you */
+  --reply: #c0392b;      /* red    — lead replied, awaiting you */
   --reply-bg: #fdecea;
-  --followup: #c98a1e;   /* amber — follow-up due */
+  --followup: #c98a1e;   /* amber  — follow-up due */
   --followup-bg: #fbf1dd;
+  --autoreply: #6a5acd;  /* violet — auto-reply/OOO, needs a forward-nudge */
+  --autoreply-bg: #ece9fa;
   --waiting: #b8b2a6;    /* neutral */
 
   --header-h: 56px;
@@ -104,6 +106,7 @@ button:disabled { opacity: .55; cursor: default; }
 .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 .dot-reply { background: var(--reply); }
 .dot-followup { background: var(--followup); }
+.dot-auto_reply { background: var(--autoreply); }
 .dot-waiting { background: var(--waiting); }
 
 .lead-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; }
@@ -119,6 +122,7 @@ button:disabled { opacity: .55; cursor: default; }
 .lead-row.selected { background: #f1ede6; }
 .lead-row.cat-reply { border-left-color: var(--reply); }
 .lead-row.cat-followup { border-left-color: var(--followup); }
+.lead-row.cat-auto_reply { border-left-color: var(--autoreply); }
 .lead-row.cat-waiting { border-left-color: var(--waiting); }
 .lead-row.archive-row { border-left-color: var(--waiting); display: flex; flex-direction: column; }
 .lead-row.sent-out { opacity: .4; transition: opacity .3s ease; }
@@ -157,6 +161,7 @@ button:disabled { opacity: .55; cursor: default; }
 .state-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; }
 .state-chip.cat-reply { background: var(--reply-bg); color: var(--reply); }
 .state-chip.cat-followup { background: var(--followup-bg); color: var(--followup); }
+.state-chip.cat-auto_reply { background: var(--autoreply-bg); color: var(--autoreply); }
 .state-chip.cat-waiting { background: #eeece7; color: var(--muted); }
 .ready-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-left: auto; flex-shrink: 0; }
 
@@ -191,6 +196,10 @@ button:disabled { opacity: .55; cursor: default; }
   padding: 5px 10px;
   border-radius: 20px;
 }
+.cat-select {
+  padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border);
+  font-family: inherit; font-size: 13px; background: var(--bg); color: var(--text);
+}
 .snooze-control { display: inline-flex; align-items: center; gap: 6px; }
 .snooze-picker { display: inline-flex; align-items: center; gap: 6px; }
 .snooze-picker input[type=date] { padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; }
@@ -220,6 +229,31 @@ button:disabled { opacity: .55; cursor: default; }
   padding: 16px;
 }
 .draft-box h3 { margin: 0 0 10px; font-size: 15px; }
+
+.edit-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
+.edit-tab {
+  background: var(--bg); color: var(--muted); border: 1px solid var(--border);
+  padding: 5px 13px; border-radius: 20px; font-size: 13px;
+}
+.edit-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.apply-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.apply-row .muted { font-size: 12px; }
+
+.signature-preview {
+  margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border);
+  font-size: 13px; color: var(--muted);
+  overflow-x: auto;
+}
+/* Signatures are authored for a fixed-width email client (~800px tables) —
+   force them to reflow to whatever width is actually available here instead
+   of overflowing/clipping the narrower editor pane. */
+.signature-preview table, .draft-editor table {
+  width: auto !important; max-width: 100%;
+}
+.signature-preview img, .draft-editor img {
+  max-width: 100%; height: auto;
+}
 .draft-editor {
   min-height: 200px;
   border: 1px solid var(--border);

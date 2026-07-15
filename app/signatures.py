@@ -39,10 +39,31 @@ def _load_mapping() -> dict[str, str]:
     return mapping
 
 
+_NAME_HINTS = {
+    "andrew.html": ("andrew", "juran"),
+    "mia.html": ("mia",),
+}
+
+
+def _guess_persona_file(email: str) -> str | None:
+    """Fallback for when the exact sending mailbox isn't in Smartlead's
+    *current* email-accounts list — with 100+ rotating accounts, a lead's
+    original outreach mailbox can get paused/retired later even though the
+    persona is still obvious from the address (every Andrew/Mia mailbox we've
+    seen embeds their first name in the local part, e.g. andrewj@, a.juran@,
+    mia.m@, m.mia@)."""
+    local = email.split("@", 1)[0]
+    for file, hints in _NAME_HINTS.items():
+        if any(hint in local for hint in hints):
+            return file
+    return None
+
+
 def get_signature_html(sender_email: str) -> str:
     if not sender_email:
         return ""
-    file = _load_mapping().get(sender_email.lower())
+    email = sender_email.lower()
+    file = _load_mapping().get(email) or _guess_persona_file(email)
     if not file:
         return ""
     path = SIGNATURES_DIR / file
