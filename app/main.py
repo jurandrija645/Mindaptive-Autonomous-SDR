@@ -9,12 +9,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app import candidates as candidates_module
-from app import db, pipeline, scheduler, translator, webhook
+from app import db, pipeline, scheduler, smartlead, translator, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
 from app.email_clean import clean_email_html, to_plain_text
 
 logging.basicConfig(level=logging.INFO)
+log = logging.getLogger("main")
 
 app = FastAPI(title="Mindaptive Responder")
 install_session_middleware(app)
@@ -139,29 +140,47 @@ def _thread_payload(raw: list[dict], lead_name: str) -> list[dict]:
     return out
 
 
+def _open_draft_set(conn) -> set[tuple[int, int]]:
+    rows = conn.execute(
+        "SELECT DISTINCT lead_id, campaign_id FROM drafts WHERE status IN ('pending', 'scheduled')"
+    ).fetchall()
+    return {(r["lead_id"], r["campaign_id"]) for r in rows}
+
+
+def _row_payload(l: dict, open_set: set) -> dict:
+    return {
+        "campaign_id": l["campaign_id"],
+        "lead_id": l["lead_id"],
+        "name": l["name"] or l["email"] or "Lead",
+        "company": l["company"] or "",
+        "email": l["email"] or "",
+        "category": l["category"] or "waiting",
+        "language": (l["language"] or "").upper(),
+        "preview": l["last_message_preview"] or "",
+        "last_message_at": _fmt_time(l["last_message_at"]),
+        "last_message_kind": l["last_message_kind"],
+        "has_draft": (l["lead_id"], l["campaign_id"]) in open_set,
+        "archive_reason": l["archive_reason"],
+        "snooze_until": l["snooze_until"],
+    }
+
+
 def _inbox_payload() -> list[dict]:
     with db.db_session() as conn:
         leads = [dict(r) for r in db.list_inbox(conn)]
-        open_rows = conn.execute(
-            "SELECT DISTINCT lead_id, campaign_id FROM drafts WHERE status IN ('pending', 'scheduled')"
-        ).fetchall()
-    open_set = {(r["lead_id"], r["campaign_id"]) for r in open_rows}
-    return [
-        {
-            "campaign_id": l["campaign_id"],
-            "lead_id": l["lead_id"],
-            "name": l["name"] or l["email"] or "Lead",
-            "company": l["company"] or "",
-            "email": l["email"] or "",
-            "category": l["category"] or "waiting",
-            "language": (l["language"] or "").upper(),
-            "preview": l["last_message_preview"] or "",
-            "last_message_at": _fmt_time(l["last_message_at"]),
-            "last_message_kind": l["last_message_kind"],
-            "has_draft": (l["lead_id"], l["campaign_id"]) in open_set,
-        }
-        for l in leads
-    ]
+        open_set = _open_draft_set(conn)
+    return [_row_payload(l, open_set) for l in leads]
+
+
+def _archive_payload() -> dict:
+    with db.db_session() as conn:
+        archived = [dict(r) for r in db.list_archived(conn)]
+        snoozed = [dict(r) for r in db.list_snoozed(conn)]
+        open_set = _open_draft_set(conn)
+    return {
+        "archived": [_row_payload(l, open_set) for l in archived],
+        "snoozed": [_row_payload(l, open_set) for l in snoozed],
+    }
 
 
 def _draft_payload(draft) -> dict | None:
@@ -186,6 +205,14 @@ def api_inbox(request: Request):
     return JSONResponse({"leads": _inbox_payload(), "scan_running": scheduler.is_scan_running()})
 
 
+@app.get("/api/archive")
+def api_archive(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse(_archive_payload())
+
+
 @app.get("/api/leads/{campaign_id}/{lead_id}")
 def api_lead(request: Request, campaign_id: int, lead_id: int):
     redirect = require_auth(request)
@@ -204,6 +231,9 @@ def api_lead(request: Request, campaign_id: int, lead_id: int):
                 "email": (lead["email"] if lead else "") or "",
                 "language": ((lead["language"] if lead else "") or "").upper(),
                 "category": (lead["category"] if lead else "waiting") or "waiting",
+                "archive_reason": lead["archive_reason"] if lead else None,
+                "archived_at": _fmt_time(lead["archived_at"]) if lead and lead["archived_at"] else None,
+                "snooze_until": lead["snooze_until"] if lead else None,
             },
             "thread": _thread_payload(raw, lead_name),
             "draft": _draft_payload(draft),
@@ -244,6 +274,100 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     with db.db_session() as conn:
         draft = db.get_draft(conn, draft_id)
     return JSONResponse({"draft": _draft_payload(draft)})
+
+
+# ---- lead status actions: not-interested / archive / snooze ----
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/not-interested")
+def api_not_interested(request: Request, campaign_id: int, lead_id: int):
+    """Mirrors Smartlead's own "Not Interested" category — recategorizes the
+    lead there (pausing its automated sequence) and archives it locally."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+
+    if settings.dry_run:
+        log.info(
+            "[DRY_RUN] would mark lead %s/%s Not Interested in Smartlead (pause_lead=True)",
+            campaign_id, lead_id,
+        )
+    else:
+        categories = smartlead.fetch_categories()
+        category_id = categories.get("Not Interested")
+        if category_id is None:
+            return JSONResponse(
+                {"error": "Smartlead has no 'Not Interested' category configured."},
+                status_code=502,
+            )
+        try:
+            smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=True)
+        except smartlead.SmartleadError as e:
+            return JSONResponse({"error": str(e)}, status_code=502)
+
+    with db.db_session() as conn:
+        db.upsert_lead_state(
+            conn,
+            lead_id,
+            campaign_id,
+            status="not_interested",
+            archived_at=db.now_iso(),
+            archive_reason="not_interested",
+        )
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/archive")
+def api_archive_lead(request: Request, campaign_id: int, lead_id: int):
+    """Local-only: hides an old/stale lead from the inbox without touching
+    Smartlead. Reversible via /unarchive."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        db.upsert_lead_state(
+            conn, lead_id, campaign_id, archived_at=db.now_iso(), archive_reason="manual"
+        )
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/unarchive")
+def api_unarchive_lead(request: Request, campaign_id: int, lead_id: int):
+    """Restores an archived (or not-interested) lead back into the inbox. Does
+    NOT revert the Smartlead category if it was changed by /not-interested."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        db.upsert_lead_state(conn, lead_id, campaign_id, archived_at=None, archive_reason=None)
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/snooze")
+async def api_snooze_lead(request: Request, campaign_id: int, lead_id: int):
+    """Hides the lead from the inbox until the given date, at which point it
+    jumps to the top (see db.list_inbox's ordering)."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    until = (body.get("until") or "").strip()
+    try:
+        datetime.strptime(until, "%Y-%m-%d")
+    except ValueError:
+        return JSONResponse({"error": "Give a valid date (YYYY-MM-DD)."}, status_code=400)
+    with db.db_session() as conn:
+        db.upsert_lead_state(conn, lead_id, campaign_id, snooze_until=until)
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/unsnooze")
+def api_unsnooze_lead(request: Request, campaign_id: int, lead_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        db.upsert_lead_state(conn, lead_id, campaign_id, snooze_until=None)
+    return JSONResponse({"ok": True})
 
 
 # ---- draft actions (JSON) ----

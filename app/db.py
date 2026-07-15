@@ -26,6 +26,10 @@ CREATE TABLE IF NOT EXISTS leads_state (
     last_message_preview TEXT,
     last_message_at TEXT,
     last_message_kind TEXT,     -- sent|reply  (who spoke last)
+    -- archive / snooze — both hide a lead from list_inbox; see list_archived/list_snoozed
+    archived_at TEXT,           -- set => archived (manually, or via "not interested")
+    archive_reason TEXT,        -- manual|not_interested
+    snooze_until TEXT,          -- 'YYYY-MM-DD'; hidden until this date, then top priority
     PRIMARY KEY (lead_id, campaign_id)
 );
 
@@ -124,6 +128,9 @@ def _migrate(conn) -> None:
         "last_message_preview": "TEXT",
         "last_message_at": "TEXT",
         "last_message_kind": "TEXT",
+        "archived_at": "TEXT",
+        "archive_reason": "TEXT",
+        "snooze_until": "TEXT",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
@@ -170,19 +177,44 @@ def increment_followup_count(conn, lead_id: int, campaign_id: int) -> None:
 
 
 def list_inbox(conn):
-    """Every interested, non-stopped lead for the unified inbox, ordered by
-    urgency: awaiting-our-reply (red) first, then follow-up-due (amber), then the
-    rest (neutral); within a group, most recent activity first."""
+    """Every interested, non-stopped, non-archived, non-snoozed(-future) lead for
+    the unified inbox. Ordering: a snooze whose date has arrived jumps to the
+    very top (that's the point of snoozing — surface it prominently once due),
+    then awaiting-our-reply (red), then follow-up-due (amber), then the rest;
+    within a tier, most recent activity first."""
+    now = now_iso()
     return conn.execute(
         """SELECT * FROM leads_state
            WHERE interested = 1 AND status != 'stopped'
+             AND archived_at IS NULL
+             AND (snooze_until IS NULL OR snooze_until <= ?)
            ORDER BY
-             CASE category
-               WHEN 'reply' THEN 0
-               WHEN 'followup' THEN 1
-               ELSE 2
+             CASE
+               WHEN snooze_until IS NOT NULL AND snooze_until <= ? THEN 0
+               WHEN category = 'reply' THEN 1
+               WHEN category = 'followup' THEN 2
+               ELSE 3
              END,
-             last_message_at DESC"""
+             last_message_at DESC""",
+        (now, now),
+    ).fetchall()
+
+
+def list_archived(conn):
+    """Leads hidden via Archive or Not Interested, most recently archived first."""
+    return conn.execute(
+        """SELECT * FROM leads_state WHERE archived_at IS NOT NULL
+           ORDER BY archived_at DESC"""
+    ).fetchall()
+
+
+def list_snoozed(conn):
+    """Leads snoozed to a future date — hidden from the inbox until then."""
+    return conn.execute(
+        """SELECT * FROM leads_state
+           WHERE archived_at IS NULL AND snooze_until IS NOT NULL AND snooze_until > ?
+           ORDER BY snooze_until ASC""",
+        (now_iso(),),
     ).fetchall()
 
 

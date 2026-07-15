@@ -93,6 +93,19 @@ def get_message_history(campaign_id: int, lead_id: int) -> list[dict]:
     return data
 
 
+def update_lead_category(
+    campaign_id: int, lead_id: int, category_id: int, pause_lead: bool = False
+) -> Any:
+    """POST /campaigns/{id}/leads/{id}/category — the real Smartlead action for
+    recategorizing a lead (e.g. to "Not Interested"). `pause_lead` also stops
+    Smartlead's own automated sequence for this lead."""
+    return _request(
+        "POST",
+        f"/campaigns/{campaign_id}/leads/{lead_id}/category",
+        json={"category_id": category_id, "pause_lead": pause_lead},
+    )
+
+
 def reply_to_thread(
     campaign_id: int,
     lead_id: int,

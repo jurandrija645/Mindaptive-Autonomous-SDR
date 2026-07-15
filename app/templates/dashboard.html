@@ -4,6 +4,7 @@
   <h1>Mindaptive Responder</h1>
   <div class="header-right">
     {% if dry_run %}<span class="pill pill-dry">DRY RUN</span>{% endif %}
+    <button id="archive-toggle-btn" class="btn-secondary" type="button">Archive</button>
     <button id="rescan-btn" class="btn-secondary" type="button">Rescan now</button>
     <form method="post" action="/logout"><button class="btn-secondary" type="submit">Log out</button></form>
   </div>
@@ -15,7 +16,7 @@
       <span id="inbox-count" class="inbox-count">Inbox</span>
       <span id="scan-status" class="scan-status"></span>
     </div>
-    <div class="legend">
+    <div class="legend" id="legend">
       <span class="legend-item"><i class="dot dot-reply"></i>Awaiting your reply</span>
       <span class="legend-item"><i class="dot dot-followup"></i>Follow-up due</span>
       <span class="legend-item"><i class="dot dot-waiting"></i>In conversation</span>
