@@ -1,5 +1,6 @@
 import json
 import logging
+import time
 from datetime import datetime, timedelta, timezone
 
 from fastapi import FastAPI, Form, Request
@@ -18,8 +19,29 @@ logging.basicConfig(level=logging.INFO)
 app = FastAPI(title="Mindaptive Responder")
 install_session_middleware(app)
 app.include_router(webhook.router)
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+
+class NoCacheStaticFiles(StaticFiles):
+    """Static assets change with every deploy but are served from the same URL
+    (/static/style.css, /static/app.js) — without this, a browser or the
+    Cloudflare tunnel in front of prod can keep serving a pre-redesign file
+    that no longer matches the current HTML's class names, silently
+    "unstyling" the whole page after a deploy. Force revalidation instead."""
+
+    def is_not_modified(self, *args, **kwargs) -> bool:
+        return False
+
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-cache, must-revalidate"
+        return response
+
+
+app.mount("/static", NoCacheStaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
+# Cache-busts /static/style.css and /static/app.js URLs on every process
+# restart, so a deploy can never leave a stale asset paired with new HTML.
+templates.env.globals["static_version"] = str(int(time.time()))
 
 
 @app.on_event("startup")
