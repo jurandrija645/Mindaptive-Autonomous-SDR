@@ -456,6 +456,64 @@ async function quickFollowup(template) {
   renderDraftSection(body);
 }
 
+// ---------- editor formatting ----------
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function runEditorCommand(cmd, value) {
+  const editor = $("draft-editor");
+  editor.focus();
+  document.execCommand(cmd, false, value);
+  onEditorInput();
+}
+
+function insertLink() {
+  const editor = $("draft-editor");
+  editor.focus();
+  const url = window.prompt("Link URL (include https://):");
+  if (!url) return;
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !editor.contains(sel.anchorNode)) {
+    document.execCommand("insertHTML", false, `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(url)}</a>`);
+  } else {
+    document.execCommand("createLink", false, url);
+  }
+  onEditorInput();
+}
+
+function insertImageUrl() {
+  const editor = $("draft-editor");
+  editor.focus();
+  const url = window.prompt("Image URL (must already be hosted somewhere public — this inserts a link to it, not an upload):");
+  if (!url) return;
+  document.execCommand("insertHTML", false, `<img src="${escapeHtml(url)}" style="max-width:100%;">`);
+  onEditorInput();
+}
+
+function renderEditorToolbar() {
+  const bar = el("div", "editor-toolbar");
+  bar.id = "editor-toolbar";
+  const boldBtn = el("button", "toolbar-btn toolbar-bold", "B");
+  boldBtn.type = "button";
+  boldBtn.title = "Bold";
+  boldBtn.addEventListener("click", () => runEditorCommand("bold"));
+  const italicBtn = el("button", "toolbar-btn toolbar-italic", "I");
+  italicBtn.type = "button";
+  italicBtn.title = "Italic";
+  italicBtn.addEventListener("click", () => runEditorCommand("italic"));
+  const linkBtn = el("button", "toolbar-btn", "Link");
+  linkBtn.type = "button";
+  linkBtn.title = "Insert link";
+  linkBtn.addEventListener("click", insertLink);
+  const imgBtn = el("button", "toolbar-btn", "Image");
+  imgBtn.type = "button";
+  imgBtn.title = "Insert image from a URL";
+  imgBtn.addEventListener("click", insertImageUrl);
+  [boldBtn, italicBtn, linkBtn, imgBtn].forEach((b) => bar.appendChild(b));
+  return bar;
+}
+
 function renderDraftSection(body) {
   const draft = state.detail.draft;
   const section = el("div");
@@ -509,6 +567,12 @@ function renderDraftSection(body) {
   tabs.appendChild(origTab);
   tabs.appendChild(enTab);
   box.appendChild(tabs);
+
+  // Formatting only applies on the Original tab — the English tab is a
+  // plain-text round trip through Sonnet (api_draft_localize strips HTML
+  // before translating back), so bold/links typed there wouldn't survive
+  // "Apply to draft" anyway. Hidden, not removed, so setEditMode can toggle it.
+  box.appendChild(renderEditorToolbar());
 
   const editor = el("div", "draft-editor");
   editor.id = "draft-editor";
@@ -604,6 +668,7 @@ async function setEditMode(mode, opts = {}) {
   $("tab-english").classList.toggle("active", mode === "english");
   if ($("signature-preview")) $("signature-preview").hidden = mode === "english";
   $("apply-row").hidden = mode !== "english";
+  if ($("editor-toolbar")) $("editor-toolbar").hidden = mode !== "original";
   toggleActionButtons(mode === "original");
 
   if (mode === "english" && state.englishHtml == null) {
