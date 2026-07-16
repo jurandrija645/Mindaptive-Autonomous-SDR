@@ -217,12 +217,23 @@ def _send_due_draft(draft: dict) -> None:
     lead_id, campaign_id = draft["lead_id"], draft["campaign_id"]
 
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
-    if thread and thread[-1].kind == "reply":
-        with db.db_session() as conn:
-            db.update_draft(conn, draft["id"], status="stale")
-            db.upsert_lead_state(conn, lead_id, campaign_id, status="awaiting_reply")
-        log.info("draft %s aborted: lead replied before scheduled send", draft["id"])
-        return
+    last = thread[-1] if thread else None
+
+    # Race-check before sending. For a follow-up, the thread's last message is
+    # normally *ours* (that's why a follow-up is due) — any reply appearing
+    # since we drafted means the lead spoke up and this follow-up is now
+    # stale, so abort unconditionally. For a reply/autoreply draft, the last
+    # message is *always* the lead's (that's literally what we're replying
+    # to) — comparing kind alone would abort every single send. Only abort
+    # there if it's a *newer* reply than the one this draft actually answers
+    # (draft["reply_message_id"] is the message_id it was drafted against).
+    if last and last.kind == "reply":
+        if draft["kind"] == "followup" or last.message_id != draft["reply_message_id"]:
+            with db.db_session() as conn:
+                db.update_draft(conn, draft["id"], status="stale")
+                db.upsert_lead_state(conn, lead_id, campaign_id, status="awaiting_reply")
+            log.info("draft %s aborted: lead has a newer reply than this draft addresses", draft["id"])
+            return
 
     if settings.dry_run:
         log.info("[DRY_RUN] would send draft %s to lead %s", draft["id"], lead_id)
