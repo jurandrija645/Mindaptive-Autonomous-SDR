@@ -241,13 +241,17 @@ def _send_due_draft(draft: dict) -> None:
             db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())
         return
 
+    # Use the freshly-fetched thread's stats_id rather than the value stored
+    # on the draft: older drafts predate the reply_stats_id column and have
+    # it NULL, which Smartlead rejects ("email_stats_id" must be a string).
+    stats_id = last.stats_id if last else draft["reply_stats_id"]
     smartlead.reply_to_thread(
         campaign_id,
         lead_id,
         compose_send_body(draft),
         draft["reply_message_id"],
         draft["reply_email_time"],
-        draft["reply_stats_id"],
+        stats_id,
     )
 
     with db.db_session() as conn:
