@@ -234,15 +234,31 @@ def generate_draft(
         else []
     )
 
+    # Cached: the system prompt (~12.5k tokens for the main prompt) is
+    # identical across every turn of this loop and every other draft, so
+    # without cache_control it gets rebilled at full input price on every
+    # single tool-use round trip — confirmed in production usage logs as a
+    # single draft making 7-8 sequential calls with input tokens climbing by
+    # a few hundred each turn, each one repaying the full system prompt.
+    system_blocks = [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]
+
     response = client.messages.create(
         model=model,
         max_tokens=4096,
-        system=system,
+        system=system_blocks,
         tools=tools,
         messages=messages,
     )
 
-    while tools and response.stop_reason == "pause_turn":
+    # Capped: an uncapped pause_turn loop let a single draft run 7-8+ tool
+    # round trips in production, each resending the full growing
+    # conversation. 6 turns is generous for the Website Diagnostic
+    # Framework's research and stops a stuck research loop from running
+    # away with tokens indefinitely.
+    max_tool_turns = 6
+    turns = 0
+    while tools and response.stop_reason == "pause_turn" and turns < max_tool_turns:
+        turns += 1
         messages = [
             {"role": "user", "content": user_message},
             {"role": "assistant", "content": response.content},
@@ -250,7 +266,7 @@ def generate_draft(
         response = client.messages.create(
             model=model,
             max_tokens=4096,
-            system=system,
+            system=system_blocks,
             tools=tools,
             messages=messages,
         )
