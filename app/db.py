@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS drafts (
     thread_snapshot TEXT,
     reply_message_id TEXT,
     reply_email_time TEXT,
+    reply_stats_id TEXT,  -- Smartlead's internal stats_id; required as email_stats_id when actually sending
     status TEXT NOT NULL DEFAULT 'pending',  -- pending|scheduled|sent|skipped|stale|aborted
     scheduled_at TEXT,
     created_at TEXT NOT NULL,
@@ -124,6 +125,8 @@ def _migrate(conn) -> None:
         conn.execute("ALTER TABLE drafts ADD COLUMN sender_email TEXT")
     if "signature_html" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN signature_html TEXT")
+    if "reply_stats_id" not in draft_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN reply_stats_id TEXT")
 
     lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
     inbox_columns = {

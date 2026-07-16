@@ -39,6 +39,7 @@ def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steeri
         thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
         reply_message_id=last_message.message_id,
         reply_email_time=last_message.timestamp.isoformat(),
+        reply_stats_id=last_message.stats_id,
         status="pending",
         lead_name=lead_payload["name"],
         lead_company=lead_payload["company"],

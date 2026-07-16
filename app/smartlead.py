@@ -112,6 +112,7 @@ def reply_to_thread(
     email_body: str,
     reply_message_id: str,
     reply_email_time: str,
+    email_stats_id: str,
 ) -> Any:
     return _request(
         "POST",
@@ -121,6 +122,7 @@ def reply_to_thread(
             "email_body": email_body,
             "reply_message_id": reply_message_id,
             "reply_email_time": reply_email_time,
+            "email_stats_id": email_stats_id,
         },
     )
 

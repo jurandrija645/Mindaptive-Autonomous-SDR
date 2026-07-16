@@ -22,9 +22,10 @@ class Action(str, Enum):
 class NormalizedMessage:
     kind: str  # "sent" | "reply" | "unknown"
     timestamp: datetime
-    message_id: str
+    message_id: str  # RFC822 Message-ID header value, e.g. "<abc@domain.com>"
     body: str
     from_email: str = ""
+    stats_id: str = ""  # Smartlead's own internal id — required by reply-email-thread as email_stats_id
 
 
 @dataclass
@@ -62,6 +63,7 @@ def normalize_message(msg: dict) -> NormalizedMessage:
     message_id = str(
         msg.get("message_id") or msg.get("stats_id") or msg.get("id") or ""
     )
+    stats_id = str(msg.get("stats_id") or "")
     body = msg.get("email_body") or msg.get("body") or msg.get("message") or ""
     from_email = msg.get("from") or msg.get("from_email") or ""
 
@@ -71,6 +73,7 @@ def normalize_message(msg: dict) -> NormalizedMessage:
         message_id=message_id,
         body=body,
         from_email=from_email,
+        stats_id=stats_id,
     )
 
 

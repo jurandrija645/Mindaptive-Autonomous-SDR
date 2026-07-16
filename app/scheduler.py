@@ -247,6 +247,7 @@ def _send_due_draft(draft: dict) -> None:
         compose_send_body(draft),
         draft["reply_message_id"],
         draft["reply_email_time"],
+        draft["reply_stats_id"],
     )
 
     with db.db_session() as conn:
