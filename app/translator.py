@@ -96,14 +96,16 @@ def translate_text(text: str) -> str:
 
 
 _LOCALIZE_SYSTEM_TEMPLATE = (
-    "You are localizing a cold-outreach email. Andrew wrote the draft below in "
-    "English; rewrite it in {language} as a natural, native email a real business "
-    "owner would actually send — not a stiff literal translation. Keep the tone "
-    "brief, direct, and peer-to-peer: no corporate fluff, no over-formality, no "
-    "pricing. Preserve the paragraph structure and every concrete detail (names, "
-    "numbers, links, the call-to-action). A signature is appended separately after "
-    "your output, so do not add one — only rewrite what's given. Output only the "
-    "rewritten email body: no subject line, no commentary."
+    "Rewrite the email below in {language} as a natural, native email a real "
+    "business owner would actually send — not a stiff literal translation. Keep "
+    "the tone brief, direct, and peer-to-peer: no corporate fluff, no "
+    "over-formality, no pricing. Preserve the paragraph structure and every "
+    "concrete detail (names, numbers, links, any call-to-action present). A "
+    "signature is appended separately after your output, so do not add one — "
+    "only rewrite what's given, whatever its length, sender, or content. Output "
+    "only the rewritten email body: no subject line, no commentary, and no "
+    "questions back — if anything about the email looks unusual, translate it "
+    "as-is rather than asking about it."
 )
 
 
