@@ -218,10 +218,17 @@ def generate_draft(
         system = AUTOREPLY_SYSTEM_PROMPT
     else:
         system = system_prompt()
+    # allowed_callers=["direct"] restricts these to normal model-invoked tool
+    # calling. Without it, current web_search/web_fetch versions also allow
+    # programmatic (code-execution) calling by default, which Haiku doesn't
+    # support and the API rejects with a 400 — confirmed via a real error:
+    # "'claude-haiku-4-5-20251001' does not support programmatic tool
+    # calling... Explicitly set allowed_callers=["direct"] on these tools."
+    # We don't use code-execution/programmatic tool calling anywhere here.
     tools = (
         [
-            {"type": "web_search_20260209", "name": "web_search"},
-            {"type": "web_fetch_20260209", "name": "web_fetch"},
+            {"type": "web_search_20260209", "name": "web_search", "allowed_callers": ["direct"]},
+            {"type": "web_fetch_20260209", "name": "web_fetch", "allowed_callers": ["direct"]},
         ]
         if use_web_search
         else []
