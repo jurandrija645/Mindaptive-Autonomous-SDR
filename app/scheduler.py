@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app import db, detector, pipeline, smartlead
+from app import db, detector, pipeline, signatures, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
@@ -30,12 +30,16 @@ def _detect_language(thread) -> str | None:
     return None
 
 
-def compose_send_body(draft: dict) -> str:
+def compose_send_body(draft: dict, fallback_signature_html: str | None = None) -> str:
     """The actual email body to send: the (possibly edited) message plus the
     persona signature. Stored separately from body_html so contenteditable
-    edits and the English translate/localize round-trip never touch it."""
+    edits and the English translate/localize round-trip never touch it.
+    Falls back to `fallback_signature_html` when the draft has none stored —
+    older drafts created before the persona-fallback logic existed were
+    saved with signature_html permanently NULL, since it's captured once at
+    draft-creation time and never recomputed."""
     body = draft["body_html"] or ""
-    sig = draft.get("signature_html")
+    sig = draft.get("signature_html") or fallback_signature_html
     return f"{body}<br><br>{sig}" if sig else body
 
 _scan_lock = threading.Lock()
@@ -245,9 +249,10 @@ def _send_due_draft(draft: dict) -> None:
     # on the draft: older drafts predate the reply_stats_id column and have
     # it NULL, which Smartlead rejects ("email_stats_id" must be a string).
     stats_id = last.stats_id if last else draft["reply_stats_id"]
+    fallback_sig = signatures.get_signature_html(detector.last_sender_email(thread))
     smartlead.reply_to_thread(
         campaign_id,
-        compose_send_body(draft),
+        compose_send_body(draft, fallback_sig),
         draft["reply_message_id"],
         draft["reply_email_time"],
         stats_id,
