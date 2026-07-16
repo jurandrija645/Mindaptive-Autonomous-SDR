@@ -121,6 +121,10 @@ def generate_for_lead(
         "company_name": lead_row["company"],
         "website": lead_row["website"],
         "custom_fields": None,
+        # leads_state.language is Smartlead's own per-lead code when available
+        # (see scheduler._lead_language) — lets the auto-reply path pick the
+        # zero-token static template (app/autoreply_templates.py) here too.
+        "language_code": lead_row["language"],
     }
     campaign_name = lead_row["campaign_name"] or ""
 
@@ -189,6 +193,38 @@ def quick_followup(campaign_id: int, lead_id: int, english_text: str) -> int | N
             db.update_candidate(conn, candidate["id"], status="drafted", draft_id=draft_id)
 
     log.info("quick-drafted follow-up %s for lead %s/%s", draft_id, campaign_id, lead_id)
+    return draft_id
+
+
+def manual_draft(campaign_id: int, lead_id: int) -> int | None:
+    """Creates a blank draft for the lead so Andrew can write a message
+    directly, bypassing Claude entirely — see pipeline.create_manual_draft.
+    Discards any existing open draft first, same as regenerate."""
+    with db.db_session() as conn:
+        lead_row = db.get_lead_state(conn, lead_id, campaign_id)
+        existing = db.get_open_draft(conn, lead_id, campaign_id)
+        if existing is not None:
+            db.update_draft(conn, existing["id"], status="skipped")
+    if lead_row is None:
+        log.warning("manual_draft: no lead_state for %s/%s", campaign_id, lead_id)
+        return None
+
+    lead = {
+        "id": lead_id,
+        "campaign_id": campaign_id,
+        "email": lead_row["email"],
+        "first_name": lead_row["name"],
+        "company_name": lead_row["company"],
+    }
+    thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
+    if not thread:
+        log.info("manual_draft: empty thread for %s/%s", campaign_id, lead_id)
+        return None
+
+    with db.db_session() as conn:
+        draft_id = pipeline.create_manual_draft(conn, lead, thread)
+
+    log.info("manual draft %s created for lead %s/%s", draft_id, campaign_id, lead_id)
     return draft_id
 
 

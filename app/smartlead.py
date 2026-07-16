@@ -135,7 +135,7 @@ def reply_to_thread(
 
 def normalize_lead(raw: dict, campaign_id: int) -> dict:
     inner = raw.get("lead") if isinstance(raw.get("lead"), dict) else raw
-    custom_fields = inner.get("custom_fields") or raw.get("custom_fields")
+    custom_fields = inner.get("custom_fields") or raw.get("custom_fields") or {}
     return {
         "id": inner.get("id") or raw.get("lead_id") or raw.get("id"),
         "campaign_id": campaign_id,
@@ -145,6 +145,10 @@ def normalize_lead(raw: dict, campaign_id: int) -> dict:
         "website": inner.get("website") or raw.get("website"),
         "custom_fields": custom_fields,
         "lead_category_id": raw.get("lead_category_id") or inner.get("lead_category_id"),
+        # Smartlead's own per-lead "Language Code" custom field (e.g. "de") —
+        # confirmed present on real leads (verified 2026-07-16). More reliable
+        # than guessing from a short auto-reply snippet via langdetect.
+        "language_code": (custom_fields or {}).get("language_code") or None,
     }
 
 

@@ -4,7 +4,11 @@
   <h1>Mindaptive Responder</h1>
   <div class="header-right">
     {% if dry_run %}<span class="pill pill-dry">DRY RUN</span>{% endif %}
-    <button id="archive-toggle-btn" class="btn-secondary" type="button">Archive</button>
+    <div class="view-switch" id="view-switch">
+      <button id="view-inbox-btn" class="view-tab active" type="button">Inbox</button>
+      <button id="view-scheduled-btn" class="view-tab" type="button">Scheduled</button>
+      <button id="view-archive-btn" class="view-tab" type="button">Archive</button>
+    </div>
     <button id="rescan-btn" class="btn-secondary" type="button">Rescan now</button>
     <form method="post" action="/logout"><button class="btn-secondary" type="submit">Log out</button></form>
   </div>

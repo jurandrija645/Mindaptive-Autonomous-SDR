@@ -20,8 +20,13 @@ _CATEGORY = {
 }
 
 
-def _detect_language(thread) -> str | None:
-    """2-letter language of the lead's most recent message, for the inbox badge."""
+def _lead_language(lead: dict, thread) -> str | None:
+    """Smartlead's own per-lead "Language Code" custom field when present —
+    authoritative, and doesn't depend on guessing from a short message. Falls
+    back to detecting from the lead's most recent message otherwise."""
+    code = (lead.get("language_code") or "").strip().lower()[:2]
+    if code:
+        return code
     for msg in reversed(thread):
         if msg.kind == "reply":
             lang = detect_language(to_plain_text(msg.body))
@@ -148,7 +153,7 @@ def _process_lead(lead: dict, campaign_name: str, is_autoreply: bool = False) ->
     if is_autoreply:
         summary = dict(
             category="auto_reply",
-            language=_detect_language(thread),
+            language=_lead_language(lead, thread),
             last_message_preview=to_plain_text(last_msg.body)[:200] if last_msg else None,
             last_message_at=last_msg.timestamp.isoformat() if last_msg else None,
             last_message_kind=last_msg.kind if last_msg else None,
@@ -167,7 +172,7 @@ def _process_lead(lead: dict, campaign_name: str, is_autoreply: bool = False) ->
     decision = detector.decide(thread, followup_count, lead_status)
     summary = dict(
         category=_CATEGORY.get(decision.action, "waiting"),
-        language=_detect_language(thread),
+        language=_lead_language(lead, thread),
         last_message_preview=to_plain_text(last_msg.body)[:200] if last_msg else None,
         last_message_at=last_msg.timestamp.isoformat() if last_msg else None,
         last_message_kind=last_msg.kind if last_msg else None,

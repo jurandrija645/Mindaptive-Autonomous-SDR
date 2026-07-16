@@ -1,6 +1,6 @@
 import json
 
-from app import db, drafter, signatures, smartlead, translator
+from app import autoreply_templates, db, drafter, signatures, smartlead, translator
 from app.detector import last_sender_email, normalize_thread
 from app.thread_utils import render_thread_text, text_to_html
 
@@ -55,6 +55,67 @@ def create_quick_draft(
     return draft_id
 
 
+def create_manual_draft(conn, lead: dict, thread) -> int:
+    """Blank draft for Andrew to write from scratch — no drafter.generate_draft
+    call, no translation, nothing: just the same reply-threading metadata
+    (reply_message_id/time/stats_id, signature, thread_snapshot) every other
+    draft gets, so Send/Schedule work identically once he's typed something in."""
+    last_message = thread[-1]
+    sender_email = last_sender_email(thread)
+    signature_html = signatures.get_signature_html(sender_email)
+
+    draft_id = db.create_draft(
+        conn,
+        lead_id=lead["id"],
+        campaign_id=lead["campaign_id"],
+        kind="manual",
+        triage_summary="Written directly — no AI generation.",
+        body_html="",
+        body_translation=None,
+        thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
+        reply_message_id=last_message.message_id,
+        reply_email_time=last_message.timestamp.isoformat(),
+        reply_stats_id=last_message.stats_id,
+        status="pending",
+        lead_name=lead.get("first_name") or lead.get("name") or "",
+        lead_company=lead.get("company_name") or lead.get("company") or "",
+        lead_email=lead.get("email"),
+        sender_email=sender_email,
+        signature_html=signature_html or None,
+    )
+    return draft_id
+
+
+def _create_static_autoreply_draft(conn, lead: dict, thread, native_text: str) -> int:
+    """Zero-token draft for an Auto-Reply nudge: the message is fully generic
+    and pre-translated (see app/autoreply_templates.py), keyed off Smartlead's
+    own `language_code` custom field — no Claude call at all."""
+    last_message = thread[-1]
+    sender_email = last_sender_email(thread)
+    signature_html = signatures.get_signature_html(sender_email)
+    body_html = text_to_html(native_text)
+
+    return db.create_draft(
+        conn,
+        lead_id=lead["id"],
+        campaign_id=lead["campaign_id"],
+        kind="autoreply",
+        triage_summary="Auto-reply nudge (pre-written template, no draft generation).",
+        body_html=body_html,
+        body_translation=autoreply_templates.ENGLISH_TEXT,
+        thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
+        reply_message_id=last_message.message_id,
+        reply_email_time=last_message.timestamp.isoformat(),
+        reply_stats_id=last_message.stats_id,
+        status="pending",
+        lead_name=lead.get("first_name") or lead.get("name") or "",
+        lead_company=lead.get("company_name") or lead.get("company") or "",
+        lead_email=lead.get("email"),
+        sender_email=sender_email,
+        signature_html=signature_html or None,
+    )
+
+
 def create_draft(
     conn,
     lead: dict,
@@ -65,6 +126,13 @@ def create_draft(
     model: str | None = None,
     use_web_search: bool | None = None,
 ) -> int:
+    # A steering note means Andrew explicitly wants a customized nudge for
+    # this lead — skip the generic template and go to Claude for that case.
+    if kind == "autoreply" and not steering_note:
+        static_text = autoreply_templates.get(lead.get("language_code"))
+        if static_text:
+            return _create_static_autoreply_draft(conn, lead, thread, static_text)
+
     thread_text = render_thread_text(thread)
     lead_payload = {
         "name": lead.get("first_name") or lead.get("name") or "",

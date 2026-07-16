@@ -194,7 +194,28 @@ def _draft_payload(draft) -> dict | None:
         "body_html": draft["body_html"],
         "body_translation": draft["body_translation"],
         "signature_html": draft["signature_html"],
+        "scheduled_at": _fmt_time(draft["scheduled_at"]) if draft["scheduled_at"] else None,
     }
+
+
+def _scheduled_payload() -> list[dict]:
+    with db.db_session() as conn:
+        drafts = [dict(r) for r in db.list_scheduled(conn)]
+    out = []
+    for d in drafts:
+        out.append(
+            {
+                "draft_id": d["id"],
+                "campaign_id": d["campaign_id"],
+                "lead_id": d["lead_id"],
+                "name": d["lead_name"] or d["lead_email"] or "Lead",
+                "company": d["lead_company"] or "",
+                "email": d["lead_email"] or "",
+                "preview": to_plain_text(d["body_html"])[:200],
+                "scheduled_at": _fmt_time(d["scheduled_at"]),
+            }
+        )
+    return out
 
 
 # ---- inbox API ----
@@ -213,6 +234,14 @@ def api_archive(request: Request):
     if redirect:
         return redirect
     return JSONResponse(_archive_payload())
+
+
+@app.get("/api/scheduled")
+def api_scheduled(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse({"scheduled": _scheduled_payload()})
 
 
 def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
@@ -313,6 +342,20 @@ async def api_quick_draft(request: Request, campaign_id: int, lead_id: int):
     if not text:
         return JSONResponse({"error": "No text given."}, status_code=400)
     draft_id = candidates_module.quick_followup(campaign_id, lead_id, text)
+    if not draft_id:
+        return JSONResponse({"error": "Could not create draft for this lead."}, status_code=404)
+    return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/compose")
+def api_compose(request: Request, campaign_id: int, lead_id: int):
+    """Opens a blank, directly-editable draft for this lead — no Claude call
+    at all. Andrew writes the message himself in the same editor/Send/Schedule
+    flow every other draft uses."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    draft_id = candidates_module.manual_draft(campaign_id, lead_id)
     if not draft_id:
         return JSONResponse({"error": "Could not create draft for this lead."}, status_code=404)
     return JSONResponse(_lead_detail_payload(campaign_id, lead_id))

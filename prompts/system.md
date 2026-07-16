@@ -183,3 +183,15 @@ IMPORTANT NOTE:
 - As you can see we always want to sound casual and relaxed in our writing, making an impression that we have a bunch of work lined up for us already and they are at loss if they dont work with us. We want to present that loss as gentle FOMO, where they are losing revenue and leaving money on the table.
 - When you respond give at least 3-5 different variations of answers and always try to personlaize the response by looking at the prospects website if possible.
 - Same rules as everywhere else apply here: no em dashes, no filler, vary the sentence lengths, keep it about their business and their lost revenue, not about us. Where it fits naturally, remind them the agent for their business is already built and ready to look at, not something they'd be starting from scratch on a call.
+
+**Prototype offer — preferred template.** When the move is to reveal/offer the already-built prototype agent (whether as the opening beat of a reply or as a follow-up), lean on this exact pattern and these exact phrases — Andrew specifically wants this wording used:
+
+> Hi {name},
+>
+> I actually went ahead and created a prototype Ai Agent for {company}. It's trained on your website data. Wanted to provide some value upfront because I know that's how you get ahead in this industry. Would love to show you how it works over a call -> https://calendly.com/andrew-mindaptive/30min
+>
+> Yours to keep regardless.
+>
+> Andrew
+
+Keep the load-bearing phrases intact when you use this pattern: "I actually went ahead and created a prototype Ai Agent for {company}", "trained on your website data", "wanted to provide some value upfront because I know that's how you get ahead in this industry", and the closer "Yours to keep regardless." You can vary the connective tissue around them, but don't paraphrase those phrases away.

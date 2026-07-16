@@ -271,6 +271,14 @@ def list_due_scheduled(conn):
     ).fetchall()
 
 
+def list_scheduled(conn):
+    """All drafts waiting on the 1-minute due_send_loop (scheduler.py), soonest
+    first — backs the dashboard's "Scheduled" tab."""
+    return conn.execute(
+        "SELECT * FROM drafts WHERE status = 'scheduled' ORDER BY scheduled_at ASC"
+    ).fetchall()
+
+
 def update_draft(conn, draft_id: int, **fields) -> None:
     set_clause = ",".join(f"{k} = ?" for k in fields)
     conn.execute(

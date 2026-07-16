@@ -1,7 +1,7 @@
 "use strict";
 
 const state = {
-  view: "inbox",        // "inbox" | "archive"
+  view: "inbox",        // "inbox" | "scheduled" | "archive"
   allLeads: [],          // full inbox as loaded from the server, unfiltered
   leads: [],              // filtered view actually rendered (search + category)
   searchQuery: "",
@@ -38,16 +38,21 @@ const MODEL_OPTIONS = [
   { value: "claude-opus-4-8", label: "Opus 4.8 (best quality)" },
 ];
 
-// Canned, pre-approved follow-up one-liners. Picking one skips the full
-// Claude drafter (system prompt, knowledge base, web tools) entirely and just
-// runs one cheap translation call server-side — see /quick-draft.
-const QUICK_FOLLOWUPS = [
-  "Wanted to make sure you saw this, let me know either way",
-  "Hey {name}, I'm locking in projects for next week, let me know if you'd like to move forward or if the timing changed",
-  "{name} - just bumping this up in case it got buried. No rush at all",
-  "Hey {name}, just checking in on this. Let me know if there's anything I can help clarify.",
-  "Hi {name}, closing this file, it seems that now is not the right time. No worries though, it happens. Wishing you and your company all the best.",
-  "{name} - please give me your thoughts on this",
+// Canned, pre-approved message templates. Picking one skips the full Claude
+// drafter (system prompt, knowledge base, web tools) entirely and just runs
+// one cheap translation call server-side — see /quick-draft. {name} and
+// {company} are filled in client-side (quickFollowup) before that call.
+const MESSAGE_TEMPLATES = [
+  {
+    label: "Prototype offer (already-built agent)",
+    text: "Hi {name},\n\nI actually went ahead and created a prototype Ai Agent for {company}. It's trained on your website data. Wanted to provide some value upfront because I know that's how you get ahead in this industry. Would love to show you how it works over a call -> https://calendly.com/andrew-mindaptive/30min\n\nYours to keep regardless.\n\nAndrew",
+  },
+  { text: "Wanted to make sure you saw this, let me know either way" },
+  { text: "Hey {name}, I'm locking in projects for next week, let me know if you'd like to move forward or if the timing changed" },
+  { text: "{name} - just bumping this up in case it got buried. No rush at all" },
+  { text: "Hey {name}, just checking in on this. Let me know if there's anything I can help clarify." },
+  { text: "Hi {name}, closing this file, it seems that now is not the right time. No worries though, it happens. Wishing you and your company all the best." },
+  { text: "{name} - please give me your thoughts on this" },
 ];
 
 async function loadCategories() {
@@ -128,27 +133,45 @@ async function loadArchive() {
   return data;
 }
 
+async function loadScheduled() {
+  const data = await apiGet("/api/scheduled");
+  state.snoozedCount = 0;
+  state.leads = data.scheduled;
+  state.selected = -1;
+  renderList();
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  return data;
+}
+
+const VIEW_LOADERS = { inbox: loadInbox, scheduled: loadScheduled, archive: loadArchive };
+
 function setView(view) {
   state.view = view;
-  $("legend").hidden = view === "archive";
-  $("rescan-btn").hidden = view === "archive";
-  $("archive-toggle-btn").textContent = view === "archive" ? "Back to inbox" : "Archive";
+  $("legend").hidden = view !== "inbox";
+  $("rescan-btn").hidden = view !== "inbox";
+  $("view-inbox-btn").classList.toggle("active", view === "inbox");
+  $("view-scheduled-btn").classList.toggle("active", view === "scheduled");
+  $("view-archive-btn").classList.toggle("active", view === "archive");
   state.selected = -1;
   $("detail-body").hidden = true;
   $("detail-empty").hidden = false;
-  const load = view === "archive" ? loadArchive : loadInbox;
-  load().catch((e) => console.error(e));
+  VIEW_LOADERS[view]().catch((e) => console.error(e));
 }
 
 function renderList() {
   const list = $("lead-list");
   list.innerHTML = "";
   const archiveMode = state.view === "archive";
+  const scheduledMode = state.view === "scheduled";
+  const viewLabel = archiveMode ? "Archive" : scheduledMode ? "Scheduled" : "Inbox";
 
-  $("inbox-count").textContent = `${archiveMode ? "Archive" : "Inbox"} (${state.leads.length})`;
+  $("inbox-count").textContent = `${viewLabel} (${state.leads.length})`;
   $("inbox-empty").hidden = state.leads.length > 0;
   $("inbox-empty").innerHTML = archiveMode
     ? "Nothing archived or snoozed."
+    : scheduledMode
+    ? "Nothing scheduled. Drafts you schedule from a lead's page will show up here."
     : 'No leads yet. Click <strong>Rescan now</strong> — it checks every “Interested” lead and takes a couple of minutes.';
 
   state.leads.forEach((lead, i) => {
@@ -159,7 +182,8 @@ function renderList() {
       list.appendChild(el("li", "list-section", "Archived"));
     }
 
-    const row = el("li", `lead-row ${archiveMode ? "archive-row" : "cat-" + lead.category}`);
+    const rowClass = archiveMode ? "archive-row" : scheduledMode ? "archive-row" : "cat-" + lead.category;
+    const row = el("li", `lead-row ${rowClass}`);
     if (i === state.selected) row.classList.add("selected");
     row.dataset.index = i;
 
@@ -167,7 +191,7 @@ function renderList() {
     if (lead.language) top.appendChild(el("span", "lang-badge", lead.language));
     top.appendChild(el("span", "lead-name", lead.name));
     if (lead.company) top.appendChild(el("span", "lead-company", "· " + lead.company));
-    if (!archiveMode && lead.has_draft) top.appendChild(el("span", "ready-dot"));
+    if (state.view === "inbox" && lead.has_draft) top.appendChild(el("span", "ready-dot"));
     row.appendChild(top);
 
     if (archiveMode) {
@@ -181,6 +205,23 @@ function renderList() {
         withRowRemoval(() => apiPost(`/api/leads/${lead.campaign_id}/${lead.lead_id}/${endpoint}`, {}), i);
       });
       row.appendChild(quickBtn);
+    } else if (scheduledMode) {
+      row.appendChild(el("div", "lead-preview", `Scheduled for ${lead.scheduled_at}`));
+      if (lead.preview) row.appendChild(el("div", "lead-preview", lead.preview));
+      const actions = el("div", null);
+      const sendBtn = el("button", "btn-secondary row-action", "Send now");
+      sendBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        withRowRemoval(() => apiPost(`/api/drafts/${lead.draft_id}/send`, {}), i);
+      });
+      const cancelBtn = el("button", "btn-secondary row-action", "Cancel");
+      cancelBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        withRowRemoval(() => apiPost(`/api/drafts/${lead.draft_id}/skip`, {}), i);
+      });
+      actions.appendChild(sendBtn);
+      actions.appendChild(cancelBtn);
+      row.appendChild(actions);
     } else {
       const meta = el("div", "lead-meta");
       meta.appendChild(el("span", `state-chip cat-${lead.category}`, CHIP[lead.category] || CHIP.waiting));
@@ -420,24 +461,73 @@ function renderGenControls() {
 
 function renderQuickFollowups() {
   const wrap = el("div", "quick-followups");
-  wrap.appendChild(el("div", "quick-followups-label", "Quick follow-up (skips generation, just translates):"));
-  const list = el("div", "quick-followups-list");
-  QUICK_FOLLOWUPS.forEach((tpl) => {
-    const label = tpl.length > 50 ? tpl.slice(0, 47) + "…" : tpl;
-    const btn = el("button", "btn-secondary btn-quick", label);
-    btn.type = "button";
-    btn.title = tpl;
-    btn.addEventListener("click", () => quickFollowup(tpl));
-    list.appendChild(btn);
-  });
-  wrap.appendChild(list);
+  wrap.appendChild(el("div", "quick-followups-label", "Skip generation and use a pre-written template:"));
+  const btn = el("button", "btn-secondary btn-templates", "Choose a template…");
+  btn.type = "button";
+  btn.addEventListener("click", openTemplatesModal);
+  wrap.appendChild(btn);
   return wrap;
+}
+
+function closeTemplatesModal() {
+  const overlay = $("templates-modal-overlay");
+  if (overlay) overlay.remove();
+  document.removeEventListener("keydown", onTemplatesModalKeydown);
+}
+
+function onTemplatesModalKeydown(e) {
+  if (e.key === "Escape") closeTemplatesModal();
+}
+
+function openTemplatesModal() {
+  if ($("templates-modal-overlay")) return;
+  const firstName = (state.detail.lead.name || "").split(" ")[0] || "there";
+  const company = state.detail.lead.company || "your business";
+
+  const overlay = el("div", "modal-overlay");
+  overlay.id = "templates-modal-overlay";
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeTemplatesModal();
+  });
+
+  const modal = el("div", "modal templates-modal");
+  const header = el("div", "modal-header");
+  header.appendChild(el("h3", null, "Message templates"));
+  const closeBtn = el("button", "modal-close", "×");
+  closeBtn.type = "button";
+  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.addEventListener("click", closeTemplatesModal);
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  const list = el("div", "templates-list");
+  MESSAGE_TEMPLATES.forEach((tpl) => {
+    const previewText = tpl.text.replace(/\{name\}/g, firstName).replace(/\{company\}/g, company);
+    const label = tpl.label || (previewText.length > 60 ? previewText.slice(0, 57) + "…" : previewText);
+    const row = el("div", "template-row");
+    row.appendChild(el("div", "template-label", label));
+    row.appendChild(el("div", "template-preview", previewText));
+    const useBtn = el("button", "btn-send btn-quick", "Use this");
+    useBtn.type = "button";
+    useBtn.addEventListener("click", () => {
+      closeTemplatesModal();
+      quickFollowup(tpl.text);
+    });
+    row.appendChild(useBtn);
+    list.appendChild(row);
+  });
+  modal.appendChild(list);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.addEventListener("keydown", onTemplatesModalKeydown);
 }
 
 async function quickFollowup(template) {
   const { cid, lid } = currentLeadIds();
   const firstName = (state.detail.lead.name || "").split(" ")[0] || "there";
-  const text = template.replace(/\{name\}/g, firstName);
+  const company = state.detail.lead.company || "your business";
+  const text = template.replace(/\{name\}/g, firstName).replace(/\{company\}/g, company);
   const section = $("draft-section");
   section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Adding follow-up…</div>';
   let data;
@@ -454,6 +544,25 @@ async function quickFollowup(template) {
   if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
   $("draft-section").remove();
   renderDraftSection(body);
+}
+
+async function composeDraft() {
+  const { cid, lid } = currentLeadIds();
+  const section = $("draft-section");
+  section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Opening a blank draft…</div>';
+  let data;
+  try {
+    data = await apiPost(`/api/leads/${cid}/${lid}/compose`, {});
+  } catch (e) {
+    section.innerHTML = `<div class="error-note">Could not open a draft: ${e.message}</div>`;
+    return;
+  }
+  state.detail = data;
+  renderList();
+  $("draft-section").remove();
+  renderDraftSection($("detail-body"));
+  const editor = $("draft-editor");
+  if (editor) editor.focus();
 }
 
 // ---------- editor formatting ----------
@@ -530,9 +639,16 @@ function renderDraftSection(body) {
       prompt.appendChild(renderQuickFollowups());
     }
     prompt.appendChild(renderGenControls());
+    const genRow = el("div", "gen-btn-row");
     const gbtn = el("button", "btn-send", "Generate draft");
     gbtn.addEventListener("click", () => generate($("gen-note-input").value));
-    prompt.appendChild(gbtn);
+    genRow.appendChild(gbtn);
+    const wbtn = el("button", "btn-secondary", "Write directly");
+    wbtn.type = "button";
+    wbtn.title = "Skip AI generation — start from a blank message";
+    wbtn.addEventListener("click", composeDraft);
+    genRow.appendChild(wbtn);
+    prompt.appendChild(genRow);
     const note = el("label", "gen-note");
     const input = el("input");
     input.type = "text";
@@ -554,6 +670,10 @@ function renderDraftSection(body) {
 
   const box = el("div", "draft-box");
   box.appendChild(el("h3", null, "Draft reply"));
+
+  if (draft.status === "scheduled" && draft.scheduled_at) {
+    box.appendChild(el("span", "status-banner", `Scheduled for ${draft.scheduled_at}`));
+  }
 
   const tabs = el("div", "edit-tabs");
   const origTab = el("button", "edit-tab active", "Original");
@@ -944,7 +1064,9 @@ document.querySelectorAll(".legend-item").forEach((item) => {
 
 // ---------- init ----------
 $("rescan-btn").addEventListener("click", rescan);
-$("archive-toggle-btn").addEventListener("click", () => setView(state.view === "archive" ? "inbox" : "archive"));
+$("view-inbox-btn").addEventListener("click", () => setView("inbox"));
+$("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
+$("view-archive-btn").addEventListener("click", () => setView("archive"));
 loadInbox().catch((e) => {
   $("scan-status").textContent = "load failed";
   console.error(e);
