@@ -62,7 +62,11 @@ def is_generating(campaign_id: int, lead_id: int) -> bool:
 
 
 def generate_for_lead_in_background(
-    campaign_id: int, lead_id: int, steering_note: str | None = None
+    campaign_id: int,
+    lead_id: int,
+    steering_note: str | None = None,
+    model: str | None = None,
+    use_web_search: bool | None = None,
 ) -> bool:
     """Starts generate_for_lead in a background thread and returns
     immediately. A synchronous Claude call with web search/fetch tools can
@@ -78,7 +82,7 @@ def generate_for_lead_in_background(
 
     def _worker():
         try:
-            generate_for_lead(campaign_id, lead_id, steering_note)
+            generate_for_lead(campaign_id, lead_id, steering_note, model=model, use_web_search=use_web_search)
         except Exception:
             log.exception("generate_for_lead failed for %s/%s", campaign_id, lead_id)
         finally:
@@ -89,7 +93,13 @@ def generate_for_lead_in_background(
     return True
 
 
-def generate_for_lead(campaign_id: int, lead_id: int, steering_note: str | None = None) -> int | None:
+def generate_for_lead(
+    campaign_id: int,
+    lead_id: int,
+    steering_note: str | None = None,
+    model: str | None = None,
+    use_web_search: bool | None = None,
+) -> int | None:
     """Draft a message for any inbox lead, keyed by lead rather than candidate.
 
     Used by the two-pane inbox (Generate / Regenerate). Picks kind from the
@@ -125,7 +135,10 @@ def generate_for_lead(campaign_id: int, lead_id: int, steering_note: str | None 
         kind = "reply" if thread[-1].kind == "reply" else "followup"
 
     with db.db_session() as conn:
-        draft_id = pipeline.create_draft(conn, lead, campaign_name, kind, thread, steering_note)
+        draft_id = pipeline.create_draft(
+            conn, lead, campaign_name, kind, thread, steering_note,
+            model=model, use_web_search=use_web_search,
+        )
         candidate = conn.execute(
             """SELECT id FROM candidates WHERE lead_id = ? AND campaign_id = ? AND kind = ?
                AND status IN ('open', 'generating')""",
@@ -135,6 +148,47 @@ def generate_for_lead(campaign_id: int, lead_id: int, steering_note: str | None 
             db.update_candidate(conn, candidate["id"], status="drafted", draft_id=draft_id)
 
     log.info("generated draft %s for lead %s/%s (%s)", draft_id, campaign_id, lead_id, kind)
+    return draft_id
+
+
+def quick_followup(campaign_id: int, lead_id: int, english_text: str) -> int | None:
+    """Drops one of the dashboard's canned quick-pick snippets straight in as a
+    follow-up draft, bypassing drafter.generate_draft (and its Sonnet/Opus +
+    web-tools cost) entirely — see pipeline.create_quick_draft. Synchronous:
+    the only Claude call involved is one small, cheap translation, nothing
+    like the multi-minute web-research generation this is meant to skip."""
+    with db.db_session() as conn:
+        lead_row = db.get_lead_state(conn, lead_id, campaign_id)
+        existing = db.get_open_draft(conn, lead_id, campaign_id)
+        if existing is not None:
+            db.update_draft(conn, existing["id"], status="skipped")
+    if lead_row is None:
+        log.warning("quick_followup: no lead_state for %s/%s", campaign_id, lead_id)
+        return None
+
+    lead = {
+        "id": lead_id,
+        "campaign_id": campaign_id,
+        "email": lead_row["email"],
+        "first_name": lead_row["name"],
+        "company_name": lead_row["company"],
+    }
+    thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
+    if not thread:
+        log.info("quick_followup: empty thread for %s/%s", campaign_id, lead_id)
+        return None
+
+    with db.db_session() as conn:
+        draft_id = pipeline.create_quick_draft(conn, lead, lead_row["campaign_name"] or "", thread, english_text)
+        candidate = conn.execute(
+            """SELECT id FROM candidates WHERE lead_id = ? AND campaign_id = ? AND kind = 'followup'
+               AND status IN ('open', 'generating')""",
+            (lead_id, campaign_id),
+        ).fetchone()
+        if candidate is not None:
+            db.update_candidate(conn, candidate["id"], status="drafted", draft_id=draft_id)
+
+    log.info("quick-drafted follow-up %s for lead %s/%s", draft_id, campaign_id, lead_id)
     return draft_id
 
 

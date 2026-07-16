@@ -31,6 +31,26 @@ const DEFAULT_CATEGORIES = [
 
 const PAUSE_CATEGORIES = new Set(["Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"]);
 
+// Keep in sync with drafter.ALLOWED_MODELS.
+const MODEL_OPTIONS = [
+  { value: "", label: "Sonnet 5 (default)" },
+  { value: "claude-haiku-4-5", label: "Haiku 4.5 (cheap/fast)" },
+  { value: "claude-sonnet-5", label: "Sonnet 5" },
+  { value: "claude-opus-4-8", label: "Opus 4.8 (best quality)" },
+];
+
+// Canned, pre-approved follow-up one-liners. Picking one skips the full
+// Claude drafter (system prompt, knowledge base, web tools) entirely and just
+// runs one cheap translation call server-side — see /quick-draft.
+const QUICK_FOLLOWUPS = [
+  "Wanted to make sure you saw this, let me know either way",
+  "Hey {name}, I'm locking in projects for next week, let me know if you'd like to move forward or if the timing changed",
+  "{name} - just bumping this up in case it got buried. No rush at all",
+  "Hey {name}, just checking in on this. Let me know if there's anything I can help clarify.",
+  "Hi {name}, closing this file, it seems that now is not the right time. No worries though, it happens. Wishing you and your company all the best.",
+  "{name} - please give me your thoughts on this",
+];
+
 async function loadCategories() {
   try {
     const data = await apiGet("/api/categories");
@@ -369,6 +389,76 @@ async function snoozeLead(dateStr) {
   await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/snooze`, { until: dateStr }));
 }
 
+// Shared by the "Generate draft" prompt and the "Regenerate" row (never both
+// on screen at once, so the element ids are safe to reuse). Web search
+// defaults off once we already have research for this lead — it was only
+// ever a prompt-level suggestion before, so Claude could still burn tokens
+// re-running it; now the toggle controls whether the tools are even sent.
+function renderGenControls() {
+  const wrap = el("div", "gen-controls");
+
+  const modelLabel = el("label", "gen-model");
+  const select = document.createElement("select");
+  select.id = "gen-model-select";
+  MODEL_OPTIONS.forEach((opt) => {
+    const o = document.createElement("option");
+    o.value = opt.value;
+    o.textContent = opt.label;
+    select.appendChild(o);
+  });
+  modelLabel.appendChild(select);
+  wrap.appendChild(modelLabel);
+
+  const wsLabel = el("label", "gen-websearch");
+  const wsCheckbox = document.createElement("input");
+  wsCheckbox.type = "checkbox";
+  wsCheckbox.id = "gen-websearch-toggle";
+  wsCheckbox.checked = !state.detail.lead.research_summary;
+  wsLabel.appendChild(wsCheckbox);
+  wsLabel.appendChild(document.createTextNode(" Web search"));
+  wrap.appendChild(wsLabel);
+
+  return wrap;
+}
+
+function renderQuickFollowups() {
+  const wrap = el("div", "quick-followups");
+  wrap.appendChild(el("div", "quick-followups-label", "Quick follow-up (skips generation, just translates):"));
+  const list = el("div", "quick-followups-list");
+  QUICK_FOLLOWUPS.forEach((tpl) => {
+    const label = tpl.length > 50 ? tpl.slice(0, 47) + "…" : tpl;
+    const btn = el("button", "btn-secondary btn-quick", label);
+    btn.type = "button";
+    btn.title = tpl;
+    btn.addEventListener("click", () => quickFollowup(tpl));
+    list.appendChild(btn);
+  });
+  wrap.appendChild(list);
+  return wrap;
+}
+
+async function quickFollowup(template) {
+  const { cid, lid } = currentLeadIds();
+  const firstName = (state.detail.lead.name || "").split(" ")[0] || "there";
+  const text = template.replace(/\{name\}/g, firstName);
+  const section = $("draft-section");
+  section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Adding follow-up…</div>';
+  let data;
+  try {
+    data = await apiPost(`/api/leads/${cid}/${lid}/quick-draft`, { text });
+  } catch (e) {
+    section.innerHTML = `<div class="error-note">Could not add follow-up: ${e.message}</div>`;
+    return;
+  }
+  state.detail = data;
+  renderList();
+  const body = $("detail-body");
+  const oldPanel = $("research-panel");
+  if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
+  $("draft-section").remove();
+  renderDraftSection(body);
+}
+
 function renderDraftSection(body) {
   const draft = state.detail.draft;
   const section = el("div");
@@ -381,6 +471,10 @@ function renderDraftSection(body) {
       return;
     }
     const prompt = el("div", "generate-prompt");
+    if (state.detail.lead.category === "followup") {
+      prompt.appendChild(renderQuickFollowups());
+    }
+    prompt.appendChild(renderGenControls());
     const gbtn = el("button", "btn-send", "Generate draft");
     gbtn.addEventListener("click", () => generate($("gen-note-input").value));
     prompt.appendChild(gbtn);
@@ -443,6 +537,8 @@ function renderDraftSection(body) {
     sig.innerHTML = draft.signature_html;
     box.appendChild(sig);
   }
+
+  box.appendChild(renderGenControls());
 
   const actions = el("div", "actions");
   const sendBtn = el("button", "btn-send", "Send now");
@@ -644,10 +740,20 @@ function pollGeneration(cid, lid) {
 
 async function generate(note) {
   const { cid, lid } = currentLeadIds();
+  // Read the model/web-search controls before wiping the section's innerHTML below.
+  const modelSel = $("gen-model-select");
+  const wsCheckbox = $("gen-websearch-toggle");
+  const model = modelSel ? modelSel.value : "";
+  const useWebSearch = wsCheckbox ? wsCheckbox.checked : true;
+
   const section = $("draft-section");
   section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';
   try {
-    await apiPost(`/api/leads/${cid}/${lid}/generate`, { steering_note: note || "" });
+    await apiPost(`/api/leads/${cid}/${lid}/generate`, {
+      steering_note: note || "",
+      model: model || undefined,
+      use_web_search: useWebSearch,
+    });
   } catch (e) {
     section.innerHTML = `<div class="error-note">Generation failed: ${e.message}</div>`;
     return;

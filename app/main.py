@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app import candidates as candidates_module
-from app import db, pipeline, scheduler, smartlead, translator, webhook
+from app import db, drafter, pipeline, scheduler, smartlead, translator, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
 from app.email_clean import clean_email_html, to_plain_text
@@ -215,35 +215,37 @@ def api_archive(request: Request):
     return JSONResponse(_archive_payload())
 
 
-@app.get("/api/leads/{campaign_id}/{lead_id}")
-def api_lead(request: Request, campaign_id: int, lead_id: int):
-    redirect = require_auth(request)
-    if redirect:
-        return redirect
+def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
     with db.db_session() as conn:
         lead = db.get_lead_state(conn, lead_id, campaign_id)
         draft = db.get_open_draft(conn, lead_id, campaign_id)
     lead_name = (lead["name"] if lead else None) or "Lead"
     raw = _load_thread_raw(campaign_id, lead_id)
-    return JSONResponse(
-        {
-            "lead": {
-                "name": lead_name,
-                "company": (lead["company"] if lead else "") or "",
-                "email": (lead["email"] if lead else "") or "",
-                "language": ((lead["language"] if lead else "") or "").upper(),
-                "category": (lead["category"] if lead else "waiting") or "waiting",
-                "archive_reason": lead["archive_reason"] if lead else None,
-                "archived_at": _fmt_time(lead["archived_at"]) if lead and lead["archived_at"] else None,
-                "snooze_until": lead["snooze_until"] if lead else None,
-                "research_summary": (lead["research_summary"] if lead else None) or None,
-                "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
-            },
-            "thread": _thread_payload(raw, lead_name),
-            "draft": _draft_payload(draft),
-            "generating": candidates_module.is_generating(campaign_id, lead_id),
-        }
-    )
+    return {
+        "lead": {
+            "name": lead_name,
+            "company": (lead["company"] if lead else "") or "",
+            "email": (lead["email"] if lead else "") or "",
+            "language": ((lead["language"] if lead else "") or "").upper(),
+            "category": (lead["category"] if lead else "waiting") or "waiting",
+            "archive_reason": lead["archive_reason"] if lead else None,
+            "archived_at": _fmt_time(lead["archived_at"]) if lead and lead["archived_at"] else None,
+            "snooze_until": lead["snooze_until"] if lead else None,
+            "research_summary": (lead["research_summary"] if lead else None) or None,
+            "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
+        },
+        "thread": _thread_payload(raw, lead_name),
+        "draft": _draft_payload(draft),
+        "generating": candidates_module.is_generating(campaign_id, lead_id),
+    }
+
+
+@app.get("/api/leads/{campaign_id}/{lead_id}")
+def api_lead(request: Request, campaign_id: int, lead_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/translate")
@@ -265,6 +267,12 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
         return redirect
     body = await _json_body(request)
     steering_note = (body.get("steering_note") or "").strip() or None
+    model = body.get("model") or None
+    if model not in drafter.ALLOWED_MODELS:
+        model = None  # falls back to settings.anthropic_model
+    use_web_search = body.get("use_web_search")
+    if not isinstance(use_web_search, bool):
+        use_web_search = None  # falls back to the prior-research auto-decide
 
     # Regenerate: discard any existing open draft first, then draft fresh.
     with db.db_session() as conn:
@@ -277,8 +285,28 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     # (confirmed via a real 524 in production) if held open as one request.
     # Kick it off in the background and let the client poll GET
     # /api/leads/{cid}/{lid} (which reports `generating`) instead.
-    started = candidates_module.generate_for_lead_in_background(campaign_id, lead_id, steering_note)
+    started = candidates_module.generate_for_lead_in_background(
+        campaign_id, lead_id, steering_note, model=model, use_web_search=use_web_search
+    )
     return JSONResponse({"started": started})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/quick-draft")
+async def api_quick_draft(request: Request, campaign_id: int, lead_id: int):
+    """Drops a canned quick-pick follow-up straight in as a draft. Unlike
+    /generate, this is cheap and fast enough (one small translation call, no
+    web tools) to run synchronously — no background thread, no polling."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    text = (body.get("text") or "").strip()
+    if not text:
+        return JSONResponse({"error": "No text given."}, status_code=400)
+    draft_id = candidates_module.quick_followup(campaign_id, lead_id, text)
+    if not draft_id:
+        return JSONResponse({"error": "Could not create draft for this lead."}, status_code=404)
+    return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
 
 
 # ---- draft translation (English tab) ----

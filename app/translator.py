@@ -107,6 +107,38 @@ _LOCALIZE_SYSTEM_TEMPLATE = (
 )
 
 
+_QUICK_LOCALIZE_SYSTEM_TEMPLATE = (
+    "Translate this short cold-outreach follow-up message into {language}. It's "
+    "already a fixed, approved bit of casual wording, so just translate it "
+    "naturally, the way a real person typing quickly would say it. Do not "
+    "rewrite, expand, or add anything. Preserve names and links exactly as "
+    "given. Output only the translated message, nothing else."
+)
+
+
+def localize_quick_text(english_text: str, target_language_code: str | None) -> str:
+    """Cheap (Haiku), fixed-wording localization for the quick-pick canned
+    follow-ups — these are pre-approved snippets, not something Claude is
+    drafting, so this skips the full drafter pipeline (system prompt,
+    knowledge base, tools) entirely and just translates in one small call."""
+    if not target_language_code or target_language_code.lower() == "en":
+        return english_text
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    system = _QUICK_LOCALIZE_SYSTEM_TEMPLATE.format(language=language_name(target_language_code))
+    try:
+        resp = client.messages.create(
+            model=settings.anthropic_translate_model,
+            max_tokens=512,
+            system=system,
+            messages=[{"role": "user", "content": english_text}],
+        )
+        text = "".join(b.text for b in resp.content if b.type == "text")
+        return text.strip() or english_text
+    except Exception:
+        log.exception("quick-pick localization failed")
+        return english_text
+
+
 def localize_draft(english_text: str, target_language_code: str | None) -> str:
     """Turn Andrew's English edit into the real, native-language draft that gets
     sent. This is the OUTGOING message, so — unlike the cheap reading-comprehension

@@ -8,6 +8,16 @@ from app.config import settings
 PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
 KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent / "knowledge"
 
+# Curated model choices exposed in the dashboard's generate/regenerate model
+# picker (added for cost control — web-research drafts on Sonnet/Opus with
+# tool-use loops add up in tokens). Keep in sync with the <select> in
+# app/static/app.js (renderModelSelect). Values are real Anthropic model ids.
+ALLOWED_MODELS = {
+    "claude-haiku-4-5": "Haiku 4.5 (cheap/fast)",
+    "claude-sonnet-5": "Sonnet 5 (default)",
+    "claude-opus-4-8": "Opus 4.8 (best quality)",
+}
+
 OUTPUT_CONTRACT = """
 
 ---
@@ -44,17 +54,17 @@ For a follow-up to a dead thread (Section 12 style, no new lead reply to triage)
 # sentence nudge, and none of the Solutions Catalog / VSL knowledge base
 # applies. Kept structurally consistent with the main prompt (same output
 # tags) so app/drafter.py's parsing stays a single code path.
-AUTOREPLY_SYSTEM_PROMPT = """You write short, casual nudge replies to auto-reply / out-of-office emails triggered by Andrew's cold outreach. The recipient's mailbox auto-responded (confirming receipt, promising a reply within some timeframe, or forwarding info) instead of a real person replying.
+AUTOREPLY_SYSTEM_PROMPT = """You write short, respectful nudge replies to auto-reply / out-of-office emails triggered by Andrew's cold outreach. The recipient's mailbox auto-responded (confirming receipt, promising a reply within some timeframe, or forwarding info) instead of a real person replying.
 
-Write a brief (2-4 sentence), light, slightly witty reply that:
-- Acknowledges you got their auto-reply.
-- If it fits naturally (don't force it), makes a light, non-snarky observation connecting the delayed-response theme to the value of fast response times in general — a small ironic nod, not a pitch.
+Write a brief (2-4 sentence), plain, respectful reply that:
+- Acknowledges you got their auto-reply, no rush implied.
+- Makes one genuine point, stated plainly and respectfully: slow response to inbound leads costs businesses in their industry real jobs and revenue. Frame this as the actual reason Andrew reached out in the first place, not as a comment on them specifically or their timing just now. Never phrase it as a "gotcha," an irony, or a joke about their auto-reply "proving" anything. It's a general point about their industry, not about them personally being slow or away.
 - Asks them to forward the original email to whoever handles this / the right person on their team, if they aren't it.
 
-Match this tone (adapt the idea to the specific situation — don't reuse the words verbatim):
-"Ha, funny timing. I got your auto-reply about delayed responses right after sending an email about how slow responses cost [industry] missed jobs. Not a dig at you, just kind of proves the point. If this is better suited for someone on the ops/leads side, mind forwarding it over? Appreciate it!"
+Match this tone (adapt to the specific situation and their industry, don't reuse the words verbatim):
+"Thanks for the auto-reply, no rush at all. Worth mentioning though, slow follow-up on new leads is one of the main reasons [industry] companies lose jobs to competitors, that's actually why I reached out in the first place. If this is better handled by someone on the ops/leads side, would you mind forwarding it their way? Appreciate it."
 
-Detect the language the auto-reply was written in and reply in that same language. Casual tone, no corporate language, no greeting salutation needed, no sign-off or signature — one is appended separately, so don't write one.
+Detect the language the auto-reply was written in and reply in that same language. Plain, respectful tone, no mocking, no sarcasm, no corporate language, no greeting salutation needed, no sign-off or signature (one is appended separately, so don't write one). No em dashes, anywhere. No AI-tell filler words. Keep sentence lengths uneven, like someone typing quickly, not a template.
 
 ---
 
@@ -98,6 +108,7 @@ def _build_user_message(
     thread_text: str,
     steering_note: str | None = None,
     prior_research: str | None = None,
+    use_web_search: bool = True,
 ) -> str:
     if kind == "autoreply":
         task_desc = "short nudge reply to their auto-reply/out-of-office message"
@@ -119,7 +130,7 @@ def _build_user_message(
     if custom_fields:
         lines.append(f"- Custom fields: {custom_fields}")
     if kind != "autoreply":
-        if prior_research:
+        if prior_research and use_web_search:
             lines += [
                 "",
                 "Existing research on this lead from a prior draft (below) — reuse this and do "
@@ -129,10 +140,26 @@ def _build_user_message(
                 "",
                 prior_research,
             ]
-        else:
+        elif prior_research and not use_web_search:
+            lines += [
+                "",
+                "Existing research on this lead from a prior draft (below) — web search/fetch "
+                "tools are unavailable for this draft, so write using this research and the "
+                "thread only. Still include a <lead_research> block reusing it as-is.",
+                "",
+                prior_research,
+            ]
+        elif use_web_search:
             lines += [
                 "",
                 "Research the lead's website yourself using the web search / web fetch tools before drafting, per the Website Diagnostic Framework.",
+            ]
+        else:
+            lines += [
+                "",
+                "No prior research and web search/fetch tools are unavailable for this draft — "
+                "write using only the thread and lead data above. Leave <lead_research> empty "
+                "rather than guessing.",
             ]
     lines += [
         "",
@@ -171,26 +198,37 @@ def generate_draft(
     thread_text: str,
     steering_note: str | None = None,
     prior_research: str | None = None,
+    model: str | None = None,
+    use_web_search: bool = True,
 ) -> DraftResult:
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    model = model if model in ALLOWED_MODELS else settings.anthropic_model
 
-    user_message = _build_user_message(kind, lead, thread_text, steering_note, prior_research)
+    # Auto-reply nudges never get tools regardless of use_web_search. For
+    # everything else, use_web_search=False is a hard cutoff — the tools
+    # aren't just discouraged in the prompt, they're not in the request at
+    # all, so Claude physically cannot call them no matter what it decides.
+    use_web_search = use_web_search and kind != "autoreply"
+    user_message = _build_user_message(
+        kind, lead, thread_text, steering_note, prior_research, use_web_search
+    )
     messages = [{"role": "user", "content": user_message}]
 
-    # Auto-reply nudges are short and need no research — skip the big
-    # knowledge-base prompt and the web tools entirely (faster, cheaper).
     if kind == "autoreply":
         system = AUTOREPLY_SYSTEM_PROMPT
-        tools = []
     else:
         system = system_prompt()
-        tools = [
+    tools = (
+        [
             {"type": "web_search_20260209", "name": "web_search"},
             {"type": "web_fetch_20260209", "name": "web_fetch"},
         ]
+        if use_web_search
+        else []
+    )
 
     response = client.messages.create(
-        model=settings.anthropic_model,
+        model=model,
         max_tokens=4096,
         system=system,
         tools=tools,
@@ -203,7 +241,7 @@ def generate_draft(
             {"role": "assistant", "content": response.content},
         ]
         response = client.messages.create(
-            model=settings.anthropic_model,
+            model=model,
             max_tokens=4096,
             system=system,
             tools=tools,

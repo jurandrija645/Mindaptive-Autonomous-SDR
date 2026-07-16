@@ -1,6 +1,6 @@
 import json
 
-from app import db, drafter, signatures, smartlead
+from app import db, drafter, signatures, smartlead, translator
 from app.detector import last_sender_email, normalize_thread
 from app.thread_utils import render_thread_text, text_to_html
 
@@ -10,7 +10,61 @@ def fetch_normalized_thread(campaign_id: int, lead_id: int):
     return normalize_thread(raw)
 
 
-def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steering_note: str | None = None) -> int:
+def create_quick_draft(
+    conn,
+    lead: dict,
+    campaign_name: str,
+    thread,
+    english_text: str,
+) -> int:
+    """Builds a follow-up draft straight from one of the canned quick-pick
+    snippets (dashboard "quick follow-up" buttons) — skips drafter.generate_draft
+    entirely (no system prompt, no knowledge base, no tools, no Sonnet/Opus
+    call) and only spends tokens on a single cheap translation call, since the
+    wording itself is already fixed and pre-approved. campaign_name is accepted
+    for signature symmetry with create_draft but unused here."""
+    del campaign_name
+    lead_state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
+    target_lang = lead_state["language"] if lead_state else None
+    native_text = translator.localize_quick_text(english_text, target_lang)
+
+    last_message = thread[-1]
+    sender_email = last_sender_email(thread)
+    signature_html = signatures.get_signature_html(sender_email)
+    body_html = text_to_html(native_text)
+
+    draft_id = db.create_draft(
+        conn,
+        lead_id=lead["id"],
+        campaign_id=lead["campaign_id"],
+        kind="followup",
+        triage_summary="Quick-pick follow-up (canned template, no draft generation).",
+        body_html=body_html,
+        body_translation=english_text,
+        thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
+        reply_message_id=last_message.message_id,
+        reply_email_time=last_message.timestamp.isoformat(),
+        reply_stats_id=last_message.stats_id,
+        status="pending",
+        lead_name=lead.get("first_name") or lead.get("name") or "",
+        lead_company=lead.get("company_name") or lead.get("company") or "",
+        lead_email=lead.get("email"),
+        sender_email=sender_email,
+        signature_html=signature_html or None,
+    )
+    return draft_id
+
+
+def create_draft(
+    conn,
+    lead: dict,
+    campaign_name: str,
+    kind: str,
+    thread,
+    steering_note: str | None = None,
+    model: str | None = None,
+    use_web_search: bool | None = None,
+) -> int:
     thread_text = render_thread_text(thread)
     lead_payload = {
         "name": lead.get("first_name") or lead.get("name") or "",
@@ -27,7 +81,17 @@ def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steeri
         if lead_state and lead_state["research_summary"]:
             prior_research = lead_state["research_summary"]
 
-    result = drafter.generate_draft(kind, lead_payload, thread_text, steering_note, prior_research)
+    if use_web_search is None:
+        # Auto (no explicit caller choice, e.g. the daily-scan/webhook paths
+        # that don't go through the dashboard's toggle): skip re-researching
+        # once we already have research for this lead, rather than just
+        # asking Claude nicely not to re-run the tools.
+        use_web_search = not bool(prior_research)
+
+    result = drafter.generate_draft(
+        kind, lead_payload, thread_text, steering_note, prior_research,
+        model=model, use_web_search=use_web_search,
+    )
     last_message = thread[-1]
 
     if result.lead_research:
