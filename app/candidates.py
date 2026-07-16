@@ -53,6 +53,42 @@ def generate_one(candidate_id: int) -> int | None:
     return draft_id
 
 
+_generating_lock = threading.Lock()
+_generating: set[tuple[int, int]] = set()
+
+
+def is_generating(campaign_id: int, lead_id: int) -> bool:
+    return (campaign_id, lead_id) in _generating
+
+
+def generate_for_lead_in_background(
+    campaign_id: int, lead_id: int, steering_note: str | None = None
+) -> bool:
+    """Starts generate_for_lead in a background thread and returns
+    immediately. A synchronous Claude call with web search/fetch tools can
+    take minutes — long enough to hit Cloudflare's ~100s tunnel timeout
+    (confirmed via a real 524) if held open as a single request/response.
+    Returns False (no-op) if this lead is already generating, so a second
+    click/poll can't stack calls."""
+    key = (campaign_id, lead_id)
+    with _generating_lock:
+        if key in _generating:
+            return False
+        _generating.add(key)
+
+    def _worker():
+        try:
+            generate_for_lead(campaign_id, lead_id, steering_note)
+        except Exception:
+            log.exception("generate_for_lead failed for %s/%s", campaign_id, lead_id)
+        finally:
+            with _generating_lock:
+                _generating.discard(key)
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return True
+
+
 def generate_for_lead(campaign_id: int, lead_id: int, steering_note: str | None = None) -> int | None:
     """Draft a message for any inbox lead, keyed by lead rather than candidate.
 

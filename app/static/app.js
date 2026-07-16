@@ -195,6 +195,7 @@ async function selectLead(i) {
     const data = await apiGet(`/api/leads/${lead.campaign_id}/${lead.lead_id}`);
     state.detail = data;
     renderDetail();
+    if (data.generating) pollGeneration(lead.campaign_id, lead.lead_id);
   } catch (e) {
     body.innerHTML = `<div class="error-note">Couldn't load this lead: ${e.message}</div>`;
   }
@@ -374,6 +375,11 @@ function renderDraftSection(body) {
   section.id = "draft-section";
 
   if (!draft) {
+    if (state.detail.generating) {
+      section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';
+      body.appendChild(section);
+      return;
+    }
     const prompt = el("div", "generate-prompt");
     const gbtn = el("button", "btn-send", "Generate draft");
     gbtn.addEventListener("click", () => generate($("gen-note-input").value));
@@ -581,25 +587,72 @@ async function toggleTranslate() {
 }
 
 // ---------- generate / regenerate ----------
-async function generate(note) {
-  const { cid, lid } = currentLeadIds();
-  const section = $("draft-section");
-  section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take up to a minute…</div>';
-  try {
-    const data = await apiPost(`/api/leads/${cid}/${lid}/generate`, { steering_note: note || "" });
-    state.detail.draft = data.draft;
-    state.detail.lead.research_summary = data.research_summary;
-    state.detail.lead.researched_at = data.researched_at;
-    currentLead().has_draft = true;
+// generate_for_lead calls Claude with web search/fetch tools and can take
+// minutes — long enough to hit Cloudflare's ~100s tunnel timeout if held
+// open as a single request (confirmed via a real 524 in production). The
+// backend now kicks it off in a background thread and reports progress via
+// `generating` on GET /api/leads/{cid}/{lid}; poll that instead of awaiting
+// one long POST. Keyed by lead so generating on one lead doesn't stop a poll
+// already running for another.
+const genPolls = new Map();
+
+function pollGeneration(cid, lid) {
+  const key = `${cid}:${lid}`;
+  if (genPolls.has(key)) return;
+
+  const finish = (data, errorMessage) => {
+    clearInterval(genPolls.get(key));
+    genPolls.delete(key);
+    const lead = state.leads.find((l) => l.campaign_id === cid && l.lead_id === lid);
+    if (lead && data && data.draft) lead.has_draft = true;
+
+    const cur = currentLeadIds();
+    if (!cur || cur.cid !== cid || cur.lid !== lid) {
+      if (lead) renderList();
+      return; // user is looking at a different lead now — don't touch its DOM
+    }
+    const body = $("detail-body");
+    const oldSection = $("draft-section");
+    if (errorMessage) {
+      const s = el("div");
+      s.id = "draft-section";
+      s.innerHTML = `<div class="error-note">${errorMessage}</div>`;
+      if (oldSection) oldSection.replaceWith(s); else body.appendChild(s);
+      return;
+    }
+    state.detail = data;
     renderList();
     const oldPanel = $("research-panel");
     if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
-    const body = $("detail-body");
-    $("draft-section").remove();
+    if (oldSection) oldSection.remove();
     renderDraftSection(body);
+  };
+
+  const interval = setInterval(async () => {
+    let data;
+    try {
+      data = await apiGet(`/api/leads/${cid}/${lid}`);
+    } catch (e) {
+      finish(null, `Generation failed: ${e.message}`);
+      return;
+    }
+    if (data.generating) return;
+    finish(data, data.draft ? null : "Could not generate a draft for this lead.");
+  }, 3000);
+  genPolls.set(key, interval);
+}
+
+async function generate(note) {
+  const { cid, lid } = currentLeadIds();
+  const section = $("draft-section");
+  section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/generate`, { steering_note: note || "" });
   } catch (e) {
     section.innerHTML = `<div class="error-note">Generation failed: ${e.message}</div>`;
+    return;
   }
+  pollGeneration(cid, lid);
 }
 
 // ---------- draft actions ----------

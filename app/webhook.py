@@ -2,6 +2,7 @@ import logging
 
 import httpx
 from fastapi import APIRouter, HTTPException, Request
+from starlette.concurrency import run_in_threadpool
 
 from app import db, pipeline, smartlead
 from app.config import settings
@@ -41,6 +42,13 @@ async def smartlead_webhook(request: Request):
         log.warning("webhook payload missing campaign_id/sl_email_lead_id: %s", payload)
         return {"status": "ignored", "reason": "missing ids"}
 
+    # pipeline.create_draft calls Claude synchronously (web search/fetch
+    # tools, can take minutes) — run the whole thing off the event loop so an
+    # incoming reply doesn't freeze the entire app for every other request.
+    return await run_in_threadpool(_process_reply, campaign_id, lead_id, payload)
+
+
+def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
     with db.db_session() as conn:
         pending = conn.execute(
             "SELECT id FROM drafts WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending','scheduled')",

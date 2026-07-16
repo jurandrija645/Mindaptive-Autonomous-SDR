@@ -241,6 +241,7 @@ def api_lead(request: Request, campaign_id: int, lead_id: int):
             },
             "thread": _thread_payload(raw, lead_name),
             "draft": _draft_payload(draft),
+            "generating": candidates_module.is_generating(campaign_id, lead_id),
         }
     )
 
@@ -271,20 +272,13 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
         if existing is not None:
             db.update_draft(conn, existing["id"], status="skipped")
 
-    draft_id = candidates_module.generate_for_lead(campaign_id, lead_id, steering_note)
-    if draft_id is None:
-        return JSONResponse({"error": "Could not generate a draft for this lead."}, status_code=409)
-
-    with db.db_session() as conn:
-        draft = db.get_draft(conn, draft_id)
-        lead = db.get_lead_state(conn, lead_id, campaign_id)
-    return JSONResponse(
-        {
-            "draft": _draft_payload(draft),
-            "research_summary": (lead["research_summary"] if lead else None) or None,
-            "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
-        }
-    )
+    # generate_for_lead calls Claude synchronously (web search/fetch tools) and
+    # can take minutes — long enough to hit Cloudflare's ~100s tunnel timeout
+    # (confirmed via a real 524 in production) if held open as one request.
+    # Kick it off in the background and let the client poll GET
+    # /api/leads/{cid}/{lid} (which reports `generating`) instead.
+    started = candidates_module.generate_for_lead_in_background(campaign_id, lead_id, steering_note)
+    return JSONResponse({"started": started})
 
 
 # ---- draft translation (English tab) ----
