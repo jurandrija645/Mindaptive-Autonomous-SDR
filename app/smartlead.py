@@ -108,21 +108,23 @@ def update_lead_category(
 
 def reply_to_thread(
     campaign_id: int,
-    lead_id: int,
     email_body: str,
     reply_message_id: str,
     reply_email_time: str,
     email_stats_id: str,
 ) -> Any:
+    """POST /campaigns/{id}/reply-email-thread. Body schema confirmed against
+    https://api.smartlead.ai/reference/reply-to-lead-from-master-inbox-via-api
+    on 2026-07-16: email_stats_id and email_body are the only required fields;
+    lead_id is NOT a valid key here (rejected with "lead_id is not allowed")."""
     return _request(
         "POST",
         f"/campaigns/{campaign_id}/reply-email-thread",
         json={
-            "lead_id": lead_id,
+            "email_stats_id": email_stats_id,
             "email_body": email_body,
             "reply_message_id": reply_message_id,
             "reply_email_time": reply_email_time,
-            "email_stats_id": email_stats_id,
         },
     )
 

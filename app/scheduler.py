@@ -247,7 +247,6 @@ def _send_due_draft(draft: dict) -> None:
     stats_id = last.stats_id if last else draft["reply_stats_id"]
     smartlead.reply_to_thread(
         campaign_id,
-        lead_id,
         compose_send_body(draft),
         draft["reply_message_id"],
         draft["reply_email_time"],
