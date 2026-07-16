@@ -34,7 +34,12 @@ class Decision:
     reason: str
 
 
-def _parse_timestamp(raw: str) -> datetime:
+def _parse_timestamp(raw: str | None) -> datetime:
+    if not raw:
+        # A message Smartlead hasn't finished processing yet (e.g. one we
+        # just sent) can briefly come back with no time field at all —
+        # treat it as having just happened rather than crashing.
+        return datetime.now(timezone.utc)
     if raw.endswith("Z"):
         raw = raw[:-1] + "+00:00"
     dt = datetime.fromisoformat(raw)
