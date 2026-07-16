@@ -2,7 +2,10 @@
 
 const state = {
   view: "inbox",        // "inbox" | "archive"
-  leads: [],
+  allLeads: [],          // full inbox as loaded from the server, unfiltered
+  leads: [],              // filtered view actually rendered (search + category)
+  searchQuery: "",
+  categoryFilter: new Set(["reply", "followup", "auto_reply", "waiting"]),
   snoozedCount: 0,       // archive view only: state.leads[0..snoozedCount) are snoozed, rest archived
   selected: -1,
   detail: null,          // current lead detail {lead, thread, draft}
@@ -74,11 +77,25 @@ async function apiPost(url, body) {
 // ---------- inbox / archive list loading ----------
 async function loadInbox() {
   const data = await apiGet("/api/inbox");
-  state.leads = data.leads;
+  state.allLeads = data.leads;
   state.snoozedCount = 0;
-  renderList();
+  applyFilter();
   $("scan-status").textContent = data.scan_running ? "↻ scanning…" : "";
   return data;
+}
+
+function matchesSearch(lead, query) {
+  if (!query) return true;
+  const haystack = `${lead.name || ""} ${lead.company || ""} ${lead.email || ""}`.toLowerCase();
+  return haystack.includes(query);
+}
+
+function applyFilter() {
+  const query = state.searchQuery.trim().toLowerCase();
+  state.leads = state.allLeads.filter(
+    (l) => state.categoryFilter.has(l.category) && matchesSearch(l, query)
+  );
+  renderList();
 }
 
 async function loadArchive() {
@@ -195,6 +212,7 @@ function renderDetail() {
   body.appendChild(header);
   body.appendChild(el("div", "detail-sub", [lead.company, lead.email].filter(Boolean).join(" · ")));
 
+  body.appendChild(renderResearchPanel(lead));
   body.appendChild(renderLeadActionsBar(lead));
 
   // translate toggle
@@ -226,6 +244,26 @@ function renderDetail() {
 function archiveLabel(reason) {
   if (!reason || reason === "manual") return "Archived";
   return reason; // an actual Smartlead category name, e.g. "Wrong Person"
+}
+
+// Captured once during drafting (Claude's <lead_research> block, see
+// drafter.py) and reused on later drafts instead of re-researching the
+// lead's website — shown here so it's always visible next to the thread.
+function renderResearchPanel(lead) {
+  const panel = el("div", "research-panel");
+  panel.id = "research-panel";
+  const head = el("div", "research-head");
+  head.appendChild(el("span", "research-title", "About this lead"));
+  if (lead.researched_at) head.appendChild(el("span", "muted research-time", lead.researched_at));
+  panel.appendChild(head);
+  panel.appendChild(
+    el(
+      "div",
+      "research-body",
+      lead.research_summary || "No research yet — gathered automatically the first time a draft is generated for this lead."
+    )
+  );
+  return panel;
 }
 
 function renderLeadActionsBar(lead) {
@@ -550,8 +588,12 @@ async function generate(note) {
   try {
     const data = await apiPost(`/api/leads/${cid}/${lid}/generate`, { steering_note: note || "" });
     state.detail.draft = data.draft;
+    state.detail.lead.research_summary = data.research_summary;
+    state.detail.lead.researched_at = data.researched_at;
     currentLead().has_draft = true;
     renderList();
+    const oldPanel = $("research-panel");
+    if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
     const body = $("detail-body");
     $("draft-section").remove();
     renderDraftSection(body);
@@ -659,6 +701,26 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault();
     selectLead(Math.max(state.selected - 1, 0));
   }
+});
+
+// ---------- search + category filter ----------
+$("lead-search").addEventListener("input", (e) => {
+  state.searchQuery = e.target.value;
+  applyFilter();
+});
+
+document.querySelectorAll(".legend-item").forEach((item) => {
+  item.addEventListener("click", () => {
+    const cat = item.dataset.category;
+    if (state.categoryFilter.has(cat)) {
+      state.categoryFilter.delete(cat);
+      item.classList.add("off");
+    } else {
+      state.categoryFilter.add(cat);
+      item.classList.remove("off");
+    }
+    applyFilter();
+  });
 });
 
 // ---------- init ----------

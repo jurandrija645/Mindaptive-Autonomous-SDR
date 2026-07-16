@@ -30,6 +30,10 @@ CREATE TABLE IF NOT EXISTS leads_state (
     archived_at TEXT,           -- set => archived (manually, or via "not interested")
     archive_reason TEXT,        -- manual|not_interested
     snooze_until TEXT,          -- 'YYYY-MM-DD'; hidden until this date, then top priority
+    -- captured once during drafting (see drafter.py's <lead_research> tag),
+    -- reused on later drafts instead of re-researching the lead's website
+    research_summary TEXT,
+    researched_at TEXT,
     PRIMARY KEY (lead_id, campaign_id)
 );
 
@@ -140,6 +144,8 @@ def _migrate(conn) -> None:
         "archived_at": "TEXT",
         "archive_reason": "TEXT",
         "snooze_until": "TEXT",
+        "research_summary": "TEXT",
+        "researched_at": "TEXT",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:

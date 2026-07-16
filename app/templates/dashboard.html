@@ -16,11 +16,14 @@
       <span id="inbox-count" class="inbox-count">Inbox</span>
       <span id="scan-status" class="scan-status"></span>
     </div>
+    <div class="search-row">
+      <input type="text" id="lead-search" class="lead-search" placeholder="Search leads…" autocomplete="off">
+    </div>
     <div class="legend" id="legend">
-      <span class="legend-item"><i class="dot dot-reply"></i>Awaiting your reply</span>
-      <span class="legend-item"><i class="dot dot-followup"></i>Follow-up due</span>
-      <span class="legend-item"><i class="dot dot-auto_reply"></i>Auto-reply nudge</span>
-      <span class="legend-item"><i class="dot dot-waiting"></i>In conversation</span>
+      <span class="legend-item" data-category="reply"><i class="dot dot-reply"></i>Awaiting your reply</span>
+      <span class="legend-item" data-category="followup"><i class="dot dot-followup"></i>Follow-up due</span>
+      <span class="legend-item" data-category="auto_reply"><i class="dot dot-auto_reply"></i>Auto-reply nudge</span>
+      <span class="legend-item" data-category="waiting"><i class="dot dot-waiting"></i>In conversation</span>
     </div>
     <ul id="lead-list" class="lead-list"></ul>
     <div id="inbox-empty" class="inbox-empty" hidden>

@@ -236,6 +236,8 @@ def api_lead(request: Request, campaign_id: int, lead_id: int):
                 "archive_reason": lead["archive_reason"] if lead else None,
                 "archived_at": _fmt_time(lead["archived_at"]) if lead and lead["archived_at"] else None,
                 "snooze_until": lead["snooze_until"] if lead else None,
+                "research_summary": (lead["research_summary"] if lead else None) or None,
+                "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
             },
             "thread": _thread_payload(raw, lead_name),
             "draft": _draft_payload(draft),
@@ -275,7 +277,14 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
 
     with db.db_session() as conn:
         draft = db.get_draft(conn, draft_id)
-    return JSONResponse({"draft": _draft_payload(draft)})
+        lead = db.get_lead_state(conn, lead_id, campaign_id)
+    return JSONResponse(
+        {
+            "draft": _draft_payload(draft),
+            "research_summary": (lead["research_summary"] if lead else None) or None,
+            "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
+        }
+    )
 
 
 # ---- draft translation (English tab) ----

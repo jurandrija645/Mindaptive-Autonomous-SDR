@@ -21,8 +21,20 @@ def create_draft(conn, lead: dict, campaign_name: str, kind: str, thread, steeri
         "custom_fields": lead.get("custom_fields"),
     }
 
-    result = drafter.generate_draft(kind, lead_payload, thread_text, steering_note)
+    prior_research = None
+    if kind != "autoreply":
+        lead_state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
+        if lead_state and lead_state["research_summary"]:
+            prior_research = lead_state["research_summary"]
+
+    result = drafter.generate_draft(kind, lead_payload, thread_text, steering_note, prior_research)
     last_message = thread[-1]
+
+    if result.lead_research:
+        db.upsert_lead_state(
+            conn, lead["id"], lead["campaign_id"],
+            research_summary=result.lead_research, researched_at=db.now_iso(),
+        )
 
     sender_email = last_sender_email(thread)
     signature_html = signatures.get_signature_html(sender_email)

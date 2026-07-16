@@ -14,7 +14,7 @@ OUTPUT_CONTRACT = """
 
 ## 13. Programmatic Output Contract
 
-Your response will be parsed by software, not read directly by Andrew. Wrap the three parts of your Required Output Format (Section 10) in these exact tags, with nothing else inside them:
+Your response will be parsed by software, not read directly by Andrew. Wrap the four parts of your Required Output Format (Section 10) in these exact tags, with nothing else inside them:
 
 <triage>
 (the Triage Summary content, bullet points, English)
@@ -27,6 +27,14 @@ Your response will be parsed by software, not read directly by Andrew. Wrap the 
 <draft_english>
 (the faithful English translation of the draft above)
 </draft_english>
+
+<lead_research>
+(3-6 bullet points, English, stand-alone: what the company does, what they
+sell, who their target clients/customers are, team size or decision-maker
+signals, review signal, and anything else useful for future outreach to this
+lead. Write this so it's still useful on its own, without the rest of your
+response, since it gets saved and reused on later drafts to the same lead.)
+</lead_research>
 
 For a follow-up to a dead thread (Section 12 style, no new lead reply to triage), keep <triage> short (one or two lines: which follow-up number this is, and the angle you chose) and put your single best draft in <draft_original> — do not include multiple variations, just your strongest one.
 """
@@ -89,6 +97,7 @@ def _build_user_message(
     lead: dict,
     thread_text: str,
     steering_note: str | None = None,
+    prior_research: str | None = None,
 ) -> str:
     if kind == "autoreply":
         task_desc = "short nudge reply to their auto-reply/out-of-office message"
@@ -110,10 +119,21 @@ def _build_user_message(
     if custom_fields:
         lines.append(f"- Custom fields: {custom_fields}")
     if kind != "autoreply":
-        lines += [
-            "",
-            "Research the lead's website yourself using the web search / web fetch tools before drafting, per the Website Diagnostic Framework.",
-        ]
+        if prior_research:
+            lines += [
+                "",
+                "Existing research on this lead from a prior draft (below) — reuse this and do "
+                "NOT re-run web_search/web_fetch unless it looks thin/outdated, or the steering "
+                "note below asks you to dig into something new. If you do research further, still "
+                "include an updated <lead_research> block covering everything relevant, old and new.",
+                "",
+                prior_research,
+            ]
+        else:
+            lines += [
+                "",
+                "Research the lead's website yourself using the web search / web fetch tools before drafting, per the Website Diagnostic Framework.",
+            ]
     lines += [
         "",
         "Full email thread (oldest to newest):",
@@ -130,11 +150,19 @@ def _extract_tag(text: str, tag: str) -> str:
 
 
 class DraftResult:
-    def __init__(self, triage_summary: str, body_original: str, body_translation: str, raw: str):
+    def __init__(
+        self,
+        triage_summary: str,
+        body_original: str,
+        body_translation: str,
+        raw: str,
+        lead_research: str = "",
+    ):
         self.triage_summary = triage_summary
         self.body_original = body_original
         self.body_translation = body_translation
         self.raw = raw
+        self.lead_research = lead_research
 
 
 def generate_draft(
@@ -142,10 +170,11 @@ def generate_draft(
     lead: dict,
     thread_text: str,
     steering_note: str | None = None,
+    prior_research: str | None = None,
 ) -> DraftResult:
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
 
-    user_message = _build_user_message(kind, lead, thread_text, steering_note)
+    user_message = _build_user_message(kind, lead, thread_text, steering_note, prior_research)
     messages = [{"role": "user", "content": user_message}]
 
     # Auto-reply nudges are short and need no research — skip the big
@@ -188,4 +217,5 @@ def generate_draft(
         body_original=_extract_tag(text, "draft_original"),
         body_translation=_extract_tag(text, "draft_english"),
         raw=text,
+        lead_research=_extract_tag(text, "lead_research"),
     )
