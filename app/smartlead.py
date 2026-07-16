@@ -36,6 +36,8 @@ def _request(method: str, path: str, params: dict | None = None, json: dict | No
                 )
             if not resp.content:
                 return None
+            if not resp.headers.get("content-type", "").startswith("application/json"):
+                return resp.text
             return resp.json()
     raise SmartleadError(f"{method} {path} failed after retries")
 
