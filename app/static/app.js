@@ -9,8 +9,6 @@ const state = {
   snoozedCount: 0,       // archive view only: state.leads[0..snoozedCount) are snoozed, rest archived
   selected: -1,
   detail: null,          // current lead detail {lead, thread, draft}
-  translated: false,     // thread currently showing English
-  englishSegments: null,
   categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
 };
 
@@ -31,10 +29,11 @@ const DEFAULT_CATEGORIES = [
 
 const PAUSE_CATEGORIES = new Set(["Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"]);
 
-// Keep in sync with drafter.ALLOWED_MODELS.
+// Keep in sync with drafter.ALLOWED_MODELS. Haiku listed first so it's the
+// <select>'s default (browsers pre-select the first <option>) — cheapest
+// model, used unless explicitly switched to something else.
 const MODEL_OPTIONS = [
-  { value: "", label: "Sonnet 5 (default)" },
-  { value: "claude-haiku-4-5", label: "Haiku 4.5 (cheap/fast)" },
+  { value: "claude-haiku-4-5", label: "Haiku 4.5 (default, cheap/fast)" },
   { value: "claude-sonnet-5", label: "Sonnet 5" },
   { value: "claude-opus-4-8", label: "Opus 4.8 (best quality)" },
 ];
@@ -199,8 +198,6 @@ function renderList() {
 async function selectLead(i) {
   if (i < 0 || i >= state.leads.length) return;
   state.selected = i;
-  state.translated = false;
-  state.englishSegments = null;
   renderList();
   const row = document.querySelector(`.lead-row[data-index="${i}"]`);
   if (row) row.scrollIntoView({ block: "nearest" });
@@ -236,24 +233,24 @@ function renderDetail() {
   body.appendChild(renderResearchPanel(lead));
   body.appendChild(renderLeadActionsBar(lead));
 
-  // translate toggle
-  const tools = el("div", "thread-tools");
-  const tbtn = el("button", "btn-secondary", "Translate to English");
-  tbtn.id = "translate-btn";
-  tbtn.addEventListener("click", toggleTranslate);
-  tools.appendChild(tbtn);
-  body.appendChild(tools);
-
-  // thread
+  // thread — each message gets its own Translate button (per-message, not
+  // the whole thread at once) so a click only pays for what's actually read.
   const tc = el("div", "thread");
   tc.id = "thread";
   thread.forEach((m, idx) => {
     const wrap = el("div", `msg ${m.who}`);
-    wrap.appendChild(el("div", "msg-meta", `${m.name} · ${m.time}`));
+    const meta = el("div", "msg-meta");
+    meta.appendChild(document.createTextNode(`${m.name} · ${m.time} `));
+    const tbtn = el("button", "btn-translate-msg", "Translate");
+    tbtn.type = "button";
+    meta.appendChild(tbtn);
+    wrap.appendChild(meta);
     const bubble = el("div", "bubble");
     bubble.dataset.index = idx;
     bubble.dataset.original = m.html;
+    bubble.dataset.mode = "orig";
     bubble.innerHTML = m.html;
+    tbtn.addEventListener("click", () => toggleMessageTranslate(bubble, tbtn, idx));
     wrap.appendChild(bubble);
     tc.appendChild(wrap);
   });
@@ -651,31 +648,29 @@ async function applyEnglishEdit() {
 }
 
 // ---------- translate ----------
-async function toggleTranslate() {
-  const btn = $("translate-btn");
-  const bubbles = document.querySelectorAll("#thread .bubble");
-  if (state.translated) {
-    bubbles.forEach((b) => (b.innerHTML = b.dataset.original));
-    state.translated = false;
-    btn.textContent = "Translate to English";
+// Per-message: each bubble caches its own translation on first click (in
+// dataset.translatedHtml) so re-toggling the same message never re-calls
+// the API. Only ever translates the one message clicked, not the thread.
+async function toggleMessageTranslate(bubble, btn, index) {
+  if (bubble.dataset.mode === "en") {
+    bubble.innerHTML = bubble.dataset.original;
+    bubble.dataset.mode = "orig";
+    btn.textContent = "Translate";
     return;
   }
   const { cid, lid } = currentLeadIds();
   btn.disabled = true;
   btn.textContent = "Translating…";
   try {
-    if (!state.englishSegments) {
-      const data = await apiPost(`/api/leads/${cid}/${lid}/translate`, {});
-      state.englishSegments = data.segments;
+    if (!bubble.dataset.translatedHtml) {
+      const data = await apiPost(`/api/leads/${cid}/${lid}/translate`, { index });
+      bubble.dataset.translatedHtml = data.html;
     }
-    bubbles.forEach((b) => {
-      const seg = state.englishSegments[Number(b.dataset.index)];
-      if (seg != null) b.innerHTML = seg;
-    });
-    state.translated = true;
+    bubble.innerHTML = bubble.dataset.translatedHtml;
+    bubble.dataset.mode = "en";
     btn.textContent = "Show original";
   } catch (e) {
-    btn.textContent = "Translate to English";
+    btn.textContent = "Translate";
     alert("Translation failed: " + e.message);
   } finally {
     btn.disabled = false;

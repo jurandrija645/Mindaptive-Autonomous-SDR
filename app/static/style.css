@@ -203,9 +203,6 @@ button:disabled { opacity: .55; cursor: default; }
 .research-time { font-size: 11px; }
 .research-body { font-size: 13px; white-space: pre-wrap; line-height: 1.5; }
 
-.thread-tools { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.thread-tools .btn-secondary { padding: 6px 11px; font-size: 13px; }
-
 .lead-actions {
   display: flex;
   flex-wrap: wrap;
@@ -238,6 +235,11 @@ button:disabled { opacity: .55; cursor: default; }
 .msg.us { align-self: flex-end; align-items: flex-end; }
 .msg.lead { align-self: flex-start; align-items: flex-start; }
 .msg-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; padding: 0 4px; }
+.btn-translate-msg {
+  background: none; border: none; color: var(--accent); padding: 0 0 0 6px;
+  font-size: 11px; cursor: pointer; text-decoration: underline;
+}
+.btn-translate-msg:hover { color: var(--accent-dark); }
 .bubble {
   border-radius: 14px;
   padding: 10px 14px;

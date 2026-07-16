@@ -249,15 +249,24 @@ def api_lead(request: Request, campaign_id: int, lead_id: int):
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/translate")
-def api_translate(request: Request, campaign_id: int, lead_id: int):
+async def api_translate_message(request: Request, campaign_id: int, lead_id: int):
+    """Translates a single thread message on demand (per-message translate
+    button), not the whole thread at once — most of a thread is often
+    already in a language Andrew reads fine, so translating everything on
+    one click wastes calls on messages nobody asked to see in English."""
     redirect = require_auth(request)
     if redirect:
         return redirect
+    body = await _json_body(request)
+    index = body.get("index")
+    if not isinstance(index, int):
+        return JSONResponse({"error": "index required"}, status_code=400)
     raw = _load_thread_raw(campaign_id, lead_id)
-    plains = [to_plain_text(m.get("body")) for m in raw]
-    english = translator.translate_segments(plains)
-    segments = [clean_email_html(t) for t in english]
-    return JSONResponse({"segments": segments})
+    if index < 0 or index >= len(raw):
+        return JSONResponse({"error": "index out of range"}, status_code=400)
+    plain = to_plain_text(raw[index].get("body"))
+    english = translator.translate_text(plain)
+    return JSONResponse({"html": clean_email_html(english)})
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/generate")

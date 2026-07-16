@@ -250,12 +250,14 @@ def _send_due_draft(draft: dict) -> None:
     # it NULL, which Smartlead rejects ("email_stats_id" must be a string).
     stats_id = last.stats_id if last else draft["reply_stats_id"]
     fallback_sig = signatures.get_signature_html(detector.last_sender_email(thread))
+    cc = detector.last_reply_cc(thread)
     smartlead.reply_to_thread(
         campaign_id,
         compose_send_body(draft, fallback_sig),
         draft["reply_message_id"],
         draft["reply_email_time"],
         stats_id,
+        cc=cc,
     )
 
     with db.db_session() as conn:

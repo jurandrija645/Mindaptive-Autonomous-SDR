@@ -114,21 +114,23 @@ def reply_to_thread(
     reply_message_id: str,
     reply_email_time: str,
     email_stats_id: str,
+    cc: str = "",
 ) -> Any:
     """POST /campaigns/{id}/reply-email-thread. Body schema confirmed against
     https://api.smartlead.ai/reference/reply-to-lead-from-master-inbox-via-api
     on 2026-07-16: email_stats_id and email_body are the only required fields;
-    lead_id is NOT a valid key here (rejected with "lead_id is not allowed")."""
-    return _request(
-        "POST",
-        f"/campaigns/{campaign_id}/reply-email-thread",
-        json={
-            "email_stats_id": email_stats_id,
-            "email_body": email_body,
-            "reply_message_id": reply_message_id,
-            "reply_email_time": reply_email_time,
-        },
-    )
+    lead_id is NOT a valid key here (rejected with "lead_id is not allowed").
+    `cc` (comma-separated) is optional per the same reference — without it,
+    colleagues the lead CC'd on their reply are not included on ours."""
+    payload = {
+        "email_stats_id": email_stats_id,
+        "email_body": email_body,
+        "reply_message_id": reply_message_id,
+        "reply_email_time": reply_email_time,
+    }
+    if cc:
+        payload["cc"] = cc
+    return _request("POST", f"/campaigns/{campaign_id}/reply-email-thread", json=payload)
 
 
 def normalize_lead(raw: dict, campaign_id: int) -> dict:

@@ -26,6 +26,7 @@ class NormalizedMessage:
     body: str
     from_email: str = ""
     stats_id: str = ""  # Smartlead's own internal id — required by reply-email-thread as email_stats_id
+    cc: str = ""  # comma-separated CC addresses on this message, if any
 
 
 @dataclass
@@ -71,6 +72,7 @@ def normalize_message(msg: dict) -> NormalizedMessage:
     stats_id = str(msg.get("stats_id") or "")
     body = msg.get("email_body") or msg.get("body") or msg.get("message") or ""
     from_email = msg.get("from") or msg.get("from_email") or ""
+    cc = _extract_addresses(msg.get("cc"))
 
     return NormalizedMessage(
         kind=kind,
@@ -79,7 +81,29 @@ def normalize_message(msg: dict) -> NormalizedMessage:
         body=body,
         from_email=from_email,
         stats_id=stats_id,
+        cc=cc,
     )
+
+
+def _extract_addresses(raw) -> str:
+    """Smartlead's message-history `cc`/`bcc` fields haven't been observed
+    populated in any real thread we've checked (only `[]`/`null`), so this
+    shape isn't confirmed against live data the way the rest of this file
+    is — handles the two shapes other Smartlead endpoints commonly use
+    (plain email strings, or {"email": ...} objects) defensively."""
+    if not raw:
+        return ""
+    if isinstance(raw, str):
+        return raw
+    if isinstance(raw, list):
+        addrs = []
+        for item in raw:
+            if isinstance(item, str):
+                addrs.append(item)
+            elif isinstance(item, dict):
+                addrs.append(item.get("email") or item.get("address") or "")
+        return ",".join(a for a in addrs if a)
+    return ""
 
 
 def last_sender_email(thread: list[NormalizedMessage]) -> str:
@@ -88,6 +112,16 @@ def last_sender_email(thread: list[NormalizedMessage]) -> str:
     for msg in reversed(thread):
         if msg.kind == "sent" and msg.from_email:
             return msg.from_email
+    return ""
+
+
+def last_reply_cc(thread: list[NormalizedMessage]) -> str:
+    """Colleagues the lead CC'd on their own most recent reply — kept in the
+    loop on our reply and any later follow-ups, so a "reply all" from the
+    lead's side doesn't silently become a reply-to-one from ours."""
+    for msg in reversed(thread):
+        if msg.kind == "reply" and msg.cc:
+            return msg.cc
     return ""
 
 
