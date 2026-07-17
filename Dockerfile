@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app ./app
 COPY prompts ./prompts
 COPY knowledge ./knowledge
+COPY signatures ./signatures
 
 EXPOSE 8080
 

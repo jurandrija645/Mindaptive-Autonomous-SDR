@@ -19,9 +19,15 @@ def _client() -> httpx.Client:
     return httpx.Client(base_url=BASE_URL, timeout=30.0)
 
 
-def _request(method: str, path: str, params: dict | None = None, json: dict | None = None) -> Any:
+def _request(
+    method: str,
+    path: str,
+    params: dict | None = None,
+    json: dict | None = None,
+    api_key: str | None = None,
+) -> Any:
     params = dict(params or {})
-    params["api_key"] = settings.smartlead_api_key
+    params["api_key"] = api_key or settings.smartlead_api_key
 
     max_attempts = 5
     backoff = 1.5
@@ -45,23 +51,26 @@ def _request(method: str, path: str, params: dict | None = None, json: dict | No
     raise SmartleadError(f"{method} {path} failed after retries")
 
 
-def list_campaigns() -> list[dict]:
-    data = _request("GET", "/campaigns/")
+def list_campaigns(api_key: str | None = None) -> list[dict]:
+    data = _request("GET", "/campaigns/", api_key=api_key)
     return data or []
 
 
-def fetch_categories() -> dict[str, int]:
-    data = _request("GET", "/leads/fetch-categories") or []
+def fetch_categories(api_key: str | None = None) -> dict[str, int]:
+    data = _request("GET", "/leads/fetch-categories", api_key=api_key) or []
     return {item["name"]: item["id"] for item in data}
 
 
-def list_campaign_leads(campaign_id: int, page_size: int = 100) -> Iterator[dict]:
+def list_campaign_leads(
+    campaign_id: int, page_size: int = 100, api_key: str | None = None
+) -> Iterator[dict]:
     offset = 0
     while True:
         data = _request(
             "GET",
             f"/campaigns/{campaign_id}/leads",
             params={"offset": offset, "limit": page_size},
+            api_key=api_key,
         )
         leads = data if isinstance(data, list) else (data or {}).get("data") or []
         if not leads:
@@ -73,11 +82,12 @@ def list_campaign_leads(campaign_id: int, page_size: int = 100) -> Iterator[dict
         offset += page_size
 
 
-def list_email_accounts(page_size: int = 100) -> Iterator[dict]:
+def list_email_accounts(page_size: int = 100, api_key: str | None = None) -> Iterator[dict]:
     offset = 0
     while True:
         data = _request(
-            "GET", "/email-accounts", params={"offset": offset, "limit": page_size}
+            "GET", "/email-accounts", params={"offset": offset, "limit": page_size},
+            api_key=api_key,
         )
         accounts = data if isinstance(data, list) else (data or {}).get("data") or []
         if not accounts:
@@ -89,8 +99,12 @@ def list_email_accounts(page_size: int = 100) -> Iterator[dict]:
         offset += page_size
 
 
-def get_message_history(campaign_id: int, lead_id: int) -> list[dict]:
-    data = _request("GET", f"/campaigns/{campaign_id}/leads/{lead_id}/message-history")
+def get_message_history(
+    campaign_id: int, lead_id: int, api_key: str | None = None
+) -> list[dict]:
+    data = _request(
+        "GET", f"/campaigns/{campaign_id}/leads/{lead_id}/message-history", api_key=api_key
+    )
     if data is None:
         return []
     if isinstance(data, dict):
