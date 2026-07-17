@@ -32,6 +32,15 @@ CONFIG = ExportConfig(
         "Max West": "Max",
     },
     output_dir=REPO_ROOT / "exports" / "aerodefense",
+    # Retired mailboxes seen across old_inboxes.csv threads, confirmed from
+    # real sent-message "from" addresses in varying formats (anna@,
+    # anna.sabryan@, sabryan.anna@, linda@, l.ziemba@, lexi.r@, r.lexi@ all
+    # observed for the same three people across different old campaigns).
+    known_prior_senders={
+        "anna": "Anna", "sabryan": "Anna",
+        "linda": "Linda", "ziemba": "Linda",
+        "lexi": "Lexi", "rinaudo": "Lexi",
+    },
 )
 
 
