@@ -281,7 +281,7 @@ button:disabled { opacity: .55; cursor: default; }
 }
 .edit-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-.editor-toolbar { display: flex; gap: 4px; margin-bottom: 6px; }
+.editor-toolbar { display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; }
 .toolbar-btn {
   background: var(--bg); color: var(--text); border: 1px solid var(--border);
   padding: 5px 11px; border-radius: 6px; font-size: 13px; min-width: 32px;
@@ -289,6 +289,9 @@ button:disabled { opacity: .55; cursor: default; }
 .toolbar-btn:hover { background: #efece6; }
 .toolbar-btn.toolbar-bold { font-weight: 700; }
 .toolbar-btn.toolbar-italic { font-style: italic; }
+.toolbar-btn.toolbar-underline { text-decoration: underline; }
+
+.draft-editor ul, .draft-editor ol { margin: 8px 0; padding-left: 24px; }
 
 .apply-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
 .apply-row .muted { font-size: 12px; }

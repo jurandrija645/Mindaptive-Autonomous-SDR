@@ -604,7 +604,21 @@ async function composeDraft() {
   $("draft-section").remove();
   renderDraftSection($("detail-body"));
   const editor = $("draft-editor");
-  if (editor) editor.focus();
+  if (editor) {
+    editor.focus();
+    // A blank manual draft opens with just the signature already in the box —
+    // put the caret at the very start so typing lands before it, not after.
+    placeCursorAtStart(editor);
+  }
+}
+
+function placeCursorAtStart(editor) {
+  const range = document.createRange();
+  range.setStart(editor, 0);
+  range.collapse(true);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
 }
 
 // ---------- editor formatting ----------
@@ -653,6 +667,18 @@ function renderEditorToolbar() {
   italicBtn.type = "button";
   italicBtn.title = "Italic";
   italicBtn.addEventListener("click", () => runEditorCommand("italic"));
+  const underlineBtn = el("button", "toolbar-btn toolbar-underline", "U");
+  underlineBtn.type = "button";
+  underlineBtn.title = "Underline";
+  underlineBtn.addEventListener("click", () => runEditorCommand("underline"));
+  const bulletBtn = el("button", "toolbar-btn", "• List");
+  bulletBtn.type = "button";
+  bulletBtn.title = "Bullet list";
+  bulletBtn.addEventListener("click", () => runEditorCommand("insertUnorderedList"));
+  const numberBtn = el("button", "toolbar-btn", "1. List");
+  numberBtn.type = "button";
+  numberBtn.title = "Numbered list";
+  numberBtn.addEventListener("click", () => runEditorCommand("insertOrderedList"));
   const linkBtn = el("button", "toolbar-btn", "Link");
   linkBtn.type = "button";
   linkBtn.title = "Insert link";
@@ -661,7 +687,11 @@ function renderEditorToolbar() {
   imgBtn.type = "button";
   imgBtn.title = "Insert image from a URL";
   imgBtn.addEventListener("click", insertImageUrl);
-  [boldBtn, italicBtn, linkBtn, imgBtn].forEach((b) => bar.appendChild(b));
+  const clearBtn = el("button", "toolbar-btn", "Clear formatting");
+  clearBtn.type = "button";
+  clearBtn.title = "Remove formatting";
+  clearBtn.addEventListener("click", () => runEditorCommand("removeFormat"));
+  [boldBtn, italicBtn, underlineBtn, bulletBtn, numberBtn, linkBtn, imgBtn, clearBtn].forEach((b) => bar.appendChild(b));
   return bar;
 }
 
@@ -705,7 +735,15 @@ function renderDraftSection(body) {
   // English tab is actually opened, so it's always translated from whatever
   // is currently in the Original box rather than a stale generation-time value.
   state.editMode = "original";
-  state.originalHtml = draft.body_html;
+  // Belt-and-braces: the server already bakes the signature into body_html at
+  // creation time, but this guarantees it's visibly in the box (and therefore
+  // in whatever editorHtml() sends) even if that ever isn't true — no more
+  // "is it actually in there" guessing from a Network tab.
+  let bodyHtml = draft.body_html || "";
+  if (draft.signature_html && !bodyHtml.includes(draft.signature_html)) {
+    bodyHtml = `${bodyHtml}<br><br>${draft.signature_html}`;
+  }
+  state.originalHtml = bodyHtml;
   state.englishHtml = null;
 
   const box = el("div", "draft-box");
@@ -737,7 +775,7 @@ function renderDraftSection(body) {
   const editor = el("div", "draft-editor");
   editor.id = "draft-editor";
   editor.contentEditable = "true";
-  editor.innerHTML = draft.body_html;
+  editor.innerHTML = bodyHtml;
   editor.addEventListener("input", onEditorInput);
   box.appendChild(editor);
 
