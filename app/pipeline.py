@@ -39,6 +39,8 @@ def create_quick_draft(
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
     body_html = text_to_html(native_text)
+    if signature_html:
+        body_html = f"{body_html}<br><br>{signature_html}"
 
     draft_id = db.create_draft(
         conn,
@@ -75,13 +77,15 @@ def create_manual_draft(conn, lead: dict, thread) -> int:
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
 
+    body_html = f"<br><br>{signature_html}" if signature_html else ""
+
     draft_id = db.create_draft(
         conn,
         lead_id=lead["id"],
         campaign_id=lead["campaign_id"],
         kind="manual",
         triage_summary="Written directly — no AI generation.",
-        body_html="",
+        body_html=body_html,
         body_translation=None,
         thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
         reply_message_id=last_message.message_id,
@@ -109,6 +113,8 @@ def _create_static_autoreply_draft(conn, lead: dict, thread, native_text: str) -
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
     body_html = text_to_html(native_text)
+    if signature_html:
+        body_html = f"{body_html}<br><br>{signature_html}"
 
     return db.create_draft(
         conn,
@@ -190,6 +196,8 @@ def create_draft(
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
     body_html = text_to_html(result.body_original)
+    if signature_html:
+        body_html = f"{body_html}<br><br>{signature_html}"
 
     draft_id = db.create_draft(
         conn,

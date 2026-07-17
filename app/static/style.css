@@ -293,18 +293,13 @@ button:disabled { opacity: .55; cursor: default; }
 .apply-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
 .apply-row .muted { font-size: 12px; }
 
-.signature-preview {
-  margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border);
-  font-size: 13px; color: var(--muted);
-  overflow-x: auto;
-}
 /* Signatures are authored for a fixed-width email client (~800px tables) —
    force them to reflow to whatever width is actually available here instead
    of overflowing/clipping the narrower editor pane. */
-.signature-preview table, .draft-editor table {
+.draft-editor table {
   width: auto !important; max-width: 100%;
 }
-.signature-preview img, .draft-editor img {
+.draft-editor img {
   max-width: 100%; height: auto;
 }
 .draft-editor {

@@ -752,13 +752,6 @@ function renderDraftSection(body) {
   applyRow.appendChild(el("span", "muted", "Rewrites the outgoing message in the lead's language, using the model selected below."));
   box.appendChild(applyRow);
 
-  if (draft.signature_html) {
-    const sig = el("div", "signature-preview");
-    sig.id = "signature-preview";
-    sig.innerHTML = draft.signature_html;
-    box.appendChild(sig);
-  }
-
   box.appendChild(renderGenControls());
 
   const actions = el("div", "actions");
@@ -826,7 +819,6 @@ async function setEditMode(mode, opts = {}) {
   state.editMode = mode;
   $("tab-original").classList.toggle("active", mode === "original");
   $("tab-english").classList.toggle("active", mode === "english");
-  if ($("signature-preview")) $("signature-preview").hidden = mode === "english";
   $("apply-row").hidden = mode !== "english";
   if ($("editor-toolbar")) $("editor-toolbar").hidden = mode !== "original";
   toggleActionButtons(mode === "original");

@@ -447,6 +447,8 @@ async def api_draft_localize(request: Request, draft_id: int):
     )
     localized = translator.localize_draft(english_text, target_lang, model=model)
     new_body_html = text_to_html(localized)
+    if draft["signature_html"]:
+        new_body_html = f"{new_body_html}<br><br>{draft['signature_html']}"
 
     with db.db_session() as conn:
         db.update_draft(conn, draft_id, body_html=new_body_html, body_translation=english_text)

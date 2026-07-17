@@ -36,21 +36,26 @@ def _lead_language(lead: dict, thread) -> str | None:
 
 
 def compose_send_body(draft: dict, fallback_signature_html: str | None = None) -> str:
-    """The actual email body to send: the (possibly edited) message plus the
-    persona signature. Stored separately from body_html so contenteditable
-    edits and the English translate/localize round-trip never touch it.
-    Falls back to `fallback_signature_html` when the draft has none stored —
-    older drafts created before the persona-fallback logic existed were
-    saved with signature_html permanently NULL, since it's captured once at
-    draft-creation time and never recomputed."""
+    """The actual email body to send. The signature is now baked directly into
+    body_html at draft-creation time (app/pipeline.py) and re-embedded by the
+    English localize round-trip (app/main.py: api_draft_localize), so what's
+    shown/edited in the dashboard is exactly what goes out — no hidden
+    append here for any draft created going forward. The `sig not in body`
+    check only matters for drafts created before this change, whose body_html
+    doesn't contain a signature yet; without it they'd send with no
+    signature at all."""
     body = draft["body_html"] or ""
     sig = draft.get("signature_html") or fallback_signature_html
+    already_embedded = bool(sig) and sig in body
     log.info(
-        "[SIG-DEBUG] compose_send_body: draft_id=%s body_len=%d stored_sig_len=%d used_fallback=%s final_sig_len=%d",
+        "[SIG-DEBUG] compose_send_body: draft_id=%s body_len=%d stored_sig_len=%d "
+        "already_embedded=%s used_fallback=%s",
         draft.get("id"), len(body), len(draft.get("signature_html") or ""),
-        not draft.get("signature_html") and bool(fallback_signature_html), len(sig or ""),
+        already_embedded, not draft.get("signature_html") and bool(fallback_signature_html),
     )
-    return f"{body}<br><br>{sig}" if sig else body
+    if sig and not already_embedded:
+        return f"{body}<br><br>{sig}"
+    return body
 
 _scan_lock = threading.Lock()
 
