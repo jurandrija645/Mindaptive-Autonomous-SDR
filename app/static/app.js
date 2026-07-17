@@ -790,6 +790,7 @@ function renderDraftSection(body) {
   applyRow.appendChild(el("span", "muted", "Rewrites the outgoing message in the lead's language, using the model selected below."));
   box.appendChild(applyRow);
 
+  box.appendChild(renderQuickFollowups());
   box.appendChild(renderGenControls());
 
   const actions = el("div", "actions");

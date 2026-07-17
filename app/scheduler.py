@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app import db, detector, pipeline, signatures, smartlead
+from app import db, detector, pipeline, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
@@ -35,26 +35,22 @@ def _lead_language(lead: dict, thread) -> str | None:
     return None
 
 
-def compose_send_body(draft: dict, fallback_signature_html: str | None = None) -> str:
-    """The actual email body to send. The signature is now baked directly into
+def compose_send_body(draft: dict) -> str:
+    """The actual email body to send. The signature is baked directly into
     body_html at draft-creation time (app/pipeline.py) and re-embedded by the
     English localize round-trip (app/main.py: api_draft_localize), so what's
-    shown/edited in the dashboard is exactly what goes out — no hidden
-    append here for any draft created going forward. The `sig not in body`
-    check only matters for drafts created before this change, whose body_html
-    doesn't contain a signature yet; without it they'd send with no
-    signature at all."""
+    shown/edited in the dashboard is exactly what goes out — no append here.
+    (Previously this tried to detect "is the signature already in body_html"
+    via an exact substring check and append if not — that broke as soon as
+    the draft was edited at all, because the browser re-serializes
+    contenteditable HTML slightly differently from the raw signature file
+    (quoting, whitespace, attribute order), so the check always concluded
+    "not embedded" post-edit and appended a second copy on every send.)"""
     body = draft["body_html"] or ""
-    sig = draft.get("signature_html") or fallback_signature_html
-    already_embedded = bool(sig) and sig in body
     log.info(
-        "[SIG-DEBUG] compose_send_body: draft_id=%s body_len=%d stored_sig_len=%d "
-        "already_embedded=%s used_fallback=%s",
-        draft.get("id"), len(body), len(draft.get("signature_html") or ""),
-        already_embedded, not draft.get("signature_html") and bool(fallback_signature_html),
+        "[SIG-DEBUG] compose_send_body: draft_id=%s body_len=%d contains_table_tag=%s",
+        draft.get("id"), len(body), "<table" in body,
     )
-    if sig and not already_embedded:
-        return f"{body}<br><br>{sig}"
     return body
 
 _scan_lock = threading.Lock()
@@ -279,9 +275,8 @@ def _send_due_draft(draft: dict) -> None:
     reply_email_time = last.timestamp.isoformat() if last else draft["reply_email_time"]
     stats_id = last.stats_id if last else draft["reply_stats_id"]
     sender_email = detector.last_sender_email(thread)
-    fallback_sig = signatures.get_signature_html(sender_email)
     cc = detector.next_reply_cc(thread, own_email=sender_email)
-    send_body = compose_send_body(draft, fallback_sig)
+    send_body = compose_send_body(draft)
     log.info(
         "[SIG-DEBUG] _send_due_draft: draft_id=%s sender=%s stats_id=%s send_body_len=%d "
         "contains_table_tag=%s send_body_tail=%r",

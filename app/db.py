@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS drafts (
     lead_company TEXT,
     lead_email TEXT,
     sender_email TEXT,
-    -- stored separately from body_html so contenteditable edits and the
-    -- English translate/localize round-trip (app/translator.py) can never
-    -- touch it; re-attached only at actual send time (scheduler.compose_send_body)
+    -- captured once at draft-creation time and baked directly into body_html
+    -- (app/pipeline.py); kept here mainly so api_draft_localize can re-embed
+    -- it after the English round-trip regenerates body_html from scratch
     signature_html TEXT
 );
 
