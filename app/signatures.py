@@ -61,10 +61,23 @@ def _guess_persona_file(email: str) -> str | None:
 
 def get_signature_html(sender_email: str) -> str:
     if not sender_email:
+        log.info("[SIG-DEBUG] get_signature_html: no sender_email given, returning empty")
         return ""
     email = sender_email.lower()
-    file = _load_mapping().get(email) or _guess_persona_file(email)
+    mapping = _load_mapping()
+    exact = mapping.get(email)
+    file = exact or _guess_persona_file(email)
+    log.info(
+        "[SIG-DEBUG] get_signature_html: sender=%s mapping_size=%d exact_match=%s guessed=%s resolved_file=%s",
+        email, len(mapping), bool(exact), file if not exact else None, file,
+    )
     if not file:
+        log.warning("[SIG-DEBUG] get_signature_html: no persona file resolved for sender=%s", email)
         return ""
     path = SIGNATURES_DIR / file
-    return path.read_text(encoding="utf-8") if path.exists() else ""
+    if not path.exists():
+        log.warning("[SIG-DEBUG] get_signature_html: resolved file %s does not exist at %s", file, path)
+        return ""
+    html = path.read_text(encoding="utf-8")
+    log.info("[SIG-DEBUG] get_signature_html: loaded %s (%d chars) for sender=%s", file, len(html), email)
+    return html

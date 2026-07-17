@@ -1,8 +1,11 @@
 import json
+import logging
 
 from app import autoreply_templates, db, drafter, signatures, smartlead, translator
 from app.detector import last_sender_email, normalize_thread
 from app.thread_utils import render_thread_text, text_to_html
+
+log = logging.getLogger("pipeline")
 
 
 def fetch_normalized_thread(campaign_id: int, lead_id: int):
@@ -31,6 +34,10 @@ def create_quick_draft(
     last_message = thread[-1]
     sender_email = last_sender_email(thread)
     signature_html = signatures.get_signature_html(sender_email)
+    log.info(
+        "[SIG-DEBUG] draft creation: lead_id=%s campaign_id=%s sender=%s signature_len=%d",
+        lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
+    )
     body_html = text_to_html(native_text)
 
     draft_id = db.create_draft(
@@ -63,6 +70,10 @@ def create_manual_draft(conn, lead: dict, thread) -> int:
     last_message = thread[-1]
     sender_email = last_sender_email(thread)
     signature_html = signatures.get_signature_html(sender_email)
+    log.info(
+        "[SIG-DEBUG] draft creation: lead_id=%s campaign_id=%s sender=%s signature_len=%d",
+        lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
+    )
 
     draft_id = db.create_draft(
         conn,
@@ -93,6 +104,10 @@ def _create_static_autoreply_draft(conn, lead: dict, thread, native_text: str) -
     last_message = thread[-1]
     sender_email = last_sender_email(thread)
     signature_html = signatures.get_signature_html(sender_email)
+    log.info(
+        "[SIG-DEBUG] draft creation: lead_id=%s campaign_id=%s sender=%s signature_len=%d",
+        lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
+    )
     body_html = text_to_html(native_text)
 
     return db.create_draft(
@@ -170,6 +185,10 @@ def create_draft(
 
     sender_email = last_sender_email(thread)
     signature_html = signatures.get_signature_html(sender_email)
+    log.info(
+        "[SIG-DEBUG] draft creation: lead_id=%s campaign_id=%s sender=%s signature_len=%d",
+        lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
+    )
     body_html = text_to_html(result.body_original)
 
     draft_id = db.create_draft(

@@ -141,15 +141,17 @@ def localize_quick_text(english_text: str, target_language_code: str | None) -> 
         return english_text
 
 
-def localize_draft(english_text: str, target_language_code: str | None) -> str:
+def localize_draft(english_text: str, target_language_code: str | None, model: str | None = None) -> str:
     """Turn Andrew's English edit into the real, native-language draft that gets
     sent. This is the OUTGOING message, so — unlike the cheap reading-comprehension
-    translations elsewhere in this module — it runs on the drafting model
-    (Sonnet), not Haiku: quality here directly affects what the lead receives."""
+    translations elsewhere in this module — it runs on the drafting model Andrew
+    picked in the dashboard's model dropdown (falling back to the default
+    drafting model), not the cheap translate model: quality here directly
+    affects what the lead receives."""
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     system = _LOCALIZE_SYSTEM_TEMPLATE.format(language=language_name(target_language_code))
     resp = client.messages.create(
-        model=settings.anthropic_model,
+        model=model or settings.anthropic_model,
         max_tokens=2048,
         system=system,
         messages=[{"role": "user", "content": english_text}],

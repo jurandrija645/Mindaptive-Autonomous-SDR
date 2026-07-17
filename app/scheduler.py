@@ -45,6 +45,11 @@ def compose_send_body(draft: dict, fallback_signature_html: str | None = None) -
     draft-creation time and never recomputed."""
     body = draft["body_html"] or ""
     sig = draft.get("signature_html") or fallback_signature_html
+    log.info(
+        "[SIG-DEBUG] compose_send_body: draft_id=%s body_len=%d stored_sig_len=%d used_fallback=%s final_sig_len=%d",
+        draft.get("id"), len(body), len(draft.get("signature_html") or ""),
+        not draft.get("signature_html") and bool(fallback_signature_html), len(sig or ""),
+    )
     return f"{body}<br><br>{sig}" if sig else body
 
 _scan_lock = threading.Lock()
@@ -129,16 +134,21 @@ def _process_lead(lead: dict, campaign_name: str, is_autoreply: bool = False) ->
         followup_count = state["followup_count"] if state else 0
         lead_status = state["status"] if state else "active"
         has_open = db.has_open_draft(conn, lead["id"], lead["campaign_id"])
+        name_locked = bool(state["name_locked"]) if state else False
 
     base_fields = dict(
         email=lead["email"],
-        name=lead["first_name"],
         company=lead["company_name"],
         website=lead["website"],
         timezone_guess=guess_timezone(campaign_name),
         interested=1,
         campaign_name=campaign_name,
     )
+    # Skip once Andrew has manually corrected the name (api_set_lead_name) —
+    # otherwise this scan (daily cron or "Rescan now") reverts it right back
+    # to Smartlead's own first_name on the very next run.
+    if not name_locked:
+        base_fields["name"] = lead["first_name"]
 
     # Stopped/blacklisted leads stay out of the inbox — record the flag, skip the
     # (network) thread fetch, and don't touch their status.
@@ -250,20 +260,38 @@ def _send_due_draft(draft: dict) -> None:
             db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())
         return
 
-    # Use the freshly-fetched thread's stats_id rather than the value stored
-    # on the draft: older drafts predate the reply_stats_id column and have
-    # it NULL, which Smartlead rejects ("email_stats_id" must be a string).
+    # Use the freshly-fetched thread's message identifiers rather than the
+    # values stored on the draft: a draft can sit around (queued follow-up,
+    # scheduled send) while the thread moves on underneath it — e.g. Andrew
+    # replies directly from Smartlead's own inbox. Mixing a stale
+    # reply_message_id/reply_email_time (pointing at an old message) with a
+    # freshly-fetched stats_id confuses Smartlead's threading: a real send
+    # went "To" the original sequence recipient instead of continuing the
+    # actual thread, because only stats_id was being refreshed here. Keep
+    # all three in sync off the same message, falling back to the draft's
+    # stored values only if the thread fetch came back empty.
+    reply_message_id = last.message_id if last else draft["reply_message_id"]
+    reply_email_time = last.timestamp.isoformat() if last else draft["reply_email_time"]
     stats_id = last.stats_id if last else draft["reply_stats_id"]
-    fallback_sig = signatures.get_signature_html(detector.last_sender_email(thread))
-    cc = detector.last_reply_cc(thread)
-    smartlead.reply_to_thread(
+    sender_email = detector.last_sender_email(thread)
+    fallback_sig = signatures.get_signature_html(sender_email)
+    cc = detector.next_reply_cc(thread, own_email=sender_email)
+    send_body = compose_send_body(draft, fallback_sig)
+    log.info(
+        "[SIG-DEBUG] _send_due_draft: draft_id=%s sender=%s stats_id=%s send_body_len=%d "
+        "contains_table_tag=%s send_body_tail=%r",
+        draft["id"], sender_email, stats_id, len(send_body),
+        "<table" in send_body, send_body[-120:],
+    )
+    resp = smartlead.reply_to_thread(
         campaign_id,
-        compose_send_body(draft, fallback_sig),
-        draft["reply_message_id"],
-        draft["reply_email_time"],
+        send_body,
+        reply_message_id,
+        reply_email_time,
         stats_id,
         cc=cc,
     )
+    log.info("[SIG-DEBUG] _send_due_draft: draft_id=%s smartlead response=%r", draft["id"], resp)
 
     with db.db_session() as conn:
         db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())

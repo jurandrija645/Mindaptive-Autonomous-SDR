@@ -1,9 +1,12 @@
+import logging
 import time
 from typing import Any, Iterator
 
 import httpx
 
 from app.config import settings
+
+log = logging.getLogger("smartlead")
 
 BASE_URL = "https://server.smartlead.ai/api/v1"
 
@@ -130,7 +133,14 @@ def reply_to_thread(
     }
     if cc:
         payload["cc"] = cc
-    return _request("POST", f"/campaigns/{campaign_id}/reply-email-thread", json=payload)
+    log.info(
+        "[SIG-DEBUG] reply_to_thread: campaign_id=%s email_stats_id=%s email_body_len=%d "
+        "contains_table_tag=%s",
+        campaign_id, email_stats_id, len(email_body or ""), "<table" in (email_body or ""),
+    )
+    resp = _request("POST", f"/campaigns/{campaign_id}/reply-email-thread", json=payload)
+    log.info("[SIG-DEBUG] reply_to_thread: response=%r", resp)
+    return resp
 
 
 def normalize_lead(raw: dict, campaign_id: int) -> dict:

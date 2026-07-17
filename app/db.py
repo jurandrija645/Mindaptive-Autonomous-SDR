@@ -146,6 +146,13 @@ def _migrate(conn) -> None:
         "snooze_until": "TEXT",
         "research_summary": "TEXT",
         "researched_at": "TEXT",
+        # name_locked: set once Andrew manually corrects `name` (see
+        # app.main.api_set_lead_name) so the scan's base_fields (scheduler.py)
+        # stop overwriting it from Smartlead's own first_name every run.
+        "name_locked": "INTEGER NOT NULL DEFAULT 0",
+        # Smartlead's own name for the lead's inbox (webhook `to_name`), shown
+        # next to `name` so a wrong imported first_name is easy to spot.
+        "email_display_name": "TEXT",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:

@@ -49,7 +49,14 @@ async def smartlead_webhook(request: Request):
 
 
 def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
+    to_name = (payload.get("to_name") or "").strip()
     with db.db_session() as conn:
+        # Smartlead's own name for the lead's inbox — not always present, but
+        # when it is, worth keeping around so a wrong imported first_name is
+        # easy to spot in the dashboard (see api_set_lead_name in main.py).
+        if to_name:
+            db.upsert_lead_state(conn, lead_id, campaign_id, email_display_name=to_name)
+
         pending = conn.execute(
             "SELECT id FROM drafts WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending','scheduled')",
             (lead_id, campaign_id),

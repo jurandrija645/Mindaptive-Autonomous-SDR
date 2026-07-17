@@ -265,17 +265,36 @@ function renderDetail() {
   body.innerHTML = "";
 
   const header = el("div", "detail-header");
-  header.appendChild(el("h2", null, lead.name));
+  const nameWrap = el("span", "detail-name-wrap");
+  nameWrap.appendChild(el("h2", null, lead.name));
+  const editNameBtn = el("button", "btn-edit-name", "✎");
+  editNameBtn.type = "button";
+  editNameBtn.title = "Edit first name";
+  editNameBtn.addEventListener("click", editLeadName);
+  nameWrap.appendChild(editNameBtn);
+  header.appendChild(nameWrap);
   if (lead.language) header.appendChild(el("span", "lang-badge", lead.language));
   header.appendChild(el("span", `state-chip cat-${lead.category}`, CHIP[lead.category] || CHIP.waiting));
   body.appendChild(header);
   body.appendChild(el("div", "detail-sub", [lead.company, lead.email].filter(Boolean).join(" · ")));
+  if (lead.email_display_name && lead.email_display_name !== lead.name) {
+    body.appendChild(el("div", "detail-sub muted", `Smartlead shows their inbox name as "${lead.email_display_name}"`));
+  }
 
   body.appendChild(renderResearchPanel(lead));
   body.appendChild(renderLeadActionsBar(lead));
 
   // thread — each message gets its own Translate button (per-message, not
-  // the whole thread at once) so a click only pays for what's actually read.
+  // the whole thread at once) so a click only pays for what's actually read,
+  // plus one "Translate entire thread" button that batches whatever isn't
+  // already cached into a single call.
+  const threadActions = el("div", "thread-actions");
+  const threadTranslateBtn = el("button", "btn-secondary btn-translate-thread", "Translate entire thread");
+  threadTranslateBtn.type = "button";
+  threadTranslateBtn.addEventListener("click", () => toggleThreadTranslate(threadTranslateBtn));
+  threadActions.appendChild(threadTranslateBtn);
+  body.appendChild(threadActions);
+
   const tc = el("div", "thread");
   tc.id = "thread";
   thread.forEach((m, idx) => {
@@ -385,6 +404,29 @@ function renderLeadActionsBar(lead) {
 function currentLeadIds() {
   const lead = currentLead();
   return { cid: lead.campaign_id, lid: lead.lead_id };
+}
+
+// Andrew's manual fix for a wrong/imported first name — see the muted
+// "Smartlead shows their inbox name as ..." line rendered next to it, which
+// is what this is meant to be checked against.
+async function editLeadName() {
+  const lead = state.detail.lead;
+  const next = window.prompt("Edit this lead's first name:", lead.name || "");
+  if (next == null) return;
+  const trimmed = next.trim();
+  if (!trimmed || trimmed === lead.name) return;
+  const { cid, lid } = currentLeadIds();
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/name`, { name: trimmed });
+  } catch (e) {
+    alert("Couldn't update name: " + e.message);
+    return;
+  }
+  lead.name = trimmed;
+  const row = currentLead();
+  if (row) row.name = trimmed;
+  renderList();
+  renderDetail();
 }
 
 function renderCategorySelect() {
@@ -635,9 +677,7 @@ function renderDraftSection(body) {
       return;
     }
     const prompt = el("div", "generate-prompt");
-    if (state.detail.lead.category === "followup") {
-      prompt.appendChild(renderQuickFollowups());
-    }
+    prompt.appendChild(renderQuickFollowups());
     prompt.appendChild(renderGenControls());
     const genRow = el("div", "gen-btn-row");
     const gbtn = el("button", "btn-send", "Generate draft");
@@ -709,7 +749,7 @@ function renderDraftSection(body) {
   applyBtn.type = "button";
   applyBtn.addEventListener("click", applyEnglishEdit);
   applyRow.appendChild(applyBtn);
-  applyRow.appendChild(el("span", "muted", "Rewrites the outgoing message in the lead's language (Sonnet)."));
+  applyRow.appendChild(el("span", "muted", "Rewrites the outgoing message in the lead's language, using the model selected below."));
   box.appendChild(applyRow);
 
   if (draft.signature_html) {
@@ -814,11 +854,13 @@ async function applyEnglishEdit() {
   const editor = $("draft-editor");
   const englishHtml = editor.innerHTML;
   const btn = $("apply-btn");
+  const modelSel = $("gen-model-select");
   btn.disabled = true;
   btn.textContent = "Rewriting in the lead's language…";
   try {
     const data = await apiPost(`/api/drafts/${state.detail.draft.id}/localize`, {
       english_html: englishHtml,
+      model: modelSel ? modelSel.value : undefined,
     });
     state.detail.draft = data.draft;
     state.originalHtml = data.draft.body_html;
@@ -857,6 +899,55 @@ async function toggleMessageTranslate(bubble, btn, index) {
   } catch (e) {
     btn.textContent = "Translate";
     alert("Translation failed: " + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// Shares bubble.dataset.translatedHtml/mode with the per-message Translate
+// buttons above, so nothing already translated one at a time gets re-sent to
+// the API — only whatever's still missing is requested, in one batched call.
+async function toggleThreadTranslate(btn) {
+  const bubbles = Array.from(document.querySelectorAll("#thread .bubble"));
+  if (!bubbles.length) return;
+  const allTranslated = bubbles.every((b) => b.dataset.mode === "en");
+
+  if (allTranslated) {
+    bubbles.forEach((b) => {
+      b.innerHTML = b.dataset.original;
+      b.dataset.mode = "orig";
+      const tbtn = b.parentElement.querySelector(".btn-translate-msg");
+      if (tbtn) tbtn.textContent = "Translate";
+    });
+    btn.textContent = "Translate entire thread";
+    return;
+  }
+
+  const needed = [];
+  bubbles.forEach((b, i) => {
+    if (!b.dataset.translatedHtml) needed.push(i);
+  });
+
+  btn.disabled = true;
+  btn.textContent = "Translating…";
+  try {
+    if (needed.length) {
+      const { cid, lid } = currentLeadIds();
+      const data = await apiPost(`/api/leads/${cid}/${lid}/translate-thread`, { indices: needed });
+      data.indices.forEach((idx, k) => {
+        bubbles[idx].dataset.translatedHtml = data.htmls[k];
+      });
+    }
+    bubbles.forEach((b) => {
+      b.innerHTML = b.dataset.translatedHtml;
+      b.dataset.mode = "en";
+      const tbtn = b.parentElement.querySelector(".btn-translate-msg");
+      if (tbtn) tbtn.textContent = "Show original";
+    });
+    btn.textContent = "Show original thread";
+  } catch (e) {
+    alert("Translation failed: " + e.message);
+    btn.textContent = "Translate entire thread";
   } finally {
     btn.disabled = false;
   }
@@ -949,8 +1040,27 @@ function editorHtml() {
   return state.originalHtml || "";
 }
 
+// Unlike skip/stop/schedule (withRowRemoval, which fades the row out and
+// auto-advances to the next lead), sending stays put on the same lead —
+// Andrew wants to keep working this thread, not get bounced to whichever
+// lead happens to be next in the list.
 async function sendDraft(id) {
-  await withRowRemoval(() => apiPost(`/api/drafts/${id}/send`, { body_html: editorHtml() }));
+  const { cid, lid } = currentLeadIds();
+  try {
+    await apiPost(`/api/drafts/${id}/send`, { body_html: editorHtml() });
+  } catch (e) {
+    alert(e.message);
+    return;
+  }
+  const data = await apiGet(`/api/leads/${cid}/${lid}`);
+  state.detail = data;
+  const row = state.leads.find((l) => l.campaign_id === cid && l.lead_id === lid);
+  if (row) {
+    row.category = "waiting";
+    row.has_draft = false;
+  }
+  renderList();
+  renderDetail();
 }
 async function skipDraft(id) {
   await withRowRemoval(() => apiPost(`/api/drafts/${id}/skip`, {}));

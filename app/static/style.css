@@ -193,8 +193,17 @@ button:disabled { opacity: .55; cursor: default; }
 
 .detail-header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
 .detail-header h2 { margin: 0; font-size: 19px; }
+.detail-name-wrap { display: inline-flex; align-items: baseline; gap: 6px; }
+.btn-edit-name {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 13px; padding: 2px; line-height: 1;
+}
+.btn-edit-name:hover { color: var(--accent); }
 .detail-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
 .muted { color: var(--muted); }
+
+.thread-actions { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.btn-translate-thread { font-size: 12px; padding: 5px 10px; }
 
 .research-panel {
   background: var(--card);

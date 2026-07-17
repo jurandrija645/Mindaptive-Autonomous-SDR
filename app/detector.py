@@ -25,6 +25,7 @@ class NormalizedMessage:
     message_id: str  # RFC822 Message-ID header value, e.g. "<abc@domain.com>"
     body: str
     from_email: str = ""
+    to_email: str = ""  # who this message was addressed to (plain address string in the real API)
     stats_id: str = ""  # Smartlead's own internal id — required by reply-email-thread as email_stats_id
     cc: str = ""  # comma-separated CC addresses on this message, if any
 
@@ -72,6 +73,7 @@ def normalize_message(msg: dict) -> NormalizedMessage:
     stats_id = str(msg.get("stats_id") or "")
     body = msg.get("email_body") or msg.get("body") or msg.get("message") or ""
     from_email = msg.get("from") or msg.get("from_email") or ""
+    to_email = str(msg.get("to") or msg.get("to_email") or "")
     cc = _extract_addresses(msg.get("cc"))
 
     return NormalizedMessage(
@@ -80,6 +82,7 @@ def normalize_message(msg: dict) -> NormalizedMessage:
         message_id=message_id,
         body=body,
         from_email=from_email,
+        to_email=to_email,
         stats_id=stats_id,
         cc=cc,
     )
@@ -115,14 +118,37 @@ def last_sender_email(thread: list[NormalizedMessage]) -> str:
     return ""
 
 
-def last_reply_cc(thread: list[NormalizedMessage]) -> str:
-    """Colleagues the lead CC'd on their own most recent reply — kept in the
-    loop on our reply and any later follow-ups, so a "reply all" from the
-    lead's side doesn't silently become a reply-to-one from ours."""
-    for msg in reversed(thread):
-        if msg.kind == "reply" and msg.cc:
-            return msg.cc
-    return ""
+def next_reply_cc(thread: list[NormalizedMessage], own_email: str = "") -> str:
+    """Who to CC on our next message in this thread, derived from the most
+    recent message (whichever side sent it) — always the same message we're
+    threading reply_message_id/stats_id against, so this can't drift stale
+    the way a filtered "last lead reply" lookup can.
+
+    If the lead's own reply is most recent, its `to` is a colleague they
+    addressed instead of us (Smartlead auto-threads our reply's To to the
+    lead's from-address, so that colleague would otherwise drop off unless
+    we CC them) and its `cc` may include our own address (the lead CC'ing
+    the mailbox they're replying to) — confirmed on a real thread where a
+    lead replied To: colleague, Cc: our-mailbox, and blindly reusing that
+    cc caused us to CC ourselves on the follow-up. If our own message is
+    most recent, just its `cc` carries forward as-is.
+    """
+    if not thread:
+        return ""
+    last = thread[-1]
+    addrs = [a.strip() for a in last.cc.split(",") if a.strip()]
+    if last.kind == "reply" and last.to_email:
+        addrs.append(last.to_email.strip())
+
+    own = (own_email or "").lower()
+    seen: set[str] = set()
+    result = []
+    for addr in addrs:
+        key = addr.lower()
+        if key and key != own and key not in seen:
+            seen.add(key)
+            result.append(addr)
+    return ",".join(result)
 
 
 def normalize_thread(raw_thread: list[dict]) -> list[NormalizedMessage]:

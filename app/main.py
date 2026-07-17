@@ -262,6 +262,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "snooze_until": lead["snooze_until"] if lead else None,
             "research_summary": (lead["research_summary"] if lead else None) or None,
             "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
+            "email_display_name": (lead["email_display_name"] if lead else None) or None,
         },
         "thread": _thread_payload(raw, lead_name),
         "draft": _draft_payload(draft),
@@ -296,6 +297,28 @@ async def api_translate_message(request: Request, campaign_id: int, lead_id: int
     plain = to_plain_text(raw[index].get("body"))
     english = translator.translate_text(plain)
     return JSONResponse({"html": clean_email_html(english)})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/translate-thread")
+async def api_translate_thread(request: Request, campaign_id: int, lead_id: int):
+    """Batched sibling of /translate above, for the "Translate entire thread"
+    button: translates every requested message in ONE Claude call instead of
+    one call per message. `indices` lets the client skip messages it already
+    has cached from an earlier per-message or whole-thread translate; omitted
+    (or empty) means "all of them"."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    raw = _load_thread_raw(campaign_id, lead_id)
+    indices = body.get("indices")
+    if not isinstance(indices, list) or not indices:
+        indices = list(range(len(raw)))
+    indices = [i for i in indices if isinstance(i, int) and 0 <= i < len(raw)]
+    plains = [to_plain_text(raw[i].get("body")) for i in indices]
+    englishes = translator.translate_segments(plains)
+    htmls = [clean_email_html(e) for e in englishes]
+    return JSONResponse({"indices": indices, "htmls": htmls})
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/generate")
@@ -347,6 +370,24 @@ async def api_quick_draft(request: Request, campaign_id: int, lead_id: int):
     return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
 
 
+@app.post("/api/leads/{campaign_id}/{lead_id}/name")
+async def api_set_lead_name(request: Request, campaign_id: int, lead_id: int):
+    """Manual correction for when Smartlead's imported first_name is wrong —
+    locks the name (name_locked=1) so the next scan (which otherwise
+    overwrites leads_state.name from Smartlead's own first_name every run,
+    see scheduler._process_lead) doesn't revert it."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    name = (body.get("name") or "").strip()
+    if not name:
+        return JSONResponse({"error": "name is required."}, status_code=400)
+    with db.db_session() as conn:
+        db.upsert_lead_state(conn, lead_id, campaign_id, name=name, name_locked=1)
+    return JSONResponse({"ok": True})
+
+
 @app.post("/api/leads/{campaign_id}/{lead_id}/compose")
 def api_compose(request: Request, campaign_id: int, lead_id: int):
     """Opens a blank, directly-editable draft for this lead — no Claude call
@@ -391,6 +432,9 @@ async def api_draft_localize(request: Request, draft_id: int):
     english_text = to_plain_text(body.get("english_html", ""))
     if not english_text.strip():
         return JSONResponse({"error": "Nothing to apply."}, status_code=400)
+    model = body.get("model") or None
+    if model not in drafter.ALLOWED_MODELS:
+        model = None  # falls back to settings.anthropic_model
 
     with db.db_session() as conn:
         draft = db.get_draft(conn, draft_id)
@@ -401,7 +445,7 @@ async def api_draft_localize(request: Request, draft_id: int):
     target_lang = (lead["language"] if lead else None) or translator.detect_language(
         to_plain_text(draft["body_html"])
     )
-    localized = translator.localize_draft(english_text, target_lang)
+    localized = translator.localize_draft(english_text, target_lang, model=model)
     new_body_html = text_to_html(localized)
 
     with db.db_session() as conn:
@@ -545,6 +589,11 @@ async def api_send(request: Request, draft_id: int):
         draft = db.get_draft(conn, draft_id)
         if draft is None or draft["status"] not in ("pending", "scheduled"):
             return JSONResponse({"error": "Draft is no longer sendable."}, status_code=409)
+        log.info(
+            "[SIG-DEBUG] api_send: draft_id=%s posted_body_len=%d stored_signature_len=%d sender_email=%s",
+            draft_id, len(body.get("body_html") or ""), len(draft["signature_html"] or ""),
+            draft["sender_email"],
+        )
         db.update_draft(conn, draft_id, body_html=body.get("body_html", draft["body_html"]))
 
     scheduler._send_due_draft(dict(_get_draft_dict(draft_id)))
