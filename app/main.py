@@ -127,15 +127,28 @@ def _load_thread_raw(campaign_id: int, lead_id: int) -> list[dict]:
 
 
 def _thread_payload(raw: list[dict], lead_name: str) -> list[dict]:
+    # Attach a cached English translation per message when one already exists
+    # (from a prior translate), so the client can default that message to
+    # English. This is a lookup only — no message is translated on load, so
+    # opening a lead never spends tokens; English is the default solely for
+    # messages already in the cache. Keyed identically to the translate
+    # endpoints (hash of the plain-text body).
+    plains = [to_plain_text(m.get("body")) for m in raw]
+    hashes = [translator.source_hash(p) if p.strip() else None for p in plains]
+    with db.db_session() as conn:
+        cached = db.get_cached_translations(conn, [h for h in hashes if h])
+
     out = []
-    for m in raw:
+    for m, h in zip(raw, hashes):
         is_us = m.get("kind") == "sent"
+        english = clean_email_html(cached[h]) if (h and h in cached) else None
         out.append(
             {
                 "who": "us" if is_us else "lead",
                 "name": "You" if is_us else (lead_name or "Lead"),
                 "time": _fmt_time(m.get("timestamp")),
                 "html": clean_email_html(m.get("body")),
+                "english": english,
             }
         )
     return out
@@ -256,6 +269,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "company": (lead["company"] if lead else "") or "",
             "email": (lead["email"] if lead else "") or "",
             "language": ((lead["language"] if lead else "") or "").upper(),
+            "language_name": translator.language_name(lead["language"]) if (lead and lead["language"]) else None,
             "category": (lead["category"] if lead else "waiting") or "waiting",
             "archive_reason": lead["archive_reason"] if lead else None,
             "archived_at": _fmt_time(lead["archived_at"]) if lead and lead["archived_at"] else None,
@@ -295,7 +309,8 @@ async def api_translate_message(request: Request, campaign_id: int, lead_id: int
     if index < 0 or index >= len(raw):
         return JSONResponse({"error": "index out of range"}, status_code=400)
     plain = to_plain_text(raw[index].get("body"))
-    english = translator.translate_text(plain)
+    with db.db_session() as conn:
+        english = translator.translate_segments_cached(conn, [plain])[0]
     return JSONResponse({"html": clean_email_html(english)})
 
 
@@ -316,7 +331,8 @@ async def api_translate_thread(request: Request, campaign_id: int, lead_id: int)
         indices = list(range(len(raw)))
     indices = [i for i in indices if isinstance(i, int) and 0 <= i < len(raw)]
     plains = [to_plain_text(raw[i].get("body")) for i in indices]
-    englishes = translator.translate_segments(plains)
+    with db.db_session() as conn:
+        englishes = translator.translate_segments_cached(conn, plains)
     htmls = [clean_email_html(e) for e in englishes]
     return JSONResponse({"indices": indices, "htmls": htmls})
 
@@ -416,7 +432,8 @@ async def api_draft_translate(request: Request, draft_id: int):
     plain = to_plain_text(body.get("original_html", ""))
     if not plain.strip():
         return JSONResponse({"english_html": ""})
-    english = translator.translate_text(plain)
+    with db.db_session() as conn:
+        english = translator.translate_segments_cached(conn, [plain])[0]
     return JSONResponse({"english_html": clean_email_html(english)})
 
 
@@ -446,9 +463,11 @@ async def api_draft_localize(request: Request, draft_id: int):
         to_plain_text(draft["body_html"])
     )
     localized = translator.localize_draft(english_text, target_lang, model=model)
+    # body_html is the message body only — the signature is never part of the
+    # translate/localize round trip (that used to translate it and then append a
+    # second copy). It's stored separately (signature_html) and appended once,
+    # unchanged, at send time (scheduler.compose_send_body).
     new_body_html = text_to_html(localized)
-    if draft["signature_html"]:
-        new_body_html = f"{new_body_html}<br><br>{draft['signature_html']}"
 
     with db.db_session() as conn:
         db.update_draft(conn, draft_id, body_html=new_body_html, body_translation=english_text)

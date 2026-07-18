@@ -36,20 +36,26 @@ def _lead_language(lead: dict, thread) -> str | None:
 
 
 def compose_send_body(draft: dict) -> str:
-    """The actual email body to send. The signature is baked directly into
-    body_html at draft-creation time (app/pipeline.py) and re-embedded by the
-    English localize round-trip (app/main.py: api_draft_localize), so what's
-    shown/edited in the dashboard is exactly what goes out — no append here.
-    (Previously this tried to detect "is the signature already in body_html"
-    via an exact substring check and append if not — that broke as soon as
-    the draft was edited at all, because the browser re-serializes
-    contenteditable HTML slightly differently from the raw signature file
-    (quoting, whitespace, attribute order), so the check always concluded
-    "not embedded" post-edit and appended a second copy on every send.)"""
+    """The actual email body to send: the message body (body_html) plus the
+    persona's signature (signature_html), appended once here.
+
+    body_html now holds the message body ONLY — the signature is never baked
+    into it and is never part of the translate/localize round trip (that used
+    to translate the signature and append a second, mangled copy). Appending
+    here is the single, deterministic place the signature is added, so what
+    ships is exactly "edited body + untouched signature".
+
+    The append is guarded by a substring check purely to protect any legacy
+    draft created before this change (whose body_html may still have the
+    signature baked in): new drafts never contain it, so the check is reliably
+    True and appends once."""
     body = draft["body_html"] or ""
+    sig = draft["signature_html"] or ""
+    if sig and sig not in body:
+        body = f"{body}<br><br>{sig}" if body else sig
     log.info(
-        "[SIG-DEBUG] compose_send_body: draft_id=%s body_len=%d contains_table_tag=%s",
-        draft.get("id"), len(body), "<table" in body,
+        "[SIG-DEBUG] compose_send_body: draft_id=%s body_len=%d has_sig=%s contains_table_tag=%s",
+        draft.get("id"), len(body), bool(sig), "<table" in body,
     )
     return body
 

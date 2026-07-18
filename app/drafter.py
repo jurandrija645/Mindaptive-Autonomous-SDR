@@ -240,7 +240,19 @@ def generate_draft(
     # single tool-use round trip — confirmed in production usage logs as a
     # single draft making 7-8 sequential calls with input tokens climbing by
     # a few hundred each turn, each one repaying the full system prompt.
-    system_blocks = [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]
+    #
+    # ttl="1h" (vs the default 5-min ephemeral): drafts are click-triggered and
+    # spread through the day, so with a 5-min TTL the cache expires between
+    # drafts and each new draft re-pays the full system-prompt WRITE on its
+    # first turn. A 1-hour TTL keeps the identical prompt warm across a working
+    # session and the daily scan's batch of reply auto-drafts, so most drafts'
+    # first turn is a 0.1x cache READ instead. (1h writes cost 2x vs 1.25x, so
+    # this pays off at >=3 drafts/hour on the same model — the normal pattern;
+    # caches are model-scoped, so this benefits the default model path.) No beta
+    # header needed on the first-party API. Output is identical either way.
+    system_blocks = [
+        {"type": "text", "text": system, "cache_control": {"type": "ephemeral", "ttl": "1h"}}
+    ]
 
     response = client.messages.create(
         model=model,

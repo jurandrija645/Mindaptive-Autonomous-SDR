@@ -64,14 +64,16 @@ Visit `https://sdr.yourdomain.com`, confirm login works. Leave `DRY_RUN=true` fo
 git pull && docker compose up -d --build
 ```
 
-**Auto-deploy on push:** `deploy/auto-deploy.sh` checks `origin/main` for new commits and redeploys if found. Set it up once via cron so every push to `main` goes live within a couple minutes, no manual step needed:
+**Auto-deploy on push:** `deploy/auto-deploy.sh` pulls new commits from `origin/main` and runs `docker compose up -d --build`. It records the last successfully built SHA in `.deployed-sha`, so if a build fails (common under cron when `docker` isn't on PATH), the next run retries the build even when git is already up to date.
+
+Set it up once via cron so every push to `main` goes live within a couple minutes:
 
 ```
 chmod +x deploy/auto-deploy.sh
 (crontab -l 2>/dev/null; echo "*/2 * * * * $(pwd)/deploy/auto-deploy.sh >> $(pwd)/deploy/deploy.log 2>&1") | crontab -
 ```
 
-Check `deploy/deploy.log` on the droplet to see deploy history. This polls rather than reacts instantly (up to a 2-minute delay) — deliberately chosen over a GitHub Actions + SSH webhook setup since the droplet's firewall only allows outbound connections plus inbound SSH, so nothing needs to reach in to trigger it.
+Check `deploy/deploy.log` on the droplet to see deploy history. You want lines like `building/redeploying …` then `deploy complete` — if you only ever see a pull and no complete line, the build failed and the next cron tick should retry. This polls rather than reacts instantly (up to a 2-minute delay) — deliberately chosen over a GitHub Actions + SSH webhook setup since the droplet's firewall only allows outbound connections plus inbound SSH, so nothing needs to reach in to trigger it.
 
 ## 3. Day-to-day usage
 

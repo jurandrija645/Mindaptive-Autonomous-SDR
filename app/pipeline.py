@@ -38,9 +38,9 @@ def create_quick_draft(
         "[SIG-DEBUG] draft creation: lead_id=%s campaign_id=%s sender=%s signature_len=%d",
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
+    # body_html is the message body only; the signature is stored separately and
+    # appended unchanged at send time (scheduler.compose_send_body).
     body_html = text_to_html(native_text)
-    if signature_html:
-        body_html = f"{body_html}<br><br>{signature_html}"
 
     draft_id = db.create_draft(
         conn,
@@ -77,7 +77,9 @@ def create_manual_draft(conn, lead: dict, thread) -> int:
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
 
-    body_html = f"<br><br>{signature_html}" if signature_html else ""
+    # Blank body; the signature is stored separately and appended unchanged at
+    # send time (scheduler.compose_send_body).
+    body_html = ""
 
     draft_id = db.create_draft(
         conn,
@@ -112,9 +114,9 @@ def _create_static_autoreply_draft(conn, lead: dict, thread, native_text: str) -
         "[SIG-DEBUG] draft creation: lead_id=%s campaign_id=%s sender=%s signature_len=%d",
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
+    # body_html is the message body only; the signature is stored separately and
+    # appended unchanged at send time (scheduler.compose_send_body).
     body_html = text_to_html(native_text)
-    if signature_html:
-        body_html = f"{body_html}<br><br>{signature_html}"
 
     return db.create_draft(
         conn,
@@ -195,9 +197,9 @@ def create_draft(
         "[SIG-DEBUG] draft creation: lead_id=%s campaign_id=%s sender=%s signature_len=%d",
         lead["id"], lead["campaign_id"], sender_email, len(signature_html or ""),
     )
+    # body_html is the message body only; the signature is stored separately and
+    # appended unchanged at send time (scheduler.compose_send_body).
     body_html = text_to_html(result.body_original)
-    if signature_html:
-        body_html = f"{body_html}<br><br>{signature_html}"
 
     draft_id = db.create_draft(
         conn,

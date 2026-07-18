@@ -5,12 +5,14 @@ Andrew read a foreign-language thread in English on click — a low-stakes task,
 it runs on the cheapest Claude model (`ANTHROPIC_TRANSLATE_MODEL`, default
 claude-haiku-4-5), tool-free, in a single call for the whole thread.
 """
+import hashlib
 import logging
 import re
 
 import anthropic
 from langdetect import DetectorFactory, detect
 
+from app import db
 from app.config import settings
 
 log = logging.getLogger("translator")
@@ -93,6 +95,63 @@ def translate_segments(texts: list[str]) -> list[str]:
 
 def translate_text(text: str) -> str:
     return translate_segments([text])[0]
+
+
+def source_hash(text: str) -> str:
+    """Cache key for a translation: sha256 of the trimmed plain-text source. A
+    sent email is immutable, so this key is stable forever."""
+    return hashlib.sha256((text or "").strip().encode("utf-8")).hexdigest()
+
+
+def translate_segments_cached(conn, texts: list[str]) -> list[str]:
+    """Cache-aware sibling of translate_segments. For each segment:
+      - empty/whitespace → returned as-is (never hashed or stored);
+      - already in the DB cache (by source_hash) → served free;
+      - already English (langdetect) → returned unchanged with NO API call, and cached;
+      - otherwise → translated (all such misses in ONE translate_segments call) and cached.
+    A given message body is thus only ever sent to Claude once, ever.
+    """
+    n = len(texts)
+    results: list[str | None] = [None] * n
+    hashes: dict[int, str] = {}
+    for i, t in enumerate(texts):
+        if not (t and t.strip()):
+            results[i] = t
+            continue
+        hashes[i] = source_hash(t)
+
+    if not hashes:
+        return [r if r is not None else "" for r in results]
+
+    cached = db.get_cached_translations(conn, list(dict.fromkeys(hashes.values())))
+
+    # Collect the genuine misses, deduped by hash so an identical message that
+    # appears twice is only ever sent to the model once.
+    missing: dict[str, str] = {}  # hash -> representative source text
+    for i, h in hashes.items():
+        if h in cached:
+            results[i] = cached[h]
+        elif detect_language(texts[i]) == "en":
+            # Already English — no call needed; echo it back and remember that.
+            results[i] = texts[i]
+            db.put_cached_translation(conn, h, texts[i])
+            cached[h] = texts[i]
+        elif h not in missing:
+            missing[h] = texts[i]
+
+    if missing:
+        miss_hashes = list(missing.keys())
+        englishes = translate_segments([missing[h] for h in miss_hashes])
+        for h, english in zip(miss_hashes, englishes):
+            cached[h] = english
+            db.put_cached_translation(conn, h, english)
+
+    # Fill every index (including duplicates) from the now-complete cache map.
+    for i, h in hashes.items():
+        if results[i] is None:
+            results[i] = cached.get(h, texts[i])
+
+    return [r if r is not None else "" for r in results]
 
 
 _LOCALIZE_SYSTEM_TEMPLATE = (

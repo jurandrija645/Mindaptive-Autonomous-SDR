@@ -8,5 +8,7 @@ exports/
 *.db-journal
 *.db-wal
 *.db-shm
+.deployed-sha
+deploy/deploy.log
 .claude/
 .vscode/

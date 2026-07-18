@@ -310,7 +310,11 @@ function renderDetail() {
   editNameBtn.addEventListener("click", editLeadName);
   nameWrap.appendChild(editNameBtn);
   header.appendChild(nameWrap);
-  if (lead.language) header.appendChild(el("span", "lang-badge", lead.language));
+  if (lead.language) {
+    header.appendChild(
+      el("span", "lang-badge-prominent", `🌐 ${lead.language_name || lead.language}`)
+    );
+  }
   header.appendChild(el("span", `state-chip cat-${lead.category}`, CHIP[lead.category] || CHIP.waiting));
   body.appendChild(header);
   body.appendChild(el("div", "detail-sub", [lead.company, lead.email].filter(Boolean).join(" · ")));
@@ -321,15 +325,20 @@ function renderDetail() {
   body.appendChild(renderResearchPanel(lead));
   body.appendChild(renderLeadActionsBar(lead));
 
-  // thread — each message gets its own Translate button (per-message, not
-  // the whole thread at once) so a click only pays for what's actually read,
-  // plus one "Translate entire thread" button that batches whatever isn't
-  // already cached into a single call.
+  // thread — each message has an "English" checkbox (per-message, so a click
+  // only pays for what's actually read), plus a "Show whole thread in English"
+  // checkbox that batches whatever isn't already cached into a single call. A
+  // message that already has a cached translation (m.english) defaults to
+  // English; toggling never re-calls the API for something already fetched.
   const threadActions = el("div", "thread-actions");
-  const threadTranslateBtn = el("button", "btn-secondary btn-translate-thread", "Translate entire thread");
-  threadTranslateBtn.type = "button";
-  threadTranslateBtn.addEventListener("click", () => toggleThreadTranslate(threadTranslateBtn));
-  threadActions.appendChild(threadTranslateBtn);
+  const threadToggle = el("label", "thread-lang-toggle");
+  const threadCb = el("input", "thread-lang-cb");
+  threadCb.type = "checkbox";
+  threadCb.id = "thread-english-toggle";
+  threadToggle.appendChild(threadCb);
+  threadToggle.appendChild(document.createTextNode(" Show whole thread in English"));
+  threadCb.addEventListener("change", () => setThreadLang(threadCb));
+  threadActions.appendChild(threadToggle);
   body.appendChild(threadActions);
 
   const tc = el("div", "thread");
@@ -338,20 +347,27 @@ function renderDetail() {
     const wrap = el("div", `msg ${m.who}`);
     const meta = el("div", "msg-meta");
     meta.appendChild(document.createTextNode(`${m.name} · ${m.time} `));
-    const tbtn = el("button", "btn-translate-msg", "Translate");
-    tbtn.type = "button";
-    meta.appendChild(tbtn);
+    const toggle = el("label", "msg-lang-toggle");
+    const cb = el("input", "msg-lang-cb");
+    cb.type = "checkbox";
+    toggle.appendChild(cb);
+    toggle.appendChild(document.createTextNode(" English"));
+    meta.appendChild(toggle);
     wrap.appendChild(meta);
     const bubble = el("div", "bubble");
     bubble.dataset.index = idx;
     bubble.dataset.original = m.html;
-    bubble.dataset.mode = "orig";
-    bubble.innerHTML = m.html;
-    tbtn.addEventListener("click", () => toggleMessageTranslate(bubble, tbtn, idx));
+    const hasEnglish = !!m.english;
+    if (hasEnglish) bubble.dataset.translatedHtml = m.english;
+    bubble.dataset.mode = hasEnglish ? "en" : "orig";
+    bubble.innerHTML = hasEnglish ? m.english : m.html;
+    cb.checked = hasEnglish;
+    cb.addEventListener("change", () => setMessageLang(bubble, cb, idx));
     wrap.appendChild(bubble);
     tc.appendChild(wrap);
   });
   body.appendChild(tc);
+  syncThreadToggle();
 
   renderDraftSection(body);
 }
@@ -774,14 +790,11 @@ function renderDraftSection(body) {
   // English tab is actually opened, so it's always translated from whatever
   // is currently in the Original box rather than a stale generation-time value.
   state.editMode = "original";
-  // Belt-and-braces: the server already bakes the signature into body_html at
-  // creation time, but this guarantees it's visibly in the box (and therefore
-  // in whatever editorHtml() sends) even if that ever isn't true — no more
-  // "is it actually in there" guessing from a Network tab.
-  let bodyHtml = draft.body_html || "";
-  if (draft.signature_html && !bodyHtml.includes(draft.signature_html)) {
-    bodyHtml = `${bodyHtml}<br><br>${draft.signature_html}`;
-  }
+  // body_html is the message body only. The signature is shown as a separate,
+  // read-only preview below the editor (rendered once, visible in both the
+  // Original and English tabs) and appended unchanged at send time — it's never
+  // translated and never part of what the editor sends to translate/localize.
+  const bodyHtml = draft.body_html || "";
   state.originalHtml = bodyHtml;
   state.englishHtml = null;
 
@@ -817,6 +830,17 @@ function renderDraftSection(body) {
   editor.innerHTML = bodyHtml;
   editor.addEventListener("input", onEditorInput);
   box.appendChild(editor);
+
+  // Read-only signature preview — always visible (both tabs), never edited or
+  // translated. It ships verbatim at send time (scheduler.compose_send_body).
+  if (draft.signature_html) {
+    const sigWrap = el("div", "sig-preview");
+    sigWrap.appendChild(el("div", "sig-preview-label", "Signature — added automatically, not editable"));
+    const sigBody = el("div", "sig-preview-body");
+    sigBody.innerHTML = draft.signature_html;
+    sigWrap.appendChild(sigBody);
+    box.appendChild(sigWrap);
+  }
 
   const applyRow = el("div", "apply-row");
   applyRow.id = "apply-row";
@@ -951,51 +975,73 @@ async function applyEnglishEdit() {
 }
 
 // ---------- translate ----------
-// Per-message: each bubble caches its own translation on first click (in
-// dataset.translatedHtml) so re-toggling the same message never re-calls
-// the API. Only ever translates the one message clicked, not the thread.
-async function toggleMessageTranslate(bubble, btn, index) {
-  if (bubble.dataset.mode === "en") {
-    bubble.innerHTML = bubble.dataset.original;
-    bubble.dataset.mode = "orig";
-    btn.textContent = "Translate";
-    return;
-  }
-  const { cid, lid } = currentLeadIds();
-  btn.disabled = true;
-  btn.textContent = "Translating…";
-  try {
-    if (!bubble.dataset.translatedHtml) {
-      const data = await apiPost(`/api/leads/${cid}/${lid}/translate`, { index });
-      bubble.dataset.translatedHtml = data.html;
-    }
-    bubble.innerHTML = bubble.dataset.translatedHtml;
-    bubble.dataset.mode = "en";
-    btn.textContent = "Show original";
-  } catch (e) {
-    btn.textContent = "Translate";
-    alert("Translation failed: " + e.message);
-  } finally {
-    btn.disabled = false;
-  }
+// Each bubble caches its own translation (dataset.translatedHtml) so flipping a
+// message back and forth never re-calls the API. A message that arrived with a
+// cached translation (m.english) starts in English. The per-message and
+// whole-thread checkboxes share this same per-bubble state.
+function threadBubbles() {
+  return Array.from(document.querySelectorAll("#thread .bubble"));
 }
 
-// Shares bubble.dataset.translatedHtml/mode with the per-message Translate
-// buttons above, so nothing already translated one at a time gets re-sent to
-// the API — only whatever's still missing is requested, in one batched call.
-async function toggleThreadTranslate(btn) {
-  const bubbles = Array.from(document.querySelectorAll("#thread .bubble"));
-  if (!bubbles.length) return;
-  const allTranslated = bubbles.every((b) => b.dataset.mode === "en");
+function showBubbleOriginal(bubble) {
+  bubble.innerHTML = bubble.dataset.original;
+  bubble.dataset.mode = "orig";
+}
 
-  if (allTranslated) {
+function showBubbleEnglish(bubble) {
+  bubble.innerHTML = bubble.dataset.translatedHtml;
+  bubble.dataset.mode = "en";
+}
+
+// Keep the whole-thread checkbox in sync: checked only when every message is
+// currently showing English.
+function syncThreadToggle() {
+  const tcb = $("thread-english-toggle");
+  if (!tcb) return;
+  const bubbles = threadBubbles();
+  tcb.checked = bubbles.length > 0 && bubbles.every((b) => b.dataset.mode === "en");
+}
+
+// Per-message toggle. Unchecked → original; checked → English (fetched + cached
+// on first use, free thereafter).
+async function setMessageLang(bubble, cb, index) {
+  if (!cb.checked) {
+    showBubbleOriginal(bubble);
+    syncThreadToggle();
+    return;
+  }
+  if (!bubble.dataset.translatedHtml) {
+    const { cid, lid } = currentLeadIds();
+    cb.disabled = true;
+    try {
+      const data = await apiPost(`/api/leads/${cid}/${lid}/translate`, { index });
+      bubble.dataset.translatedHtml = data.html;
+    } catch (e) {
+      cb.checked = false;
+      cb.disabled = false;
+      alert("Translation failed: " + e.message);
+      return;
+    }
+    cb.disabled = false;
+  }
+  showBubbleEnglish(bubble);
+  syncThreadToggle();
+}
+
+// Whole-thread toggle. Reuses each bubble's cached translation, so only the
+// messages still missing one are requested — in a single batched call.
+async function setThreadLang(tcb) {
+  const bubbles = threadBubbles();
+  if (!bubbles.length) return;
+  const setRowChecks = (checked) =>
     bubbles.forEach((b) => {
-      b.innerHTML = b.dataset.original;
-      b.dataset.mode = "orig";
-      const tbtn = b.parentElement.querySelector(".btn-translate-msg");
-      if (tbtn) tbtn.textContent = "Translate";
+      const cb = b.parentElement.querySelector(".msg-lang-cb");
+      if (cb) cb.checked = checked;
     });
-    btn.textContent = "Translate entire thread";
+
+  if (!tcb.checked) {
+    bubbles.forEach(showBubbleOriginal);
+    setRowChecks(false);
     return;
   }
 
@@ -1004,8 +1050,7 @@ async function toggleThreadTranslate(btn) {
     if (!b.dataset.translatedHtml) needed.push(i);
   });
 
-  btn.disabled = true;
-  btn.textContent = "Translating…";
+  tcb.disabled = true;
   try {
     if (needed.length) {
       const { cid, lid } = currentLeadIds();
@@ -1014,18 +1059,13 @@ async function toggleThreadTranslate(btn) {
         bubbles[idx].dataset.translatedHtml = data.htmls[k];
       });
     }
-    bubbles.forEach((b) => {
-      b.innerHTML = b.dataset.translatedHtml;
-      b.dataset.mode = "en";
-      const tbtn = b.parentElement.querySelector(".btn-translate-msg");
-      if (tbtn) tbtn.textContent = "Show original";
-    });
-    btn.textContent = "Show original thread";
+    bubbles.forEach(showBubbleEnglish);
+    setRowChecks(true);
   } catch (e) {
     alert("Translation failed: " + e.message);
-    btn.textContent = "Translate entire thread";
+    tcb.checked = false;
   } finally {
-    btn.disabled = false;
+    tcb.disabled = false;
   }
 }
 

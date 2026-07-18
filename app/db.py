@@ -86,6 +86,17 @@ CREATE TABLE IF NOT EXISTS candidates (
 );
 
 CREATE INDEX IF NOT EXISTS idx_candidates_status ON candidates (status);
+
+-- Persistent cache of per-message English translations (see translator.py).
+-- Keyed by a hash of the message's plain text: a sent email never changes, so
+-- its translation never changes — translate once, serve free forever after.
+-- Content-hash keying dedupes identical boilerplate across leads and needs no
+-- message_id plumbing.
+CREATE TABLE IF NOT EXISTS message_translations (
+    source_hash TEXT PRIMARY KEY,
+    english     TEXT NOT NULL,
+    created_at  TEXT NOT NULL
+);
 """
 
 
@@ -387,4 +398,26 @@ def update_candidate(conn, candidate_id: int, **fields) -> None:
     conn.execute(
         f"UPDATE candidates SET {set_clause} WHERE id = ?",
         list(fields.values()) + [candidate_id],
+    )
+
+
+# ---- translation cache helpers (see translator.translate_segments_cached) ----
+
+def get_cached_translations(conn, hashes: list[str]) -> dict[str, str]:
+    """Batch-lookup cached English translations by source hash. Returns only the
+    hashes that are present, mapped to their English text."""
+    if not hashes:
+        return {}
+    placeholders = ",".join("?" for _ in hashes)
+    rows = conn.execute(
+        f"SELECT source_hash, english FROM message_translations WHERE source_hash IN ({placeholders})",
+        hashes,
+    ).fetchall()
+    return {row["source_hash"]: row["english"] for row in rows}
+
+
+def put_cached_translation(conn, source_hash: str, english: str) -> None:
+    conn.execute(
+        "INSERT OR IGNORE INTO message_translations (source_hash, english, created_at) VALUES (?, ?, ?)",
+        (source_hash, english, now_iso()),
     )
