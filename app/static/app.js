@@ -66,6 +66,26 @@ async function loadCategories() {
 
 const $ = (id) => document.getElementById(id);
 
+const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
+
+function isMobileLayout() {
+  return MOBILE_MQ.matches;
+}
+function showMobileDetail() {
+  if (isMobileLayout()) document.body.classList.add("showing-detail");
+}
+function showMobileList() {
+  document.body.classList.remove("showing-detail");
+}
+function goBackToMobileList() {
+  state.selected = -1;
+  state.detail = null;
+  renderList();
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  showMobileList();
+}
+
 // ---------- helpers ----------
 function el(tag, cls, text) {
   const n = document.createElement(tag);
@@ -130,6 +150,7 @@ async function loadArchive() {
   renderList();
   $("detail-body").hidden = true;
   $("detail-empty").hidden = false;
+  showMobileList();
   return data;
 }
 
@@ -141,6 +162,7 @@ async function loadScheduled() {
   renderList();
   $("detail-body").hidden = true;
   $("detail-empty").hidden = false;
+  showMobileList();
   return data;
 }
 
@@ -156,6 +178,7 @@ function setView(view) {
   state.selected = -1;
   $("detail-body").hidden = true;
   $("detail-empty").hidden = false;
+  showMobileList();
   VIEW_LOADERS[view]().catch((e) => console.error(e));
 }
 
@@ -248,6 +271,7 @@ async function selectLead(i) {
   const body = $("detail-body");
   body.hidden = false;
   body.innerHTML = '<div class="loading-note"><span class="spinner"></span>Loading conversation…</div>';
+  showMobileDetail();
 
   try {
     const data = await apiGet(`/api/leads/${lead.campaign_id}/${lead.lead_id}`);
@@ -255,7 +279,14 @@ async function selectLead(i) {
     renderDetail();
     if (data.generating) pollGeneration(lead.campaign_id, lead.lead_id);
   } catch (e) {
-    body.innerHTML = `<div class="error-note">Couldn't load this lead: ${e.message}</div>`;
+    body.innerHTML = "";
+    if (isMobileLayout()) {
+      const backBtn = el("button", "btn-back", "← Back");
+      backBtn.type = "button";
+      backBtn.addEventListener("click", goBackToMobileList);
+      body.appendChild(backBtn);
+    }
+    body.appendChild(el("div", "error-note", `Couldn't load this lead: ${e.message}`));
   }
 }
 
@@ -265,6 +296,12 @@ function renderDetail() {
   body.innerHTML = "";
 
   const header = el("div", "detail-header");
+  if (isMobileLayout()) {
+    const backBtn = el("button", "btn-back", "← Back");
+    backBtn.type = "button";
+    backBtn.addEventListener("click", goBackToMobileList);
+    header.appendChild(backBtn);
+  }
   const nameWrap = el("span", "detail-name-wrap");
   nameWrap.appendChild(el("h2", null, lead.name));
   const editNameBtn = el("button", "btn-edit-name", "✎");
@@ -514,6 +551,7 @@ function renderQuickFollowups() {
 function closeTemplatesModal() {
   const overlay = $("templates-modal-overlay");
   if (overlay) overlay.remove();
+  document.body.style.overflow = "";
   document.removeEventListener("keydown", onTemplatesModalKeydown);
 }
 
@@ -562,6 +600,7 @@ function openTemplatesModal() {
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  document.body.style.overflow = "hidden";
   document.addEventListener("keydown", onTemplatesModalKeydown);
 }
 
@@ -817,6 +856,12 @@ function renderDraftSection(body) {
   regenBtn.id = "regen-btn";
   regenBtn.addEventListener("click", () => generate(noteInput.value));
   actions.appendChild(regenBtn);
+
+  const templatesBtn = el("button", "btn-secondary", "Use a template…");
+  templatesBtn.type = "button";
+  templatesBtn.title = "Replace this draft with a pre-written template";
+  templatesBtn.addEventListener("click", openTemplatesModal);
+  actions.appendChild(templatesBtn);
 
   const skipBtn = el("button", "btn-secondary", "Skip");
   skipBtn.addEventListener("click", () => skipDraft(draft.id));
@@ -1139,6 +1184,7 @@ async function withRowRemoval(action, index = state.selected) {
       renderList();
       $("detail-body").hidden = true;
       $("detail-empty").hidden = false;
+      showMobileList();
       return;
     }
     const next = Math.min(i, state.leads.length - 1);
@@ -1204,6 +1250,15 @@ document.querySelectorAll(".legend-item").forEach((item) => {
 });
 
 // ---------- init ----------
+function onMobileMqChange() {
+  if (!isMobileLayout()) showMobileList();
+}
+if (MOBILE_MQ.addEventListener) {
+  MOBILE_MQ.addEventListener("change", onMobileMqChange);
+} else if (MOBILE_MQ.addListener) {
+  MOBILE_MQ.addListener(onMobileMqChange);
+}
+
 $("rescan-btn").addEventListener("click", rescan);
 $("view-inbox-btn").addEventListener("click", () => setView("inbox"));
 $("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));

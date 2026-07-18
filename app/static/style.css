@@ -398,3 +398,93 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--border);
 }
 .error { color: var(--danger); font-size: 14px; }
+
+/* ---- phone layout (desktop rules above stay untouched) ---- */
+@media (max-width: 768px) {
+  html, body {
+    height: 100%;
+    height: 100dvh;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  header {
+    height: auto;
+    min-height: var(--header-h);
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 12px;
+    flex-shrink: 0;
+  }
+  header h1 { font-size: 15px; flex: 1 1 auto; min-width: 0; }
+  .header-right {
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+  .view-switch { flex: 1 1 auto; }
+  .view-tab { padding: 10px 12px; font-size: 13px; flex: 1; }
+  .header-right .btn-secondary { padding: 10px 12px; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    flex: 1;
+    min-height: 0;
+    height: auto;
+  }
+  .layout > * { min-height: 0; height: 100%; }
+
+  #detail { display: none; }
+  body.showing-detail #inbox { display: none; }
+  body.showing-detail #detail {
+    display: block;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .desktop-only-hint { display: none; }
+
+  .btn-back {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    margin-right: 4px;
+  }
+  .btn-back:hover { background: #efece6; }
+
+  .detail-body { padding: 12px 14px 40px; max-width: none; }
+  .detail-empty { padding: 40px 16px; }
+
+  .legend-item { padding: 8px 10px; font-size: 12px; }
+  .btn-translate-msg { padding: 8px 6px; font-size: 13px; }
+  .btn-edit-name { padding: 8px; font-size: 15px; }
+  .toolbar-btn { min-width: 40px; padding: 10px 12px; }
+  .modal-close { padding: 10px 12px; min-width: 44px; min-height: 44px; }
+
+  .msg { max-width: 100%; }
+  .bubble {
+    overflow-x: auto;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .bubble table { width: auto !important; max-width: 100%; }
+  .bubble img { max-width: 100%; height: auto; }
+
+  .snooze-control,
+  .snooze-picker { flex-wrap: wrap; }
+  .actions input[type=text] { min-width: 0; width: 100%; }
+  .actions .btn-send { width: 100%; padding: 12px 14px; font-size: 15px; }
+  .actions input[type=datetime-local] { width: 100%; }
+
+  .modal-overlay { padding: 12px; align-items: flex-end; }
+  .modal { max-height: 90dvh; max-height: 90vh; border-radius: 12px 12px 0 0; }
+
+  .login-box { margin: 40px auto; padding: 20px 16px; }
+}
