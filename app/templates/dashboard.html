@@ -8,6 +8,7 @@
       <button id="view-inbox-btn" class="view-tab active" type="button">Inbox</button>
       <button id="view-scheduled-btn" class="view-tab" type="button">Scheduled</button>
       <button id="view-archive-btn" class="view-tab" type="button">Archive</button>
+      <button id="view-stats-btn" class="view-tab" type="button">Stats</button>
     </div>
     <button id="rescan-btn" class="btn-secondary" type="button">Rescan now</button>
     <form method="post" action="/logout"><button class="btn-secondary" type="submit">Log out</button></form>
@@ -28,6 +29,7 @@
       <span class="legend-item" data-category="followup"><i class="dot dot-followup"></i>Follow-up due</span>
       <span class="legend-item" data-category="auto_reply"><i class="dot dot-auto_reply"></i>Auto-reply nudge</span>
       <span class="legend-item" data-category="waiting"><i class="dot dot-waiting"></i>In conversation</span>
+      <span class="legend-item" data-category="booked"><i class="dot dot-booked"></i>Meeting booked</span>
     </div>
     <ul id="lead-list" class="lead-list"></ul>
     <div id="inbox-empty" class="inbox-empty" hidden>

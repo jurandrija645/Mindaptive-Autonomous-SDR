@@ -109,6 +109,7 @@ def _build_user_message(
     steering_note: str | None = None,
     prior_research: str | None = None,
     use_web_search: bool = True,
+    followup_stage: str | None = None,
 ) -> str:
     if kind == "autoreply":
         task_desc = "short nudge reply to their auto-reply/out-of-office message"
@@ -119,6 +120,30 @@ def _build_user_message(
     lines = [
         f"Task: draft a {task_desc}.",
         "",
+    ]
+    # followup_stage (set by pipeline.create_draft from the lead's
+    # followup_count): "final" = last follow-up before the cap → use the
+    # Section 12 "closing this file" breakup pattern, which reliably gets a
+    # response out of dead threads. "revive" = the lead went cold past the cap
+    # and this is a one-off revival touch months later → fresh angle, no guilt.
+    if followup_stage == "final":
+        lines += [
+            "This is the FINAL follow-up for this lead. Write it as the graceful "
+            "close-out from Section 12 ('closing this file, it seems that now is not "
+            "the right time...') — polite, zero pressure, door left open. Adapt the "
+            "wording to this lead, don't copy it verbatim.",
+            "",
+        ]
+    elif followup_stage == "revive":
+        lines += [
+            "This is a REVIVAL touch: months have passed since the thread went cold "
+            "and the previous follow-up sequence ended. Re-open casually with a fresh "
+            "angle (something new about their business or a different solution fit) — "
+            "do NOT reference the silence, apologize, or rehash old follow-ups. Write "
+            "it like a peer circling back because something reminded you of them.",
+            "",
+        ]
+    lines += [
         "Lead data:",
         f"- Name: {lead.get('name', '')}",
         f"- Company: {lead.get('company', '')}",
@@ -192,6 +217,48 @@ class DraftResult:
         self.lead_research = lead_research
 
 
+def parse_draft_response(text: str) -> DraftResult:
+    """Parse the model's tagged output (Section 13 output contract) into a
+    DraftResult — shared by the interactive path below and the Batch API path
+    (app/batch_gen.py), so both produce identical draft rows."""
+    return DraftResult(
+        triage_summary=_extract_tag(text, "triage"),
+        body_original=_extract_tag(text, "draft_original"),
+        body_translation=_extract_tag(text, "draft_english"),
+        raw=text,
+        lead_research=_extract_tag(text, "lead_research"),
+    )
+
+
+def build_batch_request_params(
+    kind: str,
+    lead: dict,
+    thread_text: str,
+    prior_research: str | None = None,
+    followup_stage: str | None = None,
+    model: str | None = None,
+) -> dict:
+    """Message params for ONE request inside an Anthropic Batch API job
+    (app/batch_gen.py) — mirrors generate_draft's request exactly, minus the
+    web tools: a batch result can't continue a pause_turn tool loop, so batch
+    generation is only used for leads whose research already exists. The
+    identical cached system prompt is shared across every request in the
+    batch (and with the interactive path)."""
+    model = model if model in ALLOWED_MODELS else settings.anthropic_model
+    user_message = _build_user_message(
+        kind, lead, thread_text, None, prior_research,
+        use_web_search=False, followup_stage=followup_stage,
+    )
+    return {
+        "model": model,
+        "max_tokens": 4096,
+        "system": [
+            {"type": "text", "text": system_prompt(), "cache_control": {"type": "ephemeral", "ttl": "1h"}}
+        ],
+        "messages": [{"role": "user", "content": user_message}],
+    }
+
+
 def generate_draft(
     kind: str,
     lead: dict,
@@ -200,6 +267,7 @@ def generate_draft(
     prior_research: str | None = None,
     model: str | None = None,
     use_web_search: bool = True,
+    followup_stage: str | None = None,
 ) -> DraftResult:
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     model = model if model in ALLOWED_MODELS else settings.anthropic_model
@@ -210,7 +278,8 @@ def generate_draft(
     # all, so Claude physically cannot call them no matter what it decides.
     use_web_search = use_web_search and kind != "autoreply"
     user_message = _build_user_message(
-        kind, lead, thread_text, steering_note, prior_research, use_web_search
+        kind, lead, thread_text, steering_note, prior_research, use_web_search,
+        followup_stage,
     )
     messages = [{"role": "user", "content": user_message}]
 
@@ -225,10 +294,27 @@ def generate_draft(
     # "'claude-haiku-4-5-20251001' does not support programmatic tool
     # calling... Explicitly set allowed_callers=["direct"] on these tools."
     # We don't use code-execution/programmatic tool calling anywhere here.
+    # max_uses / max_content_tokens: hard server-side caps on research spend.
+    # A single uncapped web_fetch can pull tens of thousands of tokens of page
+    # content into the conversation, and that content is then RE-SENT on every
+    # pause_turn continuation below — so one oversized fetch multiplies across
+    # the whole loop. 4 searches + 4 fetches at <=10k tokens each is plenty for
+    # the Website Diagnostic Framework (homepage + a contact/reviews page).
     tools = (
         [
-            {"type": "web_search_20260209", "name": "web_search", "allowed_callers": ["direct"]},
-            {"type": "web_fetch_20260209", "name": "web_fetch", "allowed_callers": ["direct"]},
+            {
+                "type": "web_search_20260209",
+                "name": "web_search",
+                "allowed_callers": ["direct"],
+                "max_uses": 4,
+            },
+            {
+                "type": "web_fetch_20260209",
+                "name": "web_fetch",
+                "allowed_callers": ["direct"],
+                "max_uses": 4,
+                "max_content_tokens": 10000,
+            },
         ]
         if use_web_search
         else []
@@ -254,12 +340,22 @@ def generate_draft(
         {"type": "text", "text": system, "cache_control": {"type": "ephemeral", "ttl": "1h"}}
     ]
 
+    # Top-level cache_control auto-places a breakpoint on the LAST cacheable
+    # block of the request (messages tier — the system prompt keeps its own
+    # explicit 1h breakpoint above; max 4 breakpoints per request, we use 2).
+    # Without it, only the system prompt is cached and every pause_turn
+    # continuation below re-pays the full growing conversation (user message +
+    # all accumulated web search/fetch results) at full input price. With it,
+    # each continuation reads the previous turns at ~0.1x and only pays full
+    # price for the newest tool results. Loop turns are seconds apart, so the
+    # default 5-minute TTL is more than enough here.
     response = client.messages.create(
         model=model,
         max_tokens=4096,
         system=system_blocks,
         tools=tools,
         messages=messages,
+        cache_control={"type": "ephemeral"},
     )
 
     # Capped: an uncapped pause_turn loop let a single draft run 7-8+ tool
@@ -281,14 +377,9 @@ def generate_draft(
             system=system_blocks,
             tools=tools,
             messages=messages,
+            cache_control={"type": "ephemeral"},
         )
 
     text = "".join(block.text for block in response.content if block.type == "text")
 
-    return DraftResult(
-        triage_summary=_extract_tag(text, "triage"),
-        body_original=_extract_tag(text, "draft_original"),
-        body_translation=_extract_tag(text, "draft_english"),
-        raw=text,
-        lead_research=_extract_tag(text, "lead_research"),
-    )
+    return parse_draft_response(text)

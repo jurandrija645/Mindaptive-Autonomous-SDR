@@ -2,6 +2,7 @@ import json
 import logging
 
 from app import autoreply_templates, db, drafter, signatures, smartlead, translator
+from app.config import settings
 from app.detector import last_sender_email, normalize_thread
 from app.thread_utils import render_thread_text, text_to_html
 
@@ -167,10 +168,21 @@ def create_draft(
     }
 
     prior_research = None
+    followup_stage = None
     if kind != "autoreply":
         lead_state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
         if lead_state and lead_state["research_summary"]:
             prior_research = lead_state["research_summary"]
+        # Follow-up stage steering (see drafter._build_user_message): the last
+        # follow-up before the cap becomes the Section 12 "closing this file"
+        # breakup; anything past the cap is a revival touch (detector only
+        # surfaces those after REVIVE_AFTER_DAYS of silence).
+        if kind == "followup" and lead_state:
+            count = lead_state["followup_count"] or 0
+            if count >= settings.max_followups:
+                followup_stage = "revive"
+            elif count == settings.max_followups - 1:
+                followup_stage = "final"
 
     if use_web_search is None:
         # Auto (no explicit caller choice, e.g. the daily-scan/webhook paths
@@ -181,8 +193,18 @@ def create_draft(
 
     result = drafter.generate_draft(
         kind, lead_payload, thread_text, steering_note, prior_research,
-        model=model, use_web_search=use_web_search,
+        model=model, use_web_search=use_web_search, followup_stage=followup_stage,
     )
+    # Record the model actually used (drafter falls back to the default for
+    # anything outside ALLOWED_MODELS) — feeds the Stats view's cost proxy.
+    resolved_model = model if model in drafter.ALLOWED_MODELS else settings.anthropic_model
+    return store_draft_result(conn, lead, kind, thread, result, model=resolved_model)
+
+
+def store_draft_result(conn, lead: dict, kind: str, thread, result, model: str | None = None) -> int:
+    """Persist a drafter.DraftResult as a pending draft row (plus the lead's
+    research summary). Shared by create_draft above and the Batch API result
+    handler (app/batch_gen.py) so both paths store byte-identical drafts."""
     last_message = thread[-1]
 
     if result.lead_research:
@@ -214,10 +236,11 @@ def create_draft(
         reply_email_time=last_message.timestamp.isoformat(),
         reply_stats_id=last_message.stats_id,
         status="pending",
-        lead_name=lead_payload["name"],
-        lead_company=lead_payload["company"],
-        lead_email=lead_payload["email"],
+        lead_name=lead.get("first_name") or lead.get("name") or "",
+        lead_company=lead.get("company_name") or lead.get("company") or "",
+        lead_email=lead.get("email"),
         sender_email=sender_email,
         signature_html=signature_html or None,
+        model=model,
     )
     return draft_id

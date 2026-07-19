@@ -172,7 +172,7 @@ def decide(
 ) -> Decision:
     now = now or datetime.now(timezone.utc)
 
-    if lead_status in ("stopped", "blacklisted"):
+    if lead_status in ("stopped", "blacklisted", "booked"):
         return Decision(Action.NONE, f"lead status is {lead_status}")
 
     if not thread:
@@ -186,15 +186,29 @@ def decide(
     if last.kind != "sent":
         return Decision(Action.NONE, "last message type is unrecognized, skipping to be safe")
 
+    age = now - last.timestamp
+
     if followup_count >= settings.max_followups:
+        # Capped — but a long-cold lead gets one quiet revival touch every
+        # revive_after_days (fresh angle, cadence effectively 1 touch / cycle
+        # since sending it bumps followup_count and resets the age clock).
+        if settings.revive_after_days > 0 and age >= timedelta(days=settings.revive_after_days):
+            return Decision(
+                Action.FOLLOWUP,
+                f"revival: {age.days}d since our last touch after hitting the "
+                f"{settings.max_followups} follow-up cap",
+            )
         return Decision(Action.NONE, f"already sent {followup_count} follow-ups, capped")
 
-    age = now - last.timestamp
-    wait = timedelta(days=settings.followup_wait_days)
-    if age < wait:
+    # Cadence list: wait time for follow-up #N is indexed by how many
+    # follow-ups have already gone out; the last value repeats past the end,
+    # so "3,4,6,8" spaces touches out as the thread goes colder.
+    waits = settings.followup_wait_days
+    wait_days = waits[min(followup_count, len(waits) - 1)]
+    if age < timedelta(days=wait_days):
         return Decision(
             Action.NONE,
-            f"only {age.days}d since our last message, waiting for {settings.followup_wait_days}d",
+            f"only {age.days}d since our last message, waiting for {wait_days}d",
         )
 
     return Decision(

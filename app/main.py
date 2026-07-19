@@ -13,7 +13,7 @@ from app import db, drafter, pipeline, scheduler, smartlead, translator, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
 from app.email_clean import clean_email_html, to_plain_text
-from app.thread_utils import text_to_html
+from app.thread_utils import next_morning_send_utc, text_to_html
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("main")
@@ -263,6 +263,13 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         draft = db.get_open_draft(conn, lead_id, campaign_id)
     lead_name = (lead["name"] if lead else None) or "Lead"
     raw = _load_thread_raw(campaign_id, lead_id)
+    draft_payload = _draft_payload(draft)
+    # Follow-ups default their Schedule picker to the lead's next weekday
+    # morning (campaign timezone) so they land when the lead actually reads
+    # email. Replies deliberately get no suggestion — those should go out now.
+    if draft_payload and draft_payload["kind"] == "followup":
+        tz_guess = (lead["timezone_guess"] if lead else None) or ""
+        draft_payload["suggested_schedule_at"] = next_morning_send_utc(tz_guess).isoformat()
     return {
         "lead": {
             "name": lead_name,
@@ -279,7 +286,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "email_display_name": (lead["email_display_name"] if lead else None) or None,
         },
         "thread": _thread_payload(raw, lead_name),
-        "draft": _draft_payload(draft),
+        "draft": draft_payload,
         "generating": candidates_module.is_generating(campaign_id, lead_id),
     }
 
@@ -639,7 +646,9 @@ async def api_schedule(request: Request, draft_id: int):
         return redirect
     body = await _json_body(request)
     try:
-        dt = datetime.fromisoformat(body.get("scheduled_at", ""))
+        # Client sends UTC ISO (toISOString, may carry a Z suffix); naive
+        # values from any older client are treated as UTC as before.
+        dt = datetime.fromisoformat((body.get("scheduled_at", "")).replace("Z", "+00:00"))
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=timezone.utc)
     except ValueError:
@@ -684,6 +693,104 @@ def api_stop(request: Request, draft_id: int):
         db.update_draft(conn, draft_id, status="skipped")
         db.upsert_lead_state(conn, draft["lead_id"], draft["campaign_id"], status="stopped")
     return JSONResponse({"ok": True})
+
+
+# ---- metrics ----
+
+@app.get("/api/metrics")
+def api_metrics(request: Request):
+    """Backs the dashboard's Stats view. Everything is derived from data the
+    app already records (drafts, leads_state, candidates) — no new tracking.
+    "Follow-up got a reply" is a proxy: a reply-kind draft created after the
+    follow-up was sent (every unanswered lead reply auto-drafts one), or the
+    lead's latest message being a reply newer than the send."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    try:
+        days = max(1, min(365, int(request.query_params.get("days", "30"))))
+    except ValueError:
+        days = 30
+    since = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+
+    with db.db_session() as conn:
+        sent_by_kind = {
+            r["kind"]: r["n"]
+            for r in conn.execute(
+                "SELECT kind, COUNT(*) AS n FROM drafts WHERE status = 'sent' AND sent_at >= ? GROUP BY kind",
+                (since,),
+            )
+        }
+        followups_sent = sent_by_kind.get("followup", 0)
+        followup_replies = conn.execute(
+            """SELECT COUNT(*) AS n FROM drafts d
+               WHERE d.kind = 'followup' AND d.status = 'sent' AND d.sent_at >= ?
+                 AND (EXISTS (SELECT 1 FROM drafts r
+                              WHERE r.lead_id = d.lead_id AND r.campaign_id = d.campaign_id
+                                AND r.kind = 'reply' AND r.created_at > d.sent_at)
+                      OR EXISTS (SELECT 1 FROM leads_state l
+                                 WHERE l.lead_id = d.lead_id AND l.campaign_id = d.campaign_id
+                                   AND l.last_message_kind = 'reply' AND l.last_message_at > d.sent_at))""",
+            (since,),
+        ).fetchone()["n"]
+        avg_reply_hours = conn.execute(
+            """SELECT AVG((julianday(sent_at) - julianday(reply_email_time)) * 24.0) AS h
+               FROM drafts
+               WHERE kind = 'reply' AND status = 'sent' AND sent_at >= ?
+                 AND reply_email_time IS NOT NULL""",
+            (since,),
+        ).fetchone()["h"]
+        booked_total = conn.execute(
+            "SELECT COUNT(*) AS n FROM leads_state WHERE booked_at IS NOT NULL"
+        ).fetchone()["n"]
+        booked_recent = conn.execute(
+            "SELECT COUNT(*) AS n FROM leads_state WHERE booked_at >= ?", (since,)
+        ).fetchone()["n"]
+        recent_booked = [
+            {
+                "name": r["name"] or r["email"] or "Lead",
+                "company": r["company"] or "",
+                "booked_at": _fmt_time(r["booked_at"]),
+            }
+            for r in conn.execute(
+                """SELECT name, email, company, booked_at FROM leads_state
+                   WHERE booked_at IS NOT NULL ORDER BY booked_at DESC LIMIT 10"""
+            )
+        ]
+        drafts_by_model = {
+            (r["model"] or "manual / template"): r["n"]
+            for r in conn.execute(
+                "SELECT model, COUNT(*) AS n FROM drafts WHERE created_at >= ? GROUP BY model",
+                (since,),
+            )
+        }
+        open_candidates = conn.execute(
+            "SELECT COUNT(*) AS n FROM candidates WHERE status = 'open'"
+        ).fetchone()["n"]
+        pending_drafts = conn.execute(
+            "SELECT COUNT(*) AS n FROM drafts WHERE status = 'pending'"
+        ).fetchone()["n"]
+        scheduled_drafts = conn.execute(
+            "SELECT COUNT(*) AS n FROM drafts WHERE status = 'scheduled'"
+        ).fetchone()["n"]
+
+    return JSONResponse(
+        {
+            "days": days,
+            "booked_total": booked_total,
+            "booked_recent": booked_recent,
+            "recent_booked": recent_booked,
+            "sent_by_kind": sent_by_kind,
+            "sent_total": sum(sent_by_kind.values()),
+            "followups_sent": followups_sent,
+            "followup_replies": followup_replies,
+            "avg_reply_hours": round(avg_reply_hours, 1) if avg_reply_hours is not None else None,
+            "drafts_by_model": drafts_by_model,
+            "open_candidates": open_candidates,
+            "pending_drafts": pending_drafts,
+            "scheduled_drafts": scheduled_drafts,
+        }
+    )
 
 
 # ---- scan ----

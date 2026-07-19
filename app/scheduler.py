@@ -1,11 +1,12 @@
 import logging
+import re
 import threading
 from datetime import datetime, timezone
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app import db, detector, pipeline, smartlead
+from app import batch_gen, db, detector, pipeline, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
@@ -18,6 +19,20 @@ _CATEGORY = {
     detector.Action.FOLLOWUP: "followup",
     detector.Action.NONE: "waiting",
 }
+
+
+def _category_id_fuzzy(categories: dict[str, int], name: str) -> int | None:
+    """Resolve a Smartlead category id by name, ignoring case and punctuation —
+    the account's real category is "Meeting-Booked" but config/humans write
+    "Meeting booked"; both should resolve to the same id."""
+    def norm(s: str) -> str:
+        return re.sub(r"[^a-z0-9]", "", s.lower())
+
+    want = norm(name)
+    for cat_name, cat_id in categories.items():
+        if norm(cat_name) == want:
+            return cat_id
+    return None
 
 
 def _lead_language(lead: dict, thread) -> str | None:
@@ -99,6 +114,7 @@ def run_daily_scan() -> None:
     categories = smartlead.fetch_categories()
     interested_id = categories.get(settings.interested_category_name)
     autoreply_id = categories.get(settings.autoreply_category_name)
+    booked_id = _category_id_fuzzy(categories, settings.meeting_booked_category_name)
     if interested_id is None:
         log.warning("could not resolve '%s' category id, skipping scan", settings.interested_category_name)
         return
@@ -106,6 +122,11 @@ def run_daily_scan() -> None:
         log.warning(
             "could not resolve '%s' category id — auto-reply leads won't be pulled in this scan",
             settings.autoreply_category_name,
+        )
+    if booked_id is None:
+        log.warning(
+            "could not resolve '%s' category id — booked leads won't be detected this scan",
+            settings.meeting_booked_category_name,
         )
 
     still_due_followups: set[tuple[int, int]] = set()
@@ -120,9 +141,14 @@ def run_daily_scan() -> None:
             if lead["id"] is None:
                 continue
             is_autoreply = detector.category_matches(lead, autoreply_id)
-            if not detector.is_interested(lead, interested_id) and not is_autoreply:
+            is_booked = detector.category_matches(lead, booked_id)
+            if (
+                not detector.is_interested(lead, interested_id)
+                and not is_autoreply
+                and not is_booked
+            ):
                 continue
-            if _process_lead(lead, campaign_name, is_autoreply):
+            if _process_lead(lead, campaign_name, is_autoreply, is_booked):
                 still_due_followups.add((lead["id"], lead["campaign_id"]))
 
     with db.db_session() as conn:
@@ -130,12 +156,26 @@ def run_daily_scan() -> None:
 
     log.info("daily scan done: %d leads still due for a follow-up", len(still_due_followups))
 
+    # Overnight pre-generation: hand every eligible due follow-up to the Batch
+    # API (50% token cost) so drafts are waiting for review by morning. The
+    # 5-minute poll job (start_scheduler) consumes the results. Failures here
+    # must never break the scan — candidates simply stay open for the
+    # interactive Generate path.
+    if settings.auto_generate_followups and still_due_followups:
+        try:
+            batch_gen.submit_followup_batch()
+        except Exception:
+            log.exception("follow-up batch submission failed")
 
-def _process_lead(lead: dict, campaign_name: str, is_autoreply: bool = False) -> bool:
+
+def _process_lead(
+    lead: dict, campaign_name: str, is_autoreply: bool = False, is_booked: bool = False
+) -> bool:
     """Record the lead's inbox summary and return True if it's an open follow-up
-    candidate. Every interested (or auto-reply) lead gets a leads_state row (so
-    it shows in the inbox); replies still auto-draft, follow-ups still become
-    candidates, auto-replies get a one-shot nudge draft."""
+    candidate. Every interested (or auto-reply, or booked) lead gets a
+    leads_state row (so it shows in the inbox); replies still auto-draft,
+    follow-ups still become candidates, auto-replies get a one-shot nudge
+    draft, and booked leads get frozen (db.mark_lead_booked)."""
     with db.db_session() as conn:
         state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
         followup_count = state["followup_count"] if state else 0
@@ -156,6 +196,19 @@ def _process_lead(lead: dict, campaign_name: str, is_autoreply: bool = False) ->
     # to Smartlead's own first_name on the very next run.
     if not name_locked:
         base_fields["name"] = lead["first_name"]
+
+    # Meeting booked — the success outcome. Freeze all outreach (open drafts
+    # stale, candidates dismissed, status 'booked') but keep the lead visible
+    # in the inbox with a "Booked" badge so pre-call context stays one click
+    # away. Skip the (network) thread fetch: nothing left to decide here, and
+    # replies from booked leads still auto-draft via the webhook path.
+    if is_booked:
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], **base_fields)
+            db.mark_lead_booked(conn, lead["id"], lead["campaign_id"])
+        if lead_status != "booked":
+            log.info("lead %s marked as booked (Meeting-Booked category)", lead["id"])
+        return False
 
     # Stopped/blacklisted leads stay out of the inbox — record the flag, skip the
     # (network) thread fetch, and don't touch their status.
@@ -185,6 +238,14 @@ def _process_lead(lead: dict, campaign_name: str, is_autoreply: bool = False) ->
                 log.info("drafting auto-reply nudge for lead %s", lead["id"])
                 pipeline.create_draft(conn, lead, campaign_name, "autoreply", thread)
         return False
+
+    # Category drives the booked state both ways: if a previously-booked lead
+    # is back in the Interested category (meeting fell through / new cycle),
+    # release the freeze so the normal reply/follow-up flow resumes.
+    if lead_status == "booked":
+        lead_status = "active"
+        base_fields["status"] = "active"
+        log.info("lead %s un-booked (category back to Interested)", lead["id"])
 
     decision = detector.decide(thread, followup_count, lead_status)
     summary = dict(
@@ -321,6 +382,7 @@ def start_scheduler() -> BackgroundScheduler:
         id="daily_scan",
     )
     sched.add_job(run_due_send_loop, "interval", minutes=1, id="due_send_loop")
+    sched.add_job(batch_gen.poll_gen_batches, "interval", minutes=5, id="gen_batch_poll")
     sched.start()
     _scheduler = sched
     return sched

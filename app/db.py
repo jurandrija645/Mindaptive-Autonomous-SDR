@@ -60,7 +60,8 @@ CREATE TABLE IF NOT EXISTS drafts (
     -- captured once at draft-creation time and baked directly into body_html
     -- (app/pipeline.py); kept here mainly so api_draft_localize can re-embed
     -- it after the English round-trip regenerates body_html from scratch
-    signature_html TEXT
+    signature_html TEXT,
+    model TEXT  -- Claude model that generated this draft; NULL for manual/template drafts
 );
 
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON drafts (status);
@@ -92,6 +93,17 @@ CREATE INDEX IF NOT EXISTS idx_candidates_status ON candidates (status);
 -- its translation never changes — translate once, serve free forever after.
 -- Content-hash keying dedupes identical boilerplate across leads and needs no
 -- message_id plumbing.
+-- Anthropic Batch API jobs submitted by app/batch_gen.py (overnight follow-up
+-- pre-generation at 50% token cost). One row per submitted batch; the
+-- 5-minute poll job closes it once results are consumed. Candidate linkage
+-- rides in each request's custom_id ("cand-<candidate_id>"), not here.
+CREATE TABLE IF NOT EXISTS gen_batches (
+    batch_id   TEXT PRIMARY KEY,
+    status     TEXT NOT NULL DEFAULT 'submitted',  -- submitted|done|failed
+    created_at TEXT NOT NULL,
+    ended_at   TEXT
+);
+
 CREATE TABLE IF NOT EXISTS message_translations (
     source_hash TEXT PRIMARY KEY,
     english     TEXT NOT NULL,
@@ -142,6 +154,8 @@ def _migrate(conn) -> None:
         conn.execute("ALTER TABLE drafts ADD COLUMN signature_html TEXT")
     if "reply_stats_id" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN reply_stats_id TEXT")
+    if "model" not in draft_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN model TEXT")
 
     lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
     inbox_columns = {
@@ -164,6 +178,9 @@ def _migrate(conn) -> None:
         # Smartlead's own name for the lead's inbox (webhook `to_name`), shown
         # next to `name` so a wrong imported first_name is easy to spot.
         "email_display_name": "TEXT",
+        # set when the scan sees Smartlead's "Meeting-Booked" category on the
+        # lead — the app's success metric. Never overwritten once set.
+        "booked_at": "TEXT",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
@@ -206,6 +223,30 @@ def increment_followup_count(conn, lead_id: int, campaign_id: int) -> None:
            SET followup_count = followup_count + 1, last_followup_at = ?, updated_at = ?
            WHERE lead_id = ? AND campaign_id = ?""",
         (now_iso(), now_iso(), lead_id, campaign_id),
+    )
+
+
+def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
+    """Meeting booked (Smartlead's "Meeting-Booked" category seen on the lead):
+    freeze all outreach for this lead — open drafts go stale, open candidates
+    are dismissed, status becomes 'booked' (detector.decide treats it like
+    stopped). booked_at is set once and never overwritten, so the first
+    booking date survives later rescans."""
+    conn.execute(
+        """UPDATE drafts SET status = 'stale'
+           WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending', 'scheduled')""",
+        (lead_id, campaign_id),
+    )
+    conn.execute(
+        """UPDATE candidates SET status = 'dismissed', reason = 'meeting booked', updated_at = ?
+           WHERE lead_id = ? AND campaign_id = ? AND status IN ('open', 'generating')""",
+        (now_iso(), lead_id, campaign_id),
+    )
+    upsert_lead_state(conn, lead_id, campaign_id, status="booked", category="booked")
+    conn.execute(
+        """UPDATE leads_state SET booked_at = ?
+           WHERE lead_id = ? AND campaign_id = ? AND booked_at IS NULL""",
+        (now_iso(), lead_id, campaign_id),
     )
 
 
@@ -398,6 +439,28 @@ def update_candidate(conn, candidate_id: int, **fields) -> None:
     conn.execute(
         f"UPDATE candidates SET {set_clause} WHERE id = ?",
         list(fields.values()) + [candidate_id],
+    )
+
+
+# ---- batch-generation helpers (see app/batch_gen.py) ----
+
+def create_gen_batch(conn, batch_id: str) -> None:
+    conn.execute(
+        "INSERT OR IGNORE INTO gen_batches (batch_id, status, created_at) VALUES (?, 'submitted', ?)",
+        (batch_id, now_iso()),
+    )
+
+
+def list_open_gen_batches(conn):
+    return conn.execute(
+        "SELECT * FROM gen_batches WHERE status = 'submitted' ORDER BY created_at ASC"
+    ).fetchall()
+
+
+def close_gen_batch(conn, batch_id: str, status: str = "done") -> None:
+    conn.execute(
+        "UPDATE gen_batches SET status = ?, ended_at = ? WHERE batch_id = ?",
+        (status, now_iso(), batch_id),
     )
 
 

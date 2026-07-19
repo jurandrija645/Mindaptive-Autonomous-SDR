@@ -15,6 +15,8 @@
   --autoreply: #6a5acd;  /* violet — auto-reply/OOO, needs a forward-nudge */
   --autoreply-bg: #ece9fa;
   --waiting: #b8b2a6;    /* neutral */
+  --booked: #2e8b57;     /* green — meeting booked, outreach frozen */
+  --booked-bg: #e4f3ea;
 
   --header-h: 56px;
 }
@@ -129,6 +131,7 @@ button:disabled { opacity: .55; cursor: default; }
 .dot-followup { background: var(--followup); }
 .dot-auto_reply { background: var(--autoreply); }
 .dot-waiting { background: var(--waiting); }
+.dot-booked { background: var(--booked); }
 
 .lead-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; }
 .inbox-empty { padding: 24px 16px; color: var(--muted); font-size: 14px; }
@@ -145,8 +148,22 @@ button:disabled { opacity: .55; cursor: default; }
 .lead-row.cat-followup { border-left-color: var(--followup); }
 .lead-row.cat-auto_reply { border-left-color: var(--autoreply); }
 .lead-row.cat-waiting { border-left-color: var(--waiting); }
+.lead-row.cat-booked { border-left-color: var(--booked); }
 .lead-row.archive-row { border-left-color: var(--waiting); display: flex; flex-direction: column; }
 .lead-row.sent-out { opacity: .4; transition: opacity .3s ease; }
+
+/* Stats view rows (see renderStats in app.js) */
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+.stat-label { color: var(--text); overflow: hidden; text-overflow: ellipsis; }
+.stat-value { color: var(--muted); font-weight: 600; white-space: nowrap; }
 
 .list-section {
   padding: 8px 14px 4px;
@@ -192,6 +209,7 @@ button:disabled { opacity: .55; cursor: default; }
 .state-chip.cat-followup { background: var(--followup-bg); color: var(--followup); }
 .state-chip.cat-auto_reply { background: var(--autoreply-bg); color: var(--autoreply); }
 .state-chip.cat-waiting { background: #eeece7; color: var(--muted); }
+.state-chip.cat-booked { background: var(--booked-bg); color: var(--booked); }
 .ready-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-left: auto; flex-shrink: 0; }
 
 /* ---- detail (right) ---- */
