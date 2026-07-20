@@ -353,7 +353,25 @@ button:disabled { opacity: .55; cursor: default; }
 }
 .draft-editor img {
   max-width: 100%; height: auto;
+  cursor: pointer;
 }
+.draft-editor img.img-selected { outline: 2px solid var(--accent); outline-offset: 2px; }
+.draft-editor.uploading { opacity: 0.6; cursor: progress; }
+
+/* Floating resize bar, pinned above the image that's currently selected. */
+.image-bar {
+  position: fixed; z-index: 50; display: none; align-items: center; gap: 6px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 5px 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+.image-bar-btn {
+  background: #fff; color: var(--text); border: 1px solid var(--border);
+  padding: 3px 9px; border-radius: 6px; font-size: 12px; cursor: pointer;
+}
+.image-bar-btn:hover { background: #efece6; }
+.image-bar-del { color: #a33; }
+.image-bar-slider { width: 110px; }
+.image-bar-pct { font-size: 12px; color: var(--muted); min-width: 34px; }
 .draft-editor {
   min-height: 200px;
   border: 1px solid var(--border);

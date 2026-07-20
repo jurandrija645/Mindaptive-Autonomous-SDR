@@ -32,6 +32,8 @@ class Settings:
     public_base_url: str = os.getenv("PUBLIC_BASE_URL", "http://localhost:8080")
 
     db_path: str = os.getenv("DB_PATH", "/data/responder.db")
+    # Draft images live beside the DB, on the same Docker volume.
+    upload_dir: str = os.getenv("UPLOAD_DIR", "/data/uploads")
 
     dry_run: bool = field(default_factory=lambda: _bool("DRY_RUN", True))
     auto_send_followups: bool = field(

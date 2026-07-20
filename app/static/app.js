@@ -10,6 +10,7 @@ const state = {
   selected: -1,
   detail: null,          // current lead detail {lead, thread, draft}
   categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
+  selectedImage: null,   // <img> in the editor currently targeted by the resize bar
 };
 
 const CHIP = {
@@ -772,14 +773,212 @@ function insertLink() {
   onEditorInput();
 }
 
-function insertImageUrl() {
+// ---------- images ----------
+// Widest an image should ever render in an email client. Also the reference
+// width "100%" means in the resize bar, so a huge screenshot doesn't count as
+// 100% at 3000px and blow the layout out in Outlook.
+const MAX_EMAIL_IMG_WIDTH = 600;
+const IMAGE_URL_RE = /^https?:\/\/\S+\.(png|jpe?g|gif|webp)(\?\S*)?$/i;
+
+function imageBaseWidth(img) {
+  return Math.min(img.naturalWidth || MAX_EMAIL_IMG_WIDTH, MAX_EMAIL_IMG_WIDTH);
+}
+
+// Outlook ignores CSS width on images, so the pixel size has to go on the
+// width *attribute* as well; the inline max-width keeps it from overflowing
+// narrow/mobile clients that do honour CSS.
+function setImageWidth(img, pct) {
+  const px = Math.max(40, Math.round((imageBaseWidth(img) * pct) / 100));
+  img.dataset.widthPct = String(pct);
+  img.setAttribute("width", String(px));
+  img.style.width = px + "px";
+  img.style.height = "auto";
+  img.style.maxWidth = "100%";
+  onEditorInput();
+  positionImageBar();
+}
+
+function insertImageAtCursor(url) {
   const editor = $("draft-editor");
   editor.focus();
-  const url = window.prompt("Image URL (must already be hosted somewhere public — this inserts a link to it, not an upload):");
-  if (!url) return;
-  document.execCommand("insertHTML", false, `<img src="${escapeHtml(url)}" style="max-width:100%;">`);
+  const marker = "pending-img-" + Date.now();
+  document.execCommand(
+    "insertHTML",
+    false,
+    `<img id="${marker}" src="${escapeHtml(url)}" style="max-width:100%;height:auto;">&nbsp;`
+  );
+  const img = document.getElementById(marker);
+  if (!img) return;
+  img.removeAttribute("id");
+  // naturalWidth is 0 until the image has actually loaded, so the default
+  // sizing has to wait for it — otherwise every image would come in at 600px.
+  const apply = () => {
+    setImageWidth(img, 100);
+    selectEditorImage(img);
+  };
+  if (img.complete && img.naturalWidth) apply();
+  else img.addEventListener("load", apply, { once: true });
   onEditorInput();
 }
+
+async function uploadAndInsertImage(file) {
+  const editor = $("draft-editor");
+  if (editor) editor.classList.add("uploading");
+  try {
+    const fd = new FormData();
+    fd.append("file", file);
+    const r = await fetch("/api/uploads", { method: "POST", body: fd });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.error || "Upload failed");
+    insertImageAtCursor(data.url);
+  } catch (e) {
+    alert("Couldn't upload that image: " + e.message);
+  } finally {
+    if (editor) editor.classList.remove("uploading");
+  }
+}
+
+function pickImageFile() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/png,image/jpeg,image/gif,image/webp";
+  input.addEventListener("change", () => {
+    if (input.files && input.files[0]) uploadAndInsertImage(input.files[0]);
+  });
+  input.click();
+}
+
+function firstImageFile(list) {
+  return Array.from(list || []).find((f) => f && f.type && f.type.startsWith("image/")) || null;
+}
+
+// Paste: a screenshot straight off the clipboard gets uploaded and hosted
+// here; a bare image URL (the old imgur "open image in new tab, copy address"
+// route) becomes a real <img> instead of a line of link text, so it can be
+// resized like any other image.
+async function onEditorPaste(e) {
+  const items = Array.from((e.clipboardData && e.clipboardData.items) || []);
+  const fileItem = items.find((i) => i.kind === "file" && i.type.startsWith("image/"));
+  if (fileItem) {
+    const file = fileItem.getAsFile();
+    if (file) {
+      e.preventDefault();
+      await uploadAndInsertImage(file);
+      return;
+    }
+  }
+  const text = ((e.clipboardData && e.clipboardData.getData("text/plain")) || "").trim();
+  if (IMAGE_URL_RE.test(text)) {
+    e.preventDefault();
+    insertImageAtCursor(text);
+  }
+}
+
+function onEditorDrop(e) {
+  const file = firstImageFile(e.dataTransfer && e.dataTransfer.files);
+  if (!file) return;
+  e.preventDefault();
+  uploadAndInsertImage(file);
+}
+
+// ---------- image resize bar ----------
+// A floating bar pinned above whichever image is selected. Presets cover the
+// common cases in one click; the slider is the "drag to size" fallback.
+function ensureImageBar() {
+  let bar = $("image-bar");
+  if (bar) return bar;
+  bar = el("div", "image-bar");
+  bar.id = "image-bar";
+  bar.addEventListener("mousedown", (e) => e.preventDefault()); // keep editor selection
+
+  [["S", 25], ["M", 50], ["L", 75], ["Full", 100]].forEach(([label, pct]) => {
+    const b = el("button", "image-bar-btn", label);
+    b.type = "button";
+    b.title = `Resize to ${pct}%`;
+    b.addEventListener("click", () => {
+      if (state.selectedImage) setImageWidth(state.selectedImage, pct);
+    });
+    bar.appendChild(b);
+  });
+
+  const slider = el("input");
+  slider.type = "range";
+  slider.id = "image-bar-slider";
+  slider.min = "10";
+  slider.max = "100";
+  slider.className = "image-bar-slider";
+  slider.addEventListener("input", () => {
+    if (state.selectedImage) setImageWidth(state.selectedImage, Number(slider.value));
+  });
+  bar.appendChild(slider);
+
+  const pctLabel = el("span", "image-bar-pct", "100%");
+  pctLabel.id = "image-bar-pct";
+  bar.appendChild(pctLabel);
+
+  const del = el("button", "image-bar-btn image-bar-del", "Remove");
+  del.type = "button";
+  del.addEventListener("click", () => {
+    if (!state.selectedImage) return;
+    state.selectedImage.remove();
+    deselectEditorImage();
+    onEditorInput();
+  });
+  bar.appendChild(del);
+
+  document.body.appendChild(bar);
+  return bar;
+}
+
+function selectEditorImage(img) {
+  if (state.selectedImage && state.selectedImage !== img) {
+    state.selectedImage.classList.remove("img-selected");
+  }
+  state.selectedImage = img;
+  img.classList.add("img-selected");
+  const bar = ensureImageBar();
+  bar.style.display = "flex";
+  const pct = Number(img.dataset.widthPct || 100);
+  $("image-bar-slider").value = String(pct);
+  $("image-bar-pct").textContent = pct + "%";
+  positionImageBar();
+}
+
+function deselectEditorImage() {
+  if (state.selectedImage) state.selectedImage.classList.remove("img-selected");
+  state.selectedImage = null;
+  const bar = $("image-bar");
+  if (bar) bar.style.display = "none";
+}
+
+function positionImageBar() {
+  const img = state.selectedImage;
+  const bar = $("image-bar");
+  if (!img || !bar || !img.isConnected) return;
+  const pct = Number(img.dataset.widthPct || 100);
+  $("image-bar-pct").textContent = pct + "%";
+  const r = img.getBoundingClientRect();
+  bar.style.top = Math.max(8, r.top - bar.offsetHeight - 8) + "px";
+  bar.style.left = Math.max(8, r.left) + "px";
+}
+
+function onEditorClick(e) {
+  if (e.target && e.target.tagName === "IMG" && state.editMode === "original") {
+    selectEditorImage(e.target);
+  } else {
+    deselectEditorImage();
+  }
+}
+
+document.addEventListener("click", (e) => {
+  const bar = $("image-bar");
+  const editor = $("draft-editor");
+  if (!state.selectedImage) return;
+  if ((bar && bar.contains(e.target)) || (editor && editor.contains(e.target))) return;
+  deselectEditorImage();
+});
+window.addEventListener("scroll", positionImageBar, true);
+window.addEventListener("resize", positionImageBar);
 
 function renderEditorToolbar() {
   const bar = el("div", "editor-toolbar");
@@ -810,8 +1009,8 @@ function renderEditorToolbar() {
   linkBtn.addEventListener("click", insertLink);
   const imgBtn = el("button", "toolbar-btn", "Image");
   imgBtn.type = "button";
-  imgBtn.title = "Insert image from a URL";
-  imgBtn.addEventListener("click", insertImageUrl);
+  imgBtn.title = "Insert an image — or just paste/drag one into the message. Click an inserted image to resize it.";
+  imgBtn.addEventListener("click", pickImageFile);
   const clearBtn = el("button", "toolbar-btn", "Clear formatting");
   clearBtn.type = "button";
   clearBtn.title = "Remove formatting";
@@ -822,6 +1021,7 @@ function renderEditorToolbar() {
 
 function renderDraftSection(body) {
   const draft = state.detail.draft;
+  deselectEditorImage(); // any previously selected <img> is about to be discarded
   const section = el("div");
   section.id = "draft-section";
 
@@ -899,6 +1099,10 @@ function renderDraftSection(body) {
   editor.contentEditable = "true";
   editor.innerHTML = bodyHtml;
   editor.addEventListener("input", onEditorInput);
+  editor.addEventListener("paste", onEditorPaste);
+  editor.addEventListener("dragover", (e) => e.preventDefault());
+  editor.addEventListener("drop", onEditorDrop);
+  editor.addEventListener("click", onEditorClick);
   box.appendChild(editor);
 
   // Read-only signature preview — always visible (both tabs), never edited or
@@ -973,10 +1177,23 @@ function renderDraftSection(body) {
   body.appendChild(section);
 }
 
+// The selection outline on a clicked image is a class on the <img> itself, so
+// it would otherwise ride along into body_html and out to the lead. Strip it
+// on the way out — this is the only place editor HTML is read for storage.
+function editorSerialize(editor) {
+  if (!editor.querySelector(".img-selected")) return editor.innerHTML;
+  const clone = editor.cloneNode(true);
+  clone.querySelectorAll(".img-selected").forEach((n) => {
+    n.classList.remove("img-selected");
+    if (!n.className) n.removeAttribute("class");
+  });
+  return clone.innerHTML;
+}
+
 function onEditorInput() {
   const editor = $("draft-editor");
   if (state.editMode === "original") {
-    state.originalHtml = editor.innerHTML;
+    state.originalHtml = editorSerialize(editor);
     state.englishHtml = null; // invalidate — refetch fresh next time English is viewed
   } else {
     state.englishHtml = editor.innerHTML;
@@ -993,8 +1210,9 @@ function toggleActionButtons(enabled) {
 async function setEditMode(mode, opts = {}) {
   if (mode === state.editMode) return;
   const editor = $("draft-editor");
+  deselectEditorImage(); // the English tab replaces the editor's contents
   if (!opts.skipStash) {
-    if (state.editMode === "original") state.originalHtml = editor.innerHTML;
+    if (state.editMode === "original") state.originalHtml = editorSerialize(editor);
     else state.englishHtml = editor.innerHTML;
   }
   state.editMode = mode;

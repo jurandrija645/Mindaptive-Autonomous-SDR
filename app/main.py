@@ -4,12 +4,12 @@ import time
 from datetime import datetime, timedelta, timezone
 
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app import candidates as candidates_module
-from app import db, drafter, pipeline, scheduler, smartlead, translator, webhook
+from app import db, drafter, pipeline, scheduler, smartlead, translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
 from app.email_clean import clean_email_html, to_plain_text
@@ -423,6 +423,40 @@ def api_compose(request: Request, campaign_id: int, lead_id: int):
     if not draft_id:
         return JSONResponse({"error": "Could not create draft for this lead."}, status_code=404)
     return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
+
+
+# ---- image uploads ----
+
+@app.post("/api/uploads")
+async def api_upload(request: Request):
+    """Accepts an image pasted/dropped into the draft editor and returns the
+    absolute URL to reference it by. Andrew used to round-trip these through
+    imgur by hand; this keeps them on our own domain so the editor can also
+    resize them."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    form = await request.form()
+    upload = form.get("file")
+    if upload is None or not hasattr(upload, "read"):
+        return JSONResponse({"error": "No file uploaded."}, status_code=400)
+    data = await upload.read()
+    try:
+        url, name = uploads.save_image(data)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    return JSONResponse({"url": url, "name": name})
+
+
+@app.get("/i/{name}")
+def serve_upload(name: str):
+    """Deliberately unauthenticated — the recipient's mail client fetches this
+    with no session. The random filename is the only credential."""
+    resolved = uploads.resolve(name)
+    if not resolved:
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    path, ctype = resolved
+    return FileResponse(path, media_type=ctype, headers={"Cache-Control": "public, max-age=31536000"})
 
 
 # ---- draft translation (English tab) ----
