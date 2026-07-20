@@ -1,14 +1,21 @@
 import logging
+import threading
 
 import httpx
 from fastapi import APIRouter, HTTPException, Request
-from starlette.concurrency import run_in_threadpool
 
 from app import db, pipeline, smartlead
 from app.config import settings
 
 log = logging.getLogger("webhook")
 router = APIRouter()
+
+# Leads currently being drafted by a webhook worker. Smartlead can fire the
+# same reply event more than once (retries, or the n8n forward racing the
+# daily scan); has_open_draft only guards against an *already saved* draft, so
+# this covers the minutes-long window while Claude is still writing one.
+_in_flight: set[tuple[int, int]] = set()
+_in_flight_lock = threading.Lock()
 
 
 def _extract_ids(payload: dict) -> tuple[int | None, int | None]:
@@ -42,10 +49,29 @@ async def smartlead_webhook(request: Request):
         log.warning("webhook payload missing campaign_id/sl_email_lead_id: %s", payload)
         return {"status": "ignored", "reason": "missing ids"}
 
-    # pipeline.create_draft calls Claude synchronously (web search/fetch
-    # tools, can take minutes) — run the whole thing off the event loop so an
-    # incoming reply doesn't freeze the entire app for every other request.
-    return await run_in_threadpool(_process_reply, campaign_id, lead_id, payload)
+    # pipeline.create_draft calls Claude synchronously (web search/fetch tools,
+    # can take minutes) — far longer than the caller will wait: n8n's HTTP node
+    # and the Cloudflare tunnel (~100s) both time out well before it finishes.
+    # So ack straight away and draft in a background thread, same as bulk
+    # generate. The dashboard picks the draft up on its next poll.
+    key = (campaign_id, lead_id)
+    with _in_flight_lock:
+        if key in _in_flight:
+            return {"status": "ignored", "reason": "already drafting for this lead"}
+        _in_flight.add(key)
+
+    def _worker() -> None:
+        try:
+            result = _process_reply(campaign_id, lead_id, payload)
+            log.info("webhook draft for lead %s: %s", lead_id, result)
+        except Exception:
+            log.exception("webhook draft failed for lead %s", lead_id)
+        finally:
+            with _in_flight_lock:
+                _in_flight.discard(key)
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return {"status": "accepted", "lead_id": lead_id}
 
 
 def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
