@@ -779,6 +779,8 @@ function insertLink() {
 // 100% at 3000px and blow the layout out in Outlook.
 const MAX_EMAIL_IMG_WIDTH = 600;
 const IMAGE_URL_RE = /^https?:\/\/\S+\.(png|jpe?g|gif|webp)(\?\S*)?$/i;
+// A whole-clipboard bare URL (nothing else pasted alongside it).
+const PLAIN_URL_RE = /^(https?:\/\/|www\.)\S+$/i;
 
 function imageBaseWidth(img) {
   return Math.min(img.naturalWidth || MAX_EMAIL_IMG_WIDTH, MAX_EMAIL_IMG_WIDTH);
@@ -871,6 +873,19 @@ async function onEditorPaste(e) {
   if (IMAGE_URL_RE.test(text)) {
     e.preventDefault();
     insertImageAtCursor(text);
+    return;
+  }
+  // A pasted calendly/any other link should land as a clickable anchor, not
+  // as plain text the lead has to copy out by hand.
+  if (PLAIN_URL_RE.test(text) && !e.clipboardData.getData("text/html")) {
+    e.preventDefault();
+    const href = /^https?:/i.test(text) ? text : "https://" + text;
+    document.execCommand(
+      "insertHTML",
+      false,
+      `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>&nbsp;`
+    );
+    onEditorInput();
   }
 }
 

@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta, timezone
 from html import escape
 from zoneinfo import ZoneInfo
@@ -21,9 +22,45 @@ def render_thread_text(thread: list[NormalizedMessage]) -> str:
     return "\n".join(parts)
 
 
+_URL_RE = re.compile(r"https?://[^\s<>\"']+|www\.[^\s<>\"']+", re.IGNORECASE)
+# Punctuation that almost always belongs to the sentence, not the URL, when it
+# sits at the very end of one ("...check https://calendly.com/x/30min.").
+_URL_TRAILING = ".,;:!?)]}'\""
+
+
+def linkify(text: str) -> str:
+    """Escape plain text and turn bare URLs into real anchors.
+
+    Claude and the canned templates both write links as plain text
+    (`-> https://calendly.com/...`); mail clients don't reliably auto-link
+    those, so the lead would see unclickable text. Everything outside a URL
+    is still escaped exactly as before.
+    """
+    out: list[str] = []
+    pos = 0
+    for match in _URL_RE.finditer(text):
+        url = match.group(0)
+        trailing = ""
+        while url and url[-1] in _URL_TRAILING:
+            # A closing paren that balances one inside the URL is part of it.
+            if url[-1] == ")" and url.count("(") >= url.count(")"):
+                break
+            trailing = url[-1] + trailing
+            url = url[:-1]
+        if not url:
+            continue
+        href = url if url.lower().startswith("http") else "https://" + url
+        out.append(escape(text[pos : match.start()]))
+        out.append(f'<a href="{escape(href)}" target="_blank" rel="noopener">{escape(url)}</a>')
+        out.append(escape(trailing))
+        pos = match.end()
+    out.append(escape(text[pos:]))
+    return "".join(out)
+
+
 def text_to_html(body: str) -> str:
     paragraphs = [p.strip() for p in body.strip().split("\n\n") if p.strip()]
-    return "".join(f"<p>{escape(p).replace(chr(10), '<br>')}</p>" for p in paragraphs)
+    return "".join(f"<p>{linkify(p).replace(chr(10), '<br>')}</p>" for p in paragraphs)
 
 
 US_KEYWORDS = ("usa", "us -", "us-", "united states", "america")
