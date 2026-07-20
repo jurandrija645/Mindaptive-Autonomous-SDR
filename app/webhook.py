@@ -114,6 +114,15 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
         if not thread or thread[-1].kind != "reply":
             return {"status": "ignored", "reason": "no unanswered lead reply in thread"}
 
+        # Anything reaching this webhook has already been judged RELEVANT by the
+        # n8n classifier, so treat it as interested regardless of what Smartlead's
+        # own categoriser decided. Without interested=1 the lead is invisible in
+        # the dashboard — list_inbox_leads filters on it — so a reply from a lead
+        # sitting in "Uncategorizable by Ai" or "Not Interested" would silently
+        # produce a draft nobody could see.
+        db.upsert_lead_state(conn, lead_id, campaign_id, interested=1)
+        _promote_category_to_interested(campaign_id, lead_id, lead_row)
+
         campaign_name = payload.get("campaign_name", "")
         draft_id = pipeline.create_draft(conn, raw_lead, campaign_name, "reply", thread)
         db.upsert_lead_state(conn, lead_id, campaign_id, status="awaiting_reply")
@@ -122,6 +131,34 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
 
     _notify_n8n(dict(draft))
     return {"status": "ok", "draft_id": draft_id}
+
+
+def _promote_category_to_interested(campaign_id: int, lead_id: int, lead_row) -> None:
+    """Write "Interested" back to Smartlead so the daily scan picks this lead up
+    for follow-ups too — the scan filters on the Smartlead category, and would
+    otherwise keep skipping a lead we already know replied.
+
+    Never touches a lead we've recorded as booked: that category is the success
+    outcome and mark_lead_booked freezes outreach on it, so downgrading it to
+    Interested here would quietly un-book a won lead when they reply again.
+    Best-effort — a failure must not cost us the draft, which is the point of
+    the request.
+    """
+    if lead_row is not None and lead_row["status"] == "booked":
+        return
+    try:
+        interested_id = smartlead.fetch_categories().get(settings.interested_category_name)
+        if interested_id is None:
+            log.warning(
+                "could not resolve '%s' category id; leaving lead %s category as-is",
+                settings.interested_category_name,
+                lead_id,
+            )
+            return
+        smartlead.update_lead_category(campaign_id, lead_id, interested_id)
+        log.info("lead %s promoted to '%s'", lead_id, settings.interested_category_name)
+    except Exception:
+        log.exception("failed to set Interested category on lead %s", lead_id)
 
 
 def _notify_n8n(draft: dict) -> None:
