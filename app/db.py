@@ -61,7 +61,13 @@ CREATE TABLE IF NOT EXISTS drafts (
     -- (app/pipeline.py); kept here mainly so api_draft_localize can re-embed
     -- it after the English round-trip regenerates body_html from scratch
     signature_html TEXT,
-    model TEXT  -- Claude model that generated this draft; NULL for manual/template drafts
+    model TEXT,  -- Claude model that generated this draft; NULL for manual/template drafts
+    -- Andrew's explicit recipients for this send, set from the recipients row
+    -- in the dashboard. NULL means "no override" -> the send falls back to
+    -- detector.next_reply_to / next_reply_cc. An empty string is a real value
+    -- for cc_override: it means he deliberately cleared the auto-derived Cc.
+    cc_override TEXT,
+    to_override TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON drafts (status);
@@ -109,6 +115,18 @@ CREATE TABLE IF NOT EXISTS message_translations (
     english     TEXT NOT NULL,
     created_at  TEXT NOT NULL
 );
+
+-- Canned follow-up templates shown in the "Message templates" modal, editable
+-- from the dashboard (see app/main.py's /api/templates routes). Seeded once
+-- from message_templates.DEFAULT_TEMPLATES when the table is first created.
+CREATE TABLE IF NOT EXISTS message_templates (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    label      TEXT,
+    text       TEXT NOT NULL,
+    position   INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
 """
 
 
@@ -140,8 +158,16 @@ def db_session():
 
 def init_db() -> None:
     with db_session() as conn:
+        # Checked *before* SCHEMA runs: the seed must happen only on a database
+        # that has never had this table, not "whenever it's empty" — otherwise
+        # templates Andrew deleted would come back on the next restart.
+        needs_template_seed = conn.execute(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'message_templates'"
+        ).fetchone() is None
         conn.executescript(SCHEMA)
         _migrate(conn)
+        if needs_template_seed:
+            _seed_message_templates(conn)
 
 
 def _migrate(conn) -> None:
@@ -156,6 +182,10 @@ def _migrate(conn) -> None:
         conn.execute("ALTER TABLE drafts ADD COLUMN reply_stats_id TEXT")
     if "model" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN model TEXT")
+    if "cc_override" not in draft_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN cc_override TEXT")
+    if "to_override" not in draft_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN to_override TEXT")
 
     lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
     inbox_columns = {
@@ -484,3 +514,63 @@ def put_cached_translation(conn, source_hash: str, english: str) -> None:
         "INSERT OR IGNORE INTO message_translations (source_hash, english, created_at) VALUES (?, ?, ?)",
         (source_hash, english, now_iso()),
     )
+
+
+# ---- message template helpers (see app/main.py's /api/templates routes) ----
+
+def _seed_message_templates(conn) -> None:
+    """First-run only (see init_db) — the shipped starter set."""
+    from app.message_templates import DEFAULT_TEMPLATES
+
+    for position, tpl in enumerate(DEFAULT_TEMPLATES):
+        create_message_template(conn, tpl.get("label") or "", tpl["text"], position=position)
+
+
+def list_message_templates(conn):
+    return conn.execute(
+        "SELECT * FROM message_templates ORDER BY position ASC, id ASC"
+    ).fetchall()
+
+
+def get_message_template(conn, template_id: int):
+    return conn.execute(
+        "SELECT * FROM message_templates WHERE id = ?", (template_id,)
+    ).fetchone()
+
+
+def create_message_template(conn, label: str, text: str, position: int | None = None) -> int:
+    if position is None:
+        row = conn.execute("SELECT MAX(position) AS m FROM message_templates").fetchone()
+        position = ((row["m"] if row and row["m"] is not None else -1)) + 1
+    now = now_iso()
+    cur = conn.execute(
+        """INSERT INTO message_templates (label, text, position, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?)""",
+        (label, text, position, now, now),
+    )
+    return cur.lastrowid
+
+
+def update_message_template(conn, template_id: int, **fields) -> None:
+    fields["updated_at"] = now_iso()
+    set_clause = ",".join(f"{k} = ?" for k in fields)
+    conn.execute(
+        f"UPDATE message_templates SET {set_clause} WHERE id = ?",
+        list(fields.values()) + [template_id],
+    )
+
+
+def delete_message_template(conn, template_id: int) -> None:
+    conn.execute("DELETE FROM message_templates WHERE id = ?", (template_id,))
+
+
+def reorder_message_templates(conn, ordered_ids: list[int]) -> None:
+    """Renumber positions to match `ordered_ids` exactly (0, 1, 2, …). Cheaper
+    to reason about than swapping two rows' position values, and it also
+    repairs any duplicate/gapped positions left by earlier edits."""
+    now = now_iso()
+    for position, template_id in enumerate(ordered_ids):
+        conn.execute(
+            "UPDATE message_templates SET position = ?, updated_at = ? WHERE id = ?",
+            (position, now, template_id),
+        )

@@ -11,6 +11,7 @@ const state = {
   detail: null,          // current lead detail {lead, thread, draft}
   categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
+  templates: null,       // message templates from /api/templates, loaded when the modal opens
 };
 
 const CHIP = {
@@ -40,22 +41,12 @@ const MODEL_OPTIONS = [
   { value: "claude-opus-4-8", label: "Opus 4.8 (best quality)" },
 ];
 
-// Canned, pre-approved message templates. Picking one skips the full Claude
-// drafter (system prompt, knowledge base, web tools) entirely and just runs
-// one cheap translation call server-side — see /quick-draft. {name} and
-// {company} are filled in client-side (quickFollowup) before that call.
-const MESSAGE_TEMPLATES = [
-  {
-    label: "Prototype offer (already-built agent)",
-    text: "Hi {name},\n\nI actually went ahead and created a prototype Ai Agent for {company}. It's trained on your website data. Wanted to provide some value upfront because I know that's how you get ahead in this industry. Would love to show you how it works over a call -> https://calendly.com/andrew-mindaptive/30min\n\nYours to keep regardless.\n\nAndrew",
-  },
-  { text: "Wanted to make sure you saw this, let me know either way" },
-  { text: "Hey {name}, I'm locking in projects for next week, let me know if you'd like to move forward or if the timing changed" },
-  { text: "{name} - just bumping this up in case it got buried. No rush at all" },
-  { text: "Hey {name}, just checking in on this. Let me know if there's anything I can help clarify." },
-  { text: "Hi {name}, closing this file, it seems that now is not the right time. No worries though, it happens. Wishing you and your company all the best." },
-  { text: "{name} - please give me your thoughts on this" },
-];
+// Canned, pre-approved message templates now live server-side (SQLite, editable
+// from the modal) and are fetched into state.templates on demand — see
+// /api/templates. Picking one skips the full Claude drafter (system prompt,
+// knowledge base, web tools) entirely and just runs one cheap translation call
+// server-side (/quick-draft). {name} and {company} are filled in client-side
+// (quickFollowup) before that call.
 
 async function loadCategories() {
   try {
@@ -118,9 +109,9 @@ async function apiGet(url) {
   if (!r.ok) throw new Error(await r.text());
   return r.json();
 }
-async function apiPost(url, body) {
+async function apiSend(method, url, body) {
   const r = await fetch(url, {
-    method: "POST",
+    method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body || {}),
   });
@@ -128,6 +119,9 @@ async function apiPost(url, body) {
   if (!r.ok) throw new Error(data.error || "Request failed");
   return data;
 }
+const apiPost = (url, body) => apiSend("POST", url, body);
+const apiPatch = (url, body) => apiSend("PATCH", url, body);
+const apiDelete = (url) => apiSend("DELETE", url);
 
 // ---------- inbox / archive list loading ----------
 async function loadInbox() {
@@ -375,9 +369,10 @@ function renderDetail() {
   }
   const nameWrap = el("span", "detail-name-wrap");
   nameWrap.appendChild(el("h2", null, lead.name));
-  const editNameBtn = el("button", "btn-edit-name", "✎");
+  const editNameBtn = el("button", "btn-edit-name", "✎ Rename");
   editNameBtn.type = "button";
   editNameBtn.title = "Edit first name";
+  editNameBtn.setAttribute("aria-label", "Edit this lead's first name");
   editNameBtn.addEventListener("click", editLeadName);
   nameWrap.appendChild(editNameBtn);
   header.appendChild(nameWrap);
@@ -418,6 +413,9 @@ function renderDetail() {
     const wrap = el("div", `msg ${m.who}`);
     const meta = el("div", "msg-meta");
     meta.appendChild(document.createTextNode(`${m.name} · ${m.time} `));
+    // The mailbox this message actually came from: for a lead's reply that's
+    // often a real person answering a cold email sent to a generic info@.
+    if (m.from_email) meta.appendChild(el("span", "msg-from", m.from_email));
     const toggle = el("label", "msg-lang-toggle");
     const cb = el("input", "msg-lang-cb");
     cb.type = "checkbox";
@@ -646,10 +644,16 @@ function onTemplatesModalKeydown(e) {
   if (e.key === "Escape") closeTemplatesModal();
 }
 
-function openTemplatesModal() {
-  if ($("templates-modal-overlay")) return;
+// {name}/{company} are stored raw and only resolved for display — the edit form
+// deliberately shows the raw placeholders so they survive a round of editing.
+function fillPlaceholders(text) {
   const firstName = (state.detail.lead.name || "").split(" ")[0] || "there";
   const company = state.detail.lead.company || "your business";
+  return text.replace(/\{name\}/g, firstName).replace(/\{company\}/g, company);
+}
+
+async function openTemplatesModal() {
+  if ($("templates-modal-overlay")) return;
 
   const overlay = el("div", "modal-overlay");
   overlay.id = "templates-modal-overlay";
@@ -659,7 +663,12 @@ function openTemplatesModal() {
 
   const modal = el("div", "modal templates-modal");
   const header = el("div", "modal-header");
-  header.appendChild(el("h3", null, "Message templates"));
+  const heading = el("div", "modal-heading");
+  heading.appendChild(el("h3", null, "Message templates"));
+  heading.appendChild(
+    el("div", "modal-sub", "Drop one straight in as a draft — no AI call. {name} and {company} are filled in automatically.")
+  );
+  header.appendChild(heading);
   const closeBtn = el("button", "modal-close", "×");
   closeBtn.type = "button";
   closeBtn.setAttribute("aria-label", "Close");
@@ -668,27 +677,162 @@ function openTemplatesModal() {
   modal.appendChild(header);
 
   const list = el("div", "templates-list");
-  MESSAGE_TEMPLATES.forEach((tpl) => {
-    const previewText = tpl.text.replace(/\{name\}/g, firstName).replace(/\{company\}/g, company);
-    const label = tpl.label || (previewText.length > 60 ? previewText.slice(0, 57) + "…" : previewText);
-    const row = el("div", "template-row");
-    row.appendChild(el("div", "template-label", label));
-    row.appendChild(el("div", "template-preview", previewText));
-    const useBtn = el("button", "btn-send btn-quick", "Use this");
-    useBtn.type = "button";
-    useBtn.addEventListener("click", () => {
-      closeTemplatesModal();
-      quickFollowup(tpl.text);
-    });
-    row.appendChild(useBtn);
-    list.appendChild(row);
-  });
+  list.id = "templates-list";
+  list.innerHTML = '<div class="loading-note"><span class="spinner"></span>Loading templates…</div>';
   modal.appendChild(list);
+
+  const footer = el("div", "modal-footer");
+  const addBtn = el("button", "btn-secondary", "+ New template");
+  addBtn.type = "button";
+  addBtn.addEventListener("click", () => {
+    const form = renderTemplateForm(null);
+    $("templates-list").appendChild(form);
+    form.scrollIntoView({ block: "nearest" });
+    form.querySelector("input").focus();
+  });
+  footer.appendChild(addBtn);
+  modal.appendChild(footer);
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
   document.body.style.overflow = "hidden";
   document.addEventListener("keydown", onTemplatesModalKeydown);
+
+  try {
+    const data = await apiGet("/api/templates");
+    state.templates = data.templates;
+    renderTemplatesList();
+  } catch (e) {
+    list.innerHTML = `<div class="error-note">Couldn't load templates: ${e.message}</div>`;
+  }
+}
+
+function renderTemplatesList() {
+  const list = $("templates-list");
+  if (!list) return;
+  list.innerHTML = "";
+  if (!state.templates.length) {
+    list.appendChild(el("div", "template-empty", "No templates yet — add one below."));
+    return;
+  }
+  state.templates.forEach((tpl, i) => {
+    list.appendChild(renderTemplateCard(tpl, i, state.templates.length));
+  });
+}
+
+function renderTemplateCard(tpl, index, total) {
+  const card = el("div", "template-card");
+  const head = el("div", "template-head");
+  head.appendChild(el("div", "template-label", tpl.label || "Untitled template"));
+
+  const actions = el("div", "template-actions");
+  const useBtn = el("button", "btn-send btn-quick", "Use");
+  useBtn.type = "button";
+  useBtn.addEventListener("click", () => {
+    closeTemplatesModal();
+    quickFollowup(tpl.text);
+  });
+  actions.appendChild(useBtn);
+
+  const iconBtn = (glyph, title, handler, disabled) => {
+    const b = el("button", "btn-icon", glyph);
+    b.type = "button";
+    b.title = title;
+    b.setAttribute("aria-label", title);
+    b.disabled = !!disabled;
+    if (!disabled) b.addEventListener("click", handler);
+    actions.appendChild(b);
+  };
+  iconBtn("✎", "Edit", () => card.replaceWith(renderTemplateForm(tpl)));
+  iconBtn("▲", "Move up", () => moveTemplate(tpl.id, "up"), index === 0);
+  iconBtn("▼", "Move down", () => moveTemplate(tpl.id, "down"), index === total - 1);
+  iconBtn("🗑", "Delete", () => deleteTemplate(tpl));
+  head.appendChild(actions);
+  card.appendChild(head);
+
+  // Clamped to a few lines so a long template doesn't push the rest off screen;
+  // clicking the preview expands it in place.
+  const preview = el("div", "template-preview", fillPlaceholders(tpl.text));
+  preview.title = "Click to expand";
+  preview.addEventListener("click", () => preview.classList.toggle("expanded"));
+  card.appendChild(preview);
+  return card;
+}
+
+// One form for both "edit" (tpl given) and "new" (tpl null) — same fields, the
+// only difference is PATCH vs POST and what replaces it on cancel.
+function renderTemplateForm(tpl) {
+  const form = el("div", "template-card template-form");
+
+  const labelInput = el("input");
+  labelInput.type = "text";
+  labelInput.placeholder = "Name (optional, e.g. 'Breakup — closing this file')";
+  labelInput.value = tpl ? tpl.label : "";
+  form.appendChild(labelInput);
+
+  const textArea = el("textarea");
+  textArea.placeholder = "Message text. Use {name} and {company} as placeholders.";
+  textArea.value = tpl ? tpl.text : "";
+  form.appendChild(textArea);
+
+  const err = el("div", "error-note");
+  err.hidden = true;
+  form.appendChild(err);
+
+  const row = el("div", "template-form-actions");
+  const saveBtn = el("button", "btn-send btn-quick", "Save");
+  saveBtn.type = "button";
+  saveBtn.addEventListener("click", async () => {
+    const text = textArea.value.trim();
+    if (!text) {
+      err.textContent = "Template text is required.";
+      err.hidden = false;
+      return;
+    }
+    saveBtn.disabled = true;
+    const payload = { label: labelInput.value.trim(), text };
+    try {
+      const data = tpl
+        ? await apiPatch(`/api/templates/${tpl.id}`, payload)
+        : await apiPost("/api/templates", payload);
+      state.templates = data.templates;
+      renderTemplatesList();
+    } catch (e) {
+      saveBtn.disabled = false;
+      err.textContent = `Couldn't save: ${e.message}`;
+      err.hidden = false;
+    }
+  });
+  row.appendChild(saveBtn);
+
+  const cancelBtn = el("button", "btn-secondary btn-quick", "Cancel");
+  cancelBtn.type = "button";
+  cancelBtn.addEventListener("click", () => (tpl ? renderTemplatesList() : form.remove()));
+  row.appendChild(cancelBtn);
+  form.appendChild(row);
+  return form;
+}
+
+async function moveTemplate(id, direction) {
+  try {
+    const data = await apiPost(`/api/templates/${id}/move`, { direction });
+    state.templates = data.templates;
+    renderTemplatesList();
+  } catch (e) {
+    alert("Couldn't reorder: " + e.message);
+  }
+}
+
+async function deleteTemplate(tpl) {
+  const name = tpl.label || fillPlaceholders(tpl.text).slice(0, 40) + "…";
+  if (!window.confirm(`Delete this template?\n\n${name}`)) return;
+  try {
+    const data = await apiDelete(`/api/templates/${tpl.id}`);
+    state.templates = data.templates;
+    renderTemplatesList();
+  } catch (e) {
+    alert("Couldn't delete: " + e.message);
+  }
 }
 
 async function quickFollowup(template) {
@@ -1145,6 +1289,8 @@ function renderDraftSection(body) {
   box.appendChild(renderQuickFollowups());
   box.appendChild(renderGenControls());
 
+  box.appendChild(renderRecipients(draft));
+
   const actions = el("div", "actions");
   const sendBtn = el("button", "btn-send", "Send now");
   sendBtn.id = "send-btn";
@@ -1190,6 +1336,48 @@ function renderDraftSection(body) {
   box.appendChild(actions);
   section.appendChild(box);
   body.appendChild(section);
+}
+
+// Who this send actually reaches, shown right above Send/Schedule so a message
+// is never fired at an address that wasn't checked first. Both fields are sent
+// to Smartlead explicitly (to_email / cc on reply-email-thread), so what's
+// shown here IS what gets used — To defaults to the address the lead last
+// wrote from, which for outreach to a generic info@ is the real person who
+// answered, not the imported address.
+function renderRecipients(draft) {
+  const r = draft.recipients || {};
+  const wrap = el("div", "recipients");
+
+  const row = (label, id, value, placeholder) => {
+    const line = el("div", "recipient-row");
+    line.appendChild(el("span", "recipient-label", label));
+    const input = el("input");
+    input.type = "text";
+    input.id = id;
+    input.value = value || "";
+    input.placeholder = placeholder;
+    line.appendChild(input);
+    wrap.appendChild(line);
+  };
+  row("To", "recipient-to", r.to, "Recipient address");
+  row("Cc", "recipient-cc", r.cc, "Add people, comma-separated");
+
+  const notes = [];
+  if (r.lead_email && r.to && r.lead_email.toLowerCase() !== r.to.toLowerCase()) {
+    notes.push(`Replying to the address they actually wrote from (imported as ${r.lead_email}).`);
+  }
+  if (r.auto_cc && !r.cc_is_override) notes.push("Cc carried over from this thread.");
+  if (notes.length) wrap.appendChild(el("div", "recipient-note muted", notes.join(" ")));
+  return wrap;
+}
+
+function currentRecipients() {
+  const to = $("recipient-to");
+  const cc = $("recipient-cc");
+  const out = {};
+  if (to) out.to = to.value;
+  if (cc) out.cc = cc.value;
+  return out;
 }
 
 // The selection outline on a clicked image is a class on the <img> itself, so
@@ -1469,7 +1657,7 @@ function editorHtml() {
 async function sendDraft(id) {
   const { cid, lid } = currentLeadIds();
   try {
-    await apiPost(`/api/drafts/${id}/send`, { body_html: editorHtml() });
+    await apiPost(`/api/drafts/${id}/send`, { body_html: editorHtml(), ...currentRecipients() });
   } catch (e) {
     alert(e.message);
     return;
@@ -1499,7 +1687,11 @@ async function scheduleDraft(id) {
     // the server treats naive timestamps as UTC, so convert explicitly here —
     // otherwise every schedule silently fires hours late (browser-local vs UTC).
     const atUtc = new Date(at).toISOString();
-    await apiPost(`/api/drafts/${id}/schedule`, { body_html: editorHtml(), scheduled_at: atUtc });
+    await apiPost(`/api/drafts/${id}/schedule`, {
+      body_html: editorHtml(),
+      scheduled_at: atUtc,
+      ...currentRecipients(),
+    });
     await withRowRemoval(async () => {});
   } catch (e) {
     alert("Schedule failed: " + e.message);

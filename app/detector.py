@@ -118,6 +118,22 @@ def last_sender_email(thread: list[NormalizedMessage]) -> str:
     return ""
 
 
+def next_reply_to(thread: list[NormalizedMessage], lead_email: str = "") -> str:
+    """The address our next message will actually reach.
+
+    We never pass a To to Smartlead — reply-email-thread threads the reply to
+    the lead's own from-address (same behaviour next_reply_cc is written
+    around). That matters because outreach often goes to a generic info@ and a
+    real person answers from their own mailbox: the imported lead_email is then
+    NOT where the message lands. This is display-only (the dashboard's "To:"
+    line), so it mirrors Smartlead's rule rather than driving the send.
+    """
+    for msg in reversed(thread):
+        if msg.kind == "reply" and msg.from_email:
+            return msg.from_email
+    return lead_email
+
+
 def next_reply_cc(thread: list[NormalizedMessage], own_email: str = "") -> str:
     """Who to CC on our next message in this thread, derived from the most
     recent message (whichever side sent it) — always the same message we're

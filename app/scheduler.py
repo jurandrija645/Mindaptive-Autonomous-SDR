@@ -342,7 +342,22 @@ def _send_due_draft(draft: dict) -> None:
     reply_email_time = last.timestamp.isoformat() if last else draft["reply_email_time"]
     stats_id = last.stats_id if last else draft["reply_stats_id"]
     sender_email = detector.last_sender_email(thread)
-    cc = detector.next_reply_cc(thread, own_email=sender_email)
+    # cc_override / to_override are what Andrew put in the recipients row
+    # before sending — for cc that includes an empty string, which means he
+    # cleared the auto-derived Cc on purpose. Only NULL (never edited) falls
+    # back to the auto-derived values.
+    cc_override = draft.get("cc_override")
+    cc = cc_override if cc_override is not None else detector.next_reply_cc(thread, own_email=sender_email)
+
+    # Always send an explicit To rather than letting Smartlead default it to
+    # the *imported* lead email: outreach often goes to a generic info@ and a
+    # real person answers from their own mailbox, and the reply belongs to that
+    # person. next_reply_to picks the address the lead last wrote from, which
+    # is also exactly what the dashboard showed before the click.
+    with db.db_session() as conn:
+        lead_state = db.get_lead_state(conn, lead_id, campaign_id)
+    lead_email = (lead_state["email"] if lead_state else "") or draft.get("lead_email") or ""
+    to_email = draft.get("to_override") or detector.next_reply_to(thread, lead_email=lead_email)
     send_body = compose_send_body(draft)
     log.info(
         "[SIG-DEBUG] _send_due_draft: draft_id=%s sender=%s stats_id=%s send_body_len=%d "
@@ -357,6 +372,7 @@ def _send_due_draft(draft: dict) -> None:
         reply_email_time,
         stats_id,
         cc=cc,
+        to_email=to_email,
     )
     log.info("[SIG-DEBUG] _send_due_draft: draft_id=%s smartlead response=%r", draft["id"], resp)
 

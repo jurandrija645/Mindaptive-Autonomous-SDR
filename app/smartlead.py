@@ -132,25 +132,38 @@ def reply_to_thread(
     reply_email_time: str,
     email_stats_id: str,
     cc: str = "",
+    to_email: str = "",
 ) -> Any:
     """POST /campaigns/{id}/reply-email-thread. Body schema confirmed against
     https://api.smartlead.ai/reference/reply-to-lead-from-master-inbox-via-api
     on 2026-07-16: email_stats_id and email_body are the only required fields;
     lead_id is NOT a valid key here (rejected with "lead_id is not allowed").
-    `cc` (comma-separated) is optional per the same reference — without it,
-    colleagues the lead CC'd on their reply are not included on ours."""
+    `cc`/`bcc` (comma-separated) and `to_email` are optional per the same
+    reference — without cc, colleagues the lead CC'd on their reply are not
+    included on ours.
+
+    `to_email` was verified accepted against the real API on 2026-07-21 (probe
+    send to the Mindaptive Jones test lead returned the usual plain-text
+    success). It matters because the docs say To "defaults to lead email" —
+    i.e. the *imported* address, which is wrong whenever outreach went to a
+    generic info@ and a real person answered from their own mailbox. Passing
+    it explicitly makes the recipient shown in the dashboard exactly the
+    recipient that gets the mail, instead of relying on Smartlead's default."""
     payload = {
         "email_stats_id": email_stats_id,
         "email_body": email_body,
         "reply_message_id": reply_message_id,
         "reply_email_time": reply_email_time,
     }
+    if to_email:
+        payload["to_email"] = to_email
     if cc:
         payload["cc"] = cc
     log.info(
         "[SIG-DEBUG] reply_to_thread: campaign_id=%s email_stats_id=%s email_body_len=%d "
-        "contains_table_tag=%s",
+        "contains_table_tag=%s to=%s cc=%s",
         campaign_id, email_stats_id, len(email_body or ""), "<table" in (email_body or ""),
+        to_email or "(smartlead default)", cc or "(none)",
     )
     resp = _request("POST", f"/campaigns/{campaign_id}/reply-email-thread", json=payload)
     log.info("[SIG-DEBUG] reply_to_thread: response=%r", resp)

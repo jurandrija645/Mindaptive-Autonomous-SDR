@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -12,6 +13,12 @@ from app import candidates as candidates_module
 from app import db, drafter, pipeline, scheduler, smartlead, translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
+from app.detector import (
+    NormalizedMessage,
+    last_sender_email,
+    next_reply_cc,
+    next_reply_to,
+)
 from app.email_clean import clean_email_html, to_plain_text
 from app.thread_utils import next_morning_send_utc, text_to_html
 
@@ -113,17 +120,99 @@ def _fmt_time(ts) -> str:
 
 
 def _load_thread_raw(campaign_id: int, lead_id: int) -> list[dict]:
-    """Thread as a list of {kind, timestamp, body, from_email} — from the open
-    draft's snapshot if one exists, otherwise a live Smartlead fetch."""
+    """Thread as a list of NormalizedMessage-shaped dicts — from the open
+    draft's snapshot if one exists, otherwise a live Smartlead fetch.
+
+    Both branches carry the full field set (the snapshot is dumped from
+    `m.__dict__`), so _thread_as_messages can rebuild real NormalizedMessages
+    from either one and the recipients preview needs no extra API call."""
     with db.db_session() as conn:
         draft = db.get_open_draft(conn, lead_id, campaign_id)
     if draft and draft["thread_snapshot"]:
         return json.loads(draft["thread_snapshot"])
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
-    return [
-        {"kind": m.kind, "timestamp": m.timestamp.isoformat(), "body": m.body, "from_email": m.from_email}
-        for m in thread
-    ]
+    return [{**m.__dict__, "timestamp": m.timestamp.isoformat()} for m in thread]
+
+
+def _thread_as_messages(raw: list[dict]) -> list[NormalizedMessage]:
+    """Rebuild NormalizedMessage objects from the raw thread dicts so the very
+    same detector helpers that decide To/Cc at send time can be previewed in
+    the UI. Timestamps only need to survive round-tripping here (ordering is
+    already fixed by normalize_thread), not be re-derived."""
+    out = []
+    for m in raw:
+        out.append(
+            NormalizedMessage(
+                kind=m.get("kind") or "unknown",
+                timestamp=datetime.now(timezone.utc),
+                message_id=str(m.get("message_id") or ""),
+                body=m.get("body") or "",
+                from_email=m.get("from_email") or "",
+                to_email=m.get("to_email") or "",
+                stats_id=str(m.get("stats_id") or ""),
+                cc=m.get("cc") or "",
+            )
+        )
+    return out
+
+
+_EMAIL_RE = re.compile(r"^[^@\s,]+@[^@\s,]+\.[^@\s,]+$")
+
+
+def _clean_cc(raw) -> str:
+    """Normalize the Cc box into what Smartlead's reply-email-thread expects: a
+    comma-separated list of bare addresses. Anything that isn't an address is
+    dropped rather than passed through — a malformed Cc fails the whole send,
+    and this is free-text Andrew types by hand. Returns "" for "no Cc", which
+    is stored as a real override (see drafts.cc_override)."""
+    if not isinstance(raw, str):
+        return ""
+    seen: set[str] = set()
+    out: list[str] = []
+    for part in re.split(r"[,;\s]+", raw):
+        addr = part.strip().strip("<>")
+        key = addr.lower()
+        if addr and key not in seen and _EMAIL_RE.match(addr):
+            seen.add(key)
+            out.append(addr)
+    return ",".join(out)
+
+
+def _recipient_updates(body: dict) -> dict:
+    """Draft columns to write from a send/schedule request's recipient fields.
+    A missing key means "leave the override alone"; an empty To is ignored
+    rather than stored, since sending to nobody is never what's meant."""
+    updates: dict = {}
+    if "cc" in body:
+        updates["cc_override"] = _clean_cc(body.get("cc"))
+    if "to" in body:
+        to = _clean_cc(body.get("to")).split(",")[0]
+        if to:
+            updates["to_override"] = to
+    return updates
+
+
+def _recipients_payload(raw: list[dict], lead_email: str, draft) -> dict:
+    """What the next send will go to, shown above Send/Schedule so a message is
+    never fired at an address Andrew hasn't seen. `cc` is the draft's explicit
+    override when one exists (including a deliberately emptied one), otherwise
+    the auto-derived list _send_due_draft would use."""
+    messages = _thread_as_messages(raw)
+    own_email = last_sender_email(messages)
+    auto_cc = next_reply_cc(messages, own_email=own_email)
+    auto_to = next_reply_to(messages, lead_email=lead_email)
+    cc_override = draft["cc_override"] if draft is not None else None
+    to_override = draft["to_override"] if draft is not None else None
+    return {
+        "to": to_override or auto_to,
+        "cc": auto_cc if cc_override is None else cc_override,
+        "auto_cc": auto_cc,
+        "cc_is_override": cc_override is not None,
+        # The address the lead was imported under, shown only when the reply
+        # came from somewhere else — that mismatch is the whole point.
+        "lead_email": lead_email,
+        "from": own_email,
+    }
 
 
 def _thread_payload(raw: list[dict], lead_name: str) -> list[dict]:
@@ -147,6 +236,11 @@ def _thread_payload(raw: list[dict], lead_name: str) -> list[dict]:
                 "who": "us" if is_us else "lead",
                 "name": "You" if is_us else (lead_name or "Lead"),
                 "time": _fmt_time(m.get("timestamp")),
+                # Which mailbox this actually came from — for a lead's reply
+                # that's often a real person (marko@company.com) answering a
+                # cold email sent to a generic info@ address, so it's the only
+                # place the true counterpart is visible.
+                "from_email": (m.get("from_email") or "").strip(),
                 "html": clean_email_html(m.get("body")),
                 "english": english,
             }
@@ -270,6 +364,10 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
     if draft_payload and draft_payload["kind"] == "followup":
         tz_guess = (lead["timezone_guess"] if lead else None) or ""
         draft_payload["suggested_schedule_at"] = next_morning_send_utc(tz_guess).isoformat()
+    if draft_payload:
+        draft_payload["recipients"] = _recipients_payload(
+            raw, (lead["email"] if lead else "") or "", draft
+        )
     return {
         "lead": {
             "name": lead_name,
@@ -391,6 +489,104 @@ async def api_quick_draft(request: Request, campaign_id: int, lead_id: int):
     if not draft_id:
         return JSONResponse({"error": "Could not create draft for this lead."}, status_code=404)
     return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
+
+
+# ---- message templates ----
+#
+# The canned follow-ups behind the "Message templates" modal. They used to be a
+# hardcoded array in app.js, so changing a word meant a deploy; they now live in
+# SQLite and are edited from the dashboard. Every mutating route returns the
+# whole fresh list so the client never has to reconcile state by hand.
+
+def _templates_payload() -> dict:
+    with db.db_session() as conn:
+        rows = db.list_message_templates(conn)
+    return {
+        "templates": [
+            {"id": r["id"], "label": r["label"] or "", "text": r["text"], "position": r["position"]}
+            for r in rows
+        ]
+    }
+
+
+@app.get("/api/templates")
+def api_templates(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse(_templates_payload())
+
+
+@app.post("/api/templates")
+async def api_template_create(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    text = (body.get("text") or "").strip()
+    if not text:
+        return JSONResponse({"error": "Template text is required."}, status_code=400)
+    with db.db_session() as conn:
+        db.create_message_template(conn, (body.get("label") or "").strip(), text)
+    return JSONResponse(_templates_payload())
+
+
+@app.patch("/api/templates/{template_id}")
+async def api_template_update(request: Request, template_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    fields: dict = {}
+    if "label" in body:
+        fields["label"] = (body.get("label") or "").strip()
+    if "text" in body:
+        text = (body.get("text") or "").strip()
+        if not text:
+            return JSONResponse({"error": "Template text is required."}, status_code=400)
+        fields["text"] = text
+    with db.db_session() as conn:
+        if db.get_message_template(conn, template_id) is None:
+            return JSONResponse({"error": "Template not found."}, status_code=404)
+        if fields:
+            db.update_message_template(conn, template_id, **fields)
+    return JSONResponse(_templates_payload())
+
+
+@app.delete("/api/templates/{template_id}")
+def api_template_delete(request: Request, template_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        if db.get_message_template(conn, template_id) is None:
+            return JSONResponse({"error": "Template not found."}, status_code=404)
+        db.delete_message_template(conn, template_id)
+    return JSONResponse(_templates_payload())
+
+
+@app.post("/api/templates/{template_id}/move")
+async def api_template_move(request: Request, template_id: int):
+    """Moves a template one slot up or down, then renumbers every position —
+    cheaper to reason about than swapping two values, and it heals any
+    duplicate positions a previous edit left behind."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    direction = body.get("direction")
+    if direction not in ("up", "down"):
+        return JSONResponse({"error": "direction must be 'up' or 'down'."}, status_code=400)
+    with db.db_session() as conn:
+        ids = [r["id"] for r in db.list_message_templates(conn)]
+        if template_id not in ids:
+            return JSONResponse({"error": "Template not found."}, status_code=404)
+        i = ids.index(template_id)
+        j = i - 1 if direction == "up" else i + 1
+        if 0 <= j < len(ids):
+            ids[i], ids[j] = ids[j], ids[i]
+            db.reorder_message_templates(conn, ids)
+    return JSONResponse(_templates_payload())
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/name")
@@ -656,7 +852,11 @@ async def api_send(request: Request, draft_id: int):
             draft_id, len(body.get("body_html") or ""), len(draft["signature_html"] or ""),
             draft["sender_email"],
         )
-        db.update_draft(conn, draft_id, body_html=body.get("body_html", draft["body_html"]))
+        updates = {"body_html": body.get("body_html", draft["body_html"])}
+        # Only touch the overrides when the client actually sent the field, so a
+        # client that doesn't know about recipients can't silently wipe one.
+        updates.update(_recipient_updates(body))
+        db.update_draft(conn, draft_id, **updates)
 
     scheduler._send_due_draft(dict(_get_draft_dict(draft_id)))
 
@@ -692,13 +892,13 @@ async def api_schedule(request: Request, draft_id: int):
         draft = db.get_draft(conn, draft_id)
         if draft is None:
             return JSONResponse({"error": "Draft not found."}, status_code=404)
-        db.update_draft(
-            conn,
-            draft_id,
-            body_html=body.get("body_html", draft["body_html"]),
-            status="scheduled",
-            scheduled_at=dt.isoformat(),
-        )
+        updates = {
+            "body_html": body.get("body_html", draft["body_html"]),
+            "status": "scheduled",
+            "scheduled_at": dt.isoformat(),
+        }
+        updates.update(_recipient_updates(body))
+        db.update_draft(conn, draft_id, **updates)
     return JSONResponse({"ok": True})
 
 
