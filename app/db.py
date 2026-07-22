@@ -127,6 +127,124 @@ CREATE TABLE IF NOT EXISTS message_templates (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
+
+-- ---------------------------------------------------------------------------
+-- Campaign analytics (see app/campaign_analytics.py, app/campaign_report.py).
+-- Local mirror of Smartlead's per-send data so the variant/slot maths runs as
+-- plain SQL and a re-analysis doesn't re-download the whole campaign.
+-- ---------------------------------------------------------------------------
+
+-- One row per sent email, from GET /campaigns/{id}/statistics. `seq_variant_id`
+-- is the whole point: it's the only link from an outcome back to the message
+-- variant that produced it. The rendered `email_message` is deliberately NOT
+-- stored (~10 KB/row, ~75 MB for one campaign) — only the rendered subject,
+-- which is short and is what subject-line analysis needs.
+CREATE TABLE IF NOT EXISTS campaign_sends (
+    stats_id             TEXT PRIMARY KEY,
+    campaign_id          INTEGER NOT NULL,
+    lead_email           TEXT,
+    sequence_number      INTEGER,
+    email_campaign_seq_id INTEGER,
+    seq_variant_id       INTEGER,
+    email_subject        TEXT,
+    sent_time            TEXT,
+    reply_time           TEXT,
+    lead_category        TEXT,
+    is_bounced           INTEGER NOT NULL DEFAULT 0,
+    is_unsubscribed      INTEGER NOT NULL DEFAULT 0,
+    click_time           TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_sends_campaign_step
+    ON campaign_sends (campaign_id, sequence_number);
+CREATE INDEX IF NOT EXISTS idx_sends_campaign_variant
+    ON campaign_sends (campaign_id, seq_variant_id);
+CREATE INDEX IF NOT EXISTS idx_sends_campaign_email
+    ON campaign_sends (campaign_id, lead_email);
+
+-- The message templates themselves, from GET /campaigns/{id}/sequences.
+-- `slots_json` is the parsed {{variable}} recipe (see campaign_analytics.
+-- parse_slots) — variants share slots, which is what makes slot-level pooling
+-- possible.
+CREATE TABLE IF NOT EXISTS campaign_variants (
+    campaign_id      INTEGER NOT NULL,
+    seq_variant_id   INTEGER NOT NULL,
+    seq_number       INTEGER,
+    variant_label    TEXT,
+    subject_template TEXT,
+    body_template    TEXT,
+    slots_json       TEXT,
+    PRIMARY KEY (campaign_id, seq_variant_id)
+);
+
+-- Per-lead variable values, parsed from the leads-export CSV's custom_fields
+-- column — i.e. the spreadsheet the campaign was built from, recovered from
+-- Smartlead. Also the only bulk email -> lead_id map, which the conversation
+-- sync needs (statistics rows carry only the email).
+CREATE TABLE IF NOT EXISTS campaign_lead_vars (
+    campaign_id              INTEGER NOT NULL,
+    lead_email               TEXT NOT NULL,
+    lead_id                  TEXT,
+    company_name             TEXT,
+    category                 TEXT,
+    reply_count              INTEGER NOT NULL DEFAULT 0,
+    last_email_sequence_sent INTEGER,
+    custom_fields_json       TEXT,
+    PRIMARY KEY (campaign_id, lead_email)
+);
+
+CREATE INDEX IF NOT EXISTS idx_lead_vars_lead ON campaign_lead_vars (campaign_id, lead_id);
+
+-- Full conversations with leads who actually answered like humans (never
+-- Auto-Reply / Out Of Office — see campaign_conversations.REAL_RESPONSE
+-- filtering). `first_reply_after_step` is what answers "how many follow-ups
+-- still work". `extract_json` caches the per-conversation AI extraction so a
+-- re-analysis only pays for new conversations.
+CREATE TABLE IF NOT EXISTS campaign_conversations (
+    campaign_id           INTEGER NOT NULL,
+    lead_id               TEXT NOT NULL,
+    lead_email            TEXT,
+    company               TEXT,
+    category              TEXT,
+    variant_label         TEXT,
+    seq_variant_id        INTEGER,
+    thread_json           TEXT,
+    our_msg_count         INTEGER NOT NULL DEFAULT 0,
+    their_msg_count       INTEGER NOT NULL DEFAULT 0,
+    first_reply_after_step INTEGER,
+    first_reply_at        TEXT,
+    hours_to_reply        REAL,
+    thread_hash           TEXT,
+    extract_json          TEXT,
+    extracted_at          TEXT,
+    synced_at             TEXT NOT NULL,
+    PRIMARY KEY (campaign_id, lead_id)
+);
+
+-- One cached analysis per campaign. `stage` is progress text the dashboard
+-- polls while the background thread works.
+CREATE TABLE IF NOT EXISTS campaign_reports (
+    campaign_id     INTEGER PRIMARY KEY,
+    status          TEXT NOT NULL DEFAULT 'running',  -- running|done|failed
+    stage           TEXT,
+    started_at      TEXT,
+    generated_at    TEXT,
+    model           TEXT,
+    stats_json      TEXT,
+    report_md       TEXT,
+    conversation_md TEXT,
+    error           TEXT
+);
+
+-- Sync bookkeeping: `last_sent_time` is replayed as statistics'
+-- sent_time_start_date so only the first sync of a campaign is expensive.
+CREATE TABLE IF NOT EXISTS campaign_sync (
+    campaign_id     INTEGER PRIMARY KEY,
+    last_sent_time  TEXT,
+    sends_synced_at TEXT,
+    vars_synced_at  TEXT,
+    convos_synced_at TEXT
+);
 """
 
 
@@ -574,3 +692,156 @@ def reorder_message_templates(conn, ordered_ids: list[int]) -> None:
             "UPDATE message_templates SET position = ?, updated_at = ? WHERE id = ?",
             (position, now, template_id),
         )
+
+
+# ---- campaign analytics helpers (see app/campaign_analytics.py) ----
+
+def upsert_campaign_sends(conn, rows: list[dict]) -> int:
+    """Bulk-upsert statistics rows. Keyed on stats_id so re-syncing an
+    overlapping window updates rows (a reply can land after the send was first
+    recorded) instead of duplicating them."""
+    if not rows:
+        return 0
+    conn.executemany(
+        """INSERT INTO campaign_sends (
+               stats_id, campaign_id, lead_email, sequence_number,
+               email_campaign_seq_id, seq_variant_id, email_subject, sent_time,
+               reply_time, lead_category, is_bounced, is_unsubscribed, click_time
+           ) VALUES (
+               :stats_id, :campaign_id, :lead_email, :sequence_number,
+               :email_campaign_seq_id, :seq_variant_id, :email_subject, :sent_time,
+               :reply_time, :lead_category, :is_bounced, :is_unsubscribed, :click_time
+           )
+           ON CONFLICT(stats_id) DO UPDATE SET
+               reply_time      = excluded.reply_time,
+               lead_category   = excluded.lead_category,
+               is_bounced      = excluded.is_bounced,
+               is_unsubscribed = excluded.is_unsubscribed,
+               click_time      = excluded.click_time""",
+        rows,
+    )
+    return len(rows)
+
+
+def replace_campaign_variants(conn, campaign_id: int, rows: list[dict]) -> None:
+    """Variants are edited in Smartlead, so the local copy is a full replace
+    rather than a merge — a deleted variant must disappear here too."""
+    conn.execute("DELETE FROM campaign_variants WHERE campaign_id = ?", (campaign_id,))
+    if rows:
+        conn.executemany(
+            """INSERT INTO campaign_variants (
+                   campaign_id, seq_variant_id, seq_number, variant_label,
+                   subject_template, body_template, slots_json
+               ) VALUES (
+                   :campaign_id, :seq_variant_id, :seq_number, :variant_label,
+                   :subject_template, :body_template, :slots_json
+               )""",
+            rows,
+        )
+
+
+def list_campaign_variants(conn, campaign_id: int):
+    return conn.execute(
+        "SELECT * FROM campaign_variants WHERE campaign_id = ? ORDER BY seq_number, variant_label",
+        (campaign_id,),
+    ).fetchall()
+
+
+def upsert_campaign_lead_vars(conn, rows: list[dict]) -> int:
+    if not rows:
+        return 0
+    conn.executemany(
+        """INSERT INTO campaign_lead_vars (
+               campaign_id, lead_email, lead_id, company_name, category,
+               reply_count, last_email_sequence_sent, custom_fields_json
+           ) VALUES (
+               :campaign_id, :lead_email, :lead_id, :company_name, :category,
+               :reply_count, :last_email_sequence_sent, :custom_fields_json
+           )
+           ON CONFLICT(campaign_id, lead_email) DO UPDATE SET
+               lead_id                  = excluded.lead_id,
+               company_name             = excluded.company_name,
+               category                 = excluded.category,
+               reply_count              = excluded.reply_count,
+               last_email_sequence_sent = excluded.last_email_sequence_sent,
+               custom_fields_json       = excluded.custom_fields_json""",
+        rows,
+    )
+    return len(rows)
+
+
+def get_campaign_sync(conn, campaign_id: int):
+    return conn.execute(
+        "SELECT * FROM campaign_sync WHERE campaign_id = ?", (campaign_id,)
+    ).fetchone()
+
+
+def update_campaign_sync(conn, campaign_id: int, **fields) -> None:
+    conn.execute(
+        "INSERT OR IGNORE INTO campaign_sync (campaign_id) VALUES (?)", (campaign_id,)
+    )
+    if not fields:
+        return
+    assignments = ", ".join(f"{key} = ?" for key in fields)
+    conn.execute(
+        f"UPDATE campaign_sync SET {assignments} WHERE campaign_id = ?",
+        (*fields.values(), campaign_id),
+    )
+
+
+# ---- campaign conversation helpers (see app/campaign_conversations.py) ----
+
+def upsert_campaign_conversation(conn, campaign_id: int, lead_id: str, **fields) -> None:
+    """Upsert one thread. `extract_json`/`extracted_at` are left alone unless
+    explicitly passed, so a re-sync that finds an unchanged thread keeps the
+    cached AI extraction and costs nothing to re-analyze."""
+    fields["synced_at"] = now_iso()
+    columns = ", ".join(["campaign_id", "lead_id", *fields])
+    placeholders = ", ".join("?" for _ in range(len(fields) + 2))
+    updates = ", ".join(f"{key} = ?" for key in fields)
+    conn.execute(
+        f"""INSERT INTO campaign_conversations ({columns}) VALUES ({placeholders})
+            ON CONFLICT(campaign_id, lead_id) DO UPDATE SET {updates}""",
+        (campaign_id, lead_id, *fields.values(), *fields.values()),
+    )
+
+
+def list_campaign_conversations(conn, campaign_id: int, unextracted_only: bool = False):
+    sql = "SELECT * FROM campaign_conversations WHERE campaign_id = ?"
+    if unextracted_only:
+        sql += " AND (extract_json IS NULL OR extract_json = '')"
+    sql += " ORDER BY first_reply_at DESC"
+    return conn.execute(sql, (campaign_id,)).fetchall()
+
+
+def clear_campaign_conversations(conn, campaign_id: int) -> None:
+    conn.execute("DELETE FROM campaign_conversations WHERE campaign_id = ?", (campaign_id,))
+
+
+# ---- campaign report helpers (see app/campaign_report.py) ----
+
+def start_campaign_report(conn, campaign_id: int, stage: str = "Starting…") -> None:
+    conn.execute(
+        """INSERT INTO campaign_reports (campaign_id, status, stage, started_at, error)
+           VALUES (?, 'running', ?, ?, NULL)
+           ON CONFLICT(campaign_id) DO UPDATE SET
+               status = 'running', stage = excluded.stage,
+               started_at = excluded.started_at, error = NULL""",
+        (campaign_id, stage, now_iso()),
+    )
+
+
+def update_campaign_report(conn, campaign_id: int, **fields) -> None:
+    if not fields:
+        return
+    assignments = ", ".join(f"{key} = ?" for key in fields)
+    conn.execute(
+        f"UPDATE campaign_reports SET {assignments} WHERE campaign_id = ?",
+        (*fields.values(), campaign_id),
+    )
+
+
+def get_campaign_report(conn, campaign_id: int):
+    return conn.execute(
+        "SELECT * FROM campaign_reports WHERE campaign_id = ?", (campaign_id,)
+    ).fetchone()

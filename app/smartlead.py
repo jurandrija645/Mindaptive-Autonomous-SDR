@@ -112,6 +112,130 @@ def get_message_history(
     return data
 
 
+def get_campaign(campaign_id: int, api_key: str | None = None) -> dict:
+    """GET /campaigns/{id} — campaign settings. The fields that matter here are
+    `track_settings` (this account runs DONT_EMAIL_OPEN/DONT_LINK_CLICK, i.e.
+    open and click tracking are deliberately off, so open rate is not a signal),
+    `scheduler_cron_value` (tz + send window) and `send_as_plain_text`."""
+    return _request("GET", f"/campaigns/{campaign_id}", api_key=api_key) or {}
+
+
+def get_campaign_analytics(campaign_id: int, api_key: str | None = None) -> dict:
+    """GET /campaigns/{id}/analytics — campaign totals: sent_count, reply_count,
+    bounce_count, unique_sent_count, unsubscribed_count, campaign_lead_stats{}.
+
+    Note these disagree with the per-send /statistics rows (verified 2026-07-22:
+    reply_count 86 here vs 117 rows from statistics?email_status=replied on
+    campaign 3640877 — per-lead vs per-email counting). Use this only for the
+    headline card; anything ranked must come from statistics so one consistent
+    denominator is used throughout."""
+    return _request("GET", f"/campaigns/{campaign_id}/analytics", api_key=api_key) or {}
+
+
+def get_campaign_sequences(campaign_id: int, api_key: str | None = None) -> list[dict]:
+    """GET /campaigns/{id}/sequences — the email steps and their A/B variants.
+
+    Returns a bare list of steps, each with `seq_number`, `subject`,
+    `email_body`, `seq_delay_details` and `sequence_variants[]` (note: the docs
+    call the key `seq_variants`; the real response uses `sequence_variants`).
+    Each variant carries `id`, `variant_label` ("A".."F"), `subject`,
+    `email_body`. Verified against campaigns 3640877/3599203/3562710."""
+    data = _request("GET", f"/campaigns/{campaign_id}/sequences", api_key=api_key)
+    if data is None:
+        return []
+    if isinstance(data, dict):
+        return data.get("data") or []
+    return data
+
+
+def iter_campaign_statistics(
+    campaign_id: int,
+    sent_time_start_date: str | None = None,
+    page_size: int = 1000,
+    api_key: str | None = None,
+) -> Iterator[dict]:
+    """GET /campaigns/{id}/statistics — one row per sent email. This is the only
+    endpoint that ties a send to the variant that produced it.
+
+    The documented response (`is_opened`/`is_replied` booleans) is wrong. Real
+    rows, verified 2026-07-22: `stats_id`, `lead_email`, `lead_category`,
+    `sequence_number`, `email_campaign_seq_id`, `seq_variant_id`,
+    `email_subject` and `email_message` (both fully rendered, variables already
+    substituted), `sent_time`, `open_time`, `click_time`, `reply_time`,
+    `open_count`, `click_count`, `is_unsubscribed`, `is_bounced`,
+    `ignore_reply`. Wrapper is {total_stats, data, offset, limit}; `limit` caps
+    at 1000.
+
+    `sent_time_start_date` makes the sync incremental — the rows are ~10 KB
+    each (they carry the full rendered body), so a full pull of a 7.5k-send
+    campaign moves ~75 MB and should happen exactly once."""
+    offset = 0
+    while True:
+        params: dict[str, Any] = {"offset": offset, "limit": page_size}
+        if sent_time_start_date:
+            params["sent_time_start_date"] = sent_time_start_date
+        data = _request(
+            "GET", f"/campaigns/{campaign_id}/statistics", params=params, api_key=api_key
+        )
+        rows = data if isinstance(data, list) else (data or {}).get("data") or []
+        if not rows:
+            return
+        for row in rows:
+            yield row
+        if len(rows) < page_size:
+            return
+        offset += page_size
+
+
+def export_campaign_leads_csv(campaign_id: int, api_key: str | None = None) -> str:
+    """GET /campaigns/{id}/leads-export — the campaign's leads as real CSV
+    (content-type text/csv, so _request returns it as text).
+
+    Columns: id, campaign_lead_map_id, status, category, is_interested,
+    created_at, first_name, last_name, email, phone_number, company_name,
+    website, location, custom_fields, linkedin_profile, company_url,
+    is_unsubscribed, unsubscribed_client_id_map, last_email_sequence_sent,
+    open_count, click_count, reply_count.
+
+    `custom_fields` is a JSON blob holding every variable the campaign was
+    built from (subjectLine1-4, CTA1-3, Pitch1-2, Offer1-2, Icebreaker, ...) —
+    i.e. this is the source spreadsheet, recovered from Smartlead. It is also
+    the only bulk email -> lead_id map (the statistics rows carry only the
+    email), which the conversation sync needs. ~22 MB on a 5k-lead campaign."""
+    data = _request("GET", f"/campaigns/{campaign_id}/leads-export", api_key=api_key)
+    return data if isinstance(data, str) else ""
+
+
+# The literal token is part of the documented URL, not a secret or a parameter.
+_BULK_HISTORY_TOKEN = "bbfbdsFGHlBr76ruhjvh6fhHL"
+
+
+def get_message_history_bulk(
+    campaign_id: int, lead_ids: list[str | int], api_key: str | None = None
+) -> dict[str, dict]:
+    """POST /campaigns/{id}/message-history-for-leads/<token> — full threads for
+    many leads in one call, keyed by lead id: {"<lead_id>": {"history": [...]}}.
+
+    The docs claim each message carries only `subject`/`sent_at`. That is wrong
+    (verified 2026-07-22): messages have the same shape as the single-lead
+    message-history endpoint — `type` ("SENT"/"REPLY"), `from`, `to`, `time`,
+    `subject`, `email_body` (full HTML), `stats_id`, `message_id` — plus
+    `email_seq_number` on SENT messages, which is what tells us which follow-up
+    step earned a reply.
+
+    Passing `lead_ids: null` means "every lead in the campaign" and would pull
+    thousands of threads, so an empty list returns {} instead."""
+    if not lead_ids:
+        return {}
+    data = _request(
+        "POST",
+        f"/campaigns/{campaign_id}/message-history-for-leads/{_BULK_HISTORY_TOKEN}",
+        json={"lead_ids": [str(lead_id) for lead_id in lead_ids]},
+        api_key=api_key,
+    )
+    return data if isinstance(data, dict) else {}
+
+
 def update_lead_category(
     campaign_id: int, lead_id: int, category_id: int, pause_lead: bool = False
 ) -> Any:

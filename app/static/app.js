@@ -12,6 +12,12 @@ const state = {
   categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
   templates: null,       // message templates from /api/templates, loaded when the modal opens
+  // ---- campaigns view ----
+  campaigns: [],         // /api/campaigns list with headline stats
+  selectedCampaign: null,
+  campaignTab: "overview", // "overview" | "report" | "conversations"
+  convoFilter: "",       // lead category filter on the Conversations sub-tab
+  campaignPoll: null,    // setTimeout handle polling a running analysis
 };
 
 const CHIP = {
@@ -230,15 +236,384 @@ function renderStats(m) {
   Object.entries(m.drafts_by_model || {}).forEach(([k, v]) => stat(k, v));
 }
 
-const VIEW_LOADERS = { inbox: loadInbox, scheduled: loadScheduled, archive: loadArchive, stats: loadStats };
+// ---------- campaigns ----------
+
+// Verdict labels come from campaign_analytics.verdict(). "Not enough data" is
+// deliberately neutral grey, never a colour that reads as a result — with ~40
+// human replies split across six variants, most rows land there and a green
+// chip would invite acting on noise.
+const VERDICT_LABEL = {
+  solid_above: "Solid — above average",
+  solid_below: "Solid — below average",
+  leaning_above: "Leaning above",
+  leaning_below: "Leaning below",
+  not_enough_data: "Not enough data",
+};
+
+const pct = (n) => `${(100 * (n || 0)).toFixed(2)}%`;
+
+function verdictChip(verdict) {
+  const chip = el("span", `verdict verdict-${verdict || "not_enough_data"}`);
+  chip.textContent = VERDICT_LABEL[verdict] || verdict || "—";
+  return chip;
+}
+
+async function loadCampaigns() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Campaigns";
+  $("inbox-empty").hidden = true;
+  list.appendChild(el("li", "list-section", "Loading campaigns…"));
+  const data = await apiGet("/api/campaigns");
+  state.campaigns = data.campaigns || [];
+  renderCampaignList();
+  return data;
+}
+
+function renderCampaignList() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = `Campaigns (${state.campaigns.length})`;
+
+  const active = state.campaigns.filter((c) => c.status === "ACTIVE");
+  const rest = state.campaigns.filter((c) => c.status !== "ACTIVE");
+  const addGroup = (title, items) => {
+    if (!items.length) return;
+    list.appendChild(el("li", "list-section", title));
+    items.forEach((c) => list.appendChild(campaignRow(c)));
+  };
+  addGroup("Active", active);
+  addGroup("Completed / drafted", rest);
+}
+
+function campaignRow(campaign) {
+  const li = el("li", "lead-row campaign-row");
+  if (state.selectedCampaign === campaign.id) li.classList.add("selected");
+  li.appendChild(el("div", "lead-name", campaign.name));
+  const meta = el("div", "campaign-meta");
+  meta.appendChild(el("span", "campaign-stat", `${(campaign.sent || 0).toLocaleString()} sent`));
+  meta.appendChild(el("span", "campaign-stat", `${campaign.replies || 0} replies`));
+  if (campaign.interested) meta.appendChild(el("span", "campaign-stat good", `${campaign.interested} interested`));
+  if (campaign.bounce_rate > 0.03) {
+    meta.appendChild(el("span", "campaign-stat bad", `${pct(campaign.bounce_rate)} bounce`));
+  }
+  li.appendChild(meta);
+  if (campaign.report_at) li.appendChild(el("div", "campaign-analyzed", `Analyzed ${campaign.report_at}`));
+  li.addEventListener("click", () => selectCampaign(campaign));
+  return li;
+}
+
+async function selectCampaign(campaign) {
+  state.selectedCampaign = campaign.id;
+  state.campaignTab = state.campaignTab || "overview";
+  renderCampaignList();
+  $("detail-empty").hidden = true;
+  $("detail-body").hidden = false;
+  showMobileDetail();
+  await renderCampaignDetail(campaign);
+}
+
+async function renderCampaignDetail(campaign) {
+  const body = $("detail-body");
+  body.innerHTML = "";
+
+  const head = el("div", "campaign-head");
+  head.appendChild(el("h2", null, campaign.name));
+  const sub = el("div", "muted", `${campaign.status} · ${(campaign.sent || 0).toLocaleString()} sent · ${campaign.leads || 0} leads`);
+  head.appendChild(sub);
+  body.appendChild(head);
+
+  const tabs = el("div", "campaign-tabs");
+  [["overview", "Overview"], ["report", "AI analysis"], ["conversations", "Conversations"]].forEach(([key, label]) => {
+    const btn = el("button", "campaign-tab" + (state.campaignTab === key ? " active" : ""), label);
+    btn.type = "button";
+    btn.addEventListener("click", () => {
+      state.campaignTab = key;
+      renderCampaignDetail(campaign);
+    });
+    tabs.appendChild(btn);
+  });
+  body.appendChild(tabs);
+
+  const pane = el("div", "campaign-pane");
+  body.appendChild(pane);
+  pane.appendChild(el("p", "muted", "Loading…"));
+
+  if (state.campaignTab === "overview") await renderCampaignOverview(pane, campaign);
+  else if (state.campaignTab === "report") await renderCampaignReport(pane, campaign);
+  else await renderCampaignConversations(pane, campaign);
+}
+
+function metricTable(rows, columns, extraClass) {
+  const table = el("table", "metric-table" + (extraClass ? ` ${extraClass}` : ""));
+  const thead = el("thead");
+  const hrow = el("tr");
+  columns.forEach((c) => hrow.appendChild(el("th", null, c.label)));
+  thead.appendChild(hrow);
+  table.appendChild(thead);
+  const tbody = el("tbody");
+  rows.forEach((row) => {
+    const tr = el("tr");
+    columns.forEach((c) => {
+      const td = el("td");
+      const value = c.render(row);
+      if (value instanceof Node) td.appendChild(value);
+      else td.textContent = value;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  return table;
+}
+
+// "Leads" is deliberately omitted — delivered is the denominator every rate
+// here uses, and the extra column pushed the confidence chip (the column that
+// decides whether a row is actionable at all) off the right edge of the pane.
+const RATE_COLUMNS = [
+  { label: "Delivered", render: (r) => (r.delivered || 0).toLocaleString() },
+  { label: "Replies", render: (r) => String(r.replies || 0) },
+  { label: "Reply %", render: (r) => pct(r.reply_rate) },
+  { label: "Positive", render: (r) => String(r.positives || 0) },
+  { label: "Confidence", render: (r) => verdictChip(r.reply_verdict) },
+];
+
+async function renderCampaignOverview(pane, campaign) {
+  const data = await apiGet(`/api/campaigns/${campaign.id}`);
+  pane.innerHTML = "";
+  if (!data.synced) {
+    pane.appendChild(el("p", "muted", data.message));
+    pane.appendChild(analyzeButton(campaign));
+    return;
+  }
+
+  const o = data.summary.overall;
+  const cards = el("div", "stat-cards");
+  const card = (label, value, note) => {
+    const c = el("div", "stat-card");
+    c.appendChild(el("div", "stat-card-value", value));
+    c.appendChild(el("div", "stat-card-label", label));
+    if (note) c.appendChild(el("div", "stat-card-note", note));
+    cards.appendChild(c);
+  };
+  card("Leads reached", (o.delivered || 0).toLocaleString(), `${o.bounced || 0} bounced`);
+  card("Human replies", String(o.replies || 0), pct(o.reply_rate));
+  card("Positive replies", String(o.positives || 0), pct(o.positive_rate));
+  card("Auto-replies filtered out", String(o.robot_replies || 0), "excluded from all rates");
+  pane.appendChild(cards);
+  pane.appendChild(el("p", "muted small", `Synced ${data.synced_at}. Open and click tracking are off for these campaigns, so replies are the only signal shown.`));
+
+  pane.appendChild(el("h3", null, "Message variants"));
+  pane.appendChild(el("p", "muted small", "Attributed across the whole sequence — a reply to follow-up #2 still belongs to the variant that opened the thread."));
+  pane.appendChild(
+    metricTable(data.variants, [
+      { label: "Variant", render: (r) => r.variant_label },
+      { label: "Recipe", render: (r) => Object.values(r.recipe || {}).flat().join(" + ") || "—" },
+      ...RATE_COLUMNS,
+    ], "wrap-first")
+  );
+
+  const ROLE_LABELS = {
+    subject: "Subject lines", cta: "Calls to action", offer: "Offers",
+    pitch: "Pitches", painpoint: "Pain points", socialproof: "Social proof",
+    icebreaker: "Icebreakers",
+  };
+  pane.appendChild(el("h3", null, "By message component"));
+  pane.appendChild(el("p", "muted small", "Each row pools every variant using that component, so these rest on a bigger sample than the variant table above."));
+  Object.entries(data.slots || {}).forEach(([role, entries]) => {
+    if (!entries.length) return;
+    pane.appendChild(el("h4", null, ROLE_LABELS[role] || role));
+    pane.appendChild(
+      metricTable(entries, [
+        { label: "Component", render: (r) => r.slot },
+        { label: "Used by", render: (r) => (r.used_by || []).join(", ") },
+        { label: "Example text", render: (r) => truncate((r.examples || [])[0] || "", 55) },
+        ...RATE_COLUMNS,
+      ], "wrap-mid")
+    );
+  });
+
+  pane.appendChild(el("h3", null, "Which step earns the reply"));
+  pane.appendChild(
+    metricTable(data.reply_by_step, [
+      { label: "Step", render: (r) => (r.step === 1 ? "1 (first email)" : `${r.step} (follow-up ${r.step - 1})`) },
+      { label: "Leads reached", render: (r) => (r.reached || 0).toLocaleString() },
+      { label: "Replies", render: (r) => String(r.replies || 0) },
+      { label: "Positive", render: (r) => String(r.positives || 0) },
+      { label: "Reply %", render: (r) => pct(r.reply_rate) },
+    ])
+  );
+
+  pane.appendChild(el("h3", null, "Rendered subject lines"));
+  pane.appendChild(
+    metricTable(data.subjects, [
+      { label: "Subject as sent", render: (r) => truncate(r.subject, 70) },
+      ...RATE_COLUMNS,
+    ], "wrap-first")
+  );
+}
+
+function truncate(text, n) {
+  const s = String(text || "");
+  return s.length > n ? s.slice(0, n - 1) + "…" : s;
+}
+
+function analyzeButton(campaign, label) {
+  const btn = el("button", "btn-primary", label || "Analyze this campaign");
+  btn.type = "button";
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    btn.textContent = "Starting…";
+    await apiPost(`/api/campaigns/${campaign.id}/analyze`, { name: campaign.name });
+    state.campaignTab = "report";
+    renderCampaignDetail(campaign);
+  });
+  return btn;
+}
+
+async function renderCampaignReport(pane, campaign) {
+  const data = await apiGet(`/api/campaigns/${campaign.id}/report`);
+  pane.innerHTML = "";
+
+  if (data.running || data.status === "running") {
+    pane.appendChild(el("p", "analysis-running", data.stage || "Analyzing…"));
+    pane.appendChild(el("p", "muted small", "This pulls the campaign's send history and reads every real reply — it takes a few minutes. You can switch tabs and come back."));
+    clearTimeout(state.campaignPoll);
+    state.campaignPoll = setTimeout(() => {
+      if (state.view === "campaigns" && state.selectedCampaign === campaign.id && state.campaignTab === "report") {
+        renderCampaignDetail(campaign);
+      }
+    }, 5000);
+    return;
+  }
+
+  if (data.status === "failed") {
+    pane.appendChild(el("p", "error-text", `Analysis failed: ${data.error || "unknown error"}`));
+    pane.appendChild(analyzeButton(campaign, "Try again"));
+    return;
+  }
+
+  if (!data.report_md && !data.conversation_md) {
+    pane.appendChild(el("p", "muted", "Not analyzed yet. This reads the campaign's variants, its send results and every real reply, then writes up what's working and how to build the next run."));
+    pane.appendChild(analyzeButton(campaign));
+    return;
+  }
+
+  const bar = el("div", "report-bar");
+  bar.appendChild(el("span", "muted small", `Generated ${data.generated_at} · ${data.model || ""}`));
+  bar.appendChild(analyzeButton(campaign, "Re-analyze"));
+  pane.appendChild(bar);
+
+  if (data.report_md) {
+    pane.appendChild(el("h3", null, "Variants — what's working and what to run next"));
+    pane.appendChild(markdownBlock(data.report_md));
+  }
+  if (data.conversation_md) {
+    pane.appendChild(el("h3", null, "What the replies actually say"));
+    pane.appendChild(markdownBlock(data.conversation_md));
+  }
+}
+
+// Minimal markdown -> HTML for the report bodies. Everything is escaped first,
+// so model output can never inject markup; only the handful of constructs the
+// report prompt actually asks for are then re-enabled.
+function markdownBlock(md) {
+  const box = el("div", "report-md");
+  const html = escapeHtml(md)
+    .replace(/^#### (.*)$/gm, "<h5>$1</h5>")
+    .replace(/^### (.*)$/gm, "<h4>$1</h4>")
+    .replace(/^## (.*)$/gm, "<h3>$1</h3>")
+    .replace(/^# (.*)$/gm, "<h3>$1</h3>")
+    .replace(/^\s*[-*] (.*)$/gm, "<li>$1</li>")
+    .replace(/^\s*(\d+)\. (.*)$/gm, "<li>$2</li>")
+    .replace(/(<li>[\s\S]*?<\/li>)(?!\s*<li>)/g, "<ul>$1</ul>")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\n{2,}/g, "</p><p>");
+  box.innerHTML = `<p>${html}</p>`;
+  return box;
+}
+
+async function renderCampaignConversations(pane, campaign) {
+  const data = await apiGet(`/api/campaigns/${campaign.id}/responders`);
+  pane.innerHTML = "";
+  const people = data.responders || [];
+  if (!people.length) {
+    pane.appendChild(el("p", "muted", "No real replies stored yet. Auto-replies and out-of-office are deliberately excluded — run Analyze to pull the conversations."));
+    pane.appendChild(analyzeButton(campaign));
+    return;
+  }
+
+  const categories = [...new Set(people.map((p) => p.category).filter(Boolean))].sort();
+  const filter = el("div", "convo-filter");
+  const mkFilter = (label, value) => {
+    const btn = el("button", "chip-filter" + ((state.convoFilter || "") === value ? " active" : ""), label);
+    btn.type = "button";
+    btn.addEventListener("click", () => {
+      state.convoFilter = value;
+      renderCampaignDetail(campaign);
+    });
+    filter.appendChild(btn);
+  };
+  mkFilter(`All (${people.length})`, "");
+  categories.forEach((c) => mkFilter(`${c} (${people.filter((p) => p.category === c).length})`, c));
+  pane.appendChild(filter);
+
+  const shown = state.convoFilter ? people.filter((p) => p.category === state.convoFilter) : people;
+  shown.forEach((person) => pane.appendChild(conversationCard(person)));
+}
+
+function conversationCard(person) {
+  const card = el("details", "convo-card");
+  const summary = el("summary");
+  summary.appendChild(el("span", "convo-company", person.company || person.email || "Lead"));
+  summary.appendChild(el("span", `convo-cat cat-${(person.category || "").replace(/\W+/g, "-").toLowerCase()}`, person.category || "—"));
+  if (person.magnet) summary.appendChild(el("span", "convo-magnet", `wanted the ${person.magnet}`));
+  if (person.replied_after_step) {
+    summary.appendChild(el("span", "convo-step", person.replied_after_step === 1 ? "replied to email 1" : `replied after follow-up ${person.replied_after_step - 1}`));
+  }
+  if (person.variant) summary.appendChild(el("span", "convo-variant", `variant ${person.variant}`));
+  card.appendChild(summary);
+
+  (person.turns || []).forEach((turn) => {
+    const bubble = el("div", `convo-turn convo-${turn.who}`);
+    const who = turn.who === "us" ? (turn.step ? `Us — email ${turn.step}` : "Us") : "Them";
+    bubble.appendChild(el("div", "convo-who", who));
+    bubble.appendChild(el("div", "convo-text", turn.text));
+    card.appendChild(bubble);
+  });
+
+  if (person.extract) {
+    const e = person.extract;
+    const box = el("div", "convo-extract");
+    const bits = [];
+    if (e.intent) bits.push(`Intent: ${e.intent}`);
+    if (e.objection_type) bits.push(`Objection: ${e.objection_type}`);
+    if (e.tone) bits.push(`Tone: ${e.tone}`);
+    if (e.salvageable) bits.push("Salvageable");
+    box.appendChild(el("div", "muted small", bits.join(" · ")));
+    if (e.salvage_angle) box.appendChild(el("div", "small", e.salvage_angle));
+    card.appendChild(box);
+  }
+  return card;
+}
+
+const VIEW_LOADERS = {
+  inbox: loadInbox, scheduled: loadScheduled, archive: loadArchive,
+  stats: loadStats, campaigns: loadCampaigns,
+};
 
 function setView(view) {
   state.view = view;
+  clearTimeout(state.campaignPoll);
   $("legend").hidden = view !== "inbox";
   $("rescan-btn").hidden = view !== "inbox";
+  // Campaigns lists campaigns, not leads — the lead search box would do nothing.
+  document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns");
   $("view-inbox-btn").classList.toggle("active", view === "inbox");
   $("view-scheduled-btn").classList.toggle("active", view === "scheduled");
   $("view-archive-btn").classList.toggle("active", view === "archive");
+  $("view-campaigns-btn").classList.toggle("active", view === "campaigns");
   $("view-stats-btn").classList.toggle("active", view === "stats");
   state.selected = -1;
   $("detail-body").hidden = true;
@@ -1806,6 +2181,7 @@ $("view-inbox-btn").addEventListener("click", () => setView("inbox"));
 $("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
 $("view-stats-btn").addEventListener("click", () => setView("stats"));
 $("view-archive-btn").addEventListener("click", () => setView("archive"));
+$("view-campaigns-btn").addEventListener("click", () => setView("campaigns"));
 loadInbox().catch((e) => {
   $("scan-status").textContent = "load failed";
   console.error(e);

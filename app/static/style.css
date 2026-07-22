@@ -611,3 +611,88 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 
   .login-box { margin: 40px auto; padding: 20px 16px; }
 }
+
+/* ---------- campaigns view ---------- */
+
+.campaign-row { display: flex; flex-direction: column; gap: 3px; border-left-color: var(--waiting); }
+.campaign-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.campaign-stat { font-size: 12px; color: var(--muted); }
+.campaign-stat.good { color: var(--booked); font-weight: 600; }
+.campaign-stat.bad { color: var(--danger); font-weight: 600; }
+.campaign-analyzed { font-size: 11px; color: var(--muted); font-style: italic; }
+
+.campaign-head h2 { margin: 0 0 2px; font-size: 20px; }
+.campaign-tabs { display: flex; gap: 4px; margin: 14px 0 12px; border-bottom: 1px solid var(--border); }
+.campaign-tab {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 8px 12px; cursor: pointer; color: var(--muted); font-size: 14px;
+}
+.campaign-tab:hover { color: var(--text); }
+.campaign-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+.campaign-pane h3 { margin: 22px 0 4px; font-size: 15px; }
+.campaign-pane h4 { margin: 16px 0 4px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.small { font-size: 12px; }
+
+.stat-cards { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.stat-card { flex: 1 1 140px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.stat-card-value { font-size: 22px; font-weight: 600; }
+.stat-card-label { font-size: 12px; color: var(--muted); }
+.stat-card-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Tables can be wide; scroll them rather than the page. */
+.metric-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; display: block; overflow-x: auto; }
+.metric-table th, .metric-table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.metric-table th { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+.metric-table tbody tr:hover { background: #faf8f5; }
+
+/* "Not enough data" must read as neutral, never as a result worth acting on. */
+.verdict { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.verdict-solid_above { background: var(--booked-bg); color: var(--booked); }
+.verdict-solid_below { background: var(--reply-bg); color: var(--reply); }
+.verdict-leaning_above { background: #eef5f0; color: #4a7c59; }
+.verdict-leaning_below { background: var(--followup-bg); color: var(--followup); }
+.verdict-not_enough_data { background: #efece6; color: var(--muted); }
+
+.report-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.report-md { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; line-height: 1.6; }
+.report-md h3 { margin: 18px 0 6px; font-size: 15px; }
+.report-md h4, .report-md h5 { margin: 14px 0 4px; font-size: 13px; }
+.report-md ul { margin: 6px 0; padding-left: 20px; }
+.report-md li { margin: 3px 0; }
+.report-md code { background: #f1ede6; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+.report-md p { margin: 8px 0; }
+.analysis-running { font-weight: 600; color: var(--accent); }
+.error-text { color: var(--danger); }
+
+.convo-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.chip-filter {
+  border: 1px solid var(--border); background: var(--card); border-radius: 12px;
+  padding: 3px 10px; font-size: 12px; cursor: pointer; color: var(--muted);
+}
+.chip-filter.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.convo-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.convo-card summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.convo-company { font-weight: 600; }
+.convo-cat, .convo-magnet, .convo-step, .convo-variant { font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #efece6; color: var(--muted); }
+.convo-magnet { background: var(--booked-bg); color: var(--booked); }
+.convo-turn { margin: 8px 0 0; padding: 8px 10px; border-radius: 6px; }
+.convo-us { background: #f6f5f2; }
+.convo-them { background: var(--reply-bg); }
+.convo-who { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 3px; }
+.convo-text { white-space: pre-wrap; font-size: 13px; line-height: 1.5; }
+.convo-extract { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
+
+/* Long text columns wrap so the Confidence chip — the column that decides
+   whether a row is worth acting on — stays visible without scrolling. */
+.metric-table.wrap-first td:nth-child(2) { white-space: normal; min-width: 190px; }
+.metric-table.wrap-mid td:nth-child(3) { white-space: normal; min-width: 130px; max-width: 210px; }
+.metric-table td:first-child { white-space: normal; }
+
+/* The lead search box belongs to the inbox-style views only. */
+.search-row.hidden { display: none; }
+
+/* .legend sets display:flex, which beats the [hidden] attribute the view
+   switcher sets — without this it stays visible on Archive, Stats and
+   Campaigns, where its inbox colour key means nothing. */
+.legend[hidden] { display: none; }

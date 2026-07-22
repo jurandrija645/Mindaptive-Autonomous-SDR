@@ -25,6 +25,19 @@ _MANY_NL_RE = re.compile(r"\n{3,}")
 _QUOTE_MARKERS = [
     re.compile(r"^\s*-{2,}\s*Original Message\s*-{2,}", re.IGNORECASE | re.MULTILINE),
     re.compile(r"^\s*On\b.{0,300}?\bwrote:\s*$", re.IGNORECASE | re.MULTILINE | re.DOTALL),
+    # Non-English equivalents of "On … wrote:". Outreach goes out in German,
+    # Dutch, French and Spanish, and without these the lead's two-line reply
+    # arrives with our entire previous email quoted underneath it — which
+    # inflates token cost and invites a model reading the thread to treat our
+    # own copy as something the lead wrote.
+    # The date can follow the verb ("Mia schrieb am Mi. 22. Juli 2026 um 13:42:"),
+    # so allow text between the verb and the trailing colon.
+    re.compile(
+        r"^.{0,200}?\b(schrieb|schreef|a écrit|ha escrito|escribió|ha scritto)\b.{0,200}?:\s*$",
+        re.IGNORECASE | re.MULTILINE,
+    ),
+    # German/Dutch date-first form: "Am 22.07.2026 um 13:42 schrieb X:"
+    re.compile(r"^\s*(Am|Op)\b.{0,300}?\b(schrieb|schreef)\b", re.IGNORECASE | re.MULTILINE),
     re.compile(r"^\s*_{5,}\s*$", re.MULTILINE),  # Outlook "________" divider
     re.compile(r"^\s*From:\s.+$", re.IGNORECASE | re.MULTILINE),  # forwarded header block
     re.compile(r"^\s*>.*$", re.MULTILINE),  # a quoted (">") line

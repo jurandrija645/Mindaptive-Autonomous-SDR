@@ -9,6 +9,7 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Redirect
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from app import campaign_analytics, campaign_conversations, campaign_report
 from app import candidates as candidates_module
 from app import db, drafter, pipeline, scheduler, smartlead, translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -1025,6 +1026,190 @@ def api_metrics(request: Request):
             "scheduled_drafts": scheduled_drafts,
         }
     )
+
+
+# ---- campaigns ----
+
+# GET /api/campaigns hits Smartlead once per campaign for headline totals (~25
+# calls), which takes a few seconds. The tab is opened repeatedly while reading
+# a report, so the list is cached briefly rather than re-fetched every time.
+_campaign_list_cache: dict = {"at": 0.0, "data": None}
+_CAMPAIGN_LIST_TTL = 300
+
+
+@app.get("/api/campaigns")
+def api_campaigns(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    fresh = request.query_params.get("refresh") == "1"
+    now = time.time()
+    if not fresh and _campaign_list_cache["data"] is not None:
+        if now - _campaign_list_cache["at"] < _CAMPAIGN_LIST_TTL:
+            return JSONResponse({"campaigns": _campaign_list_cache["data"], "cached": True})
+
+    with db.db_session() as conn:
+        analyzed = {
+            row["campaign_id"]: row
+            for row in conn.execute(
+                "SELECT campaign_id, status, generated_at FROM campaign_reports"
+            )
+        }
+
+    out = []
+    for campaign in smartlead.list_campaigns():
+        cid = campaign.get("id")
+        if cid is None:
+            continue
+        entry = {
+            "id": cid,
+            "name": campaign.get("name") or f"Campaign {cid}",
+            "status": campaign.get("status"),
+            "created_at": campaign.get("created_at"),
+        }
+        try:
+            stats = smartlead.get_campaign_analytics(cid)
+            sent = _as_int(stats.get("sent_count"))
+            bounced = _as_int(stats.get("bounce_count"))
+            lead_stats = stats.get("campaign_lead_stats") or {}
+            entry.update(
+                {
+                    "sent": sent,
+                    "replies": _as_int(stats.get("reply_count")),
+                    "bounced": bounced,
+                    "leads": _as_int((lead_stats or {}).get("total")),
+                    "interested": _as_int((lead_stats or {}).get("interested")),
+                    "bounce_rate": (bounced / sent) if sent else 0.0,
+                }
+            )
+        except Exception as exc:  # one bad campaign shouldn't blank the list
+            log.warning("campaign %s: analytics fetch failed: %s", cid, exc)
+            entry["error"] = str(exc)[:200]
+        report = analyzed.get(cid)
+        entry["report_status"] = report["status"] if report else None
+        entry["report_at"] = _fmt_time(report["generated_at"]) if report else None
+        out.append(entry)
+
+    _campaign_list_cache.update({"at": now, "data": out})
+    return JSONResponse({"campaigns": out, "cached": False})
+
+
+def _as_int(value) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
+@app.get("/api/campaigns/{campaign_id}")
+def api_campaign_detail(request: Request, campaign_id: int):
+    """Overview tab: the computed numbers only, straight from the local mirror.
+    Never syncs — a first sync moves tens of MB and belongs behind the explicit
+    Analyze click, not a tab switch."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        sync = db.get_campaign_sync(conn, campaign_id)
+        if sync is None or not sync["sends_synced_at"]:
+            return JSONResponse(
+                {
+                    "campaign_id": campaign_id,
+                    "synced": False,
+                    "message": "Not analyzed yet — click Analyze to pull this campaign's data.",
+                }
+            )
+        outcomes = campaign_analytics.lead_outcomes(conn, campaign_id)
+        slots = campaign_analytics.slot_metrics(conn, campaign_id, outcomes)
+        for entries in slots.values():
+            for entry in entries:
+                entry["examples"] = campaign_analytics.slot_examples(
+                    conn, campaign_id, entry["slot"], limit=3
+                )
+        payload = {
+            "campaign_id": campaign_id,
+            "synced": True,
+            "synced_at": _fmt_time(sync["sends_synced_at"]),
+            "summary": campaign_analytics.campaign_summary(conn, campaign_id, outcomes),
+            "variants": campaign_analytics.variant_metrics(conn, campaign_id, outcomes),
+            "slots": slots,
+            "subjects": campaign_analytics.subject_metrics(conn, campaign_id, outcomes=outcomes),
+            "reply_by_step": campaign_analytics.reply_step_metrics(conn, campaign_id, outcomes),
+            "conversations": campaign_conversations.conversation_stats(conn, campaign_id),
+        }
+    return JSONResponse(payload)
+
+
+@app.post("/api/campaigns/{campaign_id}/analyze")
+async def api_campaign_analyze(request: Request, campaign_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    layers = tuple(body.get("layers") or ("variants", "conversations"))
+    started = campaign_report.run_analysis_in_background(
+        campaign_id,
+        campaign_name=body.get("name") or "",
+        layers=layers,
+        full_sync=bool(body.get("full_sync")),
+    )
+    return JSONResponse({"started": started, "running": campaign_report.is_running(campaign_id)})
+
+
+@app.get("/api/campaigns/{campaign_id}/report")
+def api_campaign_report(request: Request, campaign_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        row = db.get_campaign_report(conn, campaign_id)
+    if row is None:
+        return JSONResponse({"status": None, "running": campaign_report.is_running(campaign_id)})
+    return JSONResponse(
+        {
+            "status": row["status"],
+            "stage": row["stage"],
+            "running": campaign_report.is_running(campaign_id),
+            "generated_at": _fmt_time(row["generated_at"]),
+            "model": row["model"],
+            "report_md": row["report_md"],
+            "conversation_md": row["conversation_md"],
+            "error": row["error"],
+        }
+    )
+
+
+@app.get("/api/campaigns/{campaign_id}/responders")
+def api_campaign_responders(request: Request, campaign_id: int):
+    """The raw conversations behind the Layer-2 report, so Andrew can read what
+    leads actually wrote instead of only the AI's summary of it."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        rows = db.list_campaign_conversations(conn, campaign_id)
+    people = []
+    for row in rows:
+        try:
+            extract = json.loads(row["extract_json"]) if row["extract_json"] else None
+        except ValueError:
+            extract = None
+        people.append(
+            {
+                "lead_id": row["lead_id"],
+                "email": row["lead_email"],
+                "company": row["company"],
+                "category": row["category"],
+                "variant": row["variant_label"],
+                "replied_after_step": row["first_reply_after_step"],
+                "first_reply_at": _fmt_time(row["first_reply_at"]),
+                "hours_to_reply": row["hours_to_reply"],
+                "magnet": campaign_conversations.magnet_for(row["category"]),
+                "turns": json.loads(row["thread_json"] or "[]"),
+                "extract": extract,
+            }
+        )
+    return JSONResponse({"responders": people})
 
 
 # ---- scan ----
