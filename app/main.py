@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Redirect
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app import campaign_analytics, campaign_conversations, campaign_report
+from app import accounts, campaign_analytics, campaign_conversations, campaign_report
 from app import candidates as candidates_module
 from app import db, drafter, pipeline, scheduler, smartlead, translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -60,9 +60,9 @@ templates.env.globals["static_version"] = str(int(time.time()))
 def on_startup():
     db.init_db()
     scheduler.start_scheduler()
-    # Warm the campaigns list once at boot (background, doesn't delay startup) so
-    # the first time the tab is opened after a deploy it's already instant.
-    _refresh_campaign_list_in_background()
+    # Warm the campaigns lists once at boot (background, doesn't delay startup)
+    # so the first time the tab is opened after a deploy it's already instant.
+    _warm_campaign_caches()
 
 
 # ---- auth pages ----
@@ -1045,13 +1045,15 @@ def api_metrics(request: Request):
 #      warms it so that case rarely happens.
 # The per-campaign calls are fanned out across threads so a refresh is one
 # round-trip's worth of latency, not 25 in series.
-_campaign_list_cache: dict = {"at": 0.0, "data": None}
+# Keyed by account slug: each Smartlead account has its own campaigns and its own
+# cache entry, so switching accounts in the UI is instant once each is warm.
 _CAMPAIGN_LIST_TTL = 12 * 3600
+_campaign_list_cache: dict[str, dict] = {}
 _campaign_refresh_lock = threading.Lock()
-_campaign_refreshing = False
+_campaign_refreshing: set[str] = set()
 
 
-def _build_campaign_list() -> list[dict]:
+def _build_campaign_list(api_key: str) -> list[dict]:
     with db.db_session() as conn:
         analyzed = {
             row["campaign_id"]: row
@@ -1060,11 +1062,11 @@ def _build_campaign_list() -> list[dict]:
             )
         }
 
-    campaigns = [c for c in smartlead.list_campaigns() if c.get("id") is not None]
+    campaigns = [c for c in smartlead.list_campaigns(api_key=api_key) if c.get("id") is not None]
 
     def headline(cid: int) -> dict:
         try:
-            stats = smartlead.get_campaign_analytics(cid)
+            stats = smartlead.get_campaign_analytics(cid, api_key=api_key)
             sent = _as_int(stats.get("sent_count"))
             bounced = _as_int(stats.get("bounce_count"))
             lead_stats = stats.get("campaign_lead_stats") or {}
@@ -1106,27 +1108,42 @@ def _build_campaign_list() -> list[dict]:
     return out
 
 
-def _refresh_campaign_list_in_background() -> None:
-    """Rebuild the cache off the request path. Lock-guarded so a burst of stale
-    reads can't start several rebuilds at once."""
-    global _campaign_refreshing
+def _refresh_campaign_list_in_background(account) -> None:
+    """Rebuild one account's cache off the request path. Lock-guarded per account
+    so a burst of stale reads can't start several rebuilds of the same one."""
     with _campaign_refresh_lock:
-        if _campaign_refreshing:
+        if account.slug in _campaign_refreshing:
             return
-        _campaign_refreshing = True
+        _campaign_refreshing.add(account.slug)
 
     def _worker():
-        global _campaign_refreshing
         try:
-            data = _build_campaign_list()
-            _campaign_list_cache.update({"at": time.time(), "data": data})
+            data = _build_campaign_list(account.api_key)
+            _campaign_list_cache[account.slug] = {"at": time.time(), "data": data}
         except Exception:
-            log.exception("campaign list refresh failed")
+            log.exception("campaign list refresh failed for account %s", account.slug)
         finally:
             with _campaign_refresh_lock:
-                _campaign_refreshing = False
+                _campaign_refreshing.discard(account.slug)
 
     threading.Thread(target=_worker, daemon=True).start()
+
+
+def _warm_campaign_caches() -> None:
+    """Warm every account's list at startup so the first open after a deploy is
+    instant, for whichever account is selected."""
+    for account in accounts.list_accounts():
+        _refresh_campaign_list_in_background(account)
+
+
+@app.get("/api/accounts")
+def api_accounts(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse(
+        {"accounts": [{"slug": a.slug, "label": a.label} for a in accounts.list_accounts()]}
+    )
 
 
 @app.get("/api/campaigns")
@@ -1134,22 +1151,27 @@ def api_campaigns(request: Request):
     redirect = require_auth(request)
     if redirect:
         return redirect
+    account = accounts.get_account(request.query_params.get("account"))
+    if account is None:
+        return JSONResponse({"error": "No Smartlead account configured."}, status_code=400)
     fresh = request.query_params.get("refresh") == "1"
     now = time.time()
-    cached = _campaign_list_cache["data"]
-    age = now - _campaign_list_cache["at"]
+    entry = _campaign_list_cache.get(account.slug)
 
     # Nothing cached yet (first ever load) — nothing to show, so build inline.
-    if cached is None:
-        data = _build_campaign_list()
-        _campaign_list_cache.update({"at": now, "data": data})
-        return JSONResponse({"campaigns": data, "cached": False})
+    if entry is None:
+        data = _build_campaign_list(account.api_key)
+        _campaign_list_cache[account.slug] = {"at": now, "data": data}
+        return JSONResponse({"account": account.slug, "campaigns": data, "cached": False})
 
     # Stale or force-refresh: hand back what we have instantly and rebuild in
     # the background. The user never waits on the fetch when opening the tab.
+    age = now - entry["at"]
     if fresh or age >= _CAMPAIGN_LIST_TTL:
-        _refresh_campaign_list_in_background()
-    return JSONResponse({"campaigns": cached, "cached": True, "age_seconds": int(age)})
+        _refresh_campaign_list_in_background(account)
+    return JSONResponse(
+        {"account": account.slug, "campaigns": entry["data"], "cached": True, "age_seconds": int(age)}
+    )
 
 
 def _as_int(value) -> int:
@@ -1205,11 +1227,15 @@ async def api_campaign_analyze(request: Request, campaign_id: int):
         return redirect
     body = await _json_body(request)
     layers = tuple(body.get("layers") or ("variants", "conversations"))
+    account = accounts.get_account(body.get("account"))
+    if account is None:
+        return JSONResponse({"error": "No Smartlead account configured."}, status_code=400)
     started = campaign_report.run_analysis_in_background(
         campaign_id,
         campaign_name=body.get("name") or "",
         layers=layers,
         full_sync=bool(body.get("full_sync")),
+        api_key=account.api_key,
     )
     return JSONResponse({"started": started, "running": campaign_report.is_running(campaign_id)})
 

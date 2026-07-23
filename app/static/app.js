@@ -13,6 +13,8 @@ const state = {
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
   templates: null,       // message templates from /api/templates, loaded when the modal opens
   // ---- campaigns view ----
+  accounts: null,        // [{slug,label}] Smartlead accounts, loaded once
+  account: null,         // slug of the account whose campaigns are shown
   campaigns: [],         // /api/campaigns list with headline stats
   selectedCampaign: null,
   campaignTab: "overview", // "overview" | "report" | "conversations"
@@ -132,6 +134,10 @@ const apiDelete = (url) => apiSend("DELETE", url);
 // ---------- inbox / archive list loading ----------
 async function loadInbox() {
   const data = await apiGet("/api/inbox");
+  // A loadInbox() started before a tab switch (e.g. the one fired at page load)
+  // can resolve after the user has already moved to another view. Don't let it
+  // repaint #lead-list over that view.
+  if (state.view !== "inbox") return data;
   state.allLeads = data.leads;
   state.snoozedCount = 0;
   applyFilter();
@@ -361,16 +367,56 @@ async function loadCampaigns() {
   $("inbox-count").textContent = "Campaigns";
   $("inbox-empty").hidden = true;
   list.appendChild(el("li", "list-section", "Loading campaigns…"));
-  const data = await apiGet("/api/campaigns");
+
+  // Load the account list once, so the switcher knows what's available.
+  if (state.accounts === null) {
+    try {
+      state.accounts = (await apiGet("/api/accounts")).accounts || [];
+    } catch (e) {
+      state.accounts = [];
+    }
+    if (!state.account && state.accounts.length) state.account = state.accounts[0].slug;
+  }
+
+  const url = state.account ? `/api/campaigns?account=${encodeURIComponent(state.account)}` : "/api/campaigns";
+  const data = await apiGet(url);
+  if (state.view !== "campaigns") return data; // switched away while loading
+  state.account = data.account || state.account;
   state.campaigns = data.campaigns || [];
+  state.selectedCampaign = null;
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
   renderCampaignList();
   return data;
+}
+
+function accountSwitcher() {
+  // Only worth showing when there's more than one account to switch between.
+  if (!state.accounts || state.accounts.length < 2) return null;
+  const row = el("li", "account-switch");
+  row.appendChild(el("span", "account-label", "Account"));
+  const select = el("select", "account-select");
+  state.accounts.forEach((a) => {
+    const opt = el("option", null, a.label);
+    opt.value = a.slug;
+    if (a.slug === state.account) opt.selected = true;
+    select.appendChild(opt);
+  });
+  select.addEventListener("change", () => {
+    state.account = select.value;
+    loadCampaigns().catch((e) => console.error(e));
+  });
+  row.appendChild(select);
+  return row;
 }
 
 function renderCampaignList() {
   const list = $("lead-list");
   list.innerHTML = "";
   $("inbox-count").textContent = `Campaigns (${state.campaigns.length})`;
+
+  const switcher = accountSwitcher();
+  if (switcher) list.appendChild(switcher);
 
   const active = state.campaigns.filter((c) => c.status === "ACTIVE");
   const rest = state.campaigns.filter((c) => c.status !== "ACTIVE");
@@ -561,7 +607,7 @@ function analyzeButton(campaign, label) {
   btn.addEventListener("click", async () => {
     btn.disabled = true;
     btn.textContent = "Starting…";
-    await apiPost(`/api/campaigns/${campaign.id}/analyze`, { name: campaign.name });
+    await apiPost(`/api/campaigns/${campaign.id}/analyze`, { name: campaign.name, account: state.account });
     state.campaignTab = "report";
     renderCampaignDetail(campaign);
   });
@@ -2284,3 +2330,32 @@ loadInbox().catch((e) => {
   console.error(e);
 });
 loadCategories();
+
+// Quietly re-pull the inbox so a reply that just arrived (webhook, or the
+// periodic backend scan) shows up without a manual Rescan or F5. List-only:
+// loadInbox -> renderList rebuilds #lead-list and never touches the open draft
+// editor (#detail-body), so nothing you're typing is disturbed. We keep the
+// selected lead highlighted across the refresh by matching on its id, not its
+// (possibly shifted) list index. Runs only on the inbox view and only when the
+// tab is visible.
+const INBOX_REFRESH_MS = 60000;
+function leadKey(l) {
+  return l ? `${l.campaign_id}/${l.lead_id}` : null;
+}
+async function autoRefreshInbox() {
+  if (state.view !== "inbox" || document.hidden) return;
+  const curKey = leadKey(state.selected >= 0 ? state.leads[state.selected] : null);
+  try {
+    await loadInbox();
+  } catch (e) {
+    return; // transient — try again next tick
+  }
+  if (curKey) {
+    const idx = state.leads.findIndex((l) => leadKey(l) === curKey);
+    if (idx !== state.selected) {
+      state.selected = idx;
+      renderList();
+    }
+  }
+}
+setInterval(autoRefreshInbox, INBOX_REFRESH_MS);

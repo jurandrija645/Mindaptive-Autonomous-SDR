@@ -727,3 +727,8 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
    switcher sets — without this it stays visible on Archive, Stats and
    Campaigns, where its inbox colour key means nothing. */
 .legend[hidden] { display: none; }
+
+/* Account switcher at the top of the Campaigns list (only shown with >1 account). */
+.account-switch { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
+.account-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.account-select { flex: 1; padding: 4px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); font-size: 13px; }

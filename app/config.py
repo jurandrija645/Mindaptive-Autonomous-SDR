@@ -72,6 +72,14 @@ class Settings:
     # revival touch once this many days pass with no reply. 0 disables.
     revive_after_days: int = int(os.getenv("REVIVE_AFTER_DAYS", "60"))
     daily_scan_hour_utc: int = int(os.getenv("DAILY_SCAN_HOUR_UTC", "6"))
+    # How often (minutes) to run the lightweight reply-catch scan
+    # (scheduler.run_reply_catch_scan) — the safety net for replies the webhook
+    # missed (it's fire-and-forget, and a reply that lands during a deploy
+    # restart is lost), so Andrew never has to click "Rescan now" to see a reply.
+    # Cheap: it only re-checks leads we already track as live conversations and
+    # bulk-fetches their threads (~one Smartlead call per campaign), so a tight
+    # cadence stays far under the API rate limit. 0 disables.
+    scan_interval_minutes: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "5"))
 
     anthropic_model: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5")
     anthropic_translate_model: str = os.getenv(

@@ -423,10 +423,17 @@ def run_analysis(
     layers: tuple[str, ...] = ("variants", "conversations"),
     model: str | None = None,
     full_sync: bool = False,
+    api_key: str | None = None,
 ) -> None:
     """Sync, analyze and cache. Runs on a background thread (see app/main.py) —
     a full first sync plus two Claude calls is far past the ~100s Cloudflare
-    tunnel timeout, so this must never be awaited by a request."""
+    tunnel timeout, so this must never be awaited by a request.
+
+    `api_key` selects which Smartlead account the sync reads from. It's pinned
+    for the whole body via smartlead.use_account so the ~6 scattered Smartlead
+    calls downstream all hit the right account without threading it through each
+    signature — and, crucially, it's set inside *this* thread, since a ContextVar
+    doesn't carry into the worker from the request that spawned it."""
     model = model or settings.anthropic_model
 
     def stage(text: str) -> None:
@@ -438,6 +445,7 @@ def run_analysis(
         db.start_campaign_report(conn, campaign_id, "Starting…")
 
     try:
+      with smartlead.use_account(api_key):
         campaign_analytics.sync_campaign(campaign_id, full=full_sync, progress=stage)
 
         report_md = None

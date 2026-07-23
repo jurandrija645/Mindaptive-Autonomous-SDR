@@ -1,3 +1,5 @@
+import contextlib
+import contextvars
 import logging
 import time
 from typing import Any, Iterator
@@ -9,6 +11,26 @@ from app.config import settings
 log = logging.getLogger("smartlead")
 
 BASE_URL = "https://server.smartlead.ai/api/v1"
+
+# The account whose key `_request` should use when a call doesn't pass one
+# explicitly. Lets the whole campaign-analysis chain (which scatters ~6 Smartlead
+# calls across three modules) run against a chosen account without threading an
+# api_key argument through every function — the caller pins the account once, at
+# the top of the request handler or background worker, via `use_account`.
+# A ContextVar starts fresh in each new thread, so the pin must be set inside the
+# analysis worker thread, not merely inherited from the request that spawned it.
+_active_api_key: contextvars.ContextVar[str | None] = contextvars.ContextVar(
+    "smartlead_active_api_key", default=None
+)
+
+
+@contextlib.contextmanager
+def use_account(api_key: str | None):
+    token = _active_api_key.set(api_key)
+    try:
+        yield
+    finally:
+        _active_api_key.reset(token)
 
 
 class SmartleadError(RuntimeError):
@@ -27,7 +49,7 @@ def _request(
     api_key: str | None = None,
 ) -> Any:
     params = dict(params or {})
-    params["api_key"] = api_key or settings.smartlead_api_key
+    params["api_key"] = api_key or _active_api_key.get() or settings.smartlead_api_key
 
     max_attempts = 5
     backoff = 1.5

@@ -101,6 +101,96 @@ def trigger_scan_in_background() -> bool:
     return True
 
 
+_reply_catch_lock = threading.Lock()
+
+
+def run_reply_catch_scan() -> None:
+    """Frequent, cheap safety-net for replies the webhook missed.
+
+    The webhook (webhook.py) is the fast path, but it's fire-and-forget with no
+    retry — a reply that lands while the app is restarting for a deploy is lost,
+    and the lead only resurfaces on the next daily scan or a manual "Rescan
+    now". This closes that gap without the daily scan's cost: it never walks the
+    full campaign lead lists, it only re-checks the leads we already track as
+    live conversations (interested, not stopped/booked) and pulls their threads
+    in bulk — roughly one Smartlead call per campaign. A lead whose newest
+    message is an unanswered reply, with no open draft, gets an auto-reply
+    drafted, exactly as the webhook would have. Reading the thread from a bulk
+    fetch minutes after the reply also sidesteps the propagation lag that can
+    make the webhook's own instant re-fetch miss the reply.
+    """
+    if _reply_catch_lock.locked():
+        log.info("reply-catch scan already running, skipping this trigger")
+        return
+    with _reply_catch_lock:
+        with db.db_session() as conn:
+            rows = conn.execute(
+                """SELECT lead_id, campaign_id, name, email, company, website
+                   FROM leads_state
+                   WHERE interested = 1 AND status IN ('active', 'awaiting_reply')"""
+            ).fetchall()
+        if not rows:
+            return
+
+        by_campaign: dict[int, list] = {}
+        for row in rows:
+            by_campaign.setdefault(row["campaign_id"], []).append(row)
+
+        drafted = 0
+        for campaign_id, leads in by_campaign.items():
+            try:
+                bulk = smartlead.get_message_history_bulk(
+                    campaign_id, [row["lead_id"] for row in leads]
+                )
+            except Exception:
+                log.exception(
+                    "reply-catch: bulk history failed for campaign %s", campaign_id
+                )
+                continue
+
+            for row in leads:
+                entry = bulk.get(str(row["lead_id"])) or {}
+                raw = entry.get("history") if isinstance(entry, dict) else entry
+                thread = detector.normalize_thread(raw or [])
+                if not thread or thread[-1].kind != "reply":
+                    continue
+                last = thread[-1]
+                try:
+                    with db.db_session() as conn:
+                        # Already have a draft for this reply (webhook or an
+                        # earlier tick) — don't make a second one.
+                        if db.has_open_draft(conn, row["lead_id"], campaign_id):
+                            continue
+                        if db.has_drafted_reply_to(
+                            conn, row["lead_id"], campaign_id, last.message_id
+                        ):
+                            continue
+                        lead = {
+                            "id": row["lead_id"],
+                            "campaign_id": campaign_id,
+                            "first_name": row["name"],
+                            "company_name": row["company"],
+                            "email": row["email"],
+                            "website": row["website"],
+                        }
+                        log.info(
+                            "reply-catch: drafting missed reply for lead %s",
+                            row["lead_id"],
+                        )
+                        pipeline.create_draft(conn, lead, "", "reply", thread)
+                        db.upsert_lead_state(
+                            conn, row["lead_id"], campaign_id, status="awaiting_reply"
+                        )
+                        drafted += 1
+                except Exception:
+                    log.exception(
+                        "reply-catch: drafting failed for lead %s", row["lead_id"]
+                    )
+
+        if drafted:
+            log.info("reply-catch scan drafted %d missed reply(ies)", drafted)
+
+
 def run_daily_scan() -> None:
     """Cheap pass: no Claude calls. Follow-ups are surfaced as candidates for
     Andrew to generate on demand (single or bulk) from the dashboard. Replies
@@ -399,6 +489,19 @@ def start_scheduler() -> BackgroundScheduler:
     )
     sched.add_job(run_due_send_loop, "interval", minutes=1, id="due_send_loop")
     sched.add_job(batch_gen.poll_gen_batches, "interval", minutes=5, id="gen_batch_poll")
+    # Frequent, cheap safety-net so a lead's reply surfaces on its own within a
+    # few minutes even when the webhook is missed (it's fire-and-forget, and a
+    # reply landing during a deploy restart is lost). Unlike the daily scan this
+    # doesn't walk every lead in every campaign — it only re-checks the leads we
+    # already track as live conversations, pulling their threads in bulk (~one
+    # call per campaign). See run_reply_catch_scan.
+    if settings.scan_interval_minutes > 0:
+        sched.add_job(
+            run_reply_catch_scan,
+            "interval",
+            minutes=settings.scan_interval_minutes,
+            id="reply_catch_scan",
+        )
     sched.start()
     _scheduler = sched
     return sched
