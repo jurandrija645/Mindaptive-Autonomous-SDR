@@ -185,55 +185,152 @@ const KIND_LABELS = {
   manual: "Manual messages",
 };
 
+const KIND_DESC = {
+  reply: "Fast responses sent to leads who wrote back.",
+  followup: "Nudges sent to leads who had gone quiet.",
+  autoreply: "Bumps sent after an auto-reply / out-of-office.",
+  manual: "Messages you wrote or sent by hand.",
+};
+
+// Stats is a single dashboard, not a list of leads. Render it in the main
+// detail pane (like Campaigns) and leave the sidebar as a short signpost so it
+// doesn't show stale lead rows from whatever view was open before.
 async function loadStats() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Stats";
+  $("inbox-empty").hidden = false;
+  $("inbox-empty").innerHTML =
+    "Your numbers are on the right — a summary of the last 30 days plus a few live pipeline counts.";
+
   const data = await apiGet("/api/metrics");
-  state.leads = [];
-  state.snoozedCount = 0;
-  state.selected = -1;
   renderStats(data);
-  $("detail-body").hidden = true;
-  $("detail-empty").hidden = false;
-  showMobileList();
+  $("detail-empty").hidden = true;
+  $("detail-body").hidden = false;
+  showMobileDetail();
   return data;
 }
 
 function renderStats(m) {
-  const list = $("lead-list");
-  list.innerHTML = "";
-  $("inbox-count").textContent = `Stats — last ${m.days} days`;
-  $("inbox-empty").hidden = true;
+  const body = $("detail-body");
+  body.innerHTML = "";
 
-  const section = (t) => list.appendChild(el("li", "list-section", t));
-  const stat = (label, value) => {
-    const li = el("li", "stat-row");
-    li.appendChild(el("span", "stat-label", label));
-    li.appendChild(el("span", "stat-value", String(value)));
-    list.appendChild(li);
+  const head = el("div", "stats-head");
+  head.appendChild(el("h2", null, "Stats"));
+  head.appendChild(el("div", "muted", `Activity over the last ${m.days} days, plus live pipeline counts.`));
+  body.appendChild(head);
+
+  const dash = el("div", "stats-dash");
+  body.appendChild(dash);
+
+  const section = (title, note) => {
+    const s = el("section", "stats-section");
+    s.appendChild(el("h3", null, title));
+    if (note) s.appendChild(el("p", "stats-note", note));
+    dash.appendChild(s);
+    return s;
   };
+  const tiles = (parent) => {
+    const row = el("div", "stat-tiles");
+    parent.appendChild(row);
+    return row;
+  };
+  const tile = (parent, num, label, sub) => {
+    const t = el("div", "stat-tile");
+    t.appendChild(el("div", "stat-tile-num", String(num)));
+    t.appendChild(el("div", "stat-tile-label", label));
+    if (sub) t.appendChild(el("div", "stat-tile-sub", sub));
+    parent.appendChild(t);
+  };
+  const table = (parent, rows) => {
+    const t = el("table", "stats-table");
+    const tb = el("tbody");
+    rows.forEach(([label, value, hint]) => {
+      const tr = el("tr");
+      const tdL = el("td", "stats-td-label");
+      tdL.appendChild(el("div", "stats-label-main", label));
+      if (hint) tdL.appendChild(el("div", "stats-hint", hint));
+      tr.appendChild(tdL);
+      tr.appendChild(el("td", "stats-td-value", String(value)));
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    parent.appendChild(t);
+  };
+  const nameOf = (b) => `${b.name}${b.company ? " · " + b.company : ""}`;
 
-  section("Meetings booked");
-  stat("All time", m.booked_total);
-  stat(`Last ${m.days} days`, m.booked_recent);
-  (m.recent_booked || []).forEach((b) => {
-    stat(`✅ ${b.name}${b.company ? " · " + b.company : ""}`, b.booked_at || "");
+  // ---- Meetings booked ----
+  const booked = section("Meetings booked", null);
+  const bt = tiles(booked);
+  tile(bt, m.booked_total, "Booked all-time");
+  tile(bt, m.booked_recent, `Booked in last ${m.days} days`);
+
+  const recent = m.recent_booked || [];
+  // Collapse a run of identical timestamps into one row. A big cluster sharing
+  // one exact time is the initial import: every lead already sitting in
+  // Smartlead's "Meeting-Booked" category when tracking switched on got stamped
+  // at the same instant, so that date is "first seen by this tool", not the
+  // real meeting date. Showing 30+ identical dates reads as fake data.
+  const groups = [];
+  recent.forEach((b) => {
+    const last = groups[groups.length - 1];
+    if (last && last.at === b.booked_at) last.names.push(b);
+    else groups.push({ at: b.booked_at, names: [b] });
   });
+  const hasBatch = groups.some((g) => g.names.length >= 3);
+  if (hasBatch) {
+    booked.appendChild(el("p", "stats-note",
+      "Dates show when this tool first saw the booking, not when the meeting was set. " +
+      "Meetings already marked “Meeting-Booked” in Smartlead before tracking started all share one timestamp — that is the import moment. New bookings get an accurate date."));
+  }
+  if (recent.length) {
+    const wrap = el("div", "booked-list");
+    groups.forEach((g) => {
+      if (g.names.length >= 3) {
+        const b = el("div", "booked-batch");
+        b.appendChild(el("div", "booked-batch-head", `${g.names.length} existing bookings · first tracked ${g.at}`));
+        b.appendChild(el("div", "booked-batch-names", g.names.map(nameOf).join(", ")));
+        wrap.appendChild(b);
+      } else {
+        g.names.forEach((n) => {
+          const row = el("div", "booked-row");
+          row.appendChild(el("span", "booked-name", `✅ ${nameOf(n)}`));
+          row.appendChild(el("span", "booked-date", n.booked_at || ""));
+          wrap.appendChild(row);
+        });
+      }
+    });
+    booked.appendChild(wrap);
+  }
 
-  section(`Messages sent (last ${m.days}d)`);
-  Object.entries(m.sent_by_kind || {}).forEach(([k, v]) => stat(KIND_LABELS[k] || k, v));
-  stat("Total", m.sent_total);
+  // ---- Messages sent ----
+  const sent = section("Messages sent", `In the last ${m.days} days.`);
+  tile(tiles(sent), m.sent_total, "Total sent");
+  const sentRows = Object.entries(m.sent_by_kind || {})
+    .map(([k, v]) => [KIND_LABELS[k] || k, v, KIND_DESC[k] || null]);
+  if (sentRows.length) table(sent, sentRows);
 
-  section("Funnel");
-  const rate = m.followups_sent ? ` (${Math.round((100 * m.followup_replies) / m.followups_sent)}%)` : "";
-  stat("Follow-ups that got a reply", `${m.followup_replies}/${m.followups_sent}${rate}`);
-  stat("Avg lead-reply → our send", m.avg_reply_hours != null ? `${m.avg_reply_hours}h` : "—");
+  // ---- Follow-up effectiveness ----
+  const funnel = section("Are the follow-ups working?", null);
+  const rate = m.followups_sent ? Math.round((100 * m.followup_replies) / m.followups_sent) : null;
+  const ft = tiles(funnel);
+  tile(ft, rate != null ? `${rate}%` : "—", "Follow-ups that got a reply", `${m.followup_replies} of ${m.followups_sent}`);
+  tile(ft, m.avg_reply_hours != null ? `${m.avg_reply_hours}h` : "—", "Avg time to answer a lead", "From their reply to our send");
 
-  section("Pipeline right now");
-  stat("Follow-ups due (ungenerated)", m.open_candidates);
-  stat("Drafts awaiting review", m.pending_drafts);
-  stat("Scheduled sends", m.scheduled_drafts);
+  // ---- Live pipeline ----
+  const pipe = section("Pipeline right now", "Live counts — not limited to the last 30 days.");
+  table(pipe, [
+    ["Follow-ups due (not yet drafted)", m.open_candidates, "Leads waiting for a follow-up to be generated."],
+    ["Drafts awaiting your review", m.pending_drafts, "Generated and waiting for you to send or edit."],
+    ["Scheduled sends", m.scheduled_drafts, "Approved drafts queued to go out."],
+  ]);
 
-  section(`Drafts generated by model (last ${m.days}d)`);
-  Object.entries(m.drafts_by_model || {}).forEach(([k, v]) => stat(k, v));
+  // ---- Drafts by model ----
+  const modelRows = Object.entries(m.drafts_by_model || {});
+  if (modelRows.length) {
+    const ms = section("Drafts generated by model", `In the last ${m.days} days.`);
+    table(ms, modelRows.map(([k, v]) => [k, v, null]));
+  }
 }
 
 // ---------- campaigns ----------
@@ -608,8 +705,8 @@ function setView(view) {
   clearTimeout(state.campaignPoll);
   $("legend").hidden = view !== "inbox";
   $("rescan-btn").hidden = view !== "inbox";
-  // Campaigns lists campaigns, not leads — the lead search box would do nothing.
-  document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns");
+  // Campaigns and Stats don't list leads, so the lead search box would do nothing.
+  document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns" || view === "stats");
   $("view-inbox-btn").classList.toggle("active", view === "inbox");
   $("view-scheduled-btn").classList.toggle("active", view === "scheduled");
   $("view-archive-btn").classList.toggle("active", view === "archive");

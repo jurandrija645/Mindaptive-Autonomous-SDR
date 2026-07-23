@@ -1,7 +1,9 @@
 import json
 import logging
 import re
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 
 from fastapi import FastAPI, Form, Request
@@ -58,6 +60,9 @@ templates.env.globals["static_version"] = str(int(time.time()))
 def on_startup():
     db.init_db()
     scheduler.start_scheduler()
+    # Warm the campaigns list once at boot (background, doesn't delay startup) so
+    # the first time the tab is opened after a deploy it's already instant.
+    _refresh_campaign_list_in_background()
 
 
 # ---- auth pages ----
@@ -1030,11 +1035,98 @@ def api_metrics(request: Request):
 
 # ---- campaigns ----
 
-# GET /api/campaigns hits Smartlead once per campaign for headline totals (~25
-# calls), which takes a few seconds. The tab is opened repeatedly while reading
-# a report, so the list is cached briefly rather than re-fetched every time.
+# Building the list means one Smartlead call per campaign for headline totals
+# (~25 calls). Two things keep the tab instant despite that:
+#   1. The result is cached for 12h and served immediately on every open — the
+#      user never waits on a fetch when entering the screen.
+#   2. When the cache is older than 12h it is refreshed *in the background*; the
+#      (slightly stale) cached data is still returned right away. Only the very
+#      first load, before any cache exists, builds synchronously — and startup
+#      warms it so that case rarely happens.
+# The per-campaign calls are fanned out across threads so a refresh is one
+# round-trip's worth of latency, not 25 in series.
 _campaign_list_cache: dict = {"at": 0.0, "data": None}
-_CAMPAIGN_LIST_TTL = 300
+_CAMPAIGN_LIST_TTL = 12 * 3600
+_campaign_refresh_lock = threading.Lock()
+_campaign_refreshing = False
+
+
+def _build_campaign_list() -> list[dict]:
+    with db.db_session() as conn:
+        analyzed = {
+            row["campaign_id"]: row
+            for row in conn.execute(
+                "SELECT campaign_id, status, generated_at FROM campaign_reports"
+            )
+        }
+
+    campaigns = [c for c in smartlead.list_campaigns() if c.get("id") is not None]
+
+    def headline(cid: int) -> dict:
+        try:
+            stats = smartlead.get_campaign_analytics(cid)
+            sent = _as_int(stats.get("sent_count"))
+            bounced = _as_int(stats.get("bounce_count"))
+            lead_stats = stats.get("campaign_lead_stats") or {}
+            return {
+                "sent": sent,
+                "replies": _as_int(stats.get("reply_count")),
+                "bounced": bounced,
+                "leads": _as_int(lead_stats.get("total")),
+                "interested": _as_int(lead_stats.get("interested")),
+                "bounce_rate": (bounced / sent) if sent else 0.0,
+            }
+        except Exception as exc:  # one bad campaign shouldn't blank the list
+            log.warning("campaign %s: analytics fetch failed: %s", cid, exc)
+            return {"error": str(exc)[:200]}
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        stats_by_id = dict(
+            zip(
+                (c["id"] for c in campaigns),
+                pool.map(headline, (c["id"] for c in campaigns)),
+            )
+        )
+
+    out = []
+    for campaign in campaigns:
+        cid = campaign["id"]
+        report = analyzed.get(cid)
+        out.append(
+            {
+                "id": cid,
+                "name": campaign.get("name") or f"Campaign {cid}",
+                "status": campaign.get("status"),
+                "created_at": campaign.get("created_at"),
+                "report_status": report["status"] if report else None,
+                "report_at": _fmt_time(report["generated_at"]) if report else None,
+                **stats_by_id.get(cid, {}),
+            }
+        )
+    return out
+
+
+def _refresh_campaign_list_in_background() -> None:
+    """Rebuild the cache off the request path. Lock-guarded so a burst of stale
+    reads can't start several rebuilds at once."""
+    global _campaign_refreshing
+    with _campaign_refresh_lock:
+        if _campaign_refreshing:
+            return
+        _campaign_refreshing = True
+
+    def _worker():
+        global _campaign_refreshing
+        try:
+            data = _build_campaign_list()
+            _campaign_list_cache.update({"at": time.time(), "data": data})
+        except Exception:
+            log.exception("campaign list refresh failed")
+        finally:
+            with _campaign_refresh_lock:
+                _campaign_refreshing = False
+
+    threading.Thread(target=_worker, daemon=True).start()
 
 
 @app.get("/api/campaigns")
@@ -1044,54 +1136,20 @@ def api_campaigns(request: Request):
         return redirect
     fresh = request.query_params.get("refresh") == "1"
     now = time.time()
-    if not fresh and _campaign_list_cache["data"] is not None:
-        if now - _campaign_list_cache["at"] < _CAMPAIGN_LIST_TTL:
-            return JSONResponse({"campaigns": _campaign_list_cache["data"], "cached": True})
+    cached = _campaign_list_cache["data"]
+    age = now - _campaign_list_cache["at"]
 
-    with db.db_session() as conn:
-        analyzed = {
-            row["campaign_id"]: row
-            for row in conn.execute(
-                "SELECT campaign_id, status, generated_at FROM campaign_reports"
-            )
-        }
+    # Nothing cached yet (first ever load) — nothing to show, so build inline.
+    if cached is None:
+        data = _build_campaign_list()
+        _campaign_list_cache.update({"at": now, "data": data})
+        return JSONResponse({"campaigns": data, "cached": False})
 
-    out = []
-    for campaign in smartlead.list_campaigns():
-        cid = campaign.get("id")
-        if cid is None:
-            continue
-        entry = {
-            "id": cid,
-            "name": campaign.get("name") or f"Campaign {cid}",
-            "status": campaign.get("status"),
-            "created_at": campaign.get("created_at"),
-        }
-        try:
-            stats = smartlead.get_campaign_analytics(cid)
-            sent = _as_int(stats.get("sent_count"))
-            bounced = _as_int(stats.get("bounce_count"))
-            lead_stats = stats.get("campaign_lead_stats") or {}
-            entry.update(
-                {
-                    "sent": sent,
-                    "replies": _as_int(stats.get("reply_count")),
-                    "bounced": bounced,
-                    "leads": _as_int((lead_stats or {}).get("total")),
-                    "interested": _as_int((lead_stats or {}).get("interested")),
-                    "bounce_rate": (bounced / sent) if sent else 0.0,
-                }
-            )
-        except Exception as exc:  # one bad campaign shouldn't blank the list
-            log.warning("campaign %s: analytics fetch failed: %s", cid, exc)
-            entry["error"] = str(exc)[:200]
-        report = analyzed.get(cid)
-        entry["report_status"] = report["status"] if report else None
-        entry["report_at"] = _fmt_time(report["generated_at"]) if report else None
-        out.append(entry)
-
-    _campaign_list_cache.update({"at": now, "data": out})
-    return JSONResponse({"campaigns": out, "cached": False})
+    # Stale or force-refresh: hand back what we have instantly and rebuild in
+    # the background. The user never waits on the fetch when opening the tab.
+    if fresh or age >= _CAMPAIGN_LIST_TTL:
+        _refresh_campaign_list_in_background()
+    return JSONResponse({"campaigns": cached, "cached": True, "age_seconds": int(age)})
 
 
 def _as_int(value) -> int:
