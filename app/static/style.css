@@ -557,23 +557,41 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
     overflow: hidden;
   }
 
+  /* Compact 2-row header so it doesn't eat half the phone viewport and crowd
+     the lead list. Row 1: title + Rescan + Log out. Row 2: full-width view
+     tabs. `display: contents` dissolves .header-right so its children can be
+     ordered/wrapped directly as flex items of <header>. */
   header {
     height: auto;
-    min-height: var(--header-h);
+    min-height: 0;
     flex-wrap: wrap;
-    gap: 8px;
+    align-items: center;
+    row-gap: 6px;
+    column-gap: 8px;
     padding: 8px 12px;
     flex-shrink: 0;
   }
-  header h1 { font-size: 15px; flex: 1 1 auto; min-width: 0; }
-  .header-right {
-    flex-wrap: wrap;
-    gap: 8px;
+  header h1 {
+    font-size: 15px;
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .header-right { display: contents; }
+  .pill-dry { order: 2; }
+  #rescan-btn { order: 3; }
+  .header-right form { order: 4; }
+  .view-switch {
+    order: 5;
+    flex: 0 0 100%;
     width: 100%;
   }
-  .view-switch { flex: 1 1 auto; }
-  .view-tab { padding: 10px 12px; font-size: 13px; flex: 1; }
-  .header-right .btn-secondary { padding: 10px 12px; }
+  .view-tab { padding: 9px 12px; font-size: 13px; flex: 1; }
+  #rescan-btn,
+  .header-right form .btn-secondary { padding: 8px 12px; font-size: 13px; }
 
   .layout {
     display: grid;

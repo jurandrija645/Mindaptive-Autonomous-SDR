@@ -65,6 +65,13 @@ def on_startup():
     _warm_campaign_caches()
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    # Browsers auto-request /favicon.ico; point it at the SVG we ship so this
+    # doesn't 404 (the <link> tags in base.html already cover modern browsers).
+    return RedirectResponse(url="/static/favicon.svg", status_code=307)
+
+
 # ---- auth pages ----
 
 @app.get("/login", response_class=HTMLResponse)
