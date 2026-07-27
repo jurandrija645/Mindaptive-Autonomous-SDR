@@ -1438,10 +1438,19 @@ function onTemplatesModalKeydown(e) {
 
 // {name}/{company} are stored raw and only resolved for display — the edit form
 // deliberately shows the raw placeholders so they survive a round of editing.
+// Values come from the server (`lead.placeholders`, built by
+// message_templates.placeholders_for) so this preview is the exact string that
+// gets sent — the two used to be computed separately and only agreed by
+// accident. Anything in braces that isn't in the map is DELETED rather than
+// left alone: a template using a placeholder this app doesn't know about used
+// to mail the lead `{companyNickname}` verbatim.
 function fillPlaceholders(text) {
-  const firstName = (state.detail.lead.name || "").split(" ")[0] || "there";
-  const company = state.detail.lead.company || "your business";
-  return text.replace(/\{name\}/g, firstName).replace(/\{company\}/g, company);
+  const values = ((state.detail || {}).lead || {}).placeholders || {};
+  return String(text || "")
+    .replace(/\{([A-Za-z0-9_]+)\}/g, (_, key) => (key in values ? values[key] : ""))
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/ +([,.!?])/g, "$1")
+    .trim();
 }
 
 async function openTemplatesModal() {

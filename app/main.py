@@ -13,7 +13,8 @@ from fastapi.templating import Jinja2Templates
 
 from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
 from app import candidates as candidates_module
-from app import db, drafter, pipeline, scheduler, smartlead, translator, uploads, webhook
+from app import db, drafter, message_templates, pipeline, scheduler, smartlead
+from app import translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
 from app.detector import (
@@ -395,6 +396,12 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "research_summary": (lead["research_summary"] if lead else None) or None,
             "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
             "email_display_name": (lead["email_display_name"] if lead else None) or None,
+            # Template placeholder values, resolved server-side so the modal's
+            # preview and the message that actually goes out are the same
+            # string. The client only substitutes (app.js fillPlaceholders).
+            "placeholders": message_templates.placeholders_for(
+                lead["name"] if lead else None, lead["company"] if lead else None
+            ),
         },
         "thread": _thread_payload(raw, lead_name),
         "draft": draft_payload,

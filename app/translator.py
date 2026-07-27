@@ -155,43 +155,90 @@ def translate_segments_cached(conn, texts: list[str]) -> list[str]:
     return [r if r is not None else "" for r in results]
 
 
+# Shared by both localizers below. Every rule here comes from a message that
+# actually went out badly.
+#
+# The one that forced this rewrite: "I'm closing this file" came back as "Ich
+# schließe diese Datei" — which in German means closing a computer file, and
+# reads as machine output. An English office idiom had been carried across word
+# for word. The same message also used "Dir/deinem", the informal address, in
+# first-contact outreach to a clinic, where German business writing takes "Sie".
+#
+# Both are the same underlying error: the model was translating instead of
+# writing. So these prompts no longer ask for a translation at all.
+_NATIVE_RULES = """\
+You are a native {language} speaker and this is YOUR email. You are not
+translating it — you are writing it.
+
+Read the English, work out what the sender is actually doing (backing off,
+nudging, offering something, closing the loop), then write that in {language}
+the way you would if the English did not exist. The reader must never be able to
+tell it started in another language.
+
+Hard rules:
+- NEVER go word for word. If your {language} sentence has the same shape and
+  word order as the English one, you translated it. Rewrite it.
+- Idioms and figures of speech almost never survive. "Closing this file" is an
+  English office idiom; rendering it literally in {language} describes a
+  computer file and reads like a machine wrote it. Either use the equivalent
+  {language} expression a native would reach for, or drop the figure of speech
+  and say the plain thing.
+- Formality: match what the thread is already doing. In languages with a formal
+  and an informal address (German Sie/du, French vous/tu, Spanish usted/tú,
+  Dutch u/je, Italian Lei/tu, Polish Pan-Pani/ty), business outreach to someone
+  the sender has not met takes the FORMAL form, unless the recipient wrote to
+  them informally first. Getting this wrong is the fastest way to look foreign.
+- Keep every concrete detail exactly as given: names, company names, numbers,
+  dates, URLs and links. Do not translate a proper noun.
+- Keep the same meaning, the same intent and roughly the same length. Do not add
+  information, do not remove a point, do not invent a new offer.
+- Read your output back as that native speaker. If you would not type that
+  sentence to a real customer, it is wrong — rewrite it before answering.
+"""
+
+
 _LOCALIZE_SYSTEM_TEMPLATE = (
-    "Rewrite the email below in {language} as a natural, native email a real "
-    "business owner would actually send — not a stiff literal translation. Keep "
-    "the tone brief, direct, and peer-to-peer: no corporate fluff, no "
-    "over-formality, no pricing. Preserve the paragraph structure and every "
-    "concrete detail (names, numbers, links, any call-to-action present). A "
-    "signature is appended separately after your output, so do not add one — "
-    "only rewrite what's given, whatever its length, sender, or content. Output "
-    "only the rewritten email body: no subject line, no commentary, and no "
-    "questions back — if anything about the email looks unusual, translate it "
-    "as-is rather than asking about it.\n\n" + writing_rules.short_rules()
+    _NATIVE_RULES
+    + "\nThis is a full outreach email. Preserve the paragraph structure and any "
+    "call to action. A signature is appended separately after your output, so do "
+    "not add one — write only the body, whatever its length, sender or content. "
+    "Output only the email body: no subject line, no commentary and no questions "
+    "back. If anything about it looks unusual, write it as-is rather than "
+    "asking.\n\n" + writing_rules.short_rules()
 )
 
 
 _QUICK_LOCALIZE_SYSTEM_TEMPLATE = (
-    "Translate this short cold-outreach follow-up message into {language}. It's "
-    "already a fixed, approved bit of casual wording, so just translate it "
-    "naturally, the way a real person typing quickly would say it. Do not "
-    "rewrite, expand, or add anything. Preserve names and links exactly as "
-    "given. Output only the translated message, nothing else.\n\n"
+    _NATIVE_RULES
+    + "\nThis is one short, pre-approved follow-up line. Do not add anything and "
+    "do not change what it says — but the WORDING is yours to choose freely, and "
+    "it must sound like something a native speaker typed quickly, not like a "
+    "rendering of an English sentence. Output only the message, nothing else.\n\n"
     + writing_rules.short_rules()
 )
 
 
 def localize_quick_text(english_text: str, target_language_code: str | None) -> str:
-    """Cheap (Haiku), fixed-wording localization for the quick-pick canned
-    follow-ups — these are pre-approved snippets, not something Claude is
-    drafting, so this skips the full drafter pipeline (system prompt,
-    knowledge base, tools) entirely and just translates in one small call."""
+    """Localize a quick-pick canned follow-up into the lead's language.
+
+    Skips the full drafter pipeline (system prompt, knowledge base, tools) —
+    the wording is already fixed and pre-approved, so one small call is enough.
+
+    It runs on the DRAFTING model, not `anthropic_translate_model`, even though
+    it is one sentence. This is an outgoing message a real lead reads, and Haiku
+    produced "Ich schließe diese Datei" for "I'm closing this file" — a literal
+    rendering that means closing a computer file. The cheap model is for
+    reading-comprehension translations of what leads send us; anything we send
+    them goes through the same model that writes the drafts (see
+    localize_draft, which already made this call for the same reason)."""
     if not target_language_code or target_language_code.lower() == "en":
         return english_text
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     system = _QUICK_LOCALIZE_SYSTEM_TEMPLATE.format(language=language_name(target_language_code))
     try:
         resp = client.messages.create(
-            model=settings.anthropic_translate_model,
-            max_tokens=512,
+            model=settings.anthropic_model,
+            max_tokens=1024,
             system=system,
             messages=[{"role": "user", "content": english_text}],
         )

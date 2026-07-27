@@ -9,7 +9,7 @@ background bulk-generate thread behave identically.
 import logging
 import threading
 
-from app import db, detector, pipeline
+from app import db, detector, message_templates, pipeline
 
 log = logging.getLogger("candidates")
 
@@ -182,6 +182,17 @@ def quick_followup(campaign_id: int, lead_id: int, english_text: str) -> int | N
         "first_name": lead_row["name"],
         "company_name": lead_row["company"],
     }
+
+    # The client already substituted, but resolve again here — this is the last
+    # point before the text becomes a real message. A template using a
+    # placeholder the client didn't know about (`{companyNickname}` did)
+    # otherwise reached the lead with the braces still in it, which is exactly
+    # what happened. Idempotent: nothing is left to replace on the normal path.
+    english_text = message_templates.fill(
+        english_text,
+        message_templates.placeholders_for(lead_row["name"], lead_row["company"]),
+    )
+
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
     if not thread:
         log.info("quick_followup: empty thread for %s/%s", campaign_id, lead_id)
