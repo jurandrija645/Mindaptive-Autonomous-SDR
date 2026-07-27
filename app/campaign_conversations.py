@@ -291,6 +291,120 @@ def conversation_stats(conn, campaign_id: int) -> dict:
     }
 
 
+def conversation_insights(conn, campaign_id: int) -> dict:
+    """Aggregate the per-conversation extractions into the comparison the
+    Conversations tab is actually for: what the winners have in common versus
+    what the losses have in common.
+
+    Nothing here is inferred by a model at read time — the extractions were
+    already made per conversation and cached; this is counting. The tab used to
+    render the raw thread list and call that the analysis, which answered no
+    question at all.
+    """
+    rows = db.list_campaign_conversations(conn, campaign_id)
+    won: list[dict] = []
+    lost: list[dict] = []
+    for row in rows:
+        if not row["extract_json"]:
+            continue
+        try:
+            item = json.loads(row["extract_json"])
+        except ValueError:
+            continue
+        if not isinstance(item, dict):
+            continue
+        item["_category"] = row["category"]
+        item["_step"] = row["first_reply_after_step"]
+        item["_company"] = row["company"]
+        item["_replies"] = row["their_msg_count"] or 0
+        (won if is_positive(row["category"]) else lost).append(item)
+
+    analysed = len(won) + len(lost)
+    if not analysed:
+        return {"analysed": 0, "total": len(rows)}
+
+    def split(field: str) -> list[dict]:
+        """One row per value, with the win/loss split — the whole point. A
+        value that appears only among losses is the actionable one."""
+        values = Counter(
+            item.get(field) for item in won + lost if item.get(field)
+        )
+        out = []
+        for value, total in values.most_common():
+            wins = sum(1 for item in won if item.get(field) == value)
+            out.append(
+                {
+                    "value": value,
+                    "total": total,
+                    "won": wins,
+                    "lost": total - wins,
+                    "win_rate": wins / total if total else 0.0,
+                }
+            )
+        return out
+
+    def quotes(items: list[dict], field: str, limit: int = 6) -> list[dict]:
+        """Prefers the English rendering of the quote. These campaigns run in
+        eight languages and a wall of German one-liners is not a report Andrew
+        can read; the verbatim original stays in the extraction for checking."""
+        seen = []
+        for item in items:
+            text = (item.get(f"{field}_en") or item.get(field) or "").strip()
+            if text and all(text != q["quote"] for q in seen):
+                seen.append(
+                    {
+                        "quote": text,
+                        "company": item.get("_company"),
+                        "category": item.get("_category"),
+                        "step": item.get("_step"),
+                    }
+                )
+            if len(seen) >= limit:
+                break
+        return seen
+
+    by_step: dict[int, dict] = {}
+    for items, is_win in ((won, True), (lost, False)):
+        for item in items:
+            step = item.get("_step")
+            if not step:
+                continue
+            entry = by_step.setdefault(step, {"step": step, "replies": 0, "won": 0})
+            entry["replies"] += 1
+            if is_win:
+                entry["won"] += 1
+    for entry in by_step.values():
+        entry["win_rate"] = entry["won"] / entry["replies"] if entry["replies"] else 0.0
+
+    return {
+        "analysed": analysed,
+        "total": len(rows),
+        "won": len(won),
+        "lost": len(lost),
+        "win_rate": len(won) / analysed,
+        "intents": split("intent"),
+        "objections": split("objection_type"),
+        "tones": split("tone"),
+        "magnets": split("magnet_requested"),
+        "by_step": [by_step[step] for step in sorted(by_step)],
+        # The two lists Andrew reads first: what the people who came toward a
+        # meeting reacted to, and what the people who walked away objected to.
+        "winning_triggers": quotes(won, "trigger"),
+        "losing_triggers": quotes(lost, "trigger"),
+        "friction": quotes(won + lost, "friction"),
+        "salvageable": [
+            {
+                "company": item.get("_company"),
+                "category": item.get("_category"),
+                "angle": item.get("salvage_angle"),
+            }
+            for item in lost
+            if item.get("salvageable") and item.get("salvage_angle")
+        ][:8],
+        "multi_turn": sum(1 for item in won + lost if item.get("_replies", 0) > 1),
+    }
+
+
 def thread_for_prompt(row, max_chars: int = 1800) -> dict:
     """One conversation, trimmed for the extraction prompt. Our own outreach is
     truncated harder than their reply — we already know what we sent, and what

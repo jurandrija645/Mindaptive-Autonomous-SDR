@@ -67,6 +67,7 @@ def generate_for_lead_in_background(
     steering_note: str | None = None,
     model: str | None = None,
     use_web_search: bool | None = None,
+    base_draft: str | None = None,
 ) -> bool:
     """Starts generate_for_lead in a background thread and returns
     immediately. A synchronous Claude call with web search/fetch tools can
@@ -82,7 +83,10 @@ def generate_for_lead_in_background(
 
     def _worker():
         try:
-            generate_for_lead(campaign_id, lead_id, steering_note, model=model, use_web_search=use_web_search)
+            generate_for_lead(
+                campaign_id, lead_id, steering_note, model=model,
+                use_web_search=use_web_search, base_draft=base_draft,
+            )
         except Exception:
             log.exception("generate_for_lead failed for %s/%s", campaign_id, lead_id)
         finally:
@@ -99,6 +103,7 @@ def generate_for_lead(
     steering_note: str | None = None,
     model: str | None = None,
     use_web_search: bool | None = None,
+    base_draft: str | None = None,
 ) -> int | None:
     """Draft a message for any inbox lead, keyed by lead rather than candidate.
 
@@ -141,7 +146,7 @@ def generate_for_lead(
     with db.db_session() as conn:
         draft_id = pipeline.create_draft(
             conn, lead, campaign_name, kind, thread, steering_note,
-            model=model, use_web_search=use_web_search,
+            model=model, use_web_search=use_web_search, base_draft=base_draft,
         )
         candidate = conn.execute(
             """SELECT id FROM candidates WHERE lead_id = ? AND campaign_id = ? AND kind = ?

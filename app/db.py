@@ -221,6 +221,33 @@ CREATE TABLE IF NOT EXISTS campaign_conversations (
     PRIMARY KEY (campaign_id, lead_id)
 );
 
+-- What each {{slot}} in a campaign actually SAYS, in English.
+--
+-- The variant tables only ever knew a slot by its token (`Icebreaker1`), which
+-- made every report unreadable: you cannot judge a CTA you have not read. The
+-- text itself lives per-lead in the leads-export custom_fields, in whatever
+-- language that lead was mailed in. This table caches one representative value
+-- per token plus its English rendering — `text_en` is a copy of `text` when the
+-- value was already English, and a Claude translation otherwise (which is why
+-- it is cached: translating on every Overview load would be absurd).
+--
+-- `personalized` marks a slot whose value differs per lead (a per-lead
+-- icebreaker) rather than a fixed block of copy. Those cannot be summarised by
+-- one value, so `examples_json` carries a few and the UI says so.
+CREATE TABLE IF NOT EXISTS campaign_slot_texts (
+    campaign_id  INTEGER NOT NULL,
+    token        TEXT NOT NULL,
+    role         TEXT,
+    text         TEXT,
+    text_en      TEXT,
+    lang         TEXT,
+    personalized INTEGER NOT NULL DEFAULT 0,
+    distinct_values INTEGER NOT NULL DEFAULT 0,
+    examples_json TEXT,
+    updated_at   TEXT,
+    PRIMARY KEY (campaign_id, token)
+);
+
 -- One cached analysis per campaign. `stage` is progress text the dashboard
 -- polls while the background thread works.
 CREATE TABLE IF NOT EXISTS campaign_reports (
@@ -231,7 +258,8 @@ CREATE TABLE IF NOT EXISTS campaign_reports (
     generated_at    TEXT,
     model           TEXT,
     stats_json      TEXT,
-    report_md       TEXT,
+    report_md       TEXT,      -- legacy long-form variant essay, no longer written
+    directives_md   TEXT,      -- the short Do / Don't / Next test brief
     conversation_md TEXT,
     error           TEXT
 );
@@ -333,6 +361,10 @@ def _migrate(conn) -> None:
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
             conn.execute(f"ALTER TABLE leads_state ADD COLUMN {name} {decl}")
+
+    report_cols = {row["name"] for row in conn.execute("PRAGMA table_info(campaign_reports)")}
+    if "directives_md" not in report_cols:
+        conn.execute("ALTER TABLE campaign_reports ADD COLUMN directives_md TEXT")
 
 
 # ---- leads_state helpers ----
@@ -768,6 +800,52 @@ def upsert_campaign_lead_vars(conn, rows: list[dict]) -> int:
         rows,
     )
     return len(rows)
+
+
+def upsert_campaign_slot_texts(conn, campaign_id: int, rows: list[dict]) -> int:
+    """Cache what each slot says. Upsert rather than replace: `text_en` may hold a
+    paid translation, and a re-sync that finds the same source text must not
+    throw it away — the translation step re-fills only rows where it is NULL."""
+    if not rows:
+        return 0
+    conn.executemany(
+        """INSERT INTO campaign_slot_texts (
+               campaign_id, token, role, text, text_en, lang, personalized,
+               distinct_values, examples_json, updated_at
+           ) VALUES (
+               :campaign_id, :token, :role, :text, :text_en, :lang, :personalized,
+               :distinct_values, :examples_json, :updated_at
+           )
+           ON CONFLICT(campaign_id, token) DO UPDATE SET
+               role            = excluded.role,
+               text            = excluded.text,
+               -- keep a cached translation unless the source text itself moved
+               text_en         = CASE
+                                   WHEN campaign_slot_texts.text IS excluded.text
+                                     THEN COALESCE(campaign_slot_texts.text_en, excluded.text_en)
+                                   ELSE excluded.text_en
+                                 END,
+               lang            = excluded.lang,
+               personalized    = excluded.personalized,
+               distinct_values = excluded.distinct_values,
+               examples_json   = excluded.examples_json,
+               updated_at      = excluded.updated_at""",
+        rows,
+    )
+    return len(rows)
+
+
+def list_campaign_slot_texts(conn, campaign_id: int):
+    return conn.execute(
+        "SELECT * FROM campaign_slot_texts WHERE campaign_id = ?", (campaign_id,)
+    ).fetchall()
+
+
+def set_campaign_slot_translation(conn, campaign_id: int, token: str, text_en: str) -> None:
+    conn.execute(
+        "UPDATE campaign_slot_texts SET text_en = ? WHERE campaign_id = ? AND token = ?",
+        (text_en, campaign_id, token),
+    )
 
 
 def get_campaign_sync(conn, campaign_id: int):

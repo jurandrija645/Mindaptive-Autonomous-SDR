@@ -13,6 +13,7 @@ import anthropic
 from langdetect import DetectorFactory, detect
 
 from app import db
+from app import writing_rules
 from app.config import settings
 
 log = logging.getLogger("translator")
@@ -164,7 +165,7 @@ _LOCALIZE_SYSTEM_TEMPLATE = (
     "only rewrite what's given, whatever its length, sender, or content. Output "
     "only the rewritten email body: no subject line, no commentary, and no "
     "questions back — if anything about the email looks unusual, translate it "
-    "as-is rather than asking about it."
+    "as-is rather than asking about it.\n\n" + writing_rules.short_rules()
 )
 
 
@@ -173,7 +174,8 @@ _QUICK_LOCALIZE_SYSTEM_TEMPLATE = (
     "already a fixed, approved bit of casual wording, so just translate it "
     "naturally, the way a real person typing quickly would say it. Do not "
     "rewrite, expand, or add anything. Preserve names and links exactly as "
-    "given. Output only the translated message, nothing else."
+    "given. Output only the translated message, nothing else.\n\n"
+    + writing_rules.short_rules()
 )
 
 

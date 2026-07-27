@@ -149,6 +149,7 @@ def create_draft(
     steering_note: str | None = None,
     model: str | None = None,
     use_web_search: bool | None = None,
+    base_draft: str | None = None,
 ) -> int:
     # A steering note means Andrew explicitly wants a customized nudge for
     # this lead — skip the generic template and go to Claude for that case.
@@ -194,6 +195,7 @@ def create_draft(
     result = drafter.generate_draft(
         kind, lead_payload, thread_text, steering_note, prior_research,
         model=model, use_web_search=use_web_search, followup_stage=followup_stage,
+        previous_draft=base_draft,
     )
     # Record the model actually used (drafter falls back to the default for
     # anything outside ALLOWED_MODELS) — feeds the Stats view's cost proxy.

@@ -1,16 +1,27 @@
 """The AI half of campaign analysis: turn the numbers and the conversations into
 a diagnosis and a plan for the next run.
 
-Two independent reports, both cached on the campaign_reports row:
+Two reports, both cached on the campaign_reports row:
 
-- `report_md` (Layer 1) — one call over the variant/slot/subject statistics.
-  Answers which subject line, CTA, offer and angle earn replies, and proposes
-  the variant line-up for the next run.
-- `conversation_md` (Layer 2) — a map/reduce over the real conversations.
-  Extraction runs in batches and is cached per conversation, so re-analyzing a
-  campaign only pays for threads that are new.
+- `conversation_md` — a map/reduce over the real conversations, answering what
+  moved someone toward a meeting and what lost them. Extraction runs in batches
+  and is cached per conversation, so re-analyzing a campaign only pays for
+  threads that are new.
+- `directives_md` — the short brief on the AI analysis tab: Do this / Don't do
+  this / This audience / Next test. Fed BOTH the statistics (with the real
+  English copy of every slot) and the conversation extractions, because an
+  instruction backed by only one of those is either unexplained or unsupported.
 
-The prompts carry three hard rules, all of them earned from this data:
+`directives_md` replaced a seven-section essay (`report_md`, still in the schema,
+no longer written). The essay restated the data instead of telling Andrew what to
+type, and nobody read past the first screen. Anything structural it used to
+derive — which component won, what to hold fixed next run, how many sends that
+needs — is now computed in `campaign_analytics.recommendations` and rendered as a
+panel; the model explains those, it does not decide them.
+
+The prompts carry four hard rules. Three are earned from this data; the fourth
+is the app-wide house voice (`prompts/human-writing.md`, via app/writing_rules),
+which binds anything this app writes — reports included, not only the emails:
 
 1. Open and click rate do not exist. Tracking is off account-wide because it
    hurts deliverability, so `open_count` is 0 on every row. A model left to its
@@ -30,7 +41,14 @@ import threading
 
 import anthropic
 
-from app import campaign_analytics, campaign_conversations, db, smartlead
+from app import (
+    campaign_analytics,
+    campaign_conversations,
+    campaign_copy,
+    db,
+    smartlead,
+    writing_rules,
+)
 from app.config import settings
 
 log = logging.getLogger("campaign_report")
@@ -55,8 +73,8 @@ Hard rules for this analysis — all three exist because of how this data was co
    mention open rate, click rate, or any advice that depends on them.
 2. REPLIES ARE THE ONLY OUTCOME SIGNAL. A "reply" here always means a human
    reply — Smartlead's Auto-Reply and Out Of Office categories are already
-   stripped out. "Positive" means the lead was categorised Interested or
-   Meeting-Booked.
+   stripped out. "Positive" means any Interested category (including the ones
+   naming a specific asset, like "Interested for video") or a booked meeting.
 3. RESPECT THE CONFIDENCE LABELS. Every rate carries a verdict:
    - not_enough_data — too few sends or replies to compare. You MUST NOT
      declare this a winner or a loser. Say it is unresolved and state roughly
@@ -67,7 +85,19 @@ Hard rules for this analysis — all three exist because of how this data was co
      baseline. Only these justify a firm claim.
    Cite the actual counts (e.g. "16 replies from 1,490 delivered") next to any
    claim. Never invent a number that is not in the data given to you.
+4. WRITE THE REPORT ITSELF LIKE A HUMAN. The house style guide below is not
+   only for the emails this app drafts — it binds this report too. A brief that
+   reads like a consultancy deck is a brief nobody finishes.
 """
+
+
+def _ground_rules() -> str:
+    """The three data rules plus the house voice.
+
+    Composed at call time rather than baked in as a constant so editing
+    `prompts/human-writing.md` changes the reports without a code change — the
+    same contract the SDR prompt and the knowledge base already have."""
+    return _GROUND_RULES + writing_rules.as_section()
 
 
 def _client() -> anthropic.Anthropic:
@@ -107,16 +137,27 @@ def _write_report(prompt: str, model: str) -> str:
 # ---------------------------------------------------------------------------
 
 def build_stats_brief(conn, campaign_id: int, campaign_name: str = "") -> dict:
-    """Everything Layer 1 reasons over. Slot entries carry real example text —
-    a critique of `{{CTA1}}` is worthless unless the model has read what CTA1
-    actually says."""
+    """Everything the report reasons over — including what the copy actually says.
+
+    Every slot entry carries the real English sentence it inserts and the funnel
+    stage it belongs to, and every variant carries the whole email as a reader
+    would see it. A critique of `{{CTA1}}` is worthless unless the model has read
+    what CTA1 says, and the first version of this brief shipped tokens only."""
     outcomes = campaign_analytics.lead_outcomes(conn, campaign_id)
     summary = campaign_analytics.campaign_summary(conn, campaign_id, outcomes)
     slots = campaign_analytics.slot_metrics(conn, campaign_id, outcomes)
+    texts = campaign_copy.slot_text_map(conn, campaign_id)
+    emails = campaign_copy.variant_emails(conn, campaign_id)
 
-    for entries in slots.values():
+    for role, entries in slots.items():
+        stage = campaign_analytics.stage_of(role)
         for entry in entries:
-            entry["examples"] = campaign_analytics.slot_examples(conn, campaign_id, entry["slot"])
+            text = texts.get(entry["slot"]) or {}
+            entry["text"] = text.get("display") or ""
+            entry["personalized"] = bool(text.get("personalized"))
+            entry["examples"] = text.get("examples") or []
+            entry["stage"] = stage
+            entry["judged_on"] = campaign_analytics.STAGE_METRIC[stage]["label"]
 
     settings_row = {}
     try:
@@ -132,11 +173,20 @@ def build_stats_brief(conn, campaign_id: int, campaign_name: str = "") -> dict:
     except Exception as exc:  # settings are context, not essential
         log.warning("campaign %s: could not read settings: %s", campaign_id, exc)
 
+    variants = campaign_analytics.variant_metrics(conn, campaign_id, outcomes)
+    for variant in variants:
+        email = emails.get(variant["seq_variant_id"]) or {}
+        variant["subject_as_sent"] = email.get("subject") or ""
+        variant["body_as_sent"] = email.get("body") or ""
+
     return {
         "campaign": {"id": campaign_id, "name": campaign_name, **settings_row},
         "totals": summary,
-        "variants": campaign_analytics.variant_metrics(conn, campaign_id, outcomes),
+        "variants": variants,
         "slots": slots,
+        "recommendations": campaign_analytics.recommendations(
+            conn, campaign_id, outcomes, texts
+        ),
         "rendered_subjects": campaign_analytics.subject_metrics(
             conn, campaign_id, outcomes=outcomes
         ),
@@ -144,76 +194,98 @@ def build_stats_brief(conn, campaign_id: int, campaign_name: str = "") -> dict:
     }
 
 
-_LAYER1_PROMPT = """\
-You are a cold-email strategist reviewing one outbound campaign for Mindaptive.ai,
-which sells AI receptionist / lead-response automation to small service businesses.
+_DIRECTIVES_PROMPT = """\
+You are a cold-email strategist briefing Mindaptive.ai (AI receptionist /
+lead-response automation for small service businesses) on one outbound campaign.
 
 {rules}
 
-HOW THE VARIANTS WORK — this is the key to the whole analysis. Each A/B variant is
-a recipe assembled from slots: a subject slot, an icebreaker, a pitch, an offer and
-a CTA. The same slot value is reused across several variants (CTA1 might appear in
-both variant A and variant C), so a slot's numbers pool every variant that uses it
-and rest on a much larger sample than any single variant. Judge SLOTS first —
-that is where the signal is — and treat the per-variant table as secondary.
+WHAT THIS OUTPUT IS FOR. Andrew writes the next campaign and answers replies by
+hand. He does not want an essay about this campaign — he wants a short set of
+instructions he can follow while writing. Every line must be something he can
+DO. If a line does not change what he types, delete it.
 
-Each slot entry includes `examples`: the real text that slot inserts, taken from
-the campaign's own lead data. Critique that text specifically. Quote it.
+HOW THE MESSAGES ARE BUILT. Each A/B variant is a recipe of slots — a subject, an
+icebreaker, a pitch, an offer, a CTA — and the same slot value is reused across
+several variants, so a slot's numbers pool every variant that uses it. Each slot
+entry carries `text`: the real sentence it inserts. Judge that text. Quote it.
 
-THE DATA:
+WHICH NUMBER JUDGES WHICH PART. The subject line and the icebreaker are all the
+reader sees before deciding whether to answer, so they are judged on REPLY RATE —
+with open tracking off, replies are our only proxy for "this got read". The
+pitch, offer and CTA sit below that decision, so they are judged on the POSITIVE
+SHARE OF REPLIES: of the people who did answer, how many answered well. Each slot
+entry states its own `stage` and `judged_on`. Never say a CTA "has a low reply
+rate" — the CTA did not earn the reply, the subject line did.
+
+THE `recommendations` BLOCK IS ALREADY DECIDED. It was computed statistically,
+not by you. Do not overturn it, re-rank it, or contradict a `status`. Your job is
+to explain each one in a sentence a person can act on, and to add the copy
+judgement the maths cannot make.
+
+ENGLISH ONLY. This campaign may have gone out in several languages. All copy in
+the data has been resolved to English. Write only in English, never mention
+translation, localisation, or any language as a factor, and never claim one
+language performs differently — that was never measured.
+
+THE NUMBERS AND THE COPY:
 ```json
 {brief}
 ```
 
-Write a markdown report with exactly these sections:
+WHAT LEADS ACTUALLY WROTE BACK (already extracted per conversation):
+```json
+{conversations}
+```
 
-## Verdict
-Three bullets: what is working, what is broken, and the single biggest lever.
+Write markdown with exactly these four sections and nothing else. HARD LIMIT:
+about one screen. No preamble, no summary of the campaign, no restating the data.
 
-## Subject lines
-Which rendered subject lines earn replies and which do not, and WHY — length,
-question vs statement, specificity vs curiosity, whether it reads as automated.
-Quote the actual subject text.
+## Do this
+5–7 bullets, most important first. Each is an instruction with the reason and the
+number attached, in this shape:
+**Instruction.** Why it works, with the count. e.g.
+**Open with the booking-process question, not the AI pitch.** It pulled 23 of 42
+replies; the pitch-first opening pulled 10.
+Cover the subject line, the opening line, the offer and the CTA. If a component
+is unresolved, the instruction is "keep using X for now" — say so plainly rather
+than inventing a preference.
 
-## CTAs
-Rank the CTA slots and explain the mechanism: what is each one asking the reader
-to do, and how much effort does it demand?
+## Don't do this
+4–6 bullets, same shape. Each must name something concretely present in the copy
+or the replies — a phrase, a structure, a length, an ask — and why it costs. No
+generic cold-email advice.
 
-## Offer and angle
-Which pitch/offer framing pulls positive replies, and what that says about what
-this audience cares about.
+## This audience
+3–4 bullets on what these specific people care about and react badly to, each
+backed by a verbatim quote from a real reply. This is the section that tells
+Andrew how to talk to them once they answer.
 
-## Tone and structure
-Length, formality, personalization depth, and anything that reads as mass mail.
-
-## Deliverability
-Bounce rate, unsubscribes, and step-by-step drop-off. Flag anything that
-threatens inbox placement. This is separate from copy quality — do not confuse
-a deliverability problem for a copy problem.
-
-## Fixes
-Ranked, concrete, each with the expected effect and the reasoning.
-
-## Next run — variant plan
-The most important section. Give 4–6 concrete variant recipes for the next run,
-each written as an explicit slot combination (subject + icebreaker + pitch +
-offer + CTA). For every variant state:
-- exactly what it is testing (ONE variable different from its comparison),
-- which current variant it replaces and why that one is being retired,
-- the full new copy for any slot value you are proposing, written out ready to
-  paste — not described.
-End with how many sends per variant are needed before the result can be read,
-based on the reply rates actually observed here.
+## Next test
+The plan from `recommendations.next_test`, in 3–5 lines: what to hold fixed
+(name the actual copy), the one thing to vary, and how many sends per arm it
+needs before it can be read. Then, if you are proposing new copy for the varied
+slot, write it out ready to paste — no more than two options.
 """
 
 
-def generate_variant_report(conn, campaign_id: int, campaign_name: str = "", model: str | None = None) -> tuple[str, dict]:
+def generate_directives(
+    conn, campaign_id: int, campaign_name: str = "", model: str | None = None
+) -> tuple[str, dict]:
+    """The short brief shown on the AI analysis tab.
+
+    Fed both layers on purpose: the numbers say which CTA won, the conversations
+    say why, and an instruction with only one of those behind it is either
+    unexplained or unsupported."""
     brief = build_stats_brief(conn, campaign_id, campaign_name)
-    model = model or settings.anthropic_model
-    prompt = _LAYER1_PROMPT.format(
-        rules=_GROUND_RULES, brief=json.dumps(brief, indent=1, default=str)
+    prompt = _DIRECTIVES_PROMPT.format(
+        rules=_ground_rules(),
+        brief=json.dumps(brief, indent=1, default=str),
+        conversations=json.dumps(
+            _extraction_records(conn, campaign_id), indent=1, ensure_ascii=False, default=str
+        ),
     )
-    return _write_report(prompt, model), brief
+    return _write_report(prompt, model or settings.anthropic_model), brief
 
 
 # ---------------------------------------------------------------------------
@@ -239,11 +311,15 @@ Fields:
   "calculator", "demo", "pricing", "case_study") or null.
 - "tone": "warm", "neutral", "curt" or "hostile".
 - "trigger": a SHORT VERBATIM QUOTE from the lead showing what in our email they
-  reacted to. Never paraphrase; copy their words.
+  reacted to. Never paraphrase; copy their words in the language they wrote in.
+- "trigger_en": that same quote in English. If they already wrote in English,
+  repeat it unchanged. This is the one that gets shown, so it must read as
+  natural English, not a word-for-word gloss.
 - "friction": anything they misread, doubted, or found confusing — verbatim if
   possible, else null.
+- "friction_en": the English of "friction", same rule, or null.
 - "salvageable": true/false — could a different angle still win this lead?
-- "salvage_angle": one sentence on what that angle would be, or null.
+- "salvage_angle": one sentence IN ENGLISH on what that angle would be, or null.
 
 Return ONLY a JSON array, no prose, no code fence.
 
@@ -270,16 +346,33 @@ def _parse_json_array(text: str) -> list[dict]:
     return parsed if isinstance(parsed, list) else []
 
 
+# Bump when the extraction schema changes. Cached extractions from an older
+# version are re-run, because a field added to the prompt (the English quote)
+# would otherwise never appear on the conversations extracted before it existed
+# — and those are most of them.
+_EXTRACT_VERSION = 2
+
+
+def _needs_extraction(row) -> bool:
+    if not row["extract_json"]:
+        return True
+    try:
+        return json.loads(row["extract_json"]).get("_v") != _EXTRACT_VERSION
+    except (ValueError, AttributeError):
+        return True
+
+
 def extract_conversations(campaign_id: int, model: str | None = None, progress=None) -> int:
     """Map step: structured extraction per conversation, cached on the row.
 
-    Only conversations without a cached extraction are sent, so a re-analysis
-    after a few new replies costs a fraction of the first run."""
+    Only conversations without a current cached extraction are sent, so a
+    re-analysis after a few new replies costs a fraction of the first run."""
     model = model or settings.anthropic_model
     with db.db_session() as conn:
         pending = [
             campaign_conversations.thread_for_prompt(row)
-            for row in db.list_campaign_conversations(conn, campaign_id, unextracted_only=True)
+            for row in db.list_campaign_conversations(conn, campaign_id)
+            if _needs_extraction(row)
         ]
     if not pending:
         return 0
@@ -313,6 +406,7 @@ def extract_conversations(campaign_id: int, model: str | None = None, progress=N
                 extraction = extractions.get(str(conversation["lead_id"]))
                 if not extraction:
                     continue
+                extraction["_v"] = _EXTRACT_VERSION
                 db.upsert_campaign_conversation(
                     conn,
                     campaign_id,
@@ -332,12 +426,24 @@ campaign.
 
 {rules}
 
+WHAT THIS IS FOR. Andrew answers these replies by hand. The question this report
+exists to answer is: **what did we say that moved someone toward a meeting, and
+what did we say that lost them?** Not "here is a list of the conversations" — he
+can read those himself. Every claim must be a pattern across conversations, with
+a count and a quote.
+
 Additional rules for this part:
 - QUOTE, NEVER PARAPHRASE, when citing what a lead said. The quotes are how this
   report gets fact-checked.
 - COUNT, NEVER ESTIMATE. The counts are given to you below; use them.
-- If a pattern rests on fewer than 5 conversations, say so explicitly in the
-  sentence where you claim it.
+- If a pattern rests on fewer than 5 conversations, say so in the sentence where
+  you claim it.
+- ENGLISH ONLY. Replies arrived in several languages; write everything in
+  English, translate any quote you cite, and never treat language as a factor —
+  it was not measured.
+- SEPARATE THE WIN FROM THE LOSS. A conversation that reached "Meeting-Booked" or
+  any "Interested" category is a win; "Not Interested" and "Do Not Contact" are
+  losses. Contrast them explicitly — the whole value here is the difference.
 
 COUNTS (already computed — do not recompute):
 ```json
@@ -349,42 +455,44 @@ PER-CONVERSATION EXTRACTIONS:
 {extractions}
 ```
 
-Write a markdown report with exactly these sections:
+Write a markdown report with exactly these sections. Keep it tight — a
+paragraph and a few bullets each, never a wall.
 
-## How people actually reply
-The objection taxonomy with counts, each backed by a verbatim quote.
+## What moves people toward a meeting
+The patterns shared by the conversations that ended positively: what we said, at
+which step, and how they answered. Counts and quotes. If the positive
+conversations have nothing in common, say that.
 
-## Lead magnets and assets
-Which assets leads ask for, in what words, and which offers are ignored. If no
-lead asked for an asset, say that plainly and say what it implies.
+## What loses them
+The patterns shared by the rejections and the silences after a first reply.
+Name the specific ask, phrase or structure that preceded each, quoted.
 
-## Follow-up effectiveness
-Which step earns replies and which earns irritation. Say directly whether the
-sequence should be longer or shorter, and where it should stop.
+## Objections, ranked
+Each objection type with its count and one verbatim quote, most common first,
+and the one sentence that answers it best.
 
-## What irritates vs what engages
-The concrete triggers, quoted. Be specific about the phrasing that caused each.
+## What they asked us for
+Which assets leads requested, in their own words, and which of our offers nobody
+ever asked about. If nobody asked for an asset, say so and say what it implies.
 
-## Who is salvageable
-Patterns among the declines that a different angle could still win, and the
-angle for each.
+## How to run the conversation after a first reply
+The practical script: what to send first, what to never send, when to push for
+the meeting and when to hold back. This is what the app's own reply drafts
+should follow.
 
-## Strategy for interested leads
-How to run the conversation after a first positive reply: which asset to lead
-with, what to say next, what to avoid. This drives how the app's own reply
-drafts should be written.
-
-## Suggested changes to our playbook
-Specific, quotable edits for `prompts/system.md` (how the AI writes replies) and
-`knowledge/solutions-catalog.md` (what we offer). Phrase each as a concrete
-instruction Andrew could paste in. Do not rewrite the whole file.
+## Playbook edits
+3–5 concrete instructions for `prompts/system.md`, each phrased so Andrew can
+paste it straight in. No rewriting of the whole file.
 """
 
 
-def generate_conversation_report(conn, campaign_id: int, model: str | None = None) -> str:
-    rows = db.list_campaign_conversations(conn, campaign_id)
-    extractions = []
-    for row in rows:
+def _extraction_records(conn, campaign_id: int) -> list[dict]:
+    """The per-conversation extractions, joined to the outcome each one had.
+
+    `category` is what makes the report possible: without it the model can see
+    what a lead said but not whether the conversation ended in a meeting."""
+    records = []
+    for row in db.list_campaign_conversations(conn, campaign_id):
         if not row["extract_json"]:
             continue
         try:
@@ -392,10 +500,19 @@ def generate_conversation_report(conn, campaign_id: int, model: str | None = Non
         except ValueError:
             continue
         item["category"] = row["category"]
+        item["outcome"] = (
+            "positive" if campaign_analytics.is_positive(row["category"]) else "not_positive"
+        )
         item["variant"] = row["variant_label"]
         item["replied_after_step"] = row["first_reply_after_step"]
+        item["their_message_count"] = row["their_msg_count"]
         item["company"] = row["company"]
-        extractions.append(item)
+        records.append(item)
+    return records
+
+
+def generate_conversation_report(conn, campaign_id: int, model: str | None = None) -> str:
+    extractions = _extraction_records(conn, campaign_id)
 
     if not extractions:
         return (
@@ -406,7 +523,7 @@ def generate_conversation_report(conn, campaign_id: int, model: str | None = Non
 
     stats = campaign_conversations.conversation_stats(conn, campaign_id)
     prompt = _SYNTHESIS_PROMPT.format(
-        rules=_GROUND_RULES,
+        rules=_ground_rules(),
         stats=json.dumps(stats, indent=1, default=str),
         extractions=json.dumps(extractions, indent=1, ensure_ascii=False),
     )
@@ -447,21 +564,29 @@ def run_analysis(
     try:
       with smartlead.use_account(api_key):
         campaign_analytics.sync_campaign(campaign_id, full=full_sync, progress=stage)
+        # Only campaigns that ran in no English at all pay for this; an
+        # all-English campaign finds nothing to translate and makes no call.
+        with db.db_session() as conn:
+            campaign_copy.translate_slot_texts(conn, campaign_id, model=model, progress=stage)
 
-        report_md = None
-        brief = None
-        if "variants" in layers:
-            stage("Analyzing variants…")
-            with db.db_session() as conn:
-                report_md, brief = generate_variant_report(conn, campaign_id, campaign_name, model)
-
+        # Conversations run first: the directives brief is fed the extractions,
+        # so "this CTA wins" can be explained by what people actually wrote.
         conversation_md = None
         if "conversations" in layers:
             campaign_conversations.sync_conversations(campaign_id, progress=stage)
             extract_conversations(campaign_id, model=model, progress=stage)
-            stage("Writing the conversation report…")
+            stage("Working out what wins and what loses conversations…")
             with db.db_session() as conn:
                 conversation_md = generate_conversation_report(conn, campaign_id, model)
+
+        directives_md = None
+        brief = None
+        if "variants" in layers:
+            stage("Writing the brief for the next run…")
+            with db.db_session() as conn:
+                directives_md, brief = generate_directives(
+                    conn, campaign_id, campaign_name, model
+                )
 
         fields = {
             "status": "done",
@@ -470,9 +595,12 @@ def run_analysis(
             "model": model,
             "error": None,
         }
-        if report_md is not None:
-            fields["report_md"] = report_md
+        if directives_md is not None:
+            fields["directives_md"] = directives_md
             fields["stats_json"] = json.dumps(brief, default=str)
+            # The long-form essay this replaced is no longer written; clear any
+            # cached copy so the tab can't serve the old wall of text.
+            fields["report_md"] = None
         if conversation_md is not None:
             fields["conversation_md"] = conversation_md
         with db.db_session() as conn:

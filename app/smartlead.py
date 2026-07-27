@@ -68,9 +68,28 @@ def _request(
             if not resp.content:
                 return None
             if not resp.headers.get("content-type", "").startswith("application/json"):
-                return resp.text
+                return _decode(resp)
             return resp.json()
     raise SmartleadError(f"{method} {path} failed after retries")
+
+
+def _decode(resp) -> str:
+    """Text body, decoded with the right charset rather than the assumed one.
+
+    `leads-export` returns text/csv with no charset in the header, so httpx
+    falls back to UTF-8 — but the file is Windows-1252. Every German and French
+    lead's copy came back with U+FFFD in place of its accents ("Viele Gr��e"),
+    which then flowed into the analysis as the campaign's actual wording. Only
+    guess when the server declined to say."""
+    if resp.charset_encoding:
+        return resp.text
+    raw = resp.content
+    for encoding in ("utf-8", "cp1252", "latin-1"):
+        try:
+            return raw.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return raw.decode("utf-8", errors="replace")
 
 
 def list_campaigns(api_key: str | None = None) -> list[dict]:

@@ -738,6 +738,78 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 .metric-table.wrap-mid td:nth-child(3) { white-space: normal; min-width: 130px; max-width: 210px; }
 .metric-table td:first-child { white-space: normal; }
 
+/* ---- Campaign analysis: recommendations, whole emails, reply insights ---- */
+
+/* The "what to do next" panel. Deliberately the first thing under the headline
+   numbers: it is the answer, the tables underneath are the evidence. */
+.rec-list { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.rec-row {
+  background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--border);
+  border-radius: 8px; padding: 10px 12px;
+}
+.rec-clear { border-left-color: var(--booked); }
+.rec-leaning { border-left-color: #4a7c59; }
+.rec-unresolved, .rec-untested { border-left-color: var(--border); }
+.rec-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.rec-role { font-weight: 600; font-size: 13px; }
+.rec-status { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
+.status-clear { background: var(--booked-bg); color: var(--booked); }
+.status-leaning { background: #eef5f0; color: #4a7c59; }
+.status-unresolved, .status-untested { background: #efece6; color: var(--muted); }
+.rec-copy { margin: 6px 0 4px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.rec-copy-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.rec-copy-text { font-size: 13px; line-height: 1.5; }
+.rec-action { font-size: 13px; line-height: 1.55; color: var(--text); }
+
+.next-test {
+  margin-top: 14px; background: var(--card); border: 1px solid var(--accent);
+  border-radius: 8px; padding: 12px 14px;
+}
+.next-test h4 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+.next-test-block { margin-bottom: 10px; }
+.next-test-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 4px; }
+.next-test-item { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; flex-wrap: wrap; }
+.next-test-size { font-size: 12px; font-weight: 600; margin: 8px 0 0; }
+
+/* One card per variant: the whole email, not a list of variable names. */
+.variant-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.variant-card summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.variant-label { font-weight: 600; font-size: 14px; min-width: 18px; }
+.variant-subject { flex: 1 1 220px; font-size: 13px; }
+.variant-nums { display: flex; gap: 8px; flex-wrap: wrap; }
+.variant-num { font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #efece6; color: var(--muted); }
+.variant-body { margin-top: 10px; }
+.variant-meta { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.email-preview { background: #faf8f5; border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; }
+.email-subject { font-weight: 600; font-size: 13px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
+.email-body { white-space: pre-wrap; font-size: 13px; line-height: 1.6; }
+.slot-parts { margin-top: 10px; }
+.slot-part { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; flex-wrap: wrap; }
+.slot-tag { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; padding: 2px 6px; border-radius: 8px; background: #efece6; color: var(--muted); white-space: nowrap; }
+.slot-token { font-size: 11px; color: var(--muted); font-family: ui-monospace, monospace; }
+.slot-text { font-size: 12px; flex: 1 1 200px; line-height: 1.5; }
+
+/* The component tables lead with the sentence, so that column must wrap wide. */
+.slot-cell { max-width: 460px; }
+.slot-cell-text { font-size: 13px; line-height: 1.5; white-space: normal; }
+.slot-cell-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Won/lost split bar on the conversation breakdowns. */
+.split-bar { width: 70px; height: 6px; border-radius: 3px; background: #efece6; overflow: hidden; }
+.split-won { display: block; height: 100%; background: var(--booked); }
+
+.quote-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.quote-item { border-left: 3px solid var(--border); padding: 6px 10px; background: var(--card); border-radius: 0 6px 6px 0; }
+.quotes-good .quote-item { border-left-color: var(--booked); }
+.quotes-bad .quote-item { border-left-color: var(--danger); }
+.quote-text { font-size: 13px; line-height: 1.5; }
+.quote-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* Secondary detail (raw threads, every rendered subject) — present for
+   checking a claim, collapsed so it never competes with the analysis. */
+.extra-block { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 10px; }
+.extra-block > summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); }
+
 /* The lead search box belongs to the inbox-style views only. */
 .search-row.hidden { display: none; }
 

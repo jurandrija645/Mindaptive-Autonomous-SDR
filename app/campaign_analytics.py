@@ -47,20 +47,25 @@ ROBOT_CATEGORIES = {
     "sender originated bounce",
 }
 
-# What counts as a win. Confirmed with Andrew: Interested and a booked meeting.
-# "Information Request" and the magnet-specific categories are tracked
-# separately as engagement rather than folded in here, so the headline number
-# stays the one he actually cares about.
-POSITIVE_CATEGORIES = {
-    "interested",
-    "meeting-booked",
-    "meeting booked",
-    "meeting request",
-}
+# What counts as a win. Every `Interested*` category plus a booked meeting.
+#
+# The magnet-specific categories ("Interested for video", "Interested for
+# toolkit", "Interested for calculator") used to be excluded, which left 0-5
+# positives per variant on a six-way split — every comparison collapsed to
+# `not_enough_data` and the positive column ranked nothing. Someone who asks for
+# the video is a lead who put their hand up, so they count; Meeting-Booked is
+# still reported on its own as the strongest signal.
+POSITIVE_PREFIXES = ("interested", "meeting")
+# Guard against the categories that merely *contain* a positive word.
+NEGATIVE_CATEGORIES = {"not interested", "do not contact", "wrong person"}
 
 # Rates below these are reported but never ranked — see verdict().
 MIN_DELIVERED = 300
 MIN_REPLIES = 10
+# Conversion ("of those who replied, how many were interested") is measured over
+# repliers, a denominator two orders of magnitude smaller than delivered.
+MIN_CONVERSION_TRIALS = 15
+MIN_CONVERSION_SUCCESSES = 3
 
 _SLOT_RE = re.compile(r"\{\{\s*([A-Za-z0-9_]+)\s*\}\}")
 
@@ -91,7 +96,17 @@ def is_robot(category: str | None) -> bool:
 
 
 def is_positive(category: str | None) -> bool:
-    return normalize_category(category) in POSITIVE_CATEGORIES
+    value = normalize_category(category)
+    if value in NEGATIVE_CATEGORIES:
+        return False
+    return value.startswith(POSITIVE_PREFIXES)
+
+
+def is_booked(category: str | None) -> bool:
+    """The hard win, reported separately from the wider `positive`. "Meeting
+    Request" is a lead asking for one, not one on the calendar, so it counts as
+    positive but not as booked."""
+    return normalize_category(category).replace("-", " ").startswith("meeting booked")
 
 
 # ---------------------------------------------------------------------------
@@ -156,13 +171,24 @@ def wilson_interval(successes: int, trials: int, z: float = 1.96) -> tuple[float
     )
 
 
-def verdict(successes: int, trials: int, baseline: float) -> str:
+def verdict(
+    successes: int,
+    trials: int,
+    baseline: float,
+    min_trials: int = MIN_DELIVERED,
+    min_successes: int = MIN_REPLIES,
+) -> str:
     """How much to trust this row against the campaign's own baseline rate.
 
     `not_enough_data` is deliberately returned before any comparison: with a
     handful of replies per variant, a "winner" is usually noise, and the report
-    is instructed never to call one on this label."""
-    if trials < MIN_DELIVERED or successes < MIN_REPLIES:
+    is instructed never to call one on this label.
+
+    The thresholds are arguments because the two questions this module asks have
+    very different denominators: "did they reply" is measured over ~500
+    delivered emails per variant, "did the reply go well" over the ~20 people
+    who actually answered."""
+    if trials < min_trials or successes < min_successes:
         return "not_enough_data"
     low, high = wilson_interval(successes, trials)
     if low > baseline:
@@ -219,20 +245,43 @@ def _metrics(rows: Iterable[dict]) -> dict:
         "robot_replies": robots,
         "replies": replies,
         "positives": positives,
+        "booked": sum(1 for category in human if is_booked(category)),
         "bounce_rate": bounced / sent if sent else 0.0,
         "reply_rate": replies / delivered if delivered else 0.0,
         "positive_rate": positives / delivered if delivered else 0.0,
+        # Of the people who did answer, how many answered *well*. This is the
+        # number that isolates the bottom of the email (offer, CTA) from the
+        # top (subject, icebreaker) — see ROLE_STAGE.
+        "positive_per_reply": positives / replies if replies else 0.0,
     }
 
 
-def _with_verdicts(bucket: dict, reply_baseline: float, positive_baseline: float) -> dict:
+def _with_verdicts(
+    bucket: dict,
+    reply_baseline: float,
+    positive_baseline: float,
+    conversion_baseline: float = 0.0,
+) -> dict:
     delivered = bucket["delivered"]
-    reply_low, reply_high = wilson_interval(bucket["replies"], delivered)
+    replies = bucket["replies"]
+    reply_low, reply_high = wilson_interval(replies, delivered)
     pos_low, pos_high = wilson_interval(bucket["positives"], delivered)
+    conv_low, conv_high = wilson_interval(bucket["positives"], replies)
     bucket["reply_ci"] = [round(reply_low, 5), round(reply_high, 5)]
     bucket["positive_ci"] = [round(pos_low, 5), round(pos_high, 5)]
-    bucket["reply_verdict"] = verdict(bucket["replies"], delivered, reply_baseline)
+    bucket["conversion_ci"] = [round(conv_low, 5), round(conv_high, 5)]
+    bucket["reply_verdict"] = verdict(replies, delivered, reply_baseline)
     bucket["positive_verdict"] = verdict(bucket["positives"], delivered, positive_baseline)
+    # Conversion is measured over repliers, not over delivered, so it needs its
+    # own (much smaller) thresholds — 20 replies is a real sample for "of the
+    # people who answered, how many answered well", while 20 delivered is not.
+    bucket["conversion_verdict"] = verdict(
+        bucket["positives"],
+        replies,
+        conversion_baseline,
+        min_trials=MIN_CONVERSION_TRIALS,
+        min_successes=MIN_CONVERSION_SUCCESSES,
+    )
     return bucket
 
 
@@ -398,7 +447,21 @@ def sync_campaign(campaign_id: int, full: bool = False, progress=None) -> dict:
         progress("Reading send statistics…")
     sends = sync_sends(campaign_id, full=full, progress=progress)
     lead_vars = sync_lead_vars(campaign_id, progress=progress)
-    return {"variants": variants, "sends": sends, "lead_vars": lead_vars}
+
+    # Imported late: campaign_copy reads slot_role from this module, so importing
+    # it at the top would close the cycle.
+    from app import campaign_copy
+
+    if progress:
+        progress("Reading what each message component says…")
+    with db.db_session() as conn:
+        slot_texts = campaign_copy.sync_slot_texts(conn, campaign_id)
+    return {
+        "variants": variants,
+        "sends": sends,
+        "lead_vars": lead_vars,
+        "slot_texts": slot_texts,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -414,9 +477,14 @@ def _load(conn, campaign_id: int, step: int | None = 1) -> list[dict]:
     return [dict(row) for row in conn.execute(sql, params).fetchall()]
 
 
-def baselines(rows: list[dict]) -> tuple[float, float]:
-    overall = _metrics(rows)
-    return overall["reply_rate"], overall["positive_rate"]
+def baselines(rows: list[dict]) -> tuple[float, float, float]:
+    return _baselines_of(_metrics(rows))
+
+
+def _baselines_of(overall: dict) -> tuple[float, float, float]:
+    """The three campaign-wide rates every row is judged against: reply rate,
+    positive rate, and positives-per-reply."""
+    return overall["reply_rate"], overall["positive_rate"], overall["positive_per_reply"]
 
 
 def lead_outcomes(conn, campaign_id: int) -> list[dict]:
@@ -481,9 +549,11 @@ def _lead_metrics(outcomes: Iterable[dict]) -> dict:
         "robot_replies": sum(1 for o in outcomes if o["robot_reply"]),
         "replies": replies,
         "positives": positives,
+        "booked": sum(1 for o in outcomes if is_booked(o["category"])),
         "bounce_rate": bounced / sent if sent else 0.0,
         "reply_rate": replies / delivered if delivered else 0.0,
         "positive_rate": positives / delivered if delivered else 0.0,
+        "positive_per_reply": positives / replies if replies else 0.0,
     }
 
 
@@ -496,7 +566,7 @@ def variant_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) 
     signal is."""
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
     overall = _lead_metrics(outcomes)
-    reply_base, positive_base = overall["reply_rate"], overall["positive_rate"]
+    reply_base, positive_base, conv_base = _baselines_of(overall)
     variants = {v["seq_variant_id"]: dict(v) for v in db.list_campaign_variants(conn, campaign_id)}
 
     grouped: dict[int | None, list[dict]] = defaultdict(list)
@@ -507,7 +577,7 @@ def variant_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) 
     for variant_id, bucket in grouped.items():
         meta = variants.get(variant_id, {})
         slots = json.loads(meta.get("slots_json") or "[]")
-        entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base)
+        entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base, conv_base)
         entry.update(
             {
                 "seq_variant_id": variant_id,
@@ -533,7 +603,7 @@ def slot_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) -> 
     would give."""
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
     overall = _lead_metrics(outcomes)
-    reply_base, positive_base = overall["reply_rate"], overall["positive_rate"]
+    reply_base, positive_base, conv_base = _baselines_of(overall)
     variants = {v["seq_variant_id"]: dict(v) for v in db.list_campaign_variants(conn, campaign_id)}
 
     by_variant: dict[int | None, list[dict]] = defaultdict(list)
@@ -559,7 +629,7 @@ def slot_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) -> 
     for role, tokens in pooled.items():
         entries = []
         for token, bucket in tokens.items():
-            entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base)
+            entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base, conv_base)
             entry.update(
                 {
                     "slot": token,
@@ -573,6 +643,289 @@ def slot_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) -> 
     return out
 
 
+# ---------------------------------------------------------------------------
+# Which number judges which part of the email
+# ---------------------------------------------------------------------------
+
+# A reader meets the email in two stages, and the same number cannot judge both.
+#
+# The subject line and the icebreaker are all that is visible before the decision
+# to keep reading — with open tracking off, the reply rate is the only proxy we
+# have for "this got opened and held attention", so those two roles are judged on
+# it. Everything below the fold (pitch, pain point, proof, offer, CTA) is only
+# read by someone who already got that far, so judging it on reply rate mostly
+# re-measures the subject line above it. Those are judged on how many of the
+# people who *did* reply replied positively.
+#
+# This is Andrew's own framing and it is the difference between "variant B is
+# worse" and "variant B's subject works, its CTA doesn't".
+ROLE_STAGE = {
+    "subject": "attention",
+    "icebreaker": "attention",
+    "pitch": "conversion",
+    "painpoint": "conversion",
+    "socialproof": "conversion",
+    "offer": "conversion",
+    "cta": "conversion",
+}
+
+STAGE_METRIC = {
+    "attention": {
+        "rate": "reply_rate",
+        "verdict": "reply_verdict",
+        "ci": "reply_ci",
+        "successes": "replies",
+        "trials": "delivered",
+        "label": "reply rate",
+        "why": "the subject line and opening are all the reader sees before deciding to reply, so replies measure them",
+    },
+    "conversion": {
+        "rate": "positive_per_reply",
+        "verdict": "conversion_verdict",
+        "ci": "conversion_ci",
+        "successes": "positives",
+        "trials": "replies",
+        "label": "positive share of replies",
+        "why": "this part is only read by someone already reading, so it is judged on how well the replies it drew turned out",
+    },
+}
+
+
+def stage_of(role: str) -> str:
+    return ROLE_STAGE.get(role, "conversion")
+
+
+# Which unresolved role is worth spending the next run on, best first. Attention
+# gates everything underneath it: a better CTA on an email nobody answers is
+# worth nothing, so the top of the message gets resolved first.
+_TEST_PRIORITY = ("subject", "icebreaker", "cta", "offer", "pitch", "painpoint", "socialproof")
+
+
+def required_per_arm(baseline: float, relative_lift: float = 0.5) -> int:
+    """Sends per arm needed to see a `relative_lift` change at ~80% power, 95%.
+
+    The usual two-proportion formula, reduced: n = 16·p(1-p)/Δ². It exists to
+    make "not enough data" a number Andrew can plan around instead of a shrug —
+    at a 4% reply rate, resolving a 50% difference needs ~1,500 sends per arm,
+    which is the honest reason six variants over 2,900 leads resolved nothing."""
+    if baseline <= 0 or baseline >= 1:
+        return 0
+    delta = baseline * relative_lift
+    return int(math.ceil(16 * baseline * (1 - baseline) / (delta * delta)))
+
+
+def _separation(top: dict, rest: dict, metric: dict) -> str:
+    """Does the leader actually clear the field, or is it just ahead?
+
+    Compares the two Wilson intervals directly rather than each against the
+    campaign baseline: "CTA1 beats CTA2" is the question being asked, and both
+    can sit above baseline while being indistinguishable from each other."""
+    if not top or not rest:
+        return "unresolved"
+    if top[metric["trials"]] < 1 or rest[metric["trials"]] < 1:
+        return "unresolved"
+    # The *leader* must have a real sample of its own. Without this line every
+    # role on campaign 3640877 came back "ahead, not proven" off 2 positives out
+    # of 20 replies — a ranking of noise wearing a hedge, which is worse than
+    # saying nothing.
+    if top[metric["verdict"]] == "not_enough_data":
+        return "unresolved"
+    top_low = top[metric["ci"]][0]
+    if top_low > rest[metric["ci"]][1]:
+        return "clear"
+    # "Leaning" means the leader's plausible worst case still beats the rest of
+    # the field's actual rate. A bare ratio (1.0% vs 0.8%) does not clear that.
+    if top_low > rest[metric["rate"]] and top[metric["rate"]] > rest[metric["rate"]] * 1.2:
+        return "leaning"
+    return "unresolved"
+
+
+def _pooled(entries: list[dict], metric: dict) -> dict:
+    """Everything except the leader, added up — the field it has to beat."""
+    successes = sum(entry[metric["successes"]] for entry in entries)
+    trials = sum(entry[metric["trials"]] for entry in entries)
+    low, high = wilson_interval(successes, trials)
+    return {
+        metric["successes"]: successes,
+        metric["trials"]: trials,
+        metric["rate"]: successes / trials if trials else 0.0,
+        metric["ci"]: [round(low, 5), round(high, 5)],
+        metric["verdict"]: "not_enough_data" if trials < 1 else "pooled",
+        "tokens": [entry["slot"] for entry in entries],
+    }
+
+
+def recommendations(
+    conn,
+    campaign_id: int,
+    outcomes: list[dict] | None = None,
+    texts: dict[str, dict] | None = None,
+) -> dict:
+    """Read the slot tables and say what to do: which component to keep, which is
+    still open, and what the next run should hold fixed while it varies one thing.
+
+    Deliberately deterministic. The AI report is asked to explain and phrase
+    these, never to derive them — a recommendation that changes wording every
+    time it is regenerated is not a recommendation.
+
+    `texts` (from app.campaign_copy.slot_text_map) is optional and only supplies
+    the human-readable copy; the logic never depends on it.
+    """
+    outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
+    slots = slot_metrics(conn, campaign_id, outcomes)
+    overall = _lead_metrics(outcomes)
+    texts = texts or {}
+
+    def copy_of(token: str) -> str:
+        return (texts.get(token) or {}).get("display") or ""
+
+    findings = []
+    for role in TESTABLE_ROLES:
+        entries = slots.get(role) or []
+        if not entries:
+            continue
+        stage = stage_of(role)
+        metric = STAGE_METRIC[stage]
+        ranked = sorted(entries, key=lambda e: (-e[metric["rate"]], -e[metric["trials"]]))
+        if len(ranked) < 2:
+            findings.append(
+                {
+                    "role": role,
+                    "stage": stage,
+                    "metric": metric["label"],
+                    "status": "untested",
+                    "winner": ranked[0]["slot"],
+                    "winner_text": copy_of(ranked[0]["slot"]),
+                    "winner_rate": ranked[0][metric["rate"]],
+                    "runner_up": None,
+                    "runner_up_text": "",
+                    "runner_up_rate": 0.0,
+                    "options": len(ranked),
+                    "action": (
+                        f"Only one {role} was ever used, so nothing has been compared. "
+                        "Write a second one if this component is worth testing."
+                    ),
+                }
+            )
+            continue
+
+        top, rest = ranked[0], ranked[1:]
+        field = _pooled(rest, metric)
+        status = _separation(top, field, metric)
+        findings.append(
+            {
+                "role": role,
+                "stage": stage,
+                "metric": metric["label"],
+                "metric_why": metric["why"],
+                "status": status,
+                "winner": top["slot"],
+                "winner_text": copy_of(top["slot"]),
+                "winner_rate": top[metric["rate"]],
+                "winner_successes": top[metric["successes"]],
+                "winner_trials": top[metric["trials"]],
+                "runner_up": ranked[1]["slot"],
+                "runner_up_text": copy_of(ranked[1]["slot"]),
+                "runner_up_rate": ranked[1][metric["rate"]],
+                "field_rate": field[metric["rate"]],
+                "options": len(ranked),
+                "action": _action_for(role, status, top, ranked[1], metric, overall),
+            }
+        )
+
+    resolved = [f for f in findings if f["status"] in ("clear", "leaning")]
+    open_roles = [f for f in findings if f["status"] == "unresolved"]
+    next_role = next(
+        (role for role in _TEST_PRIORITY if any(f["role"] == role for f in open_roles)),
+        None,
+    )
+    next_finding = next((f for f in open_roles if f["role"] == next_role), None)
+
+    plan = None
+    if next_finding:
+        arms = [
+            {"token": next_finding["winner"], "text": next_finding["winner_text"]},
+            {"token": next_finding["runner_up"], "text": next_finding["runner_up_text"]},
+        ]
+        stage = next_finding["stage"]
+        baseline = (
+            overall["reply_rate"] if stage == "attention" else overall["positive_per_reply"]
+        )
+        plan = {
+            "vary": next_finding["role"],
+            "vary_stage": stage,
+            "arms": arms,
+            "hold_fixed": [
+                {
+                    "role": f["role"],
+                    "token": f["winner"],
+                    "text": f["winner_text"],
+                    "status": f["status"],
+                }
+                for f in resolved
+            ],
+            "per_arm_sends": required_per_arm(baseline),
+            "baseline": baseline,
+            "why": (
+                f"Everything else stays on its current best so the only thing that differs "
+                f"between the two arms is the {next_finding['role']}. With {len(findings)} "
+                f"components varying at once, no single one can be attributed."
+            ),
+        }
+    elif findings:
+        plan = {
+            "vary": None,
+            "arms": [],
+            "hold_fixed": [
+                {
+                    "role": f["role"],
+                    "token": f["winner"],
+                    "text": f["winner_text"],
+                    "status": f["status"],
+                }
+                for f in findings
+            ],
+            "per_arm_sends": 0,
+            "baseline": overall["reply_rate"],
+            "why": (
+                "Every component has a leader. Run the winning combination as a single "
+                "control and test a genuinely new angle against it rather than re-splitting "
+                "the same copy."
+            ),
+        }
+
+    return {
+        "findings": findings,
+        "next_test": plan,
+        "sends_needed_per_arm_reply": required_per_arm(overall["reply_rate"]),
+        "sends_needed_per_arm_positive": required_per_arm(overall["positive_rate"]),
+    }
+
+
+def _action_for(role: str, status: str, top: dict, second: dict, metric: dict, overall: dict) -> str:
+    rate = f"{top[metric['rate']]:.1%}"
+    other = f"{second[metric['rate']]:.1%}"
+    counts = f"{top[metric['successes']]}/{top[metric['trials']]}"
+    if status == "clear":
+        return (
+            f"Keep {top['slot']} and retire the rest. {rate} vs {other} on {metric['label']} "
+            f"({counts}), and the gap clears the confidence interval."
+        )
+    if status == "leaning":
+        return (
+            f"Run {top['slot']} as the control — it leads on {metric['label']} "
+            f"({rate} vs {other}, {counts}) but the gap is not yet proven. Keep only it and "
+            f"{second['slot']} in the next run so the comparison gets the whole sample."
+        )
+    baseline = overall["reply_rate"] if metric["rate"] == "reply_rate" else overall["positive_per_reply"]
+    need = required_per_arm(baseline)
+    return (
+        f"Unresolved — {top['slot']} and {second['slot']} are indistinguishable "
+        f"({rate} vs {other} on {metric['label']}). Either drop this from the test and "
+        f"pick one arbitrarily, or give it ~{need:,} sends per arm."
+    )
+
+
 def subject_metrics(
     conn, campaign_id: int, limit: int = 25, outcomes: list[dict] | None = None
 ) -> list[dict]:
@@ -581,7 +934,7 @@ def subject_metrics(
     is what a subject-line critique has to reason about."""
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
     overall = _lead_metrics(outcomes)
-    reply_base, positive_base = overall["reply_rate"], overall["positive_rate"]
+    reply_base, positive_base, conv_base = _baselines_of(overall)
     grouped: dict[str, list[dict]] = defaultdict(list)
     for outcome in outcomes:
         subject = (outcome["email_subject"] or "").strip()
@@ -589,7 +942,7 @@ def subject_metrics(
             grouped[subject].append(outcome)
     entries = []
     for subject, bucket in grouped.items():
-        entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base)
+        entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base, conv_base)
         entry["subject"] = subject
         entries.append(entry)
     entries.sort(key=lambda entry: (-entry["replies"], -entry["sent"]))
@@ -600,13 +953,13 @@ def step_metrics(conn, campaign_id: int) -> list[dict]:
     """Outcomes per sequence step — is the campaign carried by the first email or
     by the follow-ups?"""
     rows = _load(conn, campaign_id, step=None)
-    reply_base, positive_base = baselines(rows)
+    reply_base, positive_base, conv_base = baselines(rows)
     grouped: dict[int | None, list[dict]] = defaultdict(list)
     for row in rows:
         grouped[row["sequence_number"]].append(row)
     entries = []
     for step, bucket in sorted(grouped.items(), key=lambda item: (item[0] is None, item[0])):
-        entry = _with_verdicts(_metrics(bucket), reply_base, positive_base)
+        entry = _with_verdicts(_metrics(bucket), reply_base, positive_base, conv_base)
         entry["step"] = step
         entries.append(entry)
     return entries

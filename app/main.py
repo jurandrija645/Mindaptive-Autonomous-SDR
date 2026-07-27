@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Redirect
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app import accounts, campaign_analytics, campaign_conversations, campaign_report
+from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
 from app import candidates as candidates_module
 from app import db, drafter, pipeline, scheduler, smartlead, translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -470,8 +470,19 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
         use_web_search = None  # falls back to the prior-research auto-decide
 
     # Regenerate: discard any existing open draft first, then draft fresh.
+    #
+    # `base_draft` is what's in the editor right now, sent by the client. The
+    # model gets it as the thing it is editing, which is the whole point of a
+    # steering note like "make the second paragraph shorter" — before this it
+    # saw only the note and wrote a brand new email, so a request to change one
+    # line rewrote the message. It's the editor's content rather than the stored
+    # draft so Andrew's own hand edits survive the regeneration too; the stored
+    # body is the fallback for callers that don't send one.
     with db.db_session() as conn:
         existing = db.get_open_draft(conn, lead_id, campaign_id)
+        base_draft = to_plain_text(body.get("base_draft") or "")
+        if not base_draft and existing is not None:
+            base_draft = to_plain_text(existing["body_html"] or "")
         if existing is not None:
             db.update_draft(conn, existing["id"], status="skipped")
 
@@ -481,7 +492,12 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     # Kick it off in the background and let the client poll GET
     # /api/leads/{cid}/{lid} (which reports `generating`) instead.
     started = candidates_module.generate_for_lead_in_background(
-        campaign_id, lead_id, steering_note, model=model, use_web_search=use_web_search
+        campaign_id,
+        lead_id,
+        steering_note,
+        model=model,
+        use_web_search=use_web_search,
+        base_draft=base_draft or None,
     )
     return JSONResponse({"started": started})
 
@@ -1208,18 +1224,46 @@ def api_campaign_detail(request: Request, campaign_id: int):
             )
         outcomes = campaign_analytics.lead_outcomes(conn, campaign_id)
         slots = campaign_analytics.slot_metrics(conn, campaign_id, outcomes)
-        for entries in slots.values():
+        texts = campaign_copy.slot_text_map(conn, campaign_id)
+        emails = campaign_copy.variant_emails(conn, campaign_id)
+
+        # Attach what each component actually says, and which number judges it.
+        # A row that reads `Icebreaker2 · 4.3%` is unusable; the whole point of
+        # this tab is to show the sentence being ranked.
+        for role, entries in slots.items():
+            stage = campaign_analytics.stage_of(role)
+            metric = campaign_analytics.STAGE_METRIC[stage]
             for entry in entries:
-                entry["examples"] = campaign_analytics.slot_examples(
-                    conn, campaign_id, entry["slot"], limit=3
-                )
+                text = texts.get(entry["slot"]) or {}
+                entry["text"] = text.get("display") or ""
+                entry["personalized"] = bool(text.get("personalized"))
+                entry["examples"] = text.get("examples") or []
+                entry["translated"] = bool(text.get("translated"))
+                entry["stage"] = stage
+                entry["judged_on"] = metric["label"]
+                entry["judged_rate"] = entry.get(metric["rate"], 0.0)
+                entry["judged_verdict"] = entry.get(metric["verdict"])
+
+        variants = campaign_analytics.variant_metrics(conn, campaign_id, outcomes)
+        for variant in variants:
+            email = emails.get(variant["seq_variant_id"]) or {}
+            variant["email"] = {
+                "subject": email.get("subject") or "",
+                "body": email.get("body") or "",
+                "slot_breakdown": email.get("slot_breakdown") or [],
+                "translated": bool(email.get("any_translated")),
+            }
+
         payload = {
             "campaign_id": campaign_id,
             "synced": True,
             "synced_at": _fmt_time(sync["sends_synced_at"]),
             "summary": campaign_analytics.campaign_summary(conn, campaign_id, outcomes),
-            "variants": campaign_analytics.variant_metrics(conn, campaign_id, outcomes),
+            "variants": variants,
             "slots": slots,
+            "recommendations": campaign_analytics.recommendations(
+                conn, campaign_id, outcomes, texts
+            ),
             "subjects": campaign_analytics.subject_metrics(conn, campaign_id, outcomes=outcomes),
             "reply_by_step": campaign_analytics.reply_step_metrics(conn, campaign_id, outcomes),
             "conversations": campaign_conversations.conversation_stats(conn, campaign_id),
@@ -1263,7 +1307,7 @@ def api_campaign_report(request: Request, campaign_id: int):
             "running": campaign_report.is_running(campaign_id),
             "generated_at": _fmt_time(row["generated_at"]),
             "model": row["model"],
-            "report_md": row["report_md"],
+            "directives_md": row["directives_md"],
             "conversation_md": row["conversation_md"],
             "error": row["error"],
         }
@@ -1272,13 +1316,17 @@ def api_campaign_report(request: Request, campaign_id: int):
 
 @app.get("/api/campaigns/{campaign_id}/responders")
 def api_campaign_responders(request: Request, campaign_id: int):
-    """The raw conversations behind the Layer-2 report, so Andrew can read what
-    leads actually wrote instead of only the AI's summary of it."""
+    """The Conversations tab: the win/loss analysis first, the raw threads under
+    it so a quoted claim can be checked against what the lead actually wrote."""
     redirect = require_auth(request)
     if redirect:
         return redirect
     with db.db_session() as conn:
         rows = db.list_campaign_conversations(conn, campaign_id)
+        insights = campaign_conversations.conversation_insights(conn, campaign_id)
+        stats = campaign_conversations.conversation_stats(conn, campaign_id)
+        report = db.get_campaign_report(conn, campaign_id)
+    conversation_md = report["conversation_md"] if report else None
     people = []
     for row in rows:
         try:
@@ -1298,9 +1346,17 @@ def api_campaign_responders(request: Request, campaign_id: int):
                 "magnet": campaign_conversations.magnet_for(row["category"]),
                 "turns": json.loads(row["thread_json"] or "[]"),
                 "extract": extract,
+                "positive": campaign_analytics.is_positive(row["category"]),
             }
         )
-    return JSONResponse({"responders": people})
+    return JSONResponse(
+        {
+            "responders": people,
+            "insights": insights,
+            "stats": stats,
+            "conversation_md": conversation_md,
+        }
+    )
 
 
 # ---- scan ----

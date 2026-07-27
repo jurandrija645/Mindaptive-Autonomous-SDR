@@ -19,6 +19,7 @@ const state = {
   selectedCampaign: null,
   campaignTab: "overview", // "overview" | "report" | "conversations"
   convoFilter: "",       // lead category filter on the Conversations sub-tab
+  convoBrowseOpen: false, // raw-thread section stays open across filter clicks
   campaignPoll: null,    // setTimeout handle polling a running analysis
 };
 
@@ -521,6 +522,25 @@ const RATE_COLUMNS = [
   { label: "Confidence", render: (r) => verdictChip(r.reply_verdict) },
 ];
 
+const ROLE_LABELS = {
+  subject: "Subject lines", cta: "Calls to action", offer: "Offers",
+  pitch: "Pitches", painpoint: "Pain points", socialproof: "Social proof",
+  icebreaker: "Icebreakers", greeting: "Greetings", signoff: "Sign-offs",
+};
+const ROLE_SINGULAR = {
+  subject: "subject line", cta: "CTA", offer: "offer", pitch: "pitch",
+  painpoint: "pain point", socialproof: "social proof", icebreaker: "icebreaker",
+};
+
+// Status comes from campaign_analytics.recommendations(). The wording matters:
+// "leading" must never look like a decided result, because it isn't one.
+const STATUS_LABEL = {
+  clear: "Decided — use this",
+  leaning: "Ahead, not proven",
+  unresolved: "Not resolved yet",
+  untested: "Never tested",
+};
+
 async function renderCampaignOverview(pane, campaign) {
   const data = await apiGet(`/api/campaigns/${campaign.id}`);
   pane.innerHTML = "";
@@ -541,40 +561,14 @@ async function renderCampaignOverview(pane, campaign) {
   };
   card("Leads reached", (o.delivered || 0).toLocaleString(), `${o.bounced || 0} bounced`);
   card("Human replies", String(o.replies || 0), pct(o.reply_rate));
-  card("Positive replies", String(o.positives || 0), pct(o.positive_rate));
-  card("Auto-replies filtered out", String(o.robot_replies || 0), "excluded from all rates");
+  card("Interested", String(o.positives || 0), `${pct(o.positive_rate)} of leads · ${pct(o.positive_per_reply)} of replies`);
+  card("Meetings booked", String(o.booked || 0), `${o.robot_replies || 0} auto-replies excluded`);
   pane.appendChild(cards);
   pane.appendChild(el("p", "muted small", `Synced ${data.synced_at}. Open and click tracking are off for these campaigns, so replies are the only signal shown.`));
 
-  pane.appendChild(el("h3", null, "Message variants"));
-  pane.appendChild(el("p", "muted small", "Attributed across the whole sequence — a reply to follow-up #2 still belongs to the variant that opened the thread."));
-  pane.appendChild(
-    metricTable(data.variants, [
-      { label: "Variant", render: (r) => r.variant_label },
-      { label: "Recipe", render: (r) => Object.values(r.recipe || {}).flat().join(" + ") || "—" },
-      ...RATE_COLUMNS,
-    ], "wrap-first")
-  );
-
-  const ROLE_LABELS = {
-    subject: "Subject lines", cta: "Calls to action", offer: "Offers",
-    pitch: "Pitches", painpoint: "Pain points", socialproof: "Social proof",
-    icebreaker: "Icebreakers",
-  };
-  pane.appendChild(el("h3", null, "By message component"));
-  pane.appendChild(el("p", "muted small", "Each row pools every variant using that component, so these rest on a bigger sample than the variant table above."));
-  Object.entries(data.slots || {}).forEach(([role, entries]) => {
-    if (!entries.length) return;
-    pane.appendChild(el("h4", null, ROLE_LABELS[role] || role));
-    pane.appendChild(
-      metricTable(entries, [
-        { label: "Component", render: (r) => r.slot },
-        { label: "Used by", render: (r) => (r.used_by || []).join(", ") },
-        { label: "Example text", render: (r) => truncate((r.examples || [])[0] || "", 55) },
-        ...RATE_COLUMNS,
-      ], "wrap-mid")
-    );
-  });
+  renderRecommendations(pane, data.recommendations);
+  renderVariantEmails(pane, data.variants);
+  renderComponents(pane, data.slots || {});
 
   pane.appendChild(el("h3", null, "Which step earns the reply"));
   pane.appendChild(
@@ -587,13 +581,175 @@ async function renderCampaignOverview(pane, campaign) {
     ])
   );
 
-  pane.appendChild(el("h3", null, "Rendered subject lines"));
-  pane.appendChild(
+  const subjects = el("details", "extra-block");
+  subjects.appendChild(el("summary", null, `Every subject line as sent (${(data.subjects || []).length})`));
+  subjects.appendChild(el("p", "muted small", "One row per rendered subject, including every translation of it. The comparison worth reading is the subject-line block above, which pools them."));
+  subjects.appendChild(
     metricTable(data.subjects, [
       { label: "Subject as sent", render: (r) => truncate(r.subject, 70) },
       ...RATE_COLUMNS,
     ], "wrap-first")
   );
+  pane.appendChild(subjects);
+}
+
+// The answer, at the top, before any table: which component is decided, which
+// is still open, and what the next run should look like. All of it computed in
+// campaign_analytics.recommendations — the AI tab explains these, it does not
+// produce them, so this panel is here even before an AI report exists.
+function renderRecommendations(pane, rec) {
+  if (!rec || !(rec.findings || []).length) return;
+  pane.appendChild(el("h3", null, "What to do next"));
+
+  const list = el("div", "rec-list");
+  rec.findings.forEach((f) => {
+    const row = el("div", `rec-row rec-${f.status}`);
+    const head = el("div", "rec-head");
+    head.appendChild(el("span", "rec-role", ROLE_LABELS[f.role] || f.role));
+    head.appendChild(el("span", `rec-status status-${f.status}`, STATUS_LABEL[f.status] || f.status));
+    head.appendChild(el("span", "muted small", `judged on ${f.metric}`));
+    row.appendChild(head);
+    if (f.winner_text) {
+      const best = el("div", "rec-copy");
+      best.appendChild(el("span", "rec-copy-label", "Best so far"));
+      best.appendChild(el("span", "rec-copy-text", `“${f.winner_text}”`));
+      row.appendChild(best);
+    }
+    row.appendChild(el("div", "rec-action", f.action));
+    list.appendChild(row);
+  });
+  pane.appendChild(list);
+
+  const plan = rec.next_test;
+  if (!plan) return;
+  const box = el("div", "next-test");
+  box.appendChild(el("h4", null, "The next run"));
+  if (plan.hold_fixed && plan.hold_fixed.length) {
+    const fixed = el("div", "next-test-block");
+    fixed.appendChild(el("div", "next-test-label", "Hold these fixed"));
+    plan.hold_fixed.forEach((item) => {
+      const line = el("div", "next-test-item");
+      line.appendChild(el("span", "rec-role", ROLE_SINGULAR[item.role] || item.role));
+      line.appendChild(el("span", "rec-copy-text", item.text ? `“${item.text}”` : item.token));
+      fixed.appendChild(line);
+    });
+    box.appendChild(fixed);
+  }
+  if (plan.vary) {
+    const vary = el("div", "next-test-block");
+    vary.appendChild(el("div", "next-test-label", `Vary only the ${ROLE_SINGULAR[plan.vary] || plan.vary}`));
+    (plan.arms || []).forEach((arm, i) => {
+      const line = el("div", "next-test-item");
+      line.appendChild(el("span", "rec-role", `Arm ${String.fromCharCode(65 + i)}`));
+      line.appendChild(el("span", "rec-copy-text", arm.text ? `“${arm.text}”` : arm.token));
+      vary.appendChild(line);
+    });
+    box.appendChild(vary);
+  }
+  box.appendChild(el("p", "muted small", plan.why));
+  if (plan.per_arm_sends) {
+    box.appendChild(
+      el("p", "next-test-size", `Needs roughly ${plan.per_arm_sends.toLocaleString()} sends per arm before the result can be read — at the ${pct(plan.baseline)} baseline this campaign actually has.`)
+    );
+  }
+  pane.appendChild(box);
+}
+
+// The variant table used to print `subjectLine2 + icebreaker2 + Pitch2 + CTA1`,
+// which is a list of variable names, not a message. These are the emails.
+function renderVariantEmails(pane, variants) {
+  const rows = (variants || []).filter((v) => (v.email || {}).body || (v.email || {}).subject);
+  pane.appendChild(el("h3", null, "The emails, ranked"));
+  pane.appendChild(el("p", "muted small", "Attributed across the whole sequence — a reply to follow-up #2 still belongs to the variant that opened the thread."));
+  if (!rows.length) {
+    pane.appendChild(el("p", "muted small", "The message text isn't available yet — re-run Analyze to pull the campaign's variables."));
+    pane.appendChild(
+      metricTable(variants || [], [
+        { label: "Variant", render: (r) => r.variant_label },
+        ...RATE_COLUMNS,
+      ])
+    );
+    return;
+  }
+
+  rows.forEach((v) => {
+    const cardEl = el("details", "variant-card");
+    const summary = el("summary");
+    summary.appendChild(el("span", "variant-label", v.variant_label || "—"));
+    summary.appendChild(el("span", "variant-subject", v.email.subject || "(no subject)"));
+    const nums = el("span", "variant-nums");
+    nums.appendChild(el("span", "variant-num", `${pct(v.reply_rate)} reply`));
+    nums.appendChild(el("span", "variant-num", `${v.replies || 0} replies`));
+    nums.appendChild(el("span", "variant-num", `${v.positives || 0} interested`));
+    summary.appendChild(nums);
+    summary.appendChild(verdictChip(v.reply_verdict));
+    cardEl.appendChild(summary);
+
+    const body = el("div", "variant-body");
+    body.appendChild(el("div", "variant-meta", `${(v.delivered || 0).toLocaleString()} delivered · ${v.replies || 0} replies (${pct(v.reply_rate)}) · ${v.positives || 0} interested (${pct(v.positive_per_reply)} of replies)`));
+    if (v.email.translated) {
+      body.appendChild(el("div", "muted small", "Shown in English — this campaign went out in other languages too."));
+    }
+    const mail = el("div", "email-preview");
+    mail.appendChild(el("div", "email-subject", `Subject: ${v.email.subject || "—"}`));
+    mail.appendChild(el("div", "email-body", v.email.body || ""));
+    body.appendChild(mail);
+
+    if ((v.email.slot_breakdown || []).length) {
+      const parts = el("div", "slot-parts");
+      parts.appendChild(el("div", "next-test-label", "Which part is which"));
+      v.email.slot_breakdown.forEach((s) => {
+        const line = el("div", "slot-part");
+        line.appendChild(el("span", `slot-tag slot-${s.role}`, ROLE_SINGULAR[s.role] || s.role));
+        line.appendChild(el("span", "slot-token", s.token));
+        line.appendChild(el("span", "slot-text", s.personalized ? `${s.text} (varies per lead)` : s.text));
+        parts.appendChild(line);
+      });
+      body.appendChild(parts);
+    }
+    cardEl.appendChild(body);
+    pane.appendChild(cardEl);
+  });
+}
+
+// Per-component ranking. Two things changed here and both matter: the row shows
+// the sentence rather than the token, and each role is scored on the number that
+// can actually judge it (see campaign_analytics.ROLE_STAGE).
+function renderComponents(pane, slots) {
+  const STAGE_NOTE = {
+    attention: "Judged on reply rate — this is what the reader sees before deciding to answer, so replies measure it. (Open tracking is off, so replies are the only proxy for “this got read”.)",
+    conversion: "Judged on how many of the replies it drew were positive — only someone already reading gets this far, so its reply rate would just re-measure the subject line above it.",
+  };
+  pane.appendChild(el("h3", null, "By message component"));
+  pane.appendChild(el("p", "muted small", "Each row pools every variant using that component, so these rest on a bigger sample than the per-email numbers above."));
+
+  Object.entries(slots).forEach(([role, entries]) => {
+    if (!entries.length) return;
+    const stage = (entries[0] || {}).stage || "conversion";
+    pane.appendChild(el("h4", null, ROLE_LABELS[role] || role));
+    pane.appendChild(el("p", "muted small", STAGE_NOTE[stage]));
+
+    const columns = [
+      {
+        label: "What it says",
+        render: (r) => {
+          const wrap = el("div", "slot-cell");
+          wrap.appendChild(el("div", "slot-cell-text", r.text ? `“${r.text}”` : r.slot));
+          const note = [r.slot];
+          if ((r.used_by || []).length) note.push(`used by ${r.used_by.join(", ")}`);
+          if (r.personalized) note.push("varies per lead");
+          wrap.appendChild(el("div", "slot-cell-note", note.join(" · ")));
+          return wrap;
+        },
+      },
+      { label: "Delivered", render: (r) => (r.delivered || 0).toLocaleString() },
+      { label: "Replies", render: (r) => `${r.replies || 0} (${pct(r.reply_rate)})` },
+      { label: "Interested", render: (r) => `${r.positives || 0} (${pct(r.positive_per_reply)} of replies)` },
+      { label: "Confidence", render: (r) => verdictChip(r.judged_verdict) },
+    ];
+    const ranked = [...entries].sort((a, b) => (b.judged_rate || 0) - (a.judged_rate || 0));
+    pane.appendChild(metricTable(ranked, columns, "wrap-first"));
+  });
 }
 
 function truncate(text, n) {
@@ -636,8 +792,8 @@ async function renderCampaignReport(pane, campaign) {
     return;
   }
 
-  if (!data.report_md && !data.conversation_md) {
-    pane.appendChild(el("p", "muted", "Not analyzed yet. This reads the campaign's variants, its send results and every real reply, then writes up what's working and how to build the next run."));
+  if (!data.directives_md) {
+    pane.appendChild(el("p", "muted", "Not analyzed yet. This reads the campaign's variants, its send results and every real reply, then writes the short brief for how to write the next one."));
     pane.appendChild(analyzeButton(campaign));
     return;
   }
@@ -647,14 +803,10 @@ async function renderCampaignReport(pane, campaign) {
   bar.appendChild(analyzeButton(campaign, "Re-analyze"));
   pane.appendChild(bar);
 
-  if (data.report_md) {
-    pane.appendChild(el("h3", null, "Variants — what's working and what to run next"));
-    pane.appendChild(markdownBlock(data.report_md));
-  }
-  if (data.conversation_md) {
-    pane.appendChild(el("h3", null, "What the replies actually say"));
-    pane.appendChild(markdownBlock(data.conversation_md));
-  }
+  // Deliberately the only thing on this tab. The long-form breakdown lives in
+  // Overview (numbers) and Conversations (replies); this is the instruction
+  // sheet you keep open while writing the next campaign.
+  pane.appendChild(markdownBlock(data.directives_md));
 }
 
 // Minimal markdown -> HTML for the report bodies. Everything is escaped first,
@@ -677,6 +829,10 @@ function markdownBlock(md) {
   return box;
 }
 
+// This tab used to be a list of every thread, which answered no question — you
+// still had to read 40 conversations to learn anything. The list is still here,
+// but underneath the thing it was standing in for: what the conversations that
+// went well have in common, and what the ones that died have in common.
 async function renderCampaignConversations(pane, campaign) {
   const data = await apiGet(`/api/campaigns/${campaign.id}/responders`);
   pane.innerHTML = "";
@@ -687,6 +843,18 @@ async function renderCampaignConversations(pane, campaign) {
     return;
   }
 
+  renderConversationInsights(pane, data.insights || {});
+
+  if (data.conversation_md) {
+    pane.appendChild(el("h3", null, "What wins them and what loses them"));
+    pane.appendChild(markdownBlock(data.conversation_md));
+  } else {
+    pane.appendChild(el("p", "muted small", "The written analysis of these replies hasn't been generated yet."));
+    pane.appendChild(analyzeButton(campaign, "Analyze the replies"));
+  }
+
+  const browse = el("details", "extra-block");
+  browse.appendChild(el("summary", null, `Read the threads (${people.length})`));
   const categories = [...new Set(people.map((p) => p.category).filter(Boolean))].sort();
   const filter = el("div", "convo-filter");
   const mkFilter = (label, value) => {
@@ -694,16 +862,122 @@ async function renderCampaignConversations(pane, campaign) {
     btn.type = "button";
     btn.addEventListener("click", () => {
       state.convoFilter = value;
+      state.convoBrowseOpen = true;
       renderCampaignDetail(campaign);
     });
     filter.appendChild(btn);
   };
   mkFilter(`All (${people.length})`, "");
   categories.forEach((c) => mkFilter(`${c} (${people.filter((p) => p.category === c).length})`, c));
-  pane.appendChild(filter);
+  browse.appendChild(filter);
 
   const shown = state.convoFilter ? people.filter((p) => p.category === state.convoFilter) : people;
-  shown.forEach((person) => pane.appendChild(conversationCard(person)));
+  shown.forEach((person) => browse.appendChild(conversationCard(person)));
+  // Keep it open across the re-render a category filter click causes, otherwise
+  // filtering would slam the section shut on every click.
+  browse.open = !!state.convoBrowseOpen;
+  browse.addEventListener("toggle", () => { state.convoBrowseOpen = browse.open; });
+  pane.appendChild(browse);
+}
+
+function renderConversationInsights(pane, insights) {
+  if (!insights.analysed) {
+    pane.appendChild(el("p", "muted small", "The replies haven't been read yet — run Analyze to extract what each conversation was about."));
+    return;
+  }
+
+  const cards = el("div", "stat-cards");
+  const card = (label, value, note) => {
+    const c = el("div", "stat-card");
+    c.appendChild(el("div", "stat-card-value", value));
+    c.appendChild(el("div", "stat-card-label", label));
+    if (note) c.appendChild(el("div", "stat-card-note", note));
+    cards.appendChild(c);
+  };
+  card("Real replies read", String(insights.analysed), `${insights.total} threads stored`);
+  card("Went positive", String(insights.won), pct(insights.win_rate));
+  card("Went nowhere", String(insights.lost), "declines and dead ends");
+  card("Answered more than once", String(insights.multi_turn), "a conversation, not a one-liner");
+  pane.appendChild(cards);
+
+  const splitTable = (title, note, rows, valueLabel) => {
+    if (!rows || !rows.length) return;
+    pane.appendChild(el("h4", null, title));
+    if (note) pane.appendChild(el("p", "muted small", note));
+    pane.appendChild(
+      metricTable(rows, [
+        { label: valueLabel, render: (r) => humanizeKey(r.value) },
+        { label: "Total", render: (r) => String(r.total) },
+        { label: "Went positive", render: (r) => String(r.won) },
+        { label: "Went nowhere", render: (r) => String(r.lost) },
+        {
+          label: "",
+          render: (r) => {
+            const bar = el("div", "split-bar");
+            const won = el("span", "split-won");
+            won.style.width = `${Math.round(100 * r.win_rate)}%`;
+            bar.appendChild(won);
+            return bar;
+          },
+        },
+      ], "wrap-first")
+    );
+  };
+
+  pane.appendChild(el("h3", null, "What the replies were"));
+  splitTable("How they answered", "The intent behind each reply, and how often that intent ended somewhere good.", insights.intents, "Intent");
+  splitTable("Why they said no", "Most common objection first. This is the list to write answers for.", insights.objections, "Objection");
+  splitTable("What they asked us for", "Assets leads actually requested.", insights.magnets, "Asset");
+
+  if ((insights.by_step || []).length) {
+    pane.appendChild(el("h4", null, "Which email started the conversation"));
+    pane.appendChild(
+      metricTable(insights.by_step, [
+        { label: "Step", render: (r) => (r.step === 1 ? "1 (first email)" : `${r.step} (follow-up ${r.step - 1})`) },
+        { label: "Replies", render: (r) => String(r.replies) },
+        { label: "Went positive", render: (r) => String(r.won) },
+        { label: "Hit rate", render: (r) => pct(r.win_rate) },
+      ])
+    );
+  }
+
+  const quoteBlock = (title, note, rows, cls) => {
+    if (!rows || !rows.length) return;
+    pane.appendChild(el("h4", null, title));
+    if (note) pane.appendChild(el("p", "muted small", note));
+    const box = el("div", `quote-list ${cls}`);
+    rows.forEach((q) => {
+      const item = el("div", "quote-item");
+      item.appendChild(el("div", "quote-text", `“${q.quote}”`));
+      const meta = [q.company, q.category, q.step ? `after email ${q.step}` : null].filter(Boolean);
+      item.appendChild(el("div", "quote-meta", meta.join(" · ")));
+      box.appendChild(item);
+    });
+    pane.appendChild(box);
+  };
+
+  quoteBlock("What they reacted to when it went well", "The line from our email each of these leads answered.", insights.winning_triggers, "quotes-good");
+  quoteBlock("What they reacted to when it died", "Same thing, from the conversations that went nowhere.", insights.losing_triggers, "quotes-bad");
+  quoteBlock("What confused them", "Misreadings and doubts — each one is a sentence worth rewriting.", insights.friction, "quotes-neutral");
+
+  if ((insights.salvageable || []).length) {
+    pane.appendChild(el("h4", null, "Worth another angle"));
+    pane.appendChild(el("p", "muted small", "Declines that a different approach could still win, with the angle."));
+    const box = el("div", "quote-list quotes-neutral");
+    insights.salvageable.forEach((s) => {
+      const item = el("div", "quote-item");
+      item.appendChild(el("div", "quote-text", s.angle));
+      item.appendChild(el("div", "quote-meta", [s.company, s.category].filter(Boolean).join(" · ")));
+      box.appendChild(item);
+    });
+    pane.appendChild(box);
+  }
+}
+
+// The extraction fields are machine-shaped enums ("already_have_solution").
+function humanizeKey(value) {
+  const s = String(value || "—").replace(/_/g, " ");
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function conversationCard(person) {
@@ -1703,6 +1977,12 @@ function renderDraftSection(body) {
   section.id = "draft-section";
 
   if (!draft) {
+    // This lead has no draft, so there is nothing to revise. Clearing is not
+    // cosmetic: generate() now sends the editor's content as the draft being
+    // edited, and these persist across leads — without this, a first
+    // generation for one lead would be handed the previous lead's message.
+    state.originalHtml = "";
+    state.englishHtml = null;
     if (state.detail.generating) {
       section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';
       body.appendChild(section);
@@ -1830,10 +2110,13 @@ function renderDraftSection(body) {
   const noteInput = el("input");
   noteInput.type = "text";
   noteInput.id = "regen-note";
-  noteInput.placeholder = "Steer regeneration (optional)";
+  // The note is now an edit instruction against the draft on screen, not a hint
+  // for a rewrite from scratch, so the placeholder says what it does.
+  noteInput.placeholder = "What to change (e.g. shorten the 2nd paragraph). Empty = new draft.";
   actions.appendChild(noteInput);
   const regenBtn = el("button", "btn-secondary", "Regenerate");
   regenBtn.id = "regen-btn";
+  regenBtn.title = "With an instruction: edits this draft, keeping everything else. Without one: writes a different draft.";
   regenBtn.addEventListener("click", () => generate(noteInput.value));
   actions.appendChild(regenBtn);
 
@@ -2145,11 +2428,18 @@ async function generate(note) {
   const model = modelSel ? modelSel.value : "";
   const useWebSearch = wsCheckbox ? wsCheckbox.checked : true;
 
+  // Read the editor BEFORE the innerHTML wipe below destroys it. This is what
+  // the model revises when a steering note is given — including any edits made
+  // by hand, which a regenerate used to silently discard. Empty on a first
+  // generation, where there is nothing to revise.
+  const baseDraft = editorHtml();
+
   const section = $("draft-section");
   section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';
   try {
     await apiPost(`/api/leads/${cid}/${lid}/generate`, {
       steering_note: note || "",
+      base_draft: baseDraft || "",
       model: model || undefined,
       use_web_search: useWebSearch,
     });

@@ -3,6 +3,7 @@ from pathlib import Path
 
 import anthropic
 
+from app import writing_rules
 from app.config import settings
 
 PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
@@ -81,7 +82,7 @@ Wrap your response in exactly these tags, nothing else inside them:
 <draft_english>
 (faithful English translation of the draft above)
 </draft_english>
-"""
+""" + writing_rules.as_section()
 
 
 def _load_system_prompt() -> str:
@@ -89,7 +90,16 @@ def _load_system_prompt() -> str:
     knowledge_parts = []
     for path in sorted(KNOWLEDGE_DIR.glob("*.md")):
         knowledge_parts.append(f"\n\n---\n\n# Reference: {path.stem}\n\n{path.read_text(encoding='utf-8')}")
-    return base + OUTPUT_CONTRACT + "".join(knowledge_parts)
+    # The house voice goes last, after the knowledge base, so it is the most
+    # recent instruction the model has read when it starts writing. It is also
+    # deliberately outside system.md: the same rules bind the translator and the
+    # auto-reply path, which never load system.md at all.
+    return (
+        base
+        + OUTPUT_CONTRACT
+        + "".join(knowledge_parts)
+        + writing_rules.as_section()
+    )
 
 
 _SYSTEM_PROMPT = None
@@ -110,6 +120,7 @@ def _build_user_message(
     prior_research: str | None = None,
     use_web_search: bool = True,
     followup_stage: str | None = None,
+    previous_draft: str | None = None,
 ) -> str:
     if kind == "autoreply":
         task_desc = "short nudge reply to their auto-reply/out-of-office message"
@@ -191,7 +202,39 @@ def _build_user_message(
         "Full email thread (oldest to newest):",
         thread_text,
     ]
-    if steering_note:
+    # The draft being replaced, last in the message so it is the freshest thing
+    # in context when the model starts writing.
+    #
+    # Regenerate used to send nothing but the steering note: the old draft was
+    # marked skipped and the model wrote a brand new email from scratch. So
+    # "make the second paragraph shorter" produced a completely different
+    # message, because there was no second paragraph to shorten — the model had
+    # never seen one. The text below is also whatever is in the editor right
+    # now, so any hand edits Andrew made survive the regeneration.
+    if previous_draft:
+        lines += ["", "=== THE DRAFT YOU ARE REVISING ===", previous_draft, "=== END OF DRAFT ==="]
+        if steering_note:
+            lines += [
+                "",
+                f"Andrew's instruction for this revision: {steering_note}",
+                "",
+                "THIS IS AN EDIT, NOT A NEW EMAIL. Start from the draft above and apply "
+                "ONLY that instruction. Every sentence the instruction does not touch "
+                "must come back word for word as it already is — same wording, same "
+                "order, same paragraph breaks, same opening and closing lines. Do not "
+                "reword, tighten, reorder or 'improve' anything you were not asked to "
+                "change, even where you would have written it differently yourself. If "
+                "the instruction only concerns one sentence, exactly one sentence "
+                "changes. Output the whole message, including the untouched parts.",
+            ]
+        else:
+            lines += [
+                "",
+                "Andrew regenerated without an instruction, which means this draft did "
+                "not land. Write a genuinely different one — a different angle, opening "
+                "and CTA, not a reshuffle of the same sentences.",
+            ]
+    elif steering_note:
         lines += ["", f"Additional steering note from Andrew for this regeneration: {steering_note}"]
     return "\n".join(lines)
 
@@ -268,6 +311,7 @@ def generate_draft(
     model: str | None = None,
     use_web_search: bool = True,
     followup_stage: str | None = None,
+    previous_draft: str | None = None,
 ) -> DraftResult:
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     model = model if model in ALLOWED_MODELS else settings.anthropic_model
@@ -279,7 +323,7 @@ def generate_draft(
     use_web_search = use_web_search and kind != "autoreply"
     user_message = _build_user_message(
         kind, lead, thread_text, steering_note, prior_research, use_web_search,
-        followup_stage,
+        followup_stage, previous_draft,
     )
     messages = [{"role": "user", "content": user_message}]
 
