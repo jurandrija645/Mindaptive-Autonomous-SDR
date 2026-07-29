@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 
 from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
 from app import candidates as candidates_module
-from app import db, drafter, message_templates, pipeline, scheduler, smartlead
+from app import db, drafter, message_templates, pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
@@ -171,6 +171,27 @@ def _draft_thread_outdated(draft, lead) -> bool:
     if draft is None or not draft["thread_snapshot"]:
         return False
     return _snapshot_outdated(json.loads(draft["thread_snapshot"]), lead)
+
+
+def _draft_signature_html(draft, raw: list[dict]) -> str:
+    """The signature this draft will actually ship with.
+
+    Resolved in the same order the send path uses (scheduler._send_due_draft):
+    the live thread's last sender first, the address stored on the draft as the
+    fallback — so the preview and the outgoing email can't disagree. The stored
+    signature_html wins when it has one, which is the normal case; recomputing
+    only matters for a draft created while the persona couldn't be resolved.
+
+    Returns "" when no persona resolves at all, which the UI has to say out
+    loud: an unsigned email is not something to discover after sending."""
+    stored = draft["signature_html"] or ""
+    if stored:
+        return stored
+    sender = last_sender_email(_thread_as_messages(raw)) or (draft["sender_email"] or "").strip()
+    if not sender:
+        log.warning("draft %s has no resolvable sender — no signature", draft["id"])
+        return ""
+    return signatures.get_signature_html(sender)
 
 
 def _load_thread_raw(campaign_id: int, lead_id: int) -> list[dict]:
@@ -437,6 +458,10 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         # message sent since then (typically from Smartlead directly) means the
         # draft can be answering something that's already been said.
         draft_payload["thread_moved_on"] = _draft_thread_outdated(draft, lead)
+        # Recomputed rather than read straight off the row: the column is
+        # filled once at creation and a draft that missed it would otherwise
+        # show no signature here and send none either.
+        draft_payload["signature_html"] = _draft_signature_html(draft, raw)
     return {
         "lead": {
             "name": lead_name,

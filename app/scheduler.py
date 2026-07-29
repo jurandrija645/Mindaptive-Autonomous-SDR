@@ -50,9 +50,17 @@ def _lead_language(lead: dict, thread) -> str | None:
     return None
 
 
-def compose_send_body(draft: dict) -> str:
+def compose_send_body(draft: dict, fallback_signature_html: str | None = None) -> str:
     """The actual email body to send: the message body (body_html) plus the
     persona's signature (signature_html), appended once here.
+
+    signature_html is captured once, at draft-creation time, and never
+    recomputed — so a draft whose creation couldn't resolve the persona (an
+    empty sender address, or Smartlead's email-account list not answering that
+    second) keeps an empty column for good and would ship unsigned. That's what
+    `fallback_signature_html` is for: the caller re-derives it from the thread
+    it has just fetched. This guard existed before, was dropped when the
+    signature moved out of body_html, and is restored here.
 
     body_html now holds the message body ONLY — the signature is never baked
     into it and is never part of the translate/localize round trip (that used
@@ -65,7 +73,7 @@ def compose_send_body(draft: dict) -> str:
     signature baked in): new drafts never contain it, so the check is reliably
     True and appends once."""
     body = draft["body_html"] or ""
-    sig = draft["signature_html"] or ""
+    sig = draft["signature_html"] or fallback_signature_html or ""
     if sig and sig not in body:
         body = f"{body}<br><br>{sig}" if body else sig
     log.info(
@@ -471,7 +479,7 @@ def _send_due_draft(draft: dict) -> None:
         lead_state = db.get_lead_state(conn, lead_id, campaign_id)
     lead_email = (lead_state["email"] if lead_state else "") or draft.get("lead_email") or ""
     to_email = draft.get("to_override") or detector.next_reply_to(thread, lead_email=lead_email)
-    send_body = compose_send_body(draft)
+    send_body = compose_send_body(draft, signatures.get_signature_html(sender_email))
     log.info(
         "[SIG-DEBUG] _send_due_draft: draft_id=%s sender=%s stats_id=%s send_body_len=%d "
         "contains_table_tag=%s send_body_tail=%r",

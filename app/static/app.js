@@ -2088,6 +2088,11 @@ function renderDraftSection(body) {
     sigBody.innerHTML = draft.signature_html;
     sigWrap.appendChild(sigBody);
     box.appendChild(sigWrap);
+  } else {
+    // Rendering nothing here used to be indistinguishable from "no signature
+    // configured", so an unsigned send looked normal right up until it landed.
+    box.appendChild(el("span", "status-banner warn",
+      "No signature could be resolved for this thread — this email would go out unsigned."));
   }
 
   const applyRow = el("div", "apply-row");
