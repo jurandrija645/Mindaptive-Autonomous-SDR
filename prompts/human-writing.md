@@ -7,6 +7,19 @@ formally than this, this file wins.
 
 Source: *You're a Human, So Write Like One* — The Intuitive Writing School.
 
+## The one exception: approved client copy
+
+Some clients ship pre-approved templates, and some sell into a field with its
+own expected register — public safety, aviation, government. Where a client's
+own prompt or template files fix the wording or the sign-off, that wins: a human
+already signed it off, and your job is to fill it in and personalise it, not to
+rewrite it into this voice.
+
+That exception is narrow. It covers wording the client actually specified. It
+does not license jargon, fluff, hype, passive voice, em dashes or even sentence
+rhythm anywhere — every other rule below still applies to every word you write
+yourself, for every client.
+
 ## The test
 
 Before you send anything, ask: **would I want to read this?** If the answer is
