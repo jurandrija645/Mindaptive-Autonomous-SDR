@@ -1,0 +1,20 @@
+[
+  {
+    "from_name": "Andrew Grasso",
+    "signature_file": "andrew-grasso.html",
+    "calendar_link": "https://meetings.hubspot.com/andrew-grasso",
+    "name_hints": ["grasso", "a.grasso", "andrewg"]
+  },
+  {
+    "from_name": "Amy Muschler",
+    "signature_file": "amy-muschler.html",
+    "calendar_link": "https://meetings.hubspot.com/amy-muschler",
+    "name_hints": ["muschler", "m.amy", "amy"]
+  },
+  {
+    "from_name": "Max West",
+    "signature_file": "max-west.html",
+    "calendar_link": "https://meetings.hubspot.com/max-west",
+    "name_hints": ["maxwest", "m.west", "max"]
+  }
+]

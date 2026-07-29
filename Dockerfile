@@ -9,6 +9,9 @@ COPY app ./app
 COPY prompts ./prompts
 COPY knowledge ./knowledge
 COPY signatures ./signatures
+# Per-client prompt/knowledge/signature overrides. One image serves every
+# client; which one a container is depends on CLIENT_DIR in its env file.
+COPY clients ./clients
 
 EXPOSE 8080
 

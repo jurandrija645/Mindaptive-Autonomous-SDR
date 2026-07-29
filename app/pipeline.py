@@ -159,6 +159,10 @@ def create_draft(
             return _create_static_autoreply_draft(conn, lead, thread, static_text)
 
     thread_text = render_thread_text(thread)
+    # Resolve the sending persona before the model runs, not just at signature
+    # time: clients whose approved templates end with a booking link need that
+    # person's own link inside the body, and the personas have different ones.
+    sender_email = last_sender_email(thread)
     lead_payload = {
         "name": lead.get("first_name") or lead.get("name") or "",
         "company": lead.get("company_name") or lead.get("company") or "",
@@ -166,6 +170,8 @@ def create_draft(
         "website": lead.get("website") or lead.get("company_url") or "",
         "campaign_name": campaign_name,
         "custom_fields": lead.get("custom_fields"),
+        "sender_name": signatures.persona_name(sender_email),
+        "calendar_link": signatures.calendar_link_for(sender_email),
     }
 
     prior_research = None

@@ -19,9 +19,11 @@ Read once and cached: the file does not change while the process runs, and the
 draft path would otherwise re-read it on every generation.
 """
 
-from pathlib import Path
+from app import client_assets
 
-_RULES_PATH = Path(__file__).resolve().parent.parent / "prompts" / "human-writing.md"
+# A client can override the house voice by shipping its own
+# `<CLIENT_DIR>/prompts/human-writing.md`; otherwise everyone shares the root one.
+_RULES_PATH = client_assets.resolve("prompts", "human-writing.md")
 
 _cached: str | None = None
 

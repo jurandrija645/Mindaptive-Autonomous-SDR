@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app import batch_gen, db, detector, pipeline, smartlead
+from app import batch_gen, db, detector, pipeline, signatures, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
@@ -355,6 +355,19 @@ def _process_lead(
             # Already have an editable draft for this lead — leave it be.
             return False
 
+        # No live mailbox to reply from (REQUIRE_KNOWN_SENDER clients only):
+        # don't draft and don't queue, so a dead thread never reaches the review
+        # queue as an email that could not be sent anyway.
+        if decision.action != detector.Action.NONE and not signatures.is_sendable(
+            detector.last_sender_email(thread)
+        ):
+            log.info(
+                "lead %s skipped: sending mailbox %s is retired, thread is dead",
+                lead["id"],
+                detector.last_sender_email(thread) or "(unknown)",
+            )
+            return False
+
         if decision.action == detector.Action.REPLY:
             log.info("drafting reply for lead %s: %s", lead["id"], decision.reason)
             pipeline.create_draft(conn, lead, campaign_name, "reply", thread)
@@ -432,6 +445,16 @@ def _send_due_draft(draft: dict) -> None:
     reply_email_time = last.timestamp.isoformat() if last else draft["reply_email_time"]
     stats_id = last.stats_id if last else draft["reply_stats_id"]
     sender_email = detector.last_sender_email(thread)
+    # Last line of defence for REQUIRE_KNOWN_SENDER clients: the mailbox may
+    # have been retired between drafting and the scheduled send.
+    if not signatures.is_sendable(sender_email):
+        with db.db_session() as conn:
+            db.update_draft(conn, draft["id"], status="aborted")
+        log.warning(
+            "draft %s aborted: sending mailbox %s is retired, thread is dead",
+            draft["id"], sender_email or "(unknown)",
+        )
+        return
     # cc_override / to_override are what Andrew put in the recipients row
     # before sending — for cc that includes an empty string, which means he
     # cleared the auto-derived Cc on purpose. Only NULL (never edited) falls

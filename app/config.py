@@ -81,6 +81,14 @@ class Settings:
     # cadence stays far under the API rate limit. 0 disables.
     scan_interval_minutes: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "5"))
 
+    # Skip leads whose last outbound message came from a mailbox Smartlead no
+    # longer returns — the mailbox is retired, so the thread can't be replied
+    # to. AeroDefense needs this; Mindaptive's mailboxes are all live and its
+    # personas resolve by name hint, so it stays off by default.
+    require_known_sender: bool = field(
+        default_factory=lambda: _bool("REQUIRE_KNOWN_SENDER", False)
+    )
+
     anthropic_model: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5")
     anthropic_translate_model: str = os.getenv(
         "ANTHROPIC_TRANSLATE_MODEL", "claude-haiku-4-5"

@@ -1,4 +1,5 @@
 services:
+  # Mindaptive — the original responder. Unchanged.
   app:
     build: .
     restart: unless-stopped
@@ -7,6 +8,31 @@ services:
       - ./data:/data
     ports:
       - "127.0.0.1:8080:8080"
+
+  # AeroDefense — same image, different client. The responder is one Smartlead
+  # account per process by design (see app/accounts.py), so a second client is a
+  # second container with its own env file: its own key, database, model,
+  # cadence, categories and webhook secret. CLIENT_DIR (set in .env.aerodefense)
+  # points it at clients/aerodefense for the prompt, knowledge base, personas
+  # and signatures. Its data lives in ./data-aerodefense so the two databases
+  # never mix.
+  #
+  # Behind a profile so it stays OFF until deliberately enabled — auto-deploy
+  # runs a bare `docker compose up -d --build`, and this service must not change
+  # anything for Mindaptive before .env.aerodefense exists on the droplet.
+  # To turn it on: create .env.aerodefense, then add COMPOSE_PROFILES=aerodefense
+  # to .env and redeploy.
+  app-aerodefense:
+    profiles: ["aerodefense"]
+    build: .
+    restart: unless-stopped
+    env_file:
+      - path: .env.aerodefense
+        required: false
+    volumes:
+      - ./data-aerodefense:/data
+    ports:
+      - "127.0.0.1:8081:8080"
 
   cloudflared:
     image: cloudflare/cloudflared:latest

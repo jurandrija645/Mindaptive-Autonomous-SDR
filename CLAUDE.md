@@ -14,6 +14,34 @@ These are plain markdown files, not code — edit them directly, no Python knowl
 
 `app/drafter.py` concatenates `prompts/system.md` + a short "output contract" addendum (instructs the model to wrap its triage/draft/translation in `<triage>`/`<draft_original>`/`<draft_english>` tags so the app can parse them) + all of `knowledge/*.md` + `prompts/human-writing.md` into the system prompt sent to Claude. The house voice goes **last**, so it is the most recent instruction in context when the model starts writing. Adding a new `.md` file to `knowledge/` automatically includes it — no code change needed.
 
+## A second client (AeroDefense)
+
+The responder is **one Smartlead account per process** by design — only Campaigns analysis is multi-account (`app/accounts.py`). So a second client is a **second container off the same image**, not tenancy threaded through the code:
+
+```
+docker compose up -d            # app (Mindaptive, :8080) + app-aerodefense (:8081)
+```
+
+`app-aerodefense` reads `.env.aerodefense` (see `.env.aerodefense.example`) and mounts `./data-aerodefense:/data`, so the two databases, upload dirs, models, cadences and webhook secrets never touch. Everything that differs was already an env var except the asset paths, which `app/client_assets.py` now resolves:
+
+| `CLIENT_DIR` | prompt / knowledge / signatures | personas |
+|---|---|---|
+| unset (default) | `prompts/`, `knowledge/`, `signatures/` at the repo root — **byte-identical to before** | hardcoded map in `app/signatures.py` |
+| `clients/aerodefense` | `clients/aerodefense/{prompts,knowledge,signatures}` | `clients/aerodefense/personas.json` |
+
+Files fall back to the repo root when a client doesn't override them, so a client only ships what actually differs.
+
+**Adding a third client:** `clients/<slug>/` with `prompts/system.md`, `knowledge/*.md`, `signatures/*.html`, `personas.json`; a `.env.<slug>`; a compose service. No code change.
+
+### What's specific to AeroDefense
+
+- **Template-driven.** `clients/aerodefense/knowledge/response-templates.md` holds the seven approved replies (Security Integration / Airports / Police departments / Events & Venues / Farms, most in *more-info* and *video-demo* variants). `prompts/system.md` maps the real campaign names onto them (`Airports` → Airports, `EggFarm` → Farms, `Stadiums` → Events & Venues, `Executive Protection` → no template, write from the knowledge base) and requires the model to name its choice in `<triage>` so a wrong pick is visible before sending. Add a template by adding a heading to that file.
+- **Per-persona booking links.** The three personas (Andrew Grasso, Amy Muschler, Max West — verified as the only `from_name`s across all 129 AeroDefense mailboxes) each have their own HubSpot link. The templates end with one, so `pipeline.create_draft` and `batch_gen` resolve the persona **before** calling the model and pass `sender_name` + `calendar_link` into the prompt — not just the signature afterwards.
+- **English only.** `clients/aerodefense/prompts/output-contract.md` overrides the default contract and tells the model to leave `<draft_english>` empty.
+- **Its own house voice.** `clients/aerodefense/prompts/human-writing.md` overrides the root one, which bans "Best regards" and mandates a third-grade casual register — wrong for airport ops directors and police chiefs, and it contradicts the approved templates. Template fidelity outranks style there.
+- **No pricing, ever**, in any form — acknowledge and push to the 15-minute call.
+- **`REQUIRE_KNOWN_SENDER=true`.** AeroDefense rotated through mailboxes Smartlead no longer returns (e.g. `anna@aerodefensemarketing.com`). A thread whose last outbound message came from one is dead — there's no live mailbox to reply from — so it is skipped at scan and aborted at send. Off by default, so Mindaptive keeps just going without a signature. Deliberately re-derived from Smartlead's live list each pass rather than stored as a terminal lead status, so an API blip can't permanently retire a live lead.
+
 ## How a message actually gets generated
 
 1. **Daily scan** (`app/scheduler.py: run_daily_scan`) — cron job (`DAILY_SCAN_HOUR_UTC`), Smartlead API only, no Claude. Also triggerable on demand from the dashboard ("Rescan now" button → `scheduler.trigger_scan_in_background`, lock-protected so it can't stack). For every "Interested" lead it checks the thread and decides: due for a follow-up (per the `FOLLOWUP_WAIT_DAYS` cadence list, under the follow-up cap — plus a one-shot revival touch every `REVIVE_AFTER_DAYS` after the cap) → adds a row to the `candidates` table; lead's message unanswered → auto-drafts a reply immediately (fast response to hot leads); otherwise → nothing. Leads in Smartlead's **"Meeting-Booked" category** (matched case/punctuation-insensitively, `MEETING_BOOKED_CATEGORY_NAME`) get frozen instead: status `booked`, open drafts → stale, candidates dismissed, `booked_at` recorded (`db.mark_lead_booked`) — and un-frozen automatically if the category later moves back to Interested. Booked leads stay visible in the inbox with a green "Meeting booked ✅" badge.

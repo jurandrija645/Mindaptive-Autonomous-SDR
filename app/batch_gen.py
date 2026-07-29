@@ -23,8 +23,9 @@ import logging
 
 import anthropic
 
-from app import db, detector, drafter, pipeline
+from app import db, detector, drafter, pipeline, signatures
 from app.config import settings
+from app.detector import last_sender_email
 from app.thread_utils import next_morning_send_utc, render_thread_text
 
 log = logging.getLogger("batch_gen")
@@ -68,6 +69,10 @@ def _build_candidate_request(cand: dict) -> dict | None:
         return None
 
     lead = _candidate_lead(cand, lead_row)
+    # Same persona resolution as the interactive path (pipeline.create_draft):
+    # this is the path AUTO_GENERATE_FOLLOWUPS uses by default, so a client
+    # whose templates carry a per-persona booking link needs it here too.
+    sender_email = last_sender_email(thread)
     lead_payload = {
         "name": lead["first_name"] or "",
         "company": lead["company_name"] or "",
@@ -75,6 +80,8 @@ def _build_candidate_request(cand: dict) -> dict | None:
         "website": lead["website"] or "",
         "campaign_name": cand["campaign_name"] or "",
         "custom_fields": None,
+        "sender_name": signatures.persona_name(sender_email),
+        "calendar_link": signatures.calendar_link_for(sender_email),
     }
     params = drafter.build_batch_request_params(
         "followup",

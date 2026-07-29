@@ -1,13 +1,13 @@
 import re
-from pathlib import Path
 
 import anthropic
 
-from app import writing_rules
+from app import client_assets, writing_rules
 from app.config import settings
 
-PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
-KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent / "knowledge"
+# Per-client when CLIENT_DIR is set, repo root otherwise (see client_assets).
+PROMPTS_DIR = client_assets.PROMPTS_DIR
+KNOWLEDGE_DIR = client_assets.KNOWLEDGE_DIR
 
 # Curated model choices exposed in the dashboard's generate/regenerate model
 # picker (added for cost control — web-research drafts on Sonnet/Opus with
@@ -85,6 +85,16 @@ Wrap your response in exactly these tags, nothing else inside them:
 """ + writing_rules.as_section()
 
 
+def _output_contract() -> str:
+    """A client can ship its own contract at `<CLIENT_DIR>/prompts/output-contract.md`.
+    The default below cites section numbers from Mindaptive's system.md, which
+    another client's prompt won't have."""
+    override = PROMPTS_DIR / "output-contract.md"
+    if override.exists():
+        return "\n\n---\n\n" + override.read_text(encoding="utf-8")
+    return OUTPUT_CONTRACT
+
+
 def _load_system_prompt() -> str:
     base = (PROMPTS_DIR / "system.md").read_text(encoding="utf-8")
     knowledge_parts = []
@@ -96,7 +106,7 @@ def _load_system_prompt() -> str:
     # auto-reply path, which never load system.md at all.
     return (
         base
-        + OUTPUT_CONTRACT
+        + _output_contract()
         + "".join(knowledge_parts)
         + writing_rules.as_section()
     )
@@ -165,6 +175,23 @@ def _build_user_message(
     custom_fields = lead.get("custom_fields")
     if custom_fields:
         lines.append(f"- Custom fields: {custom_fields}")
+    # Only populated for clients whose personas carry their own booking link
+    # (see app/client_assets.personas). Mindaptive leaves both blank and keeps
+    # using the Calendly URL written into its system.md.
+    sender_name = lead.get("sender_name") or ""
+    calendar_link = lead.get("calendar_link") or ""
+    if sender_name:
+        lines.append(f"- You are writing as: {sender_name}")
+    if calendar_link:
+        lines.append(
+            f"- {sender_name or 'This sender'}'s booking link — use this exact URL "
+            f"wherever a template calls for a calendar link: {calendar_link}"
+        )
+    elif sender_name:
+        lines.append(
+            "- No booking link is available for this sender. Do not invent one; "
+            "offer to send times instead."
+        )
     if kind != "autoreply":
         if prior_research and use_web_search:
             lines += [
