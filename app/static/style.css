@@ -335,6 +335,22 @@ button:disabled { opacity: .55; cursor: default; }
 .msg.us .bubble { background: #f3e7dd; border-color: #e7d4c4; border-top-right-radius: 4px; }
 .bubble p { margin: 0 0 8px; }
 .bubble p:last-child { margin-bottom: 0; }
+/* Images in a thread message. Everything here was rebuilt by
+   email_clean._rebuild_img from an attribute allowlist, so no sender markup or
+   inline width survives to fight these rules — the cap is all that stops a
+   full-size screenshot from stretching the bubble past its column. */
+.bubble img.msg-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 6px 0;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.bubble .msg-img-link { display: inline-block; }
+/* An inline attachment (cid:) we have no bytes for — shown so the reader knows
+   an image was there rather than seeing a silent gap. */
+.msg-img-missing { font-size: 12px; color: var(--muted); font-style: italic; }
 
 /* Read-only signature preview under the draft editor — shown in both tabs,
    never edited or translated; appended verbatim at send. */
