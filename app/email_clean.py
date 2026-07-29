@@ -84,6 +84,38 @@ def _attr(tag: str, name: str) -> str:
     return ""
 
 
+# The width the sender meant the image to have, in px, from either the `width`
+# attribute or an inline `width: Npx`. `max-`/`min-width` must not match, and a
+# percentage is not a pixel size — both are left to the stylesheet.
+_STYLE_WIDTH_RE = re.compile(r"(?:^|;)\s*width\s*:\s*(\d+(?:\.\d+)?)\s*px", re.IGNORECASE)
+_ATTR_WIDTH_RE = re.compile(r"^(\d+(?:\.\d+)?)\s*(?:px)?$", re.IGNORECASE)
+
+# Nothing in a mail body has any business rendering wider than the editor's own
+# full-size preset (CLAUDE.md §11 caps 100% at 600px).
+_MAX_IMG_WIDTH = 600
+
+
+def _intended_width(tag: str) -> int | None:
+    """Sanitized pixel width for an image, or None to let CSS decide.
+
+    Signature logos carry their size *only* in inline style (`width: 100px` in
+    `signatures/andrew.html`), and our own editor writes it to both the `width`
+    attribute and the style. Dropping both is what made a 100px logo render at
+    the full width of the bubble. Reading out a bare number and re-emitting it
+    ourselves keeps the attribute allowlist intact — no sender CSS is passed
+    through, so this can't be used to smuggle anything.
+    """
+    m = _STYLE_WIDTH_RE.search(_attr(tag, "style"))
+    if not m:
+        m = _ATTR_WIDTH_RE.match(_attr(tag, "width"))
+    if not m:
+        return None
+    width = int(float(m.group(1)))
+    if width <= 0:
+        return None
+    return min(width, _MAX_IMG_WIDTH)
+
+
 def _rebuild_img(tag: str) -> str:
     """A sanitized <img> for a raw one, or a visible marker if it can't render.
 
@@ -97,7 +129,17 @@ def _rebuild_img(tag: str) -> str:
     alt = _attr(tag, "alt")
     if not _SAFE_SRC_RE.match(src):
         return f'<span class="msg-img-missing">[{escape(alt or "image")}]</span>'
-    img = f'<img class="msg-img" src="{escape(src)}" alt="{escape(alt)}" loading="lazy">'
+    width = _intended_width(tag)
+    if width is None:
+        # No stated size — the stylesheet caps it by height so an unsized
+        # screenshot can't take over the thread.
+        sizing = ' class="msg-img msg-img-unsized"'
+    else:
+        sizing = (
+            f' class="msg-img" width="{width}"'
+            f' style="width:{width}px;max-width:100%"'
+        )
+    img = f'<img{sizing} src="{escape(src)}" alt="{escape(alt)}" loading="lazy">'
     if src.lower().startswith("data:"):
         return img
     # A screenshot capped to the bubble's width is often too small to read, so

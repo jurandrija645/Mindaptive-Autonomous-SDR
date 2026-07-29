@@ -347,6 +347,10 @@ button:disabled { opacity: .55; cursor: default; }
   border-radius: 6px;
   border: 1px solid var(--border);
 }
+/* An image whose sender stated no pixel width. Signature logos always state one
+   and stay small; this is the raw-screenshot case, held to a readable strip so
+   one image can't push the rest of the thread off screen. Click opens full size. */
+.bubble img.msg-img-unsized { max-height: 180px; width: auto; }
 .bubble .msg-img-link { display: inline-block; }
 /* An inline attachment (cid:) we have no bytes for — shown so the reader knows
    an image was there rather than seeing a silent gap. */
