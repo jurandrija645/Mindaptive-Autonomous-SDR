@@ -42,6 +42,11 @@ def _lead_language(lead: dict, thread) -> str | None:
     code = (lead.get("language_code") or "").strip().lower()[:2]
     if code:
         return code
+    # Falling back to detection costs a Claude call per lead. Clients writing to
+    # one language only (DETECT_LANGUAGE=false) skip it, which keeps the scan
+    # model-free and therefore immune to an Anthropic outage or credit problem.
+    if not settings.detect_language:
+        return None
     for msg in reversed(thread):
         if msg.kind == "reply":
             lang = detect_language(to_plain_text(msg.body))
@@ -250,6 +255,7 @@ def run_daily_scan() -> None:
         )
 
     still_due_followups: set[tuple[int, int]] = set()
+    failed_leads = 0
 
     for campaign in smartlead.list_campaigns():
         campaign_id = campaign.get("id")
@@ -268,13 +274,26 @@ def run_daily_scan() -> None:
                 and not is_booked
             ):
                 continue
-            if _process_lead(lead, campaign_name, is_autoreply, is_booked):
-                still_due_followups.add((lead["id"], lead["campaign_id"]))
+            # Isolate per lead. One bad lead used to abort the whole scan —
+            # an Anthropic outage or an exhausted credit balance during
+            # language detection took out all remaining campaigns and left
+            # leads_state empty, so the inbox looked like the account had no
+            # leads at all rather than showing a partial result.
+            try:
+                if _process_lead(lead, campaign_name, is_autoreply, is_booked):
+                    still_due_followups.add((lead["id"], lead["campaign_id"]))
+            except Exception:
+                failed_leads += 1
+                log.exception("lead %s failed during scan, continuing", lead["id"])
 
     with db.db_session() as conn:
         db.clear_stale_open_candidates(conn, "followup", still_due_followups)
 
-    log.info("daily scan done: %d leads still due for a follow-up", len(still_due_followups))
+    log.info(
+        "daily scan done: %d leads still due for a follow-up, %d lead(s) failed",
+        len(still_due_followups),
+        failed_leads,
+    )
 
     # Overnight pre-generation: hand every eligible due follow-up to the Batch
     # API (50% token cost) so drafts are waiting for review by morning. The

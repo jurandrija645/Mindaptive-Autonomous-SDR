@@ -81,6 +81,15 @@ class Settings:
     # cadence stays far under the API rate limit. 0 disables.
     scan_interval_minutes: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "5"))
 
+    # Detect the lead's language from their reply when Smartlead has no
+    # "Language Code" custom field. That is a Claude call per lead during the
+    # scan, so an English-only client (AeroDefense) should turn it off: it saves
+    # tens of thousands of calls and makes the scan work even with no Anthropic
+    # credit, since the scan then needs no model at all.
+    detect_language: bool = field(
+        default_factory=lambda: _bool("DETECT_LANGUAGE", True)
+    )
+
     # Skip leads whose last outbound message came from a mailbox Smartlead no
     # longer returns — the mailbox is retired, so the thread can't be replied
     # to. AeroDefense needs this; Mindaptive's mailboxes are all live and its
