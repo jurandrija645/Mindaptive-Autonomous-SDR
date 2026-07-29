@@ -50,6 +50,28 @@ def _lead_language(lead: dict, thread) -> str | None:
     return None
 
 
+def _summary_for(lead: dict, thread, category: str, last_msg) -> dict:
+    """The inbox summary the scan writes onto leads_state.
+
+    `language` is included ONLY when it was actually determined, because
+    upsert_lead_state writes every field it is handed — a None would overwrite
+    a known language with NULL. Detection needs 20+ characters of the lead's
+    own writing and the scan re-runs it on every pass, so a thread whose
+    replies are all short ("Ok, thanks") used to wipe a correct value, and the
+    next quick template then went out in English instead of the lead's
+    language, with nothing anywhere saying why."""
+    summary = dict(
+        category=category,
+        last_message_preview=to_plain_text(last_msg.body)[:200] if last_msg else None,
+        last_message_at=last_msg.timestamp.isoformat() if last_msg else None,
+        last_message_kind=last_msg.kind if last_msg else None,
+    )
+    lang = _lead_language(lead, thread)
+    if lang:
+        summary["language"] = lang
+    return summary
+
+
 def compose_send_body(draft: dict, fallback_signature_html: str | None = None) -> str:
     """The actual email body to send: the message body (body_html) plus the
     persona's signature (signature_html), appended once here.
@@ -319,13 +341,7 @@ def _process_lead(
     last_msg = thread[-1] if thread else None
 
     if is_autoreply:
-        summary = dict(
-            category="auto_reply",
-            language=_lead_language(lead, thread),
-            last_message_preview=to_plain_text(last_msg.body)[:200] if last_msg else None,
-            last_message_at=last_msg.timestamp.isoformat() if last_msg else None,
-            last_message_kind=last_msg.kind if last_msg else None,
-        )
+        summary = _summary_for(lead, thread, "auto_reply", last_msg)
         with db.db_session() as conn:
             db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], **base_fields, **summary)
             if (
@@ -346,12 +362,8 @@ def _process_lead(
         log.info("lead %s un-booked (category back to Interested)", lead["id"])
 
     decision = detector.decide(thread, followup_count, lead_status)
-    summary = dict(
-        category=_CATEGORY.get(decision.action, "waiting"),
-        language=_lead_language(lead, thread),
-        last_message_preview=to_plain_text(last_msg.body)[:200] if last_msg else None,
-        last_message_at=last_msg.timestamp.isoformat() if last_msg else None,
-        last_message_kind=last_msg.kind if last_msg else None,
+    summary = _summary_for(
+        lead, thread, _CATEGORY.get(decision.action, "waiting"), last_msg
     )
 
     with db.db_session() as conn:

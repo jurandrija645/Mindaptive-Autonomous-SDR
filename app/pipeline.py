@@ -4,14 +4,44 @@ import logging
 from app import autoreply_templates, db, drafter, signatures, smartlead, translator
 from app.config import settings
 from app.detector import last_sender_email, normalize_thread
+from app.email_clean import to_plain_text
 from app.thread_utils import render_thread_text, text_to_html
 
 log = logging.getLogger("pipeline")
 
 
+def thread_language(thread) -> str | None:
+    """Language of the lead's own writing, most recent message first. Local
+    (langdetect), so it costs nothing and can be used as a last-moment fallback
+    when leads_state has no language recorded."""
+    for msg in reversed(thread):
+        if msg.kind == "reply":
+            lang = translator.detect_language(to_plain_text(msg.body))
+            if lang:
+                return lang
+    return None
+
+
 def fetch_normalized_thread(campaign_id: int, lead_id: int):
     raw = smartlead.get_message_history(campaign_id, lead_id)
     return normalize_thread(raw)
+
+
+def _quick_triage(target_lang: str | None, english_text: str, native_text: str) -> str:
+    """The triage line shown above a quick-pick draft.
+
+    It names the language the message actually came out in, because
+    localize_quick_text falls back to the English source on any failure and
+    returns it silently — a template going out in English to a Spanish lead
+    used to look exactly like one that had been localized properly."""
+    base = "Quick-pick follow-up (canned template, no draft generation)"
+    if not target_lang or target_lang.lower() == "en":
+        return f"{base}. English — no other language on file for this lead."
+    name = translator.language_name(target_lang) or target_lang
+    if native_text.strip() == english_text.strip():
+        log.warning("quick draft not localized to %s — sending English", target_lang)
+        return f"{base}. NOT localized — this is still English, not {name}."
+    return f"{base}. Written in {name}."
 
 
 def create_quick_draft(
@@ -30,6 +60,16 @@ def create_quick_draft(
     del campaign_name
     lead_state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
     target_lang = lead_state["language"] if lead_state else None
+    if not target_lang:
+        # No language on the row — never detected, or wiped by a scan that
+        # couldn't tell. Work it out from the thread in hand instead of
+        # defaulting to English: this is the last moment before the template
+        # becomes a real message a lead reads.
+        target_lang = thread_language(thread)
+        if target_lang:
+            db.upsert_lead_state(
+                conn, lead["id"], lead["campaign_id"], language=target_lang
+            )
     native_text = translator.localize_quick_text(english_text, target_lang)
 
     last_message = thread[-1]
@@ -48,7 +88,7 @@ def create_quick_draft(
         lead_id=lead["id"],
         campaign_id=lead["campaign_id"],
         kind="followup",
-        triage_summary="Quick-pick follow-up (canned template, no draft generation).",
+        triage_summary=_quick_triage(target_lang, english_text, native_text),
         body_html=body_html,
         body_translation=english_text,
         thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
