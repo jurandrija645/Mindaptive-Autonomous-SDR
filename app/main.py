@@ -133,17 +133,67 @@ def _fmt_time(ts) -> str:
     return dt.strftime("%b %d, %Y · %H:%M")
 
 
+def _parse_ts(raw) -> datetime | None:
+    """Timestamps reach us in two shapes: isoformat's "2026-07-21T09:21:00+00:00"
+    and, from a thread snapshot (dumped with `default=str`), the same instant
+    with a space instead of the T. fromisoformat reads both."""
+    if not raw:
+        return None
+    try:
+        dt = datetime.fromisoformat(str(raw))
+    except (TypeError, ValueError):
+        return None
+    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
+
+def _snapshot_outdated(snapshot: list[dict], lead) -> bool:
+    """True when the thread has moved on since this draft was generated — in
+    practice Andrew replying straight from Smartlead's own inbox, which a
+    snapshot frozen at generation time can never learn about on its own.
+
+    leads_state.last_message_at is rewritten by every scan *before* it checks
+    for an open draft (scheduler._process_lead), so this is a DB read rather
+    than a Smartlead call: opening a lead whose thread hasn't moved still costs
+    no API request. Only a strictly newer row counts — the webhook reply path
+    drafts without touching last_message_at, so a snapshot that's ahead of the
+    row is normal and must not force a re-fetch on every open."""
+    db_last = _parse_ts(lead["last_message_at"]) if lead is not None else None
+    if db_last is None:
+        return False
+    stamps = [ts for ts in (_parse_ts(m.get("timestamp")) for m in snapshot) if ts]
+    return not stamps or db_last > max(stamps)
+
+
+def _draft_thread_outdated(draft, lead) -> bool:
+    """Same question, asked about a draft row — its *text* was written against
+    that stale thread, which the UI has to warn about even though the send path
+    re-derives the threading identifiers from a fresh fetch."""
+    if draft is None or not draft["thread_snapshot"]:
+        return False
+    return _snapshot_outdated(json.loads(draft["thread_snapshot"]), lead)
+
+
 def _load_thread_raw(campaign_id: int, lead_id: int) -> list[dict]:
     """Thread as a list of NormalizedMessage-shaped dicts — from the open
-    draft's snapshot if one exists, otherwise a live Smartlead fetch.
+    draft's snapshot while that snapshot is still current, otherwise a live
+    Smartlead fetch.
 
     Both branches carry the full field set (the snapshot is dumped from
     `m.__dict__`), so _thread_as_messages can rebuild real NormalizedMessages
-    from either one and the recipients preview needs no extra API call."""
+    from either one and the recipients preview needs no extra API call.
+
+    The snapshot is frozen at generation time and never rewritten, so it is
+    only trustworthy until the thread moves. Without the _snapshot_outdated
+    check a message sent from Smartlead's own inbox stayed invisible here for
+    as long as the draft sat open, while the inbox list — reading
+    leads_state — showed it correctly."""
     with db.db_session() as conn:
         draft = db.get_open_draft(conn, lead_id, campaign_id)
+        lead = db.get_lead_state(conn, lead_id, campaign_id)
     if draft and draft["thread_snapshot"]:
-        return json.loads(draft["thread_snapshot"])
+        snapshot = json.loads(draft["thread_snapshot"])
+        if not _snapshot_outdated(snapshot, lead):
+            return snapshot
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
     return [{**m.__dict__, "timestamp": m.timestamp.isoformat()} for m in thread]
 
@@ -382,6 +432,11 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         draft_payload["recipients"] = _recipients_payload(
             raw, (lead["email"] if lead else "") or "", draft
         )
+        # The thread above is always live; this draft's *text* may not be. It
+        # was written against the thread as it stood at generation time, so a
+        # message sent since then (typically from Smartlead directly) means the
+        # draft can be answering something that's already been said.
+        draft_payload["thread_moved_on"] = _draft_thread_outdated(draft, lead)
     return {
         "lead": {
             "name": lead_name,

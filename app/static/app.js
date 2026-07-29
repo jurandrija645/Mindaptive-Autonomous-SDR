@@ -2041,6 +2041,14 @@ function renderDraftSection(body) {
     box.appendChild(el("span", "status-banner", `Scheduled for ${draft.scheduled_at}`));
   }
 
+  // The thread above is refetched live, so it already shows anything sent from
+  // Smartlead directly — but this draft was written before that message
+  // existed and may well be answering something already said.
+  if (draft.thread_moved_on) {
+    box.appendChild(el("span", "status-banner warn",
+      "Written before the newest message in this thread — reread it above, or regenerate."));
+  }
+
   const tabs = el("div", "edit-tabs");
   const origTab = el("button", "edit-tab active", "Original");
   origTab.id = "tab-original";

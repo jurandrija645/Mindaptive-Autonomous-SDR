@@ -305,6 +305,12 @@ button:disabled { opacity: .55; cursor: default; }
   padding: 5px 10px;
   border-radius: 20px;
 }
+/* Same shape, amber — matches the "follow-up due" cue used in the lead list. */
+.status-banner.warn {
+  color: #7a5310;
+  background: #fbf0d9;
+  border: 1px solid var(--followup);
+}
 .cat-select {
   padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border);
   font-family: inherit; font-size: 13px; background: var(--bg); color: var(--text);
