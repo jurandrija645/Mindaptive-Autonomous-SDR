@@ -52,6 +52,11 @@ _SYSTEM = (
     "You are a translation engine. Translate each numbered segment into natural, "
     "faithful English. If a segment is already English, return it unchanged. "
     "Preserve meaning and tone; do not summarize, explain, or add commentary. "
+    # This one also runs on our own drafts (the dashboard's English tab), which
+    # carry the app's ** bold markers — dropping them would show Andrew an
+    # English version with emphasis the outgoing message has and it doesn't.
+    "Keep any **double asterisk** markers around the words that carry the same "
+    "emphasis in English. "
     "Reproduce the exact [[n]] marker, each on its own line, immediately before "
     "that segment's translation, and output nothing else."
 )

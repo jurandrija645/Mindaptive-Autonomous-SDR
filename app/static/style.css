@@ -23,6 +23,14 @@
 
 * { box-sizing: border-box; }
 
+/* Any `display:` rule of ours beats the browser's own `[hidden] {display:none}`,
+   so `el.hidden = true` silently did nothing to a flex/inline-flex element: the
+   snooze date field sat next to the button that was supposed to reveal it, and
+   the editor toolbar and the localize row both showed on the tab they belong to
+   AND the one they don't. Rather than one `[hidden]` override per component
+   (`.legend` needed one), make the attribute win everywhere. */
+[hidden] { display: none !important; }
+
 html, body { height: 100%; }
 
 body {
@@ -222,6 +230,25 @@ button:disabled { opacity: .55; cursor: default; }
 }
 .lead-time { font-size: 11px; color: var(--muted); margin-left: auto; white-space: nowrap; }
 
+/* Campaign name, on every lead row and in the detail header. Its own line so a
+   long name ("B2B Tech & Consulting - EuropeanUnion") ellipsizes on its own
+   instead of squeezing the lead's name, and flex-start so the pill is only as
+   wide as the text. Full name is on the title attribute. */
+.campaign-line { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.campaign-tag {
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1px 8px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lead-row.selected .campaign-tag { background: var(--card); }
+
 .lang-badge {
   font-size: 10px; font-weight: 700; letter-spacing: .03em;
   padding: 2px 5px; border-radius: 4px;
@@ -258,6 +285,10 @@ button:disabled { opacity: .55; cursor: default; }
 .btn-edit-name:hover { color: var(--accent); }
 .detail-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
 .muted { color: var(--muted); }
+/* "Renamed here only, Smartlead wasn't updated" — the rename half that failed
+   (main.api_set_lead_name). Amber, not red: nothing is broken, but it isn't
+   the whole job either. */
+.name-note { color: var(--followup); }
 
 .thread-actions { display: flex; justify-content: flex-end; margin-bottom: 8px; }
 /* whole-thread + per-message English toggles (checkbox + label) */
@@ -317,7 +348,10 @@ button:disabled { opacity: .55; cursor: default; }
 }
 .snooze-control { display: inline-flex; align-items: center; gap: 6px; }
 .snooze-picker { display: inline-flex; align-items: center; gap: 6px; }
-.snooze-picker input[type=date] { padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; }
+.snooze-picker input[type=date] {
+  padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border);
+  font-family: inherit; font-size: 13px; background: var(--bg); color: var(--text);
+}
 
 /* ---- chat bubbles ---- */
 .thread { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
@@ -838,11 +872,6 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 
 /* The lead search box belongs to the inbox-style views only. */
 .search-row.hidden { display: none; }
-
-/* .legend sets display:flex, which beats the [hidden] attribute the view
-   switcher sets — without this it stays visible on Archive, Stats and
-   Campaigns, where its inbox colour key means nothing. */
-.legend[hidden] { display: none; }
 
 /* Account switcher at the top of the Campaigns list (only shown with >1 account). */
 .account-switch { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }

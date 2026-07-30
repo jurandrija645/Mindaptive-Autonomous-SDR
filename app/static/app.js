@@ -11,6 +11,7 @@ const state = {
   detail: null,          // current lead detail {lead, thread, draft}
   categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
+  nameNote: null,        // "renamed here only" note from the last ✎ Rename, cleared on lead switch
   templates: null,       // message templates from /api/templates, loaded when the modal opens
   // ---- campaigns view ----
   accounts: null,        // [{slug,label}] Smartlead accounts, loaded once
@@ -100,6 +101,32 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
+// Calendar dates in the browser's own timezone. todayStr() rounds through UTC,
+// so "tomorrow" computed off it is today for anyone east of UTC in the small
+// hours — fine for a comparison, wrong for a date we're about to store.
+function localDateStr(d) {
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function dateInDays(n) {
+  const d = new Date();
+  d.setDate(d.getDate() + n);
+  return localDateStr(d);
+}
+
+// "2026-08-06" -> "Thu, 6 Aug" (with the year when it isn't this one). Parsed
+// field by field because new Date("2026-08-06") is UTC midnight, i.e. the day
+// before for anyone west of UTC.
+function formatDayLabel(str) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(str || "");
+  if (!m) return str || "";
+  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  const opts = { weekday: "short", day: "numeric", month: "short" };
+  if (d.getFullYear() !== new Date().getFullYear()) opts.year = "numeric";
+  return d.toLocaleDateString(undefined, opts);
+}
+
 // UTC ISO string -> "YYYY-MM-DDTHH:MM" in the browser's local time, the only
 // format <input type="datetime-local"> accepts as a value.
 function toLocalInputValue(iso) {
@@ -146,9 +173,12 @@ async function loadInbox() {
   return data;
 }
 
+// Campaign is in the haystack because it's now on every row: a name you can
+// see is a name you'll type, and "airports" or "dental" is how you'd ask for a
+// niche when the company names give no hint of it.
 function matchesSearch(lead, query) {
   if (!query) return true;
-  const haystack = `${lead.name || ""} ${lead.company || ""} ${lead.email || ""}`.toLowerCase();
+  const haystack = `${lead.name || ""} ${lead.company || ""} ${lead.email || ""} ${lead.campaign_name || ""}`.toLowerCase();
   return haystack.includes(query);
 }
 
@@ -1074,9 +1104,20 @@ function renderList() {
     if (state.view === "inbox" && lead.has_draft) top.appendChild(el("span", "ready-dot"));
     row.appendChild(top);
 
+    // Which campaign this lead came from. It decides the niche, the language
+    // and (for a template-driven client) which approved reply applies, so it
+    // belongs on the row itself rather than one click away in the detail pane.
+    if (lead.campaign_name) {
+      const tag = el("span", "campaign-tag", lead.campaign_name);
+      tag.title = lead.campaign_name; // the pill ellipsizes; hover gives the rest
+      const tagLine = el("div", "campaign-line");
+      tagLine.appendChild(tag);
+      row.appendChild(tagLine);
+    }
+
     if (archiveMode) {
       const isSnoozed = i < state.snoozedCount;
-      const reason = isSnoozed ? `Snoozed until ${lead.snooze_until}` : archiveLabel(lead.archive_reason);
+      const reason = isSnoozed ? `Snoozed until ${formatDayLabel(lead.snooze_until)}` : archiveLabel(lead.archive_reason);
       row.appendChild(el("div", "lead-preview", reason));
       const quickBtn = el("button", "btn-secondary row-action", isSnoozed ? "Follow up now" : "Restore");
       quickBtn.addEventListener("click", (e) => {
@@ -1119,6 +1160,7 @@ function renderList() {
 async function selectLead(i) {
   if (i < 0 || i >= state.leads.length) return;
   state.selected = i;
+  state.nameNote = null;  // belongs to the rename that was just done, not to the next lead
   renderList();
   const row = document.querySelector(`.lead-row[data-index="${i}"]`);
   if (row) row.scrollIntoView({ block: "nearest" });
@@ -1175,9 +1217,24 @@ function renderDetail() {
   }
   header.appendChild(el("span", `state-chip cat-${lead.category}`, CHIP[lead.category] || CHIP.waiting));
   body.appendChild(header);
-  body.appendChild(el("div", "detail-sub", [lead.company, lead.email].filter(Boolean).join(" · ")));
+  // Company/email and the campaign share one .detail-sub block so the two
+  // lines sit together, rather than each carrying the class's bottom margin.
+  const sub = el("div", "detail-sub");
+  sub.appendChild(el("div", null, [lead.company, lead.email].filter(Boolean).join(" · ")));
+  if (lead.campaign_name) {
+    const line = el("div", "campaign-line");
+    line.appendChild(el("span", null, "Campaign:"));
+    const tag = el("span", "campaign-tag", lead.campaign_name);
+    tag.title = lead.campaign_name;
+    line.appendChild(tag);
+    sub.appendChild(line);
+  }
+  body.appendChild(sub);
   if (lead.email_display_name && lead.email_display_name !== lead.name) {
     body.appendChild(el("div", "detail-sub muted", `Smartlead shows their inbox name as "${lead.email_display_name}"`));
+  }
+  if (state.nameNote) {
+    body.appendChild(el("div", "detail-sub name-note", state.nameNote));
   }
 
   body.appendChild(renderResearchPanel(lead));
@@ -1274,7 +1331,7 @@ function renderLeadActionsBar(lead) {
   }
 
   if (lead.snooze_until && lead.snooze_until > todayStr()) {
-    bar.appendChild(el("span", "status-banner", `Snoozed until ${lead.snooze_until}`));
+    bar.appendChild(el("span", "status-banner", `Snoozed until ${formatDayLabel(lead.snooze_until)}`));
     const now = el("button", "btn-secondary", "Follow up now");
     now.addEventListener("click", () => withRowRemoval(() => {
       const ids = currentLeadIds();
@@ -1290,29 +1347,87 @@ function renderLeadActionsBar(lead) {
 
   bar.appendChild(renderCategorySelect());
 
-  const snoozeWrap = el("div", "snooze-control");
-  const snoozeBtn = el("button", "btn-secondary", "Snooze…");
+  bar.appendChild(renderSnoozeControl());
+
+  return bar;
+}
+
+// The common snooze lengths, one click each. Every option spells out the date
+// it lands on, so the choice is made and applied in a single step: the control
+// used to be a button that opened a date field that needed a Confirm — three
+// interactions to set a date that's reversible from the Archive view anyway.
+const SNOOZE_PRESETS = [
+  { label: "Tomorrow", days: 1 },
+  { label: "In 3 days", days: 3 },
+  { label: "In a week", days: 7 },
+  { label: "In 2 weeks", days: 14 },
+  { label: "In a month", days: 30 },
+];
+
+function renderSnoozeControl() {
+  const wrap = el("div", "snooze-control");
+
+  const select = el("select", "cat-select snooze-select");
+  select.title = "Hide this lead from the inbox until a date";
+  const placeholder = document.createElement("option");
+  placeholder.textContent = "Snooze until…";
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+  SNOOZE_PRESETS.forEach((preset) => {
+    const date = dateInDays(preset.days);
+    const opt = document.createElement("option");
+    opt.value = date;
+    opt.textContent = `${preset.label} · ${formatDayLabel(date)}`;
+    select.appendChild(opt);
+  });
+  const customOpt = document.createElement("option");
+  customOpt.value = "custom";
+  customOpt.textContent = "Pick a date…";
+  select.appendChild(customOpt);
+
   const picker = el("span", "snooze-picker");
   picker.hidden = true;
   const dateInput = el("input");
   dateInput.type = "date";
-  dateInput.min = todayStr();
-  const confirmBtn = el("button", "btn-secondary", "Confirm");
+  // Tomorrow, not today: a snooze until today is already due, so it would only
+  // bounce the lead back to the top of the inbox it was being hidden from.
+  dateInput.min = dateInDays(1);
   const cancelBtn = el("button", "btn-secondary", "Cancel");
-  snoozeBtn.addEventListener("click", () => { picker.hidden = false; snoozeBtn.hidden = true; });
-  cancelBtn.addEventListener("click", () => { picker.hidden = true; snoozeBtn.hidden = false; });
-  confirmBtn.addEventListener("click", () => {
-    if (!dateInput.value) { alert("Pick a date first."); return; }
-    snoozeLead(dateInput.value);
-  });
-  picker.appendChild(dateInput);
-  picker.appendChild(confirmBtn);
-  picker.appendChild(cancelBtn);
-  snoozeWrap.appendChild(snoozeBtn);
-  snoozeWrap.appendChild(picker);
-  bar.appendChild(snoozeWrap);
 
-  return bar;
+  select.addEventListener("change", () => {
+    const value = select.value;
+    select.value = "";
+    if (value === "custom") {
+      select.hidden = true;
+      picker.hidden = false;
+      dateInput.focus();
+      // Opens the browser's own calendar right away, so "Pick a date…" costs
+      // one click like the presets do. Not every browser allows it from a
+      // change event; the field is focused either way.
+      if (dateInput.showPicker) {
+        try { dateInput.showPicker(); } catch (e) { /* ignore */ }
+      }
+      return;
+    }
+    if (value) snoozeLead(value);
+  });
+  // Picking a day in the calendar is the confirmation — there's no second
+  // button to hunt for.
+  dateInput.addEventListener("change", () => {
+    if (dateInput.value) snoozeLead(dateInput.value);
+  });
+  cancelBtn.addEventListener("click", () => {
+    picker.hidden = true;
+    select.hidden = false;
+  });
+
+  picker.appendChild(dateInput);
+  picker.appendChild(cancelBtn);
+  wrap.appendChild(select);
+  wrap.appendChild(picker);
+  return wrap;
 }
 
 function currentLeadIds() {
@@ -1323,6 +1438,12 @@ function currentLeadIds() {
 // Andrew's manual fix for a wrong/imported first name — see the muted
 // "Smartlead shows their inbox name as ..." line rendered next to it, which
 // is what this is meant to be checked against.
+//
+// The rename also goes back to Smartlead (see main.api_set_lead_name). That
+// half can fail on its own while the local rename stands, so the server says
+// which happened and the answer is shown under the name rather than thrown as
+// an alert: nothing is broken, but "renamed here only" is not the same as
+// "renamed", and silently treating them alike is what made the two drift.
 async function editLeadName() {
   const lead = state.detail.lead;
   const next = window.prompt("Edit this lead's first name:", lead.name || "");
@@ -1330,12 +1451,14 @@ async function editLeadName() {
   const trimmed = next.trim();
   if (!trimmed || trimmed === lead.name) return;
   const { cid, lid } = currentLeadIds();
+  let result;
   try {
-    await apiPost(`/api/leads/${cid}/${lid}/name`, { name: trimmed });
+    result = await apiPost(`/api/leads/${cid}/${lid}/name`, { name: trimmed });
   } catch (e) {
     alert("Couldn't update name: " + e.message);
     return;
   }
+  state.nameNote = (result && result.warning) || null;
   lead.name = trimmed;
   const row = currentLead();
   if (row) row.name = trimmed;

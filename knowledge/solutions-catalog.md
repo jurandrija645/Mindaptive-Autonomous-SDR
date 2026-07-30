@@ -8,13 +8,29 @@ Organized by the RACE framework (Reach, Acquire, Convert, Expand). We do not do 
 
 ## REACH
 
-### 1. AI-Automated Outbound Campaigns (Cold Email + Multi-Channel)
+### 1. AI-Automated Outbound Campaigns — Lead Generation (Cold Email + Multi-Channel)
 
-**Problem it solves:** A B2B/tech firm, or any business that needs more qualified meetings, doesn't have enough people in its pipeline and doesn't have the time or team to run cold outreach manually.
+**This is a full second product line, not a side offering.** Half of what Mindaptive sells is inbound AI (everything under ACQUIRE below); the other half is running lead generation for other companies. A lead who needs pipeline, not a receptionist, gets this — do not try to bend them into an inbound product.
 
-**How it works:** Mindaptive runs the entire cold outreach process for the client — sourcing/scraping leads (scraPEAR), AI-generated icebreakers and personalization, campaign sending, response qualification, and booking meetings directly into the client's calendar. Can extend beyond email to cold LinkedIn outreach or AI voice/SMS outbound calling where relevant.
+**Problem it solves:** A B2B firm needs more qualified meetings and has no repeatable way to get them. Either nobody is doing outbound, or someone is doing it by hand and it's eating their week, or they blasted 5,000 identical templated emails and got nothing because everyone can spot a mail merge now.
 
-**Who it's for:** B2B/tech firms selling into trades, clinics, or local services (not installer/clinic owners directly — that's the inbound products below). Paid on outcome (per booked meeting or qualified reply), not a fixed retainer. This is Mindaptive's own proven acquisition model, applied to clients who need the same thing.
+**Who it's for:** B2B companies selling to other businesses — mostly **B2B SaaS, consulting agencies, and branding/creative agencies**, plus B2B/tech firms selling into trades, clinics, or local services. Not installer/clinic owners directly, that's the inbound products below.
+
+**How it works** (this is the engine walked through in the lead-gen VSL — see `lead-gen-vsl-transcript.md`):
+
+1. **List build.** Pull an initial lead list from Apollo, ZoomInfo, Crunchbase or similar, segmented by employee count, location, job title, industry and keywords, to define the client's first ideal niche.
+2. **AI research and filtering.** An AI system visits every company on that list — reads their site, finds articles mentioning them, gathers context — then decides company by company whether they're actually the client's ICP or should be dropped. The bad-fit companies never get contacted.
+3. **AI personalization, one email at a time.** A second system pulls each decision-maker's LinkedIn profile and posts (CEOs, owners, CMOs, whoever the buyer is) and writes that person their own email off their real interests, recent projects, or something specific about them. Not one template with the name swapped. This is where the reply rates well above industry average come from.
+4. **Sending and segmenting** through Smartlead — sequencing, campaign management, niche segmentation, seeing who's interested.
+5. **AI response handling.** A third system watches replies, classifies whether the person is interested, and drafts the answer back using everything already researched about them, pushing toward a call. (This responder is the same category of system as the dashboard Andrew is using right now.)
+
+**Commercial model:** performance-based. The client pays on results, not on a retainer — if we don't deliver, they don't pay. That's the whole risk reversal and it's true of every version of the deal.
+
+**What we don't commit to over email is the unit.** Some clients are billed per qualified lead, some per booked meeting, and which one it is depends on their business, their sales cycle and what we agree on the call. So say "you only pay when it works" / "we get paid on results, not on a retainer" — never "per meeting" or "per lead" as though it were fixed, and never a number, rate or ballpark. If the lead asks how it's structured, that's a reason to book the call, not a reason to pick one for them. If they watched the VSL and quote its "only when we find a qualified lead" back at you, don't contradict it — confirm the principle (they pay on results) and take the specifics to the call.
+
+**The call ask for this product:** talk through their business, work out exactly who they need to contact (their ICP), then give them the exact pricing and how it runs. Note this is a different call frame from the inbound products — there is no pre-built prototype agent to show a lead-gen prospect, so don't use the "I already built your agent" line on one.
+
+**Proof:** this is Mindaptive's own acquisition model. The email that lead is replying to came out of this exact engine.
 
 ---
 
@@ -169,8 +185,11 @@ Package: Missed-Call Text-Back (#5) + Speed-to-Lead (#6), voice as an upgrade op
 Focus problem: Property inquiries go unanswered while the agent isn't at their desk; the lead goes to another agent/agency.
 Package: Speed-to-Lead (#6) + WhatsApp Chatbot (#3).
 
-**B2B Outbound (proven model, separate track)**
-Package: #1 standalone — not inbound automation, but a service Mindaptive delivers manually/semi-automatically.
+**B2B SaaS / Consulting agencies / Branding agencies — Lead Generation (separate track)**
+Focus problem: not enough qualified meetings in the pipeline, and no repeatable outbound system that survives contact with today's inbox.
+Package: #1 standalone — the AI outbound engine (list build → AI research and filtering → per-person AI personalization off LinkedIn → Smartlead sending → AI reply handling).
+Pricing model: performance-based — nothing if we don't deliver. The unit (per qualified lead vs per booked meeting) varies per client and is agreed on the call, so don't state one over email. Numbers on the call only.
+Video: the lead-gen VSL (`lead-gen-vsl-transcript.md`), not the installer/AI-secretary one.
 
 **"Full Capacity" (situational, not a vertical)**
 Focus problem: The business is at capacity and explicitly doesn't want more inquiries, but is losing revenue on no-shows/cancellations, or spending time manually triaging inquiries it can't take.

@@ -70,6 +70,40 @@ Request fields (documented list, matches observed behaviour):
 - `bcc`, `attachments`, `scheduled_time`, `add_signature` are available but
   unused so far.
 
+### `POST /campaigns/{id}/leads/{id}/` — ⚠ wired but NOT verified
+
+`smartlead.update_lead` (used by the dashboard's **✎ Rename**, see
+`main.api_set_lead_name`) sends `{"email": ..., "first_name": ...}` to this
+endpoint. Everything about it — the trailing slash, the field names, the fact
+that omitted fields are left alone — comes from
+`docs/smartlead/api-reference__campaigns__update-lead.md` and **has never been
+run against the live API**, because the checkout it was written in had no key.
+Given how wrong the two endpoints above turned out to be, treat it as a guess
+until somebody probes it:
+
+```
+# rename the test lead, then read it back
+curl -X POST "https://server.smartlead.ai/api/v1/campaigns/2538823/leads/2758494567/?api_key=$KEY" \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"mindaptive@gmail.com","first_name":"Mindaptive"}'
+curl "https://server.smartlead.ai/api/v1/leads/2758494567?api_key=$KEY"
+```
+
+Two things to check in the read-back, and record the answers here:
+
+1. Did `first_name` actually change?
+2. **Did anything else get cleared** — `company_name`, `last_name`, and
+   especially `custom_fields`? The reference's own JS example updates
+   `company_name` while sending no name fields, which implies a partial update,
+   but `custom_fields` is the campaign analysis's source spreadsheet
+   (`campaign_copy.py`), so a full-replace would quietly destroy the copy data
+   for any lead Andrew renames. If it does replace, `update_lead` needs to
+   read-then-write instead.
+
+The rename is fail-soft in the meantime: `leads_state.name` + `name_locked` are
+written first and the dashboard says "Renamed here, but Smartlead rejected the
+update: …" if the call 400s, so a wrong guess costs a warning, not the rename.
+
 ### `GET /campaigns/{id}/leads/{id}/message-history`
 
 The documented response shape is **entirely wrong**:
@@ -197,6 +231,7 @@ plain text. Always check `isinstance(data, list)` *before* falling back to
 | Sending mailboxes | `GET /email-accounts` | `email-accounts/get-all` |
 | Thread history | `GET /campaigns/{id}/leads/{id}/message-history` | `campaigns/get-lead-history` |
 | Recategorize a lead | `POST /campaigns/{id}/leads/{id}/category` | `campaigns/update-lead-category` |
+| Rename a lead (⚠ unverified) | `POST /campaigns/{id}/leads/{id}/` | `campaigns/update-lead` |
 | Send a reply | `POST /campaigns/{id}/reply-email-thread` | `campaigns/reply-email-thread` |
 | Webhooks | `POST|GET /webhooks` | `webhooks/create`, `webhooks/get` |
 | Campaign settings | `GET /campaigns/{id}` | `campaigns/get-by-id` |
@@ -208,12 +243,6 @@ plain text. Always check `isinstance(data, list)` *before* falling back to
 
 ## Available but unused (worth knowing)
 
-- **`POST /campaigns/{cid}/leads/{lid}/`** (`campaigns/update-lead`) — updates
-  `first_name`, `last_name`, `company_name`, `website`, `custom_fields`, etc.
-  (`email` is required in the body). This is the endpoint that could push the
-  dashboard's **✎ Rename** correction back into Smartlead itself, instead of the
-  current local-only `leads_state.name` + `name_locked`. **Not verified against
-  the live API yet** — probe it against the test lead before wiring it up.
 - **A whole Inbox API** (`/api-reference/inbox/*`): `get-messages`, `reply`,
   `forward`, `get-unread`, `mark-read`, `set-reminder`, `create-note`,
   `update-category`, `push-to-subsequence`. Potentially a better-fitting surface

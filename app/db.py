@@ -435,13 +435,39 @@ def list_inbox(conn):
     the unified inbox. Ordering: a snooze whose date has arrived jumps to the
     very top (that's the point of snoozing — surface it prominently once due),
     then awaiting-our-reply (red), then follow-up-due (amber), then the rest;
-    within a tier, most recent activity first."""
+    within a tier, most recent activity first.
+
+    A lead whose draft is already *scheduled* is handled — it belongs to the
+    Scheduled tab, not here. It used to sit in both, still wearing its amber
+    "Follow-up due" chip: the chip is `category`, which the scan recomputes off
+    the thread, and a scheduled email hasn't been sent yet, so the thread is
+    unchanged and the lead is still genuinely "due" as far as the detector can
+    see. The scan's `has_open` check knows about scheduled drafts but runs
+    after the category is written, and only suppresses a *second* draft.
+
+    The `category` escape hatch is deliberate: if the lead replies while a
+    follow-up sits scheduled, the scan stamps 'reply' (or 'auto_reply') and the
+    lead comes back into the inbox immediately, rather than staying hidden
+    until the scheduled time arrives and `_send_due_draft` aborts the send. A
+    lead who just answered must never be invisible.
+
+    Only 'scheduled' hides a lead — a 'pending' draft is one waiting for
+    review, which is exactly what the inbox is for."""
     now = now_iso()
     return conn.execute(
         """SELECT * FROM leads_state
            WHERE interested = 1 AND status != 'stopped'
              AND archived_at IS NULL
              AND (snooze_until IS NULL OR snooze_until <= ?)
+             AND (
+               category IN ('reply', 'auto_reply')
+               OR NOT EXISTS (
+                 SELECT 1 FROM drafts d
+                 WHERE d.lead_id = leads_state.lead_id
+                   AND d.campaign_id = leads_state.campaign_id
+                   AND d.status = 'scheduled'
+               )
+             )
            ORDER BY
              CASE
                WHEN snooze_until IS NOT NULL AND snooze_until <= ? THEN 0
@@ -512,9 +538,19 @@ def list_due_scheduled(conn):
 
 def list_scheduled(conn):
     """All drafts waiting on the 1-minute due_send_loop (scheduler.py), soonest
-    first — backs the dashboard's "Scheduled" tab."""
+    first — backs the dashboard's "Scheduled" tab.
+
+    campaign_name is joined in rather than stored on the draft: every list in
+    the dashboard shows which campaign a lead belongs to, and the scan keeps
+    that name current on leads_state, so reading it from there means a campaign
+    renamed in Smartlead doesn't leave old drafts labelled with the old name."""
     return conn.execute(
-        "SELECT * FROM drafts WHERE status = 'scheduled' ORDER BY scheduled_at ASC"
+        """SELECT d.*, ls.campaign_name
+           FROM drafts d
+           LEFT JOIN leads_state ls
+             ON ls.lead_id = d.lead_id AND ls.campaign_id = d.campaign_id
+           WHERE d.status = 'scheduled'
+           ORDER BY d.scheduled_at ASC"""
     ).fetchall()
 
 

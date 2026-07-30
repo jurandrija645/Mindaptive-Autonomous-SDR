@@ -24,7 +24,12 @@ from app.detector import (
     next_reply_to,
 )
 from app.email_clean import clean_email_html, to_plain_text
-from app.thread_utils import next_morning_send_utc, text_to_html
+from app.thread_utils import (
+    html_to_marked_text,
+    next_morning_send_utc,
+    render_emphasis,
+    text_to_html,
+)
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("main")
@@ -334,8 +339,13 @@ def _thread_payload(raw: list[dict], lead_name: str) -> list[dict]:
 
 
 def _open_draft_set(conn) -> set[tuple[int, int]]:
+    """Leads with a draft waiting for review — 'pending' only, deliberately not
+    'scheduled'. This backs the inbox's green ready-dot, and a scheduled draft
+    needs nothing from Andrew; it also no longer appears in the inbox at all
+    (db.list_inbox), so counting it here would only light a dot on the one case
+    that still shows through: a lead who replied while a follow-up was queued."""
     rows = conn.execute(
-        "SELECT DISTINCT lead_id, campaign_id FROM drafts WHERE status IN ('pending', 'scheduled')"
+        "SELECT DISTINCT lead_id, campaign_id FROM drafts WHERE status = 'pending'"
     ).fetchall()
     return {(r["lead_id"], r["campaign_id"]) for r in rows}
 
@@ -347,6 +357,7 @@ def _row_payload(l: dict, open_set: set) -> dict:
         "name": l["name"] or l["email"] or "Lead",
         "company": l["company"] or "",
         "email": l["email"] or "",
+        "campaign_name": l["campaign_name"] or "",
         "category": l["category"] or "waiting",
         "language": (l["language"] or "").upper(),
         "preview": l["last_message_preview"] or "",
@@ -403,6 +414,7 @@ def _scheduled_payload() -> list[dict]:
                 "name": d["lead_name"] or d["lead_email"] or "Lead",
                 "company": d["lead_company"] or "",
                 "email": d["lead_email"] or "",
+                "campaign_name": d["campaign_name"] or "",
                 "preview": to_plain_text(d["body_html"])[:200],
                 "scheduled_at": _fmt_time(d["scheduled_at"]),
             }
@@ -467,6 +479,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "name": lead_name,
             "company": (lead["company"] if lead else "") or "",
             "email": (lead["email"] if lead else "") or "",
+            "campaign_name": (lead["campaign_name"] if lead else "") or "",
             "language": ((lead["language"] if lead else "") or "").upper(),
             "language_name": translator.language_name(lead["language"]) if (lead and lead["language"]) else None,
             "category": (lead["category"] if lead else "waiting") or "waiting",
@@ -567,9 +580,11 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     # body is the fallback for callers that don't send one.
     with db.db_session() as conn:
         existing = db.get_open_draft(conn, lead_id, campaign_id)
-        base_draft = to_plain_text(body.get("base_draft") or "")
+        # Marked text: the model has to see which line is bold, or "shorten the
+        # second paragraph" comes back with the emphasis quietly dropped.
+        base_draft = html_to_marked_text(body.get("base_draft") or "")
         if not base_draft and existing is not None:
-            base_draft = to_plain_text(existing["body_html"] or "")
+            base_draft = html_to_marked_text(existing["body_html"] or "")
         if existing is not None:
             db.update_draft(conn, existing["id"], status="skipped")
 
@@ -707,10 +722,23 @@ async def api_template_move(request: Request, template_id: int):
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/name")
 async def api_set_lead_name(request: Request, campaign_id: int, lead_id: int):
-    """Manual correction for when Smartlead's imported first_name is wrong —
-    locks the name (name_locked=1) so the next scan (which otherwise
-    overwrites leads_state.name from Smartlead's own first_name every run,
-    see scheduler._process_lead) doesn't revert it."""
+    """Manual correction for when Smartlead's imported first_name is wrong.
+
+    Two things happen, in this order. Locally: the name is saved and locked
+    (name_locked=1) so the next scan (which otherwise overwrites
+    leads_state.name from Smartlead's own first_name every run, see
+    scheduler._process_lead) doesn't revert it. Then the correction is pushed
+    back to Smartlead itself (smartlead.update_lead), because the old
+    dashboard-only rename left the two permanently disagreeing: every later
+    Smartlead send still merged `{{first_name}}` as the wrong name, and so did
+    anyone reading the lead in Smartlead's own inbox.
+
+    The local save deliberately comes first and the push is fail-soft — a
+    rejected API call must not lose the correction, and the lock is exactly what
+    keeps the right name in place when the push didn't land. The caller is told
+    which of the two happened (`smartlead_synced` / `warning`) instead of the
+    request quietly succeeding, since "why is it still wrong in Smartlead" is
+    the question that got this written in the first place."""
     redirect = require_auth(request)
     if redirect:
         return redirect
@@ -720,7 +748,27 @@ async def api_set_lead_name(request: Request, campaign_id: int, lead_id: int):
         return JSONResponse({"error": "name is required."}, status_code=400)
     with db.db_session() as conn:
         db.upsert_lead_state(conn, lead_id, campaign_id, name=name, name_locked=1)
-    return JSONResponse({"ok": True})
+        state = db.get_lead_state(conn, lead_id, campaign_id)
+
+    email = (state["email"] if state else None) or ""
+    warning = None
+    if not email:
+        # Smartlead won't take the update without it, and leads_state.email is
+        # only filled by a scan — a lead that has never been scanned has none.
+        warning = "Renamed here, but not in Smartlead: no email address on file for this lead yet."
+    elif settings.dry_run:
+        log.info(
+            "[DRY_RUN] would set Smartlead first_name for %s/%s to %r",
+            campaign_id, lead_id, name,
+        )
+        warning = "Renamed here only — DRY RUN, so Smartlead was not updated."
+    else:
+        try:
+            smartlead.update_lead(campaign_id, lead_id, {"email": email, "first_name": name})
+        except smartlead.SmartleadError as e:
+            log.warning("Smartlead first_name update failed for %s/%s: %s", campaign_id, lead_id, e)
+            warning = f"Renamed here, but Smartlead rejected the update: {e}"
+    return JSONResponse({"ok": True, "smartlead_synced": warning is None, "warning": warning})
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/compose")
@@ -782,12 +830,15 @@ async def api_draft_translate(request: Request, draft_id: int):
     if redirect:
         return redirect
     body = await _json_body(request)
-    plain = to_plain_text(body.get("original_html", ""))
+    # Marked text, not plain: bold survives as `**markers**` through the
+    # translation and is rendered back to <strong> below, so the English tab
+    # shows the same emphasis the outgoing draft has.
+    plain = html_to_marked_text(body.get("original_html", ""))
     if not plain.strip():
         return JSONResponse({"english_html": ""})
     with db.db_session() as conn:
         english = translator.translate_segments_cached(conn, [plain])[0]
-    return JSONResponse({"english_html": clean_email_html(english)})
+    return JSONResponse({"english_html": render_emphasis(clean_email_html(english))})
 
 
 @app.post("/api/drafts/{draft_id}/localize")
@@ -799,7 +850,10 @@ async def api_draft_localize(request: Request, draft_id: int):
     if redirect:
         return redirect
     body = await _json_body(request)
-    english_text = to_plain_text(body.get("english_html", ""))
+    # Marked text so the localizer is given the emphasis too — it's instructed
+    # to keep the `**markers**` where they are, and text_to_html below turns
+    # them back into <strong> on the draft that actually gets sent.
+    english_text = html_to_marked_text(body.get("english_html", ""))
     if not english_text.strip():
         return JSONResponse({"error": "Nothing to apply."}, status_code=400)
     model = body.get("model") or None

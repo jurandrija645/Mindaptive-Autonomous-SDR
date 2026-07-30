@@ -61,5 +61,12 @@ def short_rules() -> str:
         "contractions ('you're', 'I'd', 'it's'), active voice, no jargon, no "
         "fluff, no em dashes, no 'Sincerely/Best regards', no 'I hope this "
         "email finds you well'. Vary sentence length — uniform rhythm reads as "
-        "generated. Write to one person, and say the thing in the first sentence."
+        "generated. Write to one person, and say the thing in the first sentence. "
+        # The full guide explains the convention; the short version only has to
+        # stop the localizers losing markers that are already there, since they
+        # rewrite a text somebody else (or a model) already bolded.
+        "If the text has **double asterisk** markers around a few words, keep "
+        "them, around the words that carry the same emphasis in your version. "
+        "They are the app's bold markers. Don't add new ones, don't drop them, "
+        "and never write HTML tags."
     )

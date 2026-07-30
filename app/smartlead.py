@@ -290,6 +290,45 @@ def update_lead_category(
     )
 
 
+# Everything Smartlead documents as writable on a campaign lead
+# (docs/smartlead/api-reference__campaigns__update-lead.md). Anything outside
+# this set is a typo or a guess, and `update_lead` refuses it rather than
+# posting a key the API will either ignore silently or 400 on.
+LEAD_UPDATE_FIELDS = frozenset({
+    "email", "first_name", "last_name", "company_name", "phone_number",
+    "website", "location", "linkedin_profile", "company_url", "custom_fields",
+})
+
+
+def update_lead(campaign_id: int, lead_id: int, fields: dict) -> Any:
+    """POST /campaigns/{id}/leads/{id}/ — write lead details back to Smartlead.
+
+    Only the keys passed in are sent. `email` is required by the endpoint even
+    when it is not the thing being changed (it is how Smartlead identifies the
+    lead), so callers have to have it.
+
+    Partial-update semantics are the assumption here: the reference's own
+    JavaScript example updates `company_name` while sending neither
+    `first_name` nor `last_name`, which would be a destructive example if
+    omitted fields were cleared. Worth re-checking against the live API before
+    leaning on this for anything but a rename — `custom_fields` is the campaign
+    analysis's source spreadsheet (see app/campaign_copy.py), so that is what a
+    wipe would cost. Called fail-soft from main.api_set_lead_name for the same
+    reason: the local rename must stand even if this call is rejected.
+    """
+    unknown = sorted(set(fields) - LEAD_UPDATE_FIELDS)
+    if unknown:
+        raise SmartleadError(f"Not writable on a Smartlead lead: {unknown}")
+    if not fields.get("email"):
+        raise SmartleadError("update_lead needs the lead's email — Smartlead requires it")
+    resp = _request("POST", f"/campaigns/{campaign_id}/leads/{lead_id}/", json=dict(fields))
+    log.info(
+        "update_lead: campaign_id=%s lead_id=%s fields=%s response=%r",
+        campaign_id, lead_id, sorted(fields), resp,
+    )
+    return resp
+
+
 def reply_to_thread(
     campaign_id: int,
     email_body: str,

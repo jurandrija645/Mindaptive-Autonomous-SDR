@@ -165,6 +165,66 @@ def _tokenize_images(raw: str) -> tuple[str, dict[str, str]]:
     return _IMG_TAG_RE.sub(swap, raw), images
 
 
+# Bold is carried through the same way, and for the same reason: a draft whose
+# key line is bold (see thread_utils.render_emphasis) lost that emphasis the
+# moment it became a sent message in the thread, because _TAG_RE deletes
+# <strong> with everything else. Only the fact that it was bold survives — the
+# tag is re-emitted by us, with no attributes at all, so nothing a sender wrote
+# is passed through.
+_BOLD_TAG_RE = re.compile(r"<(/?)(?:b|strong)\b[^>]*>", re.IGNORECASE)
+_BOLD_TOKEN_RE = re.compile(r"(</?strong>)")
+
+
+def _tokenize_bold(raw: str) -> tuple[str, dict[str, str]]:
+    """Replace <b>/<strong> tags with tokens that survive the text reduction.
+
+    No padding here, unlike images: bold sits mid-sentence, so a space would
+    show up as one ("that costs you **two jobs** a month").
+    """
+    tags: dict[str, str] = {}
+
+    def swap(m: re.Match) -> str:
+        token = f"BTOKEN{uuid.uuid4().hex}X"
+        tags[token] = "</strong>" if m.group(1) else "<strong>"
+        return token
+
+    return _BOLD_TAG_RE.sub(swap, raw), tags
+
+
+def _balance_bold(html: str) -> str:
+    """Drop <strong> tags left without a partner.
+
+    Both halves happen for real. The quoted-history cut can take a closing tag
+    and leave its opener behind, which would bold the rest of the bubble; a body
+    that opens mid-quote leaves an orphan close. Two passes, because an orphan
+    can be at either end.
+    """
+    parts = _BOLD_TOKEN_RE.split(html)
+
+    depth = 0
+    kept = []
+    for part in parts:
+        if part == "<strong>":
+            depth += 1
+        elif part == "</strong>":
+            if depth == 0:
+                continue
+            depth -= 1
+        kept.append(part)
+
+    depth = 0
+    out = []
+    for part in reversed(kept):
+        if part == "</strong>":
+            depth += 1
+        elif part == "<strong>":
+            if depth == 0:
+                continue
+            depth -= 1
+        out.append(part)
+    return "".join(reversed(out))
+
+
 def _html_to_text(raw: str) -> str:
     text = _SCRIPT_STYLE_RE.sub(" ", raw)
     text = _BR_RE.sub("\n", text)
@@ -199,7 +259,7 @@ def to_plain_text(raw: str | None) -> str:
 
 def clean_email_html(raw: str | None) -> str:
     """Safe minimal HTML for the thread view: escaped text, our own <p>/<br>,
-    plus any images rebuilt from an attribute allowlist.
+    plus any images rebuilt from an attribute allowlist and bold kept as bold.
 
     Never emits the original (untrusted) email markup — the only tags in the
     output are ones this function writes itself — so it stays XSS-safe to render
@@ -208,6 +268,7 @@ def clean_email_html(raw: str | None) -> str:
     if not raw:
         return ""
     tokenized, images = _tokenize_images(raw)
+    tokenized, bold = _tokenize_bold(tokenized)
     text = to_plain_text(tokenized)
     if not text:
         return ""
@@ -221,4 +282,8 @@ def clean_email_html(raw: str | None) -> str:
     for token, tag in images.items():
         if token in html:
             html = html.replace(token, _rebuild_img(tag))
+    if bold:
+        for token, tag in bold.items():
+            html = html.replace(token, tag)
+        html = _balance_bold(html)
     return html
