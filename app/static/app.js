@@ -2233,6 +2233,7 @@ function renderDraftSection(body) {
   box.appendChild(renderGenControls());
 
   box.appendChild(renderRecipients(draft));
+  box.appendChild(renderAttachments(draft));
 
   const actions = el("div", "actions");
   const sendBtn = el("button", "btn-send", "Send now");
@@ -2324,6 +2325,231 @@ function currentRecipients() {
   if (to) out.to = to.value;
   if (cc) out.cc = cc.value;
   return out;
+}
+
+// ---- attachments ----
+//
+// Files ride along as slugs; the server resolves each one back to a real
+// file_url out of the library (main._attachment_updates). Sending the URL from
+// here instead would let a client point Smartlead's fetcher at any address it
+// liked, so the client deliberately never handles one.
+
+function currentAttachments() {
+  // Only send the key when the draft card is actually on screen — an absent
+  // key means "leave the column alone", and [] means "he removed them".
+  if (!$("attachments-row")) return {};
+  return { attachments: (state.attachments || []).map((a) => a.slug) };
+}
+
+function renderAttachments(draft) {
+  state.attachments = (draft.attachments || []).slice();
+  const wrap = el("div", "attachments");
+  wrap.id = "attachments-row";
+  const line = el("div", "attachment-row");
+  line.appendChild(el("span", "recipient-label", "Files"));
+  const chips = el("div", "attachment-chips");
+  chips.id = "attachment-chips";
+  line.appendChild(chips);
+  wrap.appendChild(line);
+
+  const addBtn = el("button", "btn-secondary btn-attach", "+ Attach a file");
+  addBtn.type = "button";
+  addBtn.id = "attach-btn";
+  addBtn.addEventListener("click", openLibraryModal);
+  line.appendChild(addBtn);
+
+  renderAttachmentChips();
+  return wrap;
+}
+
+function renderAttachmentChips() {
+  const chips = $("attachment-chips");
+  if (!chips) return;
+  chips.innerHTML = "";
+  const list = state.attachments || [];
+  if (!list.length) {
+    chips.appendChild(el("span", "muted", "None"));
+    return;
+  }
+  list.forEach((a) => {
+    const chip = el("span", "attachment-chip");
+    const link = el("a", null, a.file_name);
+    link.href = a.file_url || a.url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.title = `${a.file_name} — ${formatBytes(a.file_size)}`;
+    chip.appendChild(link);
+    const rm = el("button", "attachment-remove", "×");
+    rm.type = "button";
+    rm.title = "Remove from this email";
+    rm.addEventListener("click", () => {
+      state.attachments = (state.attachments || []).filter((x) => x.slug !== a.slug);
+      renderAttachmentChips();
+    });
+    chip.appendChild(rm);
+    chips.appendChild(chip);
+  });
+}
+
+function formatBytes(n) {
+  if (!n) return "";
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${Math.round(n / 1024)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+async function openLibraryModal() {
+  if ($("library-modal-overlay")) return;
+
+  const overlay = el("div", "modal-overlay");
+  overlay.id = "library-modal-overlay";
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeLibraryModal();
+  });
+
+  const modal = el("div", "modal templates-modal");
+  const header = el("div", "modal-header");
+  const heading = el("div", "modal-heading");
+  heading.appendChild(el("h3", null, "Attach a file"));
+  heading.appendChild(
+    el("div", "modal-sub", "Files kept on the server, ready to reuse. Upload once, attach any time after.")
+  );
+  header.appendChild(heading);
+  const closeBtn = el("button", "modal-close", "×");
+  closeBtn.type = "button";
+  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.addEventListener("click", closeLibraryModal);
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  const list = el("div", "templates-list");
+  list.id = "library-list";
+  list.innerHTML = '<div class="loading-note"><span class="spinner"></span>Loading files…</div>';
+  modal.appendChild(list);
+
+  const footer = el("div", "modal-footer");
+  const upload = el("input");
+  upload.type = "file";
+  upload.id = "library-upload";
+  upload.hidden = true;
+  upload.addEventListener("change", onLibraryUpload);
+  footer.appendChild(upload);
+  const uploadBtn = el("button", "btn-secondary", "+ Upload a new file");
+  uploadBtn.type = "button";
+  uploadBtn.addEventListener("click", () => upload.click());
+  footer.appendChild(uploadBtn);
+  footer.appendChild(el("span", "muted", "PDF, Office docs and images, up to 25 MB."));
+  modal.appendChild(footer);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.body.style.overflow = "hidden";
+  document.addEventListener("keydown", onLibraryModalKeydown);
+
+  await loadLibrary();
+}
+
+function onLibraryModalKeydown(e) {
+  if (e.key === "Escape") closeLibraryModal();
+}
+
+function closeLibraryModal() {
+  const overlay = $("library-modal-overlay");
+  if (overlay) overlay.remove();
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", onLibraryModalKeydown);
+}
+
+async function loadLibrary() {
+  try {
+    const data = await apiGet("/api/library");
+    renderLibraryList(data.files || []);
+  } catch (err) {
+    const list = $("library-list");
+    if (list) list.innerHTML = `<div class="status-banner warn">Could not load the file library: ${err.message}</div>`;
+  }
+}
+
+function renderLibraryList(files) {
+  const list = $("library-list");
+  if (!list) return;
+  list.innerHTML = "";
+  if (!files.length) {
+    list.appendChild(el("div", "muted", "Nothing here yet — upload a file to start the library."));
+    return;
+  }
+  const attached = new Set((state.attachments || []).map((a) => a.slug));
+  files.forEach((f) => {
+    const row = el("div", "library-item");
+    const info = el("div", "library-info");
+    const name = el("div", "library-name", f.file_name);
+    info.appendChild(name);
+    const meta = [formatBytes(f.file_size)];
+    // "Shipped" files come from clients/<slug>/source-docs in the repo, so
+    // they're on every container already and can't be deleted from here.
+    if (f.source === "shipped") meta.push("built in");
+    info.appendChild(el("div", "library-meta muted", meta.filter(Boolean).join(" · ")));
+    row.appendChild(info);
+
+    const isOn = attached.has(f.slug);
+    const pick = el("button", isOn ? "btn-secondary" : "btn-send", isOn ? "Attached" : "Attach");
+    pick.type = "button";
+    pick.disabled = isOn;
+    pick.addEventListener("click", () => {
+      if ((state.attachments || []).some((a) => a.slug === f.slug)) return;
+      state.attachments = (state.attachments || []).concat([
+        {
+          slug: f.slug,
+          file_name: f.file_name,
+          file_url: f.url,
+          file_type: f.file_type,
+          file_size: f.file_size,
+        },
+      ]);
+      renderAttachmentChips();
+      // Close on pick: attaching one file is the whole job nine times out of
+      // ten, and leaving the picker open made the common case two clicks.
+      closeLibraryModal();
+    });
+    row.appendChild(pick);
+
+    if (f.source === "uploaded") {
+      const del = el("button", "btn-danger", "Delete");
+      del.type = "button";
+      del.title = "Remove from the library for good";
+      del.addEventListener("click", async () => {
+        if (!confirm(`Delete "${f.file_name}" from the library?\n\nEmails already sent with it will stop showing the file.`)) return;
+        try {
+          const data = await apiDelete(`/api/library/${encodeURIComponent(f.slug)}`);
+          state.attachments = (state.attachments || []).filter((a) => a.slug !== f.slug);
+          renderAttachmentChips();
+          renderLibraryList(data.files || []);
+        } catch (err) {
+          alert(`Could not delete: ${err.message}`);
+        }
+      });
+      row.appendChild(del);
+    }
+    list.appendChild(row);
+  });
+}
+
+async function onLibraryUpload(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  e.target.value = "";
+  const list = $("library-list");
+  if (list) list.innerHTML = '<div class="loading-note"><span class="spinner"></span>Uploading…</div>';
+  const form = new FormData();
+  form.append("file", file);
+  try {
+    const res = await fetch("/api/library", { method: "POST", body: form });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Upload failed");
+    renderLibraryList(data.files || []);
+  } catch (err) {
+    if (list) list.innerHTML = `<div class="status-banner warn">${err.message}</div>`;
+  }
 }
 
 // The selection outline on a clicked image is a class on the <img> itself, so
@@ -2610,7 +2836,11 @@ function editorHtml() {
 async function sendDraft(id) {
   const { cid, lid } = currentLeadIds();
   try {
-    await apiPost(`/api/drafts/${id}/send`, { body_html: editorHtml(), ...currentRecipients() });
+    await apiPost(`/api/drafts/${id}/send`, {
+      body_html: editorHtml(),
+      ...currentRecipients(),
+      ...currentAttachments(),
+    });
   } catch (e) {
     alert(e.message);
     return;
@@ -2644,6 +2874,7 @@ async function scheduleDraft(id) {
       body_html: editorHtml(),
       scheduled_at: atUtc,
       ...currentRecipients(),
+      ...currentAttachments(),
     });
     await withRowRemoval(async () => {});
   } catch (e) {

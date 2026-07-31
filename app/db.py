@@ -67,7 +67,12 @@ CREATE TABLE IF NOT EXISTS drafts (
     -- detector.next_reply_to / next_reply_cc. An empty string is a real value
     -- for cc_override: it means he deliberately cleared the auto-derived Cc.
     cc_override TEXT,
-    to_override TEXT
+    to_override TEXT,
+    -- JSON list of {slug, file_name, file_url, file_type, file_size} chosen from
+    -- the attachment library (app/library.py). Stored on the draft rather than
+    -- resolved at send time so a scheduled send ships exactly what was picked
+    -- and reviewed, even if the library changes in between.
+    attachments TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON drafts (status);
@@ -332,6 +337,8 @@ def _migrate(conn) -> None:
         conn.execute("ALTER TABLE drafts ADD COLUMN cc_override TEXT")
     if "to_override" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN to_override TEXT")
+    if "attachments" not in draft_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN attachments TEXT")
 
     lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
     inbox_columns = {

@@ -337,6 +337,7 @@ def reply_to_thread(
     email_stats_id: str,
     cc: str = "",
     to_email: str = "",
+    attachments: list[dict] | None = None,
 ) -> Any:
     """POST /campaigns/{id}/reply-email-thread. Body schema confirmed against
     https://api.smartlead.ai/reference/reply-to-lead-from-master-inbox-via-api
@@ -352,7 +353,14 @@ def reply_to_thread(
     i.e. the *imported* address, which is wrong whenever outreach went to a
     generic info@ and a real person answered from their own mailbox. Passing
     it explicitly makes the recipient shown in the dashboard exactly the
-    recipient that gets the mail, instead of relying on Smartlead's default."""
+    recipient that gets the mail, instead of relying on Smartlead's default.
+
+    `attachments` was verified end to end on 2026-07-31 (probe send to the same
+    test lead; the PDF arrived in the recipient's inbox). Each entry needs
+    `file_url` and Smartlead's servers **fetch it themselves**, so the URL must
+    be publicly reachable without a session — see app/library.py, which is what
+    serves them. `file_size` is accepted and then dropped from the stored
+    message; it's sent anyway because the reference lists it."""
     payload = {
         "email_stats_id": email_stats_id,
         "email_body": email_body,
@@ -363,11 +371,22 @@ def reply_to_thread(
         payload["to_email"] = to_email
     if cc:
         payload["cc"] = cc
+    if attachments:
+        payload["attachments"] = [
+            {
+                "file_name": a["file_name"],
+                "file_url": a["file_url"],
+                "file_type": a.get("file_type") or "application/octet-stream",
+                "file_size": a.get("file_size") or 0,
+            }
+            for a in attachments
+        ]
     log.info(
         "[SIG-DEBUG] reply_to_thread: campaign_id=%s email_stats_id=%s email_body_len=%d "
-        "contains_table_tag=%s to=%s cc=%s",
+        "contains_table_tag=%s to=%s cc=%s attachments=%s",
         campaign_id, email_stats_id, len(email_body or ""), "<table" in (email_body or ""),
         to_email or "(smartlead default)", cc or "(none)",
+        [a["file_url"] for a in payload.get("attachments", [])] or "(none)",
     )
     resp = _request("POST", f"/campaigns/{campaign_id}/reply-email-thread", json=payload)
     log.info("[SIG-DEBUG] reply_to_thread: response=%r", resp)

@@ -1,3 +1,4 @@
+import json
 import logging
 import re
 import threading
@@ -75,6 +76,32 @@ def _summary_for(lead: dict, thread, category: str, last_msg) -> dict:
     if lang:
         summary["language"] = lang
     return summary
+
+
+def draft_attachments(draft) -> list[dict]:
+    """The files this draft ships with, decoded from drafts.attachments.
+
+    Fail-soft on purpose: an unreadable column returns "no attachments" rather
+    than raising, because the alternative is a send that aborts over a garbled
+    JSON blob when the message itself is perfectly fine. The dashboard shows
+    what's attached before the click, so a silently missing file is visible
+    there rather than being a surprise on the far end.
+    """
+    raw = None
+    try:
+        raw = draft["attachments"]
+    except (KeyError, IndexError):
+        return []  # pre-migration row
+    if not raw:
+        return []
+    try:
+        data = json.loads(raw)
+    except ValueError:
+        log.warning("draft %s has unreadable attachments column", draft["id"])
+        return []
+    if not isinstance(data, list):
+        return []
+    return [a for a in data if isinstance(a, dict) and a.get("file_url") and a.get("file_name")]
 
 
 def compose_send_body(draft: dict, fallback_signature_html: str | None = None) -> str:
@@ -525,6 +552,7 @@ def _send_due_draft(draft: dict) -> None:
         stats_id,
         cc=cc,
         to_email=to_email,
+        attachments=draft_attachments(draft),
     )
     log.info("[SIG-DEBUG] _send_due_draft: draft_id=%s smartlead response=%r", draft["id"], resp)
 

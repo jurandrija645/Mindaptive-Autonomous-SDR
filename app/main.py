@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 
 from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
 from app import candidates as candidates_module
-from app import db, drafter, message_templates, pipeline, scheduler, signatures, smartlead
+from app import db, drafter, library, message_templates, pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
@@ -282,6 +282,44 @@ def _recipient_updates(body: dict) -> dict:
     return updates
 
 
+def _attachment_updates(body: dict) -> dict:
+    """The drafts.attachments column to write from a send/schedule/save request.
+
+    The client sends **slugs only** and the file_url is resolved here, against
+    the library's own listing. That direction matters: Smartlead fetches
+    file_url from its own servers, so a client-supplied URL would be an open
+    invitation to make Smartlead retrieve anything at all and mail it out under
+    Andrew's name. A slug that doesn't resolve is dropped rather than failing
+    the send — the draft card lists what's attached, so it was seen before the
+    click, and losing a PDF is better than losing the email.
+
+    A missing "attachments" key means "leave it alone"; an empty list is a real
+    value meaning Andrew removed them.
+    """
+    if "attachments" not in body:
+        return {}
+    slugs = body.get("attachments") or []
+    if not isinstance(slugs, list):
+        return {}
+    available = {entry["slug"]: entry for entry in library.listing()}
+    chosen = []
+    for slug in slugs:
+        entry = available.get(slug) if isinstance(slug, str) else None
+        if not entry:
+            log.warning("attachment slug %r is not in the library — dropped", slug)
+            continue
+        chosen.append(
+            {
+                "slug": entry["slug"],
+                "file_name": entry["file_name"],
+                "file_url": entry["url"],
+                "file_type": entry["file_type"],
+                "file_size": entry["file_size"],
+            }
+        )
+    return {"attachments": json.dumps(chosen) if chosen else None}
+
+
 def _recipients_payload(raw: list[dict], lead_email: str, draft) -> dict:
     """What the next send will go to, shown above Send/Schedule so a message is
     never fired at an address Andrew hasn't seen. `cc` is the draft's explicit
@@ -398,6 +436,7 @@ def _draft_payload(draft) -> dict | None:
         "body_translation": draft["body_translation"],
         "signature_html": draft["signature_html"],
         "scheduled_at": _fmt_time(draft["scheduled_at"]) if draft["scheduled_at"] else None,
+        "attachments": scheduler.draft_attachments(draft),
     }
 
 
@@ -819,6 +858,76 @@ def serve_upload(name: str):
     return FileResponse(path, media_type=ctype, headers={"Cache-Control": "public, max-age=31536000"})
 
 
+# ---- attachment library ----
+
+@app.get("/f/{slug}")
+def serve_library_file(slug: str):
+    """The second deliberately-unauthenticated read route, and for a stronger
+    reason than /i/: **Smartlead's own servers fetch this URL** to build the
+    attachment (verified 2026-07-31), and they have no session. If this needed
+    auth, attachments could not work at all.
+
+    Unlike /i/, the name here is human and guessable — these are marketing PDFs
+    written to be handed to strangers, and the library is the client's own
+    source-docs folder. Don't put anything in it that isn't meant to leave the
+    building.
+    """
+    resolved = library.resolve(slug)
+    if not resolved:
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    path, ctype, filename = resolved
+    return FileResponse(
+        path,
+        media_type=ctype,
+        headers={
+            "Cache-Control": "public, max-age=86400",
+            # inline so a click in the dashboard previews the PDF rather than
+            # downloading it; the real name is what the mail client shows.
+            "Content-Disposition": f'inline; filename="{filename}"',
+        },
+    )
+
+
+@app.get("/api/library")
+def api_library(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse({"files": library.listing()})
+
+
+@app.post("/api/library")
+async def api_library_upload(request: Request):
+    """Add a file to the library from the browser, so a new PDF doesn't need a
+    commit and a deploy the way clients/<slug>/source-docs/ does."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    form = await request.form()
+    upload = form.get("file")
+    if upload is None or not hasattr(upload, "read"):
+        return JSONResponse({"error": "No file uploaded."}, status_code=400)
+    data = await upload.read()
+    try:
+        entry = library.save(data, getattr(upload, "filename", "") or "file")
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    return JSONResponse({"file": entry, "files": library.listing()})
+
+
+@app.delete("/api/library/{slug}")
+def api_library_delete(request: Request, slug: str):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    if not library.delete(slug):
+        return JSONResponse(
+            {"error": "Not an uploaded file — shipped documents can't be deleted here."},
+            status_code=400,
+        )
+    return JSONResponse({"files": library.listing()})
+
+
 # ---- draft translation (English tab) ----
 
 @app.post("/api/drafts/{draft_id}/translate")
@@ -1026,6 +1135,7 @@ async def api_send(request: Request, draft_id: int):
         # Only touch the overrides when the client actually sent the field, so a
         # client that doesn't know about recipients can't silently wipe one.
         updates.update(_recipient_updates(body))
+        updates.update(_attachment_updates(body))
         db.update_draft(conn, draft_id, **updates)
 
     scheduler._send_due_draft(dict(_get_draft_dict(draft_id)))
@@ -1068,6 +1178,7 @@ async def api_schedule(request: Request, draft_id: int):
             "scheduled_at": dt.isoformat(),
         }
         updates.update(_recipient_updates(body))
+        updates.update(_attachment_updates(body))
         db.update_draft(conn, draft_id, **updates)
     return JSONResponse({"ok": True})
 

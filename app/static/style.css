@@ -586,6 +586,41 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 }
 .recipient-note { font-size: 11px; padding-left: 36px; }
 
+/* ---- attachments ---- */
+/* Sits directly under the recipients box and borrows its shape: both answer
+   "what exactly is about to leave", and both have to be readable at a glance
+   before the Send click. */
+.attachments {
+  display: flex; flex-direction: column; gap: 8px;
+  margin: -6px 0 14px; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--bg);
+}
+.attachment-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.attachment-row .recipient-label { width: auto; }
+.attachment-chips { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; min-width: 0; }
+.attachment-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 6px 3px 9px; font-size: 12px;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--card);
+}
+.attachment-chip a { color: var(--text); text-decoration: none; }
+.attachment-chip a:hover { text-decoration: underline; }
+.attachment-remove {
+  border: none; background: transparent; color: var(--muted);
+  font-size: 15px; line-height: 1; cursor: pointer; padding: 0 2px;
+}
+.attachment-remove:hover { color: var(--danger); }
+.btn-attach { font-size: 12px; padding: 4px 10px; }
+
+.library-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 2px; border-bottom: 1px solid var(--border);
+}
+.library-item:last-child { border-bottom: none; }
+.library-info { flex: 1; min-width: 0; }
+.library-name { font-size: 14px; word-break: break-word; }
+.library-meta { font-size: 11px; margin-top: 2px; }
+
 .spinner {
   display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border);
   border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite;

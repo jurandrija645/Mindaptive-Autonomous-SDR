@@ -67,8 +67,20 @@ Request fields (documented list, matches observed behaviour):
   wrong whenever outreach went to a generic `info@` and a real person replied
   from their own mailbox. The app always passes it explicitly (see
   `scheduler._send_due_draft`).
-- `bcc`, `attachments`, `scheduled_time`, `add_signature` are available but
-  unused so far.
+- **`attachments[]` IS honoured** — verified end to end 2026-07-31. Sent
+  `[{"file_name": "dummy.pdf", "file_url": "https://www.w3.org/…/dummy.pdf",
+  "file_type": "application/pdf", "file_size": 13264}]` to the Jones test lead:
+  the usual plain-text success came back, the message re-fetched from
+  `message-history` carried the attachment, and the PDF arrived in the
+  recipient's inbox as a real attachment. Two things to know:
+  - **Smartlead fetches `file_url` server-side**, so the URL has to be publicly
+    reachable with no session — the same constraint that makes `GET /i/{name}`
+    unauthenticated. A localhost or authed URL will not work. This is why the
+    attachment library serves files from `GET /f/{slug}` (see `app/library.py`).
+  - **`file_size` is dropped.** The echoed message keeps `file_url`,
+    `file_name` and `file_type` only. Nothing depends on it, but don't expect
+    it back.
+- `bcc`, `scheduled_time`, `add_signature` are available but unused so far.
 
 ### `POST /campaigns/{id}/leads/{id}/` — ⚠ wired but NOT verified
 
