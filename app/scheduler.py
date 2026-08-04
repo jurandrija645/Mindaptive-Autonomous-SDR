@@ -283,43 +283,98 @@ def run_daily_scan() -> None:
 
     still_due_followups: set[tuple[int, int]] = set()
     failed_leads = 0
+    failed_campaigns = 0
+    booked_seen = 0
+
+    # Two passes over the same leads, split by what they cost.
+    #
+    # Pass one only *lists* leads — one paginated call per campaign, no per-lead
+    # network — and records every booked lead as it goes, since a booking needs
+    # no thread to decide anything. Pass two does the expensive part: a thread
+    # fetch per interested/auto-reply lead, ~150 of them.
+    #
+    # The split exists because the two used to be interleaved, and anything that
+    # threw during the expensive part of campaign 5 killed campaigns 6..28 for
+    # that whole run: only _process_lead was guarded, so a Smartlead 429 or a
+    # timeout raised straight out of the loop. It ran that way for two weeks —
+    # every campaign older than the fifth stayed frozen at its Jul 20 state, and
+    # 34 of the account's 36 Meeting-Booked leads never got a row at all, so
+    # they were missing from the dashboard entirely. Bookings are the one thing
+    # the scan records that has no other source, so they are now written before
+    # anything costly can fail, and a campaign that fails to list no longer
+    # takes the rest of the account down with it.
+    pending: list[tuple[dict, str, bool]] = []
 
     for campaign in smartlead.list_campaigns():
         campaign_id = campaign.get("id")
         campaign_name = campaign.get("name", "")
         if campaign_id is None:
             continue
-        for raw_lead in smartlead.list_campaign_leads(campaign_id):
-            lead = smartlead.normalize_lead(raw_lead, campaign_id)
-            if lead["id"] is None:
-                continue
-            is_autoreply = detector.category_matches(lead, autoreply_id)
-            is_booked = detector.category_matches(lead, booked_id)
-            if (
-                not detector.is_interested(lead, interested_id)
-                and not is_autoreply
-                and not is_booked
-            ):
-                continue
-            # Isolate per lead. One bad lead used to abort the whole scan —
-            # an Anthropic outage or an exhausted credit balance during
-            # language detection took out all remaining campaigns and left
-            # leads_state empty, so the inbox looked like the account had no
-            # leads at all rather than showing a partial result.
-            try:
-                if _process_lead(lead, campaign_name, is_autoreply, is_booked):
-                    still_due_followups.add((lead["id"], lead["campaign_id"]))
-            except Exception:
-                failed_leads += 1
-                log.exception("lead %s failed during scan, continuing", lead["id"])
+        try:
+            for raw_lead in smartlead.list_campaign_leads(campaign_id):
+                lead = smartlead.normalize_lead(raw_lead, campaign_id)
+                if lead["id"] is None:
+                    continue
+                is_autoreply = detector.category_matches(lead, autoreply_id)
+                is_booked = detector.category_matches(lead, booked_id)
+                if (
+                    not detector.is_interested(lead, interested_id)
+                    and not is_autoreply
+                    and not is_booked
+                ):
+                    continue
+                if is_booked:
+                    # Isolate per lead, same as pass two: one lead that can't be
+                    # recorded must not cost us the rest of the campaign.
+                    try:
+                        _process_lead(lead, campaign_name, False, True)
+                        booked_seen += 1
+                    except Exception:
+                        failed_leads += 1
+                        log.exception("booked lead %s failed, continuing", lead["id"])
+                else:
+                    pending.append((lead, campaign_name, is_autoreply))
+        except Exception:
+            failed_campaigns += 1
+            log.exception(
+                "campaign %s (%r) failed while listing leads, continuing with the next",
+                campaign_id,
+                campaign_name,
+            )
 
-    with db.db_session() as conn:
-        db.clear_stale_open_candidates(conn, "followup", still_due_followups)
+    for lead, campaign_name, is_autoreply in pending:
+        # Isolate per lead. One bad lead used to abort the whole scan —
+        # an Anthropic outage or an exhausted credit balance during
+        # language detection took out all remaining campaigns and left
+        # leads_state empty, so the inbox looked like the account had no
+        # leads at all rather than showing a partial result.
+        try:
+            if _process_lead(lead, campaign_name, is_autoreply, False):
+                still_due_followups.add((lead["id"], lead["campaign_id"]))
+        except Exception:
+            failed_leads += 1
+            log.exception("lead %s failed during scan, continuing", lead["id"])
+
+    # "Every follow-up still due" is only true of a complete pass. A campaign
+    # that failed to list contributed no leads to still_due_followups, so
+    # clearing against a partial set would dismiss its open candidates as though
+    # the leads had answered.
+    if failed_campaigns:
+        log.warning(
+            "%d campaign(s) failed to list — keeping existing follow-up candidates",
+            failed_campaigns,
+        )
+    else:
+        with db.db_session() as conn:
+            db.clear_stale_open_candidates(conn, "followup", still_due_followups)
 
     log.info(
-        "daily scan done: %d leads still due for a follow-up, %d lead(s) failed",
+        "daily scan done: %d booked lead(s) recorded, %d leads still due for a "
+        "follow-up, %d lead(s) failed, %d campaign(s) failed",
+        booked_seen,
         len(still_due_followups),
         failed_leads,
+        failed_campaigns,
     )
 
     # Overnight pre-generation: hand every eligible due follow-up to the Batch
@@ -366,11 +421,31 @@ def _process_lead(
     # Meeting booked — the success outcome. Freeze all outreach (open drafts
     # stale, candidates dismissed, status 'booked') but keep the lead visible
     # in the inbox with a "Booked" badge so pre-call context stays one click
-    # away. Skip the (network) thread fetch: nothing left to decide here, and
-    # replies from booked leads still auto-draft via the webhook path.
+    # away. Normally skip the (network) thread fetch: nothing left to decide
+    # here, and replies from booked leads still auto-draft via the webhook path.
+    #
+    # The exception is a lead we have no summary for — booked before we ever
+    # saw it as Interested, which is most of them once the scan started
+    # recording every booking. With no last_message_at it sorts to the bottom
+    # of the inbox as a bare name with no date and no preview. So fetch the
+    # thread exactly once, the first time we record the booking; the steady
+    # state is still free. A failure here must not lose the booking itself,
+    # which is the whole point of recording it before anything expensive.
     if is_booked:
+        summary: dict = {}
+        if not (state and state["last_message_at"]):
+            try:
+                thread = pipeline.fetch_normalized_thread(lead["campaign_id"], lead["id"])
+                summary = _summary_for(lead, thread, "booked", thread[-1] if thread else None)
+            except Exception:
+                log.exception(
+                    "booked lead %s: thread fetch failed, recording without a preview",
+                    lead["id"],
+                )
         with db.db_session() as conn:
-            db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], **base_fields)
+            db.upsert_lead_state(
+                conn, lead["id"], lead["campaign_id"], **base_fields, **summary
+            )
             db.mark_lead_booked(conn, lead["id"], lead["campaign_id"])
         if lead_status != "booked":
             log.info("lead %s marked as booked (Meeting-Booked category)", lead["id"])
