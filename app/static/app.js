@@ -1,11 +1,24 @@
 "use strict";
 
+// The inbox statuses, in the order db.list_inbox ranks them (most urgent
+// first). This is the single source of truth for the status filter too: the
+// keys are its checkboxes, in this order, and the values are their labels.
+const CHIP = {
+  reply: "Awaiting your reply",
+  followup: "Follow-up due",
+  auto_reply: "Auto-reply — nudge",
+  waiting: "In conversation",
+  booked: "Meeting booked ✅",
+};
+const CATEGORY_ORDER = Object.keys(CHIP);
+const STATUS_FILTER_KEY = "responder.statusFilter";
+
 const state = {
   view: "inbox",        // "inbox" | "scheduled" | "archive"
   allLeads: [],          // full inbox as loaded from the server, unfiltered
   leads: [],              // filtered view actually rendered (search + category)
   searchQuery: "",
-  categoryFilter: new Set(["reply", "followup", "auto_reply", "waiting", "booked"]),
+  categoryFilter: loadStatusFilter(),  // hoisted; reads the saved selection
   snoozedCount: 0,       // archive view only: state.leads[0..snoozedCount) are snoozed, rest archived
   selected: -1,
   detail: null,          // current lead detail {lead, thread, draft}
@@ -22,14 +35,6 @@ const state = {
   convoFilter: "",       // lead category filter on the Conversations sub-tab
   convoBrowseOpen: false, // raw-thread section stays open across filter clicks
   campaignPoll: null,    // setTimeout handle polling a running analysis
-};
-
-const CHIP = {
-  reply: "Awaiting your reply",
-  followup: "Follow-up due",
-  auto_reply: "Auto-reply — nudge",
-  waiting: "In conversation",
-  booked: "Meeting booked ✅",
 };
 
 const DEFAULT_CATEGORIES = [
@@ -184,10 +189,99 @@ function matchesSearch(lead, query) {
 
 function applyFilter() {
   const query = state.searchQuery.trim().toLowerCase();
-  state.leads = state.allLeads.filter(
-    (l) => state.categoryFilter.has(l.category) && matchesSearch(l, query)
-  );
+  // Search first, so the dropdown's counts describe the list you're actually
+  // looking at: with a search active, "Meeting booked (0)" means none of the
+  // matches are booked, not that no booked lead exists.
+  const matched = state.allLeads.filter((l) => matchesSearch(l, query));
+  state.leads = matched.filter((l) => state.categoryFilter.has(leadCategory(l)));
+  renderStatusFilter(matched);
   renderList();
+}
+
+// ---------- status filter ----------
+// The checkbox dropdown above the lead list. Its rows are rendered from CHIP so
+// the labels and colours can't drift from the ones on the lead rows, and the
+// selection is persisted — a filter you set once survives the 60s auto-refresh
+// and a browser reload.
+
+function leadCategory(lead) {
+  // renderList labels an unrecognised category "In conversation" (CHIP.waiting)
+  // and the filter has to agree. A lead carrying a category no checkbox covers
+  // (an older scan wrote 'in_conversation') would otherwise match nothing and
+  // be invisible, with no box to tick to bring it back.
+  return CHIP[lead.category] ? lead.category : "waiting";
+}
+
+function loadStatusFilter() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STATUS_FILTER_KEY) || "null");
+    const known = Array.isArray(saved) ? saved.filter((c) => CATEGORY_ORDER.includes(c)) : [];
+    // An empty saved selection deliberately restores to "show everything":
+    // opening the dashboard to an empty inbox reads as a broken app, not as a
+    // filter left switched off yesterday.
+    if (known.length) return new Set(known);
+  } catch (e) {
+    /* unreadable storage — fall through to showing everything */
+  }
+  return new Set(CATEGORY_ORDER);
+}
+
+function saveStatusFilter() {
+  try {
+    localStorage.setItem(STATUS_FILTER_KEY, JSON.stringify([...state.categoryFilter]));
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function setStatus(cat, on) {
+  if (on) state.categoryFilter.add(cat);
+  else state.categoryFilter.delete(cat);
+  saveStatusFilter();
+  applyFilter();
+}
+
+function setAllStatuses(on) {
+  state.categoryFilter = new Set(on ? CATEGORY_ORDER : []);
+  saveStatusFilter();
+  applyFilter();
+}
+
+function statusFilterLabel() {
+  const chosen = CATEGORY_ORDER.filter((c) => state.categoryFilter.has(c));
+  if (chosen.length === CATEGORY_ORDER.length) return "All statuses";
+  if (chosen.length === 0) return "No statuses — nothing shown";
+  if (chosen.length === 1) return CHIP[chosen[0]];
+  return `${chosen.length} of ${CATEGORY_ORDER.length} statuses`;
+}
+
+function renderStatusFilter(leads) {
+  const counts = {};
+  leads.forEach((l) => {
+    const c = leadCategory(l);
+    counts[c] = (counts[c] || 0) + 1;
+  });
+
+  const box = $("status-menu-items");
+  box.innerHTML = "";
+  CATEGORY_ORDER.forEach((cat) => {
+    const row = el("label", "status-option");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = state.categoryFilter.has(cat);
+    cb.addEventListener("change", () => setStatus(cat, cb.checked));
+    row.appendChild(cb);
+    row.appendChild(el("i", `dot dot-${cat}`));
+    row.appendChild(el("span", "status-option-label", CHIP[cat]));
+    row.appendChild(el("span", "status-option-count", String(counts[cat] || 0)));
+    box.appendChild(row);
+  });
+  $("status-filter-label").textContent = statusFilterLabel();
+}
+
+function openStatusMenu(open) {
+  $("status-menu").hidden = !open;
+  $("status-filter-btn").setAttribute("aria-expanded", open ? "true" : "false");
 }
 
 async function loadArchive() {
@@ -1053,7 +1147,8 @@ const VIEW_LOADERS = {
 function setView(view) {
   state.view = view;
   clearTimeout(state.campaignPoll);
-  $("legend").hidden = view !== "inbox";
+  $("status-filter").hidden = view !== "inbox";
+  openStatusMenu(false);
   $("rescan-btn").hidden = view !== "inbox";
   // Campaigns and Stats don't list leads, so the lead search box would do nothing.
   document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns" || view === "stats");
@@ -1082,6 +1177,10 @@ function renderList() {
     ? "Nothing archived or snoozed."
     : scheduledMode
     ? "Nothing scheduled. Drafts you schedule from a lead's page will show up here."
+    // There are leads, just none the filter lets through — say so, rather than
+    // sending Andrew off to run a rescan that would change nothing.
+    : state.allLeads.length > 0
+    ? "No leads match the current status filter or search."
     : 'No leads yet. Click <strong>Rescan now</strong> — it checks every “Interested” lead and takes a couple of minutes.';
 
   state.leads.forEach((lead, i) => {
@@ -1092,7 +1191,7 @@ function renderList() {
       list.appendChild(el("li", "list-section", "Archived"));
     }
 
-    const rowClass = archiveMode ? "archive-row" : scheduledMode ? "archive-row" : "cat-" + lead.category;
+    const rowClass = archiveMode || scheduledMode ? "archive-row" : "cat-" + leadCategory(lead);
     const row = el("li", `lead-row ${rowClass}`);
     if (i === state.selected) row.classList.add("selected");
     row.dataset.index = i;
@@ -1145,7 +1244,8 @@ function renderList() {
       row.appendChild(actions);
     } else {
       const meta = el("div", "lead-meta");
-      meta.appendChild(el("span", `state-chip cat-${lead.category}`, CHIP[lead.category] || CHIP.waiting));
+      const cat = leadCategory(lead);
+      meta.appendChild(el("span", `state-chip cat-${cat}`, CHIP[cat]));
       if (lead.last_message_at) meta.appendChild(el("span", "lead-time", lead.last_message_at));
       row.appendChild(meta);
       if (lead.preview) row.appendChild(el("div", "lead-preview", lead.preview));
@@ -1215,7 +1315,8 @@ function renderDetail() {
       el("span", "lang-badge-prominent", `🌐 ${lead.language_name || lead.language}`)
     );
   }
-  header.appendChild(el("span", `state-chip cat-${lead.category}`, CHIP[lead.category] || CHIP.waiting));
+  const headCat = leadCategory(lead);
+  header.appendChild(el("span", `state-chip cat-${headCat}`, CHIP[headCat]));
   body.appendChild(header);
   // Company/email and the campaign share one .detail-sub block so the two
   // lines sit together, rather than each carrying the class's bottom margin.
@@ -2961,18 +3062,20 @@ $("lead-search").addEventListener("input", (e) => {
   applyFilter();
 });
 
-document.querySelectorAll(".legend-item").forEach((item) => {
-  item.addEventListener("click", () => {
-    const cat = item.dataset.category;
-    if (state.categoryFilter.has(cat)) {
-      state.categoryFilter.delete(cat);
-      item.classList.add("off");
-    } else {
-      state.categoryFilter.add(cat);
-      item.classList.remove("off");
-    }
-    applyFilter();
-  });
+$("status-filter-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openStatusMenu($("status-menu").hidden);
+});
+// Ticking a box re-renders the menu's rows (the counts move), which destroys the
+// element that was clicked — so by the time that click reaches the document it
+// is no longer inside #status-filter and the outside-click handler below would
+// close the menu on every single toggle. Stop it here instead.
+$("status-menu").addEventListener("click", (e) => e.stopPropagation());
+$("status-all-btn").addEventListener("click", () => setAllStatuses(true));
+$("status-none-btn").addEventListener("click", () => setAllStatuses(false));
+document.addEventListener("click", () => openStatusMenu(false));
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") openStatusMenu(false);
 });
 
 // ---------- init ----------
@@ -2984,6 +3087,10 @@ if (MOBILE_MQ.addEventListener) {
 } else if (MOBILE_MQ.addListener) {
   MOBILE_MQ.addListener(onMobileMqChange);
 }
+
+// Paint the restored filter (counts all zero) before the inbox arrives, so the
+// button states which statuses are on even if that first load fails.
+renderStatusFilter([]);
 
 $("rescan-btn").addEventListener("click", rescan);
 $("view-inbox-btn").addEventListener("click", () => setView("inbox"));

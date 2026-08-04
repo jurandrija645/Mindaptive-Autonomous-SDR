@@ -25,12 +25,21 @@
     <div class="search-row">
       <input type="text" id="lead-search" class="lead-search" placeholder="Search leads…" autocomplete="off">
     </div>
-    <div class="legend" id="legend">
-      <span class="legend-item" data-category="reply"><i class="dot dot-reply"></i>Awaiting your reply</span>
-      <span class="legend-item" data-category="followup"><i class="dot dot-followup"></i>Follow-up due</span>
-      <span class="legend-item" data-category="auto_reply"><i class="dot dot-auto_reply"></i>Auto-reply nudge</span>
-      <span class="legend-item" data-category="waiting"><i class="dot dot-waiting"></i>In conversation</span>
-      <span class="legend-item" data-category="booked"><i class="dot dot-booked"></i>Meeting booked</span>
+    <!-- Status filter. The rows inside the menu are built by renderStatusFilter()
+         in app.js so the labels, colours and live counts all come from one place
+         (CHIP / CATEGORY_ORDER) instead of being duplicated here. -->
+    <div class="status-filter" id="status-filter">
+      <button type="button" id="status-filter-btn" class="status-filter-btn" aria-haspopup="true" aria-expanded="false">
+        <span id="status-filter-label">All statuses</span>
+        <span class="status-caret" aria-hidden="true">▾</span>
+      </button>
+      <div class="status-menu" id="status-menu" hidden>
+        <div id="status-menu-items"></div>
+        <div class="status-menu-foot">
+          <button type="button" class="link-btn" id="status-all-btn">Select all</button>
+          <button type="button" class="link-btn" id="status-none-btn">Clear</button>
+        </div>
+      </div>
     </div>
     <ul id="lead-list" class="lead-list"></ul>
     <div id="inbox-empty" class="inbox-empty" hidden>
