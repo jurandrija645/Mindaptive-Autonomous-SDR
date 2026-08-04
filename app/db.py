@@ -418,7 +418,28 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
     freeze all outreach for this lead — open drafts go stale, open candidates
     are dismissed, status becomes 'booked' (detector.decide treats it like
     stopped). booked_at is set once and never overwritten, so the first
-    booking date survives later rescans."""
+    booking date survives later rescans.
+
+    Recording the booking also **un-hides the lead**, and it has to. Archive and
+    snooze are the only two things that keep a lead out of list_inbox once it is
+    booked (a scheduled draft is the third, and the stale-ing above deals with
+    it) — so a lead Andrew had archived or snoozed weeks ago, who then booked,
+    stayed invisible under the Meeting-booked filter no matter how many times
+    the scan ran. Two of the account's 36 bookings were exactly that. A booking
+    is newer and better information than "not now" or "put this away".
+
+    An archive is cleared only when it is *older than the booking*, i.e. stale
+    information. Archiving a lead **after** the meeting is a deliberate act —
+    cleanup once the call has happened — and clearing that on every pass would
+    resurrect it every night with no way to make it stay gone. Phrasing the rule
+    against the timestamps rather than "only on the transition" also repairs the
+    rows that are already in this state: a lead booked before this existed keeps
+    its stale archive forever under a transition-only rule, because it never
+    transitions again.
+
+    A snooze is always cleared while the lead is booked. Unlike an archive it
+    says "not now" rather than "put this away", and a booking answers that; it
+    also carries no timestamp of its own to age against."""
     conn.execute(
         """UPDATE drafts SET status = 'stale'
            WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending', 'scheduled')""",
@@ -429,7 +450,17 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
            WHERE lead_id = ? AND campaign_id = ? AND status IN ('open', 'generating')""",
         (now_iso(), lead_id, campaign_id),
     )
-    upsert_lead_state(conn, lead_id, campaign_id, status="booked", category="booked")
+    existing = get_lead_state(conn, lead_id, campaign_id)
+    booked_since = existing["booked_at"] if existing else None
+    archived_at = existing["archived_at"] if existing else None
+    fields: dict = {"status": "booked", "category": "booked"}
+    # No booked_at yet => this is the booking being recorded now, and anything
+    # hiding the lead predates it by definition.
+    if archived_at and (not booked_since or archived_at < booked_since):
+        fields.update(archived_at=None, archive_reason=None)
+    if existing is None or existing["snooze_until"]:
+        fields["snooze_until"] = None
+    upsert_lead_state(conn, lead_id, campaign_id, **fields)
     conn.execute(
         """UPDATE leads_state SET booked_at = ?
            WHERE lead_id = ? AND campaign_id = ? AND booked_at IS NULL""",
