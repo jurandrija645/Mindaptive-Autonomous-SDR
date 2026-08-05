@@ -103,6 +103,18 @@ class Settings:
         "ANTHROPIC_TRANSLATE_MODEL", "claude-haiku-4-5"
     )
 
+    # OpenRouter — a second model provider for draft writing. Set the key and
+    # every OpenRouter model in app/models_registry.py shows up in the
+    # dashboard's model picker alongside the Anthropic ones (labelled by
+    # provider, with live per-million-token prices pulled from OpenRouter's own
+    # /models endpoint). Leave blank and the picker is Anthropic-only.
+    openrouter_api_key: str = os.getenv("OPENROUTER_API_KEY", "")
+    # Extra OpenRouter model ids to offer, comma-separated (e.g.
+    # "qwen/qwen3.7-plus,mistralai/mistral-medium-3-5"). Added on top of the
+    # curated list in models_registry.CURATED_OPENROUTER_MODELS, so a new model
+    # can be tried without a code change.
+    openrouter_extra_models: str = os.getenv("OPENROUTER_MODELS", "")
+
     calendly_link: str = os.getenv(
         "CALENDLY_LINK", "https://calendly.com/andrew-mindaptive/30min"
     )

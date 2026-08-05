@@ -26,6 +26,8 @@ const state = {
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
   nameNote: null,        // "renamed here only" note from the last ✎ Rename, cleared on lead switch
   templates: null,       // message templates from /api/templates, loaded when the modal opens
+  models: [],            // /api/models catalog: Anthropic + OpenRouter, with prices
+  defaultModel: null,    // id of the model used when nothing is explicitly picked
   // ---- campaigns view ----
   accounts: null,        // [{slug,label}] Smartlead accounts, loaded once
   account: null,         // slug of the account whose campaigns are shown
@@ -47,14 +49,117 @@ const DEFAULT_CATEGORIES = [
 
 const PAUSE_CATEGORIES = new Set(["Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"]);
 
-// Keep in sync with drafter.ALLOWED_MODELS. Haiku listed first so it's the
-// <select>'s default (browsers pre-select the first <option>) — cheapest
-// model, used unless explicitly switched to something else.
-const MODEL_OPTIONS = [
-  { value: "claude-haiku-4-5", label: "Haiku 4.5 (default, cheap/fast)" },
-  { value: "claude-sonnet-5", label: "Sonnet 5" },
-  { value: "claude-opus-4-8", label: "Opus 4.8 (best quality)" },
-];
+// The model list is served by the backend (GET /api/models, built by
+// app/models_registry.py) rather than hardcoded here: it spans two providers
+// (Anthropic and OpenRouter), carries live per-million-token prices, and its
+// default is a stored setting Andrew changes from this dropdown — none of which
+// a static array can express. state.models holds the catalog,
+// state.defaultModel the currently-set default.
+async function loadModels() {
+  try {
+    const data = await apiGet("/api/models");
+    state.models = data.models || [];
+    state.defaultModel = data.default || null;
+  } catch (e) {
+    state.models = [];
+    state.defaultModel = null;
+    console.error("could not load the model list", e);
+  }
+  refreshModelSelects();
+}
+
+// Price per million tokens, as shown in the dropdown. Sub-dollar prices get a
+// second decimal ($0.14) — rounding DeepSeek's input price to "$0" would hide
+// exactly the difference the picker exists to show.
+function formatPrice(value) {
+  if (value === null || value === undefined) return "?";
+  return value < 1 ? `$${value.toFixed(2)}` : `$${value.toFixed(2).replace(/\.00$/, "")}`;
+}
+
+function modelOptionLabel(m) {
+  const price = `${formatPrice(m.input_per_mtok)}/${formatPrice(m.output_per_mtok)} per M`;
+  const flags = [];
+  if (m.id === state.defaultModel) flags.push("default");
+  if (!m.available) flags.push("no API key");
+  const suffix = flags.length ? ` — ${flags.join(", ")}` : "";
+  return `${m.label} · ${price}${suffix}`;
+}
+
+// Rebuilds every model <select> on screen, preserving each one's current
+// choice. Called after the catalog loads and after the default changes.
+function refreshModelSelects() {
+  document.querySelectorAll("select.model-select").forEach((select) => {
+    const previous = select.value;
+    fillModelSelect(select, previous);
+  });
+  document.querySelectorAll(".btn-set-default").forEach(syncSetDefaultButton);
+}
+
+// Models are grouped into <optgroup>s by provider — that grouping IS the
+// "which provider is this?" answer the dropdown has to give at a glance, and
+// it survives the browser's native select rendering on mobile, which arbitrary
+// styling does not.
+function fillModelSelect(select, preferredValue) {
+  select.innerHTML = "";
+  const groups = [
+    { provider: "anthropic", label: "Anthropic (web research + caching)" },
+    { provider: "openrouter", label: "OpenRouter (cheaper, no web research)" },
+  ];
+  let hasPreferred = false;
+  groups.forEach((group) => {
+    const models = state.models.filter((m) => m.provider === group.provider);
+    if (!models.length) return;
+    const optgroup = document.createElement("optgroup");
+    optgroup.label = group.label;
+    models.forEach((m) => {
+      const o = document.createElement("option");
+      o.value = m.id;
+      o.textContent = modelOptionLabel(m);
+      // A model whose provider key isn't configured stays visible but
+      // unpickable, so it's obvious the option exists and what's missing.
+      o.disabled = !m.available;
+      if (m.id === preferredValue && m.available) hasPreferred = true;
+      optgroup.appendChild(o);
+    });
+    select.appendChild(optgroup);
+  });
+  if (!state.models.length) {
+    const o = document.createElement("option");
+    o.textContent = "Loading models…";
+    select.appendChild(o);
+    return;
+  }
+  select.value = hasPreferred ? preferredValue : state.defaultModel || "";
+  if (!select.value) {
+    const first = state.models.find((m) => m.available);
+    if (first) select.value = first.id;
+  }
+}
+
+function syncSetDefaultButton(btn) {
+  const select = document.getElementById(btn.dataset.selectId);
+  const isDefault = select && select.value === state.defaultModel;
+  btn.disabled = !select || !select.value || isDefault;
+  btn.textContent = isDefault ? "★ Default" : "☆ Set as default";
+  btn.title = isDefault
+    ? "This model is already the default for auto-drafts and new sessions"
+    : "Use this model by default (auto-drafts, and the pre-selected option here)";
+}
+
+async function setDefaultModel(select, btn) {
+  const model = select.value;
+  if (!model) return;
+  btn.disabled = true;
+  try {
+    const data = await apiPost("/api/models/default", { model });
+    state.models = data.models || state.models;
+    state.defaultModel = data.default || model;
+    refreshModelSelects();
+  } catch (e) {
+    alert("Couldn't set the default model: " + e.message);
+    syncSetDefaultButton(btn);
+  }
+}
 
 // Canned, pre-approved message templates now live server-side (SQLite, editable
 // from the modal) and are fetched into state.templates on demand — see
@@ -1618,14 +1723,19 @@ function renderGenControls() {
   const modelLabel = el("label", "gen-model");
   const select = document.createElement("select");
   select.id = "gen-model-select";
-  MODEL_OPTIONS.forEach((opt) => {
-    const o = document.createElement("option");
-    o.value = opt.value;
-    o.textContent = opt.label;
-    select.appendChild(o);
-  });
+  select.className = "model-select";
+  fillModelSelect(select, state.defaultModel);
   modelLabel.appendChild(select);
   wrap.appendChild(modelLabel);
+
+  // Trying models is the point of the picker, so promoting the one that worked
+  // to "always use this" is one click right next to it, not a settings page.
+  const setDefaultBtn = el("button", "btn-secondary btn-set-default");
+  setDefaultBtn.type = "button";
+  setDefaultBtn.dataset.selectId = "gen-model-select";
+  setDefaultBtn.addEventListener("click", () => setDefaultModel(select, setDefaultBtn));
+  syncSetDefaultButton(setDefaultBtn);
+  wrap.appendChild(setDefaultBtn);
 
   const wsLabel = el("label", "gen-websearch");
   const wsCheckbox = document.createElement("input");
@@ -1635,6 +1745,25 @@ function renderGenControls() {
   wsLabel.appendChild(wsCheckbox);
   wsLabel.appendChild(document.createTextNode(" Web search"));
   wrap.appendChild(wsLabel);
+
+  // Web search only exists on the Anthropic path (OpenRouter drafts have no
+  // tools — see app/openrouter.py), so the toggle follows the picked model
+  // rather than silently doing nothing.
+  const syncWebSearch = () => {
+    const picked = state.models.find((m) => m.id === select.value);
+    const supported = !picked || picked.web_search;
+    wsCheckbox.disabled = !supported;
+    if (!supported) wsCheckbox.checked = false;
+    wsLabel.title = supported
+      ? ""
+      : "This model has no web research — it writes from the thread and any research already saved for this lead.";
+    wsLabel.classList.toggle("is-disabled", !supported);
+  };
+  select.addEventListener("change", () => {
+    syncSetDefaultButton(setDefaultBtn);
+    syncWebSearch();
+  });
+  syncWebSearch();
 
   return wrap;
 }
@@ -3103,6 +3232,7 @@ loadInbox().catch((e) => {
   console.error(e);
 });
 loadCategories();
+loadModels();
 
 // Quietly re-pull the inbox so a reply that just arrived (webhook, or the
 // periodic backend scan) shows up without a manual Rescan or F5. List-only:

@@ -23,7 +23,7 @@ import logging
 
 import anthropic
 
-from app import db, detector, drafter, pipeline, signatures
+from app import db, detector, drafter, models_registry, pipeline, signatures
 from app.config import settings
 from app.detector import last_sender_email
 from app.thread_utils import next_morning_send_utc, render_thread_text
@@ -237,7 +237,11 @@ def _handle_result(result) -> bool:
     lead = _candidate_lead(cand, lead_row)
     with db.db_session() as conn:
         draft_id = pipeline.store_draft_result(
-            conn, lead, "followup", thread, draft_result, model=settings.anthropic_model
+            # Batch generation is Anthropic-only (see
+            # drafter.build_batch_request_params), so record the model it
+            # actually resolved to, not whatever the dashboard default is.
+            conn, lead, "followup", thread, draft_result,
+            model=models_registry.resolve_anthropic(None),
         )
         db.update_candidate(conn, cand_id, status="drafted", draft_id=draft_id)
         # Autonomous mode: with AUTO_SEND_FOLLOWUPS on, pre-generated

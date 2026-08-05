@@ -260,11 +260,25 @@ def localize_draft(english_text: str, target_language_code: str | None, model: s
     translations elsewhere in this module — it runs on the drafting model Andrew
     picked in the dashboard's model dropdown (falling back to the default
     drafting model), not the cheap translate model: quality here directly
-    affects what the lead receives."""
-    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    affects what the lead receives.
+
+    Honours an OpenRouter pick too — this runs off the same dropdown as
+    generate/regenerate, so the model Andrew chose there has to work here or
+    "Apply to draft" would 404 on a `vendor/model` id."""
+    # Imported here rather than at module scope: models_registry imports db,
+    # which app/campaign_* modules import alongside translator — a top-level
+    # import would make that a cycle.
+    from app import models_registry, openrouter
+
+    model = models_registry.resolve(model)
     system = _LOCALIZE_SYSTEM_TEMPLATE.format(language=language_name(target_language_code))
+    if models_registry.provider_for(model) == models_registry.PROVIDER_OPENROUTER:
+        text = openrouter.complete(model, system, english_text, max_tokens=2048)
+        return text.strip() or english_text
+
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     resp = client.messages.create(
-        model=model or settings.anthropic_model,
+        model=model,
         max_tokens=2048,
         system=system,
         messages=[{"role": "user", "content": english_text}],

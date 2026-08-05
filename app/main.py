@@ -13,7 +13,8 @@ from fastapi.templating import Jinja2Templates
 
 from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
 from app import candidates as candidates_module
-from app import db, drafter, library, message_templates, pipeline, scheduler, signatures, smartlead
+from app import db, drafter, library, message_templates, models_registry, pipeline, scheduler
+from app import signatures, smartlead
 from app import translator, uploads, webhook
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
@@ -602,8 +603,8 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     body = await _json_body(request)
     steering_note = (body.get("steering_note") or "").strip() or None
     model = body.get("model") or None
-    if model not in drafter.ALLOWED_MODELS:
-        model = None  # falls back to settings.anthropic_model
+    if not models_registry.is_allowed(model):
+        model = None  # falls back to the dashboard-set default model
     use_web_search = body.get("use_web_search")
     if not isinstance(use_web_search, bool):
         use_web_search = None  # falls back to the prior-research auto-decide
@@ -966,8 +967,8 @@ async def api_draft_localize(request: Request, draft_id: int):
     if not english_text.strip():
         return JSONResponse({"error": "Nothing to apply."}, status_code=400)
     model = body.get("model") or None
-    if model not in drafter.ALLOWED_MODELS:
-        model = None  # falls back to settings.anthropic_model
+    if not models_registry.is_allowed(model):
+        model = None  # falls back to the dashboard-set default model
 
     with db.db_session() as conn:
         draft = db.get_draft(conn, draft_id)
@@ -996,6 +997,41 @@ async def api_draft_localize(request: Request, draft_id: int):
 # Categories where recategorizing should also stop Smartlead's own automated
 # sequence — the lead has told us (or a bounce/opt-out told us) to stop.
 PAUSE_CATEGORIES = {"Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"}
+
+
+@app.get("/api/models")
+def api_models(request: Request):
+    """Everything the model picker needs: both providers' models, their live
+    per-million-token prices, whether each provider's API key is actually
+    configured, and which one is currently the default."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse({
+        "models": models_registry.catalog(),
+        "default": models_registry.default_model(),
+    })
+
+
+@app.post("/api/models/default")
+async def api_set_default_model(request: Request):
+    """Set the model used whenever nothing is explicitly picked — the daily
+    scan's auto-drafts, the webhook reply path, and the dropdown's initial
+    selection. Stored in the DB (app_settings), so it survives a restart and
+    needs no redeploy; ANTHROPIC_MODEL in .env stays the fallback."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    model = (body.get("model") or "").strip()
+    try:
+        models_registry.set_default_model(model)
+    except ValueError as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+    return JSONResponse({
+        "models": models_registry.catalog(),
+        "default": models_registry.default_model(),
+    })
 
 
 @app.get("/api/categories")

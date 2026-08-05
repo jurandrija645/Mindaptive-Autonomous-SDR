@@ -1,7 +1,9 @@
 import json
 import logging
 
-from app import autoreply_templates, db, drafter, signatures, smartlead, translator
+from app import (
+    autoreply_templates, db, drafter, models_registry, signatures, smartlead, translator,
+)
 from app.config import settings
 from app.detector import last_sender_email, normalize_thread
 from app.email_clean import to_plain_text
@@ -244,8 +246,8 @@ def create_draft(
         previous_draft=base_draft,
     )
     # Record the model actually used (drafter falls back to the default for
-    # anything outside ALLOWED_MODELS) — feeds the Stats view's cost proxy.
-    resolved_model = model if model in drafter.ALLOWED_MODELS else settings.anthropic_model
+    # anything not in the picker) — feeds the Stats view's cost proxy.
+    resolved_model = models_registry.resolve(model)
     return store_draft_result(conn, lead, kind, thread, result, model=resolved_model)
 
 

@@ -554,6 +554,14 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; font-size: 13px;
 }
 .gen-websearch { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+/* Web search doesn't exist on the OpenRouter path — the toggle dims instead of
+   disappearing, so the option's absence is visible rather than mysterious. */
+.gen-websearch.is-disabled { opacity: 0.45; cursor: not-allowed; }
+/* The model dropdown carries provider optgroups and prices, so it needs more
+   room than the old three-item Anthropic list. */
+.gen-controls select.model-select { max-width: 320px; }
+.btn-set-default { font-size: 12px; padding: 5px 9px; white-space: nowrap; }
+.btn-set-default:disabled { opacity: 0.6; cursor: default; }
 
 .quick-followups { margin: 0 0 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border); text-align: center; }
 .quick-followups-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }

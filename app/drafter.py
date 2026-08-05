@@ -2,22 +2,16 @@ import re
 
 import anthropic
 
-from app import client_assets, writing_rules
+from app import client_assets, models_registry, openrouter, writing_rules
 from app.config import settings
 
 # Per-client when CLIENT_DIR is set, repo root otherwise (see client_assets).
 PROMPTS_DIR = client_assets.PROMPTS_DIR
 KNOWLEDGE_DIR = client_assets.KNOWLEDGE_DIR
 
-# Curated model choices exposed in the dashboard's generate/regenerate model
-# picker (added for cost control — web-research drafts on Sonnet/Opus with
-# tool-use loops add up in tokens). Keep in sync with the <select> in
-# app/static/app.js (renderModelSelect). Values are real Anthropic model ids.
-ALLOWED_MODELS = {
-    "claude-haiku-4-5": "Haiku 4.5 (cheap/fast)",
-    "claude-sonnet-5": "Sonnet 5 (default)",
-    "claude-opus-4-8": "Opus 4.8 (best quality)",
-}
+# The model picker's choices (Anthropic + OpenRouter, with prices) live in
+# app/models_registry.py — it is the single source the dashboard's dropdown,
+# the default-model setting and every validation check below read from.
 
 OUTPUT_CONTRACT = """
 
@@ -313,8 +307,11 @@ def build_batch_request_params(
     web tools: a batch result can't continue a pause_turn tool loop, so batch
     generation is only used for leads whose research already exists. The
     identical cached system prompt is shared across every request in the
-    batch (and with the interactive path)."""
-    model = model if model in ALLOWED_MODELS else settings.anthropic_model
+    batch (and with the interactive path).
+
+    Always resolves to an Anthropic model: the Batch API is Anthropic's, so an
+    OpenRouter default must not leak into it."""
+    model = models_registry.resolve_anthropic(model)
     user_message = _build_user_message(
         kind, lead, thread_text, None, prior_research,
         use_web_search=False, followup_stage=followup_stage,
@@ -340,8 +337,14 @@ def generate_draft(
     followup_stage: str | None = None,
     previous_draft: str | None = None,
 ) -> DraftResult:
+    model = models_registry.resolve(model)
+    if models_registry.provider_for(model) == models_registry.PROVIDER_OPENROUTER:
+        return _generate_via_openrouter(
+            kind, lead, thread_text, steering_note, prior_research, model,
+            followup_stage, previous_draft,
+        )
+
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
-    model = model if model in ALLOWED_MODELS else settings.anthropic_model
 
     # Auto-reply nudges never get tools regardless of use_web_search. For
     # everything else, use_web_search=False is a hard cutoff — the tools
@@ -453,4 +456,32 @@ def generate_draft(
 
     text = "".join(block.text for block in response.content if block.type == "text")
 
+    return parse_draft_response(text)
+
+
+def _generate_via_openrouter(
+    kind: str,
+    lead: dict,
+    thread_text: str,
+    steering_note: str | None,
+    prior_research: str | None,
+    model: str,
+    followup_stage: str | None,
+    previous_draft: str | None,
+) -> DraftResult:
+    """Same prompt, same output contract, one plain chat completion.
+
+    `use_web_search=False` is not a choice here — the OpenRouter path has no
+    tools at all (see app/openrouter.py), so the user message is built to tell
+    the model exactly that: reuse `prior_research` if it exists, otherwise write
+    from the thread alone and leave <lead_research> empty rather than inventing
+    facts about the lead's business. Research a lead once on an Anthropic model
+    and it is reused by every OpenRouter draft that follows."""
+    system = AUTOREPLY_SYSTEM_PROMPT if kind == "autoreply" else system_prompt()
+    user_message = _build_user_message(
+        kind, lead, thread_text, steering_note, prior_research,
+        use_web_search=False, followup_stage=followup_stage,
+        previous_draft=previous_draft,
+    )
+    text = openrouter.complete(model, system, user_message, max_tokens=4096)
     return parse_draft_response(text)

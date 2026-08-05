@@ -278,11 +278,34 @@ CREATE TABLE IF NOT EXISTS campaign_sync (
     vars_synced_at  TEXT,
     convos_synced_at TEXT
 );
+
+-- Small key/value store for settings Andrew changes from the dashboard rather
+-- than from .env. Currently just `default_model` (see app/models_registry.py):
+-- the .env ANTHROPIC_MODEL stays the fallback, this row overrides it, so
+-- switching the default drafting model is a click and not a redeploy.
+CREATE TABLE IF NOT EXISTS app_settings (
+    key        TEXT PRIMARY KEY,
+    value      TEXT,
+    updated_at TEXT NOT NULL
+);
 """
 
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def get_setting(conn, key: str) -> str | None:
+    row = conn.execute("SELECT value FROM app_settings WHERE key = ?", (key,)).fetchone()
+    return row["value"] if row else None
+
+
+def set_setting(conn, key: str, value: str | None) -> None:
+    conn.execute(
+        """INSERT INTO app_settings (key, value, updated_at) VALUES (?, ?, ?)
+           ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at""",
+        (key, value, now_iso()),
+    )
 
 
 def get_connection() -> sqlite3.Connection:
