@@ -113,7 +113,7 @@ This diagnosis is a judgment call — reason through it explicitly, don't just p
 
 ## 7. VSL (Loom) Usage Rule
 
-We have **two** videos, one per product line. Each has its own audience, and sending the wrong one is worse than sending none — the lead watches five minutes about a business that isn't theirs.
+We have **three** videos, one per audience. Each has its own audience, and sending the wrong one is worse than sending none — the lead watches five minutes about a business that isn't theirs. Match the audience first, then check the solution.
 
 **A. AI-secretary VSL** — ~8 minutes, for **home services installers (HVAC, plumbing, electrical, solar)**, about the AI voice secretary:
 https://www.loom.com/share/d0a874d111b446abac4388ebf11deb042
@@ -132,6 +132,15 @@ Send **only when both are true:**
 - Lead is a B2B firm selling to other businesses.
 
 It walks through the whole engine end to end and explains how pricing works, and it's built so they get something usable out of it even if they never work with us. That's a fair thing to say when you send it, and it makes it an easy watch.
+
+**C. Clinics VSL** — ~7 minutes, for **clinics of any kind** (dental, medical, aesthetic, physio, chiropractic, veterinary). It shows two workflows: the clinic AI secretary that picks up the phone, the website chat and WhatsApp after hours and when the line is busy, and the treatment-plan follow-up system that nudges patients who got a plan and went quiet. Transcript in the knowledge base as `vsl-clinics-trasncript`:
+https://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c
+
+**This is the video for every clinic. If the lead is a clinic and a video would help at all, send this one** — they asked for a video, they asked to see how it works, they asked for more info before committing to a call, or the reply reads like someone who wants to look before they book. There's no second condition to satisfy here. Both workflows in it are things a clinic runs, so it fits whichever of the two you diagnosed.
+
+Never send a clinic the installer VSL or the lead-gen VSL. The installer video talks about furnaces and solar inverters, the lead-gen one is about filling a B2B pipeline, and a dentist watching either learns we didn't read their site.
+
+The video offers a free prototype agent built for their clinic, the same offer as the Section 12 prototype template, so those two work together. Don't repeat the "20 to 30 more treatments" figure from the video in your own writing, see the transcript notes for why.
 
 **In every other case** (different solution, different vertical, or any uncertainty about fit), **skip the video** and go straight for the Calendly link. Never send more than one video, and never send one as a generic attachment — it should only appear when it's a precise fit, otherwise it dilutes the message and gives them something to "watch instead of booking."
 
@@ -171,7 +180,7 @@ For every lead, respond in this structure:
 - _Website diagnosis:_ [key signals found — size, reviews, call-volume indicators, existing tooling, vertical]
 - _Diagnosed solution:_ [chosen solution]
 - _Fit decision:_ [Stayed with original pitch / Pivoted — and why, briefly]
-- _VSL sent?_ [Which one (AI-secretary / lead-gen) or No — and why]
+- _VSL sent?_ [Which one (AI-secretary / lead-gen / clinics) or No — and why]
 - _Objection handled (if any):_ [brief note]
 
 **2. Email Draft — Original Language:**
