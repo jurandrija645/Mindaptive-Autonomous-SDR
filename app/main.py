@@ -656,7 +656,13 @@ async def api_quick_draft(request: Request, campaign_id: int, lead_id: int):
     text = (body.get("text") or "").strip()
     if not text:
         return JSONResponse({"error": "No text given."}, status_code=400)
-    draft_id = candidates_module.quick_followup(campaign_id, lead_id, text)
+    # The Generate dropdown's current pick, so choosing a model there moves
+    # template localization with it. Absent/invalid falls back to the
+    # "Translating templates" role (which itself defaults to the drafting model).
+    model = body.get("model") or None
+    if not models_registry.is_allowed(model):
+        model = None
+    draft_id = candidates_module.quick_followup(campaign_id, lead_id, text, model=model)
     if not draft_id:
         return JSONResponse({"error": "Could not create draft for this lead."}, status_code=404)
     return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
@@ -1007,18 +1013,23 @@ def api_models(request: Request):
     redirect = require_auth(request)
     if redirect:
         return redirect
+    return _models_payload()
+
+
+def _models_payload() -> JSONResponse:
     return JSONResponse({
         "models": models_registry.catalog(),
         "default": models_registry.default_model(),
+        "roles": models_registry.roles_payload(),
     })
 
 
 @app.post("/api/models/default")
 async def api_set_default_model(request: Request):
-    """Set the model used whenever nothing is explicitly picked — the daily
-    scan's auto-drafts, the webhook reply path, and the dropdown's initial
-    selection. Stored in the DB (app_settings), so it survives a restart and
-    needs no redeploy; ANTHROPIC_MODEL in .env stays the fallback."""
+    """Set the drafting model — the one used whenever nothing is explicitly
+    picked (daily-scan auto-drafts, the webhook reply path, the dropdown's
+    initial selection). Same setting as the Models panel's "Writing drafts"
+    row; this is the dropdown's one-click shortcut to it."""
     redirect = require_auth(request)
     if redirect:
         return redirect
@@ -1028,10 +1039,25 @@ async def api_set_default_model(request: Request):
         models_registry.set_default_model(model)
     except ValueError as e:
         return JSONResponse({"error": str(e)}, status_code=400)
-    return JSONResponse({
-        "models": models_registry.catalog(),
-        "default": models_registry.default_model(),
-    })
+    return _models_payload()
+
+
+@app.post("/api/models/role")
+async def api_set_role_model(request: Request):
+    """Point one task at a model (Models panel). A null/empty model clears the
+    choice, putting that task back on its fallback chain — "follows Writing
+    drafts" rather than pinned to whatever drafts happen to use today."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    role = (body.get("role") or "").strip()
+    model = (body.get("model") or "").strip() or None
+    try:
+        models_registry.set_model_for(role, model)
+    except ValueError as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+    return _models_payload()
 
 
 @app.get("/api/categories")

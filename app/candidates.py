@@ -160,7 +160,9 @@ def generate_for_lead(
     return draft_id
 
 
-def quick_followup(campaign_id: int, lead_id: int, english_text: str) -> int | None:
+def quick_followup(
+    campaign_id: int, lead_id: int, english_text: str, model: str | None = None
+) -> int | None:
     """Drops one of the dashboard's canned quick-pick snippets straight in as a
     follow-up draft, bypassing drafter.generate_draft (and its Sonnet/Opus +
     web-tools cost) entirely — see pipeline.create_quick_draft. Synchronous:
@@ -199,7 +201,9 @@ def quick_followup(campaign_id: int, lead_id: int, english_text: str) -> int | N
         return None
 
     with db.db_session() as conn:
-        draft_id = pipeline.create_quick_draft(conn, lead, lead_row["campaign_name"] or "", thread, english_text)
+        draft_id = pipeline.create_quick_draft(
+            conn, lead, lead_row["campaign_name"] or "", thread, english_text, model=model
+        )
         candidate = conn.execute(
             """SELECT id FROM candidates WHERE lead_id = ? AND campaign_id = ? AND kind = 'followup'
                AND status IN ('open', 'generating')""",

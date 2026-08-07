@@ -39,17 +39,16 @@ import logging
 import re
 import threading
 
-import anthropic
-
 from app import (
     campaign_analytics,
     campaign_conversations,
     campaign_copy,
     db,
+    llm,
+    models_registry,
     smartlead,
     writing_rules,
 )
-from app.config import settings
 
 log = logging.getLogger("campaign_report")
 
@@ -100,34 +99,22 @@ def _ground_rules() -> str:
     return _GROUND_RULES + writing_rules.as_section()
 
 
-def _client() -> anthropic.Anthropic:
-    return anthropic.Anthropic(api_key=settings.anthropic_api_key)
-
-
-def _text_of(response) -> str:
-    return "".join(block.text for block in response.content if block.type == "text").strip()
-
-
 def _write_report(prompt: str, model: str) -> str:
     """One long-form report call.
 
     Streamed because `max_tokens` this large risks an HTTP timeout on a
     non-streaming request (the SDK refuses some of them outright). Effort is
     pinned high: the whole point of this call is a careful reading of thin,
-    easily-misread data."""
-    with _client().messages.stream(
-        model=model,
-        max_tokens=_REPORT_MAX_TOKENS,
-        thinking={"type": "adaptive"},
-        output_config={"effort": "high"},
-        messages=[{"role": "user", "content": prompt}],
-    ) as stream:
-        response = stream.get_final_message()
-    text = _text_of(response)
+    easily-misread data — llm.complete drops both the effort hint and the
+    streaming when the chosen model or provider doesn't support them."""
+    text = llm.complete(
+        model, None, prompt,
+        max_tokens=_REPORT_MAX_TOKENS, effort="high", stream=True,
+    )
     if not text:
         raise RuntimeError(
-            f"model returned no text (stop_reason={response.stop_reason}); "
-            "if this is 'max_tokens', raise _REPORT_MAX_TOKENS"
+            f"{model} returned no text; "
+            "if the model hit its output cap, raise _REPORT_MAX_TOKENS"
         )
     return text
 
@@ -285,7 +272,7 @@ def generate_directives(
             _extraction_records(conn, campaign_id), indent=1, ensure_ascii=False, default=str
         ),
     )
-    return _write_report(prompt, model or settings.anthropic_model), brief
+    return _write_report(prompt, model or models_registry.model_for(models_registry.ROLE_ANALYSIS)), brief
 
 
 # ---------------------------------------------------------------------------
@@ -367,7 +354,7 @@ def extract_conversations(campaign_id: int, model: str | None = None, progress=N
 
     Only conversations without a current cached extraction are sent, so a
     re-analysis after a few new replies costs a fraction of the first run."""
-    model = model or settings.anthropic_model
+    model = model or models_registry.model_for(models_registry.ROLE_ANALYSIS)
     with db.db_session() as conn:
         pending = [
             campaign_conversations.thread_for_prompt(row)
@@ -382,23 +369,18 @@ def extract_conversations(campaign_id: int, model: str | None = None, progress=N
         chunk = pending[start : start + _EXTRACT_BATCH]
         if progress:
             progress(f"Reading replies {start + 1}–{start + len(chunk)} of {len(pending)}…")
-        response = _client().messages.create(
-            model=model,
+        raw = llm.complete(
+            model,
+            None,
+            _EXTRACT_PROMPT.format(
+                conversations=json.dumps(chunk, indent=1, ensure_ascii=False)
+            ),
             max_tokens=_EXTRACT_MAX_TOKENS,
-            thinking={"type": "adaptive"},
-            output_config={"effort": "medium"},
-            messages=[
-                {
-                    "role": "user",
-                    "content": _EXTRACT_PROMPT.format(
-                        conversations=json.dumps(chunk, indent=1, ensure_ascii=False)
-                    ),
-                }
-            ],
+            effort="medium",
         )
         extractions = {
             str(item.get("lead_id")): item
-            for item in _parse_json_array(_text_of(response))
+            for item in _parse_json_array(raw)
             if isinstance(item, dict)
         }
         with db.db_session() as conn:
@@ -527,7 +509,7 @@ def generate_conversation_report(conn, campaign_id: int, model: str | None = Non
         stats=json.dumps(stats, indent=1, default=str),
         extractions=json.dumps(extractions, indent=1, ensure_ascii=False),
     )
-    return _write_report(prompt, model or settings.anthropic_model)
+    return _write_report(prompt, model or models_registry.model_for(models_registry.ROLE_ANALYSIS))
 
 
 # ---------------------------------------------------------------------------
@@ -551,7 +533,7 @@ def run_analysis(
     calls downstream all hit the right account without threading it through each
     signature — and, crucially, it's set inside *this* thread, since a ContextVar
     doesn't carry into the worker from the request that spawned it."""
-    model = model or settings.anthropic_model
+    model = model or models_registry.model_for(models_registry.ROLE_ANALYSIS)
 
     def stage(text: str) -> None:
         with db.db_session() as conn:

@@ -52,6 +52,7 @@ def create_quick_draft(
     campaign_name: str,
     thread,
     english_text: str,
+    model: str | None = None,
 ) -> int:
     """Builds a follow-up draft straight from one of the canned quick-pick
     snippets (dashboard "quick follow-up" buttons) — skips drafter.generate_draft
@@ -72,7 +73,7 @@ def create_quick_draft(
             db.upsert_lead_state(
                 conn, lead["id"], lead["campaign_id"], language=target_lang
             )
-    native_text = translator.localize_quick_text(english_text, target_lang)
+    native_text = translator.localize_quick_text(english_text, target_lang, model=model)
 
     last_message = thread[-1]
     sender_email = last_sender_email(thread)

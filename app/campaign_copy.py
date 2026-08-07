@@ -398,25 +398,18 @@ def translate_slot_texts(conn, campaign_id: int, model: str | None = None, progr
     if progress:
         progress(f"Translating {len(pending)} message fragments to English…")
 
-    import anthropic
+    from app import llm, models_registry
 
-    from app.config import settings
-
-    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
-    response = client.messages.create(
-        model=model or settings.anthropic_model,
+    text, _ = llm.complete_for(
+        models_registry.ROLE_ANALYSIS,
+        None,
+        _TRANSLATE_PROMPT.format(
+            style=writing_rules.short_rules(),
+            items=json.dumps(pending, indent=1, ensure_ascii=False),
+        ),
         max_tokens=8000,
-        messages=[
-            {
-                "role": "user",
-                "content": _TRANSLATE_PROMPT.format(
-                    style=writing_rules.short_rules(),
-                    items=json.dumps(pending, indent=1, ensure_ascii=False),
-                ),
-            }
-        ],
+        model=model,
     )
-    text = "".join(b.text for b in response.content if b.type == "text").strip()
     text = re.sub(r"^```(?:json)?|```$", "", text, flags=re.MULTILINE).strip()
     try:
         mapping = json.loads(text)

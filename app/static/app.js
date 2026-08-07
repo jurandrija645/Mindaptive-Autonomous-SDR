@@ -28,6 +28,7 @@ const state = {
   templates: null,       // message templates from /api/templates, loaded when the modal opens
   models: [],            // /api/models catalog: Anthropic + OpenRouter, with prices
   defaultModel: null,    // id of the model used when nothing is explicitly picked
+  roles: [],             // per-task model assignments shown in the Models panel
   // ---- campaigns view ----
   accounts: null,        // [{slug,label}] Smartlead accounts, loaded once
   account: null,         // slug of the account whose campaigns are shown
@@ -60,9 +61,11 @@ async function loadModels() {
     const data = await apiGet("/api/models");
     state.models = data.models || [];
     state.defaultModel = data.default || null;
+    state.roles = data.roles || [];
   } catch (e) {
     state.models = [];
     state.defaultModel = null;
+    state.roles = [];
     console.error("could not load the model list", e);
   }
   refreshModelSelects();
@@ -144,6 +147,135 @@ function syncSetDefaultButton(btn) {
   btn.title = isDefault
     ? "This model is already the default for auto-drafts and new sessions"
     : "Use this model by default (auto-drafts, and the pre-selected option here)";
+}
+
+// ---- Models panel ----
+//
+// One dropdown per AI task, so "which model writes my drafts" and "which model
+// translates a thread I'm only reading" are separate decisions. Each row can
+// also be left on "Follows …", which is a live link to another task rather than
+// a copy of its current value — clear the drafting model later and everything
+// inheriting from it moves too.
+
+function closeModelsModal() {
+  const overlay = $("models-modal-overlay");
+  if (overlay) overlay.remove();
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", onModelsModalKeydown);
+}
+
+function onModelsModalKeydown(e) {
+  if (e.key === "Escape") closeModelsModal();
+}
+
+async function openModelsModal() {
+  if ($("models-modal-overlay")) return;
+  // Always re-read: prices refresh, and another tab may have changed a role.
+  await loadModels();
+
+  const overlay = el("div", "modal-overlay");
+  overlay.id = "models-modal-overlay";
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModelsModal();
+  });
+
+  const modal = el("div", "modal models-modal");
+  const header = el("div", "modal-header");
+  const heading = el("div", "modal-heading");
+  heading.appendChild(el("h3", null, "AI models"));
+  heading.appendChild(
+    el("div", "modal-sub", "Pick which model does what. Prices are per million tokens — input / output.")
+  );
+  header.appendChild(heading);
+  const closeBtn = el("button", "modal-close", "×");
+  closeBtn.type = "button";
+  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.addEventListener("click", closeModelsModal);
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  const list = el("div", "models-roles");
+  (state.roles || []).forEach((role) => list.appendChild(renderRoleRow(role)));
+  modal.appendChild(list);
+
+  modal.appendChild(
+    el(
+      "div",
+      "models-note",
+      "Overnight batch pre-generation always runs on an Anthropic model — it uses " +
+        "Anthropic's Batch API, which can't accept an OpenRouter model. If your " +
+        "drafting model is an OpenRouter one, batches fall back to ANTHROPIC_MODEL."
+    )
+  );
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.body.style.overflow = "hidden";
+  document.addEventListener("keydown", onModelsModalKeydown);
+}
+
+function renderRoleRow(role) {
+  const row = el("div", "models-role");
+  const head = el("div", "models-role-head");
+  head.appendChild(el("div", "models-role-label", role.label));
+  const status = el("div", "models-role-status");
+  head.appendChild(status);
+  row.appendChild(head);
+  row.appendChild(el("div", "models-role-desc", role.description));
+
+  const controls = el("div", "models-role-controls");
+  const select = document.createElement("select");
+  select.className = "model-select";
+  fillModelSelect(select, role.model);
+  controls.appendChild(select);
+
+  // "Follows X" is only offered where a fallback actually exists, so the option
+  // never appears on a task that has nowhere to inherit from.
+  let inheritBtn = null;
+  if (role.inherits_from) {
+    inheritBtn = el("button", "btn-secondary btn-inherit", `Follow ${role.inherits_from}`);
+    inheritBtn.type = "button";
+    controls.appendChild(inheritBtn);
+  }
+  row.appendChild(controls);
+
+  const paint = () => {
+    status.textContent = role.explicit
+      ? "set explicitly"
+      : role.inherits_from
+        ? `follows ${role.inherits_from}`
+        : "default";
+    status.className = "models-role-status" + (role.explicit ? " is-explicit" : "");
+    if (inheritBtn) inheritBtn.disabled = !role.explicit;
+  };
+  paint();
+
+  const save = async (model) => {
+    select.disabled = true;
+    if (inheritBtn) inheritBtn.disabled = true;
+    try {
+      const data = await apiPost("/api/models/role", { role: role.role, model });
+      state.models = data.models || state.models;
+      state.defaultModel = data.default || state.defaultModel;
+      state.roles = data.roles || state.roles;
+      // Re-render the whole list: changing one role can move every role that
+      // inherits from it, and showing that immediately is the point.
+      const list = document.querySelector(".models-roles");
+      if (list) {
+        list.innerHTML = "";
+        (state.roles || []).forEach((r) => list.appendChild(renderRoleRow(r)));
+      }
+      refreshModelSelects();
+    } catch (e) {
+      alert("Couldn't save that model: " + e.message);
+      select.disabled = false;
+      paint();
+    }
+  };
+
+  select.addEventListener("change", () => save(select.value));
+  if (inheritBtn) inheritBtn.addEventListener("click", () => save(null));
+  return row;
 }
 
 async function setDefaultModel(select, btn) {
@@ -1998,7 +2130,14 @@ async function quickFollowup(template) {
   section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Adding follow-up…</div>';
   let data;
   try {
-    data = await apiPost(`/api/leads/${cid}/${lid}/quick-draft`, { text });
+    // Send the Generate dropdown's current pick so a template is localized by
+    // the same model that would have written the draft. The server falls back
+    // to the "Translating templates" role when this is absent.
+    const modelSel = $("gen-model-select");
+    data = await apiPost(`/api/leads/${cid}/${lid}/quick-draft`, {
+      text,
+      model: modelSel ? modelSel.value : undefined,
+    });
   } catch (e) {
     section.innerHTML = `<div class="error-note">Could not add follow-up: ${e.message}</div>`;
     return;
@@ -3222,6 +3361,7 @@ if (MOBILE_MQ.addEventListener) {
 renderStatusFilter([]);
 
 $("rescan-btn").addEventListener("click", rescan);
+$("models-btn").addEventListener("click", openModelsModal);
 $("view-inbox-btn").addEventListener("click", () => setView("inbox"));
 $("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
 $("view-stats-btn").addEventListener("click", () => setView("stats"));

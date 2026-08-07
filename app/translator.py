@@ -85,14 +85,15 @@ def translate_segments(texts: list[str]) -> list[str]:
 
     numbered = "\n\n".join(f"[[{i + 1}]]\n{t}" for i, t in enumerate(items))
     try:
-        client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
-        resp = client.messages.create(
-            model=settings.anthropic_translate_model,
-            max_tokens=4096,
-            system=_SYSTEM,
-            messages=[{"role": "user", "content": numbered}],
+        # Model comes from the "Translating the thread to English" row of the
+        # dashboard's Models panel (falls back to ANTHROPIC_TRANSLATE_MODEL).
+        # The instructions live in _SYSTEM, not in the model, so switching
+        # providers here changes who executes them, not what they are.
+        from app import llm, models_registry
+
+        text, _ = llm.complete_for(
+            models_registry.ROLE_TRANSLATE, _SYSTEM, numbered, max_tokens=4096
         )
-        text = "".join(b.text for b in resp.content if b.type == "text")
         return _parse_segments(text, len(items), fallback=items)
     except Exception:
         log.exception("thread translation failed")
@@ -223,7 +224,9 @@ _QUICK_LOCALIZE_SYSTEM_TEMPLATE = (
 )
 
 
-def localize_quick_text(english_text: str, target_language_code: str | None) -> str:
+def localize_quick_text(
+    english_text: str, target_language_code: str | None, model: str | None = None
+) -> str:
     """Localize a quick-pick canned follow-up into the lead's language.
 
     Skips the full drafter pipeline (system prompt, knowledge base, tools) —
@@ -235,19 +238,23 @@ def localize_quick_text(english_text: str, target_language_code: str | None) -> 
     rendering that means closing a computer file. The cheap model is for
     reading-comprehension translations of what leads send us; anything we send
     them goes through the same model that writes the drafts (see
-    localize_draft, which already made this call for the same reason)."""
+    localize_draft, which already made this call for the same reason).
+
+    Which capable model is now Andrew's choice, not a constant: it runs on the
+    "Translating templates" role, which by default follows the drafting model,
+    and `model` (the dashboard's Generate dropdown) overrides both — so picking
+    a model there moves templates with it, as you'd expect from one visible
+    control."""
     if not target_language_code or target_language_code.lower() == "en":
         return english_text
-    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    from app import llm, models_registry
+
     system = _QUICK_LOCALIZE_SYSTEM_TEMPLATE.format(language=language_name(target_language_code))
     try:
-        resp = client.messages.create(
-            model=settings.anthropic_model,
-            max_tokens=1024,
-            system=system,
-            messages=[{"role": "user", "content": english_text}],
+        text, _ = llm.complete_for(
+            models_registry.ROLE_TEMPLATE, system, english_text,
+            max_tokens=1024, model=model,
         )
-        text = "".join(b.text for b in resp.content if b.type == "text")
         return text.strip() or english_text
     except Exception:
         log.exception("quick-pick localization failed")
@@ -268,20 +275,10 @@ def localize_draft(english_text: str, target_language_code: str | None, model: s
     # Imported here rather than at module scope: models_registry imports db,
     # which app/campaign_* modules import alongside translator — a top-level
     # import would make that a cycle.
-    from app import models_registry, openrouter
+    from app import llm, models_registry
 
-    model = models_registry.resolve(model)
     system = _LOCALIZE_SYSTEM_TEMPLATE.format(language=language_name(target_language_code))
-    if models_registry.provider_for(model) == models_registry.PROVIDER_OPENROUTER:
-        text = openrouter.complete(model, system, english_text, max_tokens=2048)
-        return text.strip() or english_text
-
-    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
-    resp = client.messages.create(
-        model=model,
-        max_tokens=2048,
-        system=system,
-        messages=[{"role": "user", "content": english_text}],
+    text, _ = llm.complete_for(
+        models_registry.ROLE_DRAFT, system, english_text, max_tokens=2048, model=model
     )
-    text = "".join(b.text for b in resp.content if b.type == "text")
     return text.strip() or english_text

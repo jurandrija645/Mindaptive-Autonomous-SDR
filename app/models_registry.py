@@ -35,14 +35,82 @@ PROVIDER_OPENROUTER = "openrouter"
 
 DEFAULT_MODEL_SETTING_KEY = "default_model"
 
-# id -> (label, $/M input, $/M output). Prices verified against Anthropic's
-# published rates 2026-08-05; Sonnet 5 carries a $2/$10 introductory rate
-# through 2026-08-31, listed here at its standard price.
-ANTHROPIC_MODELS: dict[str, tuple[str, float, float]] = {
-    "claude-haiku-4-5": ("Haiku 4.5", 1.00, 5.00),
-    "claude-sonnet-5": ("Sonnet 5", 3.00, 15.00),
-    "claude-opus-4-8": ("Opus 4.8", 5.00, 25.00),
-    "claude-opus-5": ("Opus 5", 5.00, 25.00),
+# id -> (label, $/M input, $/M output, supports adaptive thinking + effort).
+# Prices verified against Anthropic's published rates 2026-08-05; Sonnet 5
+# carries a $2/$10 introductory rate through 2026-08-31, listed here at its
+# standard price.
+#
+# That last flag is load-bearing, not decoration: `thinking: {type: "adaptive"}`
+# needs a 4.6+ model and `output_config.effort` is rejected outright on Haiku
+# 4.5. Campaign analysis sends both, so without this flag the first person to
+# pick Haiku for it would get a 400. app/llm.py reads it before attaching either.
+ANTHROPIC_MODELS: dict[str, tuple[str, float, float, bool]] = {
+    "claude-haiku-4-5": ("Haiku 4.5", 1.00, 5.00, False),
+    "claude-sonnet-5": ("Sonnet 5", 3.00, 15.00, True),
+    "claude-opus-4-8": ("Opus 4.8", 5.00, 25.00, True),
+    "claude-opus-5": ("Opus 5", 5.00, 25.00, True),
+}
+
+# Every task in the app that calls a model, and which setting picks it.
+#
+# `fallback_role` is what makes the panel usable rather than a form with four
+# mandatory answers: leave a task unset and it follows another task. Template
+# localization follows draft writing by default (pick a model for drafts and
+# your templates move with it), and only diverges if you set it explicitly.
+#
+# `env_fallback` is the bottom of the chain — the .env value, so a fresh install
+# behaves exactly as it did before this panel existed.
+ROLE_DRAFT = "draft"
+ROLE_TEMPLATE = "template"
+ROLE_TRANSLATE = "translate"
+ROLE_ANALYSIS = "analysis"
+
+ROLES: dict[str, dict] = {
+    ROLE_DRAFT: {
+        "label": "Writing drafts",
+        "description": (
+            "Generate / Regenerate, the daily scan's auto-drafts, and rewriting an "
+            "English edit back into the lead's language. The dropdown next to "
+            "Generate overrides this for a single draft."
+        ),
+        # Reuses the key the picker already wrote, so the default set from the
+        # dropdown's ☆ button and this panel are the same setting, not two.
+        "setting_key": DEFAULT_MODEL_SETTING_KEY,
+        "fallback_role": None,
+        "env_fallback": lambda: settings.anthropic_model,
+    },
+    ROLE_TEMPLATE: {
+        "label": "Translating templates",
+        "description": (
+            "Turning a canned template into the lead's language when you pick one "
+            "from “Choose a template…”. This text is sent to the lead, so it is "
+            "worth a capable model. Unset = follows Writing drafts."
+        ),
+        "setting_key": "model_template",
+        "fallback_role": ROLE_DRAFT,
+        "env_fallback": lambda: settings.anthropic_model,
+    },
+    ROLE_TRANSLATE: {
+        "label": "Translating the thread to English",
+        "description": (
+            "The “Translate” button on thread messages — read-only comprehension "
+            "for you, never sent to a lead, cached forever per message. High "
+            "volume, so the cheapest model that reads accurately is usually right."
+        ),
+        "setting_key": "model_translate",
+        "fallback_role": None,
+        "env_fallback": lambda: settings.anthropic_translate_model,
+    },
+    ROLE_ANALYSIS: {
+        "label": "Campaign analysis",
+        "description": (
+            "The Campaigns tab: reading reply threads and writing the variant "
+            "report. Long outputs on thin data — the weakest place to save money."
+        ),
+        "setting_key": "model_analysis",
+        "fallback_role": None,
+        "env_fallback": lambda: settings.anthropic_model,
+    },
 }
 
 # The OpenRouter models offered in the picker. This is a curated shortlist, not
@@ -127,7 +195,7 @@ def catalog() -> list[dict]:
     provider's key is configured, and whether it can do web research."""
     out: list[dict] = []
     anthropic_ready = bool(settings.anthropic_api_key)
-    for model_id, (label, price_in, price_out) in ANTHROPIC_MODELS.items():
+    for model_id, (label, price_in, price_out, _effort) in ANTHROPIC_MODELS.items():
         out.append({
             "id": model_id,
             "label": label,
@@ -185,25 +253,88 @@ def is_allowed(model_id: str | None) -> bool:
     return model_id in set(openrouter_model_ids())
 
 
-def default_model() -> str:
-    """The model used when the caller didn't pick one: the dashboard-set default
-    (app_settings.default_model) if it's still valid, else ANTHROPIC_MODEL."""
+def supports_effort(model_id: str) -> bool:
+    """Whether `thinking: adaptive` + `output_config.effort` can be sent to this
+    model. False for every OpenRouter model (different API shape) and for
+    Haiku 4.5, which rejects both."""
+    entry = ANTHROPIC_MODELS.get(model_id)
+    return bool(entry and entry[3])
+
+
+def _stored_role_model(role: str) -> str | None:
+    """The raw saved choice for one role, or None if it was never set (or points
+    at a model that has since been removed from the picker)."""
+    spec = ROLES.get(role)
+    if not spec:
+        return None
     try:
         with db.db_session() as conn:
-            stored = db.get_setting(conn, DEFAULT_MODEL_SETTING_KEY)
+            stored = db.get_setting(conn, spec["setting_key"])
     except Exception:
-        log.warning("could not read default model from the DB", exc_info=True)
-        stored = None
-    if stored and is_allowed(stored):
+        log.warning("could not read the model setting for role %s", role, exc_info=True)
+        return None
+    return stored if stored and is_allowed(stored) else None
+
+
+def model_for(role: str) -> str:
+    """The model a given task should run on, walking the fallback chain:
+    explicit setting -> the role it inherits from -> the .env value."""
+    spec = ROLES.get(role)
+    if not spec:
+        return default_model()
+    stored = _stored_role_model(role)
+    if stored:
         return stored
-    return settings.anthropic_model
+    parent = spec.get("fallback_role")
+    if parent:
+        return model_for(parent)
+    env_default = spec["env_fallback"]()
+    return env_default if is_allowed(env_default) else settings.anthropic_model
+
+
+def set_model_for(role: str, model_id: str | None) -> None:
+    """Set (or clear, with model_id=None) the model for one task. Clearing puts
+    the role back on its fallback chain rather than pinning it to today's value —
+    that's the difference between "follows drafts" and "happens to match"."""
+    spec = ROLES.get(role)
+    if not spec:
+        raise ValueError(f"unknown role: {role}")
+    if model_id is not None and not is_allowed(model_id):
+        raise ValueError(f"unknown model: {model_id}")
+    with db.db_session() as conn:
+        db.set_setting(conn, spec["setting_key"], model_id)
+
+
+def roles_payload() -> list[dict]:
+    """What the Models panel renders: one row per task, with the model actually
+    in effect and whether that came from an explicit choice or a fallback."""
+    out = []
+    for role, spec in ROLES.items():
+        stored = _stored_role_model(role)
+        effective = model_for(role)
+        parent = spec.get("fallback_role")
+        out.append({
+            "role": role,
+            "label": spec["label"],
+            "description": spec["description"],
+            "model": effective,
+            "explicit": stored is not None,
+            "inherits_from": ROLES[parent]["label"] if parent else None,
+            # Anthropic-only paths exist (the Batch API), but every role here
+            # can run on either provider.
+            "anthropic_only": False,
+        })
+    return out
+
+
+def default_model() -> str:
+    """The drafting model — kept as its own function because it is the one every
+    non-role-aware caller means by "the default"."""
+    return model_for(ROLE_DRAFT)
 
 
 def set_default_model(model_id: str) -> None:
-    if not is_allowed(model_id):
-        raise ValueError(f"unknown model: {model_id}")
-    with db.db_session() as conn:
-        db.set_setting(conn, DEFAULT_MODEL_SETTING_KEY, model_id)
+    set_model_for(ROLE_DRAFT, model_id)
 
 
 def resolve(model_id: str | None) -> str:
