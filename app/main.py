@@ -539,6 +539,9 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         "thread": _thread_payload(raw, lead_name),
         "draft": draft_payload,
         "generating": candidates_module.is_generating(campaign_id, lead_id),
+        # Only meaningful when there's no draft to show; the client falls back
+        # to its own wording when this is absent.
+        "generation_error": candidates_module.last_error(campaign_id, lead_id),
     }
 
 
@@ -609,8 +612,6 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     if not isinstance(use_web_search, bool):
         use_web_search = None  # falls back to the prior-research auto-decide
 
-    # Regenerate: discard any existing open draft first, then draft fresh.
-    #
     # `base_draft` is what's in the editor right now, sent by the client. The
     # model gets it as the thing it is editing, which is the whole point of a
     # steering note like "make the second paragraph shorter" — before this it
@@ -618,6 +619,15 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
     # line rewrote the message. It's the editor's content rather than the stored
     # draft so Andrew's own hand edits survive the regeneration too; the stored
     # body is the fallback for callers that don't send one.
+    #
+    # The old draft is NOT retired here. It used to be, before generation had
+    # even started, so a regenerate that then failed left the lead with nothing
+    # at all: the message was gone, the editor was replaced by an error line,
+    # and a second attempt had no base_draft to revise — so the steering note
+    # applied to nothing and the model wrote the same email over again, which
+    # reads as "it just gives me the old one back". A generation that fails must
+    # cost nothing. generate_for_lead retires the previous draft only once the
+    # replacement is safely stored.
     with db.db_session() as conn:
         existing = db.get_open_draft(conn, lead_id, campaign_id)
         # Marked text: the model has to see which line is bold, or "shorten the
@@ -625,8 +635,6 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
         base_draft = html_to_marked_text(body.get("base_draft") or "")
         if not base_draft and existing is not None:
             base_draft = html_to_marked_text(existing["body_html"] or "")
-        if existing is not None:
-            db.update_draft(conn, existing["id"], status="skipped")
 
     # generate_for_lead calls Claude synchronously (web search/fetch tools) and
     # can take minutes — long enough to hit Cloudflare's ~100s tunnel timeout

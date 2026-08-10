@@ -459,6 +459,19 @@ def generate_draft(
     return parse_draft_response(text)
 
 
+# Reasoning models bill their thinking against max_tokens, exactly like
+# Anthropic's adaptive thinking does (see the ANTHROPIC_MODEL note in CLAUDE.md
+# and _REPORT_MAX_TOKENS, which had to grow for the same reason: an 8k budget
+# came back completely empty because all of it went to thinking). 4096 was
+# enough for a plain chat model and far too little for DeepSeek V4 Pro on this
+# output contract, which asks for a triage block, the draft, an English version
+# and a research block after reading a long objection thread — it spent the lot
+# reasoning and returned no answer at all. That failure is lead-dependent, which
+# is what made it look arbitrary: the harder the reply is to think about, the
+# likelier it is to run out before writing anything.
+_OPENROUTER_DRAFT_MAX_TOKENS = 16000
+
+
 def _generate_via_openrouter(
     kind: str,
     lead: dict,
@@ -483,5 +496,5 @@ def _generate_via_openrouter(
         use_web_search=False, followup_stage=followup_stage,
         previous_draft=previous_draft,
     )
-    text = openrouter.complete(model, system, user_message, max_tokens=4096)
+    text = openrouter.complete(model, system, user_message, max_tokens=_OPENROUTER_DRAFT_MAX_TOKENS)
     return parse_draft_response(text)

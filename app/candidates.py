@@ -56,9 +56,35 @@ def generate_one(candidate_id: int) -> int | None:
 _generating_lock = threading.Lock()
 _generating: set[tuple[int, int]] = set()
 
+# Why the last generation for a lead produced nothing. Generation runs in a
+# background thread, so the HTTP response ("started": true) is sent long before
+# anything can go wrong — the client learns the outcome by polling GET
+# /api/leads/{cid}/{lid}, which until now could only say "no draft" and left the
+# dashboard printing "Could not generate a draft for this lead" for every cause
+# alike. That is the whole message Andrew got when DeepSeek spent its entire
+# token budget on reasoning and returned no answer — a failure openrouter.py had
+# already diagnosed precisely, in an exception nobody could see.
+#
+# In memory rather than a column: it describes one attempt, the poll arrives
+# seconds later in the same process, and a restart losing it costs nothing.
+_last_error: dict[tuple[int, int], str] = {}
+_MAX_ERROR_CHARS = 300
+
 
 def is_generating(campaign_id: int, lead_id: int) -> bool:
     return (campaign_id, lead_id) in _generating
+
+
+def last_error(campaign_id: int, lead_id: int) -> str | None:
+    """Why the most recent generation for this lead produced no draft."""
+    return _last_error.get((campaign_id, lead_id))
+
+
+def _record_error(key: tuple[int, int], exc: BaseException) -> None:
+    # The exception type alone is meaningless to a reader ("OpenRouterError");
+    # its message is the part that says what to do about it.
+    detail = str(exc).strip() or exc.__class__.__name__
+    _last_error[key] = detail[:_MAX_ERROR_CHARS]
 
 
 def generate_for_lead_in_background(
@@ -80,14 +106,23 @@ def generate_for_lead_in_background(
         if key in _generating:
             return False
         _generating.add(key)
+        _last_error.pop(key, None)  # this attempt's outcome, not the last one's
 
     def _worker():
         try:
-            generate_for_lead(
+            draft_id = generate_for_lead(
                 campaign_id, lead_id, steering_note, model=model,
                 use_web_search=use_web_search, base_draft=base_draft,
             )
-        except Exception:
+            # A None return is a decision, not a crash (empty thread, no lead
+            # row) — it still leaves the dashboard with nothing to show, so it
+            # needs a reason too.
+            if draft_id is None:
+                _last_error.setdefault(
+                    key, "Nothing to draft — the lead has no message thread yet."
+                )
+        except Exception as exc:
+            _record_error(key, exc)
             log.exception("generate_for_lead failed for %s/%s", campaign_id, lead_id)
         finally:
             with _generating_lock:
@@ -148,6 +183,11 @@ def generate_for_lead(
             conn, lead, campaign_name, kind, thread, steering_note,
             model=model, use_web_search=use_web_search, base_draft=base_draft,
         )
+        # Retire whatever the regenerate replaced, now that the replacement
+        # exists. Doing it here rather than in the route is what makes a failed
+        # generation free: raise on the line above and the old draft is still
+        # sitting there, unchanged, for Andrew to send or try again from.
+        db.retire_other_open_drafts(conn, lead_id, campaign_id, keep_draft_id=draft_id)
         candidate = conn.execute(
             """SELECT id FROM candidates WHERE lead_id = ? AND campaign_id = ? AND kind = ?
                AND status IN ('open', 'generating')""",

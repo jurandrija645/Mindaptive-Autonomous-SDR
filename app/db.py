@@ -643,6 +643,23 @@ def has_drafted_reply_to(conn, lead_id: int, campaign_id: int, message_id: str) 
     return row is not None
 
 
+def retire_other_open_drafts(conn, lead_id: int, campaign_id: int, keep_draft_id: int) -> int:
+    """Mark every other open draft for this lead 'skipped', keeping one.
+
+    Called right after a regeneration stores its replacement, so the old draft
+    survives a generation that fails instead of being discarded before the
+    attempt (see main.api_generate). Returns how many were retired. 'scheduled'
+    is included deliberately: a regenerate supersedes a queued send, and leaving
+    both open would let get_open_draft pick either one."""
+    cur = conn.execute(
+        """UPDATE drafts SET status = 'skipped'
+           WHERE lead_id = ? AND campaign_id = ? AND id != ?
+             AND status IN ('pending', 'scheduled')""",
+        (lead_id, campaign_id, keep_draft_id),
+    )
+    return cur.rowcount
+
+
 def get_open_draft(conn, lead_id: int, campaign_id: int):
     """The current editable draft (pending or scheduled) for a lead, if any —
     what the detail pane shows when you open the lead."""

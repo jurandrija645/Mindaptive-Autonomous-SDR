@@ -3139,7 +3139,9 @@ function pollGeneration(cid, lid) {
     if (errorMessage) {
       const s = el("div");
       s.id = "draft-section";
-      s.innerHTML = `<div class="error-note">${errorMessage}</div>`;
+      // textContent, not innerHTML: this can now be the provider's own error
+      // text, relayed from OpenRouter, which is not ours to trust as markup.
+      s.appendChild(el("div", "error-note", errorMessage));
       if (oldSection) oldSection.replaceWith(s); else body.appendChild(s);
       return;
     }
@@ -3160,7 +3162,16 @@ function pollGeneration(cid, lid) {
       return;
     }
     if (data.generating) return;
-    finish(data, data.draft ? null : "Could not generate a draft for this lead.");
+    // Say what actually went wrong when the server knows. "Could not generate a
+    // draft for this lead" was the only thing this ever printed — the same
+    // sentence for a model that ran out of reasoning budget, a missing API key
+    // and a lead with no thread, none of which have the same fix.
+    finish(
+      data,
+      data.draft
+        ? null
+        : data.generation_error || "Could not generate a draft for this lead.",
+    );
   }, 3000);
   genPolls.set(key, interval);
 }
