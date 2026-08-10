@@ -1,0 +1,9 @@
+{
+  "_comment": "Retired AeroDefense sending mailboxes -> the person's canonical name. Smartlead no longer returns these accounts, so they can't be resolved from /email-accounts and their threads land in the export's fallback tab; this map is what puts a readable name in the persona column instead of a mangled local part. Both first name and surname map to the same label because the local part varies wildly across old campaigns and domains (anna@, anna.sabryan@, sabryan.anna@, linda@, l.ziemba@, lexi.r@, r.lexi@ were all observed for the same three people). Matched as a lowercase substring of the local part. Keys starting with _ are ignored.",
+  "anna": "Anna",
+  "sabryan": "Anna",
+  "linda": "Linda",
+  "ziemba": "Linda",
+  "lexi": "Lexi",
+  "rinaudo": "Lexi"
+}

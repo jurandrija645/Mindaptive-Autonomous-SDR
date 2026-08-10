@@ -25,6 +25,9 @@ const state = {
   categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
   nameNote: null,        // "renamed here only" note from the last ✎ Rename, cleared on lead switch
+  google: null,          // /api/google/status: whether the LinkedIn export button can be drawn
+  exportNote: null,      // outcome of the last Export for LinkedIn, cleared on lead switch
+  exportRunning: false,  // an export is in flight for the currently open lead
   templates: null,       // message templates from /api/templates, loaded when the modal opens
   models: [],            // /api/models catalog: Anthropic + OpenRouter, with prices
   defaultModel: null,    // id of the model used when nothing is explicitly picked
@@ -1498,11 +1501,25 @@ function renderList() {
   });
 }
 
+// Whether the Export for LinkedIn button can be drawn at all: this client needs
+// a spreadsheet configured (LINKEDIN_SHEET_ID) and Google connected. Loaded once
+// at boot and re-read after the OAuth round trip, since that returns to /.
+async function loadGoogleStatus() {
+  try {
+    state.google = await apiGet("/api/google/status");
+  } catch (e) {
+    state.google = null;  // leaves the button undrawn rather than broken
+    console.error(e);
+  }
+}
+
 // ---------- detail ----------
 async function selectLead(i) {
   if (i < 0 || i >= state.leads.length) return;
   state.selected = i;
   state.nameNote = null;  // belongs to the rename that was just done, not to the next lead
+  state.exportNote = null;
+  state.exportRunning = false;
   renderList();
   const row = document.querySelector(`.lead-row[data-index="${i}"]`);
   if (row) row.scrollIntoView({ block: "nearest" });
@@ -1658,8 +1675,110 @@ function renderResearchPanel(lead) {
   return panel;
 }
 
+// The LinkedIn export lives above the archived/snoozed early returns on
+// purpose: a lead that went quiet and got archived or snoozed is exactly the
+// one worth chasing on LinkedIn, and both of those branches return early.
+function renderExportControl() {
+  const g = state.google;
+  if (!g || !g.configured) return null;
+
+  if (!g.connected) {
+    const link = el("a", "btn-secondary btn-link", "Connect Google Sheets");
+    link.href = g.connect_url;
+    link.title = "Authorize this app to write to your LinkedIn outreach sheet";
+    return link;
+  }
+
+  const wrap = el("span", "export-linkedin");
+  const btn = el("button", "btn-secondary");
+  btn.type = "button";
+  btn.title = "Add this lead to the LinkedIn outreach sheet, in their sender's tab";
+  if (state.exportRunning) {
+    btn.disabled = true;
+    btn.appendChild(el("span", "spinner"));
+    btn.appendChild(document.createTextNode("Exporting…"));
+  } else {
+    btn.textContent = "Export for LinkedIn";
+    btn.addEventListener("click", exportLeadForLinkedIn);
+  }
+  wrap.appendChild(btn);
+
+  if (state.exportNote) {
+    const { kind, text } = state.exportNote;
+    const cls = kind === "error" ? "error-note" : kind === "warn" ? "status-banner warn" : "status-banner";
+    wrap.appendChild(el("span", cls, text));
+  }
+  return wrap;
+}
+
+async function exportLeadForLinkedIn() {
+  const { cid, lid } = currentLeadIds();
+  state.exportNote = null;
+  state.exportRunning = true;
+  refreshLeadActions();
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/export-linkedin`, {});
+  } catch (e) {
+    state.exportRunning = false;
+    state.exportNote = { kind: "error", text: e.message };
+    refreshLeadActions();
+    return;
+  }
+  pollExport(cid, lid);
+}
+
+// Polls until the background export finishes. Bails out if the user has moved
+// to another lead — the note belongs to the lead it was started from.
+async function pollExport(cid, lid) {
+  let data;
+  try {
+    data = await apiGet(`/api/leads/${cid}/${lid}/export-linkedin`);
+  } catch (e) {
+    data = { running: false, error: e.message };
+  }
+  const open = currentLead();
+  if (!open || open.campaign_id !== cid || open.lead_id !== lid) return;
+
+  if (data.running) {
+    setTimeout(() => pollExport(cid, lid), 2000);
+    return;
+  }
+  state.exportRunning = false;
+  const r = data.result;
+  if (data.error) {
+    state.exportNote = { kind: "error", text: data.error };
+  } else if (r && r.status === "duplicate") {
+    state.exportNote = {
+      kind: "warn",
+      text: `Already in the ${r.tab} tab${r.row ? ` (row ${r.row})` : ""} — nothing added`,
+    };
+  } else if (r) {
+    const linkedin = r.linkedin_found ? "" : ", no LinkedIn URL found";
+    state.exportNote = {
+      kind: "ok",
+      text: `Added to the ${r.tab} tab${r.row ? ` (row ${r.row})` : ""}${linkedin}`,
+    };
+  } else {
+    state.exportNote = { kind: "error", text: "The export finished with no result." };
+  }
+  refreshLeadActions();
+}
+
+// Swap just the actions bar, never re-render the whole detail pane: the draft
+// editor lives further down it and holds unsaved typing, so a full renderDetail
+// to show a spinner would throw away whatever Andrew was in the middle of
+// writing. Same hot-swap the research panel uses after a regenerate.
+function refreshLeadActions() {
+  const old = $("lead-actions");
+  if (old && state.detail) old.replaceWith(renderLeadActionsBar(state.detail.lead));
+}
+
 function renderLeadActionsBar(lead) {
   const bar = el("div", "lead-actions");
+  bar.id = "lead-actions";
+
+  const exportControl = renderExportControl();
+  if (exportControl) bar.appendChild(exportControl);
 
   if (lead.archive_reason) {
     const label = archiveLabel(lead.archive_reason);
@@ -3389,6 +3508,7 @@ loadInbox().catch((e) => {
 });
 loadCategories();
 loadModels();
+loadGoogleStatus();
 
 // Quietly re-pull the inbox so a reply that just arrived (webhook, or the
 // periodic backend scan) shows up without a manual Rescan or F5. List-only:

@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import secrets
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -13,9 +14,10 @@ from fastapi.templating import Jinja2Templates
 
 from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
 from app import candidates as candidates_module
-from app import db, drafter, library, message_templates, models_registry, pipeline, scheduler
-from app import signatures, smartlead
+from app import db, drafter, google_oauth, library, message_templates, models_registry
+from app import pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
+from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
 from app.detector import (
@@ -1182,6 +1184,110 @@ def api_unsnooze_lead(request: Request, campaign_id: int, lead_id: int):
     with db.db_session() as conn:
         db.upsert_lead_state(conn, lead_id, campaign_id, snooze_until=None)
     return JSONResponse({"ok": True})
+
+
+# ---- LinkedIn export to Google Sheets ----
+
+@app.get("/api/google/status")
+def api_google_status(request: Request):
+    """What the Export for LinkedIn button should render as. `configured` is the
+    client-side gate: with no spreadsheet set for this client there is nowhere
+    to export to, so the button isn't drawn at all."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse({
+        "configured": bool(settings.linkedin_sheet_id and google_oauth.is_configured()),
+        "connected": google_oauth.is_connected(),
+        "connect_url": "/oauth/google/start",
+    })
+
+
+@app.get("/oauth/google/start")
+def oauth_google_start(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    try:
+        # CSRF: Google echoes this back on the callback, which is the only proof
+        # the code arriving there was requested by this browser session.
+        state = secrets.token_urlsafe(24)
+        request.session["google_oauth_state"] = state
+        return RedirectResponse(url=google_oauth.authorize_url(state), status_code=303)
+    except google_oauth.GoogleAuthError as e:
+        return HTMLResponse(f"<p>{e}</p><p><a href='/dashboard'>Back</a></p>", status_code=400)
+
+
+@app.get("/oauth/google/callback")
+def oauth_google_callback(request: Request, code: str = "", state: str = "", error: str = ""):
+    """Google sends the browser back here. A top-level GET navigation, so the
+    lax session cookie rides along and require_auth passes as usual."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    expected = request.session.pop("google_oauth_state", None)
+    if error:
+        return HTMLResponse(
+            f"<p>Google returned: {error}</p><p><a href='/dashboard'>Back</a></p>", status_code=400
+        )
+    if not code or not expected or state != expected:
+        return HTMLResponse(
+            "<p>That Google sign-in didn't match this browser session — start it again "
+            "from the dashboard.</p><p><a href='/dashboard'>Back</a></p>",
+            status_code=400,
+        )
+    try:
+        google_oauth.exchange_code(code)
+    except google_oauth.GoogleAuthError as e:
+        return HTMLResponse(f"<p>{e}</p><p><a href='/dashboard'>Back</a></p>", status_code=400)
+    return RedirectResponse(url="/dashboard", status_code=303)
+
+
+@app.post("/api/google/disconnect")
+def api_google_disconnect(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    google_oauth.disconnect()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/export-linkedin")
+def api_export_linkedin(request: Request, campaign_id: int, lead_id: int):
+    """Starts the export on a background thread; the client polls the GET below.
+    Same reason as bulk generate — a Smartlead fetch plus a thread summary plus
+    a LinkedIn web search runs past Cloudflare's ~100s tunnel timeout.
+
+    Deliberately not gated by DRY_RUN: it writes to Andrew's own spreadsheet and
+    mails nobody, and gating it would make the feature untestable locally, where
+    DRY_RUN stays on."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    if not settings.linkedin_sheet_id:
+        return JSONResponse({"error": "LINKEDIN_SHEET_ID is not set."}, status_code=400)
+    if not google_oauth.is_connected():
+        return JSONResponse(
+            {"error": "Not connected to Google — click Connect Google Sheets."},
+            status_code=409,
+        )
+    started = sheet_export.export_lead_in_background(campaign_id, lead_id)
+    return JSONResponse({
+        "started": started,
+        "running": sheet_export.is_running(campaign_id, lead_id),
+    })
+
+
+@app.get("/api/leads/{campaign_id}/{lead_id}/export-linkedin")
+def api_export_linkedin_status(request: Request, campaign_id: int, lead_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse({
+        "running": sheet_export.is_running(campaign_id, lead_id),
+        "result": sheet_export.last_result(campaign_id, lead_id),
+        "error": sheet_export.last_error(campaign_id, lead_id),
+    })
 
 
 # ---- draft actions (JSON) ----

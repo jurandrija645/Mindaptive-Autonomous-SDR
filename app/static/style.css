@@ -378,6 +378,17 @@ button:disabled { opacity: .55; cursor: default; }
   border-bottom: 1px solid var(--border);
 }
 .lead-actions .btn-secondary { padding: 6px 11px; font-size: 13px; }
+/* Export for LinkedIn: the button plus the note describing what the last click
+   did, kept together so the note sits beside its button rather than wrapping to
+   the far end of the flex row. */
+.export-linkedin { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.export-linkedin .error-note { margin-top: 0; }
+/* The not-yet-connected state is an <a> (it leaves the SPA for Google's consent
+   screen), so it needs the padding/decoration button gets for free. */
+.lead-actions .btn-link {
+  display: inline-block; padding: 6px 11px; font-size: 13px;
+  border-radius: 8px; text-decoration: none;
+}
 .status-banner {
   font-size: 13px;
   font-weight: 600;

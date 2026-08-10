@@ -6,7 +6,11 @@
 __pycache__/
 *.pyc
 data/
-exports/
+# Anchored to the repo root ON PURPOSE. A bare `exports/` matches at any depth,
+# which silently swallowed the whole app/exports/ PACKAGE — lead_export.py was
+# never committed and so was never in the Docker image. Harmless while nothing
+# in app/ imported it; a boot-time crash the moment main.py did.
+/exports/
 *.db
 *.db-journal
 *.db-wal

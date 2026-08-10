@@ -153,6 +153,30 @@ def get_message_history(
     return data
 
 
+def get_lead(lead_id: int, api_key: str | None = None) -> dict:
+    """GET /leads/{id} — one lead, without paginating its whole campaign.
+
+    A global lookup, so no campaign_id is needed. Carries everything the
+    LinkedIn export wants and `normalize_lead` throws away: `last_name`,
+    `phone_number`, `linkedin_profile`, `company_url`, and the full
+    `custom_fields`.
+
+    The published response shape is wrong in three ways — verified against the
+    Mindaptive Jones test lead 2026-08-10. The real body is
+    `{"ok": true, "message": "...", "data": [ {lead} ]}`: the docs show a bare
+    lead object with no wrapper, `data` is a one-element LIST rather than an
+    object, and the example omits every field above. It also carries no
+    `lead_category_id`, so a caller that needs the category still has to go
+    through `list_campaign_leads`.
+    """
+    data = _request("GET", f"/leads/{lead_id}", api_key=api_key)
+    if isinstance(data, dict) and "data" in data:
+        data = data.get("data")
+    if isinstance(data, list):
+        data = data[0] if data else None
+    return data or {}
+
+
 def get_campaign(campaign_id: int, api_key: str | None = None) -> dict:
     """GET /campaigns/{id} — campaign settings. The fields that matter here are
     `track_settings` (this account runs DONT_EMAIL_OPEN/DONT_LINK_CLICK, i.e.

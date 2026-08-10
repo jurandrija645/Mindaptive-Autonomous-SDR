@@ -132,6 +132,27 @@ Note `message_id` (RFC822 header) and `stats_id` (Smartlead's internal id, what
 Documented query params, not yet used: `event_time_gt` (ISO 8601),
 `show_plain_text_response` (boolean).
 
+### `GET /leads/{id}` — one lead, no campaign id (verified 2026-08-10)
+
+Probed against the Mindaptive Jones test lead (`2758494567`). It works, and the
+documented response is wrong in three ways:
+
+| | Documented | Actually observed |
+|---|---|---|
+| Wrapper | none — a bare lead object | `{"ok": true, "message": "Lead details fetched successfully", "data": [...]}` |
+| `data` | n/a | a **one-element list**, not an object |
+| Fields | `id, email, first_name, last_name, company_name, status, category_id, category_name, email_stats{}, custom_fields{}` | `id, email, first_name, last_name, company_name, website, company_url, phone_number, linkedin_profile, linkedin_profile_data, location, custom_fields, timezone, source, seg_type, year, email_domain, esp_domain_type, created_at, message_id, user_id, is_unsubscribed, unsubscribed_client_id_map, unsubscribed_from_campaign_id, webhook_logs` |
+
+So the fields the docs *do* list are the ones that mostly aren't there:
+**no `status`, no `category_id`, no `category_name`, no `email_stats`.** A caller
+that needs the lead's category still has to go through `list_campaign_leads`,
+where `lead_category_id` sits at the top level beside the nested `lead{}`.
+
+Everything the LinkedIn export needs and `normalize_lead` drops *is* here —
+`last_name`, `phone_number`, `linkedin_profile`, `company_url`, `website` and
+the full `custom_fields` — which is why `smartlead.get_lead` exists: it's one
+call instead of paginating a 5k-lead campaign to find one row.
+
 ### Campaign analytics & variants (verified 2026-07-22)
 
 The endpoints behind the dashboard's **Campaigns** tab. Two of the four are

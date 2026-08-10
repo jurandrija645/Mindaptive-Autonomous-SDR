@@ -57,7 +57,10 @@ def personas() -> list[dict]:
         [{"from_name": "Amy Muschler",       # must match Smartlead's from_name
           "signature_file": "amy-muschler.html",
           "calendar_link": "https://meetings.hubspot.com/amy-muschler",
-          "name_hints": ["amy"]}]            # optional, for retired mailboxes
+          "name_hints": ["amy"],             # optional, for retired mailboxes
+          "sheet_tab": "Amy"}]               # optional; defaults to the file
+                                             # stem's first word (see
+                                             # signatures.persona_tab)
 
     Returns [] when the file is absent, which keeps Mindaptive on the hardcoded
     map in app/signatures.py.
@@ -71,6 +74,25 @@ def personas() -> list[dict]:
         log.exception("could not read %s — falling back to built-in personas", path)
         return []
     return data if isinstance(data, list) else []
+
+
+def prior_senders() -> dict[str, str]:
+    """Retired sending mailboxes for this client, from
+    `<CLIENT_DIR>/prior-senders.json`: `{"sabryan": "Anna", ...}`, mapping a
+    lowercase substring of the mailbox's local part to the person's canonical
+    name. Used by the exports to label a thread whose mailbox Smartlead no
+    longer returns. `{}` when absent, and `_`-prefixed keys are comments."""
+    path = CLIENT_DIR / "prior-senders.json"
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        log.exception("could not read %s — continuing with no prior-sender names", path)
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    return {k: str(v) for k, v in data.items() if not k.startswith("_") and v}
 
 
 def describe() -> str:

@@ -25,6 +25,7 @@ _NAME_HINTS = {
 }
 
 _CALENDAR_LINKS: dict[str, str] = {}
+_SHEET_TABS: dict[str, str] = {}
 
 _CONFIGURED = client_assets.personas()
 if _CONFIGURED:
@@ -38,6 +39,11 @@ if _CONFIGURED:
         p["signature_file"]: p["calendar_link"]
         for p in _CONFIGURED
         if p.get("calendar_link")
+    }
+    _SHEET_TABS = {
+        p["signature_file"]: p["sheet_tab"]
+        for p in _CONFIGURED
+        if p.get("sheet_tab")
     }
     log.info("personas loaded from %s: %s", client_assets.CLIENT_DIR, list(PERSONA_FILES))
 
@@ -142,6 +148,28 @@ def is_sendable(sender_email: str) -> bool:
     if not settings.require_known_sender:
         return True
     return _resolve_file(sender_email) is not None
+
+
+def persona_tab(sender_email: str) -> str:
+    """Which tab of the client's LinkedIn export sheet this thread belongs in,
+    or "" if the sending mailbox doesn't resolve to a persona at all.
+
+    Derived from the signature file rather than configured, because both sheets
+    already name their tabs after the persona's first name and the file stems
+    already start with it: max-west.html -> "Max", mia.html -> "Mia",
+    andrew-grasso.html -> "Andrew". A client whose tab is named something else
+    can override it with "sheet_tab" in personas.json. Unlike persona_name this
+    works for Mindaptive too — it doesn't go through PERSONA_FILES' display
+    names, so it needs no personas.json.
+    """
+    file = _resolve_file(sender_email)
+    if not file:
+        return ""
+    configured = _SHEET_TABS.get(file)
+    if configured:
+        return configured
+    stem = file.rsplit(".", 1)[0]
+    return stem.split("-", 1)[0].capitalize()
 
 
 def calendar_link_for(sender_email: str) -> str:

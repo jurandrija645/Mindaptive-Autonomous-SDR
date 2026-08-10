@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import json
 import os
 
 from app.exports.lead_export import ExportConfig, run_export
@@ -21,6 +22,19 @@ from app.exports.lead_export import ExportConfig, run_export
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# Retired mailboxes, shared with the dashboard's per-lead export (which reads
+# the same file through client_assets.prior_senders — scripts/ isn't in the
+# Docker image, so the map can't live here alone). Read directly rather than via
+# client_assets because this script runs against AeroDefense regardless of what
+# CLIENT_DIR the local .env happens to say.
+_PRIOR_SENDERS = {
+    key: value
+    for key, value in json.loads(
+        (REPO_ROOT / "clients" / "aerodefense" / "prior-senders.json").read_text(encoding="utf-8")
+    ).items()
+    if not key.startswith("_")
+}
 
 CONFIG = ExportConfig(
     label="aerodefense",
@@ -32,15 +46,7 @@ CONFIG = ExportConfig(
         "Max West": "Max",
     },
     output_dir=REPO_ROOT / "exports" / "aerodefense",
-    # Retired mailboxes seen across old_inboxes.csv threads, confirmed from
-    # real sent-message "from" addresses in varying formats (anna@,
-    # anna.sabryan@, sabryan.anna@, linda@, l.ziemba@, lexi.r@, r.lexi@ all
-    # observed for the same three people across different old campaigns).
-    known_prior_senders={
-        "anna": "Anna", "sabryan": "Anna",
-        "linda": "Linda", "ziemba": "Linda",
-        "lexi": "Lexi", "rinaudo": "Lexi",
-    },
+    known_prior_senders=_PRIOR_SENDERS,
 )
 
 

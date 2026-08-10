@@ -119,5 +119,23 @@ class Settings:
         "CALENDLY_LINK", "https://calendly.com/andrew-mindaptive/30min"
     )
 
+    # Google Sheets — the "Export for LinkedIn" button (app/exports/sheet_export.py).
+    # OAuth rather than a service account: Andrew already owns both spreadsheets,
+    # so acting as him needs nothing shared and no key file placed on the droplet.
+    google_client_id: str = os.getenv("GOOGLE_CLIENT_ID", "")
+    google_client_secret: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
+    # Optional. The refresh token normally lives in app_settings (obtained via
+    # the dashboard's Connect flow), but the two containers have separate
+    # databases — setting this in .env.aerodefense lets the second one reuse the
+    # consent the first already gave instead of doing its own round trip.
+    google_refresh_token: str = os.getenv("GOOGLE_REFRESH_TOKEN", "")
+    # Spreadsheet this client's leads are exported into, one tab per sending
+    # persona. Per client, so it belongs in each .env. Blank hides the button.
+    linkedin_sheet_id: str = os.getenv("LINKEDIN_SHEET_ID", "")
+    # Where a lead goes when its thread was sent from a mailbox that no longer
+    # maps to a persona (AeroDefense's retired anna@/linda@/lexi.r@ inboxes).
+    # Created with a header row if the spreadsheet doesn't have it.
+    linkedin_sheet_fallback_tab: str = os.getenv("LINKEDIN_SHEET_FALLBACK_TAB", "Other")
+
 
 settings = Settings()
