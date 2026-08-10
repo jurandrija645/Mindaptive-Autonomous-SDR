@@ -393,6 +393,42 @@ def reply_to_thread(
     return resp
 
 
+# Smartlead custom fields that carry the lead's language, in the order we trust
+# them. There is more than one because the campaigns were built at different
+# times by different scrapers: `language_code` is what HealthClinics - EU and
+# Dental Clinics - EU write, `targetLanguage` is what SolarPanel - EU, HVAC - EU
+# and Solar Panel - USA r2 write. Only `language_code` was ever read, so every
+# lead in the second group had no language on file at all — and a quick-pick
+# template for one of them went out in English, because that is what
+# translator.localize_quick_text does when handed no language (verified against
+# the live API 2026-08-10: SolarPanel - EU alone has es/de/nl/sv/no/fi/ca/gl
+# leads, all invisible to us). Keys are matched loosely (case and separators
+# ignored) so "Language Code", "language_code" and "targetLanguage" all land.
+_LANGUAGE_FIELDS = ("languagecode", "targetlanguage", "language")
+
+
+def _language_from_custom_fields(custom_fields: dict | None) -> str | None:
+    """The lead's 2-letter language code, from whichever field carries it.
+
+    Values are trustworthy when present: across 36 leads in three EU campaigns
+    the claimed code matched the language our own outbound email was actually
+    written in, every time. An empty string is treated as absent — 24 Dental
+    leads carry `language_code: ""`.
+    """
+    if not isinstance(custom_fields, dict):
+        return None
+    normalized = {}
+    for key, value in custom_fields.items():
+        flat = "".join(ch for ch in str(key).lower() if ch.isalnum())
+        # First key wins on a collision; nothing in the live data collides.
+        normalized.setdefault(flat, value)
+    for field in _LANGUAGE_FIELDS:
+        code = str(normalized.get(field) or "").strip().lower()[:2]
+        if code.isalpha() and len(code) == 2:
+            return code
+    return None
+
+
 def normalize_lead(raw: dict, campaign_id: int) -> dict:
     inner = raw.get("lead") if isinstance(raw.get("lead"), dict) else raw
     custom_fields = inner.get("custom_fields") or raw.get("custom_fields") or {}
@@ -405,10 +441,10 @@ def normalize_lead(raw: dict, campaign_id: int) -> dict:
         "website": inner.get("website") or raw.get("website"),
         "custom_fields": custom_fields,
         "lead_category_id": raw.get("lead_category_id") or inner.get("lead_category_id"),
-        # Smartlead's own per-lead "Language Code" custom field (e.g. "de") —
-        # confirmed present on real leads (verified 2026-07-16). More reliable
-        # than guessing from a short auto-reply snippet via langdetect.
-        "language_code": (custom_fields or {}).get("language_code") or None,
+        # Smartlead's own per-lead language custom field (e.g. "de") — more
+        # reliable than guessing from a short auto-reply snippet via langdetect.
+        # See _LANGUAGE_FIELDS: which field holds it depends on the campaign.
+        "language_code": _language_from_custom_fields(custom_fields),
     }
 
 

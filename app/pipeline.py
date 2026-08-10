@@ -13,14 +13,31 @@ log = logging.getLogger("pipeline")
 
 
 def thread_language(thread) -> str | None:
-    """Language of the lead's own writing, most recent message first. Local
+    """Language of the conversation, most recent message first. Local
     (langdetect), so it costs nothing and can be used as a last-moment fallback
-    when leads_state has no language recorded."""
-    for msg in reversed(thread):
-        if msg.kind == "reply":
-            lang = translator.detect_language(to_plain_text(msg.body))
-            if lang:
-                return lang
+    when leads_state has no language recorded.
+
+    The lead's own writing decides it when we have any: a Danish lead who
+    answers in English wants English back, and mirroring them is the whole
+    point. Only when they have never written — or wrote too little for
+    langdetect's 20-character floor — do we fall back to **our own** sent
+    messages.
+
+    That fallback matters more than it sounds. A third of the account's
+    campaigns carry no language custom field at all (every B2B one, Solar Panel
+    - Germany, the HVAC USA runs), so a lead there who had not replied yet had
+    no language anywhere — and a quick-pick template for them went out in
+    English at full confidence. Meanwhile the answer was sitting in the thread
+    the whole time: Smartlead merged the sequence in the lead's own language, so
+    what we mailed them says what language they read. to_plain_text drops the
+    quoted history first, so a Danish message with our English signature under
+    it is still recognisably Danish."""
+    for kind in ("reply", "sent"):
+        for msg in reversed(thread):
+            if msg.kind == kind:
+                lang = translator.detect_language(to_plain_text(msg.body))
+                if lang:
+                    return lang
     return None
 
 
