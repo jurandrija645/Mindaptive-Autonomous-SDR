@@ -194,11 +194,15 @@ async function openModelsModal() {
   header.appendChild(closeBtn);
   modal.appendChild(header);
 
+  // Roles and the footnote share one scrolling, padded body — .modal itself is
+  // overflow:hidden with a max-height, so anything appended straight to it is
+  // clipped once the panel is taller than the window.
+  const body = el("div", "models-body");
   const list = el("div", "models-roles");
   (state.roles || []).forEach((role) => list.appendChild(renderRoleRow(role)));
-  modal.appendChild(list);
+  body.appendChild(list);
 
-  modal.appendChild(
+  body.appendChild(
     el(
       "div",
       "models-note",
@@ -207,6 +211,7 @@ async function openModelsModal() {
         "drafting model is an OpenRouter one, batches fall back to ANTHROPIC_MODEL."
     )
   );
+  modal.appendChild(body);
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);

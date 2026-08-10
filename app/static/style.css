@@ -564,13 +564,30 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 .btn-set-default:disabled { opacity: 0.6; cursor: default; }
 
 /* ---- Models panel (⚙ Models) ---- */
-.models-modal { max-width: 640px; }
+/* Qualified with .modal deliberately. Both selectors are one class deep, so the
+   later one in the file wins on source order alone — and .modal (further down,
+   with the rest of the modal styling) set max-width: 560px, quietly overriding
+   the 640px this panel asks for. It is the widest modal in the app: five rows
+   of long select labels, each with a status word on the far right. */
+.modal.models-modal { max-width: 640px; }
+/* The scroll container the panel was missing. .modal is overflow:hidden with a
+   max-height of 80vh, so a body that doesn't scroll for itself simply gets cut
+   — the footnote about batch pre-generation was sliced through mid-sentence on
+   a laptop screen. It carries the horizontal padding too: without it the rows
+   and their selects sat flush against the modal's edges while the header above
+   them was indented 20px, which is what made the panel look broken. */
+.models-body { overflow-y: auto; padding: 6px 20px 18px; }
 .models-roles { display: flex; flex-direction: column; gap: 4px; }
 .models-role { padding: 14px 0; border-bottom: 1px solid var(--border); }
 .models-role:last-child { border-bottom: none; }
 .models-role-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-.models-role-label { font-weight: 600; font-size: 14px; }
-.models-role-status { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.models-role-label { font-weight: 600; font-size: 14px; min-width: 0; }
+/* Never let "FOLLOWS WRITING DRAFTS" wrap onto a second line or push past the
+   edge — it's the longest status and it sits hard against the right margin. */
+.models-role-status {
+  font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em;
+  white-space: nowrap; flex-shrink: 0;
+}
 .models-role-status.is-explicit { color: var(--accent, #2d7ff9); }
 .models-role-desc { font-size: 12px; color: var(--muted); margin: 4px 0 9px; line-height: 1.45; }
 .models-role-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -578,6 +595,9 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   border: 1px solid var(--border); font-family: inherit; font-size: 13px; }
 .btn-inherit { font-size: 12px; padding: 5px 9px; white-space: nowrap; }
 .btn-inherit:disabled { opacity: 0.5; cursor: default; }
+/* Inside the scrolling body, not pinned as a footer: it's three lines of
+   caveat, and giving it permanent space would cost a whole role row on a
+   laptop. Scrolled to, it reads fine; clipped, it read as a bug. */
 .models-note { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
   font-size: 12px; color: var(--muted); line-height: 1.5; }
 
