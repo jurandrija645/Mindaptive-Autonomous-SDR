@@ -221,9 +221,13 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
     # forwarding, kept here so Smartlead's webhook can point straight at the app
     # (app/reply_classifier.py). It decides whether to spend a draft and whether
     # to push the lead to Smartlead's Interested category — nothing else.
-    relevant, reason = reply_classifier.is_relevant(_reply_text(payload))
+    label, reason = reply_classifier.classify(_reply_text(payload))
     log.info("lead %s reply: %s", lead_id, reason)
-    if not relevant:
+    if label != reply_classifier.INTERESTED:
+        # Recorded and visible either way; db.sort_replied_lead just moves it
+        # out of the red "awaiting reply" tier it doesn't belong in.
+        with db.db_session() as conn:
+            db.sort_replied_lead(conn, lead_id, campaign_id, label)
         return {"status": "ok", "note": f"recorded, no draft — {reason}"}
 
     _promote_category_to_interested(campaign_id, lead_id, lead_row)

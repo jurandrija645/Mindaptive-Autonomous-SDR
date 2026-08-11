@@ -34,28 +34,41 @@ log = logging.getLogger("reply_classifier")
 # noise and tokens. to_plain_text already drops the quoted part.
 _MAX_CHARS = 4000
 
+INTERESTED = "interested"
+AUTO_REPLY = "auto_reply"
+NOT_INTERESTED = "not_interested"
+
 _SYSTEM = (
     "You are an AI text classification system. Your sole function is to analyze "
-    "the provided text and assign it one of two categories: RELEVANT or NOT_RELEVANT."
+    "the provided text and assign it exactly one of three categories: "
+    "INTERESTED, AUTO_REPLY or NOT_INTERESTED."
 )
 
 _USER = """**CATEGORY DEFINITIONS:**
-* **RELEVANT:**
+* **INTERESTED** — a real person wrote this and the conversation is alive:
 - Any interest in continuing the conversation.
-- Inquiries about price, a demo, a meeting
+- Inquiries about price, a demo, a meeting.
 - Forwarding the email to a relevant colleague.
+- A question, an objection, or a request to talk at a specific later time.
 
-* **NOT_RELEVANT:**
-- Rejection
-- unsubscribe request
-- "out of office" message
-- reply that clearly ends the communication.
-- Auto-reply or an Autoresponder message
-- Response like -- "We will respond within X hours/days..."
+* **AUTO_REPLY** — nobody actually read it; a machine answered:
+- "Out of office" / holiday / away message.
+- Autoresponder or ticket acknowledgement ("we have received your email").
+- "We will respond within X hours/days..."
+- Delivery failure, blocked message, or an anti-spam verification challenge.
+
+* **NOT_INTERESTED** — a person answered and the answer is no:
+- Rejection.
+- Unsubscribe or removal request, or a data-protection complaint.
+- "Wrong person" / "we don't handle this".
+- A reply that clearly ends the communication.
+
+An out-of-office that also says to get in touch at a named later date is
+INTERESTED, not AUTO_REPLY — a person wrote that sentence.
 
 **MANDATORY COMMAND:**
-Carefully read the text inside the quotation marks below. After your analysis, your \
-output **must be only one word**: RELEVANT or NOT_RELEVANT.
+Carefully read the text below. After your analysis, your output **must be only \
+one word**: INTERESTED, AUTO_REPLY or NOT_INTERESTED.
 You must not write anything else. No explanations, no greetings, and no period at the end.
 
 **TEXT TO ANALYZE:**
@@ -63,10 +76,19 @@ You must not write anything else. No explanations, no greetings, and no period a
 
 
 def is_relevant(reply_text: str) -> tuple[bool, str]:
-    """`(relevant, reason)`. Fails open — see the module docstring."""
+    """`(relevant, reason)` — the two-way view, for callers that only need to
+    know whether to spend a draft."""
+    label, reason = classify(reply_text)
+    return label == INTERESTED, reason
+
+
+def classify(reply_text: str) -> tuple[str, str]:
+    """`(label, reason)` where label is INTERESTED / AUTO_REPLY / NOT_INTERESTED.
+
+    Fails open to INTERESTED — see the module docstring."""
     text = to_plain_text(reply_text or "").strip()
     if not text:
-        return True, "empty message — nothing to classify, treating as relevant"
+        return INTERESTED, "empty message — nothing to classify, treated as interested"
 
     try:
         # 512 tokens for a one-word answer, and it has to be. A reasoning model
@@ -83,17 +105,18 @@ def is_relevant(reply_text: str) -> tuple[bool, str]:
             max_tokens=512,
         )
     except Exception as exc:
-        log.warning("reply classifier failed (%s) — treating reply as relevant", exc)
-        return True, f"classifier unavailable ({exc.__class__.__name__}) — treated as relevant"
+        log.warning("reply classifier failed (%s) — treating reply as interested", exc)
+        return INTERESTED, f"classifier unavailable ({exc.__class__.__name__}) — treated as interested"
 
-    # "NOT_RELEVANT" contains "RELEVANT", so the negative has to be tested
-    # first. The prefix match rather than the whole word is deliberate: a
-    # truncated verdict is still unambiguous, and reading "NOT_RELEV" as
-    # relevant is the one misparse that costs a real draft every time.
+    # Prefixes, not whole words: a reasoning model that runs out of budget
+    # returns a truncated verdict, and "NOT_INTER" is still unambiguous. The
+    # negative is tested first because "NOT_INTERESTED" contains "INTERESTED".
     normalized = verdict.strip().upper()
-    if "NOT_RELEV" in normalized:
-        return False, "classified NOT_RELEVANT (rejection / auto-reply / out-of-office)"
-    if "RELEVANT" in normalized:
-        return True, "classified RELEVANT"
-    log.warning("reply classifier returned %r — treating reply as relevant", verdict[:100])
-    return True, f"classifier gave an unrecognized verdict ({verdict[:40]!r}) — treated as relevant"
+    if "NOT_INTER" in normalized:
+        return NOT_INTERESTED, "classified NOT_INTERESTED (rejection / unsubscribe / wrong person)"
+    if "AUTO_REPL" in normalized or "AUTO REPL" in normalized:
+        return AUTO_REPLY, "classified AUTO_REPLY (autoresponder / out-of-office / bounce)"
+    if "INTEREST" in normalized:
+        return INTERESTED, "classified INTERESTED"
+    log.warning("reply classifier returned %r — treating reply as interested", verdict[:100])
+    return INTERESTED, f"classifier gave an unrecognized verdict ({verdict[:40]!r}) — treated as interested"

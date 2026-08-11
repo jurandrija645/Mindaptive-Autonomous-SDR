@@ -551,6 +551,51 @@ def mark_lead_replied(
     upsert_lead_state(conn, lead_id, campaign_id, **fields)
 
 
+def sort_replied_lead(conn, lead_id: int, campaign_id: int, label: str) -> None:
+    """Act on what app/reply_classifier.py decided an inbound reply was.
+
+    `mark_lead_replied` puts every reply in the red "awaiting reply" tier,
+    which is right until you know what the reply says — and wrong once you do.
+    Left alone it filled the inbox with "Thank you for your email, we aim to
+    respond within 24 hours", because a clinic's autoresponder is, structurally,
+    a reply. So the cheap classifier's verdict is applied here:
+
+    - `interested` — leave it. It is a live conversation.
+    - `auto_reply` — a machine answered. Stays visible, but as `auto_reply`,
+      which drops it out of the red tier into the grey one, and `status`
+      returns to 'active' so it is not counted as owing anyone a response.
+      The scan's existing Auto-Reply handling then treats it normally.
+    - `not_interested` — a person answered and the answer was no. Archived
+      (recoverable from the Archive tab) and `status='stopped'`, which is
+      exactly what "Stop following up this lead" does. The asymmetry is
+      deliberate: mis-sorting a live lead here hides a row Andrew can get back,
+      while leaving a "do not contact again, GDPR" in the follow-up cadence
+      keeps mailing someone who told us to stop.
+
+    Never touches a booked lead — that freeze outranks anything a reply says."""
+    existing = get_lead_state(conn, lead_id, campaign_id)
+    if existing and existing["status"] == "booked":
+        return
+
+    if label == "auto_reply":
+        upsert_lead_state(
+            conn, lead_id, campaign_id, category="auto_reply", status="active"
+        )
+    elif label == "not_interested":
+        conn.execute(
+            """UPDATE drafts SET status = 'stale'
+               WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending', 'scheduled')""",
+            (lead_id, campaign_id),
+        )
+        upsert_lead_state(
+            conn, lead_id, campaign_id,
+            category="not_interested",
+            status="stopped",
+            archived_at=now_iso(),
+            archive_reason="not interested (auto-sorted)",
+        )
+
+
 def list_inbox(conn):
     """Every interested, non-stopped, non-archived, non-snoozed(-future) lead for
     the unified inbox. Ordering: a snooze whose date has arrived jumps to the

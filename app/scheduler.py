@@ -7,7 +7,9 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app import batch_gen, db, detector, lead_language, pipeline, signatures, smartlead
+from app import (
+    batch_gen, db, detector, lead_language, pipeline, reply_classifier, signatures, smartlead,
+)
 from app.config import settings
 from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
@@ -374,6 +376,19 @@ def run_reply_catch_scan() -> None:
                             preview=to_plain_text(last.body),
                             received_at=last.timestamp.astimezone(timezone.utc).isoformat(),
                         )
+
+                    # Then work out what the reply actually was. Recording it
+                    # first and sorting it second is the order that matters:
+                    # the message is on file either way, and only its placement
+                    # depends on a model. Without this the inbox fills with
+                    # clinic autoresponders — "Thank you for your email, we aim
+                    # to respond within 24 hours" is, structurally, a reply.
+                    label, reason = reply_classifier.classify(last.body)
+                    if label != reply_classifier.INTERESTED:
+                        log.info("reply-catch: lead %s sorted as %s (%s)", row["lead_id"], label, reason)
+                        with db.db_session() as conn:
+                            db.sort_replied_lead(conn, row["lead_id"], campaign_id, label)
+                        continue
 
                     with db.db_session() as conn:
                         # Already have a draft for this reply (webhook or an
