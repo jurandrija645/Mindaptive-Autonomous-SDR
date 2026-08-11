@@ -101,6 +101,30 @@ safety net, and the safety net was what was broken.
 
 Result: a first reply is visible within about a minute, with no clicks.
 
+### Deployed and verified — same day
+
+Commit `a83ffe0`, both containers rebuilt with `--force-recreate` (plain
+`docker compose up -d --build` built the image but left the old containers
+running, reporting "Running" instead of "Recreated" — check
+`docker compose exec app ls /srv/app/<new file>` before believing a deploy).
+
+First poll after restart: **`adopted 7 lead(s) who replied but weren't tracked`**.
+Re-running the diagnostic below went from `missing 16 / stale 4 / visible 0` to
+`missing 9 / stale 4 / visible 7`, and the 9 still missing are exactly the 6 Do
+Not Contact plus 3 Not Interested that `_SKIP_ADOPT_CATEGORIES` skips on
+purpose. **No uncategorised lead is invisible any more.**
+
+A lead arrived mid-deploy (`info@kentcosmedics.co.uk`, 09:37) and was *not*
+adopted — correctly: Smartlead has it as Do Not Contact. Worth knowing that the
+filter is doing real work rather than passing everything through.
+
+`NEW_REPLY_POLL_SECONDS`, `SCAN_INTERVAL_MINUTES` and `REPLY_CLASSIFIER_MODEL`
+are unset in both `.env` files, so both run on the defaults (60s / 5min /
+DeepSeek V4 Flash). **`.env.aerodefense` has no `OPENROUTER_API_KEY`**, so the
+classifier there fails open and every reply still gets a draft — which is
+exactly AeroDefense's behaviour before this change, so nothing regressed; add
+the key if that container should start skipping out-of-office replies too.
+
 ### Things worth not re-learning
 
 - `GET /webhooks` does not exist on the Smartlead API (404). Webhooks can only
