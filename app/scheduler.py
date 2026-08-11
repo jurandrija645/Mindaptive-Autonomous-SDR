@@ -7,11 +7,10 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app import batch_gen, db, detector, pipeline, signatures, smartlead
+from app import batch_gen, db, detector, lead_language, pipeline, signatures, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 from app.thread_utils import guess_timezone
-from app.translator import detect_language
 
 log = logging.getLogger("scheduler")
 
@@ -37,23 +36,19 @@ def _category_id_fuzzy(categories: dict[str, int], name: str) -> int | None:
 
 
 def _lead_language(lead: dict, thread) -> str | None:
-    """Smartlead's own per-lead "Language Code" custom field when present —
-    authoritative, and doesn't depend on guessing from a short message. Falls
-    back to detecting from the lead's most recent message otherwise."""
-    code = (lead.get("language_code") or "").strip().lower()[:2]
-    if code:
-        return code
-    # Falling back to detection costs a Claude call per lead. Clients writing to
-    # one language only (DETECT_LANGUAGE=false) skip it, which keeps the scan
-    # model-free and therefore immune to an Anthropic outage or credit problem.
-    if not settings.detect_language:
-        return None
-    for msg in reversed(thread):
-        if msg.kind == "reply":
-            lang = detect_language(to_plain_text(msg.body))
-            if lang:
-                return lang
-    return None
+    """The lead's language, by the one ranking in app/lead_language.py:
+    Smartlead's own per-lead field, then the thread (their replies before our
+    sends), then whatever is already stored.
+
+    The scan is the writer of `leads_state.language`, so it deliberately does
+    not read the stored value back in — `lead_row` is left out and a scan that
+    can't tell writes nothing rather than a guess (see `_summary_for`).
+    `DETECT_LANGUAGE=false` turns the thread half off for clients that mail in
+    one language only."""
+    code, _source = lead_language.resolve(
+        thread=thread, lead=lead, use_detection=settings.detect_language
+    )
+    return code
 
 
 def _summary_for(lead: dict, thread, category: str, last_msg) -> dict:

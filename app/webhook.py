@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import httpx
 from fastapi import APIRouter, HTTPException, Request
 
-from app import db, pipeline, reply_classifier, smartlead
+from app import db, lead_language, pipeline, reply_classifier, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 
@@ -231,6 +231,13 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
     raw_lead = smartlead.normalize_lead({"id": lead_id}, campaign_id)
     raw_lead["email"] = raw_lead["email"] or payload.get("to_email")
     raw_lead["first_name"] = raw_lead["first_name"] or payload.get("to_name")
+    # The placeholder above carries no custom_fields, so it knows no language.
+    # Fetch the real one: pipeline.create_draft ranks it above langdetect on
+    # the thread, and this is a lead who just replied — an English "thanks" or
+    # an out-of-office is exactly the input that reads as English when the
+    # campaign has been mailing them German all along. Fail-soft (see
+    # lead_language.smartlead_field), so a hiccup just falls back to the thread.
+    raw_lead["language_code"] = lead_language.smartlead_field(campaign_id, lead_id)
     if lead_row:
         raw_lead.update(
             {

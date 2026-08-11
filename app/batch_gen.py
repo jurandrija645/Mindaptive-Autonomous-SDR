@@ -23,7 +23,9 @@ import logging
 
 import anthropic
 
-from app import db, detector, drafter, models_registry, pipeline, signatures
+from app import (
+    db, detector, drafter, lead_language, models_registry, pipeline, signatures, translator,
+)
 from app.config import settings
 from app.detector import last_sender_email
 from app.thread_utils import next_morning_send_utc, render_thread_text
@@ -73,6 +75,12 @@ def _build_candidate_request(cand: dict) -> dict | None:
     # this is the path AUTO_GENERATE_FOLLOWUPS uses by default, so a client
     # whose templates carry a per-persona booking link needs it here too.
     sender_email = last_sender_email(thread)
+    # Tell the model which language to write in rather than leaving it to infer
+    # from the thread (see drafter._build_user_message). No Smartlead lead fetch
+    # here — this runs over every due candidate at once, and the scan that just
+    # ran wrote that same field onto leads_state, so the thread and the stored
+    # column are enough.
+    language, _source = lead_language.resolve(thread=thread, lead_row=lead_row)
     lead_payload = {
         "name": lead["first_name"] or "",
         "company": lead["company_name"] or "",
@@ -82,6 +90,8 @@ def _build_candidate_request(cand: dict) -> dict | None:
         "custom_fields": None,
         "sender_name": signatures.persona_name(sender_email),
         "calendar_link": signatures.calendar_link_for(sender_email),
+        "language": language,
+        "language_name": translator.language_name(language) if language else "",
     }
     params = drafter.build_batch_request_params(
         "followup",

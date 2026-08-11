@@ -2,43 +2,20 @@ import json
 import logging
 
 from app import (
-    autoreply_templates, db, drafter, models_registry, signatures, smartlead, translator,
+    autoreply_templates, db, drafter, lead_language, models_registry, signatures,
+    smartlead, translator,
 )
 from app.config import settings
 from app.detector import last_sender_email, normalize_thread
-from app.email_clean import to_plain_text
 from app.thread_utils import render_thread_text, text_to_html
 
 log = logging.getLogger("pipeline")
 
 
-def thread_language(thread) -> str | None:
-    """Language of the conversation, most recent message first. Local
-    (langdetect), so it costs nothing and can be used as a last-moment fallback
-    when leads_state has no language recorded.
-
-    The lead's own writing decides it when we have any: a Danish lead who
-    answers in English wants English back, and mirroring them is the whole
-    point. Only when they have never written — or wrote too little for
-    langdetect's 20-character floor — do we fall back to **our own** sent
-    messages.
-
-    That fallback matters more than it sounds. A third of the account's
-    campaigns carry no language custom field at all (every B2B one, Solar Panel
-    - Germany, the HVAC USA runs), so a lead there who had not replied yet had
-    no language anywhere — and a quick-pick template for them went out in
-    English at full confidence. Meanwhile the answer was sitting in the thread
-    the whole time: Smartlead merged the sequence in the lead's own language, so
-    what we mailed them says what language they read. to_plain_text drops the
-    quoted history first, so a Danish message with our English signature under
-    it is still recognisably Danish."""
-    for kind in ("reply", "sent"):
-        for msg in reversed(thread):
-            if msg.kind == kind:
-                lang = translator.detect_language(to_plain_text(msg.body))
-                if lang:
-                    return lang
-    return None
+# The language rules live in app/lead_language.py, which is the one place that
+# ranks the three sources (Smartlead's per-lead field, the thread, the cached
+# column). Re-exported because the docs and callers name it here.
+thread_language = lead_language.thread_language
 
 
 def fetch_normalized_thread(campaign_id: int, lead_id: int):
@@ -46,21 +23,40 @@ def fetch_normalized_thread(campaign_id: int, lead_id: int):
     return normalize_thread(raw)
 
 
-def _quick_triage(target_lang: str | None, english_text: str, native_text: str) -> str:
-    """The triage line shown above a quick-pick draft.
+def _quick_language_note(
+    target_lang: str | None, source: str, english_text: str, native_text: str
+) -> tuple[str, str | None]:
+    """`(triage line, warning)` for a quick-pick draft.
 
-    It names the language the message actually came out in, because
-    localize_quick_text falls back to the English source on any failure and
-    returns it silently — a template going out in English to a Spanish lead
-    used to look exactly like one that had been localized properly."""
+    Both halves exist because this path can only fail one way — by quietly
+    sending the English. `localize_quick_text` returns its input unchanged when
+    it has no language to work with and again when the call fails, so a template
+    mailed in English to a German lead looked exactly like one that had been
+    localized properly. The triage line records what happened on the draft row;
+    the warning is what the dashboard puts in front of Andrew *before* he clicks
+    Send, which the triage line never did — it is stored but has never been
+    rendered anywhere in the UI.
+    """
     base = "Quick-pick follow-up (canned template, no draft generation)"
-    if not target_lang or target_lang.lower() == "en":
-        return f"{base}. English — no other language on file for this lead."
+    if not target_lang:
+        log.warning("quick draft has no language for this lead — sending English")
+        return (
+            f"{base}. English — nothing on this lead says which language they read.",
+            "Sent as English: nothing on this lead says which language they read — "
+            "no language field in Smartlead, and nothing readable in the thread. "
+            "Check the message before sending.",
+        )
     name = translator.language_name(target_lang) or target_lang
+    if target_lang.lower() == "en":
+        return f"{base}. English ({source}).", None
     if native_text.strip() == english_text.strip():
         log.warning("quick draft not localized to %s — sending English", target_lang)
-        return f"{base}. NOT localized — this is still English, not {name}."
-    return f"{base}. Written in {name}."
+        return (
+            f"{base}. NOT localized — this is still English, not {name}.",
+            f"This is still English: the translation into {name} didn't come back. "
+            "Regenerate the template, or pick a different model above.",
+        )
+    return f"{base}. Written in {name} ({source}).", None
 
 
 def create_quick_draft(
@@ -70,27 +66,43 @@ def create_quick_draft(
     thread,
     english_text: str,
     model: str | None = None,
-) -> int:
+) -> tuple[int, str | None]:
     """Builds a follow-up draft straight from one of the canned quick-pick
     snippets (dashboard "quick follow-up" buttons) — skips drafter.generate_draft
     entirely (no system prompt, no knowledge base, no tools, no Sonnet/Opus
     call) and only spends tokens on a single cheap translation call, since the
     wording itself is already fixed and pre-approved. campaign_name is accepted
-    for signature symmetry with create_draft but unused here."""
+    for signature symmetry with create_draft but unused here.
+
+    Returns `(draft_id, warning)`; the warning is non-None only when the message
+    is going out in English and shouldn't be."""
     del campaign_name
     lead_state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
-    target_lang = lead_state["language"] if lead_state else None
-    if not target_lang:
-        # No language on the row — never detected, or wiped by a scan that
-        # couldn't tell. Work it out from the thread in hand instead of
-        # defaulting to English: this is the last moment before the template
-        # becomes a real message a lead reads.
-        target_lang = thread_language(thread)
-        if target_lang:
-            db.upsert_lead_state(
-                conn, lead["id"], lead["campaign_id"], language=target_lang
-            )
+    # Live evidence first, the cached column last (see app/lead_language.py).
+    # This used to read leads_state.language and stop there, which is how a
+    # lead whose stored code had drifted to 'en' — 11 of 203 measured against
+    # the live API — got every template mailed to them in English, with the
+    # Dutch thread it was a reply to sitting right there in the same request.
+    target_lang, source = lead_language.resolve(
+        thread=thread, lead=lead, lead_row=lead_state
+    )
+    stored = lead_state["language"] if lead_state else None
+    if target_lang and target_lang != stored:
+        # Heal the column so the rest of the app (the auto-reply nudge, the
+        # drafter's language line, the next template) stops reading the stale
+        # value. Only when the answer came from somewhere better than the
+        # column itself, which resolve() guarantees by ordering.
+        log.info(
+            "lead %s/%s language %s -> %s (from %s)",
+            lead["campaign_id"], lead["id"], stored, target_lang, source,
+        )
+        db.upsert_lead_state(
+            conn, lead["id"], lead["campaign_id"], language=target_lang
+        )
     native_text = translator.localize_quick_text(english_text, target_lang, model=model)
+    triage, warning = _quick_language_note(
+        target_lang, source, english_text, native_text
+    )
 
     last_message = thread[-1]
     sender_email = last_sender_email(thread)
@@ -108,7 +120,7 @@ def create_quick_draft(
         lead_id=lead["id"],
         campaign_id=lead["campaign_id"],
         kind="followup",
-        triage_summary=_quick_triage(target_lang, english_text, native_text),
+        triage_summary=triage,
         body_html=body_html,
         body_translation=english_text,
         thread_snapshot=json.dumps([m.__dict__ for m in thread], default=str),
@@ -122,7 +134,7 @@ def create_quick_draft(
         sender_email=sender_email,
         signature_html=signature_html or None,
     )
-    return draft_id
+    return draft_id, warning
 
 
 def create_manual_draft(conn, lead: dict, thread) -> int:
@@ -166,8 +178,8 @@ def create_manual_draft(conn, lead: dict, thread) -> int:
 
 def _create_static_autoreply_draft(conn, lead: dict, thread, native_text: str) -> int:
     """Zero-token draft for an Auto-Reply nudge: the message is fully generic
-    and pre-translated (see app/autoreply_templates.py), keyed off Smartlead's
-    own `language_code` custom field — no Claude call at all."""
+    and pre-translated (see app/autoreply_templates.py), keyed off the lead's
+    resolved language — no Claude call at all."""
     last_message = thread[-1]
     sender_email = last_sender_email(thread)
     signature_html = signatures.get_signature_html(sender_email)
@@ -211,10 +223,18 @@ def create_draft(
     use_web_search: bool | None = None,
     base_draft: str | None = None,
 ) -> int:
+    lead_state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
+    # One resolution for both the nudge template and the prompt below, so the
+    # language a draft is written in can't disagree with the language its
+    # canned variant would have used. Live evidence first — see lead_language.
+    language, language_source = lead_language.resolve(
+        thread=thread, lead=lead, lead_row=lead_state
+    )
+
     # A steering note means Andrew explicitly wants a customized nudge for
     # this lead — skip the generic template and go to Claude for that case.
     if kind == "autoreply" and not steering_note:
-        static_text = autoreply_templates.get(lead.get("language_code"))
+        static_text = autoreply_templates.get(language)
         if static_text:
             return _create_static_autoreply_draft(conn, lead, thread, static_text)
 
@@ -232,12 +252,22 @@ def create_draft(
         "custom_fields": lead.get("custom_fields"),
         "sender_name": signatures.persona_name(sender_email),
         "calendar_link": signatures.calendar_link_for(sender_email),
+        # Told to the model outright rather than left for it to infer from the
+        # thread (prompts/system.md §9). It got this right most of the time and
+        # wrong the rest, which is the worst version: the app knows the answer,
+        # so it should say it. Blank when nothing knows — the §9 rule still
+        # applies and the model reads the thread as before.
+        "language": language,
+        "language_name": translator.language_name(language) if language else "",
     }
+    log.info(
+        "drafting %s for lead %s/%s in %s (from %s)",
+        kind, lead["campaign_id"], lead["id"], language or "?", language_source,
+    )
 
     prior_research = None
     followup_stage = None
     if kind != "autoreply":
-        lead_state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
         if lead_state and lead_state["research_summary"]:
             prior_research = lead_state["research_summary"]
         # Follow-up stage steering (see drafter._build_user_message): the last

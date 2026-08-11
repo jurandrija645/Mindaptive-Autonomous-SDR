@@ -9,7 +9,7 @@ background bulk-generate thread behave identically.
 import logging
 import threading
 
-from app import db, detector, message_templates, pipeline
+from app import db, detector, lead_language, message_templates, pipeline
 
 log = logging.getLogger("candidates")
 
@@ -32,6 +32,7 @@ def generate_one(candidate_id: int) -> int | None:
         "company_name": candidate["lead_company"],
         "website": lead_row["website"] if lead_row else "",
         "custom_fields": None,
+        "language_code": lead_language.smartlead_field(candidate["campaign_id"], candidate["lead_id"]),
     }
 
     thread = pipeline.fetch_normalized_thread(candidate["campaign_id"], candidate["lead_id"])
@@ -161,10 +162,12 @@ def generate_for_lead(
         "company_name": lead_row["company"],
         "website": lead_row["website"],
         "custom_fields": None,
-        # leads_state.language is Smartlead's own per-lead code when available
-        # (see scheduler._lead_language) — lets the auto-reply path pick the
-        # zero-token static template (app/autoreply_templates.py) here too.
-        "language_code": lead_row["language"],
+        # Smartlead's own per-lead code, fetched fresh (see
+        # lead_language.smartlead_field for why not lead_row["language"]).
+        # pipeline.create_draft ranks it against the thread and the stored
+        # column, then both tells the model which language to write in and keys
+        # the auto-reply path's zero-token static template off it.
+        "language_code": lead_language.smartlead_field(campaign_id, lead_id),
     }
     campaign_name = lead_row["campaign_name"] or ""
 
@@ -202,12 +205,15 @@ def generate_for_lead(
 
 def quick_followup(
     campaign_id: int, lead_id: int, english_text: str, model: str | None = None
-) -> int | None:
+) -> tuple[int | None, str | None]:
     """Drops one of the dashboard's canned quick-pick snippets straight in as a
     follow-up draft, bypassing drafter.generate_draft (and its Sonnet/Opus +
     web-tools cost) entirely — see pipeline.create_quick_draft. Synchronous:
     the only Claude call involved is one small, cheap translation, nothing
-    like the multi-minute web-research generation this is meant to skip."""
+    like the multi-minute web-research generation this is meant to skip.
+
+    Returns `(draft_id, warning)` — the warning is what the dashboard shows when
+    the template is going out in English and shouldn't be."""
     with db.db_session() as conn:
         lead_row = db.get_lead_state(conn, lead_id, campaign_id)
         existing = db.get_open_draft(conn, lead_id, campaign_id)
@@ -215,7 +221,7 @@ def quick_followup(
             db.update_draft(conn, existing["id"], status="skipped")
     if lead_row is None:
         log.warning("quick_followup: no lead_state for %s/%s", campaign_id, lead_id)
-        return None
+        return None, None
 
     lead = {
         "id": lead_id,
@@ -223,6 +229,13 @@ def quick_followup(
         "email": lead_row["email"],
         "first_name": lead_row["name"],
         "company_name": lead_row["company"],
+        # Smartlead's own per-lead language field, fetched fresh rather than
+        # read off leads_state: the stored column is a snapshot that has
+        # measurably drifted (11 of 203 leads said 'en' for a thread that was
+        # anything but), and this is the last moment before a canned template
+        # becomes a real email. One extra GET on a path that already fetches
+        # the thread, and fail-soft — an API blip falls through to the thread.
+        "language_code": lead_language.smartlead_field(campaign_id, lead_id),
     }
 
     # The client already substituted, but resolve again here — this is the last
@@ -238,10 +251,10 @@ def quick_followup(
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
     if not thread:
         log.info("quick_followup: empty thread for %s/%s", campaign_id, lead_id)
-        return None
+        return None, None
 
     with db.db_session() as conn:
-        draft_id = pipeline.create_quick_draft(
+        draft_id, warning = pipeline.create_quick_draft(
             conn, lead, lead_row["campaign_name"] or "", thread, english_text, model=model
         )
         candidate = conn.execute(
@@ -253,7 +266,7 @@ def quick_followup(
             db.update_candidate(conn, candidate["id"], status="drafted", draft_id=draft_id)
 
     log.info("quick-drafted follow-up %s for lead %s/%s", draft_id, campaign_id, lead_id)
-    return draft_id
+    return draft_id, warning
 
 
 def manual_draft(campaign_id: int, lead_id: int) -> int | None:

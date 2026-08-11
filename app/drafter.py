@@ -166,6 +166,19 @@ def _build_user_message(
         f"- Website: {lead.get('website', '')}",
         f"- Campaign: {lead.get('campaign_name', '')}",
     ]
+    # Section 9 of the system prompt tells the model to detect the thread's
+    # language and answer in it. That works until it doesn't — a short thread, a
+    # lead who quoted an English signature back at us — and the app already
+    # knows the answer from Smartlead's own per-lead field (see
+    # app/lead_language.py). So state it, and leave §9 as the fallback for the
+    # leads where nothing knows.
+    if lead.get("language"):
+        lines.append(
+            f"- Write this email in {lead.get('language_name') or lead['language']} "
+            f"({lead['language']}). This is the language the lead reads; it is not a "
+            "guess from the thread. The English translation goes in the "
+            "<draft_english> block as usual."
+        )
     custom_fields = lead.get("custom_fields")
     if custom_fields:
         lines.append(f"- Custom fields: {custom_fields}")

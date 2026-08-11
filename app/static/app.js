@@ -25,6 +25,7 @@ const state = {
   categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
   nameNote: null,        // "renamed here only" note from the last ✎ Rename, cleared on lead switch
+  draftNote: null,       // warning about the draft just created (e.g. a template still in English)
   google: null,          // /api/google/status: whether the LinkedIn export button can be drawn
   exportNote: null,      // outcome of the last Export for LinkedIn, cleared on lead switch
   exportRunning: false,  // an export is in flight for the currently open lead
@@ -1518,6 +1519,7 @@ async function selectLead(i) {
   if (i < 0 || i >= state.leads.length) return;
   state.selected = i;
   state.nameNote = null;  // belongs to the rename that was just done, not to the next lead
+  state.draftNote = null;
   state.exportNote = null;
   state.exportRunning = false;
   renderList();
@@ -2266,6 +2268,10 @@ async function quickFollowup(template) {
     section.innerHTML = `<div class="error-note">Could not add follow-up: ${e.message}</div>`;
     return;
   }
+  // Set when the template went out in English and shouldn't have — the one
+  // failure this path has, and the only one it can't show as an error, since a
+  // draft was still created and looks perfectly fine until you read it.
+  state.draftNote = data.warning || null;
   state.detail = data;
   renderList();
   const body = $("detail-body");
@@ -2277,6 +2283,7 @@ async function quickFollowup(template) {
 
 async function composeDraft() {
   const { cid, lid } = currentLeadIds();
+  state.draftNote = null;
   const section = $("draft-section");
   section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Opening a blank draft…</div>';
   let data;
@@ -2655,6 +2662,13 @@ function renderDraftSection(body) {
 
   if (draft.status === "scheduled" && draft.scheduled_at) {
     box.appendChild(el("span", "status-banner", `Scheduled for ${draft.scheduled_at}`));
+  }
+
+  // Belongs to the draft that was just created, so it sits above the editor
+  // rather than with the lead's own details. textContent via el(), never HTML:
+  // it can quote a provider's error text.
+  if (state.draftNote) {
+    box.appendChild(el("div", "draft-note", state.draftNote));
   }
 
   // The thread above is refetched live, so it already shows anything sent from
@@ -3308,6 +3322,9 @@ async function generate(note) {
   // by hand, which a regenerate used to silently discard. Empty on a first
   // generation, where there is nothing to revise.
   const baseDraft = editorHtml();
+
+  // The note describes the draft being replaced, not the one coming.
+  state.draftNote = null;
 
   const section = $("draft-section");
   section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';

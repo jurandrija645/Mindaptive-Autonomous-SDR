@@ -672,10 +672,19 @@ async def api_quick_draft(request: Request, campaign_id: int, lead_id: int):
     model = body.get("model") or None
     if not models_registry.is_allowed(model):
         model = None
-    draft_id = candidates_module.quick_followup(campaign_id, lead_id, text, model=model)
+    draft_id, warning = candidates_module.quick_followup(
+        campaign_id, lead_id, text, model=model
+    )
     if not draft_id:
         return JSONResponse({"error": "Could not create draft for this lead."}, status_code=404)
-    return JSONResponse(_lead_detail_payload(campaign_id, lead_id))
+    payload = _lead_detail_payload(campaign_id, lead_id)
+    # Set only when the template is going out in English and shouldn't be —
+    # this path can't fail loudly (localize_quick_text returns its English input
+    # both when it has no language and when the call errors), so the one place
+    # that can say so is the response to the click that caused it.
+    if warning:
+        payload["warning"] = warning
+    return JSONResponse(payload)
 
 
 # ---- message templates ----

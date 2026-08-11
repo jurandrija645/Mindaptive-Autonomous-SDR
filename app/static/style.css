@@ -403,6 +403,18 @@ button:disabled { opacity: .55; cursor: default; }
   background: #fbf0d9;
   border: 1px solid var(--followup);
 }
+/* Something is wrong with the draft below it (e.g. a template that came back
+   still in English) — a block, not a pill, because it says what to do next. */
+.draft-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #7a5310;
+  background: #fbf0d9;
+  border: 1px solid var(--followup);
+  border-radius: 8px;
+  padding: 8px 11px;
+  margin: 8px 0 0;
+}
 .cat-select {
   padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border);
   font-family: inherit; font-size: 13px; background: var(--bg); color: var(--text);
