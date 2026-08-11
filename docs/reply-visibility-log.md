@@ -125,6 +125,47 @@ classifier there fails open and every reply still gets a draft — which is
 exactly AeroDefense's behaviour before this change, so nothing regressed; add
 the key if that container should start skipping out-of-office replies too.
 
+### Same day, part two — showing everything filled the inbox with autoresponders
+
+Immediately after the above: "I have a lot of responses in Awaiting reply that
+are out of office, not interested, auto reply". Correct, and a direct
+consequence — a clinic's autoresponder is structurally a reply, so making every
+reply visible made every autoresponder visible too. 40 leads in the red tier,
+about three of them live conversations.
+
+Fixed by letting the classifier go three ways (INTERESTED / AUTO_REPLY /
+NOT_INTERESTED) and applying the verdict to the row via `db.sort_replied_lead`.
+Order matters and is the same as everywhere else here: `mark_lead_replied`
+records the message, `sort_replied_lead` only decides where it sits. Nothing
+depends on a model agreeing the message existed.
+
+**The part that was tried and reverted, within the hour.** `not_interested`
+first archived the lead and set `status='stopped'` — the same thing "Stop
+following up this lead" does. Reasonable on paper, wrong in practice: the model
+filed a lead asking *"there must be a minimum ticket size?"* and one saying
+*"email the director at info@… instead"* under "no". Both are leads. Two rounds
+of prompt tuning moved the errors around rather than removing them — teaching it
+that a redirect is a lead made it start calling an out-of-office a rejection
+(11/12 → 9/12).
+
+So the split is **by risk, not by confidence**. Measured on the same samples,
+the model is 7/8 on autoresponders and — the number that actually decides this —
+**0/6 live conversations wrongly pushed into the autoreply bucket**. It is
+dependable at the boring, high-volume, harmless part and unreliable exactly at
+the interested/not-interested boundary, which is a judgement a person should be
+making anyway. `not_interested` now only re-labels and drops the lead out of
+the red tier; it stays in the inbox, one click from archived.
+
+Do not re-add the archiving. Clearing the inbox is worth a lot; burying one real
+buyer costs more than the whole exercise saves.
+
+Result: red "needs your reply" tier went 40 → **15**, and all 15 read as live
+("send me a presentation", "answers below to your questions", "not sure
+$200–400 works for our margins", "let's reconnect in January"). 210
+autoresponders greyed, 29 labelled not-interested, **0 archived**.
+`scripts/sort_inbox_replies.py --recheck-archived` brought back all 28 the
+earlier version had filed away.
+
 ### Things worth not re-learning
 
 - `GET /webhooks` does not exist on the Smartlead API (404). Webhooks can only
