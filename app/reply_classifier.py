@@ -57,14 +57,27 @@ _USER = """**CATEGORY DEFINITIONS:**
 - "We will respond within X hours/days..."
 - Delivery failure, blocked message, or an anti-spam verification challenge.
 
-* **NOT_INTERESTED** — a person answered and the answer is no:
-- Rejection.
+* **NOT_INTERESTED** — a person answered and the answer is an unambiguous no:
+- Flat rejection ("not interested", "no thank you", "not for us").
 - Unsubscribe or removal request, or a data-protection complaint.
 - "Wrong person" / "we don't handle this".
 - A reply that clearly ends the communication.
 
-An out-of-office that also says to get in touch at a named later date is
-INTERESTED, not AUTO_REPLY — a person wrote that sentence.
+**A doubt is not a no.** A price objection, a worry about fit, a concern about
+data protection, "I'm not sure this works for our margins", "we already use
+something like this" — all of those are INTERESTED. The person is still
+talking to us, and that is a conversation to answer, not to close. Choose
+NOT_INTERESTED only when there is nothing left to reply to.
+
+Two edge cases, both seen in real traffic:
+
+- An out-of-office that also says to get in touch at a named later date is
+  INTERESTED, not AUTO_REPLY — a person wrote that sentence.
+- A warm, friendly, first-person greeting is still AUTO_REPLY if it says
+  nothing about *this* email. "Hi there, thanks so much for getting in touch,
+  we love hearing from you, someone will be with you shortly" is a form
+  response, however human it sounds. What makes a message INTERESTED is that
+  it responds to something we actually said.
 
 **MANDATORY COMMAND:**
 Carefully read the text below. After your analysis, your output **must be only \
@@ -91,18 +104,20 @@ def classify(reply_text: str) -> tuple[str, str]:
         return INTERESTED, "empty message — nothing to classify, treated as interested"
 
     try:
-        # 512 tokens for a one-word answer, and it has to be. A reasoning model
-        # bills its thinking against this same budget, so a tight cap doesn't
-        # buy a short answer — it truncates the answer. At 64 the out-of-office
-        # case came back as the literal string "NOT_RELEV", which then failed to
-        # parse and failed open into a wasted draft. Same trap as
-        # _OPENROUTER_DRAFT_MAX_TOKENS and _REPORT_MAX_TOKENS. On the default
-        # model this ceiling is worth about $0.0001 even if it were ever hit.
+        # 2048 tokens for a one-word answer, and it has to be. A reasoning
+        # model bills its thinking against this same budget, so a tight cap
+        # doesn't buy a short answer — it truncates it, or eats the whole
+        # allowance thinking and returns nothing. At 64 the out-of-office case
+        # came back as the literal string "NOT_RELEV"; at 512, one message in a
+        # 177-lead backfill still exhausted the budget and failed open. Same
+        # trap as _OPENROUTER_DRAFT_MAX_TOKENS and _REPORT_MAX_TOKENS. This is
+        # a ceiling, not a spend: the answer is one word, and on the default
+        # model even hitting it outright costs about $0.0006.
         verdict, _ = llm.complete_for(
             models_registry.ROLE_CLASSIFY,
             _SYSTEM,
             _USER.format(text=text[:_MAX_CHARS]),
-            max_tokens=512,
+            max_tokens=2048,
         )
     except Exception as exc:
         log.warning("reply classifier failed (%s) — treating reply as interested", exc)
