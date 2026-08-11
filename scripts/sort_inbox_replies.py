@@ -75,9 +75,18 @@ def main() -> None:
 
 
 def _recheck_archived(dry_run: bool) -> None:
-    """Undo this script's own mistakes. Only ever *restores* — a lead that still
-    reads as a rejection is left where it is, and a lead Andrew archived by hand
-    is never touched (the reason string is what distinguishes them)."""
+    """Bring back everything an earlier version of this script archived.
+
+    That version acted on a `not_interested` verdict by archiving and stopping
+    the lead. It was wrong often enough to matter — see `db.sort_replied_lead`
+    — so the verdict now only re-labels, and these rows have to come out of the
+    archive to match. Unconditional on purpose: re-judging them with the same
+    model that misfiled them is not evidence. They land back in the inbox
+    labelled `not_interested`, out of the red tier, one click from archived if
+    that is what Andrew decides.
+
+    Matches on the auto-sorted reason string, so anything archived by hand is
+    left alone."""
     with db.db_session() as conn:
         rows = conn.execute(
             """SELECT lead_id, campaign_id, name, email, last_message_preview
@@ -86,26 +95,20 @@ def _recheck_archived(dry_run: bool) -> None:
                ORDER BY archived_at DESC"""
         ).fetchall()
 
-    print("%d auto-archived lead(s) to re-judge\n" % len(rows))
-    restored = 0
+    print("%d auto-archived lead(s) to bring back\n" % len(rows))
     for row in rows:
-        label, _ = reply_classifier.classify(row["last_message_preview"])
         who = (row["name"] or row["email"] or str(row["lead_id"]))[:30]
-        preview = " ".join((row["last_message_preview"] or "").split())[:56]
-        if label == reply_classifier.INTERESTED:
-            restored += 1
-            print("  RESTORE  %-30s %s" % (who, preview))
-            if not dry_run:
-                with db.db_session() as conn:
-                    db.upsert_lead_state(
-                        conn, row["lead_id"], row["campaign_id"],
-                        archived_at=None, archive_reason=None,
-                        status="awaiting_reply", category="reply",
-                    )
-        else:
-            print("  keep %-9s %-30s %s" % (label, who, preview))
+        preview = " ".join((row["last_message_preview"] or "").split())[:58]
+        print("  restore  %-30s %s" % (who, preview))
+        if not dry_run:
+            with db.db_session() as conn:
+                db.upsert_lead_state(
+                    conn, row["lead_id"], row["campaign_id"],
+                    archived_at=None, archive_reason=None,
+                    status="active", category="not_interested",
+                )
 
-    print("\n  restored: %d of %d" % (restored, len(rows)))
+    print("\n  restored: %d" % len(rows))
     if dry_run:
         print("  (dry run — nothing changed)")
 

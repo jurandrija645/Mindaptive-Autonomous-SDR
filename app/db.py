@@ -565,12 +565,23 @@ def sort_replied_lead(conn, lead_id: int, campaign_id: int, label: str) -> None:
       which drops it out of the red tier into the grey one, and `status`
       returns to 'active' so it is not counted as owing anyone a response.
       The scan's existing Auto-Reply handling then treats it normally.
-    - `not_interested` — a person answered and the answer was no. Archived
-      (recoverable from the Archive tab) and `status='stopped'`, which is
-      exactly what "Stop following up this lead" does. The asymmetry is
-      deliberate: mis-sorting a live lead here hides a row Andrew can get back,
-      while leaving a "do not contact again, GDPR" in the follow-up cadence
-      keeps mailing someone who told us to stop.
+    - `not_interested` — labelled and moved out of the red tier, and **that is
+      all**. Not archived, not stopped, still in the inbox, one click from
+      either.
+
+    That last one is deliberately weaker than it first was. Archiving and
+    stopping on this verdict was tried and reverted the same day: the cheap
+    model is dependable at spotting an autoresponder — the bulk of the problem,
+    136 of 177 leads in the first backfill — and unreliable exactly at the
+    interested/not-interested boundary, which is the judgement a person should
+    be making anyway. It filed a lead asking about minimum deal size, and one
+    handing over their director's address, under "no". Prompt tuning traded
+    those errors for others rather than removing them.
+
+    So the split is by risk, not by confidence: the model does the boring,
+    high-volume, harmless part, and anything that would end a conversation
+    stays a human decision. Clearing the inbox is worth a lot; burying one real
+    buyer costs more than the whole exercise saves.
 
     Never touches a booked lead — that freeze outranks anything a reply says."""
     existing = get_lead_state(conn, lead_id, campaign_id)
@@ -582,17 +593,8 @@ def sort_replied_lead(conn, lead_id: int, campaign_id: int, label: str) -> None:
             conn, lead_id, campaign_id, category="auto_reply", status="active"
         )
     elif label == "not_interested":
-        conn.execute(
-            """UPDATE drafts SET status = 'stale'
-               WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending', 'scheduled')""",
-            (lead_id, campaign_id),
-        )
         upsert_lead_state(
-            conn, lead_id, campaign_id,
-            category="not_interested",
-            status="stopped",
-            archived_at=now_iso(),
-            archive_reason="not interested (auto-sorted)",
+            conn, lead_id, campaign_id, category="not_interested", status="active"
         )
 
 
