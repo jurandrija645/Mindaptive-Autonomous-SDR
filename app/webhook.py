@@ -1,11 +1,14 @@
 import logging
 import threading
+import time
+from datetime import datetime, timezone
 
 import httpx
 from fastapi import APIRouter, HTTPException, Request
 
-from app import db, pipeline, smartlead
+from app import db, pipeline, reply_classifier, smartlead
 from app.config import settings
+from app.email_clean import to_plain_text
 
 log = logging.getLogger("webhook")
 router = APIRouter()
@@ -31,6 +34,27 @@ def _extract_ids(payload: dict) -> tuple[int | None, int | None]:
     return campaign_id, lead_id
 
 
+def _reply_text(payload: dict) -> str:
+    """The lead's message out of the webhook body, whichever shape it arrives in.
+
+    `reply_message.text` is what the n8n workflow forwards and is confirmed
+    against real traffic. The other keys are what Smartlead's own EMAIL_REPLY
+    documents (`reply_body`, `preview_text`) and matter now that Smartlead can
+    post here directly with no n8n in between — that reference has been wrong
+    before, so accept every shape rather than betting on one."""
+    reply = payload.get("reply_message")
+    if isinstance(reply, dict):
+        for key in ("text", "html", "body"):
+            value = reply.get(key)
+            if isinstance(value, str) and value.strip():
+                return value
+    for key in ("reply_body", "preview_text", "email_body"):
+        value = payload.get(key)
+        if isinstance(value, str) and value.strip():
+            return value
+    return ""
+
+
 @router.post("/webhooks/smartlead")
 async def smartlead_webhook(request: Request):
     if settings.smartlead_webhook_secret:
@@ -41,7 +65,7 @@ async def smartlead_webhook(request: Request):
     payload = await request.json()
     log.info("smartlead webhook received: %s", payload)
 
-    if not (payload.get("reply_message") or {}).get("text"):
+    if not _reply_text(payload):
         return {"status": "ignored", "reason": "not a reply event"}
 
     campaign_id, lead_id = _extract_ids(payload)
@@ -74,15 +98,87 @@ async def smartlead_webhook(request: Request):
     return {"status": "accepted", "lead_id": lead_id}
 
 
-def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
+def _reply_received_at(payload: dict) -> str:
+    """When the lead's message arrived, as an ISO string for last_message_at.
+
+    Smartlead has used more than one field name for this and the published
+    payload example doesn't match what actually arrives (see
+    docs/smartlead-api.md), so take whichever is present and fall back to now:
+    an approximate timestamp still sorts the lead to the top of the inbox,
+    which is the whole job here. The thread fetch replaces it with the exact
+    value a moment later anyway."""
+    candidates = [payload.get(k) for k in ("time_replied", "event_timestamp", "reply_time")]
+    candidates.append((payload.get("reply_message") or {}).get("time"))
+    for raw in candidates:
+        if not isinstance(raw, str) or not raw.strip():
+            continue
+        try:
+            parsed = datetime.fromisoformat(raw.strip().replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        # Always store UTC. last_message_at is compared as a *string* — against
+        # archived_at below, and by list_inbox's ordering — so a value carrying
+        # someone else's offset, or none at all, would sort against the rest of
+        # the table wrongly.
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc).isoformat()
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _record_incoming(campaign_id: int, lead_id: int, payload: dict):
+    """Put the lead in the inbox **now**, from the webhook payload alone.
+
+    This runs before the thread fetch and before Claude, and that ordering is
+    the point. It all used to happen in one transaction that committed only
+    after generate_draft returned — minutes later, with web search running —
+    so a reply that had already arrived was invisible until the draft was
+    finished. Worse, it was invisible in a way that looked like nothing had
+    happened at all: `category` was never written by this path, so even once
+    the row landed it carried no 'reply' chip, no preview and no
+    last_message_at, which put a brand-new hot lead at the *bottom* of the
+    inbox under db.list_inbox's ordering. Clicking "Rescan now" appeared to
+    fix it only because the scan is what writes the summary. So the summary is
+    written here, from what the webhook already tells us, and the thread fetch
+    later refines it.
+
+    Holding that write transaction open across the model call was also a
+    SQLite writer lock held for minutes (WAL allows one writer), which is what
+    made a concurrent rescan or send crawl or time out.
+
+    Returns the lead's pre-existing leads_state row (or None)."""
     to_name = (payload.get("to_name") or "").strip()
+    to_email = (payload.get("to_email") or "").strip()
+    reply_text = (payload.get("reply_message") or {}).get("text") or ""
+
     with db.db_session() as conn:
+        lead_row = db.get_lead_state(conn, lead_id, campaign_id)
+
+        extra: dict = {}
         # Smartlead's own name for the lead's inbox — not always present, but
         # when it is, worth keeping around so a wrong imported first_name is
         # easy to spot in the dashboard (see api_set_lead_name in main.py).
         if to_name:
-            db.upsert_lead_state(conn, lead_id, campaign_id, email_display_name=to_name)
+            extra["email_display_name"] = to_name
+        if payload.get("campaign_name"):
+            extra["campaign_name"] = payload["campaign_name"]
+        # A row this webhook creates from scratch has no name and no email, and
+        # the inbox renders `name or email or "Lead"` — so without these a lead
+        # who has never been scanned shows up as an anonymous "Lead".
+        if to_email and not (lead_row and lead_row["email"]):
+            extra["email"] = to_email
+        if to_name and not (lead_row and lead_row["name"]):
+            extra["name"] = to_name
 
+        db.mark_lead_replied(
+            conn, lead_id, campaign_id,
+            preview=to_plain_text(reply_text) if reply_text else None,
+            received_at=_reply_received_at(payload),
+            **extra,
+        )
+
+        # Retire whatever was queued for this lead: they've said something new,
+        # so a draft written against the old thread is out of date.
         pending = conn.execute(
             "SELECT id FROM drafts WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending','scheduled')",
             (lead_id, campaign_id),
@@ -90,43 +186,84 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
         for row in pending:
             db.update_draft(conn, row["id"], status="stale")
 
+    return lead_row
+
+
+def _fetch_thread_with_reply(campaign_id: int, lead_id: int, attempts: int = 3):
+    """The thread, retried while its last message still isn't the lead's reply.
+
+    message-history can lag the webhook by a few seconds — Smartlead fires the
+    event as the mail is processed, not once it's queryable. A single fetch
+    that came back early used to abandon the whole event, leaving the reply to
+    wait for the next daily scan."""
+    thread = []
+    for attempt in range(attempts):
+        thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
+        if thread and thread[-1].kind == "reply":
+            return thread
+        if attempt < attempts - 1:
+            time.sleep(8)
+            log.info(
+                "lead %s: reply not in message-history yet, refetching (%d/%d)",
+                lead_id, attempt + 2, attempts,
+            )
+    return thread
+
+
+def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
+    # Phase 1 — visibility. Short transaction, no network, no model. Runs before
+    # the classifier on purpose: what Andrew sees must not depend on a model
+    # agreeing that the message was worth seeing.
+    lead_row = _record_incoming(campaign_id, lead_id, payload)
+
+    # Phase 2 — is this a person worth answering, or an out-of-office? This is
+    # the gate the n8n workflow's gpt-5-mini + Switch pair used to apply before
+    # forwarding, kept here so Smartlead's webhook can point straight at the app
+    # (app/reply_classifier.py). It decides whether to spend a draft and whether
+    # to push the lead to Smartlead's Interested category — nothing else.
+    relevant, reason = reply_classifier.is_relevant(_reply_text(payload))
+    log.info("lead %s reply: %s", lead_id, reason)
+    if not relevant:
+        return {"status": "ok", "note": f"recorded, no draft — {reason}"}
+
+    _promote_category_to_interested(campaign_id, lead_id, lead_row)
+
+    raw_lead = smartlead.normalize_lead({"id": lead_id}, campaign_id)
+    raw_lead["email"] = raw_lead["email"] or payload.get("to_email")
+    raw_lead["first_name"] = raw_lead["first_name"] or payload.get("to_name")
+    if lead_row:
+        raw_lead.update(
+            {
+                "email": lead_row["email"] or raw_lead["email"],
+                "first_name": lead_row["name"] or raw_lead["first_name"],
+                "company_name": lead_row["company"],
+                "website": lead_row["website"],
+            }
+        )
+
+    thread = _fetch_thread_with_reply(campaign_id, lead_id)
+    if not thread or thread[-1].kind != "reply":
+        # The lead is in the inbox from phase 1 regardless, so this costs the
+        # draft, not the message.
+        return {"status": "ignored", "reason": "no unanswered lead reply in thread"}
+
+    with db.db_session() as conn:
+        # Refine the placeholder summary with the real thread: the exact
+        # timestamp, and the message as Smartlead stored it rather than the
+        # webhook's copy of it.
+        last = thread[-1]
+        db.upsert_lead_state(
+            conn, lead_id, campaign_id,
+            last_message_preview=to_plain_text(last.body)[:200],
+            last_message_at=last.timestamp.astimezone(timezone.utc).isoformat(),
+        )
         if db.has_open_draft(conn, lead_id, campaign_id):
             return {"status": "ok", "note": "draft already exists after clearing stale ones"}
 
-        raw_lead = smartlead.normalize_lead({"id": lead_id}, campaign_id)
-        raw_lead["email"] = raw_lead["email"] or payload.get("to_email")
-        raw_lead["first_name"] = raw_lead["first_name"] or payload.get("to_name")
-        lead_row = conn.execute(
-            "SELECT * FROM leads_state WHERE lead_id = ? AND campaign_id = ?",
-            (lead_id, campaign_id),
-        ).fetchone()
-        if lead_row:
-            raw_lead.update(
-                {
-                    "email": lead_row["email"] or raw_lead["email"],
-                    "first_name": lead_row["name"] or raw_lead["first_name"],
-                    "company_name": lead_row["company"],
-                    "website": lead_row["website"],
-                }
-            )
-
-        thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
-        if not thread or thread[-1].kind != "reply":
-            return {"status": "ignored", "reason": "no unanswered lead reply in thread"}
-
-        # Anything reaching this webhook has already been judged RELEVANT by the
-        # n8n classifier, so treat it as interested regardless of what Smartlead's
-        # own categoriser decided. Without interested=1 the lead is invisible in
-        # the dashboard — list_inbox_leads filters on it — so a reply from a lead
-        # sitting in "Uncategorizable by Ai" or "Not Interested" would silently
-        # produce a draft nobody could see.
-        db.upsert_lead_state(conn, lead_id, campaign_id, interested=1)
-        _promote_category_to_interested(campaign_id, lead_id, lead_row)
-
-        campaign_name = payload.get("campaign_name", "")
+    # generate_draft runs outside the session on purpose (see _record_incoming).
+    campaign_name = payload.get("campaign_name", "")
+    with db.db_session() as conn:
         draft_id = pipeline.create_draft(conn, raw_lead, campaign_name, "reply", thread)
-        db.upsert_lead_state(conn, lead_id, campaign_id, status="awaiting_reply")
-
         draft = db.get_draft(conn, draft_id)
 
     _notify_n8n(dict(draft))

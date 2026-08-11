@@ -3517,7 +3517,13 @@ loadGoogleStatus();
 // selected lead highlighted across the refresh by matching on its id, not its
 // (possibly shifted) list index. Runs only on the inbox view and only when the
 // tab is visible.
-const INBOX_REFRESH_MS = 60000;
+//
+// 15s, not the 60s this started at: a reply is the one thing in this app worth
+// seeing the moment it lands, and /api/inbox is a single SQLite read. The
+// paused-while-hidden rule is what makes that cheap — nobody is polling a
+// background tab — but it also means coming back to the tab could cost a full
+// interval, so a return to visibility refreshes straight away instead.
+const INBOX_REFRESH_MS = 15000;
 function leadKey(l) {
   return l ? `${l.campaign_id}/${l.lead_id}` : null;
 }
@@ -3538,3 +3544,7 @@ async function autoRefreshInbox() {
   }
 }
 setInterval(autoRefreshInbox, INBOX_REFRESH_MS);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) autoRefreshInbox();
+});
+window.addEventListener("focus", autoRefreshInbox);

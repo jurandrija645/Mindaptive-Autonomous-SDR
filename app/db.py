@@ -491,6 +491,66 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
     )
 
 
+def mark_lead_replied(
+    conn,
+    lead_id: int,
+    campaign_id: int,
+    *,
+    preview: str | None,
+    received_at: str,
+    **extra,
+) -> None:
+    """A lead has just written to us: make that visible in the inbox, now.
+
+    Every path that learns about an inbound message goes through here — the
+    webhook, and the reply-catch scan — because "visible" is more than one
+    column and getting a subset of them right leaves the message effectively
+    hidden. `category='reply'` is what puts the lead in list_inbox's red tier
+    and paints the chip; `last_message_at` is what sorts it to the top of that
+    tier; `last_message_preview` is what makes the row readable. The
+    reply-catch scan used to write none of them — it went straight from
+    spotting the reply to generating a draft — so a lead who answered kept the
+    row, chip, preview and list position the last daily scan had given them.
+    The message was in the database and nothing on screen said so, which is
+    why "Rescan now" looked like the only way to see new mail: the scan is
+    what rewrites these.
+
+    `received_at` must be a UTC ISO string; it is compared as text, both by
+    list_inbox's ordering and against archived_at below.
+
+    Archive and snooze both hide a lead from list_inbox, and someone who has
+    just written to us must not be hidden — the same call db.mark_lead_booked
+    makes, for the same reason: this is newer information than either. The
+    archive is cleared only when it predates the message, since archiving is a
+    manual act here and archiving *after* reading a reply means "dealt with"
+    and has to stick. Phrasing it against the timestamps rather than the
+    transition is also what keeps it from flapping: a lead re-archived after
+    the fact has archived_at > received_at on every later pass. A snooze says
+    "not now", which the message itself answers.
+
+    A booked lead keeps its category and status: those carry the green
+    "Meeting booked ✅" badge and mark_lead_booked's freeze, and a reply after
+    the meeting must not quietly un-book them. Their row still gets the new
+    preview and timestamp."""
+    existing = get_lead_state(conn, lead_id, campaign_id)
+
+    fields: dict = dict(extra)
+    fields.update(interested=1, last_message_kind="reply", last_message_at=received_at)
+    if preview:
+        fields["last_message_preview"] = preview[:200]
+
+    if not (existing and existing["status"] == "booked"):
+        fields["category"] = "reply"
+        fields["status"] = "awaiting_reply"
+
+    if existing and existing["archived_at"] and existing["archived_at"] < received_at:
+        fields.update(archived_at=None, archive_reason=None)
+    if existing and existing["snooze_until"]:
+        fields["snooze_until"] = None
+
+    upsert_lead_state(conn, lead_id, campaign_id, **fields)
+
+
 def list_inbox(conn):
     """Every interested, non-stopped, non-archived, non-snoozed(-future) lead for
     the unified inbox. Ordering: a snooze whose date has arrived jumps to the

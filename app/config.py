@@ -81,6 +81,23 @@ class Settings:
     # cadence stays far under the API rate limit. 0 disables.
     scan_interval_minutes: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "5"))
 
+    # How often to ask Smartlead "who has written to us lately?" — the poll that
+    # decides how long a lead's FIRST reply stays invisible
+    # (scheduler.run_new_reply_poll). Two API calls and no per-lead work, so it
+    # runs far more often than the reply-catch pass above. 0 disables.
+    new_reply_poll_seconds: int = int(os.getenv("NEW_REPLY_POLL_SECONDS", "60"))
+
+    # Which model sorts an incoming reply into "real prospect" vs "out of office
+    # / rejection" (app/reply_classifier.py), deciding whether to spend a draft
+    # on it. This is the job the n8n workflow's gpt-5-mini node used to do
+    # before Smartlead's webhook pointed straight at the app. One word in, one
+    # word out, on every single reply — so the default is the cheapest model in
+    # the picker. Overridable per-install here and, at runtime, from the
+    # dashboard's Models panel ("Sorting incoming replies").
+    reply_classifier_model: str = os.getenv(
+        "REPLY_CLASSIFIER_MODEL", "deepseek/deepseek-v4-flash"
+    )
+
     # Detect the lead's language from their reply when Smartlead has no
     # "Language Code" custom field. That is a Claude call per lead during the
     # scan, so an English-only client (AeroDefense) should turn it off: it saves

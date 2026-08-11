@@ -166,6 +166,140 @@ def trigger_scan_in_background() -> bool:
 _reply_catch_lock = threading.Lock()
 
 
+# Smartlead categories that mean "don't put this in the inbox". Everything else
+# — including a lead with NO category at all — is adopted by
+# _adopt_unknown_repliers. Deliberately a small denylist rather than the
+# allowlist the daily scan uses: see that function for why.
+_SKIP_ADOPT_CATEGORIES = {
+    "not interested",
+    "do not contact",
+    "wrong person",
+    "out of office",
+    "auto-reply",
+    "auto reply",
+    "sender originated bounce",
+    "we opted out",
+    "lead opted out",
+    "lead done",
+}
+
+
+_new_reply_lock = threading.Lock()
+
+
+def run_new_reply_poll() -> None:
+    """`_adopt_unknown_repliers` on its own, frequent schedule.
+
+    Two Smartlead calls and no per-lead work, against the reply-catch pass's
+    one bulk thread fetch per campaign — three orders of magnitude apart in
+    cost, so there is no reason for the cheap one to wait on the expensive
+    one's cadence. This is the job that decides how long a lead's first reply
+    stays invisible, which is the number that actually matters here
+    (NEW_REPLY_POLL_SECONDS). The reply-catch pass still calls it inline first,
+    so a lead adopted here is drafted for on the same pass rather than the
+    next one."""
+    if _new_reply_lock.locked():
+        return
+    with _new_reply_lock:
+        try:
+            _adopt_unknown_repliers()
+        except Exception:
+            log.exception("new-reply poll failed")
+
+
+def _adopt_unknown_repliers() -> None:
+    """Pull in leads who have replied but that we don't track yet.
+
+    This is the fix for the app's worst failure: **a lead's first reply was
+    invisible.** Three things had to line up for that, and they all did.
+
+    The daily scan (and "Rescan now") only records leads whose Smartlead
+    category is `Interested`. But Smartlead assigns that category with its own
+    AI, minutes to hours after the reply lands — so at the moment a lead first
+    answers they typically have *no category at all*. The scan skips them. The
+    reply-catch pass below can't help either: it reads leads_state, and there
+    is no row yet. And the webhook only fires for replies n8n classified as
+    relevant. Net effect, measured against production on 2026-08-11: of the 20
+    most recent replies in the Smartlead inbox, 16 had no row in the database
+    at all — 7 of those purely because Smartlead hadn't categorised them yet,
+    one of them a reply from that same morning. Clicking "Rescan now" appeared
+    to fix it only because by then Smartlead had usually caught up and stamped
+    `Interested`, which is the real five minutes people were waiting on.
+
+    So this asks the opposite question: not "which leads are Interested?" but
+    **"who has written to us lately?"** — one call to Smartlead's unified inbox
+    across every campaign (smartlead.list_recent_replies). A reply is a reply;
+    waiting for someone else's classifier before showing it to a human is the
+    bug. Only the explicitly negative categories are skipped
+    (_SKIP_ADOPT_CATEGORIES), and *no category* is emphatically not one of
+    them.
+
+    It writes the summary only, never a draft: the row plus the timestamp is
+    enough to make the lead visible and to hand them to the loop below, which
+    fetches the real thread anyway. Best-effort — this is a safety net, and a
+    Smartlead hiccup here must not stop the pass that follows it."""
+    try:
+        recent = smartlead.list_recent_replies(limit=20)
+        categories = {cid: name for name, cid in smartlead.fetch_categories().items()}
+    except Exception:
+        log.exception("reply-catch: could not list recent replies")
+        return
+
+    adopted = 0
+    for row in recent:
+        category = categories.get(row.get("lead_category_id")) or ""
+        if category.strip().lower() in _SKIP_ADOPT_CATEGORIES:
+            continue
+        try:
+            lead_id = int(row.get("email_lead_id") or 0)
+            campaign_id = int(row.get("email_campaign_id") or 0)
+        except (TypeError, ValueError):
+            continue
+        if not lead_id or not campaign_id:
+            continue
+        replied_at = row.get("last_reply_time")
+        if not isinstance(replied_at, str) or not replied_at.strip():
+            continue
+
+        with db.db_session() as conn:
+            existing = db.get_lead_state(conn, lead_id, campaign_id)
+            # Only ever *adds* leads. One already on file is the normal case and
+            # the main loop below re-derives their state from the real thread —
+            # stamping a category on a lead we've stopped, booked or archived
+            # off this summary alone would fight it.
+            if existing:
+                continue
+            name = " ".join(
+                part for part in (row.get("lead_first_name"), row.get("lead_last_name")) if part
+            ).strip()
+            db.mark_lead_replied(
+                conn, lead_id, campaign_id,
+                preview=None,  # this endpoint carries no body; the thread fetch fills it in
+                received_at=_to_utc_iso(replied_at),
+                email=row.get("lead_email"),
+                name=name or None,
+                campaign_name=row.get("email_campaign_name"),
+                timezone_guess=guess_timezone(row.get("email_campaign_name") or ""),
+            )
+            adopted += 1
+
+    if adopted:
+        log.info("reply-catch: adopted %d lead(s) who replied but weren't tracked", adopted)
+
+
+def _to_utc_iso(raw: str) -> str:
+    """Smartlead timestamp -> UTC ISO string. last_message_at is compared as
+    text (list_inbox's ordering, and db.mark_lead_replied's archive check), so
+    a value carrying another offset would sort against the table wrongly."""
+    try:
+        parsed = datetime.fromisoformat(raw.strip().replace("Z", "+00:00"))
+    except ValueError:
+        return datetime.now(timezone.utc).isoformat()
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc).isoformat()
+
+
 def run_reply_catch_scan() -> None:
     """Frequent, cheap safety-net for replies the webhook missed.
 
@@ -180,11 +314,23 @@ def run_reply_catch_scan() -> None:
     drafted, exactly as the webhook would have. Reading the thread from a bulk
     fetch minutes after the reply also sidesteps the propagation lag that can
     make the webhook's own instant re-fetch miss the reply.
+
+    Two things this used to get wrong, both of which made a caught reply
+    invisible rather than merely late:
+
+    - It wrote no inbox summary at all — see db.mark_lead_replied. Spotting the
+      reply and drafting for it are not the same as *showing* it, and only the
+      daily scan wrote the columns the inbox list reads. That is why "Rescan
+      now" looked like the only way to see new mail.
+    - Being keyed off leads_state, it could not see a lead replying for the
+      first time. _adopt_unknown_repliers covers that in one extra call.
     """
     if _reply_catch_lock.locked():
         log.info("reply-catch scan already running, skipping this trigger")
         return
     with _reply_catch_lock:
+        run_new_reply_poll()
+
         with db.db_session() as conn:
             rows = conn.execute(
                 """SELECT lead_id, campaign_id, name, email, company, website
@@ -218,6 +364,22 @@ def run_reply_catch_scan() -> None:
                     continue
                 last = thread[-1]
                 try:
+                    # Show the message first, unconditionally. This pass used to
+                    # go straight from spotting a reply to generating a draft
+                    # and never touch the inbox summary, so the lead kept the
+                    # row, chip, preview and list position the last daily scan
+                    # gave them: a reply could sit in the database for hours
+                    # with nothing on screen saying it had arrived. Writing it
+                    # before the has_draft checks matters just as much — a
+                    # message the webhook already drafted for still has to be
+                    # visible as a message.
+                    with db.db_session() as conn:
+                        db.mark_lead_replied(
+                            conn, row["lead_id"], campaign_id,
+                            preview=to_plain_text(last.body),
+                            received_at=last.timestamp.astimezone(timezone.utc).isoformat(),
+                        )
+
                     with db.db_session() as conn:
                         # Already have a draft for this reply (webhook or an
                         # earlier tick) — don't make a second one.
@@ -463,8 +625,10 @@ def _process_lead(
 
     if is_autoreply:
         summary = _summary_for(lead, thread, "auto_reply", last_msg)
+        # Committed on its own, before any drafting: see the note below.
         with db.db_session() as conn:
             db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], **base_fields, **summary)
+        with db.db_session() as conn:
             if (
                 not has_open
                 and last_msg is not None
@@ -487,37 +651,46 @@ def _process_lead(
         lead, thread, _CATEGORY.get(decision.action, "waiting"), last_msg
     )
 
+    # The inbox summary commits on its own, before anything slow. Two reasons.
+    # It used to share a transaction with the create_draft below, so a lead the
+    # scan had already read stayed invisible until Claude finished writing to
+    # them — on a pass with several replies, minutes. And an open SQLite write
+    # transaction is an exclusive writer lock (WAL allows exactly one), so that
+    # same wait blocked every other write in the process: the rest of the scan,
+    # a send, a webhook recording a brand-new reply.
     with db.db_session() as conn:
         db.upsert_lead_state(
             conn, lead["id"], lead["campaign_id"], **base_fields, **summary
         )
 
-        if has_open:
-            # Already have an editable draft for this lead — leave it be.
-            return False
+    if has_open:
+        # Already have an editable draft for this lead — leave it be.
+        return False
 
-        # No live mailbox to reply from (REQUIRE_KNOWN_SENDER clients only):
-        # don't draft and don't queue, so a dead thread never reaches the review
-        # queue as an email that could not be sent anyway.
-        if decision.action != detector.Action.NONE and not signatures.is_sendable(
-            detector.last_sender_email(thread)
-        ):
-            log.info(
-                "lead %s skipped: sending mailbox %s is retired, thread is dead",
-                lead["id"],
-                detector.last_sender_email(thread) or "(unknown)",
-            )
-            return False
+    # No live mailbox to reply from (REQUIRE_KNOWN_SENDER clients only):
+    # don't draft and don't queue, so a dead thread never reaches the review
+    # queue as an email that could not be sent anyway.
+    if decision.action != detector.Action.NONE and not signatures.is_sendable(
+        detector.last_sender_email(thread)
+    ):
+        log.info(
+            "lead %s skipped: sending mailbox %s is retired, thread is dead",
+            lead["id"],
+            detector.last_sender_email(thread) or "(unknown)",
+        )
+        return False
 
-        if decision.action == detector.Action.REPLY:
-            log.info("drafting reply for lead %s: %s", lead["id"], decision.reason)
+    if decision.action == detector.Action.REPLY:
+        log.info("drafting reply for lead %s: %s", lead["id"], decision.reason)
+        with db.db_session() as conn:
             pipeline.create_draft(conn, lead, campaign_name, "reply", thread)
             db.upsert_lead_state(
                 conn, lead["id"], lead["campaign_id"], status="awaiting_reply"
             )
-            return False
+        return False
 
-        if decision.action == detector.Action.FOLLOWUP:
+    if decision.action == detector.Action.FOLLOWUP:
+        with db.db_session() as conn:
             db.upsert_candidate(
                 conn,
                 lead["id"],
@@ -531,9 +704,9 @@ def _process_lead(
                 last_message_preview=summary["last_message_preview"],
                 last_message_at=summary["last_message_at"],
             )
-            return True
+        return True
 
-        return False
+    return False
 
 
 def run_due_send_loop() -> None:
@@ -666,6 +839,16 @@ def start_scheduler() -> BackgroundScheduler:
             "interval",
             minutes=settings.scan_interval_minutes,
             id="reply_catch_scan",
+        )
+    # How fast a lead's *first* reply shows up, which is the latency that
+    # actually costs meetings. Two Smartlead calls, no per-lead work — cheap
+    # enough to run far more often than the pass above. See run_new_reply_poll.
+    if settings.new_reply_poll_seconds > 0:
+        sched.add_job(
+            run_new_reply_poll,
+            "interval",
+            seconds=settings.new_reply_poll_seconds,
+            id="new_reply_poll",
         )
     sched.start()
     _scheduler = sched

@@ -301,6 +301,46 @@ def get_message_history_bulk(
     return data if isinstance(data, dict) else {}
 
 
+def list_recent_replies(limit: int = 20, api_key: str | None = None) -> list[dict]:
+    """POST /master-inbox/inbox-replies — the newest lead replies across *every*
+    campaign, newest first, in a single call.
+
+    This is the only cheap way to learn about a lead who has never been seen
+    before. Everything else we poll is keyed off leads we already track, so a
+    lead replying for the first time — the most valuable message the app ever
+    receives — was invisible until the next full daily scan walked their
+    campaign.
+
+    Verified against the live API 2026-08-11. The response is
+    `{"ok": true, "data": [...], "offset", "limit"}` — a `data` key, not the
+    documented `messages`, and no `total_count`. Each row is a lead summary,
+    not a message: `email_lead_id`, `email_campaign_id`, `email_campaign_name`,
+    `lead_email`, `lead_first_name`/`lead_last_name`, `lead_category_id`,
+    `last_reply_time`, `has_new_unread_email`. There is no message body —
+    that's what makes it fast (`fetch_message_history=false`), so a caller
+    that needs the text still fetches the thread for the few leads that are
+    actually new. `limit` is capped at 20 by the API."""
+    data = _request(
+        "POST",
+        "/master-inbox/inbox-replies",
+        params={"fetch_message_history": "false"},
+        json={
+            "offset": 0,
+            "limit": max(1, min(int(limit), 20)),
+            "filters": {"emailStatus": "Replied"},
+            "sortBy": "REPLY_TIME_DESC",
+        },
+        api_key=api_key,
+    )
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict):
+        rows = data.get("data")
+        if isinstance(rows, list):
+            return rows
+    return []
+
+
 def update_lead_category(
     campaign_id: int, lead_id: int, category_id: int, pause_lead: bool = False
 ) -> Any:
@@ -472,13 +512,42 @@ def normalize_lead(raw: dict, campaign_id: int) -> dict:
     }
 
 
-def create_webhook(callback_url: str, event_types: list[str]) -> Any:
-    return _request(
-        "POST",
-        "/webhooks",
-        json={"url": callback_url, "event_types": event_types},
-    )
+def create_webhook(
+    callback_url: str,
+    event_types: list[str],
+    association_type: str = "user",
+    campaign_id: int | None = None,
+    name: str = "Mindaptive Responder",
+) -> Any:
+    """POST /webhook/create — subscribe this app to Smartlead events.
+
+    The previous version of this function posted `{"url", "event_types"}` to
+    `/webhooks`, which is not an endpoint that exists; nothing called it, so
+    nothing ever noticed. The real shape (Smartlead's own reference, and the
+    field names its GET returns): `webhook_url`, `association_type`
+    ("user" = every campaign, "campaign" = one), and `event_type_map`, a map of
+    event name to boolean rather than a list.
+
+    `association_type="user"` is the default deliberately — a per-campaign
+    registration has to be repeated for every campaign created from then on,
+    and forgetting once means that campaign's replies are silently invisible.
+    """
+    body: dict = {
+        "webhook_url": callback_url,
+        "association_type": association_type,
+        "name": name,
+        "event_type_map": {event: True for event in event_types},
+    }
+    if campaign_id is not None:
+        body["email_campaign_id"] = campaign_id
+    return _request("POST", "/webhook/create", json=body)
 
 
-def list_webhooks() -> Any:
-    return _request("GET", "/webhooks")
+def list_campaign_webhooks(campaign_id: int, api_key: str | None = None) -> list[dict]:
+    """GET /campaigns/{id}/webhooks — the webhooks firing for one campaign.
+
+    Per campaign is the only listing the API offers: there is no `GET
+    /webhooks` (it 404s, verified 2026-08-11), so "is anything registered?" can
+    only be answered campaign by campaign."""
+    data = _request("GET", f"/campaigns/{campaign_id}/webhooks", api_key=api_key)
+    return data if isinstance(data, list) else []

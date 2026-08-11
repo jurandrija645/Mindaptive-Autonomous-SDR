@@ -64,6 +64,7 @@ ROLE_DRAFT = "draft"
 ROLE_TEMPLATE = "template"
 ROLE_TRANSLATE = "translate"
 ROLE_ANALYSIS = "analysis"
+ROLE_CLASSIFY = "classify"
 
 ROLES: dict[str, dict] = {
     ROLE_DRAFT: {
@@ -110,6 +111,21 @@ ROLES: dict[str, dict] = {
         "setting_key": "model_analysis",
         "fallback_role": None,
         "env_fallback": lambda: settings.anthropic_model,
+    },
+    ROLE_CLASSIFY: {
+        "label": "Sorting incoming replies",
+        "description": (
+            "Deciding whether an incoming reply is a real prospect or an "
+            "out-of-office / rejection, which is what says whether to spend a "
+            "draft on it. One word in, one word out, on every reply — the "
+            "cheapest model that reads accurately. Never decides what you see: "
+            "every reply reaches the inbox either way."
+        ),
+        "setting_key": "model_classify",
+        "fallback_role": None,
+        # Not the drafting model: this is the highest-volume, lowest-stakes call
+        # in the app, and the default is chosen to cost effectively nothing.
+        "env_fallback": lambda: settings.reply_classifier_model,
     },
 }
 
