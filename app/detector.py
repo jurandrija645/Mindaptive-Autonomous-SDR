@@ -185,7 +185,13 @@ def decide(
     followup_count: int,
     lead_status: str,
     now: datetime | None = None,
+    hot: bool = False,
 ) -> Decision:
+    """`hot` is the lead's 🔥 rating (app/lead_temperature.py), passed in as a
+    plain flag so this module stays free of everything but config: a lead who
+    asked to meet or call is chased on HOT_FOLLOWUP_WAIT_HOURS (24h) instead of
+    the FOLLOWUP_WAIT_DAYS list. Somebody who asked for a call on Monday is not
+    a lead you leave alone until Thursday."""
     now = now or datetime.now(timezone.utc)
 
     if lead_status in ("stopped", "blacklisted", "booked"):
@@ -221,13 +227,35 @@ def decide(
     # so "3,4,6,8" spaces touches out as the thread goes colder.
     waits = settings.followup_wait_days
     wait_days = waits[min(followup_count, len(waits) - 1)]
-    if age < timedelta(days=wait_days):
+    wait = timedelta(days=wait_days)
+    wait_label = f"{wait_days}d"
+
+    # A hot lead is chased on hours, not days — but only ever *sooner* than the
+    # normal cadence, never later, so setting HOT_FOLLOWUP_WAIT_HOURS above the
+    # cadence can't quietly slow a hot lead down.
+    if hot and settings.hot_followup_wait_hours > 0:
+        hot_wait = timedelta(hours=settings.hot_followup_wait_hours)
+        if hot_wait < wait:
+            wait = hot_wait
+            wait_label = f"{settings.hot_followup_wait_hours}h (🔥 hot lead)"
+
+    if age < wait:
         return Decision(
             Action.NONE,
-            f"only {age.days}d since our last message, waiting for {wait_days}d",
+            f"only {_age_label(age)} since our last message, waiting for {wait_label}",
         )
 
     return Decision(
         Action.FOLLOWUP,
-        f"{age.days}d since our last message with no reply, follow-up #{followup_count + 1}",
+        f"{_age_label(age)} since our last message with no reply, "
+        f"follow-up #{followup_count + 1}"
+        + (" — 🔥 hot lead, short cadence" if wait < timedelta(days=wait_days) else ""),
     )
+
+
+def _age_label(age: timedelta) -> str:
+    """Days once there is a day to report, hours before that — a hot lead is
+    judged on a 24h clock, and "0d since our last message" says nothing."""
+    if age >= timedelta(days=1):
+        return f"{age.days}d"
+    return f"{int(age.total_seconds() // 3600)}h"

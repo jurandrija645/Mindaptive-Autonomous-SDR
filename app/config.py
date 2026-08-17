@@ -67,6 +67,12 @@ class Settings:
     followup_wait_days: tuple[int, ...] = field(
         default_factory=lambda: _int_list("FOLLOWUP_WAIT_DAYS", "3")
     )
+    # A lead rated 🔥 very hot (app/lead_temperature.py — they asked to meet,
+    # call or see a demo) is chased on this many HOURS instead of the day-based
+    # cadence above. Only ever shortens the wait, never lengthens it. 0 turns
+    # the short cadence off and puts hot leads back on FOLLOWUP_WAIT_DAYS; they
+    # still sort to the top of the inbox either way.
+    hot_followup_wait_hours: int = int(os.getenv("HOT_FOLLOWUP_WAIT_HOURS", "24"))
     max_followups: int = int(os.getenv("MAX_FOLLOWUPS", "4"))
     # After the follow-up cap is hit, quietly resurface the lead for one
     # revival touch once this many days pass with no reply. 0 disables.

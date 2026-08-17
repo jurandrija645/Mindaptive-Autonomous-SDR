@@ -14,7 +14,7 @@ from fastapi.templating import Jinja2Templates
 
 from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
 from app import candidates as candidates_module
-from app import db, drafter, google_oauth, library, message_templates, models_registry
+from app import db, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
 from app import pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
 from app.exports import sheet_export
@@ -400,6 +400,11 @@ def _row_payload(l: dict, open_set: set) -> dict:
         "email": l["email"] or "",
         "campaign_name": l["campaign_name"] or "",
         "category": l["category"] or "waiting",
+        # How hot the lead is — a separate axis from `category` above, and the
+        # thing db.list_inbox sorts on first (app/lead_temperature.py).
+        "temperature": lead_temperature.current(l),
+        "temperature_reason": l["temperature_reason"] or "",
+        "temperature_locked": bool(l["temperature_locked"]),
         "language": (l["language"] or "").upper(),
         "preview": l["last_message_preview"] or "",
         "last_message_at": _fmt_time(l["last_message_at"]),
@@ -525,6 +530,9 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "language": ((lead["language"] if lead else "") or "").upper(),
             "language_name": translator.language_name(lead["language"]) if (lead and lead["language"]) else None,
             "category": (lead["category"] if lead else "waiting") or "waiting",
+            "temperature": lead_temperature.current(lead),
+            "temperature_reason": (lead["temperature_reason"] if lead else "") or "",
+            "temperature_locked": bool(lead["temperature_locked"]) if lead else False,
             "archive_reason": lead["archive_reason"] if lead else None,
             "archived_at": _fmt_time(lead["archived_at"]) if lead and lead["archived_at"] else None,
             "snooze_until": lead["snooze_until"] if lead else None,
@@ -1165,6 +1173,75 @@ def api_unarchive_lead(request: Request, campaign_id: int, lead_id: int):
     with db.db_session() as conn:
         db.upsert_lead_state(conn, lead_id, campaign_id, archived_at=None, archive_reason=None)
     return JSONResponse({"ok": True})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/temperature")
+async def api_set_temperature(request: Request, campaign_id: int, lead_id: int):
+    """Set how hot a lead is by hand — ❄️ cold / 🌤 warm / 🔥 very hot — or hand
+    it back to the classifier with `"auto"`.
+
+    An explicit rating also **locks** it (`temperature_locked`), so the next scan
+    doesn't quietly overrule Andrew the way it used to overrule a corrected name
+    before `name_locked` existed. That lock is the only thing that can cool a
+    lead down, since the classifier itself only ever rates upwards.
+
+    "auto" clears the lock *and* re-rates immediately off the live thread rather
+    than waiting for the next pass. Clearing alone wouldn't be enough: a rating
+    of 🔥 is sticky, so the classifier would keep returning "nothing to do" and
+    the lead would stay hot forever. Re-rating costs one thread fetch and one
+    cheap classifier call, on an explicit click."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    wanted = (body.get("temperature") or "").strip().lower()
+
+    if wanted in lead_temperature.VALUES:
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id,
+                temperature=wanted,
+                temperature_reason="set by hand",
+                temperature_locked=1,
+            )
+        return JSONResponse({"ok": True, "temperature": wanted, "locked": True})
+
+    if wanted != "auto":
+        return JSONResponse(
+            {"error": f"temperature must be one of {', '.join(lead_temperature.VALUES)} or 'auto'."},
+            status_code=400,
+        )
+
+    try:
+        thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
+    except Exception as e:
+        log.exception("temperature re-rate: thread fetch failed for lead %s", lead_id)
+        return JSONResponse({"error": f"Couldn't read the thread: {e}"}, status_code=502)
+
+    # A blank slate rather than the stored row, so nothing about the manual
+    # rating survives to short-circuit the read: not the lock, not the sticky
+    # 🔥, not the message it was last judged from.
+    reading = lead_temperature.read(thread, {})
+    temperature = reading.temperature if reading else lead_temperature.COLD
+    # `reading.reason` is None when the verdict didn't beat the (blank) starting
+    # rating, i.e. the message read as cold; the per-rating wording covers it.
+    # No reading at all means the lead has never written to us.
+    reason = (
+        (reading.reason or lead_temperature.REASONS[temperature])
+        if reading
+        else "no reply from this lead yet"
+    )
+    with db.db_session() as conn:
+        db.upsert_lead_state(
+            conn, lead_id, campaign_id,
+            temperature=temperature,
+            temperature_reason=reason,
+            temperature_message_id=reading.message_id if reading else None,
+            temperature_locked=0,
+        )
+    return JSONResponse(
+        {"ok": True, "temperature": temperature, "reason": reason, "locked": False}
+    )
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/snooze")

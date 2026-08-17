@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import httpx
 from fastapi import APIRouter, HTTPException, Request
 
-from app import db, lead_language, pipeline, reply_classifier, smartlead
+from app import db, lead_language, lead_temperature, pipeline, reply_classifier, smartlead
 from app.config import settings
 from app.email_clean import to_plain_text
 
@@ -257,6 +257,14 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
         # The lead is in the inbox from phase 1 regardless, so this costs the
         # draft, not the message.
         return {"status": "ignored", "reason": "no unanswered lead reply in thread"}
+
+    # Phase 3 — how hot is this lead? Separate question from phase 2's: that one
+    # asks whether a human wrote this at all, this one asks whether they asked to
+    # talk. A 🔥 rating pins them to the top of the inbox and shortens their
+    # follow-up cadence to 24h (app/lead_temperature.py). Runs on the real
+    # thread rather than the webhook's copy of the text, and outside every
+    # transaction, since it can call a model.
+    lead_temperature.record(lead_id, campaign_id, thread)
 
     with db.db_session() as conn:
         # Refine the placeholder summary with the real thread: the exact

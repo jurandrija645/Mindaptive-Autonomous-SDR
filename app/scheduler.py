@@ -8,7 +8,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app import (
-    batch_gen, db, detector, lead_language, pipeline, reply_classifier, signatures, smartlead,
+    batch_gen, db, detector, lead_language, lead_temperature, pipeline,
+    reply_classifier, signatures, smartlead,
 )
 from app.config import settings
 from app.email_clean import to_plain_text
@@ -321,6 +322,10 @@ def run_reply_catch_scan() -> None:
       now" looked like the only way to see new mail.
     - Being keyed off leads_state, it could not see a lead replying for the
       first time. _adopt_unknown_repliers covers that in one extra call.
+
+    It also carries the 🔥 leads' 24-hour follow-up clock (_queue_hot_followup),
+    for the plain reason that it already holds every live lead's thread and the
+    daily scan is otherwise the only thing that ever decides a follow-up is due.
     """
     if _reply_catch_lock.locked():
         log.info("reply-catch scan already running, skipping this trigger")
@@ -330,7 +335,8 @@ def run_reply_catch_scan() -> None:
 
         with db.db_session() as conn:
             rows = conn.execute(
-                """SELECT lead_id, campaign_id, name, email, company, website
+                """SELECT lead_id, campaign_id, name, email, company, website,
+                          campaign_name, status, followup_count, temperature
                    FROM leads_state
                    WHERE interested = 1 AND status IN ('active', 'awaiting_reply')"""
             ).fetchall()
@@ -342,6 +348,7 @@ def run_reply_catch_scan() -> None:
             by_campaign.setdefault(row["campaign_id"], []).append(row)
 
         drafted = 0
+        hot_due = 0
         for campaign_id, leads in by_campaign.items():
             try:
                 bulk = smartlead.get_message_history_bulk(
@@ -357,7 +364,21 @@ def run_reply_catch_scan() -> None:
                 entry = bulk.get(str(row["lead_id"])) or {}
                 raw = entry.get("history") if isinstance(entry, dict) else entry
                 thread = detector.normalize_thread(raw or [])
-                if not thread or thread[-1].kind != "reply":
+                if not thread:
+                    continue
+                if thread[-1].kind != "reply":
+                    # Nobody is waiting on us. The one thing still worth
+                    # checking is a 🔥 lead's 24-hour follow-up clock — see
+                    # _queue_hot_followup for why it can't wait for the nightly
+                    # scan. Costs nothing: the thread is already in hand.
+                    try:
+                        if _queue_hot_followup(row, campaign_id, thread):
+                            hot_due += 1
+                    except Exception:
+                        log.exception(
+                            "reply-catch: hot follow-up check failed for lead %s",
+                            row["lead_id"],
+                        )
                     continue
                 last = thread[-1]
                 try:
@@ -389,6 +410,22 @@ def run_reply_catch_scan() -> None:
                         with db.db_session() as conn:
                             db.sort_replied_lead(conn, row["lead_id"], campaign_id, label)
                         continue
+
+                    # How hot is this? Rated here rather than only in the
+                    # webhook, so the rating never depends on a webhook that
+                    # fires once and isn't retried — and before the has-draft
+                    # checks below, since a lead who asked for a call has to
+                    # reach the top of the inbox whether or not this pass is
+                    # the one that drafts for them. Costs one cheap call per
+                    # new message and nothing at all thereafter
+                    # (lead_temperature.read caches on the message id).
+                    #
+                    # After the sort above, not before it: only a human who
+                    # wrote to us can be hot, so an autoresponder or a rejection
+                    # has already left this loop rather than paying for a second
+                    # classification that could only ever say cold — and cold
+                    # never demotes anyone (see lead_temperature.read).
+                    lead_temperature.record(row["lead_id"], campaign_id, thread)
 
                     with db.db_session() as conn:
                         # Already have a draft for this reply (webhook or an
@@ -423,6 +460,72 @@ def run_reply_catch_scan() -> None:
 
         if drafted:
             log.info("reply-catch scan drafted %d missed reply(ies)", drafted)
+        if hot_due:
+            log.info("reply-catch scan queued %d hot lead follow-up(s)", hot_due)
+
+
+def _queue_hot_followup(row, campaign_id: int, thread) -> bool:
+    """A very hot lead's follow-up clock, checked every few minutes instead of
+    once a night. Returns True if this call is what queued them.
+
+    HOT_FOLLOWUP_WAIT_HOURS is 24, and the daily scan used to be the only thing
+    that ever decided a follow-up was due — so on the nightly pass alone a "24
+    hour" cadence really means "whenever the next 6am run lands", i.e. anywhere
+    from 24 to 48 hours after the email went out. That is the whole difference
+    between chasing a lead who asked for a call the next morning and chasing
+    them the morning after that.
+
+    This pass already bulk-fetches the thread of every live lead — that is what
+    it is for — so the check costs one detector call per lead and no network at
+    all. Deliberately hot leads only: everyone else keeps the nightly cadence,
+    which is what FOLLOWUP_WAIT_DAYS is spaced for.
+
+    It queues a candidate rather than generating a draft, exactly like the daily
+    scan, so the model spend still happens on the overnight batch or on a click.
+    """
+    if (row["temperature"] or lead_temperature.COLD) != lead_temperature.HOT:
+        return False
+
+    decision = detector.decide(thread, row["followup_count"], row["status"], hot=True)
+    if decision.action is not detector.Action.FOLLOWUP:
+        return False
+
+    # Same guard the daily scan applies: no live mailbox to reply from means
+    # the thread is dead, so don't queue an email that couldn't be sent.
+    if not signatures.is_sendable(detector.last_sender_email(thread)):
+        return False
+
+    last = thread[-1]
+    with db.db_session() as conn:
+        if db.has_open_draft(conn, row["lead_id"], campaign_id):
+            return False
+        # upsert_candidate only *creates* when there is no row at all — an open
+        # one is refreshed, and a dismissed or in-flight one is left alone. So
+        # this is what "queued by this call" means, and it's only used for the
+        # log line: every 5 minutes, "queued 1 follow-up" has to mean a new one.
+        created = conn.execute(
+            """SELECT 1 FROM candidates
+               WHERE lead_id = ? AND campaign_id = ? AND kind = 'followup'""",
+            (row["lead_id"], campaign_id),
+        ).fetchone() is None
+        db.upsert_candidate(
+            conn,
+            row["lead_id"],
+            campaign_id,
+            "followup",
+            lead_name=row["name"],
+            lead_company=row["company"],
+            lead_email=row["email"],
+            campaign_name=row["campaign_name"],
+            reason=decision.reason,
+            last_message_preview=to_plain_text(last.body)[:200],
+            last_message_at=last.timestamp.astimezone(timezone.utc).isoformat(),
+        )
+        # The amber "Follow-up due" chip and list_inbox's tier both read this.
+        # Only written when they're actually due — "waiting" stays the daily
+        # scan's to write, since it owns the full picture of the thread.
+        db.upsert_lead_state(conn, row["lead_id"], campaign_id, category="followup")
+    return created
 
 
 def run_daily_scan() -> None:
@@ -634,6 +737,10 @@ def _process_lead(
     last_msg = thread[-1] if thread else None
 
     if is_autoreply:
+        # No temperature read here on purpose: Smartlead has already told us this
+        # is an autoresponder, which is the cold bucket by definition, and the
+        # rating never cools a lead down anyway. Asking a model to confirm it
+        # would be a call per auto-reply lead per scan that can't change a thing.
         summary = _summary_for(lead, thread, "auto_reply", last_msg)
         # Committed on its own, before any drafting: see the note below.
         with db.db_session() as conn:
@@ -656,10 +763,28 @@ def _process_lead(
         base_fields["status"] = "active"
         log.info("lead %s un-booked (category back to Interested)", lead["id"])
 
-    decision = detector.decide(thread, followup_count, lead_status)
+    # How hot the lead is, before the decision — a 🔥 lead (one who asked to
+    # meet or call) is chased on a 24h clock instead of the FOLLOWUP_WAIT_DAYS
+    # cadence, so the rating has to be current before decide() reads it. No
+    # database session is open here: read() can call a model, and holding a
+    # write transaction across one locks every other writer in the process.
+    # Free for a lead whose newest message has already been judged, which is
+    # every lead on every pass after the first.
+    try:
+        reading = lead_temperature.read(thread, state)
+    except Exception:
+        # A rating is an ordering hint. It must never cost the lead its scan.
+        log.exception("temperature read failed for lead %s", lead["id"])
+        reading = None
+    rated = reading.temperature if reading else lead_temperature.current(state)
+
+    decision = detector.decide(
+        thread, followup_count, lead_status, hot=rated == lead_temperature.HOT
+    )
     summary = _summary_for(
         lead, thread, _CATEGORY.get(decision.action, "waiting"), last_msg
     )
+    summary.update(lead_temperature.fields(reading))
 
     # The inbox summary commits on its own, before anything slow. Two reasons.
     # It used to share a transaction with the create_draft below, so a lead the

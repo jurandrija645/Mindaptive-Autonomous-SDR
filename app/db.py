@@ -22,6 +22,15 @@ CREATE TABLE IF NOT EXISTS leads_state (
     interested INTEGER NOT NULL DEFAULT 0,
     campaign_name TEXT,
     category TEXT,              -- reply|followup|waiting  (drives the row colour)
+    -- How hot the lead is: cold|warm|hot (app/lead_temperature.py). Deliberately
+    -- NOT the same axis as `category` above or Smartlead's own lead category —
+    -- those say what the thread needs next and how Smartlead filed the lead;
+    -- this says whether they asked to talk. Sorts hot leads to the very top of
+    -- list_inbox and shortens their follow-up cadence to HOT_FOLLOWUP_WAIT_HOURS.
+    temperature TEXT NOT NULL DEFAULT 'cold',
+    temperature_reason TEXT,        -- one line, why it was rated that
+    temperature_message_id TEXT,    -- the lead message the rating was read from, so it's judged once
+    temperature_locked INTEGER NOT NULL DEFAULT 0,  -- Andrew set it by hand; the classifier stops touching it
     language TEXT,              -- 2-letter code of the lead's last message
     last_message_preview TEXT,
     last_message_at TEXT,
@@ -387,6 +396,13 @@ def _migrate(conn) -> None:
         # set when the scan sees Smartlead's "Meeting-Booked" category on the
         # lead — the app's success metric. Never overwritten once set.
         "booked_at": "TEXT",
+        # How hot the lead is (app/lead_temperature.py). Existing rows backfill
+        # to 'cold' and are re-rated the next time their thread is read, which
+        # costs one cheap classifier call per lead who has actually replied.
+        "temperature": "TEXT NOT NULL DEFAULT 'cold'",
+        "temperature_reason": "TEXT",
+        "temperature_message_id": "TEXT",
+        "temperature_locked": "INTEGER NOT NULL DEFAULT 0",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
@@ -600,8 +616,17 @@ def sort_replied_lead(conn, lead_id: int, campaign_id: int, label: str) -> None:
 
 def list_inbox(conn):
     """Every interested, non-stopped, non-archived, non-snoozed(-future) lead for
-    the unified inbox. Ordering: a snooze whose date has arrived jumps to the
-    very top (that's the point of snoozing — surface it prominently once due),
+    the unified inbox.
+
+    Ordering, outermost first: a 🔥 **very hot** lead — one who asked to meet or
+    call (app/lead_temperature.py) — sits above everything else, because that is
+    the one signal worth acting on before anything else in the list and it must
+    not be buried under a dozen leads whose only claim is that they replied more
+    recently. A booked lead is excluded from that promotion: the meeting is the
+    outcome, so there is nothing left to chase.
+
+    Within that, the tiers are as before: a snooze whose date has arrived jumps
+    to the top (that's the point of snoozing — surface it prominently once due),
     then awaiting-our-reply (red), then follow-up-due (amber), then the rest;
     within a tier, most recent activity first.
 
@@ -637,6 +662,7 @@ def list_inbox(conn):
                )
              )
            ORDER BY
+             CASE WHEN temperature = 'hot' AND status != 'booked' THEN 0 ELSE 1 END,
              CASE
                WHEN snooze_until IS NOT NULL AND snooze_until <= ? THEN 0
                WHEN category IN ('reply', 'auto_reply') THEN 1

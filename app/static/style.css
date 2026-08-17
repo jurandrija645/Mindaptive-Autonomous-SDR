@@ -18,6 +18,17 @@
   --booked: #2e8b57;     /* green — meeting booked, outreach frozen */
   --booked-bg: #e4f3ea;
 
+  /* Lead temperature — how badly they want to talk (app/lead_temperature.py).
+     A different axis from the category colours above, so it gets its own
+     palette: hot is the only one loud enough to pull the eye down a list. */
+  --hot: #d1490f;
+  --hot-bg: #fde9dc;
+  --hot-row: #fff7f1;
+  --warm: #9a7b2a;
+  --warm-bg: #f7f0dc;
+  --cold: #7f8b96;
+  --cold-bg: #eceef1;
+
   --header-h: 56px;
 }
 
@@ -210,6 +221,14 @@ button:disabled { opacity: .55; cursor: default; }
 .lead-row.archive-row { border-left-color: var(--waiting); display: flex; flex-direction: column; }
 .lead-row.sent-out { opacity: .4; transition: opacity .3s ease; }
 
+/* 🔥 leads keep their category's left border (that still says what the thread
+   needs next) and get a warm wash behind it, so the block at the top of the
+   inbox reads as one group at a glance. After the hover/selected rules above
+   on purpose: those are the states this has to survive. */
+.lead-row.is-hot { background: var(--hot-row); }
+.lead-row.is-hot:hover { background: #fdefe3; }
+.lead-row.is-hot.selected { background: #f7e5d6; }
+
 /* Stats dashboard — rendered in the main detail pane (see renderStats in app.js) */
 .stats-head { margin-bottom: 8px; }
 .stats-head h2 { margin: 0 0 2px; font-size: 20px; }
@@ -273,7 +292,10 @@ button:disabled { opacity: .55; cursor: default; }
 .lead-top { display: flex; align-items: center; gap: 7px; }
 .lead-name { font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lead-company { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lead-meta { display: flex; align-items: center; gap: 7px; margin-top: 3px; }
+/* Wraps because the row carries two chips now — how hot the lead is and what
+   the thread needs next — plus the time; on a narrow phone that can outgrow
+   one line, and a second line beats an overflow. */
+.lead-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 3px; }
 .lead-preview {
   margin-top: 3px; font-size: 12.5px; color: var(--muted);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -318,6 +340,13 @@ button:disabled { opacity: .55; cursor: default; }
 .state-chip.cat-auto_reply { background: var(--autoreply-bg); color: var(--autoreply); }
 .state-chip.cat-waiting { background: #eeece7; color: var(--muted); }
 .state-chip.cat-booked { background: var(--booked-bg); color: var(--booked); }
+
+/* How hot the lead is, next to the category chip — same shape, own palette. */
+.temp-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; white-space: nowrap; }
+.temp-chip.temp-hot { background: var(--hot-bg); color: var(--hot); }
+.temp-chip.temp-warm { background: var(--warm-bg); color: var(--warm); }
+.temp-chip.temp-cold { background: var(--cold-bg); color: var(--cold); }
+.list-section.section-hot { color: var(--hot); background: var(--hot-bg); }
 .ready-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-left: auto; flex-shrink: 0; }
 
 /* ---- detail (right) ---- */

@@ -115,11 +115,13 @@ ROLES: dict[str, dict] = {
     ROLE_CLASSIFY: {
         "label": "Sorting incoming replies",
         "description": (
-            "Deciding whether an incoming reply is a real prospect or an "
-            "out-of-office / rejection, which is what says whether to spend a "
-            "draft on it. One word in, one word out, on every reply — the "
-            "cheapest model that reads accurately. Never decides what you see: "
-            "every reply reaches the inbox either way."
+            "Two one-word judgements on an incoming reply: whether it's a real "
+            "prospect or an out-of-office / rejection (which says whether to "
+            "spend a draft on it), and how hot the lead is — ❄️ cold, 🌤 warm or "
+            "🔥 very hot, which decides where they sit in the inbox and how fast "
+            "they get chased. Both run on every reply, so the cheapest model "
+            "that reads accurately. Neither decides what you see: every reply "
+            "reaches the inbox either way."
         ),
         "setting_key": "model_classify",
         "fallback_role": None,

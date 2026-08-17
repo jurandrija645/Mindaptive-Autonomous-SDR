@@ -13,6 +13,17 @@ const CHIP = {
 const CATEGORY_ORDER = Object.keys(CHIP);
 const STATUS_FILTER_KEY = "responder.statusFilter";
 
+// How hot the lead is (app/lead_temperature.py) — a different axis from CHIP
+// above, which says what the thread needs next. This one says whether they
+// asked to talk, and it's what the inbox sorts on first: every 🔥 lead is above
+// everything else in the list, regardless of category.
+const TEMP = {
+  hot: "🔥 Very hot",
+  warm: "🌤 Warm",
+  cold: "❄️ Cold",
+};
+const TEMP_ORDER = ["hot", "warm", "cold"];
+
 const state = {
   view: "inbox",        // "inbox" | "scheduled" | "archive"
   allLeads: [],          // full inbox as loaded from the server, unfiltered
@@ -1429,6 +1440,12 @@ function renderList() {
     ? "No leads match the current status filter or search."
     : 'No leads yet. Click <strong>Rescan now</strong> — it checks every “Interested” lead and takes a couple of minutes.';
 
+  // The inbox arrives with every hot lead first (db.list_inbox), so the two
+  // headings are just the place the run ends — no client-side sorting, and
+  // nothing to keep in step with the server's ordering.
+  const inboxMode = !archiveMode && !scheduledMode;
+  const hotCount = inboxMode ? state.leads.filter(isHot).length : 0;
+
   state.leads.forEach((lead, i) => {
     if (archiveMode && i === 0 && state.snoozedCount > 0) {
       list.appendChild(el("li", "list-section", "Snoozed — hidden until due"));
@@ -1436,9 +1453,16 @@ function renderList() {
     if (archiveMode && i === state.snoozedCount) {
       list.appendChild(el("li", "list-section", "Archived"));
     }
+    if (hotCount > 0 && i === 0) {
+      list.appendChild(el("li", "list-section section-hot", "🔥 Very hot — they asked to talk"));
+    }
+    if (hotCount > 0 && i === hotCount) {
+      list.appendChild(el("li", "list-section", "Everyone else"));
+    }
 
     const rowClass = archiveMode || scheduledMode ? "archive-row" : "cat-" + leadCategory(lead);
     const row = el("li", `lead-row ${rowClass}`);
+    if (inboxMode && isHot(lead)) row.classList.add("is-hot");
     if (i === state.selected) row.classList.add("selected");
     row.dataset.index = i;
 
@@ -1490,6 +1514,7 @@ function renderList() {
       row.appendChild(actions);
     } else {
       const meta = el("div", "lead-meta");
+      meta.appendChild(tempChip(lead));
       const cat = leadCategory(lead);
       meta.appendChild(el("span", `state-chip cat-${cat}`, CHIP[cat]));
       if (lead.last_message_at) meta.appendChild(el("span", "lead-time", lead.last_message_at));
@@ -1576,6 +1601,7 @@ function renderDetail() {
       el("span", "lang-badge-prominent", `🌐 ${lead.language_name || lead.language}`)
     );
   }
+  header.appendChild(tempChip(lead));
   const headCat = leadCategory(lead);
   header.appendChild(el("span", `state-chip cat-${headCat}`, CHIP[headCat]));
   body.appendChild(header);
@@ -1655,6 +1681,27 @@ function renderDetail() {
 function archiveLabel(reason) {
   if (!reason || reason === "manual") return "Archived";
   return reason; // an actual Smartlead category name, e.g. "Wrong Person"
+}
+
+// ---------- lead temperature (cold / warm / very hot) ----------
+
+function leadTemp(lead) {
+  return TEMP[lead.temperature] ? lead.temperature : "cold";
+}
+
+function isHot(lead) {
+  return leadTemp(lead) === "hot";
+}
+
+// The rating, with *why* it was rated that on hover — a 🔥 that can't be
+// questioned is a 🔥 that gets ignored, and the reason is one line the
+// classifier already wrote (or "set by hand" when Andrew overrode it).
+function tempChip(lead) {
+  const temp = leadTemp(lead);
+  const chip = el("span", `temp-chip temp-${temp}`, TEMP[temp]);
+  const why = lead.temperature_reason || "";
+  chip.title = why ? `${TEMP[temp]} — ${why}` : TEMP[temp];
+  return chip;
 }
 
 // Captured once during drafting (Claude's <lead_research> block, see
@@ -1809,6 +1856,8 @@ function renderLeadActionsBar(lead) {
   archiveBtn.addEventListener("click", archiveLead);
   bar.appendChild(archiveBtn);
 
+  bar.appendChild(renderTemperatureSelect(lead));
+
   bar.appendChild(renderCategorySelect());
 
   bar.appendChild(renderSnoozeControl());
@@ -1928,6 +1977,58 @@ async function editLeadName() {
   if (row) row.name = trimmed;
   renderList();
   renderDetail();
+}
+
+// Andrew's override of the automatic rating. Picking one locks it, so the next
+// scan can't quietly overrule him — the same deal as ✎ Rename and name_locked.
+// "Let the AI decide" hands it back and re-rates on the spot.
+function renderTemperatureSelect(lead) {
+  const select = el("select", "cat-select temp-select");
+  const temp = leadTemp(lead);
+  select.title = lead.temperature_locked
+    ? "You set this rating by hand — the scan won't change it"
+    : "How hot this lead is, rated from their own messages";
+  TEMP_ORDER.forEach((value) => {
+    const opt = document.createElement("option");
+    opt.value = value;
+    opt.textContent = TEMP[value];
+    opt.selected = value === temp;
+    select.appendChild(opt);
+  });
+  const auto = document.createElement("option");
+  auto.value = "auto";
+  auto.textContent = "↻ Let the AI decide";
+  select.appendChild(auto);
+  select.addEventListener("change", () => setTemperature(select.value));
+  return select;
+}
+
+async function setTemperature(value) {
+  const { cid, lid } = currentLeadIds();
+  let result;
+  try {
+    result = await apiPost(`/api/leads/${cid}/${lid}/temperature`, { temperature: value });
+  } catch (e) {
+    alert("Couldn't change how hot this lead is: " + e.message);
+    renderDetail();  // put the dropdown back to what's actually stored
+    return;
+  }
+  const lead = state.detail.lead;
+  lead.temperature = result.temperature;
+  lead.temperature_reason = result.reason || "set by hand";
+  lead.temperature_locked = !!result.locked;
+  const row = currentLead();
+  if (row) {
+    row.temperature = lead.temperature;
+    row.temperature_reason = lead.temperature_reason;
+    row.temperature_locked = lead.temperature_locked;
+  }
+  renderDetail();
+  // The inbox is sorted by this, so the list has to be re-fetched rather than
+  // repainted: a lead that just turned 🔥 belongs at the top of it, not in the
+  // position it held a second ago. autoRefreshInbox re-finds the open lead
+  // afterwards, which a bare loadInbox would not — state.selected is an index.
+  autoRefreshInbox().catch((e) => console.error(e));
 }
 
 function renderCategorySelect() {
