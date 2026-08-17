@@ -256,12 +256,20 @@ def _metrics(rows: Iterable[dict]) -> dict:
     }
 
 
-def _with_verdicts(
+def with_verdicts(
     bucket: dict,
     reply_baseline: float,
     positive_baseline: float,
     conversion_baseline: float = 0.0,
 ) -> dict:
+    """Attach confidence intervals and verdicts to a bucket of outcomes.
+
+    Public, along with `lead_metrics`, because app/campaign_deliverability.py
+    slices the same leads a different way (by who hosts their mailbox) and has to
+    reach exactly the same numbers — `delivered = sent - bounced`, replies
+    counted per unique human, the thresholds below which nothing is ranked. Two
+    implementations of that would drift, and the one that drifted would be the
+    one making a claim about deliverability."""
     delivered = bucket["delivered"]
     replies = bucket["replies"]
     reply_low, reply_high = wilson_interval(replies, delivered)
@@ -448,19 +456,27 @@ def sync_campaign(campaign_id: int, full: bool = False, progress=None) -> dict:
     sends = sync_sends(campaign_id, full=full, progress=progress)
     lead_vars = sync_lead_vars(campaign_id, progress=progress)
 
-    # Imported late: campaign_copy reads slot_role from this module, so importing
-    # it at the top would close the cycle.
-    from app import campaign_copy
+    # Imported late: both read from this module (campaign_copy takes slot_role,
+    # campaign_deliverability takes lead_metrics), so importing either at the top
+    # would close the cycle.
+    from app import campaign_copy, campaign_deliverability
 
     if progress:
         progress("Reading what each message component says…")
     with db.db_session() as conn:
         slot_texts = campaign_copy.sync_slot_texts(conn, campaign_id)
+
+    # Who hosts each recipient's mailbox. Costs Smartlead nothing (it is DNS,
+    # not their API) and is cached per domain across every campaign, so only the
+    # domains never seen before are looked up — see app/mailbox_provider.py.
+    domains = campaign_deliverability.sync_domains(campaign_id, progress=progress)
+
     return {
         "variants": variants,
         "sends": sends,
         "lead_vars": lead_vars,
         "slot_texts": slot_texts,
+        "domains": domains,
     }
 
 
@@ -533,8 +549,9 @@ def lead_outcomes(conn, campaign_id: int) -> list[dict]:
     return outcomes
 
 
-def _lead_metrics(outcomes: Iterable[dict]) -> dict:
+def lead_metrics(outcomes: Iterable[dict]) -> dict:
     """Same shape as _metrics, but over lead records rather than send rows."""
+    # (public — see with_verdicts for why)
     outcomes = list(outcomes)
     sent = len(outcomes)
     bounced = sum(1 for o in outcomes if o["bounced"])
@@ -565,7 +582,7 @@ def variant_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) 
     means most rows land on `not_enough_data`; slot_metrics is where the usable
     signal is."""
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
-    overall = _lead_metrics(outcomes)
+    overall = lead_metrics(outcomes)
     reply_base, positive_base, conv_base = _baselines_of(overall)
     variants = {v["seq_variant_id"]: dict(v) for v in db.list_campaign_variants(conn, campaign_id)}
 
@@ -577,7 +594,7 @@ def variant_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) 
     for variant_id, bucket in grouped.items():
         meta = variants.get(variant_id, {})
         slots = json.loads(meta.get("slots_json") or "[]")
-        entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base, conv_base)
+        entry = with_verdicts(lead_metrics(bucket), reply_base, positive_base, conv_base)
         entry.update(
             {
                 "seq_variant_id": variant_id,
@@ -602,7 +619,7 @@ def slot_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) -> 
     against CTA2 (B and D) rests on roughly double the sample a single variant
     would give."""
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
-    overall = _lead_metrics(outcomes)
+    overall = lead_metrics(outcomes)
     reply_base, positive_base, conv_base = _baselines_of(overall)
     variants = {v["seq_variant_id"]: dict(v) for v in db.list_campaign_variants(conn, campaign_id)}
 
@@ -629,7 +646,7 @@ def slot_metrics(conn, campaign_id: int, outcomes: list[dict] | None = None) -> 
     for role, tokens in pooled.items():
         entries = []
         for token, bucket in tokens.items():
-            entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base, conv_base)
+            entry = with_verdicts(lead_metrics(bucket), reply_base, positive_base, conv_base)
             entry.update(
                 {
                     "slot": token,
@@ -773,7 +790,7 @@ def recommendations(
     """
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
     slots = slot_metrics(conn, campaign_id, outcomes)
-    overall = _lead_metrics(outcomes)
+    overall = lead_metrics(outcomes)
     texts = texts or {}
 
     def copy_of(token: str) -> str:
@@ -933,7 +950,7 @@ def subject_metrics(
     `{{subjectLine1}}`; this is the actual text that landed in the inbox, which
     is what a subject-line critique has to reason about."""
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
-    overall = _lead_metrics(outcomes)
+    overall = lead_metrics(outcomes)
     reply_base, positive_base, conv_base = _baselines_of(overall)
     grouped: dict[str, list[dict]] = defaultdict(list)
     for outcome in outcomes:
@@ -942,7 +959,7 @@ def subject_metrics(
             grouped[subject].append(outcome)
     entries = []
     for subject, bucket in grouped.items():
-        entry = _with_verdicts(_lead_metrics(bucket), reply_base, positive_base, conv_base)
+        entry = with_verdicts(lead_metrics(bucket), reply_base, positive_base, conv_base)
         entry["subject"] = subject
         entries.append(entry)
     entries.sort(key=lambda entry: (-entry["replies"], -entry["sent"]))
@@ -959,7 +976,7 @@ def step_metrics(conn, campaign_id: int) -> list[dict]:
         grouped[row["sequence_number"]].append(row)
     entries = []
     for step, bucket in sorted(grouped.items(), key=lambda item: (item[0] is None, item[0])):
-        entry = _with_verdicts(_metrics(bucket), reply_base, positive_base, conv_base)
+        entry = with_verdicts(_metrics(bucket), reply_base, positive_base, conv_base)
         entry["step"] = step
         entries.append(entry)
     return entries
@@ -1023,7 +1040,7 @@ def campaign_summary(conn, campaign_id: int, outcomes: list[dict] | None = None)
     outcomes = lead_outcomes(conn, campaign_id) if outcomes is None else outcomes
     return {
         "campaign_id": campaign_id,
-        "overall": _lead_metrics(outcomes),
+        "overall": lead_metrics(outcomes),
         "leads": len(outcomes),
         "sends": sum(o["steps_sent"] for o in outcomes),
         "by_category": dict(

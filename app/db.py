@@ -267,6 +267,9 @@ CREATE TABLE IF NOT EXISTS campaign_slot_texts (
 CREATE TABLE IF NOT EXISTS campaign_reports (
     campaign_id     INTEGER PRIMARY KEY,
     status          TEXT NOT NULL DEFAULT 'running',  -- running|done|failed
+    -- Only stored so the cross-campaign deliverability history can name the
+    -- campaigns it is comparing; everything else here keys on the id alone.
+    campaign_name   TEXT,
     stage           TEXT,
     started_at      TEXT,
     generated_at    TEXT,
@@ -276,6 +279,45 @@ CREATE TABLE IF NOT EXISTS campaign_reports (
     directives_md   TEXT,      -- the short Do / Don't / Next test brief
     conversation_md TEXT,
     error           TEXT
+);
+
+-- Who hosts a recipient's mailbox, keyed on the DOMAIN and shared by every
+-- campaign, client and account — see app/mailbox_provider.py. This is the table
+-- that makes the deliverability analysis nearly free after the first run: two
+-- campaigns mailing German dental practices overlap heavily, and a domain
+-- resolved for one is already answered for the other.
+--
+-- `mx_host` is the primary MX we classified from, kept so the provider table can
+-- gain a name later and re-map the rows without re-querying DNS.
+CREATE TABLE IF NOT EXISTS mailbox_domains (
+    domain     TEXT PRIMARY KEY,
+    provider   TEXT NOT NULL,
+    mx_host    TEXT,
+    checked_at TEXT NOT NULL
+);
+
+-- One row per campaign per provider: the mix, and how that slice of the
+-- audience actually performed. Written on every analysis and never deleted,
+-- because the whole point is the record over time — "campaigns heavy on
+-- Microsoft underperform" is a claim that can only be made across campaigns,
+-- and the per-lead data it rests on is far too big to keep.
+--
+-- `_all` is a real provider key here, holding the campaign's own totals, so a
+-- campaign's baseline travels with its slices instead of having to be
+-- recomputed from a sends table that may since have been re-synced.
+CREATE TABLE IF NOT EXISTS campaign_esp_stats (
+    campaign_id   INTEGER NOT NULL,
+    provider      TEXT NOT NULL,
+    provider_group TEXT,
+    leads         INTEGER NOT NULL DEFAULT 0,
+    delivered     INTEGER NOT NULL DEFAULT 0,
+    bounced       INTEGER NOT NULL DEFAULT 0,
+    replies       INTEGER NOT NULL DEFAULT 0,
+    positives     INTEGER NOT NULL DEFAULT 0,
+    booked        INTEGER NOT NULL DEFAULT 0,
+    unsubscribed  INTEGER NOT NULL DEFAULT 0,
+    computed_at   TEXT NOT NULL,
+    PRIMARY KEY (campaign_id, provider)
 );
 
 -- Sync bookkeeping: `last_sent_time` is replayed as statistics'
@@ -411,6 +453,8 @@ def _migrate(conn) -> None:
     report_cols = {row["name"] for row in conn.execute("PRAGMA table_info(campaign_reports)")}
     if "directives_md" not in report_cols:
         conn.execute("ALTER TABLE campaign_reports ADD COLUMN directives_md TEXT")
+    if "campaign_name" not in report_cols:
+        conn.execute("ALTER TABLE campaign_reports ADD COLUMN campaign_name TEXT")
 
 
 # ---- leads_state helpers ----
@@ -1112,6 +1156,71 @@ def update_campaign_sync(conn, campaign_id: int, **fields) -> None:
         f"UPDATE campaign_sync SET {assignments} WHERE campaign_id = ?",
         (*fields.values(), campaign_id),
     )
+
+
+# ---- mailbox provider helpers (see app/mailbox_provider.py) ----
+
+def get_mailbox_domains(conn, domains: list[str]):
+    """Cached provider verdicts for the domains given. Chunked because SQLite
+    caps a statement at 999 parameters by default and a campaign asks about
+    several thousand domains at once."""
+    rows = []
+    for start in range(0, len(domains), 500):
+        chunk = domains[start : start + 500]
+        placeholders = ",".join("?" for _ in chunk)
+        rows.extend(
+            conn.execute(
+                f"SELECT * FROM mailbox_domains WHERE domain IN ({placeholders})", chunk
+            ).fetchall()
+        )
+    return rows
+
+
+def upsert_mailbox_domains(conn, rows: list[tuple[str, str, str | None]]) -> int:
+    """rows are (domain, provider, mx_host) — the shape mailbox_provider._lookup
+    returns, so the caller never builds a dict just to take it apart again."""
+    checked_at = now_iso()
+    conn.executemany(
+        """INSERT INTO mailbox_domains (domain, provider, mx_host, checked_at)
+           VALUES (?, ?, ?, ?)
+           ON CONFLICT(domain) DO UPDATE SET
+               provider = excluded.provider,
+               mx_host = excluded.mx_host,
+               checked_at = excluded.checked_at""",
+        [(domain, provider, mx_host, checked_at) for domain, provider, mx_host in rows],
+    )
+    return len(rows)
+
+
+def replace_campaign_esp_stats(conn, campaign_id: int, rows: list[dict]) -> int:
+    """Rewrite one campaign's provider breakdown. A delete-then-insert rather
+    than an upsert so a provider that no longer appears (the table gained a name
+    for what used to be `other`) doesn't linger as a stale row."""
+    conn.execute("DELETE FROM campaign_esp_stats WHERE campaign_id = ?", (campaign_id,))
+    computed_at = now_iso()
+    conn.executemany(
+        """INSERT INTO campaign_esp_stats (
+               campaign_id, provider, provider_group, leads, delivered, bounced,
+               replies, positives, booked, unsubscribed, computed_at)
+           VALUES (:campaign_id, :provider, :provider_group, :leads, :delivered,
+                   :bounced, :replies, :positives, :booked, :unsubscribed, :computed_at)""",
+        [{**row, "campaign_id": campaign_id, "computed_at": computed_at} for row in rows],
+    )
+    return len(rows)
+
+
+def list_campaign_esp_stats(conn, campaign_id: int | None = None):
+    """One campaign's breakdown, or every campaign's — the second form is the
+    history the cross-campaign pattern is read from. The campaign name is joined
+    in from campaign_reports so the history can name what it compares."""
+    sql = """SELECT s.*, r.campaign_name
+             FROM campaign_esp_stats s
+             LEFT JOIN campaign_reports r ON r.campaign_id = s.campaign_id"""
+    params: tuple = ()
+    if campaign_id is not None:
+        sql += " WHERE s.campaign_id = ?"
+        params = (campaign_id,)
+    return conn.execute(sql, params).fetchall()
 
 
 # ---- campaign conversation helpers (see app/campaign_conversations.py) ----

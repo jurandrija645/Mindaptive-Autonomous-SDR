@@ -1016,6 +1016,41 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 .next-test-item { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; flex-wrap: wrap; }
 .next-test-size { font-size: 12px; font-weight: 600; margin: 8px 0 0; }
 
+/* ---- Where the mail was going (app/campaign_deliverability.py) ----
+   The provider mix as one bar, then the computed verdict. Sits above the copy
+   analysis because "your copy is fine, the list isn't" has to be read first. */
+.esp-bar {
+  display: flex; height: 26px; margin-top: 8px; border-radius: 6px;
+  overflow: hidden; border: 1px solid var(--border); background: var(--card);
+}
+.esp-seg {
+  font-size: 11px; font-weight: 600; color: #fff; line-height: 26px;
+  text-align: center; overflow: hidden; white-space: nowrap; min-width: 2px;
+}
+/* Microsoft and Google get their own colours because they are the comparison;
+   everything else is one neutral block on purpose. */
+.esp-microsoft { background: #2f6db5; }
+.esp-google { background: #3f8f5a; }
+.esp-other { background: #a9a294; }
+.esp-unknown { background: #d5d0c6; color: var(--muted); }
+
+.esp-verdict {
+  margin-top: 12px; background: var(--card); border: 1px solid var(--border);
+  border-left: 3px solid var(--border); border-radius: 8px; padding: 10px 12px;
+}
+.esp-verdict-provider_drag { border-left-color: var(--reply); }
+.esp-verdict-provider_gap { border-left-color: var(--followup); }
+.esp-verdict-no_provider_effect { border-left-color: var(--booked); }
+.esp-verdict-head { margin-bottom: 6px; }
+.esp-status { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
+.status-provider_drag { background: var(--reply-bg); color: var(--reply); }
+.status-provider_gap { background: var(--followup-bg); color: var(--followup); }
+.status-no_provider_effect { background: var(--booked-bg); color: var(--booked); }
+.esp-headline { font-size: 14px; font-weight: 600; line-height: 1.5; }
+.esp-detail { font-size: 13px; line-height: 1.55; margin: 6px 0 0; }
+.esp-history { font-size: 13px; line-height: 1.55; margin: 6px 0 0; color: var(--accent-dark); }
+.esp-caveat { margin: 8px 0 0; }
+
 /* One card per variant: the whole email, not a list of variable names. */
 .variant-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
 .variant-card summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }

@@ -947,6 +947,7 @@ async function renderCampaignOverview(pane, campaign) {
   pane.appendChild(cards);
   pane.appendChild(el("p", "muted small", `Synced ${data.synced_at}. Open and click tracking are off for these campaigns, so replies are the only signal shown.`));
 
+  renderDeliverability(pane, data.deliverability);
   renderRecommendations(pane, data.recommendations);
   renderVariantEmails(pane, data.variants);
   renderComponents(pane, data.slots || {});
@@ -972,6 +973,121 @@ async function renderCampaignOverview(pane, campaign) {
     ], "wrap-first")
   );
   pane.appendChild(subjects);
+}
+
+// Who hosts the recipients' mailboxes, and whether that is what held the
+// campaign back. Sits above the copy analysis on purpose: if a whole slice of
+// the audience replied worse under identical emails, that is the first thing to
+// know, because rewriting copy that was never the problem is the most expensive
+// mistake this tab can lead someone into.
+const ESP_STATUS_LABEL = {
+  provider_drag: "Where it was sent held it back",
+  provider_gap: "One slice behaved differently",
+  no_provider_effect: "Not a provider problem",
+};
+
+function renderDeliverability(pane, data) {
+  if (!data || !data.resolved) {
+    if (data && data.reason) {
+      pane.appendChild(el("h3", null, "Where the mail was going"));
+      pane.appendChild(el("p", "muted small", data.reason));
+    }
+    return;
+  }
+  pane.appendChild(el("h3", null, "Where the mail was going"));
+
+  const groups = (data.groups || []).filter((g) => g.group !== "unknown");
+  const bar = el("div", "esp-bar");
+  groups.forEach((g) => {
+    if (!g.share) return;
+    const seg = el("div", `esp-seg esp-${g.group}`);
+    seg.style.width = `${(100 * g.share).toFixed(2)}%`;
+    seg.title = `${g.label}: ${(100 * g.share).toFixed(1)}% of checked recipients`;
+    if (g.share > 0.12) seg.textContent = `${Math.round(100 * g.share)}% ${g.label}`;
+    bar.appendChild(seg);
+  });
+  pane.appendChild(bar);
+
+  const checked = el("p", "muted small");
+  checked.textContent =
+    `${(data.classified || 0).toLocaleString()} of ${(data.leads || 0).toLocaleString()} recipients checked` +
+    (data.unknown ? ` · ${data.unknown.toLocaleString()} domains could not be looked up` : "") +
+    ". Read from each domain's real MX record, so it is where the mail actually lands, not what the list claimed.";
+  pane.appendChild(checked);
+
+  const d = data.diagnosis || {};
+  if (d.headline) {
+    const box = el("div", `esp-verdict esp-verdict-${d.status}`);
+    const head = el("div", "esp-verdict-head");
+    head.appendChild(el("span", `esp-status status-${d.status}`, ESP_STATUS_LABEL[d.status] || d.status));
+    box.appendChild(head);
+    box.appendChild(el("div", "esp-headline", d.headline));
+    if (d.detail) box.appendChild(el("p", "esp-detail", d.detail));
+    // A "not enough campaigns yet" note is a promise, not a result — it gets the
+    // muted treatment so it can't be misread as evidence.
+    if (d.history) {
+      const cls = d.history_status === "not_enough_data" ? "muted small" : "esp-history";
+      box.appendChild(el("p", cls, d.history));
+    }
+    if (d.caveat) box.appendChild(el("p", "muted small esp-caveat", d.caveat));
+    pane.appendChild(box);
+  }
+
+  // Providers, not just the three-way group split: "Other" is 79% of the German
+  // campaigns, and a bar that says only that answers nothing.
+  const rows = (data.providers || []).filter((r) => r.sent >= 20);
+  if (rows.length) {
+    const table = el("details", "extra-block");
+    table.appendChild(el("summary", null, `Every provider in this list (${rows.length})`));
+    table.appendChild(
+      el("p", "muted small", "Slices under 20 recipients are hidden. Confidence is judged against this campaign's own reply rate, and a slice too small to call says so.")
+    );
+    table.appendChild(
+      metricTable(rows, [
+        { label: "Provider", render: (r) => r.label },
+        { label: "Recipients", render: (r) => (r.sent || 0).toLocaleString() },
+        { label: "Share", render: (r) => pct(r.share) },
+        { label: "Bounced", render: (r) => pct(r.bounce_rate) },
+        { label: "Replies", render: (r) => String(r.replies || 0) },
+        { label: "Reply %", render: (r) => pct(r.reply_rate) },
+        { label: "Positive", render: (r) => String(r.positives || 0) },
+        { label: "Confidence", render: (r) => verdictChip(r.reply_verdict) },
+      ], "wrap-first")
+    );
+    pane.appendChild(table);
+  }
+
+  renderProviderHistory(pane, data.history);
+}
+
+// The part that only gets better with use: every campaign ever analyzed, pooled
+// by provider. This is what lets a future campaign be told "it isn't the copy".
+function renderProviderHistory(pane, history) {
+  if (!history || !history.campaigns) return;
+  const block = el("details", "extra-block");
+  const one = history.campaigns === 1;
+  block.appendChild(
+    el("summary", null, `What ${history.campaigns} analyzed campaign${one ? " says" : "s say"} about providers`)
+  );
+  block.appendChild(
+    el("p", "muted small", "Pooled across every campaign analyzed so far, this one excluded so it is not compared against itself. It grows as more campaigns are analyzed.")
+  );
+  const groups = (history.groups || []).filter((g) => g.group !== "unknown");
+  if (groups.length) {
+    block.appendChild(
+      metricTable(groups, [
+        { label: "Provider", render: (r) => r.label },
+        { label: "Delivered", render: (r) => (r.delivered || 0).toLocaleString() },
+        { label: "Bounced", render: (r) => pct((r.bounce || {}).rate) },
+        { label: "Replies", render: (r) => String(r.replies || 0) },
+        { label: "Reply %", render: (r) => pct((r.reply || {}).rate) },
+        { label: "Positive %", render: (r) => pct((r.positive || {}).rate) },
+      ])
+    );
+  }
+  const split = history.split;
+  if (split && split.note) block.appendChild(el("p", "esp-history", split.note));
+  pane.appendChild(block);
 }
 
 // The answer, at the top, before any table: which component is decided, which

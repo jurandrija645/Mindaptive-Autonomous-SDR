@@ -12,7 +12,14 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Redirect
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app import accounts, campaign_analytics, campaign_conversations, campaign_copy, campaign_report
+from app import (
+    accounts,
+    campaign_analytics,
+    campaign_conversations,
+    campaign_copy,
+    campaign_deliverability,
+    campaign_report,
+)
 from app import candidates as candidates_module
 from app import db, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
 from app import pipeline, scheduler, signatures, smartlead
@@ -1781,6 +1788,10 @@ def api_campaign_detail(request: Request, campaign_id: int):
             "subjects": campaign_analytics.subject_metrics(conn, campaign_id, outcomes=outcomes),
             "reply_by_step": campaign_analytics.reply_step_metrics(conn, campaign_id, outcomes),
             "conversations": campaign_conversations.conversation_stats(conn, campaign_id),
+            # Who hosts the recipients, and whether that is what held the
+            # campaign back. Reads the domain cache only — the DNS lookups
+            # happen during Analyze, never on a tab switch.
+            "deliverability": campaign_deliverability.report(conn, campaign_id, outcomes),
         }
     return JSONResponse(payload)
 

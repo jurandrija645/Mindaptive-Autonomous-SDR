@@ -148,6 +148,37 @@ So the fields the docs *do* list are the ones that mostly aren't there:
 that needs the lead's category still has to go through `list_campaign_leads`,
 where `lead_category_id` sits at the top level beside the nested `lead{}`.
 
+**`esp_domain_type` — undocumented, and decoded here (2026-08-17).** It is
+Smartlead's own verdict on who hosts the lead's mailbox, an integer:
+
+| Value | Meaning |
+|---|---|
+| `0` | Neither — a self-hosted or small-hoster domain |
+| `1` | Google (Workspace / Gmail) |
+| `2` | Microsoft (365 / Outlook) |
+
+Decoded against Andrew's own two provider-split campaigns, which is as close to
+a labelled test set as this account has: all 12 sampled leads in
+`B2B Tech & Consulting … - Office` (2738671) came back `2`, and 10 of 12 in
+`… - Google` (2738607) came back `1`. Cross-checked against each domain's live
+MX record, which agreed in every case that mattered.
+
+**The app does not use it**, for two reasons worth recording:
+
+1. **It is only on this endpoint** — one HTTP call *per lead*. It is absent from
+   `GET /campaigns/{id}/leads` (whose nested `lead{}` carries neither it nor
+   `email_domain`) and absent from the `leads-export` CSV columns. A 5,000-lead
+   campaign would need 5,000 calls before any analysis could begin.
+2. **It goes stale.** It is a snapshot from when the lead was imported, not a
+   live check. Two misses in a 24-lead sample: `cortical.io` is labelled `2`
+   (Microsoft) while its live MX is Fastmail, and `techcitylabs.com` is labelled
+   `0` (other) while its live MX is Google.
+
+`app/mailbox_provider.py` therefore reads the domain's MX record over DNS-over-
+HTTPS instead — keyed on the domain, so it is cached once and shared by every
+campaign, and live rather than a snapshot. Measured: 203 lookups/second, 400/400
+resolved. Use `esp_domain_type` only as a cheap cross-check on a single lead.
+
 Everything the LinkedIn export needs and `normalize_lead` drops *is* here —
 `last_name`, `phone_number`, `linkedin_profile`, `company_url`, `website` and
 the full `custom_fields` — which is why `smartlead.get_lead` exists: it's one

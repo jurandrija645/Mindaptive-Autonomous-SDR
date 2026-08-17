@@ -43,6 +43,7 @@ from app import (
     campaign_analytics,
     campaign_conversations,
     campaign_copy,
+    campaign_deliverability,
     db,
     llm,
     models_registry,
@@ -174,6 +175,7 @@ def build_stats_brief(conn, campaign_id: int, campaign_name: str = "") -> dict:
         "recommendations": campaign_analytics.recommendations(
             conn, campaign_id, outcomes, texts
         ),
+        "deliverability": campaign_deliverability.report(conn, campaign_id, outcomes),
         "rendered_subjects": campaign_analytics.subject_metrics(
             conn, campaign_id, outcomes=outcomes
         ),
@@ -210,6 +212,27 @@ not by you. Do not overturn it, re-rank it, or contradict a `status`. Your job i
 to explain each one in a sentence a person can act on, and to add the copy
 judgement the maths cannot make.
 
+WHERE THE MAIL WAS GOING (`deliverability`). Not everything is the copy. This
+block says who hosts each recipient's mailbox — Microsoft, Google, or a smaller
+host — measured from the domain's real MX record, along with how each slice
+replied. Its `diagnosis` is computed, not yours to re-derive:
+- `provider_drag` — a large slice of this audience replied measurably worse than
+  the rest of the same campaign. Every slice got the SAME emails, so the copy
+  cannot be what separated them. Say so plainly and early, in Andrew's words:
+  this campaign's problem is at least partly who it was sent to, not what it
+  said. Quote the two rates and the counts from `diagnosis.detail`.
+- `provider_gap` — the same, on a slice too small to explain the campaign.
+  Mention it once; it is a list-building note, not a diagnosis.
+- `no_provider_effect` — the mix did NOT hold this campaign back. Do not imply
+  otherwise, and do not bring deliverability up again.
+- `unknown` — nothing was measured. Say nothing about providers at all.
+`deliverability.history` is what previous campaigns showed; cite it only if
+`history` is non-empty, and only as the record so far.
+ALWAYS carry `diagnosis.caveat` when you make a provider claim: mailbox provider
+travels with company type, so this identifies a suspect, not a proven cause.
+Never say "landed in spam", "inbox placement" or anything about folders — that
+was never measured; what was measured is who replied.
+
 ENGLISH ONLY. This campaign may have gone out in several languages. All copy in
 the data has been resolved to English. Write only in English, never mention
 translation, localisation, or any language as a factor, and never claim one
@@ -225,8 +248,18 @@ WHAT LEADS ACTUALLY WROTE BACK (already extracted per conversation):
 {conversations}
 ```
 
-Write markdown with exactly these four sections and nothing else. HARD LIMIT:
-about one screen. No preamble, no summary of the campaign, no restating the data.
+Write markdown with these sections and nothing else. HARD LIMIT: about one
+screen. No preamble, no summary of the campaign, no restating the data.
+
+## Before you rewrite anything
+INCLUDE THIS SECTION ONLY IF `deliverability.diagnosis.status` is
+`provider_drag`. Omit the heading entirely otherwise — it must never appear
+saying "nothing to report here".
+Two or three lines, addressed to Andrew: what share of this audience sat on the
+provider that underperformed, the two reply rates with their counts, and the
+point that every slice got the same email so the copy is not what separated
+them. End on the caveat in one clause. This goes first because rewriting copy
+that was never the problem is the most expensive mistake available here.
 
 ## Do this
 5–7 bullets, most important first. Each is an instruction with the reason and the
@@ -542,6 +575,10 @@ def run_analysis(
 
     with db.db_session() as conn:
         db.start_campaign_report(conn, campaign_id, "Starting…")
+        # Stored for the cross-campaign deliverability history, which has to be
+        # able to name the campaigns it compares.
+        if campaign_name:
+            db.update_campaign_report(conn, campaign_id, campaign_name=campaign_name)
 
     try:
       with smartlead.use_account(api_key):
@@ -550,6 +587,15 @@ def run_analysis(
         # all-English campaign finds nothing to translate and makes no call.
         with db.db_session() as conn:
             campaign_copy.translate_slot_texts(conn, campaign_id, model=model, progress=stage)
+
+        # The provider breakdown is recorded on every run, before either AI
+        # layer — it costs no tokens, and the whole point of keeping it is the
+        # record across campaigns, which a run that failed at the report stage
+        # would otherwise silently skip.
+        with db.db_session() as conn:
+            campaign_deliverability.store(
+                conn, campaign_id, campaign_deliverability.report(conn, campaign_id)
+            )
 
         # Conversations run first: the directives brief is fed the extractions,
         # so "this CTA wins" can be explained by what people actually wrote.
