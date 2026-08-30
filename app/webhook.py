@@ -5,8 +5,11 @@ from datetime import datetime, timezone
 
 import httpx
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import JSONResponse
 
-from app import db, lead_language, lead_temperature, pipeline, reply_classifier, smartlead
+from app import (
+    db, interested_sheet, lead_language, lead_temperature, pipeline, reply_classifier, smartlead,
+)
 from app.config import settings
 from app.email_clean import to_plain_text
 
@@ -96,6 +99,80 @@ async def smartlead_webhook(request: Request):
 
     threading.Thread(target=_worker, daemon=True).start()
     return {"status": "accepted", "lead_id": lead_id}
+
+
+@router.post("/webhooks/booking-confirmed")
+async def booking_confirmed(request: Request):
+    """External automations (e.g. an n8n flow watching a booking-confirmation
+    inbox) call this with the booked person's email to record a meeting
+    booked outside Smartlead's own category flow — see the "Meeting booked"
+    freeze in db.mark_lead_booked.
+
+    Deliberately does the lookup itself against leads_state (db.find_lead_by_
+    email) rather than trusting a campaign_id/lead_id the caller supplies: the
+    caller only ever has an email address (pulled from an inbound email), and
+    this is the one place external, unverified input can flip a lead straight
+    to "booked" — resolving it against our own data keeps that action scoped
+    to leads we actually know about.
+
+    Sets the Smartlead category too (not just the local status), same as the
+    dashboard's manual "mark as booked" action (main.api_set_category) — a scan
+    would otherwise see Smartlead still say "Interested" and treat the local
+    booked status as stale, per db.mark_lead_booked's own docstring on how a
+    booking must agree in both places to stick.
+    """
+    if settings.booking_webhook_secret:
+        provided = request.headers.get("x-webhook-secret") or request.query_params.get("secret")
+        if provided != settings.booking_webhook_secret:
+            raise HTTPException(status_code=401, detail="invalid webhook secret")
+
+    payload = await request.json()
+    email = (payload.get("email") or "").strip()
+    if not email:
+        return JSONResponse({"error": "email is required"}, status_code=400)
+
+    with db.db_session() as conn:
+        matches = db.find_lead_by_email(conn, email)
+        if not matches:
+            return JSONResponse({"status": "not_found", "email": email}, status_code=404)
+
+        booked = []
+        category_id = None
+        if not settings.dry_run:
+            try:
+                categories = smartlead.fetch_categories()
+                category_id = categories.get(settings.meeting_booked_category_name)
+            except smartlead.SmartleadError:
+                log.exception("booking-confirmed: could not fetch Smartlead categories")
+
+        for row in matches:
+            lead_id, campaign_id = row["lead_id"], row["campaign_id"]
+            if settings.dry_run:
+                log.info(
+                    "[DRY_RUN] would mark lead %s/%s booked (matched %s)",
+                    campaign_id, lead_id, email,
+                )
+            else:
+                if category_id is not None:
+                    try:
+                        smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=True)
+                    except smartlead.SmartleadError:
+                        log.exception(
+                            "booking-confirmed: failed to set Smartlead category for %s/%s",
+                            campaign_id, lead_id,
+                        )
+                else:
+                    log.warning(
+                        "booking-confirmed: Smartlead has no '%s' category configured; "
+                        "recording locally only for %s/%s",
+                        settings.meeting_booked_category_name, campaign_id, lead_id,
+                    )
+            db.mark_lead_booked(conn, lead_id, campaign_id)
+            booked.append({"campaign_id": campaign_id, "lead_id": lead_id})
+
+    interested_sheet.mark_booked(email)
+    log.info("booking-confirmed: marked %d lead(s) booked for %s", len(booked), email)
+    return JSONResponse({"status": "booked", "email": email, "matches": booked})
 
 
 def _reply_received_at(payload: dict) -> str:
@@ -251,6 +328,11 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
                 "website": lead_row["website"],
             }
         )
+
+    interested_sheet.sync_interested(
+        campaign_id, lead_id, raw_lead.get("email") or "", raw_lead.get("first_name") or "",
+        raw_lead.get("company_name") or "", db.now_iso(),
+    )
 
     thread = _fetch_thread_with_reply(campaign_id, lead_id)
     if not thread or thread[-1].kind != "reply":

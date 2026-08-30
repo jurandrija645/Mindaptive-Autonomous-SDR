@@ -1,0 +1,27 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "sender": "noreply@onebodyldn.com",
+          "readStatus": "unread"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "id": "9720f909-9e97-4cf4-a74c-e3b914761b4b",
+      "name": "Microsoft Outlook Trigger"
+    }
+  ],
+  "connections": {},
+  "pinData": {}
+}

@@ -160,5 +160,20 @@ class Settings:
     # Created with a header row if the spreadsheet doesn't have it.
     linkedin_sheet_fallback_tab: str = os.getenv("LINKEDIN_SHEET_FALLBACK_TAB", "Other")
 
+    # Optional automatic worklist (app/interested_sheet.py): every lead that
+    # clears reply_classifier as INTERESTED gets a row here the moment it
+    # happens, no click required — unlike the LinkedIn sheet above, which is
+    # per-lead and manual. Blank (the default) means the module no-ops.
+    # Reuses the same Google OAuth connection as the LinkedIn export.
+    interested_sheet_id: str = os.getenv("INTERESTED_SHEET_ID", "")
+
+    # Shared secret for POST /webhooks/booking-confirmed (app/webhook.py) — an
+    # external automation (e.g. an n8n flow watching a booking-confirmation
+    # inbox) calls this to record a meeting booked outside Smartlead's own
+    # category flow. Same header/query-param convention as
+    # SMARTLEAD_WEBHOOK_SECRET. Blank disables the route's secret check, which
+    # is fine for local testing but should always be set once this is public.
+    booking_webhook_secret: str = os.getenv("BOOKING_WEBHOOK_SECRET", "")
+
 
 settings = Settings()

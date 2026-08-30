@@ -145,13 +145,23 @@ def create_tab(sheet_id: str, title: str) -> None:
     log.info("sheets: created tab %r", title)
 
 
-def write_header(sheet_id: str, tab: str, header: list[str]) -> None:
+def write_range(sheet_id: str, tab: str, cells: str, values: list[str], raw: bool = False) -> None:
+    """PUT a single row of values into cells, e.g. "A1" or "G16".
+
+    USER_ENTERED by default so a boolean-looking value like "TRUE" becomes a
+    real checkbox value rather than the literal string, same as append_row.
+    raw=True keeps write_header's original RAW behavior for plain header text.
+    """
     _request(
         "PUT",
-        f"/{sheet_id}/values/{_range(tab, 'A1')}",
-        params={"valueInputOption": "RAW"},
-        json={"values": [header]},
+        f"/{sheet_id}/values/{_range(tab, cells)}",
+        params={"valueInputOption": "RAW" if raw else "USER_ENTERED"},
+        json={"values": [values]},
     )
+
+
+def write_header(sheet_id: str, tab: str, header: list[str]) -> None:
+    write_range(sheet_id, tab, "A1", header, raw=True)
 
 
 def _row_from_range(a1: str) -> int | None:

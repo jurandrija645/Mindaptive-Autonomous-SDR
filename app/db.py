@@ -466,6 +466,20 @@ def get_lead_state(conn, lead_id: int, campaign_id: int):
     ).fetchone()
 
 
+def find_lead_by_email(conn, email: str):
+    """Every leads_state row for this email, case-insensitive.
+
+    Used by the booking-confirmed webhook (app/webhook.py) to resolve a booked
+    person's address back to a campaign_id/lead_id pair. This is the
+    authoritative lookup — not the Interested Google Sheet
+    (app/interested_sheet.py), which is a best-effort human-readable record and
+    must never be what gates a real booking from being recorded."""
+    email = (email or "").strip().lower()
+    if not email:
+        return []
+    return conn.execute("SELECT * FROM leads_state WHERE lower(email) = ?", (email,)).fetchall()
+
+
 def upsert_lead_state(conn, lead_id: int, campaign_id: int, **fields) -> None:
     existing = get_lead_state(conn, lead_id, campaign_id)
     fields["updated_at"] = now_iso()

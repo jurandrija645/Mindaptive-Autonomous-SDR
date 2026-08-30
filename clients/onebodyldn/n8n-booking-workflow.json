@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "sender": "noreply@onebodyldn.com",
+          "readStatus": "unread"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTrigger",
+      "typeVersion": 1,
+      "position": [-160, 0],
+      "id": "a1ef69bd-0dc9-4819-9baf-90bf0ea1e101",
+      "name": "New booking email"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = ($json.body && $json.body.content) || $json.bodyPreview || '';\nconst text = html.replace(/<[^>]+>/g, '\\n');\n\nfunction field(label) {\n  const m = text.match(new RegExp(label + '\\\\s*:\\\\s*([^\\\\r\\\\n<]+)', 'i'));\n  return m ? m[1].trim() : '';\n}\n\nconst email = field('Email').toLowerCase();\nconst looksLikeEmail = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);\n\nreturn [{\n  json: {\n    email: looksLikeEmail ? email : null,\n    client_name: field('Client Name'),\n    location: field('Location'),\n    date: field('Date'),\n    time: field('Time'),\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [80, 0],
+      "id": "075b0550-63a6-4ea2-86d3-f38b1becbac8",
+      "name": "Extract booked email"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://onebody.mindaptive.ai/webhooks/booking-confirmed",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-webhook-secret",
+              "value": "45JVn3L9syooQHzGekxErP8ZKSt5NsMDypo_HwbXksU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ email: $json.email }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [320, 0],
+      "id": "918ce4b5-f44f-4aee-8dc1-52c733f94eb8",
+      "name": "Mark booked"
+    }
+  ],
+  "connections": {
+    "New booking email": {
+      "main": [[{ "node": "Extract booked email", "type": "main", "index": 0 }]]
+    },
+    "Extract booked email": {
+      "main": [[{ "node": "Mark booked", "type": "main", "index": 0 }]]
+    }
+  },
+  "pinData": {}
+}

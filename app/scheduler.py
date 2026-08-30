@@ -8,7 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app import (
-    batch_gen, db, detector, lead_language, lead_temperature, pipeline,
+    batch_gen, db, detector, interested_sheet, lead_language, lead_temperature, pipeline,
     reply_classifier, signatures, smartlead,
 )
 from app.config import settings
@@ -410,6 +410,11 @@ def run_reply_catch_scan() -> None:
                         with db.db_session() as conn:
                             db.sort_replied_lead(conn, row["lead_id"], campaign_id, label)
                         continue
+
+                    interested_sheet.sync_interested(
+                        campaign_id, row["lead_id"], row["email"] or "", row["name"] or "",
+                        row["company"] or "", db.now_iso(),
+                    )
 
                     # How hot is this? Rated here rather than only in the
                     # webhook, so the rating never depends on a webhook that
