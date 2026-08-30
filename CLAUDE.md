@@ -16,24 +16,25 @@ These are plain markdown files, not code — edit them directly, no Python knowl
 
 `app/drafter.py` concatenates `prompts/system.md` + a short "output contract" addendum (instructs the model to wrap its triage/draft/translation in `<triage>`/`<draft_original>`/`<draft_english>` tags so the app can parse them) + all of `knowledge/*.md` + `prompts/human-writing.md` into the system prompt sent to Claude. The house voice goes **last**, so it is the most recent instruction in context when the model starts writing. Adding a new `.md` file to `knowledge/` automatically includes it — no code change needed.
 
-## A second client (AeroDefense)
+## Additional clients (AeroDefense, OneBodyLDN)
 
-The responder is **one Smartlead account per process** by design — only Campaigns analysis is multi-account (`app/accounts.py`). So a second client is a **second container off the same image**, not tenancy threaded through the code:
+The responder is **one Smartlead account per process** by design — only Campaigns analysis is multi-account (`app/accounts.py`). So each additional client is a **second (or third) container off the same image**, not tenancy threaded through the code:
 
 ```
-docker compose up -d            # app (Mindaptive, :8080) + app-aerodefense (:8081)
+docker compose up -d            # app (Mindaptive, :8080) + app-aerodefense (:8081) + app-onebodyldn (:8082)
 ```
 
-`app-aerodefense` reads `.env.aerodefense` (see `.env.aerodefense.example`) and mounts `./data-aerodefense:/data`, so the two databases, upload dirs, models, cadences and webhook secrets never touch. Everything that differs was already an env var except the asset paths, which `app/client_assets.py` now resolves:
+`app-aerodefense` reads `.env.aerodefense` and `app-onebodyldn` reads `.env.onebodyldn` (see the matching `.example` files) and mount `./data-aerodefense:/data` / `./data-onebodyldn:/data` respectively, so the databases, upload dirs, models, cadences and webhook secrets never touch across all three. Everything that differs was already an env var except the asset paths, which `app/client_assets.py` now resolves:
 
 | `CLIENT_DIR` | prompt / knowledge / signatures | personas |
 |---|---|---|
 | unset (default) | `prompts/`, `knowledge/`, `signatures/` at the repo root — **byte-identical to before** | hardcoded map in `app/signatures.py` |
 | `clients/aerodefense` | `clients/aerodefense/{prompts,knowledge,signatures}` | `clients/aerodefense/personas.json` |
+| `clients/onebodyldn` | `clients/onebodyldn/{prompts,knowledge,signatures}` | `clients/onebodyldn/personas.json` |
 
 Files fall back to the repo root when a client doesn't override them, so a client only ships what actually differs.
 
-**Adding a third client:** `clients/<slug>/` with `prompts/system.md`, `knowledge/*.md`, `signatures/*.html`, `personas.json`; a `.env.<slug>`; a compose service. No code change.
+**Adding another client:** `clients/<slug>/` with `prompts/system.md`, `knowledge/*.md`, `signatures/*.html`, `personas.json`; a `.env.<slug>`; a compose service; and `!.env.<slug>.example` in `.gitignore` (the bare `.env.*` rule swallows a new example file otherwise — this bit AeroDefense's pattern being copy-pasted for OneBodyLDN until the negation line was added). No code change beyond that.
 
 ### What's specific to AeroDefense
 
@@ -43,6 +44,17 @@ Files fall back to the repo root when a client doesn't override them, so a clien
 - **Its own house voice.** `clients/aerodefense/prompts/human-writing.md` overrides the root one, which bans "Best regards" and mandates a third-grade casual register — wrong for airport ops directors and police chiefs, and it contradicts the approved templates. Template fidelity outranks style there.
 - **No pricing, ever**, in any form — acknowledge and push to the 15-minute call.
 - **`REQUIRE_KNOWN_SENDER=true`.** AeroDefense rotated through mailboxes Smartlead no longer returns (e.g. `anna@aerodefensemarketing.com`). A thread whose last outbound message came from one is dead — there's no live mailbox to reply from — so it is skipped at scan and aborted at send. Off by default, so Mindaptive keeps just going without a signature. Deliberately re-derived from Smartlead's live list each pass rather than stored as a terminal lead status, so an API blip can't permanently retire a live lead.
+
+### What's specific to OneBodyLDN
+
+- **A London physiotherapy clinic group** (38 locations, `clients/onebodyldn/knowledge/locations.md`), replying to two cold-email campaigns: an HR/Partnership offer (free session for a whole team) and a direct-to-office-worker offer (free session for the individual, insurance-covered where they have cover). `clients/onebodyldn/knowledge/onebody-overview.md` is the source of every claim the model is allowed to make (NPS, review count, insurers, HCPC registration) — built from `source-docs/Typeform - Results Table.pdf`, Kurt Johnson's own answers about the business.
+- **Template-driven for the common cases, freeform for the rest.** `clients/onebodyldn/knowledge/response-templates.md` covers yes/wants-the-code (two variants, HR vs individual), insurance questions, pricing pushback, trust objections and a soft no. Anything else falls back to `onebody-overview.md`, same split AeroDefense uses for Executive Protection. The campaigns are brand new — these templates are Andrew's first draft, not an approved backlog, and are flagged as such in the file.
+- **Two personas, no calendar links yet.** Kurt Johnson and Rebecca Bossick (`clients/onebodyldn/personas.json`) — real names, but their signature HTML files are placeholders until Andrew supplies the actual signatures.
+- **No pricing, ever**, same rule as AeroDefense — the free session is the price message, never a number or a discount percentage.
+- **The booking code and booking link are not defined yet.** The cold emails promise "a code" and a booking link, but neither has a real value — `response-templates.md`'s "Not filled in yet" section is explicit that the model must not invent one, and `prompts/system.md` repeats the rule as a non-negotiable. Wire the real values the way AeroDefense wires `calendar_link` (per-persona in `personas.json`, passed into the prompt by `pipeline.create_draft`/`batch_gen`) once they exist.
+- **Uses the root house voice unchanged** (no `clients/onebodyldn/prompts/human-writing.md` override) — casual, third-grade, conversational is exactly what this audience wants, unlike AeroDefense's professional-plain register.
+- **English only** (`clients/onebodyldn/prompts/output-contract.md` leaves `<draft_english>` empty) and `DETECT_LANGUAGE=false`, same reasoning as AeroDefense: every lead is a London-based English speaker.
+- **Everything else is unverified.** The Smartlead category names (`INTERESTED_CATEGORY_NAME` etc.) are the defaults, not confirmed against OneBodyLDN's live account, and `REQUIRE_KNOWN_SENDER` is off since there's no history of retired mailboxes yet. Check both before relying on the daily scan.
 
 ## How a message actually gets generated
 

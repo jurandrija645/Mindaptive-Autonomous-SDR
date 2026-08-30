@@ -1,0 +1,12 @@
+[
+  {
+    "from_name": "Kurt Johnson",
+    "signature_file": "kurt-johnson.html",
+    "name_hints": ["kurt", "k.johnson", "kurtj"]
+  },
+  {
+    "from_name": "Rebecca Bossick",
+    "signature_file": "rebecca-bossick.html",
+    "name_hints": ["rebecca", "r.bossick", "bossick"]
+  }
+]

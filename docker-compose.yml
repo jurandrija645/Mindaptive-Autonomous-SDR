@@ -34,6 +34,28 @@ services:
     ports:
       - "127.0.0.1:8081:8080"
 
+  # OneBodyLDN — same image, third client. Same pattern as app-aerodefense:
+  # own key, database, model, cadence, categories and webhook secret via
+  # .env.onebodyldn, CLIENT_DIR pointing at clients/onebodyldn for the
+  # prompt, knowledge base, personas and signatures, and its own data volume
+  # so nothing mixes with Mindaptive or AeroDefense.
+  #
+  # Behind a profile so it stays OFF until deliberately enabled — same reason
+  # as app-aerodefense. To turn it on: create .env.onebodyldn, then add
+  # onebodyldn to COMPOSE_PROFILES in .env (comma-separated with any other
+  # active profile, e.g. COMPOSE_PROFILES=aerodefense,onebodyldn) and redeploy.
+  app-onebodyldn:
+    profiles: ["onebodyldn"]
+    build: .
+    restart: unless-stopped
+    env_file:
+      - path: .env.onebodyldn
+        required: false
+    volumes:
+      - ./data-onebodyldn:/data
+    ports:
+      - "127.0.0.1:8082:8080"
+
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped

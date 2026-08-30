@@ -2,6 +2,7 @@
 .env.*
 !.env.example
 !.env.aerodefense.example
+!.env.onebodyldn.example
 .venv/
 __pycache__/
 *.pyc
