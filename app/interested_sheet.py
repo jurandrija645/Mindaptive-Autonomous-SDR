@@ -1,10 +1,11 @@
 """Auto-sync of leads Smartlead has told us are Interested into a plain
 worklist Google Sheet — separate from the LinkedIn export sheet
 (app/exports/sheet_export.py), which is per-lead and manual, click-triggered
-from the dashboard. This one is automatic: the moment reply_classifier clears
-a reply as INTERESTED, a row lands here with no click required, from both
-places that classify a reply (app/webhook.py: _process_reply and
-app/scheduler.py: run_reply_catch_scan).
+from the dashboard. This one is automatic: the moment app/reply_classifier.py
+clears a reply as INTERESTED, a row lands here with no click required, from
+both places that classify a reply (app/webhook.py: _process_reply and
+app/scheduler.py: run_reply_catch_scan). Deduplicated on email, so a lead
+re-confirmed INTERESTED on a later reply doesn't produce a second row.
 
 Optional and client-agnostic — gated entirely by INTERESTED_SHEET_ID. Blank
 (the default for every client) means every function here is a no-op, so

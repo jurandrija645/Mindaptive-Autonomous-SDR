@@ -8,7 +8,8 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 
 from app import (
-    db, interested_sheet, lead_language, lead_temperature, pipeline, reply_classifier, smartlead,
+    db, interested_sheet, lead_language, lead_temperature, pipeline, reply_classifier, scheduler,
+    smartlead,
 )
 from app.config import settings
 from app.email_clean import to_plain_text
@@ -302,9 +303,30 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
     log.info("lead %s reply: %s", lead_id, reason)
     if label != reply_classifier.INTERESTED:
         # Recorded and visible either way; db.sort_replied_lead just moves it
-        # out of the red "awaiting reply" tier it doesn't belong in.
+        # out of the red "awaiting reply" tier it doesn't belong in. No real
+        # message id to stamp here — the thread isn't fetched on this branch,
+        # deliberately, so a junk reply doesn't cost the retry-loop fetch below
+        # — so the next reply-catch tick judges this exact message once more
+        # against the real thread and stamps `category_message_id` then; every
+        # tick after that is free (see run_reply_catch_scan).
         with db.db_session() as conn:
             db.sort_replied_lead(conn, lead_id, campaign_id, label)
+        # Push it to Smartlead too — the app is meant to be 1:1 with
+        # Smartlead's own category, and without this Smartlead's sequence
+        # keeps mailing a lead the classifier already sorted as a machine or
+        # a no. See scheduler._push_category_to_smartlead.
+        if label == reply_classifier.AUTO_REPLY:
+            scheduler._push_category_to_smartlead(
+                campaign_id, lead_id, settings.autoreply_category_name
+            )
+        elif label == reply_classifier.NOT_INTERESTED:
+            scheduler._push_category_to_smartlead(
+                campaign_id, lead_id, settings.not_interested_category_name
+            )
+        elif label == reply_classifier.WRONG_PERSON:
+            scheduler._push_category_to_smartlead(
+                campaign_id, lead_id, settings.wrong_person_category_name, pause=True
+            )
         return {"status": "ok", "note": f"recorded, no draft — {reason}"}
 
     _promote_category_to_interested(campaign_id, lead_id, lead_row)
@@ -351,13 +373,17 @@ def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
     with db.db_session() as conn:
         # Refine the placeholder summary with the real thread: the exact
         # timestamp, and the message as Smartlead stored it rather than the
-        # webhook's copy of it.
+        # webhook's copy of it. Also stamp category_message_id now that a real
+        # message id exists — this is what lets run_reply_catch_scan's next
+        # tick recognise this exact message as already judged and skip
+        # calling the classifier on it again.
         last = thread[-1]
         db.upsert_lead_state(
             conn, lead_id, campaign_id,
             last_message_preview=to_plain_text(last.body)[:200],
             last_message_at=last.timestamp.astimezone(timezone.utc).isoformat(),
         )
+        db.mark_category_judged(conn, lead_id, campaign_id, last.message_id)
         if db.has_open_draft(conn, lead_id, campaign_id):
             return {"status": "ok", "note": "draft already exists after clearing stale ones"}
 

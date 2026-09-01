@@ -119,9 +119,11 @@ ROLES: dict[str, dict] = {
             "prospect or an out-of-office / rejection (which says whether to "
             "spend a draft on it), and how hot the lead is — ❄️ cold, 🌤 warm or "
             "🔥 very hot, which decides where they sit in the inbox and how fast "
-            "they get chased. Both run on every reply, so the cheapest model "
-            "that reads accurately. Neither decides what you see: every reply "
-            "reaches the inbox either way."
+            "they get chased. Each message is judged once and the verdict "
+            "sticks (see db.sort_replied_lead), so this only runs again on a "
+            "genuinely new message. The cheapest model that reads accurately. "
+            "Neither decides what you see: every reply reaches the inbox "
+            "either way."
         ),
         "setting_key": "model_classify",
         "fallback_role": None,

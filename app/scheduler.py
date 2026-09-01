@@ -24,16 +24,18 @@ _CATEGORY = {
 }
 
 
-def _category_id_fuzzy(categories: dict[str, int], name: str) -> int | None:
-    """Resolve a Smartlead category id by name, ignoring case and punctuation —
-    the account's real category is "Meeting-Booked" but config/humans write
-    "Meeting booked"; both should resolve to the same id."""
-    def norm(s: str) -> str:
-        return re.sub(r"[^a-z0-9]", "", s.lower())
+def norm_category_name(s: str) -> str:
+    """Case/punctuation-insensitive form of a category name — the account's
+    real category is "Meeting-Booked" but config/humans write "Meeting
+    booked"; both should compare equal."""
+    return re.sub(r"[^a-z0-9]", "", s.lower())
 
-    want = norm(name)
+
+def _category_id_fuzzy(categories: dict[str, int], name: str) -> int | None:
+    """Resolve a Smartlead category id by name, ignoring case and punctuation."""
+    want = norm_category_name(name)
     for cat_name, cat_id in categories.items():
-        if norm(cat_name) == want:
+        if norm_category_name(cat_name) == want:
             return cat_id
     return None
 
@@ -167,7 +169,10 @@ _reply_catch_lock = threading.Lock()
 # Smartlead categories that mean "don't put this in the inbox". Everything else
 # — including a lead with NO category at all — is adopted by
 # _adopt_unknown_repliers. Deliberately a small denylist rather than the
-# allowlist the daily scan uses: see that function for why.
+# allowlist the daily scan uses: see that function for why. This is about
+# whether to create a row at all for a brand-new replier — it has nothing to
+# do with app/reply_classifier.py, which is what sorts a reply already on file
+# (see db.sort_replied_lead).
 _SKIP_ADOPT_CATEGORIES = {
     "not interested",
     "do not contact",
@@ -179,7 +184,129 @@ _SKIP_ADOPT_CATEGORIES = {
     "we opted out",
     "lead opted out",
     "lead done",
+    "unsubscribed",
+    "bounced",
 }
+
+# Smartlead category name (lowercased) -> the local `category` key the
+# dashboard renders a chip for. The app is meant to be 1:1 with whatever
+# Smartlead calls a lead — this is just giving the handful of standard names a
+# stable, readable key instead of using the raw string as one. "Interested"
+# and the configured Meeting-Booked name are deliberately absent: those are
+# handled by the thread-based reply/followup/waiting flow and db.mark_lead_
+# booked respectively, never by this generic mapping.
+_KNOWN_CATEGORY_SLUGS = {
+    "out of office": "auto_reply",
+    "auto-reply": "auto_reply",
+    "auto reply": "auto_reply",
+    "not interested": "not_interested",
+    "lead done": "not_interested",
+    "do not contact": "do_not_contact",
+    "wrong person": "wrong_person",
+    "unsubscribed": "opted_out",
+    "lead opted out": "opted_out",
+    "we opted out": "opted_out",
+    "sender originated bounce": "bounced",
+    "bounced": "bounced",
+}
+
+
+def _local_category_slug(sl_category_name: str) -> str:
+    """A stable local key for a Smartlead category name. Known names get a
+    short, readable slug (see _KNOWN_CATEGORY_SLUGS); anything else — a custom
+    category Andrew adds in Smartlead — is derived from the name itself, so
+    the app never has to guess and never silently drops it into the wrong
+    bucket. app/static/app.js falls back to showing `smartlead_category`
+    verbatim for any slug it doesn't have its own chip label for."""
+    key = sl_category_name.strip().lower()
+    slug = _KNOWN_CATEGORY_SLUGS.get(key)
+    if slug:
+        return slug
+    return re.sub(r"[^a-z0-9]+", "_", key).strip("_") or "other"
+
+
+def _sync_category_from_smartlead(
+    lead_id: int, campaign_id: int, sl_category_name: str | None
+) -> None:
+    """Mirror Smartlead's own category onto a lead this pass otherwise has no
+    reason to touch — the whole point being that the app is 1:1 with
+    Smartlead for every status Smartlead itself tracks (Not Interested, Do
+    Not Contact, Wrong Person, Unsubscribed, Bounced, a custom category,
+    whatever). "Interested" and the configured Meeting-Booked category are
+    explicitly skipped: those go through the thread-based reply/followup/
+    waiting flow and db.mark_lead_booked, which already run for a lead in
+    either of those.
+
+    `status` stays 'active', never 'stopped' — so this is always reversible:
+    if Smartlead's category later moves back to Interested, the normal
+    is_interested path in run_daily_scan takes back over on the very next
+    pass with no un-freeze logic required, exactly like an un-booked lead.
+    Only ever corrects a lead already on file (never creates a row off this
+    alone — same caution _adopt_unknown_repliers takes), and never touches a
+    booked/stopped/blacklisted lead, whose category means something a bare
+    Smartlead reading must not override."""
+    if not sl_category_name:
+        return
+    key = sl_category_name.strip().lower()
+    if key == settings.interested_category_name.strip().lower():
+        return
+    if norm_category_name(sl_category_name) == norm_category_name(
+        settings.meeting_booked_category_name
+    ):
+        return
+    slug = _local_category_slug(sl_category_name)
+    with db.db_session() as conn:
+        state = db.get_lead_state(conn, lead_id, campaign_id)
+        if not state or state["status"] in ("booked", "stopped", "blacklisted"):
+            return
+        if state["category"] == slug and state["smartlead_category"] == sl_category_name:
+            return
+        db.upsert_lead_state(
+            conn, lead_id, campaign_id,
+            category=slug, smartlead_category=sl_category_name, status="active",
+        )
+
+
+def _push_category_to_smartlead(
+    campaign_id: int, lead_id: int, category_name: str, pause: bool = False
+) -> None:
+    """Write our own verdict back to Smartlead's category, so Smartlead's own
+    account agrees with the app instead of its sequence quietly continuing to
+    mail someone the classifier already sorted as a machine or a no. This is
+    what actually makes the two 1:1: without it, the local relabel is correct
+    in the app but Smartlead's own copy only catches up whenever (if ever) its
+    own slower classifier agrees.
+
+    `pause` stops Smartlead's automated sequence for the lead too. Passed
+    False for auto_reply — an out-of-office says nothing about whether the
+    person wants no more email, the same reasoning AUTOREPLY_CATEGORY_NAME
+    was never in main.PAUSE_CATEGORIES. Called with True only where the
+    caller has decided a rejection should actually stop outreach.
+
+    Best-effort and fails soft — a failure here must not cost the local
+    relabel, which has already happened by the time this runs. Respects
+    DRY_RUN like every other Smartlead category write (api_set_category, the
+    booking webhook)."""
+    if settings.dry_run:
+        log.info(
+            "[DRY_RUN] would set lead %s/%s Smartlead category to %r (pause=%s)",
+            campaign_id, lead_id, category_name, pause,
+        )
+        return
+    try:
+        category_id = smartlead.fetch_categories().get(category_name)
+        if category_id is None:
+            log.warning(
+                "could not resolve '%s' category id — leaving lead %s/%s as-is in Smartlead",
+                category_name, campaign_id, lead_id,
+            )
+            return
+        smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=pause)
+    except Exception:
+        log.exception(
+            "failed to push '%s' category to Smartlead for lead %s/%s",
+            category_name, campaign_id, lead_id,
+        )
 
 
 _new_reply_lock = threading.Lock()
@@ -228,9 +355,20 @@ def _adopt_unknown_repliers() -> None:
     **"who has written to us lately?"** — one call to Smartlead's unified inbox
     across every campaign (smartlead.list_recent_replies). A reply is a reply;
     waiting for someone else's classifier before showing it to a human is the
-    bug. Only the explicitly negative categories are skipped
+    bug. Only the explicitly negative categories are skipped for *adoption*
     (_SKIP_ADOPT_CATEGORIES), and *no category* is emphatically not one of
     them.
+
+    For a lead already on file, this call is cheap enough to also mirror
+    Smartlead's category onto it (_sync_category_from_smartlead) — the app is
+    meant to be 1:1 with Smartlead for everything except the reply/followup/
+    waiting sub-states and temperature, which have no Smartlead equivalent.
+    This is safe to do unconditionally now: app/reply_classifier.py's own
+    verdicts are pushed back to Smartlead the moment they're made
+    (_push_category_to_smartlead), so by the time this reads Smartlead's
+    category again it should already agree — this pull mostly matters for
+    whatever the classifier never sees at all (a hard bounce, an unsubscribe,
+    a category Andrew changed by hand directly in Smartlead).
 
     It writes the summary only, never a draft: the row plus the timestamp is
     enough to make the lead visible and to hand them to the loop below, which
@@ -246,8 +384,6 @@ def _adopt_unknown_repliers() -> None:
     adopted = 0
     for row in recent:
         category = categories.get(row.get("lead_category_id")) or ""
-        if category.strip().lower() in _SKIP_ADOPT_CATEGORIES:
-            continue
         try:
             lead_id = int(row.get("email_lead_id") or 0)
             campaign_id = int(row.get("email_campaign_id") or 0)
@@ -261,15 +397,22 @@ def _adopt_unknown_repliers() -> None:
 
         with db.db_session() as conn:
             existing = db.get_lead_state(conn, lead_id, campaign_id)
-            # Only ever *adds* leads. One already on file is the normal case and
-            # the main loop below re-derives their state from the real thread —
-            # stamping a category on a lead we've stopped, booked or archived
-            # off this summary alone would fight it.
-            if existing:
-                continue
-            name = " ".join(
-                part for part in (row.get("lead_first_name"), row.get("lead_last_name")) if part
-            ).strip()
+
+        if existing:
+            # Already tracked — mirror Smartlead's category the same way
+            # run_daily_scan does for a lead it isn't otherwise processing
+            # (_sync_category_from_smartlead opens its own session, so this
+            # runs after the one above has closed rather than nesting one
+            # inside it).
+            if existing["status"] not in ("booked", "stopped", "blacklisted"):
+                _sync_category_from_smartlead(lead_id, campaign_id, category or None)
+            continue
+        if category.strip().lower() in _SKIP_ADOPT_CATEGORIES:
+            continue
+        name = " ".join(
+            part for part in (row.get("lead_first_name"), row.get("lead_last_name")) if part
+        ).strip()
+        with db.db_session() as conn:
             db.mark_lead_replied(
                 conn, lead_id, campaign_id,
                 preview=None,  # this endpoint carries no body; the thread fetch fills it in
@@ -278,8 +421,9 @@ def _adopt_unknown_repliers() -> None:
                 name=name or None,
                 campaign_name=row.get("email_campaign_name"),
                 timezone_guess=guess_timezone(row.get("email_campaign_name") or ""),
+                smartlead_category=category or None,
             )
-            adopted += 1
+        adopted += 1
 
     if adopted:
         log.info("reply-catch: adopted %d lead(s) who replied but weren't tracked", adopted)
@@ -336,7 +480,8 @@ def run_reply_catch_scan() -> None:
         with db.db_session() as conn:
             rows = conn.execute(
                 """SELECT lead_id, campaign_id, name, email, company, website,
-                          campaign_name, status, followup_count, temperature
+                          campaign_name, status, followup_count, temperature,
+                          category, category_message_id
                    FROM leads_state
                    WHERE interested = 1 AND status IN ('active', 'awaiting_reply')"""
             ).fetchall()
@@ -398,18 +543,78 @@ def run_reply_catch_scan() -> None:
                             received_at=last.timestamp.astimezone(timezone.utc).isoformat(),
                         )
 
-                    # Then work out what the reply actually was. Recording it
-                    # first and sorting it second is the order that matters:
-                    # the message is on file either way, and only its placement
-                    # depends on a model. Without this the inbox fills with
-                    # clinic autoresponders — "Thank you for your email, we aim
-                    # to respond within 24 hours" is, structurally, a reply.
-                    label, reason = reply_classifier.classify(last.body)
-                    if label != reply_classifier.INTERESTED:
-                        log.info("reply-catch: lead %s sorted as %s (%s)", row["lead_id"], label, reason)
+                    if row["category_message_id"] is not None and row["category_message_id"] == last.message_id:
+                        # Already classified this exact message on an earlier
+                        # pass — the verdict on file stands. mark_lead_replied
+                        # just reset `category` back to 'reply' unconditionally
+                        # (it has no idea this message was already judged), so
+                        # an auto_reply/not_interested verdict has to be
+                        # re-applied here — with no model call, since nothing
+                        # new was learned. This is what stops a lead sitting in
+                        # review from being reclassified every single tick:
+                        # before this, the classifier re-ran on unchanged text
+                        # for as long as a draft sat unreviewed, and could flip
+                        # the label mid-review.
+                        stored_label = row["category"] if row["category"] in (
+                            "auto_reply", "not_interested", "wrong_person"
+                        ) else None
+                        if stored_label:
+                            with db.db_session() as conn:
+                                db.sort_replied_lead(
+                                    conn, row["lead_id"], campaign_id, stored_label,
+                                    message_id=last.message_id,
+                                )
+                            continue
+                        # else: previously judged interested. category is
+                        # already 'reply' from mark_lead_replied above —
+                        # nothing to restore, fall through to draft as usual.
+                    else:
+                        # A message we haven't judged yet — classify it once.
+                        # Recording it first (above) and sorting it second is
+                        # the order that matters: the message is on file
+                        # either way, and only its placement depends on a
+                        # model. Without this the inbox fills with clinic
+                        # autoresponders — "Thank you for your email, we aim
+                        # to respond within 24 hours" is, structurally, a
+                        # reply.
+                        label, reason = reply_classifier.classify(last.body)
+                        log.info(
+                            "reply-catch: lead %s sorted as %s (%s)",
+                            row["lead_id"], label, reason,
+                        )
                         with db.db_session() as conn:
-                            db.sort_replied_lead(conn, row["lead_id"], campaign_id, label)
-                        continue
+                            if label == reply_classifier.INTERESTED:
+                                db.mark_category_judged(
+                                    conn, row["lead_id"], campaign_id, last.message_id
+                                )
+                            else:
+                                db.sort_replied_lead(
+                                    conn, row["lead_id"], campaign_id, label,
+                                    message_id=last.message_id,
+                                )
+                        # Push the verdict to Smartlead too, so its own copy
+                        # agrees and its sequence stops mailing someone we've
+                        # already sorted as a machine or a no — the app being
+                        # 1:1 with Smartlead means this app can't just decide
+                        # quietly on its own side.
+                        if label == reply_classifier.AUTO_REPLY:
+                            _push_category_to_smartlead(
+                                campaign_id, row["lead_id"], settings.autoreply_category_name
+                            )
+                        elif label == reply_classifier.NOT_INTERESTED:
+                            _push_category_to_smartlead(
+                                campaign_id, row["lead_id"], settings.not_interested_category_name
+                            )
+                        elif label == reply_classifier.WRONG_PERSON:
+                            # pause=True, unlike auto_reply — this mailbox has
+                            # no one left to read it, so there's no reason to
+                            # keep Smartlead's own sequence mailing it either.
+                            _push_category_to_smartlead(
+                                campaign_id, row["lead_id"], settings.wrong_person_category_name,
+                                pause=True,
+                            )
+                        if label != reply_classifier.INTERESTED:
+                            continue
 
                     interested_sheet.sync_interested(
                         campaign_id, row["lead_id"], row["email"] or "", row["name"] or "",
@@ -425,11 +630,11 @@ def run_reply_catch_scan() -> None:
                     # new message and nothing at all thereafter
                     # (lead_temperature.read caches on the message id).
                     #
-                    # After the sort above, not before it: only a human who
-                    # wrote to us can be hot, so an autoresponder or a rejection
-                    # has already left this loop rather than paying for a second
-                    # classification that could only ever say cold — and cold
-                    # never demotes anyone (see lead_temperature.read).
+                    # Reached only for an interested reply (auto_reply/
+                    # not_interested already `continue`d above): only a human
+                    # who wrote to us can be hot, so this never pays for a
+                    # second classification that could only ever say cold —
+                    # and cold never demotes anyone (see lead_temperature.read).
                     lead_temperature.record(row["lead_id"], campaign_id, thread)
 
                     with db.db_session() as conn:
@@ -544,6 +749,9 @@ def run_daily_scan() -> None:
     instead of the normal reply/follow-up pipeline."""
     log.info("daily scan starting")
     categories = smartlead.fetch_categories()
+    # id -> name, so pass one below can record what Smartlead actually calls
+    # every lead's category, not just the three ids this scan acts on.
+    category_names = {cid: name for name, cid in categories.items()}
     interested_id = categories.get(settings.interested_category_name)
     autoreply_id = categories.get(settings.autoreply_category_name)
     booked_id = _category_id_fuzzy(categories, settings.meeting_booked_category_name)
@@ -583,7 +791,7 @@ def run_daily_scan() -> None:
     # the scan records that has no other source, so they are now written before
     # anything costly can fail, and a campaign that fails to list no longer
     # takes the rest of the account down with it.
-    pending: list[tuple[dict, str, bool]] = []
+    pending: list[tuple[dict, str, bool, str | None]] = []
 
     for campaign in smartlead.list_campaigns():
         campaign_id = campaign.get("id")
@@ -597,23 +805,33 @@ def run_daily_scan() -> None:
                     continue
                 is_autoreply = detector.category_matches(lead, autoreply_id)
                 is_booked = detector.category_matches(lead, booked_id)
+                sl_name = category_names.get(lead.get("lead_category_id"))
                 if (
                     not detector.is_interested(lead, interested_id)
                     and not is_autoreply
                     and not is_booked
                 ):
+                    # This lead isn't one of the three categories this scan
+                    # otherwise acts on, so it never reaches _process_lead —
+                    # mirror whatever Smartlead calls it instead (costs no
+                    # extra network call; the listing above already paid for
+                    # it). This is what keeps a lead who moved to Not
+                    # Interested/Do Not Contact/a custom category *after*
+                    # being tracked as a live conversation from staying stuck
+                    # under a stale 'reply'/'followup' label forever.
+                    _sync_category_from_smartlead(lead["id"], campaign_id, sl_name)
                     continue
                 if is_booked:
                     # Isolate per lead, same as pass two: one lead that can't be
                     # recorded must not cost us the rest of the campaign.
                     try:
-                        _process_lead(lead, campaign_name, False, True)
+                        _process_lead(lead, campaign_name, False, True, smartlead_category=sl_name)
                         booked_seen += 1
                     except Exception:
                         failed_leads += 1
                         log.exception("booked lead %s failed, continuing", lead["id"])
                 else:
-                    pending.append((lead, campaign_name, is_autoreply))
+                    pending.append((lead, campaign_name, is_autoreply, sl_name))
         except Exception:
             failed_campaigns += 1
             log.exception(
@@ -622,14 +840,14 @@ def run_daily_scan() -> None:
                 campaign_name,
             )
 
-    for lead, campaign_name, is_autoreply in pending:
+    for lead, campaign_name, is_autoreply, sl_name in pending:
         # Isolate per lead. One bad lead used to abort the whole scan —
         # an Anthropic outage or an exhausted credit balance during
         # language detection took out all remaining campaigns and left
         # leads_state empty, so the inbox looked like the account had no
         # leads at all rather than showing a partial result.
         try:
-            if _process_lead(lead, campaign_name, is_autoreply, False):
+            if _process_lead(lead, campaign_name, is_autoreply, False, smartlead_category=sl_name):
                 still_due_followups.add((lead["id"], lead["campaign_id"]))
         except Exception:
             failed_leads += 1
@@ -670,7 +888,11 @@ def run_daily_scan() -> None:
 
 
 def _process_lead(
-    lead: dict, campaign_name: str, is_autoreply: bool = False, is_booked: bool = False
+    lead: dict,
+    campaign_name: str,
+    is_autoreply: bool = False,
+    is_booked: bool = False,
+    smartlead_category: str | None = None,
 ) -> bool:
     """Record the lead's inbox summary and return True if it's an open follow-up
     candidate. Every interested (or auto-reply, or booked) lead gets a
@@ -692,6 +914,8 @@ def _process_lead(
         interested=1,
         campaign_name=campaign_name,
     )
+    if smartlead_category is not None:
+        base_fields["smartlead_category"] = smartlead_category
     # Skip once Andrew has manually corrected the name (api_set_lead_name) —
     # otherwise this scan (daily cron or "Rescan now") reverts it right back
     # to Smartlead's own first_name on the very next run.
@@ -857,6 +1081,23 @@ def run_due_send_loop() -> None:
         _send_due_draft(dict(draft))
 
 
+def _mark_lead_waiting_on_them(conn, lead_id: int, campaign_id: int) -> None:
+    """We just sent a message — the ball is in the lead's court now, so the
+    chip should say "In conversation", not whatever it said before we sent
+    (main.api_send already did this for the immediate "Send now" click; a
+    scheduled follow-up firing through this same function used to skip it
+    entirely, so a lead stayed marked "Follow-up due" — or, for a hot lead
+    sitting above everyone else in the inbox, visibly stale right under the
+    🔥 header — until the next daily scan happened to recompute it, up to 24h
+    later). Never touches temperature or the hot/24h-vs-72h follow-up clock —
+    those are a separate axis (app/lead_temperature.py) that doesn't reset on
+    a send."""
+    db.upsert_lead_state(
+        conn, lead_id, campaign_id,
+        category="waiting", last_message_kind="sent", last_message_at=db.now_iso(),
+    )
+
+
 def _send_due_draft(draft: dict) -> None:
     lead_id, campaign_id = draft["lead_id"], draft["campaign_id"]
 
@@ -883,6 +1124,7 @@ def _send_due_draft(draft: dict) -> None:
         log.info("[DRY_RUN] would send draft %s to lead %s", draft["id"], lead_id)
         with db.db_session() as conn:
             db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())
+            _mark_lead_waiting_on_them(conn, lead_id, campaign_id)
         return
 
     # Use the freshly-fetched thread's message identifiers rather than the
@@ -948,6 +1190,7 @@ def _send_due_draft(draft: dict) -> None:
         db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())
         if draft["kind"] == "followup":
             db.increment_followup_count(conn, lead_id, campaign_id)
+        _mark_lead_waiting_on_them(conn, lead_id, campaign_id)
     log.info("sent draft %s to lead %s", draft["id"], lead_id)
 
 

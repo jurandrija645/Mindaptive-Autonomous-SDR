@@ -54,6 +54,25 @@ class Settings:
     autoreply_category_name: str = os.getenv(
         "AUTOREPLY_CATEGORY_NAME", "Auto-Reply"
     )
+    # Smartlead's own "not interested" category — where an AUTO_REPLY/
+    # NOT_INTERESTED classifier verdict gets pushed (scheduler._push_category_
+    # to_smartlead), so Smartlead's account agrees with the app instead of the
+    # sequence quietly continuing to mail someone we've already sorted out.
+    not_interested_category_name: str = os.getenv(
+        "NOT_INTERESTED_CATEGORY_NAME", "Not Interested"
+    )
+    # Smartlead's own "wrong person" category — where a WRONG_PERSON classifier
+    # verdict gets pushed (reply_classifier.WRONG_PERSON: "I no longer work
+    # here", "this address isn't monitored"). Distinct from Auto-Reply — an
+    # out-of-office reader is coming back to their inbox, this mailbox never
+    # will — so unlike AUTO_REPLY this one also pauses Smartlead's sequence
+    # (scheduler._push_category_to_smartlead(pause=True)), which is what
+    # actually stops the follow-up cadence: run_daily_scan only ever generates
+    # candidates for the Interested/Auto-Reply/Meeting-Booked categories, so a
+    # lead pushed to "Wrong Person" simply falls out of every future pass.
+    wrong_person_category_name: str = os.getenv(
+        "WRONG_PERSON_CATEGORY_NAME", "Wrong Person"
+    )
     # Smartlead's own "meeting booked" lead category — the app's success
     # signal. Matched case/punctuation-insensitively (the real account has it
     # as "Meeting-Booked"), so "Meeting booked" etc. also resolve.
@@ -95,11 +114,13 @@ class Settings:
 
     # Which model sorts an incoming reply into "real prospect" vs "out of office
     # / rejection" (app/reply_classifier.py), deciding whether to spend a draft
-    # on it. This is the job the n8n workflow's gpt-5-mini node used to do
-    # before Smartlead's webhook pointed straight at the app. One word in, one
-    # word out, on every single reply — so the default is the cheapest model in
-    # the picker. Overridable per-install here and, at runtime, from the
-    # dashboard's Models panel ("Sorting incoming replies").
+    # on it, and separately rates how hot the lead is (app/lead_temperature.py).
+    # One word in, one word out — so the default is the cheapest model in the
+    # picker. Each message is only ever judged once (db.sort_replied_lead /
+    # category_message_id): the verdict is sticky until either a new message
+    # arrives or Andrew changes the status by hand, never re-decided by a later
+    # pass over the same content. Overridable per-install here and, at
+    # runtime, from the dashboard's Models panel ("Sorting incoming replies").
     reply_classifier_model: str = os.getenv(
         "REPLY_CLASSIFIER_MODEL", "deepseek/deepseek-v4-flash"
     )

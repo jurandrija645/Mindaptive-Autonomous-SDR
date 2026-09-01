@@ -334,12 +334,21 @@ button:disabled { opacity: .55; cursor: default; }
   background: var(--accent); color: #fff;
   white-space: nowrap;
 }
-.state-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; }
+/* Default: any category the app mirrors straight from Smartlead with no
+   colour of its own (a custom category included) gets this muted look. */
+.state-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; background: #eeece7; color: var(--muted); }
 .state-chip.cat-reply { background: var(--reply-bg); color: var(--reply); }
 .state-chip.cat-followup { background: var(--followup-bg); color: var(--followup); }
 .state-chip.cat-auto_reply { background: var(--autoreply-bg); color: var(--autoreply); }
-.state-chip.cat-waiting { background: #eeece7; color: var(--muted); }
 .state-chip.cat-booked { background: var(--booked-bg); color: var(--booked); }
+
+/* Smartlead's own category name, next to our chip above — informational only,
+   not something list_inbox filters on. See db.py's leads_state.smartlead_category. */
+.smartlead-cat-badge {
+  font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 20px;
+  background: var(--bg); color: var(--muted); border: 1px solid var(--border);
+  white-space: nowrap;
+}
 
 /* How hot the lead is, next to the category chip — same shape, own palette. */
 .temp-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; white-space: nowrap; }

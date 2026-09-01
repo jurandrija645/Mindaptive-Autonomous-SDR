@@ -3,10 +3,14 @@
 This is a **different question** from the two statuses the app already carries,
 which is the whole reason it exists as its own column:
 
-- `leads_state.category` (reply / followup / waiting / booked) says what the
-  *thread* needs next. It is recomputed from the message history on every scan.
-- Smartlead's own lead category (Interested, Not Interested, Meeting-Booked…)
-  says how Smartlead's classifier filed the lead.
+- `leads_state.category` (reply / followup / waiting / booked, or a Smartlead
+  category mirrored 1:1 — auto_reply, not_interested, do_not_contact, a
+  custom one, whatever) says what the *thread* needs next, or that Smartlead
+  itself has already answered that question. It is recomputed from the
+  message history — or from Smartlead's own category — on every scan.
+- `leads_state.smartlead_category` is Smartlead's own raw category name
+  (Interested, Not Interested, Meeting-Booked…), kept for display even where
+  `category` above shows an app-only sub-state Smartlead has no concept of.
 
 Neither answers the question Andrew actually asks of the inbox each morning:
 **who wants to talk to us.** A lead who wrote "can we jump on a call Thursday?"
@@ -274,7 +278,7 @@ def classify(message: str) -> tuple[str, str]:
 
     try:
         # 512 tokens for a one-word answer, for the reason spelled out in
-        # reply_classifier.is_relevant: a reasoning model bills its thinking
+        # reply_classifier.classify: a reasoning model bills its thinking
         # against this same budget, so a tight cap truncates the verdict rather
         # than shortening it.
         verdict, _ = llm.complete_for(

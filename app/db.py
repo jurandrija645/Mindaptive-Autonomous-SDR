@@ -21,7 +21,23 @@ CREATE TABLE IF NOT EXISTS leads_state (
     -- inbox summary, recorded by the daily/on-demand scan (see scheduler._process_lead)
     interested INTEGER NOT NULL DEFAULT 0,
     campaign_name TEXT,
-    category TEXT,              -- reply|followup|waiting  (drives the row colour)
+    category TEXT,              -- reply|followup|waiting|auto_reply|not_interested|booked  (drives the row colour)
+    -- The message app/reply_classifier.py last judged to produce the CURRENT
+    -- reply/auto_reply/not_interested label. Read by scheduler.run_reply_catch_
+    -- scan and app/webhook.py before calling the classifier again: if the
+    -- lead's newest message is still this one, the verdict already on file
+    -- stands untouched — no repeat model call, and no risk of a later call
+    -- flipping a label that was already applied. It only moves again once a
+    -- genuinely new message arrives (a different id) or Andrew changes the
+    -- status by hand.
+    category_message_id TEXT,
+    -- Smartlead's own category name for this lead, as of the last time we
+    -- looked (the daily scan's per-campaign listing, or the 60s recent-replies
+    -- poll) — e.g. "Interested", "Not Interested", "Do Not Contact", "Auto
+    -- Reply", "Meeting-Booked". Purely informational: shown next to the
+    -- "Change status" control so a manual change isn't a guess. Does NOT
+    -- drive `category` — see app/reply_classifier.py for what does.
+    smartlead_category TEXT,
     -- How hot the lead is: cold|warm|hot (app/lead_temperature.py). Deliberately
     -- NOT the same axis as `category` above or Smartlead's own lead category —
     -- those say what the thread needs next and how Smartlead filed the lead;
@@ -445,6 +461,11 @@ def _migrate(conn) -> None:
         "temperature_reason": "TEXT",
         "temperature_message_id": "TEXT",
         "temperature_locked": "INTEGER NOT NULL DEFAULT 0",
+        # Smartlead's own category name — see the schema comment above.
+        "smartlead_category": "TEXT",
+        # The message app/reply_classifier.py last judged — see the schema
+        # comment above.
+        "category_message_id": "TEXT",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
@@ -625,14 +646,21 @@ def mark_lead_replied(
     upsert_lead_state(conn, lead_id, campaign_id, **fields)
 
 
-def sort_replied_lead(conn, lead_id: int, campaign_id: int, label: str) -> None:
+def sort_replied_lead(
+    conn,
+    lead_id: int,
+    campaign_id: int,
+    label: str,
+    message_id: str | None = None,
+    smartlead_category: str | None = None,
+) -> None:
     """Act on what app/reply_classifier.py decided an inbound reply was.
 
     `mark_lead_replied` puts every reply in the red "awaiting reply" tier,
     which is right until you know what the reply says — and wrong once you do.
     Left alone it filled the inbox with "Thank you for your email, we aim to
-    respond within 24 hours", because a clinic's autoresponder is, structurally,
-    a reply. So the cheap classifier's verdict is applied here:
+    respond within 24 hours", because a clinic's autoresponder is,
+    structurally, a reply. So the classifier's verdict is applied here:
 
     - `interested` — leave it. It is a live conversation.
     - `auto_reply` — a machine answered. Stays visible, but as `auto_reply`,
@@ -642,6 +670,16 @@ def sort_replied_lead(conn, lead_id: int, campaign_id: int, label: str) -> None:
     - `not_interested` — labelled and moved out of the red tier, and **that is
       all**. Not archived, not stopped, still in the inbox, one click from
       either.
+    - `wrong_person` — labelled the same shallow way as not_interested (still
+      in the inbox, one click away, `status` back to 'active'). What actually
+      stops the follow-ups is the caller pushing this verdict to Smartlead's
+      category with pause_lead=True (scheduler._push_category_to_smartlead) —
+      once the lead's Smartlead category is no longer Interested/Auto-Reply/
+      Meeting-Booked, run_daily_scan's own gate stops generating candidates
+      for it. Deliberately not folded into not_interested's bucket: "wrong
+      person" here means the mailbox itself is a dead end (nobody left to
+      read it), not a verdict on the offer, so it must not share auto_reply's
+      "keep chasing, they're coming back" treatment either.
 
     That last one is deliberately weaker than it first was. Archiving and
     stopping on this verdict was tried and reverted the same day: the cheap
@@ -657,19 +695,41 @@ def sort_replied_lead(conn, lead_id: int, campaign_id: int, label: str) -> None:
     stays a human decision. Clearing the inbox is worth a lot; burying one real
     buyer costs more than the whole exercise saves.
 
+    Passing `message_id` stamps `category_message_id`, which is what makes
+    this verdict *sticky*: the caller checks that column before ever calling
+    the classifier again, so the same message is judged once and this label
+    then stands until either a genuinely new message arrives (a different id)
+    or Andrew changes the status by hand — not until the next scan happens to
+    run again on unchanged content. `smartlead_category` separately refreshes
+    the informational column shown next to "Change status"; it never decides
+    this label, only records what Smartlead itself currently says.
+
     Never touches a booked lead — that freeze outranks anything a reply says."""
     existing = get_lead_state(conn, lead_id, campaign_id)
     if existing and existing["status"] == "booked":
         return
 
+    fields: dict = {"status": "active"}
+    if message_id is not None:
+        fields["category_message_id"] = message_id
+    if smartlead_category is not None:
+        fields["smartlead_category"] = smartlead_category
     if label == "auto_reply":
-        upsert_lead_state(
-            conn, lead_id, campaign_id, category="auto_reply", status="active"
-        )
+        upsert_lead_state(conn, lead_id, campaign_id, category="auto_reply", **fields)
     elif label == "not_interested":
-        upsert_lead_state(
-            conn, lead_id, campaign_id, category="not_interested", status="active"
-        )
+        upsert_lead_state(conn, lead_id, campaign_id, category="not_interested", **fields)
+    elif label == "wrong_person":
+        upsert_lead_state(conn, lead_id, campaign_id, category="wrong_person", **fields)
+
+
+def mark_category_judged(conn, lead_id: int, campaign_id: int, message_id: str) -> None:
+    """Stamp `category_message_id` for a message the classifier judged
+    `interested` — the counterpart to sort_replied_lead's stamping for
+    auto_reply/not_interested. `category` itself is left alone: mark_lead_
+    replied already has it right as 'reply', and this call exists purely so a
+    later pass sees the same message id already on file and skips calling the
+    classifier on it again."""
+    upsert_lead_state(conn, lead_id, campaign_id, category_message_id=message_id)
 
 
 def list_inbox(conn):

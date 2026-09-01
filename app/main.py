@@ -407,6 +407,10 @@ def _row_payload(l: dict, open_set: set) -> dict:
         "email": l["email"] or "",
         "campaign_name": l["campaign_name"] or "",
         "category": l["category"] or "waiting",
+        # Smartlead's own category name for this lead, as of the last time the
+        # scan or the 60s reply poll looked (see db.py's schema comment) —
+        # shown next to "Change status" so a manual change isn't a guess.
+        "smartlead_category": l["smartlead_category"] or "",
         # How hot the lead is — a separate axis from `category` above, and the
         # thing db.list_inbox sorts on first (app/lead_temperature.py).
         "temperature": lead_temperature.current(l),
@@ -537,6 +541,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "language": ((lead["language"] if lead else "") or "").upper(),
             "language_name": translator.language_name(lead["language"]) if (lead and lead["language"]) else None,
             "category": (lead["category"] if lead else "waiting") or "waiting",
+            "smartlead_category": (lead["smartlead_category"] if lead else "") or "",
             "temperature": lead_temperature.current(lead),
             "temperature_reason": (lead["temperature_reason"] if lead else "") or "",
             "temperature_locked": bool(lead["temperature_locked"]) if lead else False,
@@ -1114,7 +1119,12 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
     """Generic version of the old 'Not Interested' action — recategorizes the
     lead in Smartlead to whatever category was picked (pausing its sequence
     for the ones in PAUSE_CATEGORIES) and archives it locally under that
-    reason. Picking 'Interested' instead restores it to the active inbox."""
+    reason. Picking 'Interested' instead restores it to the active inbox.
+    Picking the configured meeting-booked category (settings.meeting_booked_
+    category_name, matched fuzzily like the daily scan does) records the
+    booking via db.mark_lead_booked instead of archiving, so the lead stays
+    visible in the inbox immediately rather than reappearing only once the
+    next scan un-archives it."""
     redirect = require_auth(request)
     if redirect:
         return redirect
@@ -1124,6 +1134,9 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
         return JSONResponse({"error": "category_name is required."}, status_code=400)
 
     restoring = category_name == "Interested"
+    booking = scheduler.norm_category_name(category_name) == scheduler.norm_category_name(
+        settings.meeting_booked_category_name
+    )
     pause = category_name in PAUSE_CATEGORIES
 
     if settings.dry_run:
@@ -1147,11 +1160,24 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
     with db.db_session() as conn:
         if restoring:
             db.upsert_lead_state(
-                conn, lead_id, campaign_id, status="active", archived_at=None, archive_reason=None
+                conn, lead_id, campaign_id,
+                status="active", archived_at=None, archive_reason=None,
+                smartlead_category=category_name,
             )
+        elif booking:
+            # Picking the booked category by hand is the same fact the scan
+            # would record from Smartlead overnight — record it now rather
+            # than archiving like every other category, or the lead vanishes
+            # from the inbox until the next scan un-archives it (mark_lead_booked
+            # only clears an archive *older* than booked_at).
+            db.mark_lead_booked(conn, lead_id, campaign_id)
+            db.upsert_lead_state(conn, lead_id, campaign_id, smartlead_category=category_name)
         else:
             db.upsert_lead_state(
-                conn, lead_id, campaign_id, archived_at=db.now_iso(), archive_reason=category_name
+                conn, lead_id, campaign_id,
+                archived_at=db.now_iso(), archive_reason=category_name,
+                category=scheduler._local_category_slug(category_name),
+                smartlead_category=category_name,
             )
     return JSONResponse({"ok": True})
 
@@ -1407,18 +1433,12 @@ async def api_send(request: Request, draft_id: int):
         updates.update(_attachment_updates(body))
         db.update_draft(conn, draft_id, **updates)
 
+    # _send_due_draft is what actually marks the lead "waiting" on a real
+    # send (scheduler._mark_lead_waiting_on_them) — not done here too, since
+    # that would also fire on a race-abort (a newer reply arrived since this
+    # draft was drafted), which correctly leaves the lead needing a reply and
+    # must not be immediately overwritten to "waiting" right after.
     scheduler._send_due_draft(dict(_get_draft_dict(draft_id)))
-
-    # Reflect "we responded" in the inbox immediately (next scan will confirm).
-    with db.db_session() as conn:
-        db.upsert_lead_state(
-            conn,
-            draft["lead_id"],
-            draft["campaign_id"],
-            category="waiting",
-            last_message_kind="sent",
-            last_message_at=db.now_iso(),
-        )
     return JSONResponse({"ok": True})
 
 

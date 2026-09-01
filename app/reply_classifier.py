@@ -37,11 +37,12 @@ _MAX_CHARS = 4000
 INTERESTED = "interested"
 AUTO_REPLY = "auto_reply"
 NOT_INTERESTED = "not_interested"
+WRONG_PERSON = "wrong_person"
 
 _SYSTEM = (
     "You are an AI text classification system. Your sole function is to analyze "
-    "the provided text and assign it exactly one of three categories: "
-    "INTERESTED, AUTO_REPLY or NOT_INTERESTED."
+    "the provided text and assign it exactly one of four categories: "
+    "INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED."
 )
 
 _USER = """**CATEGORY DEFINITIONS:**
@@ -51,16 +52,26 @@ _USER = """**CATEGORY DEFINITIONS:**
 - Forwarding the email to a relevant colleague.
 - A question, an objection, or a request to talk at a specific later time.
 
-* **AUTO_REPLY** — nobody actually read it; a machine answered:
-- "Out of office" / holiday / away message.
+* **AUTO_REPLY** — nobody actually read it; a machine answered, and the person
+  behind this mailbox is expected back:
+- "Out of office" / holiday / away message with a return date, or none stated.
 - Autoresponder or ticket acknowledgement ("we have received your email").
 - "We will respond within X hours/days..."
 - Delivery failure, blocked message, or an anti-spam verification challenge.
 
-* **NOT_INTERESTED** — a person answered and the answer is an unambiguous no:
+* **WRONG_PERSON** — this specific mailbox is a dead end, permanently, not just
+  this week:
+- "I no longer work here / at this company" — with or without a replacement
+  contact.
+- "This email address is not monitored" / "is no longer in use" / "is not
+  active" / "is being decommissioned".
+- Any reply whose point is "you have the wrong person or the wrong address",
+  as opposed to an opinion about the offer itself.
+
+* **NOT_INTERESTED** — a person answered and the answer is an unambiguous no
+  about the offer itself, not about who's reading it:
 - Flat rejection ("not interested", "no thank you", "not for us").
 - Unsubscribe or removal request, or a data-protection complaint.
-- "Wrong person" / "we don't handle this".
 - A reply that clearly ends the communication.
 
 **A doubt is not a no.** A price objection, a worry about fit, a concern about
@@ -69,7 +80,16 @@ something like this" — all of those are INTERESTED. The person is still
 talking to us, and that is a conversation to answer, not to close. Choose
 NOT_INTERESTED only when there is nothing left to reply to.
 
-Two edge cases, both seen in real traffic:
+**Why WRONG_PERSON is its own category, not folded into AUTO_REPLY or
+NOT_INTERESTED:** an out-of-office reader is coming back to their inbox — keep
+following up, just don't count it as a live conversation. Someone who no
+longer works there, or a mailbox nobody reads any more, never will — chasing
+that address again is wasted mail, not persistence. That's a different
+downstream action from either AUTO_REPLY or NOT_INTERESTED, so it needs its own
+label even though the sentence itself is often short and machine-sounding, the
+same as an AUTO_REPLY.
+
+Three edge cases, all seen in real traffic:
 
 - An out-of-office that also says to get in touch at a named later date is
   INTERESTED, not AUTO_REPLY — a person wrote that sentence.
@@ -78,10 +98,14 @@ Two edge cases, both seen in real traffic:
   we love hearing from you, someone will be with you shortly" is a form
   response, however human it sounds. What makes a message INTERESTED is that
   it responds to something we actually said.
+- An out-of-office that names a replacement colleague to contact instead is
+  WRONG_PERSON, not AUTO_REPLY — the sender of *this* address isn't coming
+  back to it, even though the message reads exactly like a normal OOO
+  autoresponder.
 
 **MANDATORY COMMAND:**
 Carefully read the text below. After your analysis, your output **must be only \
-one word**: INTERESTED, AUTO_REPLY or NOT_INTERESTED.
+one word**: INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED.
 You must not write anything else. No explanations, no greetings, and no period at the end.
 
 **TEXT TO ANALYZE:**
@@ -96,7 +120,8 @@ def is_relevant(reply_text: str) -> tuple[bool, str]:
 
 
 def classify(reply_text: str) -> tuple[str, str]:
-    """`(label, reason)` where label is INTERESTED / AUTO_REPLY / NOT_INTERESTED.
+    """`(label, reason)` where label is INTERESTED / AUTO_REPLY / WRONG_PERSON /
+    NOT_INTERESTED.
 
     Fails open to INTERESTED — see the module docstring."""
     text = to_plain_text(reply_text or "").strip()
@@ -125,10 +150,16 @@ def classify(reply_text: str) -> tuple[str, str]:
 
     # Prefixes, not whole words: a reasoning model that runs out of budget
     # returns a truncated verdict, and "NOT_INTER" is still unambiguous. The
-    # negative is tested first because "NOT_INTERESTED" contains "INTERESTED".
+    # negative and WRONG_PERSON are tested before the bare "INTEREST" check
+    # because "NOT_INTERESTED" contains "INTERESTED" and — new since
+    # WRONG_PERSON was split out of NOT_INTERESTED — nothing here overlaps it,
+    # but keeping it ahead of AUTO_REPL/INTEREST is what future-proofs the
+    # ordering if that ever changes.
     normalized = verdict.strip().upper()
     if "NOT_INTER" in normalized:
-        return NOT_INTERESTED, "classified NOT_INTERESTED (rejection / unsubscribe / wrong person)"
+        return NOT_INTERESTED, "classified NOT_INTERESTED (rejection / unsubscribe)"
+    if "WRONG_PERSON" in normalized or "WRONG PERSON" in normalized:
+        return WRONG_PERSON, "classified WRONG_PERSON (no longer there / mailbox not monitored)"
     if "AUTO_REPL" in normalized or "AUTO REPL" in normalized:
         return AUTO_REPLY, "classified AUTO_REPLY (autoresponder / out-of-office / bounce)"
     if "INTEREST" in normalized:

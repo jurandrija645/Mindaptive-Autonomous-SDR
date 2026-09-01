@@ -3,11 +3,21 @@
 // The inbox statuses, in the order db.list_inbox ranks them (most urgent
 // first). This is the single source of truth for the status filter too: the
 // keys are its checkboxes, in this order, and the values are their labels.
+// reply/followup/waiting are the app's own sub-states (Smartlead has no
+// equivalent — see detector.decide); everything else here mirrors a
+// Smartlead category 1:1 (scheduler._KNOWN_CATEGORY_SLUGS). A lead whose
+// Smartlead category isn't one of these known ones still gets a chip — see
+// leadCategoryLabel, which falls back to lead.smartlead_category verbatim.
 const CHIP = {
   reply: "Awaiting your reply",
   followup: "Follow-up due",
   auto_reply: "Auto-reply — nudge",
   waiting: "In conversation",
+  not_interested: "Not interested",
+  do_not_contact: "Do not contact",
+  wrong_person: "Wrong person",
+  opted_out: "Opted out",
+  bounced: "Bounced",
   booked: "Meeting booked ✅",
 };
 const CATEGORY_ORDER = Object.keys(CHIP);
@@ -450,7 +460,13 @@ function applyFilter() {
   // looking at: with a search active, "Meeting booked (0)" means none of the
   // matches are booked, not that no booked lead exists.
   const matched = state.allLeads.filter((l) => matchesSearch(l, query));
-  state.leads = matched.filter((l) => state.categoryFilter.has(leadCategory(l)));
+  state.leads = matched.filter((l) => {
+    const cat = leadCategory(l);
+    // A category with no checkbox in the filter panel — a custom Smartlead
+    // category the app doesn't have a fixed slug for — is never hidden by
+    // the filter; there would be no box to tick to bring it back.
+    return !CATEGORY_ORDER.includes(cat) || state.categoryFilter.has(cat);
+  });
   renderStatusFilter(matched);
   renderList();
 }
@@ -462,12 +478,23 @@ function applyFilter() {
 // and a browser reload.
 
 function leadCategory(lead) {
-  // renderList labels an unrecognised category "In conversation" (CHIP.waiting)
-  // and the filter has to agree. A lead carrying a category no checkbox covers
-  // (an older scan wrote 'in_conversation') would otherwise match nothing and
-  // be invisible, with no box to tick to bring it back.
-  return CHIP[lead.category] ? lead.category : "waiting";
+  return lead.category || "waiting";
 }
+
+// The chip text for a lead's category. Known categories (CHIP above) get
+// their fixed label; anything else — a custom Smartlead category with no
+// dedicated slug — falls back to Smartlead's own name for it verbatim
+// (lead.smartlead_category), which is what makes the app 1:1 with Smartlead
+// even for a category nobody's told the dashboard about yet.
+function leadCategoryLabel(lead) {
+  return CHIP[lead.category] || lead.smartlead_category || CHIP.waiting;
+}
+
+// Categories that existed before "Not interested" got its own chip (it used
+// to silently render as "In conversation"). A browser with an old saved
+// filter selection has no way to have deliberately unchecked a box that
+// didn't exist yet — see loadStatusFilter.
+const _LEGACY_CATEGORY_ORDER = ["reply", "followup", "auto_reply", "waiting", "booked"];
 
 function loadStatusFilter() {
   try {
@@ -476,7 +503,16 @@ function loadStatusFilter() {
     // An empty saved selection deliberately restores to "show everything":
     // opening the dashboard to an empty inbox reads as a broken app, not as a
     // filter left switched off yesterday.
-    if (known.length) return new Set(known);
+    if (known.length) {
+      const result = new Set(known);
+      // A category added after this browser last saved a selection defaults
+      // to shown — an old filter must not silently start hiding a whole new
+      // bucket of leads just because it predates that checkbox.
+      CATEGORY_ORDER.forEach((c) => {
+        if (!_LEGACY_CATEGORY_ORDER.includes(c)) result.add(c);
+      });
+      return result;
+    }
   } catch (e) {
     /* unreadable storage — fall through to showing everything */
   }
@@ -1632,7 +1668,7 @@ function renderList() {
       const meta = el("div", "lead-meta");
       meta.appendChild(tempChip(lead));
       const cat = leadCategory(lead);
-      meta.appendChild(el("span", `state-chip cat-${cat}`, CHIP[cat]));
+      meta.appendChild(el("span", `state-chip cat-${cat}`, leadCategoryLabel(lead)));
       if (lead.last_message_at) meta.appendChild(el("span", "lead-time", lead.last_message_at));
       row.appendChild(meta);
       if (lead.preview) row.appendChild(el("div", "lead-preview", lead.preview));
@@ -1719,7 +1755,18 @@ function renderDetail() {
   }
   header.appendChild(tempChip(lead));
   const headCat = leadCategory(lead);
-  header.appendChild(el("span", `state-chip cat-${headCat}`, CHIP[headCat]));
+  const headLabel = leadCategoryLabel(lead);
+  header.appendChild(el("span", `state-chip cat-${headCat}`, headLabel));
+  // Only worth a second badge when the chip is showing something other than
+  // Smartlead's own words for it (an app-only sub-state like "Awaiting your
+  // reply", or a friendlier label than the raw category name) — otherwise
+  // it's the same text twice, which is what leadCategoryLabel's fallback to
+  // smartlead_category already produces for a category with no chip label.
+  if (lead.smartlead_category && lead.smartlead_category !== headLabel) {
+    const badge = el("span", "smartlead-cat-badge", `Smartlead: ${lead.smartlead_category}`);
+    badge.title = "The category Smartlead itself currently has this lead filed under";
+    header.appendChild(badge);
+  }
   body.appendChild(header);
   // Company/email and the campaign share one .detail-sub block so the two
   // lines sit together, rather than each carrying the class's bottom margin.
@@ -1806,7 +1853,15 @@ function leadTemp(lead) {
 }
 
 function isHot(lead) {
-  return leadTemp(lead) === "hot";
+  // Must mirror db.list_inbox's sort exactly: `temperature = 'hot' AND status
+  // != 'booked'`. A booked lead's meeting is the outcome, so it's excluded
+  // from the hot tier there — but this used to check temperature alone, so a
+  // hot-then-booked lead was counted as hot here while the server had
+  // already sorted it further down. The mismatch inflated hotCount in
+  // renderList, which pushed the "Everyone else" divider one row too far and
+  // put the next lead in line — a warm or cold one, whatever actually sat at
+  // that position — visibly under the "🔥 Very hot" header.
+  return leadTemp(lead) === "hot" && lead.category !== "booked";
 }
 
 // The rating, with *why* it was rated that on hover — a 🔥 that can't be
@@ -1974,7 +2029,7 @@ function renderLeadActionsBar(lead) {
 
   bar.appendChild(renderTemperatureSelect(lead));
 
-  bar.appendChild(renderCategorySelect());
+  bar.appendChild(renderCategorySelect(lead));
 
   bar.appendChild(renderSnoozeControl());
 
@@ -2147,11 +2202,14 @@ async function setTemperature(value) {
   autoRefreshInbox().catch((e) => console.error(e));
 }
 
-function renderCategorySelect() {
+function renderCategorySelect(lead) {
   const select = el("select", "cat-select");
-  select.title = "Change status in Smartlead";
+  const current = lead && lead.smartlead_category;
+  select.title = current
+    ? `Currently in Smartlead: ${current} — change status`
+    : "Change status in Smartlead";
   const placeholder = document.createElement("option");
-  placeholder.textContent = "Change status…";
+  placeholder.textContent = current ? `Change status (currently: ${current})` : "Change status…";
   placeholder.value = "";
   placeholder.disabled = true;
   placeholder.selected = true;
@@ -2170,11 +2228,57 @@ function renderCategorySelect() {
   return select;
 }
 
+// Mirrors app.scheduler.norm_category_name — the account's real category is
+// "Meeting-Booked" but config/humans write it differently; compare ignoring
+// case and punctuation so either form is recognised here.
+function normCategoryName(s) {
+  return (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+const BOOKED_CATEGORY_NORM = "meetingbooked";
+
 async function changeCategory(name) {
+  const booking = normCategoryName(name) === BOOKED_CATEGORY_NORM;
   const pauseNote = PAUSE_CATEGORIES.has(name) ? " and pause their sequence" : "";
-  if (!confirm(`Set Smartlead category to "${name}"${pauseNote}? This removes them from your inbox.`)) return;
+  const consequence = booking ? "" : " This removes them from your inbox.";
+  if (!confirm(`Set Smartlead category to "${name}"${pauseNote}?${consequence}`)) return;
   const { cid, lid } = currentLeadIds();
-  await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name }));
+
+  if (!booking) {
+    await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name }));
+    return;
+  }
+
+  // A booked lead stays in the inbox with the green "Meeting booked ✅" badge
+  // instead of being archived like every other category (main.api_set_category
+  // records the booking via db.mark_lead_booked rather than archiving). Update
+  // the row in place rather than fading it out via withRowRemoval, or it
+  // disappears from view until the next scan un-archives it again.
+  const lead = currentLead();
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name });
+  } catch (e) {
+    alert(e.message);
+    return;
+  }
+  lead.category = "booked";
+  lead.archived_at = null;
+  lead.archive_reason = null;
+  lead.snooze_until = null;
+  applyFilter();
+  const idx = state.leads.indexOf(lead);
+  if (idx === -1) {
+    // Filtered out by the status filter or search — same empty-selection
+    // path withRowRemoval takes when a row's removal empties the list.
+    state.selected = -1;
+    renderList();
+    $("detail-body").hidden = true;
+    $("detail-empty").hidden = false;
+    showMobileList();
+    return;
+  }
+  state.selected = idx;
+  renderList();
+  renderDetail();
 }
 
 async function archiveLead() {
