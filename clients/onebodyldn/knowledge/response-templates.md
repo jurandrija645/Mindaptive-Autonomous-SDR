@@ -5,12 +5,23 @@ these templates are a first draft, not a backlog of copy that's already been
 approved and sent. Andrew should read and adjust these before the first real
 reply goes out, same as he would tune any new template from the modal.
 
-Two placeholders are **not yet real values** — see the "Not filled in yet"
-note at the bottom before using either template for a real send.
+The booking code and link are real and fixed — the same for every lead, every
+persona, every clinic:
+
+- **Booking link:** `https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`
+- **Booking code:** `OBLACCESS55`
+
+Use them exactly as written, every time. Never alter, abbreviate, or
+paraphrase either one.
 
 Use `{{first_name}}` and `{{company_name}}` filled from the lead record, and
 sign off with whichever persona (Kurt Johnson or Rebecca Bossick) actually
-sent the thread — the app tells you which.
+sent the thread — the app tells you which. `{{nearest_clinic}}` is whichever
+clinic the lead's own cold email already named — read it from the thread
+(it's also in the lead's `nearestClinic` custom field if the thread doesn't
+have it) rather than guessing; see `onebody-overview.md`'s "What this app
+does NOT need to compute" for the full rule and the `locations.md` fallback
+for a lead who asks about a different clinic.
 
 ---
 
@@ -23,19 +34,18 @@ so don't ask qualifying questions before handing over the next step.
 
 Hi {{first_name}},
 
-Great, here's your code: {{booking_code}}
+thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
 
-You can book your free session here: {{booking_link}}
-
-We're at {{nearest_clinic}} — [X-minute] walk from your office. If you'd
-rather I run this through your insurance instead of the free session, just
-tell me who your provider is and I'll take care of it.
+The code is OBLACCESS55. Just select the clinic (probably {{nearest_clinic}}
+for you) you want and book your free session. Let me know if you need any
+help.
 
 Kurt
 
-*(Adjust "your office" if the thread never established one — e.g. a lead who
-didn't reply from a corporate address — and drop the insurance line if the
-lead has already said they don't have cover.)*
+*(Fill in `{{nearest_clinic}}` with the actual clinic name from the thread or
+custom field, not the literal placeholder. If the lead has already said
+they'd rather use insurance instead of the free session, offer to run that
+through their provider instead of pushing the code.)*
 
 ---
 
@@ -144,21 +154,15 @@ it there").
 
 ---
 
-## Not filled in yet — fill these in before a real send
+## Booking link and code — now real, wired 2026-09-01
 
-- **`{{booking_code}}`** — there's no discount/booking code system defined
-  yet. Don't invent one. Until Andrew supplies the real format (or a way to
-  generate one per lead), the model should say the code is coming and let
-  Andrew add it before the draft is sent, rather than writing a fake code
-  into the email.
-- **`{{booking_link}}`** — no confirmed booking URL yet either (a
-  `onebodyldn.com` booking page is likely but hasn't been confirmed — don't
-  guess it). Same handling: leave it to Andrew to fill in, or replace this
-  line in the template once the real URL is confirmed.
-
-Once both are real, wire them the way AeroDefense wires its persona
-`calendar_link` — either hardcode a single link here if it's the same for
-everyone, or add `booking_link`/`booking_code` fields to `personas.json` if
-they differ per sender, and pass them into the prompt the same way
-`sender_name` and `calendar_link` are passed for AeroDefense
-(`app/pipeline.py`, `app/batch_gen.py`).
+The booking code and link (see the top of this file) are confirmed and the
+same for every lead — unlike AeroDefense's per-persona `calendar_link`, this
+one needed no code change: it's a single global value, so it's hardcoded
+directly into this knowledge file and into `prompts/system.md`'s
+non-negotiable rules, both of which `app/drafter.py` already concatenates
+into every prompt. If it ever needs to differ per persona or per clinic, wire
+it the way AeroDefense wires `calendar_link` — add the field(s) to
+`personas.json` and pass them into the prompt from `app/pipeline.py` /
+`app/batch_gen.py` — but there's no reason to do that until it's actually
+true.

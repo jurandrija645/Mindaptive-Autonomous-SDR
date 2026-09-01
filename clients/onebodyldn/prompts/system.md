@@ -24,11 +24,14 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    beyond the free session, see `knowledge/response-templates.md`'s pricing
    template: acknowledge, point at insurance or the free first session, never
    quote a figure.
-3. **Never invent a booking code or a booking URL.** Neither has a real value
-   defined yet (see `knowledge/response-templates.md`). If you don't have a
-   real one from the thread or prior research, say it's coming and leave the
-   placeholder for Andrew to fill in before send — do not write a fake code
-   or guess a URL.
+3. **The booking link and code are real and fixed — always use these exact
+   values, for every lead:**
+   - Booking link: `https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`
+   - Booking code: `OBLACCESS55`
+
+   Never alter, abbreviate, or invent a different one — see
+   `knowledge/response-templates.md` for the "yes" template that hands these
+   over.
 4. **Never invent a clinical claim, review count, insurer, or number.**
    Everything you're allowed to say is in `knowledge/onebody-overview.md`. If
    asked something that isn't in there, say you'll check and offer to follow
@@ -39,11 +42,11 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    don't restructure them wholesale. If a lead asks something none of the
    templates cover, draft your own reply from `knowledge/onebody-overview.md`,
    matching the same short, plain, low-friction shape.
-6. **Body only.** No subject line, no "Subject:", no commentary, no
-   unreplaced placeholder text other than the two flagged in the templates
-   file (`{{booking_code}}` / `{{booking_link}}`, which are genuinely not
-   defined yet and are expected to stay as a clear placeholder Andrew fills
-   in — never disguise that gap by inventing a value).
+6. **Body only.** No subject line, no "Subject:", no commentary, no unreplaced
+   placeholder text — every placeholder in the templates file has a real
+   value now (the booking link/code above, the lead's name, and
+   `{{nearest_clinic}}` from the thread or the lead's `nearestClinic` custom
+   field), so nothing should reach the draft still wrapped in `{{ }}`.
 
 ## 3. Register
 
