@@ -14,9 +14,20 @@
   --followup-bg: #fbf1dd;
   --autoreply: #6a5acd;  /* violet — auto-reply/OOO, needs a forward-nudge */
   --autoreply-bg: #ece9fa;
-  --waiting: #b8b2a6;    /* neutral */
-  --booked: #2e8b57;     /* green — meeting booked, outreach frozen */
+  --waiting: #3a72a8;    /* blue   — interested, in conversation */
+  --waiting-bg: #e5eef6;
+  --booked: #2e8b57;     /* green  — meeting booked, outreach frozen */
   --booked-bg: #e4f3ea;
+  --not-interested: #b8496b;   /* rose    — a soft no */
+  --not-interested-bg: #f8e8ed;
+  --do-not-contact: #46413c;   /* charcoal — a hard stop */
+  --do-not-contact-bg: #e7e5e2;
+  --wrong-person: #1f7a72;     /* teal    — dead mailbox, not a rejection */
+  --wrong-person-bg: #e1f0ee;
+  --opted-out: #8a5a2e;        /* brown   — self-removed */
+  --opted-out-bg: #f2e6d8;
+  --bounced: #6b7280;          /* slate   — technical failure, not a person's answer */
+  --bounced-bg: #eaebee;
 
   /* Lead temperature — how badly they want to talk (app/lead_temperature.py).
      A different axis from the category colours above, so it gets its own
@@ -201,6 +212,11 @@ button:disabled { opacity: .55; cursor: default; }
 .dot-auto_reply { background: var(--autoreply); }
 .dot-waiting { background: var(--waiting); }
 .dot-booked { background: var(--booked); }
+.dot-not_interested { background: var(--not-interested); }
+.dot-do_not_contact { background: var(--do-not-contact); }
+.dot-wrong_person { background: var(--wrong-person); }
+.dot-opted_out { background: var(--opted-out); }
+.dot-bounced { background: var(--bounced); }
 
 .lead-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; }
 .inbox-empty { padding: 24px 16px; color: var(--muted); font-size: 14px; }
@@ -218,6 +234,11 @@ button:disabled { opacity: .55; cursor: default; }
 .lead-row.cat-auto_reply { border-left-color: var(--autoreply); }
 .lead-row.cat-waiting { border-left-color: var(--waiting); }
 .lead-row.cat-booked { border-left-color: var(--booked); }
+.lead-row.cat-not_interested { border-left-color: var(--not-interested); }
+.lead-row.cat-do_not_contact { border-left-color: var(--do-not-contact); }
+.lead-row.cat-wrong_person { border-left-color: var(--wrong-person); }
+.lead-row.cat-opted_out { border-left-color: var(--opted-out); }
+.lead-row.cat-bounced { border-left-color: var(--bounced); }
 .lead-row.archive-row { border-left-color: var(--waiting); display: flex; flex-direction: column; }
 .lead-row.sent-out { opacity: .4; transition: opacity .3s ease; }
 
@@ -340,7 +361,13 @@ button:disabled { opacity: .55; cursor: default; }
 .state-chip.cat-reply { background: var(--reply-bg); color: var(--reply); }
 .state-chip.cat-followup { background: var(--followup-bg); color: var(--followup); }
 .state-chip.cat-auto_reply { background: var(--autoreply-bg); color: var(--autoreply); }
+.state-chip.cat-waiting { background: var(--waiting-bg); color: var(--waiting); }
 .state-chip.cat-booked { background: var(--booked-bg); color: var(--booked); }
+.state-chip.cat-not_interested { background: var(--not-interested-bg); color: var(--not-interested); }
+.state-chip.cat-do_not_contact { background: var(--do-not-contact-bg); color: var(--do-not-contact); }
+.state-chip.cat-wrong_person { background: var(--wrong-person-bg); color: var(--wrong-person); }
+.state-chip.cat-opted_out { background: var(--opted-out-bg); color: var(--opted-out); }
+.state-chip.cat-bounced { background: var(--bounced-bg); color: var(--bounced); }
 
 /* Smartlead's own category name, next to our chip above — informational only,
    not something list_inbox filters on. See db.py's leads_state.smartlead_category. */
