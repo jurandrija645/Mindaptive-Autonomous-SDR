@@ -1309,14 +1309,30 @@ def api_unsnooze_lead(request: Request, campaign_id: int, lead_id: int):
 
 @app.get("/api/google/status")
 def api_google_status(request: Request):
-    """What the Export for LinkedIn button should render as. `configured` is the
-    client-side gate: with no spreadsheet set for this client there is nowhere
-    to export to, so the button isn't drawn at all."""
+    """What the dashboard's Google Sheets UI should render as.
+
+    Two things can need this app connected to Google: the manual "Export for
+    LinkedIn" button (§13, gated on LINKEDIN_SHEET_ID) and the automatic
+    Interested-leads worklist (app/interested_sheet.py, §20, gated on
+    INTERESTED_SHEET_ID) — a client can have either, both, or neither.
+    `connect_available` is deliberately OR, not AND: OneBodyLDN has
+    INTERESTED_SHEET_ID but no LINKEDIN_SHEET_ID, and before this it had no
+    way to ever reach "Connect Google Sheets" at all — the button only ever
+    rendered off `linkedin_sheet_id`, so interested_sheet's every write
+    silently failed authentication forever (caught by its own fail-soft
+    except, so nothing ever surfaced the gap). `linkedin_export` stays its
+    own field so the client only draws the actual Export button — which
+    calls an endpoint that 400s without LINKEDIN_SHEET_ID — when there's
+    really something to export to."""
     redirect = require_auth(request)
     if redirect:
         return redirect
+    configured = google_oauth.is_configured()
     return JSONResponse({
-        "configured": bool(settings.linkedin_sheet_id and google_oauth.is_configured()),
+        "connect_available": bool(
+            (settings.linkedin_sheet_id or settings.interested_sheet_id) and configured
+        ),
+        "linkedin_export": bool(settings.linkedin_sheet_id and configured),
         "connected": google_oauth.is_connected(),
         "connect_url": "/oauth/google/start",
     })

@@ -47,7 +47,7 @@ const state = {
   selectedImage: null,   // <img> in the editor currently targeted by the resize bar
   nameNote: null,        // "renamed here only" note from the last ✎ Rename, cleared on lead switch
   draftNote: null,       // warning about the draft just created (e.g. a template still in English)
-  google: null,          // /api/google/status: whether the LinkedIn export button can be drawn
+  google: null,          // /api/google/status: Google connection state (LinkedIn export button and/or the Connect link for interested_sheet.py)
   exportNote: null,      // outcome of the last Export for LinkedIn, cleared on lead switch
   exportRunning: false,  // an export is in flight for the currently open lead
   templates: null,       // message templates from /api/templates, loaded when the modal opens
@@ -1900,14 +1900,20 @@ function renderResearchPanel(lead) {
 // one worth chasing on LinkedIn, and both of those branches return early.
 function renderExportControl() {
   const g = state.google;
-  if (!g || !g.configured) return null;
+  // connect_available covers both this button's own need (linkedin_export)
+  // and interested_sheet.py's headless worklist sync, which has no UI of its
+  // own — this link is the only way to ever authorize Google for a client
+  // that only has INTERESTED_SHEET_ID set, not LINKEDIN_SHEET_ID.
+  if (!g || !g.connect_available) return null;
 
   if (!g.connected) {
     const link = el("a", "btn-secondary btn-link", "Connect Google Sheets");
     link.href = g.connect_url;
-    link.title = "Authorize this app to write to your LinkedIn outreach sheet";
+    link.title = "Authorize this app to write to your Google Sheets";
     return link;
   }
+
+  if (!g.linkedin_export) return null;  // connected, but nothing here to export to
 
   const wrap = el("span", "export-linkedin");
   const btn = el("button", "btn-secondary");
