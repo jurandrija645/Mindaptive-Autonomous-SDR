@@ -6,9 +6,10 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -70,6 +71,11 @@ templates = Jinja2Templates(directory="app/templates")
 # Cache-busts /static/style.css and /static/app.js URLs on every process
 # restart, so a deploy can never leave a stale asset paired with new HTML.
 templates.env.globals["static_version"] = str(int(time.time()))
+# Every page (login included) shows which client this container is serving —
+# see client_assets.favicon_svg/CLIENT_COLOR. Global rather than passed per
+# TemplateResponse call, so a new template can't forget it and show no badge.
+templates.env.globals["client_label"] = client_assets.CLIENT_LABEL
+templates.env.globals["client_color"] = client_assets.CLIENT_COLOR
 
 
 @app.on_event("startup")
@@ -81,11 +87,20 @@ def on_startup():
     _warm_campaign_caches()
 
 
+@app.get("/favicon.svg", include_in_schema=False)
+def favicon_svg():
+    # Deliberately its own route rather than app/static/favicon.svg on disk —
+    # the icon depends on which client this container serves (client_assets.
+    # favicon_svg), so it can't be a static file shared byte-for-byte across
+    # the three containers running off the same image.
+    return Response(content=client_assets.favicon_svg(), media_type="image/svg+xml")
+
+
 @app.get("/favicon.ico", include_in_schema=False)
 def favicon():
-    # Browsers auto-request /favicon.ico; point it at the SVG we ship so this
+    # Browsers auto-request /favicon.ico; point it at the SVG above so this
     # doesn't 404 (the <link> tags in base.html already cover modern browsers).
-    return RedirectResponse(url="/static/favicon.svg", status_code=307)
+    return RedirectResponse(url="/favicon.svg", status_code=307)
 
 
 # ---- auth pages ----
@@ -135,17 +150,53 @@ def dashboard(request: Request):
 
 # ---- shared helpers ----
 
-def _fmt_time(ts) -> str:
+# Andrew is in Zagreb; every timestamp stored in the DB (db.now_iso()) and every
+# message timestamp Smartlead gives us (detector._parse_timestamp) is UTC, but
+# _fmt_time used to print that UTC value verbatim with no conversion — so the
+# dashboard silently showed times an hour or two behind Andrew's own clock,
+# labelled with nothing to say so. One timezone for the whole app, applied at
+# this single formatting point rather than in the client, so nothing can show
+# an unconverted time by forgetting to convert it.
+ZAGREB_TZ = ZoneInfo("Europe/Zagreb")
+
+
+def _to_zagreb(ts) -> datetime | None:
     if not ts:
-        return ""
+        return None
     if isinstance(ts, str):
         try:
             dt = datetime.fromisoformat(ts)
         except ValueError:
-            return ts
+            return None
     else:
         dt = ts
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(ZAGREB_TZ)
+
+
+def _fmt_time(ts) -> str:
+    dt = _to_zagreb(ts)
+    if dt is None:
+        return ts if isinstance(ts, str) else ""
     return dt.strftime("%b %d, %Y · %H:%M")
+
+
+def _fmt_time_with_lead_tz(ts, tz_guess: str | None) -> str:
+    """Same as _fmt_time, plus the lead's own local time in parentheses when
+    their guessed timezone (leads_state.timezone_guess) actually differs from
+    Zagreb — skipped otherwise, since the guess is coarse (US campaigns get
+    "America/New_York" as a stand-in for every US timezone, everything else
+    defaults to Zagreb itself) and showing "(their time)" identical to the
+    time already printed would just be clutter, not information."""
+    base = _fmt_time(ts)
+    if not base or not tz_guess or tz_guess == "Europe/Zagreb":
+        return base
+    try:
+        lead_dt = _to_zagreb(ts).astimezone(ZoneInfo(tz_guess))
+    except Exception:
+        return base
+    return f"{base} (their time {lead_dt.strftime('%H:%M')})"
 
 
 def _parse_ts(raw) -> datetime | None:
@@ -353,7 +404,7 @@ def _recipients_payload(raw: list[dict], lead_email: str, draft) -> dict:
     }
 
 
-def _thread_payload(raw: list[dict], lead_name: str) -> list[dict]:
+def _thread_payload(raw: list[dict], lead_name: str, tz_guess: str | None = None) -> list[dict]:
     # Attach a cached English translation per message when one already exists
     # (from a prior translate), so the client can default that message to
     # English. This is a lookup only — no message is translated on load, so
@@ -373,7 +424,7 @@ def _thread_payload(raw: list[dict], lead_name: str) -> list[dict]:
             {
                 "who": "us" if is_us else "lead",
                 "name": "You" if is_us else (lead_name or "Lead"),
-                "time": _fmt_time(m.get("timestamp")),
+                "time": _fmt_time_with_lead_tz(m.get("timestamp"), tz_guess),
                 # Which mailbox this actually came from — for a lead's reply
                 # that's often a real person (marko@company.com) answering a
                 # cold email sent to a generic info@ address, so it's the only
@@ -558,7 +609,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
                 lead["name"] if lead else None, lead["company"] if lead else None
             ),
         },
-        "thread": _thread_payload(raw, lead_name),
+        "thread": _thread_payload(raw, lead_name, lead["timezone_guess"] if lead else None),
         "draft": draft_payload,
         "generating": candidates_module.is_generating(campaign_id, lead_id),
         # Only meaningful when there's no draft to show; the client falls back

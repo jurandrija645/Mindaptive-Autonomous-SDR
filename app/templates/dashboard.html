@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <header>
-  <h1>Mindaptive Responder</h1>
+  <h1>Mindaptive Responder <span class="client-badge" style="background:{{ client_color }}">{{ client_label }}</span></h1>
   <div class="header-right">
     {% if dry_run %}<span class="pill pill-dry">DRY RUN</span>{% endif %}
     <div class="view-switch" id="view-switch">

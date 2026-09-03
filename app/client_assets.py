@@ -99,6 +99,42 @@ def describe() -> str:
     return f"client={CLIENT_LABEL} dir={CLIENT_DIR}"
 
 
+# Per-client favicon color, so three browser tabs running the same app off
+# different containers are told apart at a glance instead of all showing the
+# same Mindaptive glyph — the actual complaint that prompted this.
+_CLIENT_COLORS = {
+    "Mindaptive": "#b5602f",
+    "AeroDefense": "#2f5fb5",
+    "OneBodyLDN": "#2f9e6b",
+}
+
+
+def _fallback_color(label: str) -> str:
+    """Deterministic color for a client with no entry in _CLIENT_COLORS above,
+    so a new clients/<slug>/ gets a distinct favicon with no code change."""
+    import colorsys
+    hue = sum(ord(c) for c in label) % 360
+    r, g, b = colorsys.hls_to_rgb(hue / 360, 0.42, 0.55)
+    return "#%02x%02x%02x" % (round(r * 255), round(g * 255), round(b * 255))
+
+
+CLIENT_COLOR = _CLIENT_COLORS.get(CLIENT_LABEL) or _fallback_color(CLIENT_LABEL)
+
+
+def favicon_svg() -> str:
+    """SVG markup for this deployment's browser-tab icon. Mindaptive keeps its
+    original hand-drawn glyph (the file on disk); every other client gets a
+    generated colored initial, since there's no logo file to ship for those."""
+    if CLIENT_DIR == REPO_ROOT:
+        return (REPO_ROOT / "app" / "static" / "favicon.svg").read_text(encoding="utf-8")
+    initial = next((c for c in CLIENT_LABEL if c.isalnum()), "?").upper()
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="{CLIENT_COLOR}"/>
+  <text x="32" y="45" font-family="Arial, sans-serif" font-size="34" font-weight="700"
+        fill="#f6f5f2" text-anchor="middle">{initial}</text>
+</svg>"""
+
+
 # Casing exceptions for labels derived from a clients/<slug> folder name — kept
 # in sync with the CLIENT_LABEL each client's own .env sets (see
 # .env.aerodefense.example / .env.onebodyldn.example) so this list agrees with

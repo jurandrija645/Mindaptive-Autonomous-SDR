@@ -87,6 +87,18 @@ header h1 { font-size: 17px; margin: 0; }
 }
 .pill-dry { background: #fbeee3; border: 1px solid #eecfae; color: var(--accent-dark); }
 
+.client-badge {
+  display: inline-block;
+  color: #f6f5f2;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
 .view-switch { display: flex; gap: 2px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 2px; }
 .view-tab { background: transparent; border: none; color: var(--muted); padding: 6px 11px; font-size: 13px; border-radius: 6px; }
 .view-tab:hover { background: #efece6; }

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="login-box">
-  <h2>Mindaptive Responder</h2>
+  <h2>Mindaptive Responder <span class="client-badge" style="background:{{ client_color }}">{{ client_label }}</span></h2>
   {% if error %}<p class="error">{{ error }}</p>{% endif %}
   <form method="post" action="/login">
     <input type="password" name="password" placeholder="Password" autofocus required>
