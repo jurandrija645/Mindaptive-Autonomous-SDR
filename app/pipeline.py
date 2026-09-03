@@ -115,11 +115,19 @@ def create_quick_draft(
     # appended unchanged at send time (scheduler.compose_send_body).
     body_html = text_to_html(native_text)
 
+    # The quick-pick button answers whatever's due, not only cadence
+    # follow-ups — including a lead who just replied. scheduler._send_due_draft's
+    # race-check unconditionally stales any "followup"-kind draft the moment the
+    # thread's last message is a reply (that's how it knows a real follow-up went
+    # stale), so a quick draft that's actually answering that reply must be
+    # stamped "reply" or it aborts its own send every time, silently.
+    kind = "reply" if last_message.kind == "reply" else "followup"
+
     draft_id = db.create_draft(
         conn,
         lead_id=lead["id"],
         campaign_id=lead["campaign_id"],
-        kind="followup",
+        kind=kind,
         triage_summary=triage,
         body_html=body_html,
         body_translation=english_text,
