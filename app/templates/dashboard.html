@@ -26,19 +26,51 @@
     <div class="search-row">
       <input type="text" id="lead-search" class="lead-search" placeholder="Search leads…" autocomplete="off">
     </div>
-    <!-- Status filter. The rows inside the menu are built by renderStatusFilter()
-         in app.js so the labels, colours and live counts all come from one place
-         (CHIP / CATEGORY_ORDER) instead of being duplicated here. -->
-    <div class="status-filter" id="status-filter">
-      <button type="button" id="status-filter-btn" class="status-filter-btn" aria-haspopup="true" aria-expanded="false">
-        <span id="status-filter-label">All statuses</span>
-        <span class="status-caret" aria-hidden="true">▾</span>
-      </button>
-      <div class="status-menu" id="status-menu" hidden>
-        <div id="status-menu-items"></div>
-        <div class="status-menu-foot">
-          <button type="button" class="link-btn" id="status-all-btn">Select all</button>
-          <button type="button" class="link-btn" id="status-none-btn">Clear</button>
+    <!-- Three independent filters, all built the same way: the rows inside each
+         menu are rendered from app.js (renderStatusFilter / renderCampaignFilter /
+         renderSmartleadFilter) so labels and live counts come from one place
+         instead of being duplicated here. -->
+    <div class="filter-row">
+      <!-- Our own thread status (leads_state.category — Awaiting your reply /
+           Follow-up due / In conversation / etc). -->
+      <div class="status-filter" id="status-filter">
+        <button type="button" id="status-filter-btn" class="status-filter-btn" aria-haspopup="true" aria-expanded="false">
+          <span id="status-filter-label">All statuses</span>
+          <span class="status-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="status-menu" id="status-menu" hidden>
+          <div id="status-menu-items"></div>
+          <div class="status-menu-foot">
+            <button type="button" class="link-btn" id="status-all-btn">Select all</button>
+            <button type="button" class="link-btn" id="status-none-btn">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Which campaign the lead belongs to (single-select). -->
+      <div class="status-filter" id="campaign-filter">
+        <button type="button" id="campaign-filter-btn" class="status-filter-btn" aria-haspopup="true" aria-expanded="false">
+          <span id="campaign-filter-label">All campaigns</span>
+          <span class="status-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="status-menu" id="campaign-menu" hidden>
+          <div id="campaign-menu-items"></div>
+        </div>
+      </div>
+
+      <!-- Smartlead's own raw category (Interested / Not Interested / Auto-Reply
+           / Meeting-Booked / etc.) — a separate axis from our own status above. -->
+      <div class="status-filter" id="smartlead-filter">
+        <button type="button" id="smartlead-filter-btn" class="status-filter-btn" aria-haspopup="true" aria-expanded="false">
+          <span id="smartlead-filter-label">All Smartlead statuses</span>
+          <span class="status-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="status-menu" id="smartlead-menu" hidden>
+          <div id="smartlead-menu-items"></div>
+          <div class="status-menu-foot">
+            <button type="button" class="link-btn" id="smartlead-all-btn">Select all</button>
+            <button type="button" class="link-btn" id="smartlead-none-btn">Clear</button>
+          </div>
         </div>
       </div>
     </div>

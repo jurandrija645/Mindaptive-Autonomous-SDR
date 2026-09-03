@@ -22,6 +22,9 @@ const CHIP = {
 };
 const CATEGORY_ORDER = Object.keys(CHIP);
 const STATUS_FILTER_KEY = "responder.statusFilter";
+const CAMPAIGN_FILTER_KEY = "responder.campaignFilter";
+const SMARTLEAD_FILTER_KEY = "responder.smartleadCategoryFilter";
+const TEMPLATE_CLIENT_FILTER_KEY = "responder.templateClientFilter";
 
 // How hot the lead is (app/lead_temperature.py) — a different axis from CHIP
 // above, which says what the thread needs next. This one says whether they
@@ -51,6 +54,11 @@ const state = {
   exportNote: null,      // outcome of the last Export for LinkedIn, cleared on lead switch
   exportRunning: false,  // an export is in flight for the currently open lead
   templates: null,       // message templates from /api/templates, loaded when the modal opens
+  templateAvailableClients: [],  // every client label this checkout knows about (from /api/templates)
+  templateCurrentClient: "",     // client this deployment serves (client_assets.CLIENT_LABEL)
+  templateClientFilter: loadTemplateClientFilter(),  // "default" | "all" | "general" | a client label
+  campaignFilter: loadCampaignFilter(),  // selected campaign_id for the inbox list, or null = "All campaigns"
+  smartleadCategoryFilter: loadSmartleadCategoryFilter(),  // null = no restriction, else a Set of allowed lead.smartlead_category values
   models: [],            // /api/models catalog: Anthropic + OpenRouter, with prices
   defaultModel: null,    // id of the model used when nothing is explicitly picked
   roles: [],             // per-task model assignments shown in the Models panel
@@ -465,10 +473,200 @@ function applyFilter() {
     // A category with no checkbox in the filter panel — a custom Smartlead
     // category the app doesn't have a fixed slug for — is never hidden by
     // the filter; there would be no box to tick to bring it back.
-    return !CATEGORY_ORDER.includes(cat) || state.categoryFilter.has(cat);
+    const catOk = !CATEGORY_ORDER.includes(cat) || state.categoryFilter.has(cat);
+    const campaignOk = !state.campaignFilter || String(l.campaign_id) === String(state.campaignFilter);
+    // Smartlead's own category (a different axis from `cat` above — see
+    // CHIP's comment). No filter set (null) or no value on the lead both
+    // mean "don't hide it".
+    const slCat = l.smartlead_category || "";
+    const slOk = !state.smartleadCategoryFilter || !slCat || state.smartleadCategoryFilter.has(slCat);
+    return catOk && campaignOk && slOk;
   });
+  // Each dropdown's counts describe the search-matched list only (not net of
+  // the other two filters) — same "counts describe what a click would add
+  // back" idea as the comment above, kept independent per dropdown so picking
+  // a campaign doesn't also start hiding rows from the status dropdown's counts.
   renderStatusFilter(matched);
+  renderCampaignFilter(matched);
+  renderSmartleadFilter(matched);
   renderList();
+}
+
+// ---------- campaign filter ----------
+// A single-select dropdown ("All campaigns" or exactly one) above the status
+// filter — every inbox row already carries campaign_id/campaign_name, so this
+// is purely a client-side narrowing, no new endpoint needed.
+
+function loadCampaignFilter() {
+  try {
+    return localStorage.getItem(CAMPAIGN_FILTER_KEY) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveCampaignFilter() {
+  try {
+    if (state.campaignFilter) localStorage.setItem(CAMPAIGN_FILTER_KEY, state.campaignFilter);
+    else localStorage.removeItem(CAMPAIGN_FILTER_KEY);
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function setCampaignFilter(campaignId) {
+  state.campaignFilter = campaignId;
+  saveCampaignFilter();
+  applyFilter();
+}
+
+function campaignFilterLabel() {
+  if (!state.campaignFilter) return "All campaigns";
+  const found = state.allLeads.find((l) => String(l.campaign_id) === String(state.campaignFilter));
+  return found ? found.campaign_name || "Campaign" : "All campaigns";
+}
+
+function renderCampaignFilter(leads) {
+  // A campaign saved from a previous session that no longer appears in the
+  // inbox at all (not just filtered out by search) resets rather than
+  // silently hiding every lead.
+  if (state.campaignFilter && !state.allLeads.some((l) => String(l.campaign_id) === String(state.campaignFilter))) {
+    state.campaignFilter = null;
+  }
+  const counts = new Map();
+  leads.forEach((l) => {
+    if (!l.campaign_id) return;
+    const key = String(l.campaign_id);
+    const entry = counts.get(key) || { name: l.campaign_name || key, count: 0 };
+    entry.count += 1;
+    counts.set(key, entry);
+  });
+
+  const box = $("campaign-menu-items");
+  box.innerHTML = "";
+  const allRow = el("label", "status-option");
+  const allRadio = el("input");
+  allRadio.type = "radio";
+  allRadio.name = "campaign-filter-radio";
+  allRadio.checked = !state.campaignFilter;
+  allRadio.addEventListener("change", () => setCampaignFilter(null));
+  allRow.appendChild(allRadio);
+  allRow.appendChild(el("span", "status-option-label", "All campaigns"));
+  allRow.appendChild(el("span", "status-option-count", String(leads.length)));
+  box.appendChild(allRow);
+
+  [...counts.entries()]
+    .sort((a, b) => a[1].name.localeCompare(b[1].name))
+    .forEach(([id, entry]) => {
+      const row = el("label", "status-option");
+      const radio = el("input");
+      radio.type = "radio";
+      radio.name = "campaign-filter-radio";
+      radio.checked = state.campaignFilter === id;
+      radio.addEventListener("change", () => setCampaignFilter(id));
+      row.appendChild(radio);
+      row.appendChild(el("span", "status-option-label", entry.name));
+      row.appendChild(el("span", "status-option-count", String(entry.count)));
+      box.appendChild(row);
+    });
+  $("campaign-filter-label").textContent = campaignFilterLabel();
+}
+
+function openCampaignMenu(open) {
+  $("campaign-menu").hidden = !open;
+  $("campaign-filter-btn").setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+// ---------- Smartlead status filter ----------
+// A second, independent axis from the status filter above: Smartlead's own
+// raw category name (lead.smartlead_category — see CHIP's comment), not the
+// app's reply/followup/waiting/booked bucket. The set of possible values is
+// open-ended (a Smartlead account can carry custom categories), so unlike
+// CATEGORY_ORDER this is derived live from whatever's actually in the inbox
+// rather than a fixed list — null means "no restriction", which is also what
+// lets a category nobody's seen before show up already-checked.
+
+function loadSmartleadCategoryFilter() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SMARTLEAD_FILTER_KEY) || "null");
+    if (Array.isArray(saved)) return new Set(saved);
+  } catch (e) {
+    /* unreadable storage — fall through to "no restriction" */
+  }
+  return null;
+}
+
+function saveSmartleadCategoryFilter() {
+  try {
+    if (state.smartleadCategoryFilter) {
+      localStorage.setItem(SMARTLEAD_FILTER_KEY, JSON.stringify([...state.smartleadCategoryFilter]));
+    } else {
+      localStorage.removeItem(SMARTLEAD_FILTER_KEY);
+    }
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function setSmartleadCategory(cat, on, allKnown) {
+  // Starting from "no restriction" (null), unchecking one box means "every
+  // known category except this one" — build that explicit set the first time
+  // a box is touched rather than requiring every category to already be listed.
+  let set = state.smartleadCategoryFilter === null ? new Set(allKnown) : state.smartleadCategoryFilter;
+  if (on) set.add(cat);
+  else set.delete(cat);
+  // Checking every known box collapses back to "no restriction" so a category
+  // that doesn't exist yet still shows up already-checked later.
+  state.smartleadCategoryFilter = allKnown.every((c) => set.has(c)) ? null : set;
+  saveSmartleadCategoryFilter();
+  applyFilter();
+}
+
+function setAllSmartleadCategories(on) {
+  state.smartleadCategoryFilter = on ? null : new Set();
+  saveSmartleadCategoryFilter();
+  applyFilter();
+}
+
+function smartleadFilterLabel(allKnown) {
+  if (state.smartleadCategoryFilter === null) return "All Smartlead statuses";
+  const chosen = state.smartleadCategoryFilter;
+  if (chosen.size === 0) return "No Smartlead statuses — nothing shown";
+  if (chosen.size >= allKnown.length) return "All Smartlead statuses";
+  if (chosen.size === 1) return [...chosen][0];
+  return `${chosen.size} of ${allKnown.length} Smartlead statuses`;
+}
+
+function renderSmartleadFilter(leads) {
+  const counts = new Map();
+  leads.forEach((l) => {
+    const c = l.smartlead_category;
+    if (!c) return;
+    counts.set(c, (counts.get(c) || 0) + 1);
+  });
+  const allKnown = [...counts.keys()].sort((a, b) => a.localeCompare(b));
+
+  const box = $("smartlead-menu-items");
+  box.innerHTML = "";
+  allKnown.forEach((cat) => {
+    const row = el("label", "status-option");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = state.smartleadCategoryFilter === null || state.smartleadCategoryFilter.has(cat);
+    cb.addEventListener("change", () => setSmartleadCategory(cat, cb.checked, allKnown));
+    row.appendChild(cb);
+    row.appendChild(el("span", "status-option-label", cat));
+    row.appendChild(el("span", "status-option-count", String(counts.get(cat) || 0)));
+    box.appendChild(row);
+  });
+  $("smartlead-filter-label").textContent = smartleadFilterLabel(allKnown);
+  $("smartlead-all-btn").onclick = () => setAllSmartleadCategories(true);
+  $("smartlead-none-btn").onclick = () => setAllSmartleadCategories(false);
+}
+
+function openSmartleadMenu(open) {
+  $("smartlead-menu").hidden = !open;
+  $("smartlead-filter-btn").setAttribute("aria-expanded", open ? "true" : "false");
 }
 
 // ---------- status filter ----------
@@ -1557,7 +1755,11 @@ function setView(view) {
   state.view = view;
   clearTimeout(state.campaignPoll);
   $("status-filter").hidden = view !== "inbox";
+  $("campaign-filter").hidden = view !== "inbox";
+  $("smartlead-filter").hidden = view !== "inbox";
   openStatusMenu(false);
+  openCampaignMenu(false);
+  openSmartleadMenu(false);
   $("rescan-btn").hidden = view !== "inbox";
   // Campaigns and Stats don't list leads, so the lead search box would do nothing.
   document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns" || view === "stats");
@@ -2391,6 +2593,62 @@ function fillPlaceholders(text) {
     .trim();
 }
 
+// ---------- template client filter ----------
+// "General" templates (client left blank) work with any client; a tagged one
+// is written for a specific client's copy (see renderTemplateForm's Client
+// select). Default view is this deployment's own client + general; one click
+// switches to "All templates" so a template written for another client while
+// on this dashboard is still reachable.
+
+function loadTemplateClientFilter() {
+  try {
+    return localStorage.getItem(TEMPLATE_CLIENT_FILTER_KEY) || "default";
+  } catch (e) {
+    return "default";
+  }
+}
+
+function saveTemplateClientFilter() {
+  try {
+    localStorage.setItem(TEMPLATE_CLIENT_FILTER_KEY, state.templateClientFilter);
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function templateMatchesFilter(tpl) {
+  const tplClient = tpl.client || "";
+  switch (state.templateClientFilter) {
+    case "all":
+      return true;
+    case "general":
+      return !tplClient;
+    case "default":
+      return !tplClient || tplClient === state.templateCurrentClient;
+    default:
+      // A specific client label was chosen — that client's own templates only.
+      return tplClient === state.templateClientFilter;
+  }
+}
+
+function renderTemplateClientFilterOptions(select) {
+  select.innerHTML = "";
+  const addOption = (value, label) => {
+    const opt = el("option", null, label);
+    opt.value = value;
+    select.appendChild(opt);
+  };
+  addOption("default", `${state.templateCurrentClient} + General`);
+  addOption("all", "All templates");
+  addOption("general", "General only");
+  state.templateAvailableClients.forEach((name) => addOption(name, name));
+  // A filter saved from a client no longer in the list (or from before this
+  // deployment had a value at all) falls back to the default view.
+  const known = new Set(["default", "all", "general", ...state.templateAvailableClients]);
+  if (!known.has(state.templateClientFilter)) state.templateClientFilter = "default";
+  select.value = state.templateClientFilter;
+}
+
 async function openTemplatesModal() {
   if ($("templates-modal-overlay")) return;
 
@@ -2414,6 +2672,17 @@ async function openTemplatesModal() {
   closeBtn.addEventListener("click", closeTemplatesModal);
   header.appendChild(closeBtn);
   modal.appendChild(header);
+
+  const filterRow = el("div", "template-filter-row");
+  const filterSelect = el("select", "template-client-filter");
+  filterSelect.id = "template-client-filter";
+  filterSelect.addEventListener("change", () => {
+    state.templateClientFilter = filterSelect.value;
+    saveTemplateClientFilter();
+    renderTemplatesList();
+  });
+  filterRow.appendChild(filterSelect);
+  modal.appendChild(filterRow);
 
   const list = el("div", "templates-list");
   list.id = "templates-list";
@@ -2440,6 +2709,9 @@ async function openTemplatesModal() {
   try {
     const data = await apiGet("/api/templates");
     state.templates = data.templates;
+    state.templateAvailableClients = data.available_clients || [];
+    state.templateCurrentClient = data.current_client || "";
+    renderTemplateClientFilterOptions(filterSelect);
     renderTemplatesList();
   } catch (e) {
     list.innerHTML = `<div class="error-note">Couldn't load templates: ${e.message}</div>`;
@@ -2450,19 +2722,27 @@ function renderTemplatesList() {
   const list = $("templates-list");
   if (!list) return;
   list.innerHTML = "";
-  if (!state.templates.length) {
-    list.appendChild(el("div", "template-empty", "No templates yet — add one below."));
+  const visible = state.templates.filter(templateMatchesFilter);
+  if (!visible.length) {
+    const msg = state.templates.length
+      ? "No templates match this filter — try \"All templates\"."
+      : "No templates yet — add one below.";
+    list.appendChild(el("div", "template-empty", msg));
     return;
   }
-  state.templates.forEach((tpl, i) => {
-    list.appendChild(renderTemplateCard(tpl, i, state.templates.length));
+  visible.forEach((tpl) => {
+    const index = state.templates.indexOf(tpl);
+    list.appendChild(renderTemplateCard(tpl, index, state.templates.length));
   });
 }
 
 function renderTemplateCard(tpl, index, total) {
   const card = el("div", "template-card");
   const head = el("div", "template-head");
-  head.appendChild(el("div", "template-label", tpl.label || "Untitled template"));
+  const labelWrap = el("div", "template-label-wrap");
+  labelWrap.appendChild(el("div", "template-label", tpl.label || "Untitled template"));
+  labelWrap.appendChild(el("span", "template-client-badge", tpl.client || "General"));
+  head.appendChild(labelWrap);
 
   const actions = el("div", "template-actions");
   const useBtn = el("button", "btn-send btn-quick", "Use");
@@ -2514,6 +2794,21 @@ function renderTemplateForm(tpl) {
   textArea.value = tpl ? tpl.text : "";
   form.appendChild(textArea);
 
+  // Which client this template is for — blank/"General" works everywhere,
+  // a specific client tags it as that client's own copy (see the modal's
+  // filter dropdown, templateMatchesFilter).
+  const clientSelect = el("select", "template-client-select");
+  const generalOpt = el("option", null, "General (any client)");
+  generalOpt.value = "";
+  clientSelect.appendChild(generalOpt);
+  state.templateAvailableClients.forEach((name) => {
+    const opt = el("option", null, name);
+    opt.value = name;
+    clientSelect.appendChild(opt);
+  });
+  clientSelect.value = (tpl && tpl.client) || "";
+  form.appendChild(clientSelect);
+
   const err = el("div", "error-note");
   err.hidden = true;
   form.appendChild(err);
@@ -2529,12 +2824,14 @@ function renderTemplateForm(tpl) {
       return;
     }
     saveBtn.disabled = true;
-    const payload = { label: labelInput.value.trim(), text };
+    const payload = { label: labelInput.value.trim(), text, client: clientSelect.value };
     try {
       const data = tpl
         ? await apiPatch(`/api/templates/${tpl.id}`, payload)
         : await apiPost("/api/templates", payload);
       state.templates = data.templates;
+      state.templateAvailableClients = data.available_clients || state.templateAvailableClients;
+      state.templateCurrentClient = data.current_client || state.templateCurrentClient;
       renderTemplatesList();
     } catch (e) {
       saveBtn.disabled = false;
@@ -3820,9 +4117,30 @@ $("status-filter-btn").addEventListener("click", (e) => {
 $("status-menu").addEventListener("click", (e) => e.stopPropagation());
 $("status-all-btn").addEventListener("click", () => setAllStatuses(true));
 $("status-none-btn").addEventListener("click", () => setAllStatuses(false));
-document.addEventListener("click", () => openStatusMenu(false));
+
+$("campaign-filter-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openCampaignMenu($("campaign-menu").hidden);
+});
+$("campaign-menu").addEventListener("click", (e) => e.stopPropagation());
+
+$("smartlead-filter-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openSmartleadMenu($("smartlead-menu").hidden);
+});
+$("smartlead-menu").addEventListener("click", (e) => e.stopPropagation());
+
+document.addEventListener("click", () => {
+  openStatusMenu(false);
+  openCampaignMenu(false);
+  openSmartleadMenu(false);
+});
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") openStatusMenu(false);
+  if (e.key === "Escape") {
+    openStatusMenu(false);
+    openCampaignMenu(false);
+    openSmartleadMenu(false);
+  }
 });
 
 // ---------- init ----------

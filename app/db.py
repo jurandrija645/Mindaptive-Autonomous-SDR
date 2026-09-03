@@ -154,6 +154,11 @@ CREATE TABLE IF NOT EXISTS message_templates (
     label      TEXT,
     text       TEXT NOT NULL,
     position   INTEGER NOT NULL DEFAULT 0,
+    -- Which client this template is for (a label from
+    -- client_assets.available_clients(), e.g. "Mindaptive"/"AeroDefense"), or
+    -- NULL/'' for a general template usable with any client. See app/main.py's
+    -- /api/templates routes and the templates modal's client filter in app.js.
+    client     TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
@@ -470,6 +475,10 @@ def _migrate(conn) -> None:
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
             conn.execute(f"ALTER TABLE leads_state ADD COLUMN {name} {decl}")
+
+    template_cols = {row["name"] for row in conn.execute("PRAGMA table_info(message_templates)")}
+    if "client" not in template_cols:
+        conn.execute("ALTER TABLE message_templates ADD COLUMN client TEXT")
 
     report_cols = {row["name"] for row in conn.execute("PRAGMA table_info(campaign_reports)")}
     if "directives_md" not in report_cols:
@@ -1053,15 +1062,17 @@ def get_message_template(conn, template_id: int):
     ).fetchone()
 
 
-def create_message_template(conn, label: str, text: str, position: int | None = None) -> int:
+def create_message_template(
+    conn, label: str, text: str, position: int | None = None, client: str | None = None
+) -> int:
     if position is None:
         row = conn.execute("SELECT MAX(position) AS m FROM message_templates").fetchone()
         position = ((row["m"] if row and row["m"] is not None else -1)) + 1
     now = now_iso()
     cur = conn.execute(
-        """INSERT INTO message_templates (label, text, position, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?)""",
-        (label, text, position, now, now),
+        """INSERT INTO message_templates (label, text, position, client, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (label, text, position, client or None, now, now),
     )
     return cur.lastrowid
 

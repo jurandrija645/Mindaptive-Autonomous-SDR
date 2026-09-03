@@ -21,7 +21,7 @@ from app import (
     campaign_report,
 )
 from app import candidates as candidates_module
-from app import db, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
+from app import client_assets, db, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
 from app import pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
 from app.exports import sheet_export
@@ -719,9 +719,20 @@ def _templates_payload() -> dict:
         rows = db.list_message_templates(conn)
     return {
         "templates": [
-            {"id": r["id"], "label": r["label"] or "", "text": r["text"], "position": r["position"]}
+            {
+                "id": r["id"],
+                "label": r["label"] or "",
+                "text": r["text"],
+                "position": r["position"],
+                "client": r["client"] or "",
+            }
             for r in rows
-        ]
+        ],
+        # For the client filter/dropdown: every client label this checkout
+        # knows about, and which one this deployment is currently serving (so
+        # the dashboard can default to "this client + general").
+        "available_clients": client_assets.available_clients(),
+        "current_client": client_assets.CLIENT_LABEL,
     }
 
 
@@ -743,7 +754,9 @@ async def api_template_create(request: Request):
     if not text:
         return JSONResponse({"error": "Template text is required."}, status_code=400)
     with db.db_session() as conn:
-        db.create_message_template(conn, (body.get("label") or "").strip(), text)
+        db.create_message_template(
+            conn, (body.get("label") or "").strip(), text, client=(body.get("client") or "").strip() or None
+        )
     return JSONResponse(_templates_payload())
 
 
@@ -761,6 +774,8 @@ async def api_template_update(request: Request, template_id: int):
         if not text:
             return JSONResponse({"error": "Template text is required."}, status_code=400)
         fields["text"] = text
+    if "client" in body:
+        fields["client"] = (body.get("client") or "").strip() or None
     with db.db_session() as conn:
         if db.get_message_template(conn, template_id) is None:
             return JSONResponse({"error": "Template not found."}, status_code=404)

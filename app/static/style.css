@@ -143,11 +143,20 @@ button:disabled { opacity: .55; cursor: default; }
   background: var(--bg);
   color: var(--text);
 }
-/* ---- status filter (dropdown of checkboxes above the lead list) ---- */
-.status-filter {
-  position: relative;
+/* ---- inbox filters: status / campaign / Smartlead status (dropdowns above
+   the lead list). Three independent instances of the same pattern, laid out
+   in a row that wraps at narrow widths. ---- */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
   padding: 0 14px 10px;
   border-bottom: 1px solid var(--border);
+}
+.status-filter {
+  position: relative;
+  flex: 1 1 105px;
+  min-width: 0;
 }
 .status-filter-btn {
   display: flex;
@@ -162,19 +171,35 @@ button:disabled { opacity: .55; cursor: default; }
   border: 1px solid var(--border);
   text-align: left;
 }
+.status-filter-btn span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .status-filter-btn:hover { background: #efece6; }
 .status-caret { color: var(--muted); font-size: 11px; }
 .status-menu {
   position: absolute;
   z-index: 30;
-  left: 14px;
-  right: 14px;
+  left: 0;
   top: calc(100% - 4px);
+  width: max-content;
+  min-width: 100%;
+  max-width: min(220px, 90vw);
+  max-height: 320px;
+  overflow-y: auto;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
   box-shadow: 0 6px 20px rgba(0,0,0,.12);
   padding: 4px;
+}
+/* The rightmost of the three filter dropdowns would otherwise open off the
+   edge of the (narrow, overflow:hidden) sidebar — anchor it from the right
+   of its button instead of the left. */
+#smartlead-menu {
+  left: auto;
+  right: 0;
 }
 .status-option {
   display: flex;
@@ -717,6 +742,11 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 }
 .modal-close:hover { color: var(--text); }
 
+.template-filter-row { padding: 10px 20px 0; }
+.template-client-filter {
+  font: inherit; font-size: 12.5px; padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);
+}
 .templates-list { overflow-y: auto; padding: 14px 20px; display: flex; flex-direction: column; gap: 10px; }
 .template-card {
   border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px;
@@ -724,7 +754,12 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 }
 .template-card:hover { border-color: var(--accent); }
 .template-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.template-label-wrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .template-label { font-weight: 600; font-size: 13px; }
+.template-client-badge {
+  font-size: 10.5px; color: var(--muted); border: 1px solid var(--border);
+  border-radius: 999px; padding: 1px 8px; flex-shrink: 0;
+}
 .template-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 .btn-icon {
   background: none; border: none; color: var(--muted); cursor: pointer;
@@ -739,11 +774,12 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 }
 .template-preview.expanded { display: block; overflow: visible; }
 .template-form { gap: 10px; }
-.template-form input, .template-form textarea {
+.template-form input, .template-form textarea, .template-form select {
   width: 100%; font: inherit; font-size: 13px; padding: 8px 10px;
   border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);
 }
 .template-form textarea { min-height: 140px; resize: vertical; }
+.template-form select { width: auto; }
 .template-form-actions { display: flex; gap: 8px; }
 .template-empty { color: var(--muted); font-size: 13px; text-align: center; padding: 28px 4px; }
 .modal-heading { display: flex; flex-direction: column; gap: 4px; }

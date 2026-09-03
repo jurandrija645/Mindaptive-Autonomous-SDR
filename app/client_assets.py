@@ -97,3 +97,27 @@ def prior_senders() -> dict[str, str]:
 
 def describe() -> str:
     return f"client={CLIENT_LABEL} dir={CLIENT_DIR}"
+
+
+# Casing exceptions for labels derived from a clients/<slug> folder name — kept
+# in sync with the CLIENT_LABEL each client's own .env sets (see
+# .env.aerodefense.example / .env.onebodyldn.example) so this list agrees with
+# what that client's own deployment calls itself.
+_LABEL_OVERRIDES = {"aerodefense": "AeroDefense", "onebodyldn": "OneBodyLDN"}
+
+
+def available_clients() -> list[str]:
+    """Every client label known to this checkout: "Mindaptive" (the repo root)
+    plus one per `clients/<slug>/` folder. Used to populate the template
+    client-tag dropdown — deliberately not just CLIENT_LABEL, so a template can
+    be tagged for a client other than the one this process is currently
+    serving (e.g. drafting AeroDefense copy from the Mindaptive dashboard).
+    Adding a new `clients/<slug>/` folder picks it up with no code change,
+    same as the rest of client_assets."""
+    labels = ["Mindaptive"]
+    clients_root = REPO_ROOT / "clients"
+    if clients_root.is_dir():
+        for entry in sorted(clients_root.iterdir()):
+            if entry.is_dir():
+                labels.append(_LABEL_OVERRIDES.get(entry.name, entry.name.title()))
+    return labels
