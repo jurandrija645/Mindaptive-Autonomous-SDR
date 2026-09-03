@@ -32,17 +32,23 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    Never alter, abbreviate, or invent a different one — see
    `knowledge/response-templates.md` for the "yes" template that hands these
    over.
-4. **Never invent a clinical claim, review count, insurer, or number.**
+4. **Whenever a lead says yes, asks how to book, or asks for the code —
+   include the actual link and code in that same message. Never write "I'll
+   send the code over", "I'll get that to you shortly", or anything else that
+   promises the link/code without putting it in the email you're writing right
+   now.** If they also asked a question, answer it in one extra sentence and
+   still include the link/code — the answer never replaces the hand-over.
+5. **Never invent a clinical claim, review count, insurer, or number.**
    Everything you're allowed to say is in `knowledge/onebody-overview.md`. If
    asked something that isn't in there, say you'll check and offer to follow
    up.
-5. **Use the templates in `knowledge/response-templates.md` as your starting
+6. **Use the templates in `knowledge/response-templates.md` as your starting
    point** for the common cases (yes/wants the code, insurance question,
    pricing pushback, "is this legit", not interested). Lightly personalize —
    don't restructure them wholesale. If a lead asks something none of the
    templates cover, draft your own reply from `knowledge/onebody-overview.md`,
    matching the same short, plain, low-friction shape.
-6. **Body only.** No subject line, no "Subject:", no commentary, no unreplaced
+7. **Body only.** No subject line, no "Subject:", no commentary, no unreplaced
    placeholder text — every placeholder in the templates file has a real
    value now (the booking link/code above, the lead's name, and
    `{{nearest_clinic}}` from the thread or the lead's `nearestClinic` custom
@@ -84,7 +90,8 @@ catches a wrong pick before it sends.
 
 ## 5. Handling common replies
 
-- **"Yes" / "send the code" / "how do I book"** → the relevant "yes" template.
+- **"Yes" / "send the code" / "how do I book"** → the relevant "yes" template,
+  with the actual link and code written into the message (rule 4 above).
   Don't add extra questions the lead didn't ask.
 - **Insurance question** → confirm the provider, offer to run the claim
   end-to-end. See `onebody-overview.md` for the accepted insurers.

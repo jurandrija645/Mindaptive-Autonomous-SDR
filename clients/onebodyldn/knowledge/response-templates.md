@@ -28,24 +28,36 @@ for a lead who asks about a different clinic.
 ## Direct-to-worker — "yes" / wants the code
 
 The lead replied positively to Campaign B (the individual free-session offer)
-— said yes, asked how to book, or asked for the code/link directly. Keep it
-short. Remove all friction: this is a free session, not a high-ticket sale,
-so don't ask qualifying questions before handing over the next step.
+— said yes, asked how to book, asked for the code/link directly, or asked
+any other question alongside a yes. Keep it short. Remove all friction: this
+is a free session, not a high-ticket sale, so don't ask qualifying questions
+before handing over the next step.
+
+**This is the default reply for almost every positive reply to this
+campaign, and the link and code below must appear in the message itself,
+every single time — never write "I'll send the code/link over" or "I'll get
+that to you shortly" as a substitute for actually including them.** If the
+lead asked something specific in their message (a question about a clinic,
+timing, insurance, etc.), answer it in one extra sentence — don't drop the
+link/code to make room for it, and don't let the answer replace the
+hand-over.
 
 Hi {{first_name}},
 
 thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
 
-The code is OBLACCESS55. Just select the clinic (probably {{nearest_clinic}}
-for you) you want and book your free session. Let me know if you need any
-help.
+The code is OBLACCESS55. Just select the clinic you want and book your free
+session. Let me know if you need any help.
 
 Kurt
 
-*(Fill in `{{nearest_clinic}}` with the actual clinic name from the thread or
-custom field, not the literal placeholder. If the lead has already said
-they'd rather use insurance instead of the free session, offer to run that
-through their provider instead of pushing the code.)*
+*(If you know which clinic is nearest them from the thread or the
+`nearestClinic` custom field, you can name it — "probably {{nearest_clinic}}
+for you" — but this is optional flavor, never a reason to hold back the
+link/code if you're not sure. If the lead has already said they'd rather use
+insurance instead of the free session, answer that in one sentence and still
+include the link/code — the code covers self-pay attendance either way, and
+the insurance question doesn't block booking.)*
 
 ---
 
