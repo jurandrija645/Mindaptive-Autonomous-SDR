@@ -1,13 +1,12 @@
 "use strict";
 
 // The inbox statuses, in the order db.list_inbox ranks them (most urgent
-// first). This is the single source of truth for the status filter too: the
-// keys are its checkboxes, in this order, and the values are their labels.
-// reply/followup/waiting are the app's own sub-states (Smartlead has no
-// equivalent — see detector.decide); everything else here mirrors a
-// Smartlead category 1:1 (scheduler._KNOWN_CATEGORY_SLUGS). A lead whose
-// Smartlead category isn't one of these known ones still gets a chip — see
-// leadCategoryLabel, which falls back to lead.smartlead_category verbatim.
+// first). Every lead row's chip/dot/border colour comes from this map, so it
+// stays the full set: reply/followup/waiting are the app's own sub-states
+// (Smartlead has no equivalent — see detector.decide); everything else here
+// mirrors a Smartlead category 1:1 (scheduler._KNOWN_CATEGORY_SLUGS). A lead
+// whose Smartlead category isn't one of these known ones still gets a chip —
+// see leadCategoryLabel, which falls back to lead.smartlead_category verbatim.
 const CHIP = {
   reply: "Awaiting your reply",
   followup: "Follow-up due",
@@ -20,7 +19,14 @@ const CHIP = {
   bounced: "Bounced",
   booked: "Meeting booked ✅",
 };
-const CATEGORY_ORDER = Object.keys(CHIP);
+// The FIRST status filter dropdown's checkbox list — deliberately NOT every
+// key in CHIP. Only these three are genuinely our own axis (what the thread
+// needs next); everything else in CHIP is a Smartlead category mirrored into
+// leads_state.category for display, and that axis is filtered by the second
+// dropdown instead (renderSmartleadFilter, on lead.smartlead_category — the
+// two must never both offer the same bucket, or filtering one silently
+// disagrees with the other).
+const CATEGORY_ORDER = ["reply", "followup", "waiting"];
 const STATUS_FILTER_KEY = "responder.statusFilter";
 const CAMPAIGN_FILTER_KEY = "responder.campaignFilter";
 const SMARTLEAD_FILTER_KEY = "responder.smartleadCategoryFilter";
@@ -470,9 +476,10 @@ function applyFilter() {
   const matched = state.allLeads.filter((l) => matchesSearch(l, query));
   state.leads = matched.filter((l) => {
     const cat = leadCategory(l);
-    // A category with no checkbox in the filter panel — a custom Smartlead
-    // category the app doesn't have a fixed slug for — is never hidden by
-    // the filter; there would be no box to tick to bring it back.
+    // A category outside CATEGORY_ORDER — every Smartlead-mirrored one
+    // (not_interested/do_not_contact/wrong_person/opted_out/bounced/booked/
+    // auto_reply), known or custom — is never hidden by this dropdown; that
+    // axis belongs to the Smartlead status dropdown (slOk below) instead.
     const catOk = !CATEGORY_ORDER.includes(cat) || state.categoryFilter.has(cat);
     const campaignOk = !state.campaignFilter || String(l.campaign_id) === String(state.campaignFilter);
     // Smartlead's own category (a different axis from `cat` above — see
@@ -688,29 +695,17 @@ function leadCategoryLabel(lead) {
   return CHIP[lead.category] || lead.smartlead_category || CHIP.waiting;
 }
 
-// Categories that existed before "Not interested" got its own chip (it used
-// to silently render as "In conversation"). A browser with an old saved
-// filter selection has no way to have deliberately unchecked a box that
-// didn't exist yet — see loadStatusFilter.
-const _LEGACY_CATEGORY_ORDER = ["reply", "followup", "auto_reply", "waiting", "booked"];
-
 function loadStatusFilter() {
   try {
     const saved = JSON.parse(localStorage.getItem(STATUS_FILTER_KEY) || "null");
     const known = Array.isArray(saved) ? saved.filter((c) => CATEGORY_ORDER.includes(c)) : [];
     // An empty saved selection deliberately restores to "show everything":
     // opening the dashboard to an empty inbox reads as a broken app, not as a
-    // filter left switched off yesterday.
-    if (known.length) {
-      const result = new Set(known);
-      // A category added after this browser last saved a selection defaults
-      // to shown — an old filter must not silently start hiding a whole new
-      // bucket of leads just because it predates that checkbox.
-      CATEGORY_ORDER.forEach((c) => {
-        if (!_LEGACY_CATEGORY_ORDER.includes(c)) result.add(c);
-      });
-      return result;
-    }
+    // filter left switched off yesterday. Same for a selection left over from
+    // before this dropdown was narrowed to just our own three states — none
+    // of its entries survive the CATEGORY_ORDER filter above, so it falls
+    // through to "show everything" too, rather than starting all three unchecked.
+    if (known.length) return new Set(known);
   } catch (e) {
     /* unreadable storage — fall through to showing everything */
   }
