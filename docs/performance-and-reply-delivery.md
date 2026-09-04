@@ -71,18 +71,18 @@ Before activation:
 3. Confirm the webhook path is the path Smartlead currently calls.
 4. Activate the workflow and send a test reply.
 
-The webhook fans out immediately and independently:
+The webhook has two branches:
 
 - `Record in OneBody responder` posts the unwrapped Smartlead body to
   `https://onebody.mindaptive.ai/webhooks/smartlead`, with the secret header,
   a 10-second timeout and three retries.
-- `Immediate Slack notification` posts the original reply directly to
-  `#p-onebody-ldn`. No Wait or model call is allowed ahead of it.
-- `Immediate owner notification` sends the existing direct Slack prompt.
+- The existing classifier keeps `NOT_RELEVANT` replies out of Slack. Only its
+  `RELEVANT` output proceeds through cleanup/Croatian translation to the channel
+  and owner notifications.
 
-Translation/classification may be added as another parallel branch, but it
-must only enrich the notification. It must never gate recording or the first
-Slack alert.
+Classification must never gate the responder-ingestion branch. It deliberately
+does gate Slack notifications so rejections, out-of-office mail, unsubscribes
+and automated acknowledgements do not notify the team.
 
 ## Direct Smartlead webhook (recommended)
 
