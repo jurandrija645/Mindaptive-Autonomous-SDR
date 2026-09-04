@@ -63,7 +63,9 @@ For OneBodyLDN, import `n8n-workflows/onebody-notifier.json` and follow
 `docs/performance-and-reply-delivery.md`. The old pasted workflow points its
 responder request at AeroDefense, references the wrong trigger-node name, and
 doesn't authenticate to OneBody. The replacement records every reply before
-classification while preserving the AI gate on Slack notifications.
+classification while preserving the AI gate on Slack notifications. That gate
+calls `deepseek/deepseek-v4-flash` through OpenRouter; configure
+`OPENROUTER_API_KEY` in both n8n and `.env.onebodyldn` before activation.
 
 For the most reliable setup, register Smartlead directly against the responder
 and keep n8n as a parallel Slack notifier. Smartlead cannot attach a custom

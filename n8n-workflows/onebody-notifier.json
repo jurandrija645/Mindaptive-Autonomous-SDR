@@ -33,25 +33,30 @@
     },
     {
       "parameters": {
-        "modelId": {"__rl": true, "value": "gpt-5.4-mini", "mode": "list", "cachedResultName": "GPT-5.4-MINI"},
-        "messages": {"values": [
-          {"content": "=You are an AI text classification system. Your sole function is to analyze the provided text and assign it one of two categories: `RELEVANT` or `NOT_RELEVANT`.\n", "role": "system"},
-          {"content": "=**CATEGORY DEFINITIONS:**\n* **RELEVANT:** \n- Any interest in continuing the conversation. \n- Inquiries about price, a demo, a meeting\n- Forwarding the email to a relevant colleague.\n\n* **NOT_RELEVANT:** \n- A rejection\n- unsubscribe request\n- \"out of office\" message\n- any reply that clearly ends the communication\n- automated system acknowledgments, ticket confirmations, and \"we have received your email\" auto-replies.\n- Auto-reply or an Autoresponder message\n- Response like -- \"We will respond within X hours/days...\"\n\n**MANDATORY COMMAND:**\nCarefully read the text inside the quotation marks below. After your analysis, your output **must be only one word**: `RELEVANT` or `NOT_RELEVANT`.\nYou must not write anything else. No explanations, no greetings, and no period at the end.\n\n**TEXT TO ANALYZE:**\n{{ $('Webhook').item.json.body.reply_message.text }}"}
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {"parameters": [
+          {"name": "Authorization", "value": "=Bearer {{ $env.OPENROUTER_API_KEY }}"},
+          {"name": "Content-Type", "value": "application/json"},
+          {"name": "X-Title", "value": "OneBodyLDN reply classifier"}
         ]},
-        "options": {}
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: 'deepseek/deepseek-v4-flash', temperature: 0, max_tokens: 2048, messages: [ { role: 'system', content: 'You are an AI text classification system. Return exactly one word: RELEVANT or NOT_RELEVANT.' }, { role: 'user', content: `CATEGORY DEFINITIONS:\n\nRELEVANT:\n- Any interest in continuing the conversation.\n- Inquiries about price, a demo, or a meeting.\n- Forwarding the email to a relevant colleague.\n\nNOT_RELEVANT:\n- A rejection or unsubscribe request.\n- An out-of-office or autoresponder message.\n- A reply that clearly ends communication.\n- Automated acknowledgements or ticket confirmations.\n\nReturn only RELEVANT or NOT_RELEVANT.\n\nTEXT TO ANALYZE:\n${$('Webhook').item.json.body.reply_message.text}` } ] } }}",
+        "options": {"timeout": 30000}
       },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
       "position": [-1664, 976],
       "id": "60fc446d-7bb1-4001-8fbe-3d9f6056a6f0",
-      "name": "Classify reply",
-      "credentials": {"openAiApi": {"id": "32KT8gO87t4GoFVd", "name": "OpenAi account"}}
+      "name": "Classify with DeepSeek V4 Flash"
     },
     {
       "parameters": {
         "rules": {"values": [
-          {"conditions": {"options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2}, "conditions": [{"leftValue": "={{ $json.message.content }}", "rightValue": "RELEVANT", "operator": {"type": "string", "operation": "equals"}, "id": "4f2bddea-57a2-41c8-a373-534e6e4d73ad"}], "combinator": "and"}},
-          {"conditions": {"options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2}, "conditions": [{"id": "b02aa806-c5d1-4e26-84eb-c8ea59841430", "leftValue": "={{ $json.message.content }}", "rightValue": "NOT_RELEVANT", "operator": {"type": "string", "operation": "equals", "name": "filter.operator.equals"}}], "combinator": "and"}}
+          {"conditions": {"options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2}, "conditions": [{"leftValue": "={{ $json.choices[0].message.content.trim().toUpperCase() }}", "rightValue": "RELEVANT", "operator": {"type": "string", "operation": "equals"}, "id": "4f2bddea-57a2-41c8-a373-534e6e4d73ad"}], "combinator": "and"}},
+          {"conditions": {"options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2}, "conditions": [{"id": "b02aa806-c5d1-4e26-84eb-c8ea59841430", "leftValue": "={{ $json.choices[0].message.content.trim().toUpperCase() }}", "rightValue": "NOT_RELEVANT", "operator": {"type": "string", "operation": "equals", "name": "filter.operator.equals"}}], "combinator": "and"}}
         ]},
         "options": {}
       },
@@ -117,9 +122,9 @@
   "connections": {
     "Webhook": {"main": [[
       {"node": "Record every reply in OneBody", "type": "main", "index": 0},
-      {"node": "Classify reply", "type": "main", "index": 0}
+      {"node": "Classify with DeepSeek V4 Flash", "type": "main", "index": 0}
     ]]},
-    "Classify reply": {"main": [[{"node": "Only relevant replies", "type": "main", "index": 0}]]},
+    "Classify with DeepSeek V4 Flash": {"main": [[{"node": "Only relevant replies", "type": "main", "index": 0}]]},
     "Only relevant replies": {"main": [
       [{"node": "Wait", "type": "main", "index": 0}],
       []

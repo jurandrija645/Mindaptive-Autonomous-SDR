@@ -65,20 +65,24 @@ Before activation:
 
 1. Set `ONEBODY_WEBHOOK_SECRET` in the n8n container environment to exactly the
    OneBody responder's `SMARTLEAD_WEBHOOK_SECRET`, then restart n8n so `$env`
-   can read it. Never paste the secret into exported workflow JSON.
-2. Re-select the Slack credential if the imported credential ID does not map on
+   can read it. Set `OPENROUTER_API_KEY` there as well; the classification node
+   calls `deepseek/deepseek-v4-flash` directly. Never paste either secret into
+   exported workflow JSON.
+2. Put the same OpenRouter key in the OneBody responder's `.env.onebodyldn` and
+   set `REPLY_CLASSIFIER_MODEL=deepseek/deepseek-v4-flash`.
+3. Re-select the Slack credential if the imported credential ID does not map on
    that n8n installation.
-3. Confirm the webhook path is the path Smartlead currently calls.
-4. Activate the workflow and send a test reply.
+4. Confirm the webhook path is the path Smartlead currently calls.
+5. Activate the workflow and send a test reply.
 
 The webhook has two branches:
 
 - `Record in OneBody responder` posts the unwrapped Smartlead body to
   `https://onebody.mindaptive.ai/webhooks/smartlead`, with the secret header,
   a 10-second timeout and three retries.
-- The existing classifier keeps `NOT_RELEVANT` replies out of Slack. Only its
-  `RELEVANT` output proceeds through cleanup/Croatian translation to the channel
-  and owner notifications.
+- DeepSeek V4 Flash reads every inbound reply and keeps `NOT_RELEVANT` replies
+  out of Slack. Only its `RELEVANT` output proceeds through cleanup/Croatian
+  translation to the channel and owner notifications.
 
 Classification must never gate the responder-ingestion branch. It deliberately
 does gate Slack notifications so rejections, out-of-office mail, unsubscribes
