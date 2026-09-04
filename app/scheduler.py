@@ -1,7 +1,9 @@
 import json
 import logging
+import math
 import re
 import threading
+import time
 from datetime import datetime, timezone
 
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -164,6 +166,31 @@ def trigger_scan_in_background() -> bool:
 
 
 _reply_catch_lock = threading.Lock()
+_reply_campaign_last_checked: dict[int, float] = {}
+
+
+def _reply_campaign_batch(
+    campaign_ids, sweep_minutes: int, now_mono: float | None = None
+) -> set[int]:
+    """Oldest slice due now, sized to finish one sweep in `sweep_minutes`."""
+    ids = list(dict.fromkeys(campaign_ids))
+    if not ids:
+        return set()
+    sweep_minutes = max(1, sweep_minutes)
+    now_mono = time.monotonic() if now_mono is None else now_mono
+    eligible = [
+        campaign_id
+        for campaign_id in sorted(
+            ids, key=lambda cid: _reply_campaign_last_checked.get(cid, 0.0)
+        )
+        if campaign_id not in _reply_campaign_last_checked
+        or now_mono - _reply_campaign_last_checked[campaign_id] >= sweep_minutes * 60
+    ]
+    take = max(1, math.ceil(len(ids) / sweep_minutes))
+    selected = set(eligible[:take])
+    for campaign_id in selected:
+        _reply_campaign_last_checked[campaign_id] = now_mono
+    return selected
 
 
 # Smartlead categories that mean "don't put this in the inbox". Everything else
@@ -475,7 +502,10 @@ def run_reply_catch_scan() -> None:
         log.info("reply-catch scan already running, skipping this trigger")
         return
     with _reply_catch_lock:
-        run_new_reply_poll()
+        # The independent one-minute job already does this. Keep the inline
+        # fallback only when that job is explicitly disabled.
+        if settings.new_reply_poll_seconds <= 0:
+            run_new_reply_poll()
 
         with db.db_session() as conn:
             rows = conn.execute(
@@ -491,6 +521,19 @@ def run_reply_catch_scan() -> None:
         by_campaign: dict[int, list] = {}
         for row in rows:
             by_campaign.setdefault(row["campaign_id"], []).append(row)
+
+        # A 21-campaign account used to fire all 21 bulk-history requests in a
+        # single five-minute burst. Run this job every minute and take the
+        # oldest one-fifth instead, so the same coverage has a flat request
+        # profile. Small accounts are not checked more often than requested.
+        selected = _reply_campaign_batch(
+            by_campaign, settings.scan_interval_minutes
+        )
+        by_campaign = {
+            campaign_id: leads
+            for campaign_id, leads in by_campaign.items()
+            if campaign_id in selected
+        }
 
         drafted = 0
         hot_due = 0
@@ -511,6 +554,7 @@ def run_reply_catch_scan() -> None:
                 thread = detector.normalize_thread(raw or [])
                 if not thread:
                     continue
+                pipeline.cache_normalized_thread(campaign_id, row["lead_id"], thread)
                 if thread[-1].kind != "reply":
                     # Nobody is waiting on us. The one thing still worth
                     # checking is a 🔥 lead's 24-hour follow-up clock — see
@@ -1098,7 +1142,7 @@ def _mark_lead_waiting_on_them(conn, lead_id: int, campaign_id: int) -> None:
     )
 
 
-def _send_due_draft(draft: dict) -> None:
+def _send_due_draft(draft: dict) -> str:
     lead_id, campaign_id = draft["lead_id"], draft["campaign_id"]
 
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
@@ -1118,14 +1162,14 @@ def _send_due_draft(draft: dict) -> None:
                 db.update_draft(conn, draft["id"], status="stale")
                 db.upsert_lead_state(conn, lead_id, campaign_id, status="awaiting_reply")
             log.info("draft %s aborted: lead has a newer reply than this draft addresses", draft["id"])
-            return
+            return "stale"
 
     if settings.dry_run:
         log.info("[DRY_RUN] would send draft %s to lead %s", draft["id"], lead_id)
         with db.db_session() as conn:
             db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())
             _mark_lead_waiting_on_them(conn, lead_id, campaign_id)
-        return
+        return "sent"
 
     # Use the freshly-fetched thread's message identifiers rather than the
     # values stored on the draft: a draft can sit around (queued follow-up,
@@ -1150,7 +1194,7 @@ def _send_due_draft(draft: dict) -> None:
             "draft %s aborted: sending mailbox %s is retired, thread is dead",
             draft["id"], sender_email or "(unknown)",
         )
-        return
+        return "aborted"
     # cc_override / to_override are what Andrew put in the recipients row
     # before sending — for cc that includes an empty string, which means he
     # cleared the auto-derived Cc on purpose. Only NULL (never edited) falls
@@ -1192,9 +1236,17 @@ def _send_due_draft(draft: dict) -> None:
             db.increment_followup_count(conn, lead_id, campaign_id)
         _mark_lead_waiting_on_them(conn, lead_id, campaign_id)
     log.info("sent draft %s to lead %s", draft["id"], lead_id)
+    return "sent"
 
 
 _scheduler: BackgroundScheduler | None = None
+
+
+def stop_scheduler() -> None:
+    global _scheduler
+    if _scheduler is not None:
+        _scheduler.shutdown(wait=False)
+        _scheduler = None
 
 
 def start_scheduler() -> BackgroundScheduler:
@@ -1220,8 +1272,10 @@ def start_scheduler() -> BackgroundScheduler:
         sched.add_job(
             run_reply_catch_scan,
             "interval",
-            minutes=settings.scan_interval_minutes,
+            minutes=1,
             id="reply_catch_scan",
+            max_instances=1,
+            coalesce=True,
         )
     # How fast a lead's *first* reply shows up, which is the latency that
     # actually costs meetings. Two Smartlead calls, no per-lead work — cheap
@@ -1232,6 +1286,8 @@ def start_scheduler() -> BackgroundScheduler:
             "interval",
             seconds=settings.new_reply_poll_seconds,
             id="new_reply_poll",
+            max_instances=1,
+            coalesce=True,
         )
     sched.start()
     _scheduler = sched

@@ -9,9 +9,10 @@ from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 from fastapi import FastAPI, Form, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.concurrency import run_in_threadpool
 
 from app import (
     accounts,
@@ -23,7 +24,7 @@ from app import (
 )
 from app import candidates as candidates_module
 from app import client_assets, db, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
-from app import pipeline, scheduler, signatures, smartlead
+from app import events, pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -48,6 +49,19 @@ log = logging.getLogger("main")
 app = FastAPI(title="Mindaptive Responder")
 install_session_middleware(app)
 app.include_router(webhook.router)
+
+
+@app.middleware("http")
+async def log_slow_requests(request: Request, call_next):
+    started = time.perf_counter()
+    response = await call_next(request)
+    elapsed = time.perf_counter() - started
+    if elapsed >= 1.0:
+        log.warning(
+            "slow request method=%s path=%s status=%s seconds=%.3f",
+            request.method, request.url.path, response.status_code, elapsed,
+        )
+    return response
 
 
 class NoCacheStaticFiles(StaticFiles):
@@ -85,6 +99,12 @@ def on_startup():
     # Warm the campaigns lists once at boot (background, doesn't delay startup)
     # so the first time the tab is opened after a deploy it's already instant.
     _warm_campaign_caches()
+
+
+@app.on_event("shutdown")
+def on_shutdown():
+    scheduler.stop_scheduler()
+    smartlead.close_clients()
 
 
 @app.get("/favicon.svg", include_in_schema=False)
@@ -277,11 +297,26 @@ def _load_thread_raw(campaign_id: int, lead_id: int) -> list[dict]:
     with db.db_session() as conn:
         draft = db.get_open_draft(conn, lead_id, campaign_id)
         lead = db.get_lead_state(conn, lead_id, campaign_id)
+        cached = db.get_lead_thread(conn, lead_id, campaign_id)
     if draft and draft["thread_snapshot"]:
         snapshot = json.loads(draft["thread_snapshot"])
         if not _snapshot_outdated(snapshot, lead):
             return snapshot
-    thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
+    cached_raw = json.loads(cached["thread_json"]) if cached else None
+    if cached_raw and not _snapshot_outdated(cached_raw, lead):
+        return cached_raw
+    try:
+        thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
+    except Exception:
+        # A stale conversation is more useful than a spinner/error while
+        # Smartlead is throttling. The next webhook/scan/live open heals it.
+        if cached_raw:
+            log.exception(
+                "thread refresh failed for %s/%s; serving cached copy",
+                campaign_id, lead_id,
+            )
+            return cached_raw
+        raise
     return [{**m.__dict__, "timestamp": m.timestamp.isoformat()} for m in thread]
 
 
@@ -505,6 +540,7 @@ def _draft_payload(draft) -> dict | None:
         "body_html": draft["body_html"],
         "body_translation": draft["body_translation"],
         "signature_html": draft["signature_html"],
+        "send_error": draft["send_error"],
         "scheduled_at": _fmt_time(draft["scheduled_at"]) if draft["scheduled_at"] else None,
         "attachments": scheduler.draft_attachments(draft),
     }
@@ -539,6 +575,19 @@ def api_inbox(request: Request):
     if redirect:
         return redirect
     return JSONResponse({"leads": _inbox_payload(), "scan_running": scheduler.is_scan_running()})
+
+
+@app.get("/api/events")
+async def api_events(request: Request):
+    """Push reply-arrival hints to an open dashboard; SQLite stays canonical."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return StreamingResponse(
+        events.stream(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
 
 
 @app.get("/api/archive")
@@ -1508,7 +1557,14 @@ async def api_send(request: Request, draft_id: int):
             draft_id, len(body.get("body_html") or ""), len(draft["signature_html"] or ""),
             draft["sender_email"],
         )
-        updates = {"body_html": body.get("body_html", draft["body_html"])}
+        prior_status = draft["status"]
+        updates = {
+            "body_html": body.get("body_html", draft["body_html"]),
+            # This transaction is the double-click guard. A second request sees
+            # `sending` and gets the 409 above before it can call Smartlead.
+            "status": "sending",
+            "send_error": None,
+        }
         # Only touch the overrides when the client actually sent the field, so a
         # client that doesn't know about recipients can't silently wipe one.
         updates.update(_recipient_updates(body))
@@ -1520,8 +1576,22 @@ async def api_send(request: Request, draft_id: int):
     # that would also fire on a race-abort (a newer reply arrived since this
     # draft was drafted), which correctly leaves the lead needing a reply and
     # must not be immediately overwritten to "waiting" right after.
-    scheduler._send_due_draft(dict(_get_draft_dict(draft_id)))
-    return JSONResponse({"ok": True})
+    # _send_due_draft is deliberately synchronous (scheduled jobs call it too),
+    # but an async FastAPI route must not execute its Smartlead waits on the
+    # event loop: one throttled send used to freeze every dashboard request.
+    try:
+        status = await run_in_threadpool(
+            scheduler._send_due_draft, dict(_get_draft_dict(draft_id))
+        )
+    except Exception as exc:
+        with db.db_session() as conn:
+            current = db.get_draft(conn, draft_id)
+            if current is not None and current["status"] == "sending":
+                db.update_draft(
+                    conn, draft_id, status=prior_status, send_error=str(exc)[:500]
+                )
+        raise
+    return JSONResponse({"ok": status == "sent", "status": status})
 
 
 @app.post("/api/drafts/{draft_id}/schedule")

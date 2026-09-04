@@ -1,0 +1,76 @@
+{
+  "name": "OneBodyLDN - immediate Smartlead replies",
+  "nodes": [
+    {
+      "parameters": {"httpMethod": "POST", "path": "51cf9849-0980-4b16-a860-3f9eeadb7e51", "options": {}},
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [-700, 0],
+      "id": "4a2a0884-9982-4e4b-81a4-ef3e66eb979c",
+      "name": "Webhook",
+      "webhookId": "51cf9849-0980-4b16-a860-3f9eeadb7e51"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://onebody.mindaptive.ai/webhooks/smartlead",
+        "sendHeaders": true,
+        "headerParameters": {"parameters": [{"name": "X-Webhook-Secret", "value": "={{ $env.ONEBODY_WEBHOOK_SECRET }}"}]},
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $('Webhook').item.json.body }}",
+        "options": {"timeout": 10000}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [-360, -120],
+      "id": "ffd1f0a8-7a48-4481-8a21-49afb7d391d7",
+      "name": "Record in OneBody responder",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {"__rl": true, "value": "C0BN1FR0NAH", "mode": "list", "cachedResultName": "p-onebody-ldn"},
+        "text": "=New OneBodyLDN reply from {{ $('Webhook').item.json.body.to_name || 'Lead' }}\n\nFrom: {{ $('Webhook').item.json.body.to_email }}\n\n{{ $('Webhook').item.json.body.reply_message?.text || $('Webhook').item.json.body.reply_body || $('Webhook').item.json.body.preview_text }}\n\nhttps://onebody.mindaptive.ai/dashboard",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [-360, 80],
+      "id": "4dfff4bb-5521-4cdf-842d-c610d329f734",
+      "name": "Immediate Slack notification",
+      "webhookId": "c35a1c81-b2e4-4fc7-bf76-e72333cb9115",
+      "credentials": {"slackApi": {"id": "mNInovdtpAnmStOr", "name": "Slack account 2"}},
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {"__rl": true, "value": "U09P3V1JCF2", "mode": "list", "cachedResultName": "miamalcic745"},
+        "text": "A new OneBodyLDN reply just arrived. It is in #p-onebody-ldn and the responder dashboard.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [-360, 280],
+      "id": "f53c247a-591d-4e06-8cf5-9967e79133e5",
+      "name": "Immediate owner notification",
+      "webhookId": "623b64b6-0539-4da1-9c5a-37c16ac19701",
+      "credentials": {"slackApi": {"id": "mNInovdtpAnmStOr", "name": "Slack account 2"}},
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Webhook": {"main": [[
+      {"node": "Record in OneBody responder", "type": "main", "index": 0},
+      {"node": "Immediate Slack notification", "type": "main", "index": 0},
+      {"node": "Immediate owner notification", "type": "main", "index": 0}
+    ]]}
+  },
+  "pinData": {},
+  "settings": {"executionOrder": "v1"}
+}

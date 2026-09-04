@@ -1,6 +1,12 @@
 import contextlib
 import contextvars
+from collections import deque
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
+import hashlib
 import logging
+import random
+import threading
 import time
 from typing import Any, Iterator
 
@@ -37,8 +43,88 @@ class SmartleadError(RuntimeError):
     pass
 
 
-def _client() -> httpx.Client:
-    return httpx.Client(base_url=BASE_URL, timeout=30.0)
+_clients: dict[str, httpx.Client] = {}
+_clients_lock = threading.Lock()
+
+
+def _client(api_key: str) -> httpx.Client:
+    """One thread-safe connection pool per Smartlead account key."""
+    with _clients_lock:
+        client = _clients.get(api_key)
+        if client is None:
+            client = httpx.Client(
+                base_url=BASE_URL,
+                timeout=30.0,
+                limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+            )
+            _clients[api_key] = client
+        return client
+
+
+def close_clients() -> None:
+    with _clients_lock:
+        clients = list(_clients.values())
+        _clients.clear()
+    for client in clients:
+        client.close()
+
+
+class _RateLimiter:
+    def __init__(self) -> None:
+        self._minute: deque[float] = deque()
+        self._second: deque[float] = deque()
+        self._lock = threading.Lock()
+
+    def acquire(self) -> None:
+        rpm = max(1, settings.smartlead_requests_per_minute)
+        burst = max(1, settings.smartlead_burst_per_second)
+        while True:
+            with self._lock:
+                now = time.monotonic()
+                while self._minute and self._minute[0] <= now - 60:
+                    self._minute.popleft()
+                while self._second and self._second[0] <= now - 1:
+                    self._second.popleft()
+                waits = []
+                if len(self._minute) >= rpm:
+                    waits.append(60 - (now - self._minute[0]))
+                if len(self._second) >= burst:
+                    waits.append(1 - (now - self._second[0]))
+                if not waits:
+                    self._minute.append(now)
+                    self._second.append(now)
+                    return
+                delay = max(0.01, max(waits))
+            time.sleep(delay)
+
+
+_limiters: dict[str, _RateLimiter] = {}
+_limiters_lock = threading.Lock()
+
+
+def _limiter(api_key: str) -> _RateLimiter:
+    with _limiters_lock:
+        return _limiters.setdefault(api_key, _RateLimiter())
+
+
+def _key_label(api_key: str) -> str:
+    return hashlib.sha256(api_key.encode("utf-8")).hexdigest()[:8]
+
+
+def _retry_delay(resp: httpx.Response, attempt: int) -> float:
+    raw = resp.headers.get("Retry-After")
+    if raw:
+        try:
+            return max(0.0, float(raw))
+        except ValueError:
+            try:
+                retry_at = parsedate_to_datetime(raw)
+                if retry_at.tzinfo is None:
+                    retry_at = retry_at.replace(tzinfo=timezone.utc)
+                return max(0.0, (retry_at - datetime.now(timezone.utc)).total_seconds())
+            except (TypeError, ValueError, OverflowError):
+                pass
+    return (1.5 ** attempt) + random.uniform(0.0, 0.5)
 
 
 def _request(
@@ -49,27 +135,50 @@ def _request(
     api_key: str | None = None,
 ) -> Any:
     params = dict(params or {})
-    params["api_key"] = api_key or _active_api_key.get() or settings.smartlead_api_key
+    effective_key = api_key or _active_api_key.get() or settings.smartlead_api_key
+    params["api_key"] = effective_key
 
     max_attempts = 5
-    backoff = 1.5
-    with _client() as client:
-        for attempt in range(1, max_attempts + 1):
-            resp = client.request(method, path, params=params, json=json)
-            if resp.status_code == 429:
-                if attempt == max_attempts:
-                    raise SmartleadError(f"Rate limited on {path} after {max_attempts} attempts")
-                time.sleep(backoff ** attempt)
-                continue
-            if resp.status_code >= 400:
-                raise SmartleadError(
-                    f"{method} {path} failed: {resp.status_code} {resp.text[:500]}"
-                )
-            if not resp.content:
-                return None
-            if not resp.headers.get("content-type", "").startswith("application/json"):
-                return _decode(resp)
-            return resp.json()
+    client = _client(effective_key)
+    total_started = time.perf_counter()
+    for attempt in range(1, max_attempts + 1):
+        _limiter(effective_key).acquire()
+        started = time.perf_counter()
+        resp = client.request(method, path, params=params, json=json)
+        elapsed = time.perf_counter() - started
+        remaining = resp.headers.get("X-RateLimit-Remaining")
+        if elapsed >= 1.0 or resp.status_code == 429:
+            log.warning(
+                "smartlead request method=%s path=%s status=%s attempt=%s "
+                "seconds=%.3f key=%s remaining=%s",
+                method, path, resp.status_code, attempt, elapsed,
+                _key_label(effective_key), remaining,
+            )
+        if resp.status_code == 429:
+            if attempt == max_attempts:
+                raise SmartleadError(f"Rate limited on {path} after {max_attempts} attempts")
+            delay = _retry_delay(resp, attempt)
+            log.warning(
+                "smartlead throttled path=%s attempt=%s sleep=%.2fs retry_after=%s",
+                path, attempt, delay, resp.headers.get("Retry-After"),
+            )
+            time.sleep(delay)
+            continue
+        if resp.status_code >= 400:
+            raise SmartleadError(
+                f"{method} {path} failed: {resp.status_code} {resp.text[:500]}"
+            )
+        total = time.perf_counter() - total_started
+        if total >= 1.0:
+            log.info(
+                "smartlead completed method=%s path=%s attempts=%s total_seconds=%.3f",
+                method, path, attempt, total,
+            )
+        if not resp.content:
+            return None
+        if not resp.headers.get("content-type", "").startswith("application/json"):
+            return _decode(resp)
+        return resp.json()
     raise SmartleadError(f"{method} {path} failed after retries")
 
 
@@ -97,9 +206,22 @@ def list_campaigns(api_key: str | None = None) -> list[dict]:
     return data or []
 
 
+_category_cache: dict[str, tuple[float, dict[str, int]]] = {}
+_category_cache_lock = threading.Lock()
+
+
 def fetch_categories(api_key: str | None = None) -> dict[str, int]:
-    data = _request("GET", "/leads/fetch-categories", api_key=api_key) or []
-    return {item["name"]: item["id"] for item in data}
+    effective_key = api_key or _active_api_key.get() or settings.smartlead_api_key
+    now = time.monotonic()
+    with _category_cache_lock:
+        cached = _category_cache.get(effective_key)
+        if cached and now - cached[0] < settings.smartlead_category_cache_seconds:
+            return dict(cached[1])
+    data = _request("GET", "/leads/fetch-categories", api_key=effective_key) or []
+    result = {item["name"]: item["id"] for item in data}
+    with _category_cache_lock:
+        _category_cache[effective_key] = (now, result)
+    return dict(result)
 
 
 def list_campaign_leads(

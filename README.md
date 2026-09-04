@@ -59,6 +59,18 @@ Visit `https://sdr.yourdomain.com`, confirm login works. Leave `DRY_RUN=true` fo
 **Register the Smartlead webhook** (for instant reply drafting — separate from your existing n8n webhook, both can coexist):
 - Smartlead → Settings → Webhooks → add one for the "Reply" event, URL `https://sdr.yourdomain.com/webhooks/smartlead`. If you set `SMARTLEAD_WEBHOOK_SECRET` in `.env`, configure Smartlead to send it as a header or query param matching what `app/webhook.py` checks.
 
+For OneBodyLDN, import `n8n-workflows/onebody-notifier.json` and follow
+`docs/performance-and-reply-delivery.md`. The old pasted workflow points its
+responder request at AeroDefense, references the wrong trigger-node name, and
+doesn't authenticate to OneBody. The replacement records every reply before
+classification and sends the raw Slack alert with no Wait/model dependency.
+
+For the most reliable setup, register Smartlead directly against the responder
+and keep n8n as a parallel Slack notifier. Smartlead cannot attach a custom
+header when creating its webhook, so put the secret in the supported query
+parameter: `<PUBLIC_BASE_URL>/webhooks/smartlead?secret=<secret>`. The responder
+deduplicates direct and n8n delivery durably.
+
 **Redeploying after code changes (manual):**
 ```
 git pull && docker compose up -d --build

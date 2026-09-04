@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS drafts (
     reply_message_id TEXT,
     reply_email_time TEXT,
     reply_stats_id TEXT,  -- Smartlead's internal stats_id; required as email_stats_id when actually sending
-    status TEXT NOT NULL DEFAULT 'pending',  -- pending|scheduled|sent|skipped|stale|aborted
+    status TEXT NOT NULL DEFAULT 'pending',  -- pending|scheduled|sending|sent|skipped|stale|aborted
     scheduled_at TEXT,
     created_at TEXT NOT NULL,
     sent_at TEXT,
@@ -97,11 +97,43 @@ CREATE TABLE IF NOT EXISTS drafts (
     -- the attachment library (app/library.py). Stored on the draft rather than
     -- resolved at send time so a scheduled send ships exactly what was picked
     -- and reviewed, even if the library changes in between.
-    attachments TEXT
+    attachments TEXT,
+    -- Last synchronous send failure, shown with the draft after it is restored
+    -- to a retryable status. Cleared atomically when the next send begins.
+    send_error TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON drafts (status);
 CREATE INDEX IF NOT EXISTS idx_drafts_lead ON drafts (lead_id, campaign_id);
+
+-- Latest complete Smartlead thread per lead. Draft snapshots remain immutable
+-- evidence of what the model saw; this table is the refreshable copy used by
+-- the conversation UI and every path that has already paid to fetch a thread.
+CREATE TABLE IF NOT EXISTS lead_threads (
+    campaign_id      INTEGER NOT NULL,
+    lead_id          INTEGER NOT NULL,
+    thread_json      TEXT NOT NULL,
+    latest_message_id TEXT,
+    latest_message_at TEXT,
+    fetched_at       TEXT NOT NULL,
+    PRIMARY KEY (campaign_id, lead_id)
+);
+
+-- Durable idempotency ledger for reply webhooks. Smartlead and n8n may both
+-- deliver the same event, and either may retry it; only the first delivery is
+-- allowed to start classification/drafting.
+CREATE TABLE IF NOT EXISTS webhook_events (
+    event_key    TEXT PRIMARY KEY,
+    campaign_id INTEGER NOT NULL,
+    lead_id     INTEGER NOT NULL,
+    received_at TEXT NOT NULL,
+    processed_at TEXT,
+    status       TEXT NOT NULL DEFAULT 'received',
+    last_error   TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_webhook_events_status
+    ON webhook_events (status, received_at);
 
 CREATE TABLE IF NOT EXISTS candidates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -434,6 +466,8 @@ def _migrate(conn) -> None:
         conn.execute("ALTER TABLE drafts ADD COLUMN to_override TEXT")
     if "attachments" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN attachments TEXT")
+    if "send_error" not in draft_cols:
+        conn.execute("ALTER TABLE drafts ADD COLUMN send_error TEXT")
 
     lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
     inbox_columns = {
@@ -537,6 +571,67 @@ def increment_followup_count(conn, lead_id: int, campaign_id: int) -> None:
            SET followup_count = followup_count + 1, last_followup_at = ?, updated_at = ?
            WHERE lead_id = ? AND campaign_id = ?""",
         (now_iso(), now_iso(), lead_id, campaign_id),
+    )
+
+
+# ---- live thread cache ----
+
+def get_lead_thread(conn, lead_id: int, campaign_id: int):
+    return conn.execute(
+        "SELECT * FROM lead_threads WHERE lead_id = ? AND campaign_id = ?",
+        (lead_id, campaign_id),
+    ).fetchone()
+
+
+def put_lead_thread(
+    conn,
+    lead_id: int,
+    campaign_id: int,
+    thread_json: str,
+    latest_message_id: str | None,
+    latest_message_at: str | None,
+) -> None:
+    conn.execute(
+        """INSERT INTO lead_threads
+             (campaign_id, lead_id, thread_json, latest_message_id,
+              latest_message_at, fetched_at)
+           VALUES (?, ?, ?, ?, ?, ?)
+           ON CONFLICT(campaign_id, lead_id) DO UPDATE SET
+             thread_json = excluded.thread_json,
+             latest_message_id = excluded.latest_message_id,
+             latest_message_at = excluded.latest_message_at,
+             fetched_at = excluded.fetched_at""",
+        (
+            campaign_id, lead_id, thread_json, latest_message_id,
+            latest_message_at, now_iso(),
+        ),
+    )
+
+
+# ---- reply-webhook idempotency ----
+
+def claim_webhook_event(conn, event_key: str, campaign_id: int, lead_id: int) -> bool:
+    """Return True for the first delivery, or a retry of a failed delivery."""
+    cur = conn.execute(
+        """INSERT INTO webhook_events
+             (event_key, campaign_id, lead_id, received_at, status)
+           VALUES (?, ?, ?, ?, 'received')
+           ON CONFLICT(event_key) DO UPDATE SET
+             status = 'received', last_error = NULL, processed_at = NULL
+           WHERE webhook_events.status = 'failed'""",
+        (event_key, campaign_id, lead_id, now_iso()),
+    )
+    return cur.rowcount == 1
+
+
+def finish_webhook_event(
+    conn, event_key: str, status: str = "processed", error: str | None = None
+) -> None:
+    conn.execute(
+        """UPDATE webhook_events
+           SET status = ?, processed_at = ?, last_error = ?
+           WHERE event_key = ?""",
+        (status, now_iso(), error, event_key),
     )
 
 
@@ -886,7 +981,7 @@ def update_draft(conn, draft_id: int, **fields) -> None:
 def has_open_draft(conn, lead_id: int, campaign_id: int) -> bool:
     row = conn.execute(
         """SELECT 1 FROM drafts WHERE lead_id = ? AND campaign_id = ?
-           AND status IN ('pending', 'scheduled') LIMIT 1""",
+           AND status IN ('pending', 'scheduled', 'sending') LIMIT 1""",
         (lead_id, campaign_id),
     ).fetchone()
     return row is not None
@@ -921,11 +1016,10 @@ def retire_other_open_drafts(conn, lead_id: int, campaign_id: int, keep_draft_id
 
 
 def get_open_draft(conn, lead_id: int, campaign_id: int):
-    """The current editable draft (pending or scheduled) for a lead, if any —
-    what the detail pane shows when you open the lead."""
+    """The current editable/in-flight draft for a lead, if any."""
     return conn.execute(
         """SELECT * FROM drafts WHERE lead_id = ? AND campaign_id = ?
-           AND status IN ('pending', 'scheduled')
+           AND status IN ('pending', 'scheduled', 'sending')
            ORDER BY created_at DESC LIMIT 1""",
         (lead_id, campaign_id),
     ).fetchone()

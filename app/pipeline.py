@@ -20,7 +20,26 @@ thread_language = lead_language.thread_language
 
 def fetch_normalized_thread(campaign_id: int, lead_id: int):
     raw = smartlead.get_message_history(campaign_id, lead_id)
-    return normalize_thread(raw)
+    thread = normalize_thread(raw)
+    cache_normalized_thread(campaign_id, lead_id, thread)
+    return thread
+
+
+def cache_normalized_thread(campaign_id: int, lead_id: int, thread) -> None:
+    """Persist a complete thread after any caller has paid to fetch it."""
+    if not thread:
+        return
+    last = thread[-1]
+    payload = json.dumps([m.__dict__ for m in thread], default=str)
+    with db.db_session() as conn:
+        db.put_lead_thread(
+            conn,
+            lead_id,
+            campaign_id,
+            payload,
+            last.message_id,
+            last.timestamp.isoformat(),
+        )
 
 
 def _quick_language_note(

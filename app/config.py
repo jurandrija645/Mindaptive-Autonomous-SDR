@@ -97,13 +97,10 @@ class Settings:
     # revival touch once this many days pass with no reply. 0 disables.
     revive_after_days: int = int(os.getenv("REVIVE_AFTER_DAYS", "60"))
     daily_scan_hour_utc: int = int(os.getenv("DAILY_SCAN_HOUR_UTC", "6"))
-    # How often (minutes) to run the lightweight reply-catch scan
-    # (scheduler.run_reply_catch_scan) — the safety net for replies the webhook
-    # missed (it's fire-and-forget, and a reply that lands during a deploy
-    # restart is lost), so Andrew never has to click "Rescan now" to see a reply.
-    # Cheap: it only re-checks leads we already track as live conversations and
-    # bulk-fetches their threads (~one Smartlead call per campaign), so a tight
-    # cadence stays far under the API rate limit. 0 disables.
+    # Minutes in which the lightweight reply catcher must complete one sweep of
+    # every active campaign. The scheduler runs once a minute and rotates only
+    # the oldest fraction each tick, avoiding the old one-call-per-campaign
+    # burst while preserving the same worst-case fallback delay. 0 disables.
     scan_interval_minutes: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "5"))
 
     # How often to ask Smartlead "who has written to us lately?" — the poll that
@@ -111,6 +108,19 @@ class Settings:
     # (scheduler.run_new_reply_poll). Two API calls and no per-lead work, so it
     # runs far more often than the reply-catch pass above. 0 disables.
     new_reply_poll_seconds: int = int(os.getenv("NEW_REPLY_POLL_SECONDS", "60"))
+
+    # Keep enough headroom for Smartlead calls made by n8n or a human using
+    # another integration with the same key. Both limits apply per process and
+    # per API key; the server's 429 Retry-After remains authoritative.
+    smartlead_requests_per_minute: int = int(
+        os.getenv("SMARTLEAD_REQUESTS_PER_MINUTE", "50")
+    )
+    smartlead_burst_per_second: int = int(
+        os.getenv("SMARTLEAD_BURST_PER_SECOND", "8")
+    )
+    smartlead_category_cache_seconds: int = int(
+        os.getenv("SMARTLEAD_CATEGORY_CACHE_SECONDS", "600")
+    )
 
     # Which model sorts an incoming reply into "real prospect" vs "out of office
     # / rejection" (app/reply_classifier.py), deciding whether to spend a draft

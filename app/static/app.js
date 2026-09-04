@@ -3282,12 +3282,18 @@ function renderDraftSection(body) {
   if (draft.status === "scheduled" && draft.scheduled_at) {
     box.appendChild(el("span", "status-banner", `Scheduled for ${draft.scheduled_at}`));
   }
+  if (draft.status === "sending") {
+    box.appendChild(el("span", "status-banner", "Sending…"));
+  }
 
   // Belongs to the draft that was just created, so it sits above the editor
   // rather than with the lead's own details. textContent via el(), never HTML:
   // it can quote a provider's error text.
   if (state.draftNote) {
     box.appendChild(el("div", "draft-note", state.draftNote));
+  }
+  if (draft.send_error) {
+    box.appendChild(el("div", "error-note", `Last send failed: ${draft.send_error}`));
   }
 
   // The thread above is refetched live, so it already shows anything sent from
@@ -3319,7 +3325,7 @@ function renderDraftSection(body) {
 
   const editor = el("div", "draft-editor");
   editor.id = "draft-editor";
-  editor.contentEditable = "true";
+  editor.contentEditable = draft.status === "sending" ? "false" : "true";
   editor.innerHTML = bodyHtml;
   editor.addEventListener("input", onEditorInput);
   editor.addEventListener("paste", onEditorPaste);
@@ -3405,6 +3411,12 @@ function renderDraftSection(body) {
   const stopBtn = el("button", "btn-danger", "Stop following up");
   stopBtn.addEventListener("click", () => stopLead(draft.id));
   actions.appendChild(stopBtn);
+
+  if (draft.status === "sending") {
+    actions.querySelectorAll("button, input").forEach((control) => {
+      control.disabled = true;
+    });
+  }
 
   box.appendChild(actions);
   section.appendChild(box);
@@ -3975,18 +3987,29 @@ function editorHtml() {
 // lead happens to be next in the list.
 async function sendDraft(id) {
   const { cid, lid } = currentLeadIds();
+  const controls = document.querySelectorAll("#draft-section button, #draft-section input");
+  controls.forEach((control) => { control.disabled = true; });
+  const sendBtn = $("send-btn");
+  if (sendBtn) sendBtn.textContent = "Sending…";
   try {
-    await apiPost(`/api/drafts/${id}/send`, {
+    const result = await apiPost(`/api/drafts/${id}/send`, {
       body_html: editorHtml(),
       ...currentRecipients(),
       ...currentAttachments(),
     });
+    if (result.status !== "sent") {
+      await selectLead(state.selected);
+      return;
+    }
   } catch (e) {
     alert(e.message);
+    await selectLead(state.selected);
     return;
   }
-  const data = await apiGet(`/api/leads/${cid}/${lid}`);
-  state.detail = data;
+  // The send path already fetched the latest thread for its race check. Do not
+  // immediately spend a third Smartlead request just to repaint the card.
+  state.detail.draft = null;
+  state.detail.lead.category = "waiting";
   const row = state.leads.find((l) => l.campaign_id === cid && l.lead_id === lid);
   if (row) {
     row.category = "waiting";
@@ -4205,3 +4228,16 @@ document.addEventListener("visibilitychange", () => {
   if (!document.hidden) autoRefreshInbox();
 });
 window.addEventListener("focus", autoRefreshInbox);
+
+// Webhooks write SQLite before acknowledging delivery, then emit this hint.
+// EventSource reconnects automatically; the 15-second poll above remains the
+// fallback after a deploy or a dropped connection.
+const inboxEvents = new EventSource("/api/events");
+inboxEvents.onmessage = (event) => {
+  try {
+    const data = JSON.parse(event.data);
+    if (data.type === "reply_received") autoRefreshInbox();
+  } catch (_) {
+    // A malformed hint cannot affect the authoritative inbox refresh loop.
+  }
+};

@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import threading
 import time
@@ -8,7 +9,7 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
 
 from app import (
-    db, interested_sheet, lead_language, lead_temperature, pipeline, reply_classifier, scheduler,
+    db, events, interested_sheet, lead_language, lead_temperature, pipeline, reply_classifier, scheduler,
     smartlead,
 )
 from app.config import settings
@@ -59,6 +60,24 @@ def _reply_text(payload: dict) -> str:
     return ""
 
 
+def _event_key(payload: dict, campaign_id: int, lead_id: int) -> str:
+    """Stable key across direct Smartlead delivery and an n8n forward."""
+    for key in ("event_id", "webhook_id", "id"):
+        value = payload.get(key)
+        if value:
+            return f"smartlead:{value}"
+    timestamp = next(
+        (
+            payload.get(key)
+            for key in ("time_replied", "event_timestamp", "reply_time")
+            if payload.get(key)
+        ),
+        (payload.get("reply_message") or {}).get("time") or "",
+    )
+    material = f"{campaign_id}\n{lead_id}\n{timestamp}\n{_reply_text(payload).strip()}"
+    return "reply:" + hashlib.sha256(material.encode("utf-8")).hexdigest()
+
+
 @router.post("/webhooks/smartlead")
 async def smartlead_webhook(request: Request):
     if settings.smartlead_webhook_secret:
@@ -67,8 +86,6 @@ async def smartlead_webhook(request: Request):
             raise HTTPException(status_code=401, detail="invalid webhook secret")
 
     payload = await request.json()
-    log.info("smartlead webhook received: %s", payload)
-
     if not _reply_text(payload):
         return {"status": "ignored", "reason": "not a reply event"}
 
@@ -76,30 +93,66 @@ async def smartlead_webhook(request: Request):
     if not campaign_id or not lead_id:
         log.warning("webhook payload missing campaign_id/sl_email_lead_id: %s", payload)
         return {"status": "ignored", "reason": "missing ids"}
+    campaign_id, lead_id = int(campaign_id), int(lead_id)
 
-    # pipeline.create_draft calls Claude synchronously (web search/fetch tools,
-    # can take minutes) — far longer than the caller will wait: n8n's HTTP node
-    # and the Cloudflare tunnel (~100s) both time out well before it finishes.
-    # So ack straight away and draft in a background thread, same as bulk
-    # generate. The dashboard picks the draft up on its next poll.
+    event_key = _event_key(payload, campaign_id, lead_id)
+    with db.db_session() as conn:
+        claimed = db.claim_webhook_event(conn, event_key, campaign_id, lead_id)
+    if not claimed:
+        return JSONResponse(
+            {"status": "accepted", "duplicate": True, "lead_id": lead_id},
+            status_code=202,
+        )
+
+    # Visibility is committed before the acknowledgement. It contains no
+    # Smartlead or model call, and guarantees that a deploy immediately after
+    # the 202 cannot lose the reply the caller was told we accepted.
+    try:
+        lead_row = _record_incoming(campaign_id, lead_id, payload)
+    except Exception as exc:
+        with db.db_session() as conn:
+            db.finish_webhook_event(conn, event_key, "failed", str(exc)[:500])
+        raise
+    events.publish(
+        {
+            "type": "reply_received",
+            "campaign_id": campaign_id,
+            "lead_id": lead_id,
+        }
+    )
+
+    # Everything slower than the visibility write stays in the background:
+    # classification, Smartlead reconciliation, thread propagation retries,
+    # lead-temperature analysis and draft generation.
     key = (campaign_id, lead_id)
     with _in_flight_lock:
         if key in _in_flight:
-            return {"status": "ignored", "reason": "already drafting for this lead"}
+            with db.db_session() as conn:
+                db.finish_webhook_event(conn, event_key, "coalesced")
+            return JSONResponse(
+                {"status": "accepted", "reason": "already drafting for this lead"},
+                status_code=202,
+            )
         _in_flight.add(key)
 
     def _worker() -> None:
         try:
-            result = _process_reply(campaign_id, lead_id, payload)
+            result = _process_reply(campaign_id, lead_id, payload, lead_row=lead_row)
+            with db.db_session() as conn:
+                db.finish_webhook_event(conn, event_key)
             log.info("webhook draft for lead %s: %s", lead_id, result)
-        except Exception:
+        except Exception as exc:
+            with db.db_session() as conn:
+                db.finish_webhook_event(conn, event_key, "failed", str(exc)[:500])
             log.exception("webhook draft failed for lead %s", lead_id)
         finally:
             with _in_flight_lock:
                 _in_flight.discard(key)
 
     threading.Thread(target=_worker, daemon=True).start()
-    return {"status": "accepted", "lead_id": lead_id}
+    return JSONResponse(
+        {"status": "accepted", "lead_id": lead_id}, status_code=202
+    )
 
 
 @router.post("/webhooks/booking-confirmed")
@@ -288,11 +341,14 @@ def _fetch_thread_with_reply(campaign_id: int, lead_id: int, attempts: int = 3):
     return thread
 
 
-def _process_reply(campaign_id: int, lead_id: int, payload: dict) -> dict:
+def _process_reply(
+    campaign_id: int, lead_id: int, payload: dict, lead_row=None
+) -> dict:
     # Phase 1 — visibility. Short transaction, no network, no model. Runs before
     # the classifier on purpose: what Andrew sees must not depend on a model
     # agreeing that the message was worth seeing.
-    lead_row = _record_incoming(campaign_id, lead_id, payload)
+    if lead_row is None:
+        lead_row = _record_incoming(campaign_id, lead_id, payload)
 
     # Phase 2 — is this a person worth answering, or an out-of-office? This is
     # the gate the n8n workflow's gpt-5-mini + Switch pair used to apply before
