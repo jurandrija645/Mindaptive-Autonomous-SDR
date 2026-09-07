@@ -1,5 +1,6 @@
 import asyncio
 import json
+import subprocess
 import tempfile
 import threading
 import time
@@ -51,6 +52,16 @@ class ReliabilityTests(unittest.TestCase):
             cached = db.get_lead_thread(conn, 20, 10)
         self.assertIsNotNone(cached)
         self.assertEqual(cached["latest_message_id"], "reply-1")
+
+    def test_smartlead_filter_names_ooo_as_auto_reply(self):
+        source = Path("app/static/app.js").read_text(encoding="utf-8")
+        start = source.index("function smartleadCategoryLabel")
+        end = source.index("function smartleadFilterLabel", start)
+        script = source[start:end] + "\nconsole.log(smartleadCategoryLabel('Out Of Office'));"
+        result = subprocess.run(
+            ["node", "-e", script], capture_output=True, text=True, check=True
+        )
+        self.assertEqual(result.stdout.strip(), "Auto-reply / Out of office")
 
     def test_category_push_refreshes_filter_mirror_only_after_success(self):
         with db.db_session() as conn:

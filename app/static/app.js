@@ -690,12 +690,20 @@ function setAllSmartleadCategories(on) {
   applyFilter();
 }
 
+function smartleadCategoryLabel(category) {
+  const normalized = (category || "").trim().toLowerCase().replace(/[-_]+/g, " ");
+  if (normalized === "out of office" || normalized === "auto reply") {
+    return "Auto-reply / Out of office";
+  }
+  return category;
+}
+
 function smartleadFilterLabel(allKnown) {
   if (state.smartleadCategoryFilter === null) return "All Smartlead statuses";
   const chosen = state.smartleadCategoryFilter;
   if (chosen.size === 0) return "No Smartlead statuses — nothing shown";
   if (chosen.size >= allKnown.length) return "All Smartlead statuses";
-  if (chosen.size === 1) return [...chosen][0];
+  if (chosen.size === 1) return smartleadCategoryLabel([...chosen][0]);
   return `${chosen.size} of ${allKnown.length} Smartlead statuses`;
 }
 
@@ -717,7 +725,7 @@ function renderSmartleadFilter(leads) {
     cb.checked = state.smartleadCategoryFilter === null || state.smartleadCategoryFilter.has(cat);
     cb.addEventListener("change", () => setSmartleadCategory(cat, cb.checked, allKnown));
     row.appendChild(cb);
-    row.appendChild(el("span", "status-option-label", cat));
+    row.appendChild(el("span", "status-option-label", smartleadCategoryLabel(cat)));
     row.appendChild(el("span", "status-option-count", String(counts.get(cat) || 0)));
     box.appendChild(row);
   });
