@@ -187,7 +187,7 @@ class ReliabilityTests(unittest.TestCase):
         client = TestClient(main.app)
         with db.db_session() as conn:
             db.upsert_lead_state(
-                conn, 20, 10, interested=1, name="Ben Broughton",
+                conn, 20, 10, interested=1, name="Ben Broughton - Primis",
                 email="lead@original.example", category="reply",
             )
         booking_text = """Booking Confirmed
@@ -211,7 +211,7 @@ Discount Code: OBLACCESS55
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.json()["matched_by"], "name")
             mark_sheet.assert_called_once_with(
-                email="lead@original.example", name="Ben Broughton", lead_id=20
+                email="lead@original.example", name="Ben Broughton - Primis", lead_id=20
             )
         with db.db_session() as conn:
             row = db.get_lead_state(conn, 20, 10)

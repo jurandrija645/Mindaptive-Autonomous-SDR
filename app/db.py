@@ -553,6 +553,10 @@ def normalize_person_name(name: str) -> str:
     text = unicodedata.normalize("NFKD", name or "")
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
     text = _NAME_TITLE_RE.sub("", text.strip())
+    # Some Smartlead imports put the company into the display-name field, for
+    # example "Ben Broughton - Primis". Booking confirmations contain only the
+    # person's name, so remove that clearly delimited suffix before comparing.
+    text = re.sub(r"\s+(?:-|–|—|\|)\s+.*$", "", text)
     return " ".join(re.findall(r"[a-z0-9]+", text.lower()))
 
 
