@@ -252,8 +252,12 @@ def localize_quick_text(
     system = _QUICK_LOCALIZE_SYSTEM_TEMPLATE.format(language=language_name(target_language_code))
     try:
         text, _ = llm.complete_for(
-            models_registry.ROLE_TEMPLATE, system, english_text,
-            max_tokens=1024, model=model,
+            models_registry.ROLE_TEMPLATE, system,
+            f"Write the following message in {language_name(target_language_code)}. "
+            "Return only the complete localized message, not the English source.\n\n"
+            f"<source_message>\n{english_text}\n</source_message>",
+            # Reasoning and visible output share this budget, even for one line.
+            max_tokens=16000, model=model,
         )
         return text.strip() or english_text
     except Exception:

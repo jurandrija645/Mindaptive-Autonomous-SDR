@@ -68,7 +68,8 @@ def _quick_language_note(
     name = translator.language_name(target_lang) or target_lang
     if target_lang.lower() == "en":
         return f"{base}. English ({source}).", None
-    if native_text.strip() == english_text.strip():
+    if (native_text.strip() == english_text.strip()
+            or translator.detect_language(native_text) == "en"):
         log.warning("quick draft not localized to %s — sending English", target_lang)
         return (
             f"{base}. NOT localized — this is still English, not {name}.",

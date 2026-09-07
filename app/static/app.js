@@ -2871,6 +2871,9 @@ async function quickFollowup(template) {
   const firstName = (state.detail.lead.name || "").split(" ")[0] || "there";
   const company = state.detail.lead.company || "your business";
   const text = template.replace(/\{name\}/g, firstName).replace(/\{company\}/g, company);
+  // Capture the selection before replacing the section: the dropdown lives
+  // inside it and is removed by the loading state below.
+  const model = $("gen-model-select")?.value;
   const section = $("draft-section");
   section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Adding follow-up…</div>';
   let data;
@@ -2878,10 +2881,9 @@ async function quickFollowup(template) {
     // Send the Generate dropdown's current pick so a template is localized by
     // the same model that would have written the draft. The server falls back
     // to the "Translating templates" role when this is absent.
-    const modelSel = $("gen-model-select");
     data = await apiPost(`/api/leads/${cid}/${lid}/quick-draft`, {
       text,
-      model: modelSel ? modelSel.value : undefined,
+      model,
     });
   } catch (e) {
     section.innerHTML = `<div class="error-note">Could not add follow-up: ${e.message}</div>`;
