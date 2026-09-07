@@ -99,6 +99,13 @@ same day interval for every temperature. Settings survive restarts in each
 client's database. The panel also shows the existing follow-up cap and revival
 wait; those limits and already-scheduled emails are not changed by this setting.
 
+Booking confirmations sent to `/webhooks/booking-confirmed` match by email
+first. If the person books with another email, a code listed in
+`BOOKING_MATCH_CODES` enables exact normalized-name matching against the local
+lead record and the Interested sheet. Once booked, the lead remains booked
+across later emails and Smartlead category changes. Only a manual dashboard
+category change unlocks it.
+
 - **Follow-ups due tab** — leads with no reply for 3+ days (and under the 4-follow-up cap). Nothing is drafted yet. Click **Generate** on one, or check several + **Generate selected** to draft a batch in the background (refresh after a bit — it doesn't block the page). Click **Rescan now** any time to refresh this list immediately instead of waiting for the next cron run (takes a couple minutes; the button shows "Scan running…" while it works, and won't let you stack a second one).
 - **Inbox tab** — replies from leads, auto-drafted the moment they come in (via the webhook) or caught by the next daily scan if the webhook was missed. Review and send same as follow-ups.
 - Every draft card: edit the body directly (the correct Andrew/Mia signature is already baked into the text, based on which mailbox sent the original outreach — edit it like part of the email, since that's exactly what gets sent), see the English translation (if the thread's in another language), view the full thread, then **Send now**, **Schedule** (pick a time — useful for a USA lead's morning), **Regenerate** (optionally with a steering note, e.g. "shorter" or "mention the review system instead"), **Skip** (dismiss just this draft), or **Stop following up this lead** (removes them from future automated follow-ups entirely).

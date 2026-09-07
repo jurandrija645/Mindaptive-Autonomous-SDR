@@ -14,7 +14,10 @@ Built for OneBodyLDN (see clients/onebodyldn/), which needed a live worklist
 an external automation could read against to match booking confirmations —
 but nothing here is OneBodyLDN-specific.
 
-This sheet is a best-effort human-readable record, never the source of truth.
+This sheet is a best-effort human-readable record. It is also a constrained
+booking lookup fallback: only an allowlisted offer code can enable exact-name
+matching, and the sheet's campaign/lead IDs must still resolve to rows already
+known in leads_state.
 The booking-confirmed webhook (app/webhook.py: POST /webhooks/booking-confirmed)
 matches a booked email against leads_state directly, not this sheet — a
 hand-edited or stale row here must never be able to block a real booking from
@@ -24,7 +27,7 @@ drafting or the booking webhook's response.
 
 import logging
 
-from app import sheets
+from app import db, sheets
 from app.config import settings
 
 log = logging.getLogger("interested_sheet")
@@ -103,3 +106,60 @@ def mark_booked(email: str) -> None:
         log.info("interested_sheet: marked %s booked (row %s)", email, row)
     except Exception:
         log.exception("interested_sheet: failed to mark %s booked", email)
+
+
+def find_by_name(name: str) -> list[dict]:
+    """Resolve a trusted-code booking through the internal Interested sheet."""
+    sheet_id = settings.interested_sheet_id
+    wanted = db.normalize_person_name(name)
+    if not sheet_id or not wanted:
+        return []
+    try:
+        _ensure_tab(sheet_id)
+        matches = []
+        for row_number, cells in enumerate(sheets.read_range(sheet_id, TAB, "A2:G"), start=2):
+            values = list(cells) + [""] * (7 - len(cells))
+            if db.normalize_person_name(str(values[0])) != wanted:
+                continue
+            try:
+                campaign_id, lead_id = int(values[3]), int(values[4])
+            except (TypeError, ValueError):
+                continue
+            matches.append({
+                "row": row_number,
+                "name": str(values[0]),
+                "email": str(values[2]),
+                "campaign_id": campaign_id,
+                "lead_id": lead_id,
+            })
+        return matches
+    except Exception:
+        log.exception("interested_sheet: failed to find booked name %s", name)
+        return []
+
+
+def mark_booked_match(*, email: str = "", name: str = "", lead_id: int | None = None) -> None:
+    """Mark the exact sheet row using lead id, email, then normalized name."""
+    sheet_id = settings.interested_sheet_id
+    if not sheet_id:
+        return
+    try:
+        _ensure_tab(sheet_id)
+        rows = sheets.read_range(sheet_id, TAB, "A2:G")
+        wanted_name = db.normalize_person_name(name)
+        wanted_email = email.strip().lower()
+        for row_number, cells in enumerate(rows, start=2):
+            values = list(cells) + [""] * (7 - len(cells))
+            row_lead_id = str(values[4]).strip()
+            matches = (
+                (lead_id is not None and row_lead_id == str(lead_id))
+                or (lead_id is None and wanted_email and str(values[2]).strip().lower() == wanted_email)
+                or (lead_id is None and not wanted_email and wanted_name
+                    and db.normalize_person_name(str(values[0])) == wanted_name)
+            )
+            if matches:
+                sheets.write_range(sheet_id, TAB, f"{_BOOKED_COLUMN}{row_number}", ["TRUE"])
+                log.info("interested_sheet: marked lead %s booked (row %s)", lead_id or email or name, row_number)
+                return
+    except Exception:
+        log.exception("interested_sheet: failed to mark booking match")

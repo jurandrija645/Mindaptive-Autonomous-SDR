@@ -183,6 +183,81 @@ class ReliabilityTests(unittest.TestCase):
         with db.db_session() as conn:
             self.assertTrue(db.claim_webhook_event(conn, "event-1", 10, 20))
 
+    def test_booking_name_fallback_requires_approved_code_and_marks_sheet(self):
+        client = TestClient(main.app)
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 20, 10, interested=1, name="Ben Broughton",
+                email="lead@original.example", category="reply",
+            )
+        booking_text = """Booking Confirmed
+Client Name: Mr Ben Broughton
+Email: ben.personal@example.com
+Discount Code: OBLACCESS55
+"""
+        with patch.object(settings, "booking_webhook_secret", ""), patch.object(
+            settings, "booking_match_codes", ("OBLACCESS55", "OBLACCESS25")
+        ), patch.object(settings, "dry_run", True), patch.object(
+            webhook.interested_sheet, "mark_booked_match"
+        ) as mark_sheet:
+            missing_code = client.post(
+                "/webhooks/booking-confirmed",
+                json={"name": "Mr Ben Broughton", "email": "different@example.com"},
+            )
+            self.assertEqual(missing_code.status_code, 404)
+            response = client.post(
+                "/webhooks/booking-confirmed", json={"body": booking_text}
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json()["matched_by"], "name")
+            mark_sheet.assert_called_once_with(
+                email="lead@original.example", name="Ben Broughton", lead_id=20
+            )
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, 20, 10)
+            self.assertEqual((row["status"], row["category"]), ("booked", "booked"))
+
+    def test_scan_cannot_unbook_lead_when_smartlead_drifts(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 20, 10, interested=1, name="Ben", email="ben@example.com"
+            )
+            db.mark_lead_booked(conn, 20, 10)
+        lead = {
+            "id": 20, "campaign_id": 10, "email": "ben@example.com",
+            "company_name": "Acme", "website": "", "first_name": "Ben",
+        }
+        with patch.object(scheduler, "_push_category_to_smartlead") as push, patch.object(
+            pipeline, "fetch_normalized_thread",
+            side_effect=AssertionError("booked lead must not fetch or reopen its thread"),
+        ):
+            scheduler._process_lead(
+                lead, "Campaign", is_booked=False, smartlead_category="Interested"
+            )
+            push.assert_called_once_with(10, 20, settings.meeting_booked_category_name, pause=True)
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, 20, 10)
+            self.assertEqual((row["status"], row["category"]), ("booked", "booked"))
+            scheduler._mark_lead_waiting_on_them(conn, 20, 10)
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, 20, 10)
+            self.assertEqual((row["status"], row["category"]), ("booked", "booked"))
+
+    def test_only_manual_category_change_releases_booking(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, interested=1, email="ben@example.com")
+            db.mark_lead_booked(conn, 20, 10)
+        with patch.object(main, "require_auth", return_value=None), patch.object(
+            settings, "dry_run", True
+        ):
+            response = TestClient(main.app).post(
+                "/api/leads/10/20/category", json={"category_name": "Interested"}
+            )
+        self.assertEqual(response.status_code, 200)
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, 20, 10)
+            self.assertEqual((row["status"], row["category"]), ("active", "waiting"))
+
     def test_webhook_records_reply_before_background_work(self):
         old_secret = settings.smartlead_webhook_secret
         settings.smartlead_webhook_secret = "test-secret"

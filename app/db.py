@@ -1,4 +1,6 @@
 import sqlite3
+import re
+import unicodedata
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -544,6 +546,27 @@ def find_lead_by_email(conn, email: str):
     return conn.execute("SELECT * FROM leads_state WHERE lower(email) = ?", (email,)).fetchall()
 
 
+_NAME_TITLE_RE = re.compile(r"^(?:mr|mrs|ms|miss|dr|prof)\s+", re.I)
+
+
+def normalize_person_name(name: str) -> str:
+    text = unicodedata.normalize("NFKD", name or "")
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = _NAME_TITLE_RE.sub("", text.strip())
+    return " ".join(re.findall(r"[a-z0-9]+", text.lower()))
+
+
+def find_leads_by_name(conn, name: str):
+    """Exact normalized full-name matches for trusted-code booking fallback."""
+    wanted = normalize_person_name(name)
+    if not wanted:
+        return []
+    return [
+        row for row in conn.execute("SELECT * FROM leads_state WHERE interested = 1").fetchall()
+        if normalize_person_name(row["name"] or "") == wanted
+    ]
+
+
 def upsert_lead_state(conn, lead_id: int, campaign_id: int, **fields) -> None:
     existing = get_lead_state(conn, lead_id, campaign_id)
     fields["updated_at"] = now_iso()
@@ -640,7 +663,9 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
     freeze all outreach for this lead — open drafts go stale, open candidates
     are dismissed, status becomes 'booked' (detector.decide treats it like
     stopped). booked_at is set once and never overwritten, so the first
-    booking date survives later rescans.
+    booking date survives later rescans. This state is a lock: sends, replies
+    and Smartlead category drift preserve it. Only the dashboard's manual
+    category action releases it.
 
     Recording the booking also **un-hides the lead**, and it has to. Archive and
     snooze are the only two things that keep a lead out of list_inbox once it is

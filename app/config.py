@@ -21,6 +21,14 @@ def _int_list(name: str, default: str) -> tuple[int, ...]:
     return vals or tuple(int(part.strip()) for part in default.split(","))
 
 
+def _str_list(name: str, default: str = "") -> tuple[str, ...]:
+    return tuple(
+        part.strip().upper()
+        for part in os.getenv(name, default).split(",")
+        if part.strip()
+    )
+
+
 @dataclass
 class Settings:
     smartlead_api_key: str = os.getenv("SMARTLEAD_API_KEY", "")
@@ -205,6 +213,12 @@ class Settings:
     # SMARTLEAD_WEBHOOK_SECRET. Blank disables the route's secret check, which
     # is fine for local testing but should always be set once this is public.
     booking_webhook_secret: str = os.getenv("BOOKING_WEBHOOK_SECRET", "")
+    # Codes that prove a booking came through this client's offer. An exact
+    # email match never needs one; name fallback is disabled unless the booking
+    # carries one of these codes.
+    booking_match_codes: tuple[str, ...] = field(
+        default_factory=lambda: _str_list("BOOKING_MATCH_CODES")
+    )
 
 
 settings = Settings()

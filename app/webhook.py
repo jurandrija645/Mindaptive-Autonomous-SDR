@@ -1,5 +1,6 @@
 import hashlib
 import logging
+import re
 import threading
 import time
 from datetime import datetime, timezone
@@ -24,6 +25,44 @@ router = APIRouter()
 # this covers the minutes-long window while Claude is still writing one.
 _in_flight: set[tuple[int, int]] = set()
 _in_flight_lock = threading.Lock()
+
+_BOOKING_FIELD_PATTERNS = {
+    "name": re.compile(r"(?im)^\s*Client\s+Name\s*:\s*(.+?)\s*$"),
+    "email": re.compile(r"(?im)^\s*Email\s*:\s*([^\s<>]+@[^\s<>]+)\s*$"),
+    "code": re.compile(r"(?im)^\s*Discount\s+Code\s*:\s*([A-Z0-9_-]+)\s*$"),
+}
+
+
+def _booking_fields(payload: dict) -> tuple[str, str, str]:
+    """Accept parsed fields or extract them from the booking email text."""
+    raw = payload.get("text") or payload.get("body") or payload.get("message") or ""
+    if isinstance(raw, dict):
+        raw = raw.get("text") or raw.get("body") or ""
+    raw = str(raw)
+
+    def value(keys: tuple[str, ...], pattern: re.Pattern) -> str:
+        for key in keys:
+            found = payload.get(key)
+            if found:
+                return str(found).strip()
+        match = pattern.search(raw)
+        return match.group(1).strip() if match else ""
+
+    return (
+        value(("email", "client_email"), _BOOKING_FIELD_PATTERNS["email"]).lower(),
+        value(("name", "client_name"), _BOOKING_FIELD_PATTERNS["name"]),
+        value(("discount_code", "code"), _BOOKING_FIELD_PATTERNS["code"]).upper(),
+    )
+
+
+def _booking_matches(conn, email: str, name: str, code: str):
+    matches = db.find_lead_by_email(conn, email) if email else []
+    if matches:
+        return matches, "email"
+    if not name or code not in settings.booking_match_codes:
+        return [], "none"
+    matches = db.find_leads_by_name(conn, name)
+    return (matches, "name") if matches else ([], "none")
 
 
 def _extract_ids(payload: dict) -> tuple[int | None, int | None]:
@@ -158,22 +197,23 @@ async def smartlead_webhook(request: Request):
 @router.post("/webhooks/booking-confirmed")
 async def booking_confirmed(request: Request):
     """External automations (e.g. an n8n flow watching a booking-confirmation
-    inbox) call this with the booked person's email to record a meeting
+    inbox) call this with the booked person's email, name and offer code to record a meeting
     booked outside Smartlead's own category flow — see the "Meeting booked"
     freeze in db.mark_lead_booked.
 
-    Deliberately does the lookup itself against leads_state (db.find_lead_by_
-    email) rather than trusting a campaign_id/lead_id the caller supplies: the
-    caller only ever has an email address (pulled from an inbound email), and
-    this is the one place external, unverified input can flip a lead straight
+    Deliberately does the lookup itself rather than trusting campaign_id/lead_id
+    from the caller. Email is authoritative when it matches. If the person booked
+    with another address, an allowlisted offer code permits an exact normalized
+    full-name lookup in leads_state and then the internal Interested sheet. Titles
+    such as Mr/Ms/Mrs/Dr are ignored. Ambiguous names are rejected. This matters
+    because this is the one place external, unverified input can flip a lead straight
     to "booked" — resolving it against our own data keeps that action scoped
     to leads we actually know about.
 
     Sets the Smartlead category too (not just the local status), same as the
-    dashboard's manual "mark as booked" action (main.api_set_category) — a scan
-    would otherwise see Smartlead still say "Interested" and treat the local
-    booked status as stale, per db.mark_lead_booked's own docstring on how a
-    booking must agree in both places to stick.
+    dashboard's manual "mark as booked" action (main.api_set_category). Once
+    recorded, the local booking is a lock: later messages and Smartlead category
+    drift cannot remove it. Only a manual dashboard category change can.
     """
     if settings.booking_webhook_secret:
         provided = request.headers.get("x-webhook-secret") or request.query_params.get("secret")
@@ -181,52 +221,95 @@ async def booking_confirmed(request: Request):
             raise HTTPException(status_code=401, detail="invalid webhook secret")
 
     payload = await request.json()
-    email = (payload.get("email") or "").strip()
-    if not email:
-        return JSONResponse({"error": "email is required"}, status_code=400)
+    email, name, code = _booking_fields(payload)
+    if not email and not name:
+        return JSONResponse({"error": "email or client name is required"}, status_code=400)
 
     with db.db_session() as conn:
-        matches = db.find_lead_by_email(conn, email)
-        if not matches:
-            return JSONResponse({"status": "not_found", "email": email}, status_code=404)
+        matches, matched_by = _booking_matches(conn, email, name, code)
+        matches = [dict(row) for row in matches]
 
-        booked = []
-        category_id = None
-        if not settings.dry_run:
-            try:
-                categories = smartlead.fetch_categories()
-                category_id = categories.get(settings.meeting_booked_category_name)
-            except smartlead.SmartleadError:
-                log.exception("booking-confirmed: could not fetch Smartlead categories")
+    # Sheet fallback is allowed only after the offer code proves this is our
+    # booking. Do the Google call outside a database session.
+    if not matches and name and code in settings.booking_match_codes:
+        sheet_matches = interested_sheet.find_by_name(name)
+        with db.db_session() as conn:
+            matches = [
+                dict(row)
+                for match in sheet_matches
+                if (row := db.get_lead_state(conn, match["lead_id"], match["campaign_id"]))
+                is not None
+            ]
+        if matches:
+            matched_by = "sheet_name"
 
-        for row in matches:
-            lead_id, campaign_id = row["lead_id"], row["campaign_id"]
-            if settings.dry_run:
-                log.info(
-                    "[DRY_RUN] would mark lead %s/%s booked (matched %s)",
-                    campaign_id, lead_id, email,
-                )
-            else:
-                if category_id is not None:
-                    try:
-                        smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=True)
-                    except smartlead.SmartleadError:
-                        log.exception(
-                            "booking-confirmed: failed to set Smartlead category for %s/%s",
-                            campaign_id, lead_id,
-                        )
-                else:
-                    log.warning(
-                        "booking-confirmed: Smartlead has no '%s' category configured; "
-                        "recording locally only for %s/%s",
-                        settings.meeting_booked_category_name, campaign_id, lead_id,
+    if not matches:
+        return JSONResponse({
+            "status": "not_found", "email": email, "name": name,
+            "reason": "name fallback requires an approved discount code"
+            if name and code not in settings.booking_match_codes else "no matching lead",
+        }, status_code=404)
+
+    identities = {(row["email"] or "").strip().lower() for row in matches}
+    if matched_by != "email" and len(identities) > 1:
+        return JSONResponse({
+            "status": "ambiguous", "name": name,
+            "reason": "more than one lead has this name; email match required",
+        }, status_code=409)
+
+    booked = []
+    category_id = None
+    if not settings.dry_run:
+        try:
+            categories = smartlead.fetch_categories()
+            category_id = scheduler._category_id_fuzzy(
+                categories, settings.meeting_booked_category_name
+            )
+        except smartlead.SmartleadError:
+            log.exception("booking-confirmed: could not fetch Smartlead categories")
+
+    for row in matches:
+        lead_id, campaign_id = row["lead_id"], row["campaign_id"]
+        if settings.dry_run:
+            log.info(
+                "[DRY_RUN] would mark lead %s/%s booked (matched %s)",
+                campaign_id, lead_id, email or name,
+            )
+        else:
+            if category_id is not None:
+                try:
+                    smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=True)
+                except smartlead.SmartleadError:
+                    log.exception(
+                        "booking-confirmed: failed to set Smartlead category for %s/%s",
+                        campaign_id, lead_id,
                     )
+            else:
+                log.warning(
+                    "booking-confirmed: Smartlead has no '%s' category configured; "
+                    "recording locally only for %s/%s",
+                    settings.meeting_booked_category_name, campaign_id, lead_id,
+                )
+        with db.db_session() as conn:
             db.mark_lead_booked(conn, lead_id, campaign_id)
-            booked.append({"campaign_id": campaign_id, "lead_id": lead_id})
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id,
+                smartlead_category=settings.meeting_booked_category_name,
+            )
+        booked.append({"campaign_id": campaign_id, "lead_id": lead_id})
 
-    interested_sheet.mark_booked(email)
-    log.info("booking-confirmed: marked %d lead(s) booked for %s", len(booked), email)
-    return JSONResponse({"status": "booked", "email": email, "matches": booked})
+    for row in matches:
+        interested_sheet.mark_booked_match(
+            email=row["email"] or email, name=row["name"] or name, lead_id=row["lead_id"]
+        )
+    log.info(
+        "booking-confirmed: marked %d lead(s) booked by %s for %s",
+        len(booked), matched_by, email or name,
+    )
+    return JSONResponse({
+        "status": "booked", "email": email, "name": name,
+        "matched_by": matched_by, "matches": booked,
+    })
 
 
 def _reply_received_at(payload: dict) -> str:

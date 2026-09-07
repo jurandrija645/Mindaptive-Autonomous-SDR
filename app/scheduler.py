@@ -272,7 +272,19 @@ def _sync_category_from_smartlead(
     alone — same caution _adopt_unknown_repliers takes), and never touches a
     booked/stopped/blacklisted lead, whose category means something a bare
     Smartlead reading must not override."""
-    if not sl_category_name:
+    with db.db_session() as conn:
+        state = db.get_lead_state(conn, lead_id, campaign_id)
+    if not state:
+        return
+    if state["status"] == "booked":
+        if not sl_category_name or norm_category_name(sl_category_name) != norm_category_name(
+            settings.meeting_booked_category_name
+        ):
+            _push_category_to_smartlead(
+                campaign_id, lead_id, settings.meeting_booked_category_name, pause=True
+            )
+        return
+    if not sl_category_name or state["status"] in ("stopped", "blacklisted"):
         return
     key = sl_category_name.strip().lower()
     if key == settings.interested_category_name.strip().lower():
@@ -321,7 +333,7 @@ def _push_category_to_smartlead(
         )
         return
     try:
-        category_id = smartlead.fetch_categories().get(category_name)
+        category_id = _category_id_fuzzy(smartlead.fetch_categories(), category_name)
         if category_id is None:
             log.warning(
                 "could not resolve '%s' category id — leaving lead %s/%s as-is in Smartlead",
@@ -1015,6 +1027,23 @@ def _process_lead(
             log.info("lead %s marked as booked (Meeting-Booked category)", lead["id"])
         return False
 
+    # A booking is a manual lock once recorded locally. Smartlead may change its
+    # category after another outbound email, but scans must not interpret that
+    # provider-side drift as an instruction to reopen the lead. Reassert the
+    # booked category remotely and keep the local freeze. Only the dashboard's
+    # manual category action can release it.
+    if lead_status == "booked":
+        if smartlead_category and norm_category_name(smartlead_category) != norm_category_name(
+            settings.meeting_booked_category_name
+        ):
+            _push_category_to_smartlead(
+                lead["campaign_id"], lead["id"], settings.meeting_booked_category_name,
+                pause=True,
+            )
+        with db.db_session() as conn:
+            db.mark_lead_booked(conn, lead["id"], lead["campaign_id"])
+        return False
+
     # Stopped/blacklisted leads stay out of the inbox — record the flag, skip the
     # (network) thread fetch, and don't touch their status.
     if lead_status in ("stopped", "blacklisted"):
@@ -1043,14 +1072,6 @@ def _process_lead(
                 log.info("drafting auto-reply nudge for lead %s", lead["id"])
                 pipeline.create_draft(conn, lead, campaign_name, "autoreply", thread)
         return False
-
-    # Category drives the booked state both ways: if a previously-booked lead
-    # is back in the Interested category (meeting fell through / new cycle),
-    # release the freeze so the normal reply/follow-up flow resumes.
-    if lead_status == "booked":
-        lead_status = "active"
-        base_fields["status"] = "active"
-        log.info("lead %s un-booked (category back to Interested)", lead["id"])
 
     # How hot the lead is, before the decision — a 🔥 lead (one who asked to
     # meet or call) is chased on a 24h clock instead of the FOLLOWUP_WAIT_DAYS
@@ -1152,10 +1173,11 @@ def _mark_lead_waiting_on_them(conn, lead_id: int, campaign_id: int) -> None:
     later). Never touches temperature or the hot/24h-vs-72h follow-up clock —
     those are a separate axis (app/lead_temperature.py) that doesn't reset on
     a send."""
-    db.upsert_lead_state(
-        conn, lead_id, campaign_id,
-        category="waiting", last_message_kind="sent", last_message_at=db.now_iso(),
-    )
+    state = db.get_lead_state(conn, lead_id, campaign_id)
+    fields = {"last_message_kind": "sent", "last_message_at": db.now_iso()}
+    if not (state and state["status"] == "booked"):
+        fields["category"] = "waiting"
+    db.upsert_lead_state(conn, lead_id, campaign_id, **fields)
 
 
 def _send_due_draft(draft: dict) -> str:
@@ -1176,7 +1198,9 @@ def _send_due_draft(draft: dict) -> str:
         if draft["kind"] == "followup" or last.message_id != draft["reply_message_id"]:
             with db.db_session() as conn:
                 db.update_draft(conn, draft["id"], status="stale")
-                db.upsert_lead_state(conn, lead_id, campaign_id, status="awaiting_reply")
+                state = db.get_lead_state(conn, lead_id, campaign_id)
+                if not (state and state["status"] == "booked"):
+                    db.upsert_lead_state(conn, lead_id, campaign_id, status="awaiting_reply")
             log.info("draft %s aborted: lead has a newer reply than this draft addresses", draft["id"])
             return "stale"
 

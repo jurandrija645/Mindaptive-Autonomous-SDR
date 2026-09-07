@@ -1302,7 +1302,8 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
         if restoring:
             db.upsert_lead_state(
                 conn, lead_id, campaign_id,
-                status="active", archived_at=None, archive_reason=None,
+                status="active", category="waiting",
+                archived_at=None, archive_reason=None,
                 smartlead_category=category_name,
             )
         elif booking:
@@ -1318,7 +1319,7 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
                 conn, lead_id, campaign_id,
                 archived_at=db.now_iso(), archive_reason=category_name,
                 category=scheduler._local_category_slug(category_name),
-                smartlead_category=category_name,
+                smartlead_category=category_name, status="active",
             )
     return JSONResponse({"ok": True})
 
