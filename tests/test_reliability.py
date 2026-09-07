@@ -68,6 +68,27 @@ class ReliabilityTests(unittest.TestCase):
                 self.assertEqual(db.get_lead_state(conn, 20, 10)["smartlead_category"], "Out Of Office")
             update.assert_called_with(10, 20, 6, pause_lead=False)
 
+    def test_regular_followup_clock_respects_cadence_and_existing_draft(self):
+        from app import detector
+        now = datetime.now(timezone.utc)
+        thread = [detector.NormalizedMessage(
+            kind="sent", timestamp=now - timedelta(days=3, hours=12),
+            message_id="sent-1", body="Our last message",
+        )]
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, name="Fred", category="waiting", temperature="warm")
+            row = dict(db.get_lead_state(conn, 20, 10))
+        with patch.object(settings, "followup_wait_days", (3, 4, 6, 8)), patch.object(
+            scheduler.signatures, "is_sendable", return_value=True
+        ), patch.object(db, "has_open_draft", return_value=True):
+            later = dict(row, followup_count=1)
+            self.assertFalse(scheduler._queue_due_followup(later, 10, thread))
+            with db.db_session() as conn:
+                self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "waiting")
+            scheduler._queue_due_followup(row, 10, thread)
+            with db.db_session() as conn:
+                self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "followup")
+
     def test_current_cache_avoids_live_smartlead_fetch(self):
         timestamp = "2026-09-04T12:00:00+00:00"
         cached_thread = [

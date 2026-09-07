@@ -500,7 +500,7 @@ def run_reply_catch_scan() -> None:
     - Being keyed off leads_state, it could not see a lead replying for the
       first time. _adopt_unknown_repliers covers that in one extra call.
 
-    It also carries the 🔥 leads' 24-hour follow-up clock (_queue_hot_followup),
+    It also carries every eligible lead's follow-up clock (_queue_due_followup),
     for the plain reason that it already holds every live lead's thread and the
     daily scan is otherwise the only thing that ever decides a follow-up is due.
     """
@@ -517,7 +517,7 @@ def run_reply_catch_scan() -> None:
             rows = conn.execute(
                 """SELECT lead_id, campaign_id, name, email, company, website,
                           campaign_name, status, followup_count, temperature,
-                          category, category_message_id
+                          category, category_message_id, smartlead_category
                    FROM leads_state
                    WHERE interested = 1 AND status IN ('active', 'awaiting_reply')"""
             ).fetchall()
@@ -542,7 +542,7 @@ def run_reply_catch_scan() -> None:
         }
 
         drafted = 0
-        hot_due = 0
+        followups_due = 0
         for campaign_id, leads in by_campaign.items():
             try:
                 bulk = smartlead.get_message_history_bulk(
@@ -563,15 +563,15 @@ def run_reply_catch_scan() -> None:
                 pipeline.cache_normalized_thread(campaign_id, row["lead_id"], thread)
                 if thread[-1].kind != "reply":
                     # Nobody is waiting on us. The one thing still worth
-                    # checking is a 🔥 lead's 24-hour follow-up clock — see
-                    # _queue_hot_followup for why it can't wait for the nightly
+                    # checking is whether the lead's follow-up deadline has passed — see
+                    # _queue_due_followup for why it can't wait for the nightly
                     # scan. Costs nothing: the thread is already in hand.
                     try:
-                        if _queue_hot_followup(row, campaign_id, thread):
-                            hot_due += 1
+                        if _queue_due_followup(row, campaign_id, thread):
+                            followups_due += 1
                     except Exception:
                         log.exception(
-                            "reply-catch: hot follow-up check failed for lead %s",
+                            "reply-catch: follow-up check failed for lead %s",
                             row["lead_id"],
                         )
                     continue
@@ -730,33 +730,24 @@ def run_reply_catch_scan() -> None:
 
         if drafted:
             log.info("reply-catch scan drafted %d missed reply(ies)", drafted)
-        if hot_due:
-            log.info("reply-catch scan queued %d hot lead follow-up(s)", hot_due)
+        if followups_due:
+            log.info("reply-catch scan queued %d lead follow-up(s)", followups_due)
 
 
-def _queue_hot_followup(row, campaign_id: int, thread) -> bool:
-    """A very hot lead's follow-up clock, checked every few minutes instead of
-    once a night. Returns True if this call is what queued them.
+def _queue_due_followup(row, campaign_id: int, thread) -> bool:
+    """Check every eligible lead's cadence using the thread already fetched.
 
-    HOT_FOLLOWUP_WAIT_HOURS is 24, and the daily scan used to be the only thing
-    that ever decided a follow-up was due — so on the nightly pass alone a "24
-    hour" cadence really means "whenever the next 6am run lands", i.e. anywhere
-    from 24 to 48 hours after the email went out. That is the whole difference
-    between chasing a lead who asked for a call the next morning and chasing
-    them the morning after that.
-
-    This pass already bulk-fetches the thread of every live lead — that is what
-    it is for — so the check costs one detector call per lead and no network at
-    all. Deliberately hot leads only: everyone else keeps the nightly cadence,
-    which is what FOLLOWUP_WAIT_DAYS is spaced for.
-
-    It queues a candidate rather than generating a draft, exactly like the daily
-    scan, so the model spend still happens on the overnight batch or on a click.
+    Hot leads retain their shorter wait; warm/cold leads retain the configured
+    day cadence. No model call or extra network request is needed. Update the
+    due chip even if a reviewable draft already exists.
     """
-    if (row["temperature"] or lead_temperature.COLD) != lead_temperature.HOT:
+    if row["category"] not in ("waiting", "followup", "reply"):
         return False
 
-    decision = detector.decide(thread, row["followup_count"], row["status"], hot=True)
+    decision = detector.decide(
+        thread, row["followup_count"], row["status"],
+        hot=(row["temperature"] or lead_temperature.COLD) == lead_temperature.HOT,
+    )
     if decision.action is not detector.Action.FOLLOWUP:
         return False
 
@@ -767,6 +758,7 @@ def _queue_hot_followup(row, campaign_id: int, thread) -> bool:
 
     last = thread[-1]
     with db.db_session() as conn:
+        db.upsert_lead_state(conn, row["lead_id"], campaign_id, category="followup")
         if db.has_open_draft(conn, row["lead_id"], campaign_id):
             return False
         # upsert_candidate only *creates* when there is no row at all — an open
