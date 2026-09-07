@@ -96,6 +96,11 @@ class ReliabilityTests(unittest.TestCase):
             self.assertFalse(scheduler._queue_due_followup(later, 10, thread))
             with db.db_session() as conn:
                 self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "waiting")
+                db.upsert_lead_state(conn, 20, 10, category="reply")
+                stale_reply = dict(db.get_lead_state(conn, 20, 10), followup_count=1)
+            self.assertFalse(scheduler._queue_due_followup(stale_reply, 10, thread))
+            with db.db_session() as conn:
+                self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "waiting")
             scheduler._queue_due_followup(row, 10, thread)
             with db.db_session() as conn:
                 self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "followup")

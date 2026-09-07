@@ -749,7 +749,7 @@ def _queue_due_followup(row, campaign_id: int, thread) -> bool:
         hot=(row["temperature"] or lead_temperature.COLD) == lead_temperature.HOT,
     )
     if decision.action is not detector.Action.FOLLOWUP:
-        if decision.action is detector.Action.NONE and row["category"] == "followup":
+        if decision.action is detector.Action.NONE and row["category"] != "waiting":
             with db.db_session() as conn:
                 db.upsert_lead_state(conn, row["lead_id"], campaign_id, category="waiting")
                 conn.execute(
