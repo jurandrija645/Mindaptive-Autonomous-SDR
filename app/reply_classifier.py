@@ -49,7 +49,7 @@ _USER = """**CATEGORY DEFINITIONS:**
 * **INTERESTED** — a real person wrote this and the conversation is alive:
 - Any interest in continuing the conversation.
 - Inquiries about price, a demo, a meeting.
-- Forwarding the email to a relevant colleague.
+- Interest in the offer while bringing a relevant colleague into the conversation.
 - A question, an objection, or a request to talk at a specific later time.
 
 * **AUTO_REPLY** — nobody actually read it; a machine answered, and the person
@@ -67,6 +67,8 @@ _USER = """**CATEGORY DEFINITIONS:**
   active" / "is being decommissioned".
 - Any reply whose point is "you have the wrong person or the wrong address",
   as opposed to an opinion about the offer itself.
+- A referral-only reply directing us to someone else, with no temporary
+  absence and no interest in continuing the conversation themselves.
 
 * **NOT_INTERESTED** — a person answered and the answer is an unambiguous no
   about the offer itself, not about who's reading it:
@@ -91,17 +93,19 @@ same as an AUTO_REPLY.
 
 Three edge cases, all seen in real traffic:
 
-- An out-of-office that also says to get in touch at a named later date is
-  INTERESTED, not AUTO_REPLY — a person wrote that sentence.
+- An automatic absence notice remains AUTO_REPLY even with a return date or
+  instructions to contact someone else in the meantime. A personal response
+  to our offer asking us to follow up later is INTERESTED.
 - A warm, friendly, first-person greeting is still AUTO_REPLY if it says
   nothing about *this* email. "Hi there, thanks so much for getting in touch,
   we love hearing from you, someone will be with you shortly" is a form
   response, however human it sounds. What makes a message INTERESTED is that
   it responds to something we actually said.
-- An out-of-office that names a replacement colleague to contact instead is
-  WRONG_PERSON, not AUTO_REPLY — the sender of *this* address isn't coming
-  back to it, even though the message reads exactly like a normal OOO
-  autoresponder.
+- Temporary absence takes precedence over a referral: "out of office till
+  September 15, contact Jordan in my absence", "taking some time away, in the
+  meantime contact John", and "I am OOO, forward to production" are AUTO_REPLY.
+  A colleague's address alone is NOT evidence that the sender has left.
+  "I no longer work here, contact John" is WRONG_PERSON.
 
 **MANDATORY COMMAND:**
 Carefully read the text below. After your analysis, your output **must be only \

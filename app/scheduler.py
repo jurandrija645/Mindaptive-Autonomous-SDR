@@ -329,6 +329,12 @@ def _push_category_to_smartlead(
             )
             return
         smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=pause)
+        # The filter reads this mirror, while the chip reads the local verdict.
+        # Refresh it only after the remote write succeeds.
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id, smartlead_category=category_name
+            )
     except Exception:
         log.exception(
             "failed to push '%s' category to Smartlead for lead %s/%s",
@@ -607,6 +613,16 @@ def run_reply_catch_scan() -> None:
                                 db.sort_replied_lead(
                                     conn, row["lead_id"], campaign_id, stored_label,
                                     message_id=last.message_id,
+                                )
+                            target_category = {
+                                "auto_reply": settings.autoreply_category_name,
+                                "not_interested": settings.not_interested_category_name,
+                                "wrong_person": settings.wrong_person_category_name,
+                            }[stored_label]
+                            if row["smartlead_category"] != target_category:
+                                _push_category_to_smartlead(
+                                    campaign_id, row["lead_id"], target_category,
+                                    pause=stored_label == "wrong_person",
                                 )
                             continue
                         # else: previously judged interested. category is

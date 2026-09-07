@@ -52,6 +52,22 @@ class ReliabilityTests(unittest.TestCase):
         self.assertIsNotNone(cached)
         self.assertEqual(cached["latest_message_id"], "reply-1")
 
+    def test_category_push_refreshes_filter_mirror_only_after_success(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, category="auto_reply")
+        with patch.object(settings, "dry_run", False), patch.object(
+            smartlead, "fetch_categories", return_value={"Out Of Office": 6}
+        ), patch.object(smartlead, "update_lead_category") as update:
+            update.side_effect = RuntimeError("temporary failure")
+            scheduler._push_category_to_smartlead(10, 20, "Out Of Office")
+            with db.db_session() as conn:
+                self.assertIsNone(db.get_lead_state(conn, 20, 10)["smartlead_category"])
+            update.side_effect = None
+            scheduler._push_category_to_smartlead(10, 20, "Out Of Office")
+            with db.db_session() as conn:
+                self.assertEqual(db.get_lead_state(conn, 20, 10)["smartlead_category"], "Out Of Office")
+            update.assert_called_with(10, 20, 6, pause_lead=False)
+
     def test_current_cache_avoids_live_smartlead_fetch(self):
         timestamp = "2026-09-04T12:00:00+00:00"
         cached_thread = [
