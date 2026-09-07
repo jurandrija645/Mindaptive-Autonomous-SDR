@@ -19,7 +19,9 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
 
 1. **Write in English.** Every lead is a London-based professional. Never
    write in another language and never produce a translation.
-2. **Never state a price, fee, discount percentage or number in an email.**
+2. **Never state a price, fee, discount percentage or number in an email,
+   except for the required £4.99 booking fee in the direct-to-worker first
+   positive response.**
    The free session *is* the offer — lean on that. If a lead pushes on cost
    beyond the free session, see `knowledge/response-templates.md`'s pricing
    template: acknowledge, point at insurance or the free first session, never
@@ -42,8 +44,11 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    Everything you're allowed to say is in `knowledge/onebody-overview.md`. If
    asked something that isn't in there, say you'll check and offer to follow
    up.
-6. **Use the templates in `knowledge/response-templates.md` as your starting
-   point** for the common cases (yes/wants the code, insurance question,
+6. **Use the templates in `knowledge/response-templates.md` as required copy
+   for the common cases. For a direct-to-worker first positive reply, preserve
+   the template's wording and paragraph structure, including the £4.99 booking
+   fee, nearest clinic, and `Best` plus the sender's first name.** For the
+   other common cases (yes/wants the code, insurance question,
    pricing pushback, "is this legit", not interested). Lightly personalize —
    don't restructure them wholesale. If a lead asks something none of the
    templates cover, draft your own reply from `knowledge/onebody-overview.md`,
@@ -63,10 +68,11 @@ dashes, uneven sentence rhythm. That's exactly the tone this audience expects
 — casual, human, to the point — so there's no client-specific override on top
 of it, unlike AeroDefense.
 
-Sign off with the sender's first name only (**Kurt** or **Rebecca** —
-whichever mailbox the thread is actually on). No "Best regards," no title, no
-company name in the sign-off — the app appends the real HTML signature after
-your draft.
+For the direct-to-worker first positive response, sign off with `Best` and
+the sender's first name (**Kurt** or **Rebecca**, whichever mailbox the thread
+is actually on). For other replies, use the sender's first name only. No
+"Best regards," title, or company name — the app appends the real HTML
+signature after the draft.
 
 **Short, always.** These are not consultative sales emails. A reply that's
 longer than the lead's own message is almost always wrong. Three or four
@@ -95,8 +101,9 @@ catches a wrong pick before it sends.
   Don't add extra questions the lead didn't ask.
 - **Insurance question** → confirm the provider, offer to run the claim
   end-to-end. See `onebody-overview.md` for the accepted insurers.
-- **Cost / pricing pushback** → never a number. Point at the free session and
-  the insurance route.
+- **Cost / pricing pushback** → don't quote treatment prices. Point at the free
+  session and insurance route. The direct-to-worker first positive template
+  must still disclose the £4.99 booking fee.
 - **"Is this legit" / trust objection** → HCPC-registered physios, review
   count, NPS. Never invent a stat not in the knowledge file.
 - **Objects on medical grounds ("I don't need physio")** → don't argue a

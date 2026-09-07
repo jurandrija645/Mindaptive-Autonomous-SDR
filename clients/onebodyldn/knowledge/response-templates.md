@@ -1,9 +1,7 @@
 # One Body LDN — response templates
 
-These campaigns are brand new — there is no history of real replies yet, so
-these templates are a first draft, not a backlog of copy that's already been
-approved and sent. Andrew should read and adjust these before the first real
-reply goes out, same as he would tune any new template from the modal.
+These are the required reply templates. Follow their wording and structure
+closely, especially the direct-to-worker first positive response.
 
 The booking code and link are real and fixed — the same for every lead, every
 persona, every clinic:
@@ -15,8 +13,8 @@ Use them exactly as written, every time. Never alter, abbreviate, or
 paraphrase either one.
 
 Use `{{first_name}}` and `{{company_name}}` filled from the lead record, and
-sign off with whichever persona (Kurt Johnson or Rebecca Bossick) actually
-sent the thread — the app tells you which. `{{nearest_clinic}}` is whichever
+use whichever persona (Kurt Johnson or Rebecca Bossick) actually sent the
+thread — the app tells you which. `{{nearest_clinic}}` is whichever
 clinic the lead's own cold email already named — read it from the thread
 (it's also in the lead's `nearestClinic` custom field if the thread doesn't
 have it) rather than guessing; see `onebody-overview.md`'s "What this app
@@ -42,22 +40,25 @@ timing, insurance, etc.), answer it in one extra sentence — don't drop the
 link/code to make room for it, and don't let the answer replace the
 hand-over.
 
+Use this response for the first positive reply. Keep this wording and
+paragraph structure. Replace every placeholder with the real value:
+
 Hi {{first_name}},
 
 thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
 
-The code is OBLACCESS55. Just select the clinic you want and book your free
-session. Let me know if you need any help.
+The code is **OBLACCESS55**. There is just a £4.99 booking fee which allows us
+to hold the time slot for you. Just select the clinic you want (probably
+{{nearest_clinic}} for you) and book your free session. Let me know if you
+need any help.
 
-Kurt
+Best
+{{sender_first_name}}
 
-*(If you know which clinic is nearest them from the thread or the
-`nearestClinic` custom field, you can name it — "probably {{nearest_clinic}}
-for you" — but this is optional flavor, never a reason to hold back the
-link/code if you're not sure. If the lead has already said they'd rather use
-insurance instead of the free session, answer that in one sentence and still
-include the link/code — the code covers self-pay attendance either way, and
-the insurance question doesn't block booking.)*
+`{{sender_first_name}}` is the first name of the persona whose mailbox sent
+the thread: Kurt or Rebecca. If the lead has already said they'd rather use
+insurance, answer that in one extra sentence and still include this full
+booking hand-over.
 
 ---
 

@@ -104,17 +104,13 @@ disclosed price:
   to them once their claim is set up — again, without quoting a currency
   figure.
 
-## Booking code / booking link — placeholder, needs a real value
+## Booking code / booking link
 
-The cold emails promise "a code" and, in the direct-to-worker campaign, a
-"book here today" link. **Neither a real discount-code format nor a real
-booking URL has been supplied yet.** Until Andrew fills these in (see
-`response-templates.md`), do not invent one:
-
-- If asked for the code or booking link and you don't have a real value from
-  the thread or prior research, say it's coming right over / confirm the
-  clinic first, and let Andrew fill in the actual code before send — don't
-  write a fake code or guess a URL like `onebodyldn.com/book`.
+The confirmed booking code is `OBLACCESS55` and the confirmed booking URL is
+`https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`.
+Use both exactly as written in the direct-to-worker first positive response.
+That response must also disclose the £4.99 booking fee, which holds the time
+slot.
 
 ## Sender personas
 
