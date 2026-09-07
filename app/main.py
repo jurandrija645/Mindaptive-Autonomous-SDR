@@ -95,6 +95,8 @@ templates.env.globals["client_color"] = client_assets.CLIENT_COLOR
 @app.on_event("startup")
 def on_startup():
     db.init_db()
+    from app import followup_settings
+    followup_settings.load()
     scheduler.start_scheduler()
     # Warm the campaigns lists once at boot (background, doesn't delay startup)
     # so the first time the tab is opened after a deploy it's already instant.
@@ -1157,6 +1159,30 @@ async def api_draft_localize(request: Request, draft_id: int):
 # Categories where recategorizing should also stop Smartlead's own automated
 # sequence — the lead has told us (or a bounce/opt-out told us) to stop.
 PAUSE_CATEGORIES = {"Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"}
+
+
+@app.get("/api/followup-settings")
+def api_followup_settings(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    from app import followup_settings
+    return JSONResponse(followup_settings.payload())
+
+
+@app.post("/api/followup-settings")
+async def api_save_followup_settings(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    from app import followup_settings
+    body = await _json_body(request)
+    try:
+        result = await run_in_threadpool(followup_settings.save, body)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    await run_in_threadpool(followup_settings.refresh_due_statuses)
+    return JSONResponse(result)
 
 
 @app.get("/api/models")

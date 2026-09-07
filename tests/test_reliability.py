@@ -89,6 +89,46 @@ class ReliabilityTests(unittest.TestCase):
             with db.db_session() as conn:
                 self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "followup")
 
+    def test_followup_timing_persists_and_recalculates_both_directions(self):
+        from app import followup_settings, detector
+        timestamp = (datetime.now(timezone.utc) - timedelta(days=4)).isoformat()
+        message = dict(kind="sent", timestamp=timestamp, message_id="sent-1", body="Hello")
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, interested=1, category="waiting")
+            db.put_lead_thread(conn, 20, 10, json.dumps([message]), "sent-1", timestamp)
+        with patch.object(settings, "followup_wait_days", (3, 4, 6, 8)), patch.object(
+            settings, "hot_followup_wait_hours", 24
+        ), patch.object(scheduler.signatures, "is_sendable", return_value=True):
+            followup_settings.save({"days": 3, "hot_hours": 0})
+            settings.followup_wait_days = (99,)
+            followup_settings.load()
+            self.assertEqual(settings.followup_wait_days, (3,))
+            self.assertEqual(settings.hot_followup_wait_hours, 0)
+            followup_settings.refresh_due_statuses()
+            with db.db_session() as conn:
+                self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "followup")
+            followup_settings.save({"days": 5, "hot_hours": 0})
+            followup_settings.refresh_due_statuses()
+            with db.db_session() as conn:
+                self.assertEqual(db.get_lead_state(conn, 20, 10)["category"], "waiting")
+                self.assertEqual(conn.execute("SELECT COUNT(*) FROM candidates").fetchone()[0], 0)
+            with self.assertRaises(ValueError):
+                followup_settings.save({"days": 0, "hot_hours": 0})
+            self.assertEqual(settings.followup_wait_days, (5,))
+
+    def test_followup_settings_api_validates_and_saves(self):
+        client = TestClient(main.app)
+        with patch.object(main, "require_auth", return_value=None), patch.object(
+            settings, "followup_wait_days", (3, 4, 6, 8)
+        ), patch.object(settings, "hot_followup_wait_hours", 24):
+            self.assertEqual(client.get("/api/followup-settings").json()["cadence"], [3, 4, 6, 8])
+            bad = client.post("/api/followup-settings", json={"days": 2.5, "hot_hours": 0})
+            self.assertEqual(bad.status_code, 400)
+            saved = client.post("/api/followup-settings", json={"days": 4, "hot_hours": 0})
+            self.assertEqual(saved.status_code, 200)
+            self.assertEqual(saved.json()["cadence"], [4])
+            self.assertEqual(client.get("/api/followup-settings").json()["hot_hours"], 0)
+
     def test_current_cache_avoids_live_smartlead_fetch(self):
         timestamp = "2026-09-04T12:00:00+00:00"
         cached_thread = [
