@@ -12,7 +12,7 @@ from unittest.mock import patch
 import httpx
 from fastapi.testclient import TestClient
 
-from app import db, main, pipeline, scheduler, smartlead, webhook
+from app import db, drafter, main, pipeline, reply_classifier, scheduler, smartlead, webhook
 from app.config import settings
 
 
@@ -34,6 +34,37 @@ class ReliabilityTests(unittest.TestCase):
     def tearDown(self):
         settings.db_path = self.old_db_path
         self.tmp.cleanup()
+
+    def test_sender_without_persona_calendar_does_not_override_client_booking_link(self):
+        message = drafter._build_user_message(
+            "reply",
+            {
+                "name": "Alex",
+                "email": "alex@example.com",
+                "sender_name": "Kurt Johnson",
+                "calendar_link": "",
+            },
+            "Lead: Yes please, send the code.",
+            use_web_search=False,
+        )
+        self.assertIn("Follow the system prompt and knowledge base", message)
+        self.assertNotIn("No booking link is available", message)
+        self.assertNotIn("offer to send times instead", message)
+
+    def test_onebody_positive_templates_contain_fixed_booking_handover(self):
+        source = Path("clients/onebodyldn/knowledge/response-templates.md").read_text(
+            encoding="utf-8"
+        )
+        direct_start = source.index('## Direct-to-worker — "yes" / wants the code')
+        corporate_start = source.index('## Corporate / HR — "yes" for the team')
+        insurance_start = source.index('## "Do you take my insurance?"')
+        direct = source[direct_start:corporate_start]
+        corporate = source[corporate_start:insurance_start]
+        for template in (direct, corporate):
+            self.assertIn("OBLACCESS55", template)
+            self.assertIn("https://onebodyldn.connect.tm3app.com/book/", template)
+        self.assertIn("{{nearest_clinic}} is closest to you", direct)
+        self.assertNotIn("£4.99", direct)
 
     def test_thread_fetch_populates_cache(self):
         raw = [
@@ -216,6 +247,50 @@ Discount Code: OBLACCESS55
         with db.db_session() as conn:
             row = db.get_lead_state(conn, 20, 10)
             self.assertEqual((row["status"], row["category"]), ("booked", "booked"))
+
+    def test_booking_matches_chris_to_christian_only_with_approved_code(self):
+        client = TestClient(main.app)
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 20, 10, interested=1, name="Chris Roberts",
+                email="christian.roberts@sucfin.com", category="reply",
+            )
+        with patch.object(settings, "booking_webhook_secret", ""), patch.object(
+            settings, "booking_match_codes", ("OBLACCESS55",)
+        ), patch.object(settings, "dry_run", True), patch.object(
+            webhook.interested_sheet, "mark_booked_match"
+        ) as mark_sheet:
+            response = client.post(
+                "/webhooks/booking-confirmed",
+                json={
+                    "email": "different.personal@gmail.com",
+                    "client_name": "Mr Christian Roberts",
+                    "discount_code": "OBLACCESS55",
+                },
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["matched_by"], "name")
+        mark_sheet.assert_called_once_with(
+            email="christian.roberts@sucfin.com", name="Chris Roberts", lead_id=20
+        )
+
+    def test_onebody_booking_workflow_forwards_name_and_code(self):
+        workflow = json.loads(
+            Path("clients/onebodyldn/n8n-booking-workflow.json").read_text(encoding="utf-8")
+        )
+        nodes = {node["name"]: node for node in workflow["nodes"]}
+        extractor = nodes["Extract booked email"]["parameters"]["jsCode"]
+        request_body = nodes["Mark booked"]["parameters"]["jsonBody"]
+        self.assertIn("discount_code: field('Discount Code')", extractor)
+        self.assertIn("client_name: $json.client_name", request_body)
+        self.assertIn("discount_code: $json.discount_code", request_body)
+
+    def test_explicit_all_booked_reply_is_deterministic(self):
+        label, _ = reply_classifier.classify("Many thanks — all booked!")
+        self.assertEqual(label, reply_classifier.BOOKED)
+        with patch.object(reply_classifier.llm, "complete_for", return_value=("INTERESTED", {})):
+            label, _ = reply_classifier.classify("Sorry, we're all booked up this week")
+        self.assertEqual(label, reply_classifier.INTERESTED)
 
     def test_scan_cannot_unbook_lead_when_smartlead_drifts(self):
         with db.db_session() as conn:

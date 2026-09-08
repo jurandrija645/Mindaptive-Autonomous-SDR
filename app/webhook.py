@@ -440,6 +440,14 @@ def _process_reply(
     # to push the lead to Smartlead's Interested category — nothing else.
     label, reason = reply_classifier.classify(_reply_text(payload))
     log.info("lead %s reply: %s", lead_id, reason)
+    if label == reply_classifier.BOOKED:
+        scheduler.record_explicit_booking(
+            lead_id,
+            campaign_id,
+            email=(lead_row["email"] if lead_row else "") or "",
+            name=(lead_row["name"] if lead_row else "") or "",
+        )
+        return {"status": "ok", "note": "booking confirmation recorded"}
     if label != reply_classifier.INTERESTED:
         # Recorded and visible either way; db.sort_replied_lead just moves it
         # out of the red "awaiting reply" tier it doesn't belong in. No real

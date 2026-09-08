@@ -196,8 +196,9 @@ def _build_user_message(
         )
     elif sender_name:
         lines.append(
-            "- No booking link is available for this sender. Do not invent one; "
-            "offer to send times instead."
+            "- No sender-specific calendar link was supplied. Follow the system "
+            "prompt and knowledge base for any fixed client-wide booking link or "
+            "code. If they do not provide one, do not invent one."
         )
     if kind != "autoreply":
         if prior_research and use_web_search:

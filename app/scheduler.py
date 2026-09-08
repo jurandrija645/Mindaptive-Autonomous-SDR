@@ -354,6 +354,31 @@ def _push_category_to_smartlead(
         )
 
 
+def record_explicit_booking(
+    lead_id: int,
+    campaign_id: int,
+    *,
+    email: str = "",
+    name: str = "",
+    message_id: str | None = None,
+) -> None:
+    """Freeze a lead who explicitly confirms their booking is complete."""
+    _push_category_to_smartlead(
+        campaign_id, lead_id, settings.meeting_booked_category_name, pause=True
+    )
+    with db.db_session() as conn:
+        db.mark_lead_booked(conn, lead_id, campaign_id)
+        fields = {"smartlead_category": settings.meeting_booked_category_name}
+        if message_id:
+            fields["category_message_id"] = message_id
+        db.upsert_lead_state(conn, lead_id, campaign_id, **fields)
+    interested_sheet.mark_booked_match(email=email, name=name, lead_id=lead_id)
+    log.info(
+        "lead %s/%s marked booked from explicit reply confirmation",
+        campaign_id, lead_id,
+    )
+
+
 _new_reply_lock = threading.Lock()
 
 
@@ -654,6 +679,14 @@ def run_reply_catch_scan() -> None:
                             "reply-catch: lead %s sorted as %s (%s)",
                             row["lead_id"], label, reason,
                         )
+                        if label == reply_classifier.BOOKED:
+                            record_explicit_booking(
+                                row["lead_id"], campaign_id,
+                                email=row["email"] or "",
+                                name=row["name"] or "",
+                                message_id=last.message_id,
+                            )
+                            continue
                         with db.db_session() as conn:
                             if label == reply_classifier.INTERESTED:
                                 db.mark_category_judged(

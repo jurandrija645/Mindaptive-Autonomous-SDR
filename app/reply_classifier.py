@@ -24,6 +24,7 @@ behaviour Andrew already tuned doesn't change underneath him.
 """
 
 import logging
+import re
 
 from app import llm, models_registry
 from app.email_clean import to_plain_text
@@ -38,6 +39,17 @@ INTERESTED = "interested"
 AUTO_REPLY = "auto_reply"
 NOT_INTERESTED = "not_interested"
 WRONG_PERSON = "wrong_person"
+BOOKED = "booked"
+
+# High-confidence confirmations only. Do not match "all booked up" (which can
+# describe unavailable capacity) or a question such as "can I book?".
+_BOOKED_CONFIRMATION_RE = re.compile(
+    r"(?:\ball\s+booked\s*[.!]*$|"
+    r"\b(?:i|we)(?:'ve|\s+have)\s+(?:now\s+)?booked"
+    r"(?:\s+(?:it|in|the\s+(?:appointment|session)))?\s*[.!]*$|"
+    r"\b(?:appointment|session)(?:'s|\s+is)\s+(?:now\s+)?booked\s*[.!]*$)",
+    re.IGNORECASE,
+)
 
 _SYSTEM = (
     "You are an AI text classification system. Your sole function is to analyze "
@@ -131,6 +143,8 @@ def classify(reply_text: str) -> tuple[str, str]:
     text = to_plain_text(reply_text or "").strip()
     if not text:
         return INTERESTED, "empty message — nothing to classify, treated as interested"
+    if _BOOKED_CONFIRMATION_RE.search(text):
+        return BOOKED, "explicitly confirmed the appointment/session is booked"
 
     try:
         # 2048 tokens for a one-word answer, and it has to be. A reasoning

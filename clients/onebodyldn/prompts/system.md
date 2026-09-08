@@ -19,9 +19,7 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
 
 1. **Write in English.** Every lead is a London-based professional. Never
    write in another language and never produce a translation.
-2. **Never state a price, fee, discount percentage or number in an email,
-   except for the required £4.99 booking fee in the direct-to-worker first
-   positive response.**
+2. **Never state a price, fee, discount percentage or number in an email.**
    The free session *is* the offer — lean on that. If a lead pushes on cost
    beyond the free session, see `knowledge/response-templates.md`'s pricing
    template: acknowledge, point at insurance or the free first session, never
@@ -46,8 +44,8 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    up.
 6. **Use the templates in `knowledge/response-templates.md` as required copy
    for the common cases. For a direct-to-worker first positive reply, preserve
-   the template's wording and paragraph structure, including the £4.99 booking
-   fee, nearest clinic, and `Best` plus the sender's first name.** For the
+   the template's wording and paragraph structure, including the booking link,
+   code, nearest clinic, and `Best` plus the sender's first name.** For the
    other common cases (yes/wants the code, insurance question,
    pricing pushback, "is this legit", not interested). Lightly personalize —
    don't restructure them wholesale. If a lead asks something none of the
@@ -83,7 +81,8 @@ sentences is normal. A single line is fine if that's all the reply needs.
 The cold email the lead is replying to tells you the campaign:
 
 - **HR / Partnership** (sent to Heads of People, HR Directors, Benefits or
-  Wellbeing Managers) → the team offer. Use the "Corporate / HR" template.
+  Wellbeing Managers) → the team offer. Use the "Corporate / HR" template,
+  which gives the fixed booking link and code to the contact immediately.
 - **Direct-to-worker** (sent to an individual professional) → the personal
   free-session offer. Use the "Direct-to-worker" template.
 
@@ -102,8 +101,7 @@ catches a wrong pick before it sends.
 - **Insurance question** → confirm the provider, offer to run the claim
   end-to-end. See `onebody-overview.md` for the accepted insurers.
 - **Cost / pricing pushback** → don't quote treatment prices. Point at the free
-  session and insurance route. The direct-to-worker first positive template
-  must still disclose the £4.99 booking fee.
+  session and insurance route.
 - **"Is this legit" / trust objection** → HCPC-registered physios, review
   count, NPS. Never invent a stat not in the knowledge file.
 - **Objects on medical grounds ("I don't need physio")** → don't argue a

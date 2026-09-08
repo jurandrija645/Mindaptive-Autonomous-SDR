@@ -547,6 +547,9 @@ def find_lead_by_email(conn, email: str):
 
 
 _NAME_TITLE_RE = re.compile(r"^(?:mr|mrs|ms|miss|dr|prof)\s+", re.I)
+_FIRST_NAME_EQUIVALENTS = {
+    "chris": "christian",
+}
 
 
 def normalize_person_name(name: str) -> str:
@@ -557,11 +560,19 @@ def normalize_person_name(name: str) -> str:
     # example "Ben Broughton - Primis". Booking confirmations contain only the
     # person's name, so remove that clearly delimited suffix before comparing.
     text = re.sub(r"\s+(?:-|–|—|\|)\s+.*$", "", text)
-    return " ".join(re.findall(r"[a-z0-9]+", text.lower()))
+    parts = re.findall(r"[a-z0-9]+", text.lower())
+    if len(parts) >= 2:
+        parts[0] = _FIRST_NAME_EQUIVALENTS.get(parts[0], parts[0])
+    return " ".join(parts)
 
 
 def find_leads_by_name(conn, name: str):
-    """Exact normalized full-name matches for trusted-code booking fallback."""
+    """Normalized full-name matches for trusted-code booking fallback.
+
+    A small first-name equivalence map handles known booking/import differences
+    such as Chris vs Christian. The webhook still requires an approved offer
+    code and rejects ambiguous matches, so a nickname alone cannot book a lead.
+    """
     wanted = normalize_person_name(name)
     if not wanted:
         return []

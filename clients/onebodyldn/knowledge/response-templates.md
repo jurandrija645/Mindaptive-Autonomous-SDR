@@ -47,10 +47,9 @@ Hi {{first_name}},
 
 thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
 
-The code is **OBLACCESS55**. There is just a £4.99 booking fee which allows us
-to hold the time slot for you. Just select the clinic you want (probably
-{{nearest_clinic}} for you) and book your free session. Let me know if you
-need any help.
+The code is **OBLACCESS55**. Just select the clinic you want (probably
+{{nearest_clinic}} is closest to you) and book your free session. Let me know
+if you need any help.
 
 Best
 {{sender_first_name}}
@@ -69,8 +68,11 @@ offer to HR/People/Benefits contacts).
 
 Hi {{first_name}},
 
-Brilliant — I'll get the code and the one-pager over to you so your team can
-book in whenever suits them. No contract, nothing to sign, nothing for you to
+Brilliant. Your team can book here:
+https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
+
+The code is **OBLACCESS55**. They can use that to book the free session at
+whichever clinic suits them. No contract, nothing to sign, nothing for you to
 set up on your end.
 
 One thing that'd help: roughly how many people should the code cover, and is

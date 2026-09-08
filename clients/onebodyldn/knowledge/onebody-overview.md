@@ -109,8 +109,6 @@ disclosed price:
 The confirmed booking code is `OBLACCESS55` and the confirmed booking URL is
 `https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`.
 Use both exactly as written in the direct-to-worker first positive response.
-That response must also disclose the £4.99 booking fee, which holds the time
-slot.
 
 ## Sender personas
 
