@@ -2507,14 +2507,34 @@ function normCategoryName(s) {
 const BOOKED_CATEGORY_NORM = "meetingbooked";
 
 async function changeCategory(name) {
+  const restoring = name === "Interested";
   const booking = normCategoryName(name) === BOOKED_CATEGORY_NORM;
   const pauseNote = PAUSE_CATEGORIES.has(name) ? " and pause their sequence" : "";
-  const consequence = booking ? "" : " This removes them from your inbox.";
+  const consequence = restoring
+    ? " This restores them to your inbox."
+    : booking ? "" : " This removes them from your inbox.";
   if (!confirm(`Set Smartlead category to "${name}"${pauseNote}?${consequence}`)) return;
   const { cid, lid } = currentLeadIds();
 
-  if (!booking) {
+  if (!booking && !restoring) {
     await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name }));
+    return;
+  }
+
+  if (restoring) {
+    // Restoring from Archive should remove the row from that view. In the
+    // inbox it should remain visible and be re-read from the server with its
+    // new waiting/Interested state instead of using the archive animation.
+    if (state.view === "archive") {
+      await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name }));
+      return;
+    }
+    try {
+      await apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name });
+      await autoRefreshInbox();
+    } catch (e) {
+      alert(e.message);
+    }
     return;
   }
 

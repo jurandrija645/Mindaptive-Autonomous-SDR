@@ -97,6 +97,8 @@ class ReliabilityTests(unittest.TestCase):
     def test_change_status_dropdown_keeps_interested_restore_action(self):
         source = Path("app/static/app.js").read_text(encoding="utf-8")
         self.assertIn("state.categoryList = data.categories;", source)
+        self.assertIn('const restoring = name === "Interested";', source)
+        self.assertIn('This restores them to your inbox.', source)
         self.assertNotIn(
             'data.categories.filter((c) => c !== "Interested")', source
         )
