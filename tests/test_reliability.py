@@ -94,6 +94,13 @@ class ReliabilityTests(unittest.TestCase):
         )
         self.assertEqual(result.stdout.strip(), "Auto-reply / Out of office")
 
+    def test_change_status_dropdown_keeps_interested_restore_action(self):
+        source = Path("app/static/app.js").read_text(encoding="utf-8")
+        self.assertIn("state.categoryList = data.categories;", source)
+        self.assertNotIn(
+            'data.categories.filter((c) => c !== "Interested")', source
+        )
+
     def test_category_push_refreshes_filter_mirror_only_after_success(self):
         with db.db_session() as conn:
             db.upsert_lead_state(conn, 20, 10, category="auto_reply")

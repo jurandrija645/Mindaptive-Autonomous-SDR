@@ -402,7 +402,11 @@ async function setDefaultModel(select, btn) {
 async function loadCategories() {
   try {
     const data = await apiGet("/api/categories");
-    state.categoryList = data.categories.filter((c) => c !== "Interested");
+    // "Interested" is also the restore action for a lead whose Smartlead
+    // category is stale or was changed by hand. The API already treats it as
+    // a special, non-archiving category; keep it in the same live list as all
+    // other Smartlead statuses so that restore is possible from the UI.
+    state.categoryList = data.categories;
   } catch (e) {
     state.categoryList = DEFAULT_CATEGORIES;
   }
