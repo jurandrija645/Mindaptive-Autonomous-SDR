@@ -38,6 +38,7 @@ _MAX_CHARS = 4000
 INTERESTED = "interested"
 AUTO_REPLY = "auto_reply"
 NOT_INTERESTED = "not_interested"
+DO_NOT_CONTACT = "do_not_contact"
 WRONG_PERSON = "wrong_person"
 BOOKED = "booked"
 
@@ -51,10 +52,28 @@ _BOOKED_CONFIRMATION_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Compliance commands are not sales sentiment. Keep them deterministic and
+# ahead of the model so an explicit opt-out cannot be softened into the
+# broader NOT_INTERESTED bucket.
+_DO_NOT_CONTACT_RE = re.compile(
+    r"(?:"
+    r"^\s*stop\s*[.!]*\s*$|"
+    r"\bplease\s+stop(?:\s+(?:the\s+)?(?:emails?|emailing|contacting|messages?|sending))?\b|"
+    r"\bstop\s+(?:the\s+)?(?:emails?|emailing|contacting|messages?|sending)\b|"
+    r"\b(?:do\s+not|don['’]?t)\s+(?:email|contact|message|write\s+to|send(?:\s+(?:me|us))?)\b|"
+    r"\b(?:remove|delete)\s+(?:me|us)\s+from\s+(?:your|the|this)\s+(?:email\s+|mailing\s+)?list\b|"
+    r"\btake\s+(?:me|us)\s+off\s+(?:your|the|this)\s+(?:email\s+|mailing\s+)?list\b|"
+    r"\b(?:unsubscribe|opt\s+(?:me|us)\s+out)\b|"
+    r"\bno\s+more\s+(?:emails?|messages?)\b|"
+    r"\bcease\s+(?:all\s+)?(?:contact|communications?|emails?)\b"
+    r")",
+    re.IGNORECASE,
+)
+
 _SYSTEM = (
     "You are an AI text classification system. Your sole function is to analyze "
-    "the provided text and assign it exactly one of four categories: "
-    "INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED."
+    "the provided text and assign it exactly one of five categories: "
+    "INTERESTED, AUTO_REPLY, WRONG_PERSON, DO_NOT_CONTACT or NOT_INTERESTED."
 )
 
 _USER = """**CATEGORY DEFINITIONS:**
@@ -85,8 +104,15 @@ _USER = """**CATEGORY DEFINITIONS:**
 * **NOT_INTERESTED** — a person answered and the answer is an unambiguous no
   about the offer itself, not about who's reading it:
 - Flat rejection ("not interested", "no thank you", "not for us").
-- Unsubscribe or removal request, or a data-protection complaint.
 - A reply that clearly ends the communication.
+
+* **DO_NOT_CONTACT** — an explicit instruction that future contact must stop:
+- "stop", "please stop the emails", "don't contact me again".
+- "remove me from your list", "take me off your list", or "unsubscribe me".
+- A demand to stop sending email or a data-protection deletion/opt-out request.
+
+Plain "not interested" is NOT_INTERESTED, never DO_NOT_CONTACT. DO_NOT_CONTACT
+requires an instruction not to contact the person again.
 
 **A doubt is not a no.** A price objection, a worry about fit, a concern about
 data protection, "I'm not sure this works for our margins", "we already use
@@ -121,7 +147,7 @@ Three edge cases, all seen in real traffic:
 
 **MANDATORY COMMAND:**
 Carefully read the text below. After your analysis, your output **must be only \
-one word**: INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED.
+one word**: INTERESTED, AUTO_REPLY, WRONG_PERSON, DO_NOT_CONTACT or NOT_INTERESTED.
 You must not write anything else. No explanations, no greetings, and no period at the end.
 
 **TEXT TO ANALYZE:**
@@ -137,12 +163,14 @@ def is_relevant(reply_text: str) -> tuple[bool, str]:
 
 def classify(reply_text: str) -> tuple[str, str]:
     """`(label, reason)` where label is INTERESTED / AUTO_REPLY / WRONG_PERSON /
-    NOT_INTERESTED.
+    DO_NOT_CONTACT / NOT_INTERESTED.
 
     Fails open to INTERESTED — see the module docstring."""
     text = to_plain_text(reply_text or "").strip()
     if not text:
         return INTERESTED, "empty message — nothing to classify, treated as interested"
+    if _DO_NOT_CONTACT_RE.search(text):
+        return DO_NOT_CONTACT, "explicit request to stop future contact"
     if _BOOKED_CONFIRMATION_RE.search(text):
         return BOOKED, "explicitly confirmed the appointment/session is booked"
 
@@ -174,8 +202,10 @@ def classify(reply_text: str) -> tuple[str, str]:
     # but keeping it ahead of AUTO_REPL/INTEREST is what future-proofs the
     # ordering if that ever changes.
     normalized = verdict.strip().upper()
+    if "DO_NOT_CONTACT" in normalized or "DO NOT CONTACT" in normalized:
+        return DO_NOT_CONTACT, "classified DO_NOT_CONTACT (explicit opt-out)"
     if "NOT_INTER" in normalized:
-        return NOT_INTERESTED, "classified NOT_INTERESTED (rejection / unsubscribe)"
+        return NOT_INTERESTED, "classified NOT_INTERESTED (rejection)"
     if "WRONG_PERSON" in normalized or "WRONG PERSON" in normalized:
         return WRONG_PERSON, "classified WRONG_PERSON (no longer there / mailbox not monitored)"
     if "AUTO_REPL" in normalized or "AUTO REPL" in normalized:

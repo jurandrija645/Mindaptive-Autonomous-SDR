@@ -69,6 +69,9 @@ class Settings:
     not_interested_category_name: str = os.getenv(
         "NOT_INTERESTED_CATEGORY_NAME", "Not Interested"
     )
+    do_not_contact_category_name: str = os.getenv(
+        "DO_NOT_CONTACT_CATEGORY_NAME", "Do Not Contact"
+    )
     # Smartlead's own "wrong person" category — where a WRONG_PERSON classifier
     # verdict gets pushed (reply_classifier.WRONG_PERSON: "I no longer work
     # here", "this address isn't monitored"). Distinct from Auto-Reply — an

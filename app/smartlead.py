@@ -476,6 +476,23 @@ def update_lead_category(
     )
 
 
+def unsubscribe_lead_globally(lead_id: int) -> Any:
+    """Globally suppress a lead so future campaigns cannot re-add them."""
+    return _request("POST", f"/leads/{lead_id}/unsubscribe")
+
+
+def add_to_global_block_list(*entries: str) -> Any:
+    """Block exact email addresses and/or bare domains across this account."""
+    cleaned = list(dict.fromkeys(value.strip().lower() for value in entries if value.strip()))
+    if not cleaned:
+        raise SmartleadError("global block list needs an email address or domain")
+    return _request(
+        "POST",
+        "/leads/add-domain-block-list",
+        json={"domain_block_list": cleaned, "client_id": None},
+    )
+
+
 # Everything Smartlead documents as writable on a campaign lead
 # (docs/smartlead/api-reference__campaigns__update-lead.md). Anything outside
 # this set is a typo or a guess, and `update_lead` refuses it rather than

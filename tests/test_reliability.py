@@ -121,6 +121,89 @@ class ReliabilityTests(unittest.TestCase):
                 self.assertEqual(db.get_lead_state(conn, 20, 10)["smartlead_category"], "Out Of Office")
             update.assert_called_with(10, 20, 6, pause_lead=False)
 
+    def test_automatic_category_never_overwrites_existing_smartlead_category(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 20, 10,
+                smartlead_category="Do Not Contact",
+                category_message_id="reply-1",
+            )
+        with patch.object(settings, "dry_run", False), patch.object(
+            smartlead, "fetch_categories"
+        ) as fetch, patch.object(smartlead, "update_lead_category") as update:
+            changed = scheduler._push_category_to_smartlead(
+                10, 20, "Not Interested", initial_classification=True
+            )
+        self.assertFalse(changed)
+        fetch.assert_not_called()
+        update.assert_not_called()
+        with db.db_session() as conn:
+            self.assertEqual(
+                db.get_lead_state(conn, 20, 10)["smartlead_category"],
+                "Do Not Contact",
+            )
+
+    def test_explicit_opt_out_phrases_are_deterministic_do_not_contact(self):
+        phrases = (
+            "stop",
+            "Please stop the emails.",
+            "Don't send me any more emails",
+            "Remove me from your list",
+            "Take me off your mailing list",
+            "Do not contact us again.",
+        )
+        with patch.object(reply_classifier.llm, "complete_for") as complete:
+            for phrase in phrases:
+                self.assertEqual(
+                    reply_classifier.classify(phrase)[0],
+                    reply_classifier.DO_NOT_CONTACT,
+                    phrase,
+                )
+        complete.assert_not_called()
+
+    def test_plain_not_interested_is_not_do_not_contact(self):
+        with patch.object(
+            reply_classifier.llm, "complete_for", return_value=("NOT_INTERESTED", {})
+        ):
+            self.assertEqual(
+                reply_classifier.classify("Thanks, but we're not interested.")[0],
+                reply_classifier.NOT_INTERESTED,
+            )
+
+    def test_do_not_contact_overrides_category_lock_and_globally_suppresses(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 20, 10,
+                email="person@acme.example",
+                smartlead_category="Interested",
+                category_message_id="reply-0",
+            )
+        with patch.object(settings, "dry_run", False), patch.object(
+            smartlead, "fetch_categories", return_value={"Do Not Contact": 9}
+        ), patch.object(smartlead, "update_lead_category") as update, patch.object(
+            smartlead, "unsubscribe_lead_globally"
+        ) as unsubscribe, patch.object(
+            smartlead, "add_to_global_block_list"
+        ) as block:
+            scheduler.record_do_not_contact(
+                20, 10, email="person@acme.example", message_id="reply-1"
+            )
+        update.assert_called_once_with(10, 20, 9, pause_lead=True)
+        unsubscribe.assert_called_once_with(20)
+        block.assert_called_once_with("person@acme.example", "acme.example")
+        with db.db_session() as conn:
+            state = db.get_lead_state(conn, 20, 10)
+            self.assertEqual(state["status"], "blacklisted")
+            self.assertEqual(state["category"], "do_not_contact")
+            self.assertEqual(state["smartlead_category"], "Do Not Contact")
+            self.assertEqual(state["category_message_id"], "reply-1")
+
+    def test_public_mailbox_domain_is_not_blocked_for_everyone(self):
+        self.assertEqual(
+            scheduler._block_entries_for_email("Person@Gmail.com"),
+            ["person@gmail.com"],
+        )
+
     def test_regular_followup_clock_respects_cadence_and_existing_draft(self):
         from app import detector
         now = datetime.now(timezone.utc)

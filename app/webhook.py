@@ -439,50 +439,15 @@ async def booking_confirmed(request: Request):
         }, status_code=409)
 
     booked = []
-    category_id = None
-    if not settings.dry_run:
-        try:
-            categories = smartlead.fetch_categories()
-            category_id = scheduler._category_id_fuzzy(
-                categories, settings.meeting_booked_category_name
-            )
-        except smartlead.SmartleadError:
-            log.exception("booking-confirmed: could not fetch Smartlead categories")
-
     for row in matches:
         lead_id, campaign_id = row["lead_id"], row["campaign_id"]
-        if settings.dry_run:
-            log.info(
-                "[DRY_RUN] would mark lead %s/%s booked (matched %s)",
-                campaign_id, lead_id, email or name,
-            )
-        else:
-            if category_id is not None:
-                try:
-                    smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=True)
-                except smartlead.SmartleadError:
-                    log.exception(
-                        "booking-confirmed: failed to set Smartlead category for %s/%s",
-                        campaign_id, lead_id,
-                    )
-            else:
-                log.warning(
-                    "booking-confirmed: Smartlead has no '%s' category configured; "
-                    "recording locally only for %s/%s",
-                    settings.meeting_booked_category_name, campaign_id, lead_id,
-                )
-        with db.db_session() as conn:
-            db.mark_lead_booked(conn, lead_id, campaign_id)
-            db.upsert_lead_state(
-                conn, lead_id, campaign_id,
-                smartlead_category=settings.meeting_booked_category_name,
-            )
-        booked.append({"campaign_id": campaign_id, "lead_id": lead_id})
-
-    for row in matches:
-        interested_sheet.mark_booked_match(
-            email=row["email"] or email, name=row["name"] or name, lead_id=row["lead_id"]
+        scheduler.record_explicit_booking(
+            lead_id,
+            campaign_id,
+            email=row["email"] or email,
+            name=row["name"] or name,
         )
+        booked.append({"campaign_id": campaign_id, "lead_id": lead_id})
     first_match = matches[0]
     sheet_status = interested_sheet.record_booking(
         email=email or first_match["email"] or "",
@@ -642,6 +607,13 @@ def _process_reply(
             name=(lead_row["name"] if lead_row else "") or "",
         )
         return {"status": "ok", "note": "booking confirmation recorded"}
+    if label == reply_classifier.DO_NOT_CONTACT:
+        scheduler.record_do_not_contact(
+            lead_id,
+            campaign_id,
+            email=(lead_row["email"] if lead_row else "") or "",
+        )
+        return {"status": "ok", "note": "do not contact recorded and suppressed"}
     if label != reply_classifier.INTERESTED:
         # Recorded and visible either way; db.sort_replied_lead just moves it
         # out of the red "awaiting reply" tier it doesn't belong in. No real
@@ -658,15 +630,31 @@ def _process_reply(
         # a no. See scheduler._push_category_to_smartlead.
         if label == reply_classifier.AUTO_REPLY:
             scheduler._push_category_to_smartlead(
-                campaign_id, lead_id, settings.autoreply_category_name
+                campaign_id,
+                lead_id,
+                settings.autoreply_category_name,
+                initial_classification=not bool(
+                    lead_row and lead_row["category_message_id"]
+                ),
             )
         elif label == reply_classifier.NOT_INTERESTED:
             scheduler._push_category_to_smartlead(
-                campaign_id, lead_id, settings.not_interested_category_name
+                campaign_id,
+                lead_id,
+                settings.not_interested_category_name,
+                initial_classification=not bool(
+                    lead_row and lead_row["category_message_id"]
+                ),
             )
         elif label == reply_classifier.WRONG_PERSON:
             scheduler._push_category_to_smartlead(
-                campaign_id, lead_id, settings.wrong_person_category_name, pause=True
+                campaign_id,
+                lead_id,
+                settings.wrong_person_category_name,
+                pause=True,
+                initial_classification=not bool(
+                    lead_row and lead_row["category_message_id"]
+                ),
             )
         return {"status": "ok", "note": f"recorded, no draft — {reason}"}
 
@@ -739,9 +727,7 @@ def _process_reply(
 
 
 def _promote_category_to_interested(campaign_id: int, lead_id: int, lead_row) -> None:
-    """Write "Interested" back to Smartlead so the daily scan picks this lead up
-    for follow-ups too — the scan filters on the Smartlead category, and would
-    otherwise keep skipping a lead we already know replied.
+    """Write the first reply's Interested verdict only if still uncategorized.
 
     Never touches a lead we've recorded as booked: that category is the success
     outcome and mark_lead_booked freezes outreach on it, so downgrading it to
@@ -751,19 +737,14 @@ def _promote_category_to_interested(campaign_id: int, lead_id: int, lead_row) ->
     """
     if lead_row is not None and lead_row["status"] == "booked":
         return
-    try:
-        interested_id = smartlead.fetch_categories().get(settings.interested_category_name)
-        if interested_id is None:
-            log.warning(
-                "could not resolve '%s' category id; leaving lead %s category as-is",
-                settings.interested_category_name,
-                lead_id,
-            )
-            return
-        smartlead.update_lead_category(campaign_id, lead_id, interested_id)
-        log.info("lead %s promoted to '%s'", lead_id, settings.interested_category_name)
-    except Exception:
-        log.exception("failed to set Interested category on lead %s", lead_id)
+    scheduler._push_category_to_smartlead(
+        campaign_id,
+        lead_id,
+        settings.interested_category_name,
+        initial_classification=not bool(
+            lead_row and lead_row["category_message_id"]
+        ),
+    )
 
 
 def _notify_n8n(draft: dict) -> None:

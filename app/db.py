@@ -730,6 +730,29 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
     )
 
 
+def mark_lead_do_not_contact(
+    conn, lead_id: int, campaign_id: int, message_id: str | None = None
+) -> None:
+    """Freeze locally before remote suppression calls are attempted."""
+    conn.execute(
+        """UPDATE drafts SET status = 'stale'
+           WHERE lead_id = ? AND campaign_id = ?
+             AND status IN ('pending', 'scheduled')""",
+        (lead_id, campaign_id),
+    )
+    conn.execute(
+        """UPDATE candidates
+           SET status = 'dismissed', reason = 'do not contact', updated_at = ?
+           WHERE lead_id = ? AND campaign_id = ?
+             AND status IN ('open', 'generating')""",
+        (now_iso(), lead_id, campaign_id),
+    )
+    fields = {"status": "blacklisted", "category": "do_not_contact"}
+    if message_id:
+        fields["category_message_id"] = message_id
+    upsert_lead_state(conn, lead_id, campaign_id, **fields)
+
+
 def mark_lead_replied(
     conn,
     lead_id: int,

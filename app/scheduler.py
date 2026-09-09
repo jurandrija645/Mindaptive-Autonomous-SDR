@@ -284,6 +284,20 @@ def _sync_category_from_smartlead(
                 campaign_id, lead_id, settings.meeting_booked_category_name, pause=True
             )
         return
+    if (
+        state["status"] != "blacklisted"
+        and sl_category_name
+        and norm_category_name(sl_category_name)
+        == norm_category_name(settings.do_not_contact_category_name)
+    ):
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id, smartlead_category=sl_category_name
+            )
+        record_do_not_contact(
+            lead_id, campaign_id, email=(state["email"] or "")
+        )
+        return
     if not sl_category_name or state["status"] in ("stopped", "blacklisted"):
         return
     key = sl_category_name.strip().lower()
@@ -307,31 +321,46 @@ def _sync_category_from_smartlead(
 
 
 def _push_category_to_smartlead(
-    campaign_id: int, lead_id: int, category_name: str, pause: bool = False
-) -> None:
-    """Write our own verdict back to Smartlead's category, so Smartlead's own
-    account agrees with the app instead of its sequence quietly continuing to
-    mail someone the classifier already sorted as a machine or a no. This is
-    what actually makes the two 1:1: without it, the local relabel is correct
-    in the app but Smartlead's own copy only catches up whenever (if ever) its
-    own slower classifier agrees.
-
-    `pause` stops Smartlead's automated sequence for the lead too. Passed
-    False for auto_reply — an out-of-office says nothing about whether the
-    person wants no more email, the same reasoning AUTOREPLY_CATEGORY_NAME
-    was never in main.PAUSE_CATEGORIES. Called with True only where the
-    caller has decided a rejection should actually stop outreach.
-
-    Best-effort and fails soft — a failure here must not cost the local
-    relabel, which has already happened by the time this runs. Respects
-    DRY_RUN like every other Smartlead category write (api_set_category, the
-    booking webhook)."""
+    campaign_id: int,
+    lead_id: int,
+    category_name: str,
+    pause: bool = False,
+    *,
+    initial_classification: bool = False,
+    override_lock: bool = False,
+) -> bool:
+    """Write only the first automatic verdict; never recategorize later."""
+    with db.db_session() as conn:
+        state = db.get_lead_state(conn, lead_id, campaign_id)
+    existing_category = (state["smartlead_category"] or "").strip() if state else ""
+    already_classified = bool(state and state["category_message_id"])
+    existing_is_dnc = norm_category_name(existing_category) == norm_category_name(
+        settings.do_not_contact_category_name
+    )
+    target_is_dnc = norm_category_name(category_name) == norm_category_name(
+        settings.do_not_contact_category_name
+    )
+    if existing_is_dnc and not target_is_dnc:
+        log.info(
+            "leaving lead %s/%s locked at Do Not Contact; ignored %r",
+            campaign_id, lead_id, category_name,
+        )
+        return False
+    if not override_lock and (
+        existing_category or (already_classified and not initial_classification)
+    ):
+        log.info(
+            "leaving lead %s/%s Smartlead category locked at %r; ignored automatic %r",
+            campaign_id, lead_id, existing_category or "previous classification",
+            category_name,
+        )
+        return False
     if settings.dry_run:
         log.info(
             "[DRY_RUN] would set lead %s/%s Smartlead category to %r (pause=%s)",
             campaign_id, lead_id, category_name, pause,
         )
-        return
+        return False
     try:
         category_id = _category_id_fuzzy(smartlead.fetch_categories(), category_name)
         if category_id is None:
@@ -339,7 +368,7 @@ def _push_category_to_smartlead(
                 "could not resolve '%s' category id — leaving lead %s/%s as-is in Smartlead",
                 category_name, campaign_id, lead_id,
             )
-            return
+            return False
         smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=pause)
         # The filter reads this mirror, while the chip reads the local verdict.
         # Refresh it only after the remote write succeeds.
@@ -347,11 +376,74 @@ def _push_category_to_smartlead(
             db.upsert_lead_state(
                 conn, lead_id, campaign_id, smartlead_category=category_name
             )
+        return True
     except Exception:
         log.exception(
             "failed to push '%s' category to Smartlead for lead %s/%s",
             category_name, campaign_id, lead_id,
         )
+        return False
+
+
+_PUBLIC_MAIL_DOMAINS = {
+    "gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com",
+    "msn.com", "yahoo.com", "icloud.com", "me.com", "aol.com",
+    "protonmail.com", "proton.me", "gmx.com", "gmx.net", "zoho.com",
+    "yandex.com", "yandex.ru",
+}
+
+
+def _block_entries_for_email(email: str) -> list[str]:
+    email = (email or "").strip().lower()
+    if "@" not in email:
+        return []
+    domain = email.rsplit("@", 1)[1].strip()
+    entries = [email]
+    if domain and domain not in _PUBLIC_MAIL_DOMAINS:
+        entries.append(domain)
+    return entries
+
+
+def record_do_not_contact(
+    lead_id: int,
+    campaign_id: int,
+    *,
+    email: str = "",
+    message_id: str | None = None,
+) -> None:
+    """Freeze locally, then enforce Smartlead's account-wide suppression."""
+    with db.db_session() as conn:
+        state = db.get_lead_state(conn, lead_id, campaign_id)
+        resolved_email = email or ((state["email"] or "") if state else "")
+        existing_category = ((state["smartlead_category"] or "") if state else "")
+        db.mark_lead_do_not_contact(conn, lead_id, campaign_id, message_id)
+
+    already_dnc = norm_category_name(existing_category) == norm_category_name(
+        settings.do_not_contact_category_name
+    )
+    if not already_dnc:
+        _push_category_to_smartlead(
+            campaign_id,
+            lead_id,
+            settings.do_not_contact_category_name,
+            pause=True,
+            override_lock=True,
+        )
+    if settings.dry_run:
+        log.info("[DRY_RUN] would globally suppress lead %s/%s", campaign_id, lead_id)
+        return
+    try:
+        smartlead.unsubscribe_lead_globally(lead_id)
+    except Exception:
+        log.exception("failed to globally unsubscribe lead %s/%s", campaign_id, lead_id)
+    entries = _block_entries_for_email(resolved_email)
+    if entries:
+        try:
+            smartlead.add_to_global_block_list(*entries)
+        except Exception:
+            log.exception("failed to add lead %s/%s to global block list", campaign_id, lead_id)
+    else:
+        log.warning("lead %s/%s has no usable email for global block list", campaign_id, lead_id)
 
 
 def record_explicit_booking(
@@ -363,15 +455,22 @@ def record_explicit_booking(
     message_id: str | None = None,
 ) -> None:
     """Freeze a lead who explicitly confirms their booking is complete."""
+    with db.db_session() as conn:
+        state = db.get_lead_state(conn, lead_id, campaign_id)
     _push_category_to_smartlead(
-        campaign_id, lead_id, settings.meeting_booked_category_name, pause=True
+        campaign_id,
+        lead_id,
+        settings.meeting_booked_category_name,
+        pause=True,
+        initial_classification=not bool(state and state["category_message_id"]),
+        override_lock=True,
     )
     with db.db_session() as conn:
         db.mark_lead_booked(conn, lead_id, campaign_id)
-        fields = {"smartlead_category": settings.meeting_booked_category_name}
         if message_id:
-            fields["category_message_id"] = message_id
-        db.upsert_lead_state(conn, lead_id, campaign_id, **fields)
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id, category_message_id=message_id
+            )
     interested_sheet.mark_booked_match(email=email, name=name, lead_id=lead_id)
     log.info(
         "lead %s/%s marked booked from explicit reply confirmation",
@@ -687,6 +786,13 @@ def run_reply_catch_scan() -> None:
                                 message_id=last.message_id,
                             )
                             continue
+                        if label == reply_classifier.DO_NOT_CONTACT:
+                            record_do_not_contact(
+                                row["lead_id"], campaign_id,
+                                email=row["email"] or "",
+                                message_id=last.message_id,
+                            )
+                            continue
                         with db.db_session() as conn:
                             if label == reply_classifier.INTERESTED:
                                 db.mark_category_judged(
@@ -704,11 +810,13 @@ def run_reply_catch_scan() -> None:
                         # quietly on its own side.
                         if label == reply_classifier.AUTO_REPLY:
                             _push_category_to_smartlead(
-                                campaign_id, row["lead_id"], settings.autoreply_category_name
+                                campaign_id, row["lead_id"], settings.autoreply_category_name,
+                                initial_classification=row["category_message_id"] is None,
                             )
                         elif label == reply_classifier.NOT_INTERESTED:
                             _push_category_to_smartlead(
-                                campaign_id, row["lead_id"], settings.not_interested_category_name
+                                campaign_id, row["lead_id"], settings.not_interested_category_name,
+                                initial_classification=row["category_message_id"] is None,
                             )
                         elif label == reply_classifier.WRONG_PERSON:
                             # pause=True, unlike auto_reply — this mailbox has
@@ -717,6 +825,7 @@ def run_reply_catch_scan() -> None:
                             _push_category_to_smartlead(
                                 campaign_id, row["lead_id"], settings.wrong_person_category_name,
                                 pause=True,
+                                initial_classification=row["category_message_id"] is None,
                             )
                         if label != reply_classifier.INTERESTED:
                             continue
