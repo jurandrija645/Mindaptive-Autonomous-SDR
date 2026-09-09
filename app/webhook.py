@@ -1,4 +1,6 @@
 import hashlib
+import hmac
+import json
 import logging
 import re
 import threading
@@ -25,6 +27,8 @@ router = APIRouter()
 # this covers the minutes-long window while Claude is still writing one.
 _in_flight: set[tuple[int, int]] = set()
 _in_flight_lock = threading.Lock()
+
+_CALENDLY_SIGNATURE_TOLERANCE_SECONDS = 180
 
 _BOOKING_FIELD_PATTERNS = {
     "name": re.compile(r"(?im)^\s*Client\s+Name\s*:\s*(.+?)\s*$"),
@@ -218,6 +222,127 @@ async def smartlead_webhook(request: Request):
     return JSONResponse(
         {"status": "accepted", "lead_id": lead_id}, status_code=202
     )
+
+
+def _verify_calendly_signature(raw_body: bytes, signature_header: str) -> None:
+    """Verify Calendly's t=<unix>,v1=<HMAC-SHA256> signature and reject replays."""
+    signing_key = settings.calendly_webhook_signing_key
+    if not signing_key:
+        raise HTTPException(status_code=503, detail="Calendly webhook is not configured")
+    try:
+        parts = dict(part.split("=", 1) for part in signature_header.split(","))
+        timestamp = int(parts["t"])
+        supplied = parts["v1"]
+    except (KeyError, TypeError, ValueError):
+        raise HTTPException(status_code=401, detail="invalid Calendly signature")
+    if abs(int(time.time()) - timestamp) > _CALENDLY_SIGNATURE_TOLERANCE_SECONDS:
+        raise HTTPException(status_code=401, detail="expired Calendly signature")
+    signed_payload = str(timestamp).encode() + b"." + raw_body
+    expected = hmac.new(
+        signing_key.encode(), signed_payload, hashlib.sha256
+    ).hexdigest()
+    if not hmac.compare_digest(expected, supplied):
+        raise HTTPException(status_code=401, detail="invalid Calendly signature")
+
+
+@router.post("/webhooks/calendly")
+async def calendly_booking(request: Request):
+    """Record Andrew's configured Calendly event directly, without n8n.
+
+    Calendly's signed invitee.created payload is trusted for exact normalized
+    full-name fallback when the invitee booked with a different email address.
+    Ambiguous names are never changed.
+    """
+    raw_body = await request.body()
+    _verify_calendly_signature(
+        raw_body, request.headers.get("calendly-webhook-signature", "")
+    )
+    try:
+        envelope = json.loads(raw_body)
+    except (TypeError, ValueError):
+        raise HTTPException(status_code=400, detail="invalid JSON")
+
+    event = envelope.get("event")
+    if event != "invitee.created":
+        return {"status": "ignored", "reason": "not an invitee.created event"}
+
+    payload = envelope.get("payload") or envelope
+    scheduled_event = payload.get("scheduled_event") or envelope.get("scheduled_event") or {}
+    event_type = scheduled_event.get("event_type") or payload.get("event_type") or ""
+    configured_event_type = settings.calendly_event_type_uri
+    if not configured_event_type:
+        raise HTTPException(status_code=503, detail="Calendly event type is not configured")
+    if event_type != configured_event_type:
+        return {"status": "ignored", "reason": "different Calendly event type"}
+
+    email = str(payload.get("email") or "").strip().lower()
+    name = str(payload.get("name") or "").strip()
+    if not email and not name:
+        return JSONResponse(
+            {"status": "invalid", "reason": "invitee email or name is required"},
+            status_code=400,
+        )
+
+    with db.db_session() as conn:
+        matches = db.find_lead_by_email(conn, email) if email else []
+        matched_by = "email" if matches else "none"
+        if not matches and name:
+            matches = db.find_leads_by_name(conn, name)
+            matched_by = "name" if matches else "none"
+        matches = [dict(row) for row in matches]
+
+    if not matches:
+        return JSONResponse(
+            {"status": "not_found", "email": email, "name": name}, status_code=404
+        )
+    identities = {(row["email"] or "").strip().lower() for row in matches}
+    if matched_by != "email" and len(identities) > 1:
+        return JSONResponse(
+            {
+                "status": "ambiguous",
+                "name": name,
+                "reason": "more than one lead has this name; email match required",
+            },
+            status_code=409,
+        )
+
+    booked = []
+    for row in matches:
+        scheduler.record_explicit_booking(
+            row["lead_id"],
+            row["campaign_id"],
+            email=row["email"] or email,
+            name=row["name"] or name,
+        )
+        booked.append({"campaign_id": row["campaign_id"], "lead_id": row["lead_id"]})
+
+    first_match = matches[0]
+    booking_id = str(payload.get("uri") or envelope.get("id") or "")
+    start_time = str(scheduled_event.get("start_time") or "")
+    sheet_status = interested_sheet.record_booking(
+        booking_id=booking_id,
+        email=email or first_match["email"] or "",
+        name=name or first_match["name"] or "",
+        code="",
+        recorded_at=datetime.now(timezone.utc).isoformat(),
+        attribution=interested_sheet.ATTRIBUTION_CONTACTED,
+        matched_by=matched_by,
+        campaign_id=first_match["campaign_id"],
+        lead_id=first_match["lead_id"],
+        appointment_date=start_time,
+    )
+    log.info(
+        "Calendly invitee.created marked %d lead(s) booked by %s for %s",
+        len(booked), matched_by, email or name,
+    )
+    return {
+        "status": "booked",
+        "email": email,
+        "name": name,
+        "matched_by": matched_by,
+        "sheet_status": sheet_status,
+        "matches": booked,
+    }
 
 
 @router.post("/webhooks/booking-confirmed")

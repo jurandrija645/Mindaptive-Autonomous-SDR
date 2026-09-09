@@ -180,6 +180,12 @@ class Settings:
     calendly_link: str = os.getenv(
         "CALENDLY_LINK", "https://calendly.com/andrew-mindaptive/30min"
     )
+    # Direct Calendly -> responder booking webhook. These stay blank for every
+    # non-Mindaptive container, so /webhooks/calendly is disabled there.
+    calendly_webhook_signing_key: str = os.getenv(
+        "CALENDLY_WEBHOOK_SIGNING_KEY", ""
+    )
+    calendly_event_type_uri: str = os.getenv("CALENDLY_EVENT_TYPE_URI", "")
 
     # Google Sheets — the "Export for LinkedIn" button (app/exports/sheet_export.py).
     # OAuth rather than a service account: Andrew already owns both spreadsheets,

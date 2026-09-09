@@ -1,4 +1,6 @@
 import asyncio
+import hashlib
+import hmac
 import json
 import subprocess
 import tempfile
@@ -262,6 +264,102 @@ Discount Code: OBLACCESS55
         with db.db_session() as conn:
             row = db.get_lead_state(conn, 20, 10)
             self.assertEqual((row["status"], row["category"]), ("booked", "booked"))
+
+    def test_signed_calendly_booking_matches_email_then_trusted_full_name(self):
+        client = TestClient(main.app)
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 20, 10, interested=1, name="Mr Ben Broughton - Primis",
+                email="lead@original.example", category="reply",
+            )
+        payload = {
+            "event": "invitee.created",
+            "payload": {
+                "uri": "https://api.calendly.com/invitees/booking-1",
+                "email": "ben.personal@example.com",
+                "name": "Ben Broughton",
+                "scheduled_event": {
+                    "event_type": "https://api.calendly.com/event_types/30min",
+                    "start_time": "2026-09-12T09:00:00Z",
+                },
+            },
+        }
+        raw = json.dumps(payload, separators=(",", ":")).encode()
+        timestamp = int(time.time())
+        signature = hmac.new(
+            b"calendly-test-key",
+            str(timestamp).encode() + b"." + raw,
+            hashlib.sha256,
+        ).hexdigest()
+        with patch.object(
+            settings, "calendly_webhook_signing_key", "calendly-test-key"
+        ), patch.object(
+            settings, "calendly_event_type_uri",
+            "https://api.calendly.com/event_types/30min",
+        ), patch.object(settings, "dry_run", True), patch.object(
+            webhook.interested_sheet, "mark_booked_match"
+        ) as mark_sheet, patch.object(
+            webhook.interested_sheet, "record_booking", return_value="recorded"
+        ) as record_booking:
+            response = client.post(
+                "/webhooks/calendly",
+                content=raw,
+                headers={
+                    "content-type": "application/json",
+                    "calendly-webhook-signature": f"t={timestamp},v1={signature}",
+                },
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["matched_by"], "name")
+        mark_sheet.assert_called_once_with(
+            email="lead@original.example", name="Mr Ben Broughton - Primis", lead_id=20
+        )
+        self.assertEqual(
+            record_booking.call_args.kwargs["booking_id"],
+            "https://api.calendly.com/invitees/booking-1",
+        )
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, 20, 10)
+            self.assertEqual((row["status"], row["category"]), ("booked", "booked"))
+
+    def test_calendly_rejects_bad_signature_and_ignores_other_event_type(self):
+        client = TestClient(main.app)
+        payload = {
+            "event": "invitee.created",
+            "payload": {
+                "email": "lead@example.com",
+                "name": "Lead Person",
+                "scheduled_event": {
+                    "event_type": "https://api.calendly.com/event_types/other"
+                },
+            },
+        }
+        raw = json.dumps(payload, separators=(",", ":")).encode()
+        timestamp = int(time.time())
+        valid = hmac.new(
+            b"calendly-test-key",
+            str(timestamp).encode() + b"." + raw,
+            hashlib.sha256,
+        ).hexdigest()
+        with patch.object(
+            settings, "calendly_webhook_signing_key", "calendly-test-key"
+        ), patch.object(
+            settings, "calendly_event_type_uri",
+            "https://api.calendly.com/event_types/30min",
+        ):
+            rejected = client.post(
+                "/webhooks/calendly",
+                content=raw,
+                headers={"calendly-webhook-signature": f"t={timestamp},v1=bad"},
+            )
+            ignored = client.post(
+                "/webhooks/calendly",
+                content=raw,
+                headers={"calendly-webhook-signature": f"t={timestamp},v1={valid}"},
+            )
+        self.assertEqual(rejected.status_code, 401)
+        self.assertEqual(ignored.status_code, 200)
+        self.assertEqual(ignored.json()["status"], "ignored")
 
     def test_booking_matches_chris_to_christian_only_with_approved_code(self):
         client = TestClient(main.app)
