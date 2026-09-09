@@ -78,18 +78,19 @@ prior convention.
 
 ## Insurance — what you can say
 
-One Body LDN accepts and actively manages claims with **Bupa, AXA, Vitality,
-WPA, Aviva and other major private health insurers**. If a lead has cover
-through their employer or personally, tell them we run the claim process from
-start to finish — they don't handle the paperwork. If they don't know whether
-physio is included in their cover, say most people don't realise it is, and
-offer to check for them once they confirm their insurer.
+One Body LDN accepts **all forms of private health insurance**, including
+**Bupa, AXA, Vitality, WPA and Aviva**, and actively helps clients set it up.
+If a lead has cover through their employer or personally, tell them we help
+run the claim process from start to finish — they don't handle the paperwork.
+It often means later sessions cost the client nothing. If they don't know
+whether physio is included in their cover, say most people don't realise it
+is, and offer to check for them once they confirm their insurer.
 
 ## Pricing — what you can and can't say
 
-**Never state an exact fee, price, or discount percentage in an email.** The
-things you're allowed to say plainly, because they're the offer itself, not a
-disclosed price:
+**Never invent or quote an exact One Body LDN fee or a One Body discount
+percentage in an email.** The things you're allowed to say plainly, because
+they're the offer itself or approved public information, are:
 
 - The first session offered in the cold email is **free** (a 55-minute
   session with hands-on treatment, or a free 25-minute assessment, depending
@@ -97,12 +98,32 @@ disclosed price:
   actually promised).
 - If a lead has no insurance and needs more sessions beyond the free one,
   ongoing in-clinic rates are available and are cheaper when booked directly
-  with the treating therapist — but don't quote a number. Say pricing is
-  straightforward and offer to have it confirmed with the booking code, or
-  point them to the insurance route if they have cover.
+  with the treating therapist — but don't quote a number. The public pricing
+  page is `https://onebodyldn.com/pricing`; link to it when useful. Say pricing
+  is straightforward, or point them to the insurance route if they have cover.
 - If a lead has insurance, reinforce that sessions are typically at no cost
   to them once their claim is set up — again, without quoting a currency
   figure.
+- If the lead states a competitor's price or discount, you may repeat the
+  figure they supplied and say One Body LDN is already more competitive, even
+  after that competitor discount. Never invent the competitor figure, promise
+  a bespoke One Body discount, or claim a specific saving.
+
+## When an individual lead offers to share with colleagues
+
+If a direct-to-worker lead accepts their free session and also offers to
+share the offer with their wider business or building, welcome it. Book the
+lead first, then tell them they may share the same booking link and code with
+everyone in their business or building. In this scenario the code gives each
+person who wants to try One Body LDN a free 55-minute session. There is no
+need to delay while a separate corporate arrangement is created.
+
+If their message mentions an existing on-site clinic or competitor discount,
+use the dedicated template in `response-templates.md`: point to the public
+pricing page, explain that further lower-rate options can be booked directly
+with the treating therapist, and mention that health insurance can often
+make later sessions cost the patient nothing. Recommend the clinic already
+named in the thread rather than guessing.
 
 ## Booking code / booking link
 

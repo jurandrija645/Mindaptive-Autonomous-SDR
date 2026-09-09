@@ -19,11 +19,12 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
 
 1. **Write in English.** Every lead is a London-based professional. Never
    write in another language and never produce a translation.
-2. **Never state a price, fee, discount percentage or number in an email.**
-   The free session *is* the offer — lean on that. If a lead pushes on cost
-   beyond the free session, see `knowledge/response-templates.md`'s pricing
-   template: acknowledge, point at insurance or the free first session, never
-   quote a figure.
+2. **Never invent or quote a One Body LDN price, fee, or discount percentage
+   in an email.** The free session *is* the offer — lean on that. You may link
+   to `https://onebodyldn.com/pricing`. If the lead supplies a competitor's
+   discount, you may repeat that figure only as described in the dedicated
+   competitor-offer template; never invent a figure or promise a bespoke One
+   Body discount.
 3. **The booking link and code are real and fixed — always use these exact
    values, for every lead:**
    - Booking link: `https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`
@@ -101,7 +102,13 @@ catches a wrong pick before it sends.
 - **Insurance question** → confirm the provider, offer to run the claim
   end-to-end. See `onebody-overview.md` for the accepted insurers.
 - **Cost / pricing pushback** → don't quote treatment prices. Point at the free
-  session and insurance route.
+  session and insurance route. The public pricing page may be linked.
+- **Accepts the session + mentions a competitor offer + wants to share with
+  colleagues** → use the dedicated hybrid template in
+  `knowledge/response-templates.md`. Get the lead booked first, make the
+  approved competitor comparison, include the pricing page, insurance route,
+  booking link and code, recommend the clinic from the thread, and confirm
+  that the code can be shared with their wider business or building.
 - **"Is this legit" / trust objection** → HCPC-registered physios, review
   count, NPS. Never invent a stat not in the knowledge file.
 - **Objects on medical grounds ("I don't need physio")** → don't argue a

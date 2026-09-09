@@ -877,6 +877,9 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   html, body {
     height: 100%;
     height: 100dvh;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   body {
     display: flex;
@@ -891,6 +894,8 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   header {
     height: auto;
     min-height: 0;
+    width: 100%;
+    max-width: 100%;
     flex-wrap: wrap;
     align-items: center;
     row-gap: 6px;
@@ -913,27 +918,46 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   .header-right form { order: 4; }
   .view-switch {
     order: 5;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     flex: 0 0 100%;
     width: 100%;
   }
-  .view-tab { padding: 9px 12px; font-size: 13px; flex: 1; }
+  .view-tab {
+    min-width: 0;
+    padding: 9px 3px;
+    font-size: 11.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   #rescan-btn,
   .header-right form .btn-secondary { padding: 8px 12px; font-size: 13px; }
 
   .layout {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     flex: 1;
     min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     height: auto;
   }
-  .layout > * { min-height: 0; height: 100%; }
+  .layout > * {
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+  }
 
   #detail { display: none; }
   body.showing-detail #inbox { display: none; }
   body.showing-detail #detail {
     display: block;
     overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -950,7 +974,13 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   }
   .btn-back:hover { background: #efece6; }
 
-  .detail-body { padding: 12px 14px 40px; max-width: none; }
+  .detail-body {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 12px 14px 40px;
+    overflow-wrap: anywhere;
+  }
   .detail-empty { padding: 40px 16px; }
 
   .status-filter-btn { padding: 9px 12px; font-size: 13px; }
@@ -964,12 +994,28 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 
   .msg { max-width: 100%; }
   .bubble {
+    max-width: 100%;
     overflow-x: auto;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
   .bubble table { width: auto !important; max-width: 100%; }
   .bubble img { max-width: 100%; height: auto; }
+
+  .draft-box,
+  .draft-editor,
+  .sig-preview,
+  .research-panel,
+  .report-md,
+  .email-preview,
+  .convo-card,
+  .variant-card {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .sig-preview-body { overflow-x: auto; }
 
   .snooze-control,
   .snooze-picker { flex-wrap: wrap; }
@@ -978,7 +1024,14 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   .actions input[type=datetime-local] { width: 100%; }
 
   .modal-overlay { padding: 12px; align-items: flex-end; }
-  .modal { max-height: 90dvh; max-height: 90vh; border-radius: 12px 12px 0 0; }
+  .modal {
+    min-width: 0;
+    max-width: 100%;
+    max-height: 90dvh;
+    max-height: 90vh;
+    border-radius: 12px 12px 0 0;
+  }
+  .models-role-head { flex-wrap: wrap; }
   .template-head { flex-direction: column; align-items: stretch; gap: 8px; }
   .template-actions { justify-content: space-between; }
   .btn-icon { min-width: 44px; min-height: 36px; font-size: 15px; }

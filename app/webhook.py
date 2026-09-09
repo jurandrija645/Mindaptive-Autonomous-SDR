@@ -30,6 +30,9 @@ _BOOKING_FIELD_PATTERNS = {
     "name": re.compile(r"(?im)^\s*Client\s+Name\s*:\s*(.+?)\s*$"),
     "email": re.compile(r"(?im)^\s*Email\s*:\s*([^\s<>]+@[^\s<>]+)\s*$"),
     "code": re.compile(r"(?im)^\s*Discount\s+Code\s*:\s*([A-Z0-9_-]+)\s*$"),
+    "location": re.compile(r"(?im)^\s*Location\s*:\s*(.+?)\s*$"),
+    "date": re.compile(r"(?im)^\s*Date\s*:\s*(.+?)\s*$"),
+    "time": re.compile(r"(?im)^\s*Time\s*:\s*(.+?)\s*$"),
 }
 
 
@@ -53,6 +56,29 @@ def _booking_fields(payload: dict) -> tuple[str, str, str]:
         value(("name", "client_name"), _BOOKING_FIELD_PATTERNS["name"]),
         value(("discount_code", "code"), _BOOKING_FIELD_PATTERNS["code"]).upper(),
     )
+
+
+def _booking_metadata(payload: dict) -> dict[str, str]:
+    """Extra attribution fields forwarded by the OneBody booking workflow."""
+    raw = payload.get("text") or payload.get("body") or payload.get("message") or ""
+    if isinstance(raw, dict):
+        raw = raw.get("text") or raw.get("body") or ""
+    raw = str(raw)
+
+    def value(keys: tuple[str, ...], pattern: re.Pattern | None = None) -> str:
+        for key in keys:
+            found = payload.get(key)
+            if found:
+                return str(found).strip()
+        match = pattern.search(raw) if pattern else None
+        return match.group(1).strip() if match else ""
+
+    return {
+        "booking_id": value(("booking_id", "event_id", "message_id")),
+        "location": value(("location",), _BOOKING_FIELD_PATTERNS["location"]),
+        "appointment_date": value(("appointment_date", "date"), _BOOKING_FIELD_PATTERNS["date"]),
+        "appointment_time": value(("appointment_time", "time"), _BOOKING_FIELD_PATTERNS["time"]),
+    }
 
 
 def _booking_matches(conn, email: str, name: str, code: str):
@@ -205,10 +231,11 @@ async def booking_confirmed(request: Request):
     from the caller. Email is authoritative when it matches. If the person booked
     with another address, an allowlisted offer code permits an exact normalized
     full-name lookup in leads_state and then the internal Interested sheet. Titles
-    such as Mr/Ms/Mrs/Dr are ignored. Ambiguous names are rejected. This matters
-    because this is the one place external, unverified input can flip a lead straight
-    to "booked" — resolving it against our own data keeps that action scoped
-    to leads we actually know about.
+    such as Mr/Ms/Mrs/Dr are ignored. Ambiguous names are rejected. A booking
+    carrying an allowlisted code but matching no known lead is recorded as a
+    shared-code booking in Google Sheets; it never creates or changes a Smartlead
+    lead. This keeps external input from mutating an unrelated lead while retaining
+    the extra bookings produced when someone shares the offer with colleagues.
 
     Sets the Smartlead category too (not just the local status), same as the
     dashboard's manual "mark as booked" action (main.api_set_category). Once
@@ -222,6 +249,7 @@ async def booking_confirmed(request: Request):
 
     payload = await request.json()
     email, name, code = _booking_fields(payload)
+    metadata = _booking_metadata(payload)
     if not email and not name:
         return JSONResponse({"error": "email or client name is required"}, status_code=400)
 
@@ -242,6 +270,34 @@ async def booking_confirmed(request: Request):
             ]
         if matches:
             matched_by = "sheet_name"
+
+    if not matches and code in settings.booking_match_codes:
+        sheet_status = interested_sheet.record_booking(
+            email=email,
+            name=name,
+            code=code,
+            recorded_at=datetime.now(timezone.utc).isoformat(),
+            attribution=interested_sheet.ATTRIBUTION_SHARED,
+            **metadata,
+        )
+        if sheet_status not in ("recorded", "duplicate"):
+            return JSONResponse({
+                "status": "not_recorded",
+                "email": email,
+                "name": name,
+                "reason": "shared-code booking could not be written to Google Sheets",
+                "sheet_status": sheet_status,
+            }, status_code=503)
+        log.info("booking-confirmed: recorded shared-code booking for %s", email or name)
+        return JSONResponse({
+            "status": "booked",
+            "email": email,
+            "name": name,
+            "attribution": "shared_code",
+            "matched_by": "none",
+            "sheet_status": sheet_status,
+            "matches": [],
+        })
 
     if not matches:
         return JSONResponse({
@@ -302,13 +358,26 @@ async def booking_confirmed(request: Request):
         interested_sheet.mark_booked_match(
             email=row["email"] or email, name=row["name"] or name, lead_id=row["lead_id"]
         )
+    first_match = matches[0]
+    sheet_status = interested_sheet.record_booking(
+        email=email or first_match["email"] or "",
+        name=name or first_match["name"] or "",
+        code=code,
+        recorded_at=datetime.now(timezone.utc).isoformat(),
+        attribution=interested_sheet.ATTRIBUTION_CONTACTED,
+        matched_by=matched_by,
+        campaign_id=first_match["campaign_id"],
+        lead_id=first_match["lead_id"],
+        **metadata,
+    )
     log.info(
         "booking-confirmed: marked %d lead(s) booked by %s for %s",
         len(booked), matched_by, email or name,
     )
     return JSONResponse({
         "status": "booked", "email": email, "name": name,
-        "matched_by": matched_by, "matches": booked,
+        "attribution": "contacted_lead", "matched_by": matched_by,
+        "sheet_status": sheet_status, "matches": booked,
     })
 
 

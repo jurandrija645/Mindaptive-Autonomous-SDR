@@ -12,7 +12,7 @@ from unittest.mock import patch
 import httpx
 from fastapi.testclient import TestClient
 
-from app import db, drafter, main, pipeline, reply_classifier, scheduler, smartlead, webhook
+from app import db, drafter, interested_sheet, main, pipeline, reply_classifier, scheduler, smartlead, webhook
 from app.config import settings
 
 
@@ -230,7 +230,9 @@ Discount Code: OBLACCESS55
             settings, "booking_match_codes", ("OBLACCESS55", "OBLACCESS25")
         ), patch.object(settings, "dry_run", True), patch.object(
             webhook.interested_sheet, "mark_booked_match"
-        ) as mark_sheet:
+        ) as mark_sheet, patch.object(
+            webhook.interested_sheet, "record_booking", return_value="recorded"
+        ) as record_booking:
             missing_code = client.post(
                 "/webhooks/booking-confirmed",
                 json={"name": "Mr Ben Broughton", "email": "different@example.com"},
@@ -243,6 +245,10 @@ Discount Code: OBLACCESS55
             self.assertEqual(response.json()["matched_by"], "name")
             mark_sheet.assert_called_once_with(
                 email="lead@original.example", name="Ben Broughton - Primis", lead_id=20
+            )
+            self.assertEqual(
+                record_booking.call_args.kwargs["attribution"],
+                webhook.interested_sheet.ATTRIBUTION_CONTACTED,
             )
         with db.db_session() as conn:
             row = db.get_lead_state(conn, 20, 10)
@@ -259,7 +265,9 @@ Discount Code: OBLACCESS55
             settings, "booking_match_codes", ("OBLACCESS55",)
         ), patch.object(settings, "dry_run", True), patch.object(
             webhook.interested_sheet, "mark_booked_match"
-        ) as mark_sheet:
+        ) as mark_sheet, patch.object(
+            webhook.interested_sheet, "record_booking", return_value="recorded"
+        ):
             response = client.post(
                 "/webhooks/booking-confirmed",
                 json={
@@ -274,6 +282,83 @@ Discount Code: OBLACCESS55
             email="christian.roberts@sucfin.com", name="Chris Roberts", lead_id=20
         )
 
+    def test_booking_with_shared_code_is_recorded_without_a_smartlead_lead(self):
+        client = TestClient(main.app)
+        with patch.object(settings, "booking_webhook_secret", ""), patch.object(
+            settings, "booking_match_codes", ("OBLACCESS55",)
+        ), patch.object(
+            webhook.interested_sheet, "record_booking", return_value="recorded"
+        ) as record_booking:
+            response = client.post(
+                "/webhooks/booking-confirmed",
+                json={
+                    "booking_id": "outlook-message-123",
+                    "email": "colleague@example.com",
+                    "client_name": "New Colleague",
+                    "discount_code": "OBLACCESS55",
+                    "location": "Blackfriars",
+                    "date": "18 September 2026",
+                    "time": "10:00",
+                },
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["attribution"], "shared_code")
+        self.assertEqual(response.json()["matches"], [])
+        kwargs = record_booking.call_args.kwargs
+        self.assertEqual(kwargs["booking_id"], "outlook-message-123")
+        self.assertEqual(kwargs["location"], "Blackfriars")
+        self.assertEqual(kwargs["appointment_date"], "18 September 2026")
+        self.assertEqual(
+            kwargs["attribution"], webhook.interested_sheet.ATTRIBUTION_SHARED
+        )
+
+    def test_unmatched_shared_booking_retries_when_sheet_is_unavailable(self):
+        client = TestClient(main.app)
+        with patch.object(settings, "booking_webhook_secret", ""), patch.object(
+            settings, "booking_match_codes", ("OBLACCESS55",)
+        ), patch.object(
+            webhook.interested_sheet, "record_booking", return_value="failed"
+        ):
+            response = client.post(
+                "/webhooks/booking-confirmed",
+                json={
+                    "email": "colleague@example.com",
+                    "client_name": "New Colleague",
+                    "discount_code": "OBLACCESS55",
+                },
+            )
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.json()["status"], "not_recorded")
+
+    def test_booking_sheet_creates_summary_and_deduplicates_provider_id(self):
+        with patch.object(settings, "interested_sheet_id", "sheet-1"), patch.object(
+            interested_sheet.sheets, "list_tabs", return_value=[]
+        ), patch.object(interested_sheet.sheets, "create_tab") as create_tab, patch.object(
+            interested_sheet.sheets, "write_header"
+        ), patch.object(interested_sheet.sheets, "write_range") as write_range, patch.object(
+            interested_sheet.sheets, "read_column", return_value=["booking_id"]
+        ), patch.object(interested_sheet.sheets, "append_row") as append_row:
+            status = interested_sheet.record_booking(
+                booking_id="provider-123",
+                email="colleague@example.com",
+                name="New Colleague",
+                code="OBLACCESS55",
+                location="Blackfriars",
+                appointment_date="18 September 2026",
+                appointment_time="10:00",
+                recorded_at="2026-09-09T12:00:00+00:00",
+                attribution=interested_sheet.ATTRIBUTION_SHARED,
+            )
+        self.assertEqual(status, "recorded")
+        self.assertEqual(
+            [call.args[1] for call in create_tab.call_args_list],
+            [interested_sheet.BOOKINGS_TAB, interested_sheet.BOOKING_SUMMARY_TAB],
+        )
+        self.assertEqual(write_range.call_count, 4)
+        row = append_row.call_args.args[2]
+        self.assertEqual(row[0], "provider-123")
+        self.assertEqual(row[8], interested_sheet.ATTRIBUTION_SHARED)
+
     def test_onebody_booking_workflow_forwards_name_and_code(self):
         workflow = json.loads(
             Path("clients/onebodyldn/n8n-booking-workflow.json").read_text(encoding="utf-8")
@@ -282,8 +367,12 @@ Discount Code: OBLACCESS55
         extractor = nodes["Extract booked email"]["parameters"]["jsCode"]
         request_body = nodes["Mark booked"]["parameters"]["jsonBody"]
         self.assertIn("discount_code: field('Discount Code')", extractor)
+        self.assertIn("booking_id: String($json.id", extractor)
         self.assertIn("client_name: $json.client_name", request_body)
         self.assertIn("discount_code: $json.discount_code", request_body)
+        self.assertIn("location: $json.location", request_body)
+        self.assertIn("date: $json.date", request_body)
+        self.assertIn("time: $json.time", request_body)
 
     def test_explicit_all_booked_reply_is_deterministic(self):
         label, _ = reply_classifier.classify("Many thanks — all booked!")

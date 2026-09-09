@@ -23,7 +23,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const html = ($json.body && $json.body.content) || $json.bodyPreview || '';\nconst text = html.replace(/<[^>]+>/g, '\\n');\n\nfunction field(label) {\n  const m = text.match(new RegExp(label + '\\\\s*:\\\\s*([^\\\\r\\\\n<]+)', 'i'));\n  return m ? m[1].trim() : '';\n}\n\nconst email = field('Email').toLowerCase();\nconst looksLikeEmail = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);\n\nreturn [{\n  json: {\n    email: looksLikeEmail ? email : null,\n    client_name: field('Client Name'),\n    discount_code: field('Discount Code').toUpperCase(),\n    location: field('Location'),\n    date: field('Date'),\n    time: field('Time'),\n  },\n}];\n"
+        "jsCode": "const html = ($json.body && $json.body.content) || $json.bodyPreview || '';\nconst text = html.replace(/<[^>]+>/g, '\\n');\n\nfunction field(label) {\n  const m = text.match(new RegExp(label + '\\\\s*:\\\\s*([^\\\\r\\\\n<]+)', 'i'));\n  return m ? m[1].trim() : '';\n}\n\nconst email = field('Email').toLowerCase();\nconst looksLikeEmail = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);\n\nreturn [{\n  json: {\n    booking_id: String($json.id || $json.internetMessageId || ''),\n    email: looksLikeEmail ? email : null,\n    client_name: field('Client Name'),\n    discount_code: field('Discount Code').toUpperCase(),\n    location: field('Location'),\n    date: field('Date'),\n    time: field('Time'),\n  },\n}];\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -50,7 +50,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ email: $json.email, client_name: $json.client_name, discount_code: $json.discount_code }) }}",
+        "jsonBody": "={{ JSON.stringify({ booking_id: $json.booking_id, email: $json.email, client_name: $json.client_name, discount_code: $json.discount_code, location: $json.location, date: $json.date, time: $json.time }) }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",

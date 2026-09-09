@@ -101,8 +101,13 @@ Kurt
 
 ## "What does this cost?" / pricing pushback
 
-Never state a number, a percentage, or the word "discount" with a figure
-attached. The free session *is* the price message — lean on that.
+Never invent or quote a One Body LDN fee or discount percentage. The free
+session *is* the main price message — lean on that. You may link to the
+public pricing page at `https://onebodyldn.com/pricing`. If the lead names a
+competitor's discount, you may repeat that figure only to make the approved
+comparison that One Body LDN is already more competitive; don't turn it into
+a new One Body discount or promise to beat the competitor by a specific
+amount.
 
 Hi {{first_name}},
 
@@ -115,6 +120,51 @@ had the first one.
 Want me to send the code over?
 
 Kurt
+
+---
+
+## Positive reply + competitor offer + wants to share with the wider business
+
+Use this when a direct-to-worker lead accepts the free session and also says
+their building or employer already has a physio deal, then offers to share a
+One Body LDN offer with colleagues. Treat the wider-team interest as a good
+opportunity. Don't negotiate a bespoke discount by email and don't ask them
+to wait for a separate corporate offer. Get the lead booked first, answer the
+comparison plainly, and give them everything they need to share immediately.
+
+Use this wording and structure closely. Replace the placeholders with the
+real values:
+
+Hi {{first_name}},
+
+That's brilliant, and I love that you want to bring us to the wider team.
+Here's what I'll do: let's get you booked in for the free session first.
+
+On pricing, we're already more competitive than {{competitor_name}}, even
+with their {{competitor_discount}} discount. You can see our rates at
+https://onebodyldn.com/pricing. Once you're in clinic, there are further
+options and even lower rates you can book directly with your therapist. We
+also accept all forms of health insurance and we'll help you set it up, which
+often means sessions at no cost to you.
+
+The booking link is
+https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
+and your code is **OBLACCESS55**. Pick {{nearest_clinic}} since you're just
+round the corner. Feel free to share that code with everyone in your building.
+It's a free 55-minute session for anyone who wants to try us, and if they come
+back, they can use the lower rates offered in clinic or run sessions through
+their health insurance.
+
+Let me know your thoughts.
+
+Thanks,
+{{sender_first_name}}
+
+Only use `{{competitor_name}}` and `{{competitor_discount}}` when the lead
+gave both in their own message. Repeat their figure accurately; never invent
+one. `{{nearest_clinic}}` must come from the thread or lead record. The code
+is explicitly shareable with the lead's wider business or building in this
+scenario.
 
 ---
 
