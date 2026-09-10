@@ -133,6 +133,34 @@ class Settings:
         os.getenv("SMARTLEAD_CATEGORY_CACHE_SECONDS", "600")
     )
 
+    # Deliverability health (app/deliverability_health.py). Monitoring is
+    # read-only by default; changing a mailbox in Smartlead additionally needs
+    # DELIVERABILITY_AUTO_APPLY=true and DRY_RUN=false.
+    deliverability_health_enabled: bool = field(
+        default_factory=lambda: _bool("DELIVERABILITY_HEALTH_ENABLED", True)
+    )
+    deliverability_auto_apply: bool = field(
+        default_factory=lambda: _bool("DELIVERABILITY_AUTO_APPLY", False)
+    )
+    mailbox_health_check_hours: int = int(
+        os.getenv("MAILBOX_HEALTH_CHECK_HOURS", "24")
+    )
+    domain_blacklist_check_hours: int = int(
+        os.getenv("DOMAIN_BLACKLIST_CHECK_HOURS", "24")
+    )
+    mailbox_rehab_threshold: int = int(
+        os.getenv("MAILBOX_REHAB_THRESHOLD", "90")
+    )
+    mailbox_phase_stable_days: int = int(
+        os.getenv("MAILBOX_PHASE_STABLE_DAYS", "5")
+    )
+    # Optional APIVoid Domain Reputation API. Without a key the app still
+    # checks MX/SPF/DMARC and labels blacklist coverage as not configured.
+    apivoid_api_key: str = os.getenv("APIVOID_API_KEY", "")
+    deliverability_alert_webhook_url: str = os.getenv(
+        "DELIVERABILITY_ALERT_WEBHOOK_URL", ""
+    )
+
     # Which model sorts an incoming reply into "real prospect" vs "out of office
     # / rejection" (app/reply_classifier.py), deciding whether to spend a draft
     # on it, and separately rates how hot the lead is (app/lead_temperature.py).

@@ -262,6 +262,68 @@ def list_email_accounts(page_size: int = 100, api_key: str | None = None) -> Ite
         offset += page_size
 
 
+def update_email_account_limit(
+    email_account_id: int, max_email_per_day: int, api_key: str | None = None
+) -> Any:
+    """Set Smartlead's mailbox-level campaign/cold cap.
+
+    The write field is documented as ``max_email_per_day`` while live list
+    responses expose the resulting field as ``message_per_day``. Warmup has
+    its own min/max in ``warmup_details`` and is updated separately below.
+    """
+    return _request(
+        "POST",
+        f"/email-accounts/{email_account_id}",
+        json={"max_email_per_day": int(max_email_per_day)},
+        api_key=api_key,
+    )
+
+
+def update_email_account_warmup(
+    email_account_id: int,
+    *,
+    minimum: int,
+    maximum: int,
+    api_key: str | None = None,
+) -> tuple[Any, bool]:
+    """Apply warmup volume and return (response, variation_was_accepted).
+
+    Smartlead documents total_warmup_per_day but exposes warmup_min_count and
+    warmup_max_count only in reads/core examples. Try the useful random range;
+    if this account rejects those fields, retry with the documented payload so
+    the health action still succeeds and the dashboard can disclose that the
+    requested variation was not API-confirmed.
+    """
+    base = {
+        "warmup_enabled": True,
+        "total_warmup_per_day": int(maximum),
+        "daily_rampup": 5,
+        "reply_rate_percentage": 30,
+        "auto_adjust_warmup": False,
+        "is_rampup_enabled": False,
+    }
+    try:
+        result = _request(
+            "POST",
+            f"/email-accounts/{email_account_id}/warmup",
+            json={**base, "warmup_min_count": int(minimum), "warmup_max_count": int(maximum)},
+            api_key=api_key,
+        )
+        return result, True
+    except SmartleadError as exc:
+        # Only a validation rejection can mean the undocumented range fields
+        # are unsupported. Authentication/not-found/server failures must stay
+        # visible and must not be hidden by a second call.
+        if "422" not in str(exc):
+            raise
+        return _request(
+            "POST",
+            f"/email-accounts/{email_account_id}/warmup",
+            json=base,
+            api_key=api_key,
+        ), False
+
+
 def get_message_history(
     campaign_id: int, lead_id: int, api_key: str | None = None
 ) -> list[dict]:

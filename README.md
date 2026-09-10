@@ -91,6 +91,17 @@ Check `deploy/deploy.log` on the droplet to see deploy history. You want lines l
 
 ## 3. Day-to-day usage
 
+**Health tab** monitors every sending mailbox and domain belonging to this
+client's Smartlead account. Mailbox reputation below 90% enters rehab (5 cold,
+32–40 warm); five distinct days at 100% advances to comeback (15 cold, 25–30
+warm), and another five advances to full (25 cold, 18–25 warm). Monitoring is
+on by default, but Smartlead settings are changed only with
+`DELIVERABILITY_AUTO_APPLY=true` and `DRY_RUN=false`. DNS MX/SPF/DMARC and
+APIVoid blacklist checks run daily. A missing `APIVOID_API_KEY` is shown as
+unknown/not configured instead of a false clean result. See
+`docs/deliverability-health-research.md` for evidence, limitations
+and the safe rollout procedure.
+
 **Follow-up timing** in the top bar sets a fixed interval (every X days) for
 the current client. Saving replaces the configured progressive cadence and
 refreshes due statuses from cached conversations immediately; the frequent
@@ -132,3 +143,8 @@ useful by eye.
 | `AUTO_SEND_FOLLOWUPS` | Reserved for a future fully-autonomous mode — not wired up yet; generation is always click-triggered by design |
 | `INTERESTED_CATEGORY_NAME` | Smartlead lead category this app watches (default `Interested`) |
 | `N8N_WEBHOOK_URL` | Optional — only used if you want this app to also ping your n8n instance on a new drafted reply. Leave blank to just rely on your existing n8n Smartlead-reply notification, which runs independently. |
+| `DELIVERABILITY_AUTO_APPLY` | Apply mailbox phase limits in Smartlead; default `false` (monitor only) |
+| `MAILBOX_HEALTH_CHECK_HOURS` | Smartlead mailbox + DNS check interval; default 24 |
+| `DOMAIN_BLACKLIST_CHECK_HOURS` | External blacklist refresh interval; default 24 (daily) |
+| `APIVOID_API_KEY` | Optional APIVoid Domain Reputation API key; blank is shown as unknown/not configured |
+| `DELIVERABILITY_ALERT_WEBHOOK_URL` | Optional transition-only webhook for rehab, connection, DNS and blacklist alerts |

@@ -58,6 +58,32 @@ Files fall back to the repo root when a client doesn't override them, so a clien
 
 ## How a message actually gets generated
 
+### Deliverability health
+
+`app/deliverability_health.py` owns the Health tab, the daily mailbox state
+machine and domain checks. Each container reads only its own Smartlead API key,
+so domains are automatically client-specific. Below 90% reputation enters
+`rehab` (5 cold, 32–40 warm); five distinct UTC days at 100% moves to
+`comeback` (15 cold, 25–30 warm); another five moves to `full` (25 cold,
+18–25 warm). Existing 5/40 or 15/30-shaped limits are preserved as the initial
+phase on first discovery. Never count repeated checks on the same day toward a
+streak.
+
+Monitoring is on by default, but writes require both
+`DELIVERABILITY_AUTO_APPLY=true` and `DRY_RUN=false`. Smartlead's live response
+uses `message_per_day` for the cold/campaign cap and separate
+`warmup_min_count`/`warmup_max_count` fields, despite its public update docs
+calling the write field `max_email_per_day`. Range fields are also missing from
+the public write schema, so `smartlead.update_email_account_warmup` retries the
+documented payload only on a 422. Do not remove that fallback or enable writes
+without the one-mailbox probe described in
+`docs/deliverability-health-research.md`.
+
+Domain checks always cover MX/SPF/DMARC. Blacklist state is green only when the
+named provider actually ran; a missing `APIVOID_API_KEY` remains `unknown`.
+Do not query Spamhaus public mirrors through Google DNS/DigitalOcean: their
+commercial-use and resolver rules make the result/licensing unsuitable here.
+
 1. **Daily scan** (`app/scheduler.py: run_daily_scan`) — cron job (`DAILY_SCAN_HOUR_UTC`), Smartlead API only, no Codex. Also triggerable on demand from the dashboard ("Rescan now" button → `scheduler.trigger_scan_in_background`, lock-protected so it can't stack). For every "Interested" lead it checks the thread and decides: due for a follow-up (per the `FOLLOWUP_WAIT_DAYS` cadence list, under the follow-up cap — plus a one-shot revival touch every `REVIVE_AFTER_DAYS` after the cap) → adds a row to the `candidates` table; lead's message unanswered → auto-drafts a reply immediately (fast response to hot leads); otherwise → nothing. Leads in Smartlead's **"Meeting-Booked" category** (matched case/punctuation-insensitively, `MEETING_BOOKED_CATEGORY_NAME`) get frozen instead: status `booked`, open drafts → stale, candidates dismissed, `booked_at` recorded (`db.mark_lead_booked`) — and un-frozen automatically if the category later moves back to Interested. Booked leads stay visible in the inbox with a green "Meeting booked ✅" badge.
 
     **The scan is two passes, split by cost, and bookings are recorded in the cheap one.** Pass one only *lists* leads (one paginated call per campaign, no per-lead network) and writes every booked lead as it goes; pass two does the expensive part, a thread fetch per interested/auto-reply lead. They used to be interleaved with only `_process_lead` guarded, so anything raising out of `list_campaign_leads` or a thread fetch — a 429, a timeout — killed every *remaining campaign* for that run. It ran that way unnoticed for two weeks: campaigns are walked newest-first, the run died around the fifth each night, and every older campaign stayed frozen at its state from the last complete pass. 34 of the account's 36 Meeting-Booked leads were in those older campaigns and had no `leads_state` row at all, so they were missing from the dashboard entirely (found 2026-08-04). A booking is the one thing the scan records that has no other source, hence recording it before anything costly can fail. Two consequences worth keeping: a campaign that fails to list is counted, and `clear_stale_open_candidates` is **skipped** when any did — clearing "no longer due" against a partial pass would dismiss the open candidates of every campaign that didn't get listed. And a booked lead with no summary yet gets **one** thread fetch, the first time it's recorded, because otherwise it sits in the inbox as a bare name with no date or preview; the steady state stays free.

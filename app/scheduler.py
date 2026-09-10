@@ -4,13 +4,13 @@ import math
 import re
 import threading
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app import (
-    batch_gen, db, detector, interested_sheet, lead_language, lead_temperature, pipeline,
+    batch_gen, db, deliverability_health, detector, interested_sheet, lead_language, lead_temperature, pipeline,
     reply_classifier, signatures, smartlead,
 )
 from app.config import settings
@@ -1444,6 +1444,18 @@ def start_scheduler() -> BackgroundScheduler:
     )
     sched.add_job(run_due_send_loop, "interval", minutes=1, id="due_send_loop")
     sched.add_job(batch_gen.poll_gen_batches, "interval", minutes=5, id="gen_batch_poll")
+    if settings.deliverability_health_enabled and settings.mailbox_health_check_hours > 0:
+        sched.add_job(
+            deliverability_health.run_health_check,
+            "interval",
+            hours=max(1, settings.mailbox_health_check_hours),
+            id="deliverability_health",
+            max_instances=1,
+            coalesce=True,
+            # Populate a fresh install shortly after boot without delaying the
+            # web server or competing with init_db/startup.
+            next_run_time=datetime.now(timezone.utc) + timedelta(seconds=30),
+        )
     # Frequent, cheap safety-net so a lead's reply surfaces on its own within a
     # few minutes even when the webhook is missed (it's fire-and-forget, and a
     # reply landing during a deploy restart is lost). Unlike the daily scan this

@@ -351,6 +351,70 @@ CREATE TABLE IF NOT EXISTS mailbox_domains (
     checked_at TEXT NOT NULL
 );
 
+-- Current sending-mailbox state plus the daily evidence behind phase changes.
+-- Each client has its own DB/container, so account ids and domains are already
+-- tenant-isolated without adding a client column.
+CREATE TABLE IF NOT EXISTS mailbox_health_state (
+    account_id          INTEGER PRIMARY KEY,
+    email               TEXT NOT NULL,
+    domain              TEXT,
+    phase               TEXT NOT NULL, -- full|rehab|comeback
+    reputation          INTEGER,
+    perfect_days        INTEGER NOT NULL DEFAULT 0,
+    last_observation_day TEXT,
+    phase_since         TEXT NOT NULL,
+    last_checked_at     TEXT NOT NULL,
+    smtp_ok             INTEGER,
+    imap_ok             INTEGER,
+    warmup_status       TEXT,
+    blocked_reason      TEXT,
+    cold_daily_limit    INTEGER,
+    warm_min            INTEGER,
+    warm_max            INTEGER,
+    target_cold         INTEGER NOT NULL,
+    target_warm_min     INTEGER NOT NULL,
+    target_warm_max     INTEGER NOT NULL,
+    variation_confirmed INTEGER,
+    last_applied_at     TEXT,
+    apply_error         TEXT
+);
+
+CREATE TABLE IF NOT EXISTS mailbox_health_history (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id  INTEGER NOT NULL,
+    email       TEXT NOT NULL,
+    checked_at  TEXT NOT NULL,
+    reputation  INTEGER,
+    phase       TEXT NOT NULL,
+    perfect_days INTEGER NOT NULL,
+    transition  TEXT,
+    action      TEXT,
+    error       TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_mailbox_health_history_account
+    ON mailbox_health_history (account_id, checked_at DESC);
+
+CREATE TABLE IF NOT EXISTS domain_health_state (
+    domain               TEXT PRIMARY KEY,
+    checked_at           TEXT NOT NULL,
+    blacklist_checked_at TEXT,
+    status               TEXT NOT NULL, -- healthy|warning|listed|unknown
+    listings_json        TEXT NOT NULL DEFAULT '[]',
+    auth_json            TEXT NOT NULL DEFAULT '{}',
+    checked_json         TEXT NOT NULL DEFAULT '[]',
+    error                TEXT
+);
+
+CREATE TABLE IF NOT EXISTS deliverability_runs (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    started_at  TEXT NOT NULL,
+    finished_at TEXT,
+    status      TEXT NOT NULL, -- running|done|failed
+    mailbox_count INTEGER NOT NULL DEFAULT 0,
+    domain_count  INTEGER NOT NULL DEFAULT 0,
+    error       TEXT
+);
+
 -- One row per campaign per provider: the mix, and how that slice of the
 -- audience actually performed. Written on every analysis and never deleted,
 -- because the whole point is the record over time — "campaigns heavy on
@@ -521,6 +585,11 @@ def _migrate(conn) -> None:
         conn.execute("ALTER TABLE campaign_reports ADD COLUMN directives_md TEXT")
     if "campaign_name" not in report_cols:
         conn.execute("ALTER TABLE campaign_reports ADD COLUMN campaign_name TEXT")
+
+    health_cols = {row["name"] for row in conn.execute("PRAGMA table_info(mailbox_health_state)")}
+    for name in ("target_cold", "target_warm_min", "target_warm_max"):
+        if name not in health_cols:
+            conn.execute(f"ALTER TABLE mailbox_health_state ADD COLUMN {name} INTEGER")
 
 
 # ---- leads_state helpers ----

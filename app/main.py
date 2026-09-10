@@ -23,7 +23,7 @@ from app import (
     campaign_report,
 )
 from app import candidates as candidates_module
-from app import client_assets, db, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
+from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
 from app import events, pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
 from app.exports import sheet_export
@@ -1679,6 +1679,23 @@ def api_stop(request: Request, draft_id: int):
 
 
 # ---- metrics ----
+
+@app.get("/api/deliverability-health")
+def api_deliverability_health(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse(deliverability_health.snapshot())
+
+
+@app.post("/api/deliverability-health/check")
+def api_check_deliverability_health(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    started = deliverability_health.trigger(force_domains=True)
+    return JSONResponse({"started": started, "running": started or deliverability_health.snapshot()["running"]})
+
 
 @app.get("/api/metrics")
 def api_metrics(request: Request):

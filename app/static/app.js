@@ -77,6 +77,7 @@ const state = {
   convoFilter: "",       // lead category filter on the Conversations sub-tab
   convoBrowseOpen: false, // raw-thread section stays open across filter clicks
   campaignPoll: null,    // setTimeout handle polling a running analysis
+  healthPoll: null,      // short poll while an on-demand health check runs
 };
 
 const DEFAULT_CATEGORIES = [
@@ -893,6 +894,164 @@ async function loadStats() {
   $("detail-body").hidden = false;
   showMobileDetail();
   return data;
+}
+
+// ---------- mailbox + domain health ----------
+function healthTime(value) {
+  if (!value) return "Not checked yet";
+  const d = new Date(value);
+  return isNaN(d) ? value : d.toLocaleString();
+}
+
+function healthBadge(kind, label) {
+  return el("span", `health-badge health-${kind}`, label);
+}
+
+async function loadHealth() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Deliverability";
+  $("inbox-empty").hidden = false;
+  $("inbox-empty").innerHTML = "Mailbox phases use Smartlead warm-up reputation. Domain checks cover MX, SPF, DMARC and the configured external blacklist source.";
+  const data = await apiGet("/api/deliverability-health");
+  if (state.view !== "health") return data;
+  renderHealth(data);
+  $("detail-empty").hidden = true;
+  $("detail-body").hidden = false;
+  showMobileDetail();
+  return data;
+}
+
+function renderHealth(data) {
+  const body = $("detail-body");
+  body.innerHTML = "";
+  body.classList.add("health-page");
+  const policy = data.policy || {};
+  const phases = policy.phases || {};
+  const head = el("div", "health-head");
+  const title = el("div");
+  title.appendChild(el("h2", null, "Deliverability health"));
+  title.appendChild(el("p", "muted", "A quick client-wide view first, then every mailbox and sending domain below."));
+  head.appendChild(title);
+  const check = el("button", "btn-secondary", data.running ? "Checking…" : "Check now");
+  check.disabled = Boolean(data.running);
+  check.onclick = runHealthCheck;
+  head.appendChild(check);
+  body.appendChild(head);
+
+  const mode = el("div", `health-mode mode-${data.automation}`);
+  mode.appendChild(el("strong", null, data.automation === "active" ? "Automatic changes are active" : data.automation === "dry_run" ? "Dry run: changes are simulated" : "Monitoring only"));
+  mode.appendChild(document.createTextNode(data.automation === "active"
+    ? " · Phase changes update Smartlead limits automatically."
+    : " · No Smartlead mailbox settings will be changed."));
+  body.appendChild(mode);
+
+  const summary = el("div", "health-summary");
+  const card = (value, label, note, cls) => {
+    const node = el("div", `health-summary-card ${cls || ""}`);
+    node.appendChild(el("div", "health-summary-value", String(value)));
+    node.appendChild(el("div", "health-summary-label", label));
+    node.appendChild(el("div", "health-summary-note", note));
+    summary.appendChild(node);
+  };
+  card((data.counts || {}).full || 0, "Healthy / full", "Up to 25 cold · 18–25 warm", "summary-good");
+  card((data.counts || {}).rehab || 0, "In rehabilitation", "Up to 5 cold · 32–40 warm", "summary-bad");
+  card((data.counts || {}).comeback || 0, "Comeback", "Up to 15 cold · 25–30 warm", "summary-warn");
+  const listed = (data.domains || []).filter((d) => d.status === "listed").length;
+  const domainWarnings = (data.domains || []).filter((d) => d.status === "warning" || d.status === "unknown").length;
+  card((data.domains || []).length - listed - domainWarnings, "Healthy domains", `${listed} listed · ${domainWarnings} need attention`, listed ? "summary-bad" : "summary-good");
+  body.appendChild(summary);
+
+  const timing = el("div", "health-timing");
+  timing.appendChild(el("span", null, `Mailbox check: ${healthTime(data.next_mailbox_check)}`));
+  timing.appendChild(el("span", null, `Blacklist check: ${healthTime(data.next_blacklist_check)}`));
+  timing.appendChild(el("span", null, `Blacklist source: ${data.blacklist_provider === "not_configured" ? "not configured" : data.blacklist_provider}`));
+  body.appendChild(timing);
+
+  body.appendChild(el("h3", "health-section-title", "Mailboxes"));
+  body.appendChild(el("p", "muted small", `Below ${policy.threshold || 90}% enters rehab immediately. Five distinct UTC days at 100% move rehab → comeback; another five at 100% move comeback → full.`));
+  const mailboxWrap = el("div", "health-table-wrap");
+  const mailboxTable = el("table", "health-table");
+  mailboxTable.innerHTML = "<thead><tr><th>Mailbox</th><th>State</th><th>Reputation</th><th>Streak</th><th>Limits</th><th>Connection</th><th>Last check</th></tr></thead>";
+  const mailboxBody = el("tbody");
+  (data.mailboxes || []).forEach((m) => {
+    const tr = el("tr");
+    const address = el("td");
+    address.appendChild(el("strong", null, m.email));
+    if (m.apply_error) address.appendChild(el("div", "health-error", m.apply_error));
+    tr.appendChild(address);
+    tr.appendChild(el("td")).appendChild(healthBadge(m.phase, m.phase === "full" ? "Full" : m.phase === "rehab" ? "Rehab" : "Comeback"));
+    tr.appendChild(el("td", m.reputation == null ? "muted" : "", m.reputation == null ? "Unknown" : `${m.reputation}%`));
+    tr.appendChild(el("td", null, m.phase === "full" ? "—" : `${m.perfect_days}/${policy.stable_days || 5} perfect days`));
+    const p = phases[m.phase] || {};
+    const current = `${m.cold_daily_limit == null ? "?" : m.cold_daily_limit} cold · ${m.warm_min == null ? "?" : m.warm_min}–${m.warm_max == null ? "?" : m.warm_max} warm`;
+    const limits = el("td");
+    limits.appendChild(el("div", null, current));
+    if (Number(m.cold_daily_limit) !== Number(p.cold) || Number(m.warm_min) !== Number(p.warm_min) || Number(m.warm_max) !== Number(p.warm_max)) {
+      limits.appendChild(el("div", "muted small", `Target: ${p.cold || 0} cold · ${p.warm_min || 0}–${p.warm_max || 0} warm`));
+    }
+    tr.appendChild(limits);
+    const connection = m.smtp_ok && m.imap_ok ? "SMTP + IMAP OK" : "Connection issue";
+    const ctd = el("td", m.smtp_ok && m.imap_ok ? "health-ok" : "health-error", connection);
+    if (m.blocked_reason) ctd.appendChild(el("div", "health-error", m.blocked_reason));
+    tr.appendChild(ctd);
+    tr.appendChild(el("td", "muted small", healthTime(m.last_checked_at)));
+    mailboxBody.appendChild(tr);
+  });
+  mailboxTable.appendChild(mailboxBody);
+  mailboxWrap.appendChild(mailboxTable);
+  body.appendChild(mailboxWrap);
+
+  body.appendChild(el("h3", "health-section-title", "Sending domains"));
+  body.appendChild(el("p", "muted small", "A blacklist result is only as broad as the named provider. SPF/DMARC are configuration checks; they are not a universal reputation score. DKIM needs a selector or a placement-test result, so it is not guessed."));
+  const domainGrid = el("div", "domain-health-grid");
+  (data.domains || []).forEach((d) => {
+    const node = el("article", `domain-health-card domain-${d.status}`);
+    const top = el("div", "domain-health-top");
+    top.appendChild(el("h4", null, d.domain));
+    top.appendChild(healthBadge(d.status, d.status === "listed" ? "Listed" : d.status === "healthy" ? "Healthy" : d.status === "warning" ? "DNS warning" : "Unknown"));
+    node.appendChild(top);
+    const auth = d.auth || {};
+    const signals = el("div", "domain-signals");
+    signals.appendChild(healthBadge(auth.mx ? "healthy" : "warning", auth.mx ? "MX present" : "MX missing"));
+    signals.appendChild(healthBadge(auth.spf ? "healthy" : "warning", auth.spf ? "SPF present" : "SPF missing"));
+    const dmarcLabel = auth.dmarc ? `DMARC ${auth.dmarc_policy || "present"}` : "DMARC missing";
+    signals.appendChild(healthBadge(auth.dmarc && auth.dmarc_policy !== "none" ? "healthy" : "warning", dmarcLabel));
+    node.appendChild(signals);
+    if ((d.listings || []).length) node.appendChild(el("div", "health-error", `Listed on: ${d.listings.join(", ")}`));
+    const checked = d.checked || [];
+    const source = data.blacklist_provider === "not_configured" ? "Blacklist source not configured" : `${data.blacklist_provider}: ${checked.length} engines`;
+    node.appendChild(el("div", "domain-checked", `Checked: DNS MX, SPF, DMARC · ${source}`));
+    if (checked.length) {
+      const details = el("details", "domain-engine-details");
+      details.appendChild(el("summary", null, "Show checked blacklist engines"));
+      details.appendChild(el("div", "muted small", checked.join(" · ")));
+      node.appendChild(details);
+    }
+    node.appendChild(el("div", "muted small", `DNS: ${healthTime(d.checked_at)} · blacklist: ${healthTime(d.blacklist_checked_at)}`));
+    if (d.error) node.appendChild(el("div", "health-error small", d.error));
+    domainGrid.appendChild(node);
+  });
+  if (!(data.domains || []).length) domainGrid.appendChild(el("p", "muted", "No sending domains discovered yet. Run the first check."));
+  body.appendChild(domainGrid);
+}
+
+async function runHealthCheck() {
+  try {
+    const result = await apiPost("/api/deliverability-health/check", {});
+    if (!result.running) return;
+    if (state.healthPoll) clearInterval(state.healthPoll);
+    state.healthPoll = setInterval(async () => {
+      const data = await loadHealth();
+      if (!data.running) {
+        clearInterval(state.healthPoll);
+        state.healthPoll = null;
+      }
+    }, 2500);
+    await loadHealth();
+  } catch (e) {
+    alert("Health check failed: " + e.message);
+  }
 }
 
 function renderStats(m) {
@@ -1810,12 +1969,14 @@ function conversationCard(person) {
 
 const VIEW_LOADERS = {
   inbox: loadInbox, scheduled: loadScheduled, archive: loadArchive,
-  stats: loadStats, campaigns: loadCampaigns,
+  stats: loadStats, campaigns: loadCampaigns, health: loadHealth,
 };
 
 function setView(view) {
   state.view = view;
   clearTimeout(state.campaignPoll);
+  if (view !== "health" && state.healthPoll) { clearInterval(state.healthPoll); state.healthPoll = null; }
+  $("detail-body").classList.toggle("health-page", view === "health");
   $("status-filter").hidden = view !== "inbox";
   $("campaign-filter").hidden = view !== "inbox";
   $("smartlead-filter").hidden = view !== "inbox";
@@ -1824,11 +1985,12 @@ function setView(view) {
   openSmartleadMenu(false);
   $("rescan-btn").hidden = view !== "inbox";
   // Campaigns and Stats don't list leads, so the lead search box would do nothing.
-  document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns" || view === "stats");
+  document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns" || view === "stats" || view === "health");
   $("view-inbox-btn").classList.toggle("active", view === "inbox");
   $("view-scheduled-btn").classList.toggle("active", view === "scheduled");
   $("view-archive-btn").classList.toggle("active", view === "archive");
   $("view-campaigns-btn").classList.toggle("active", view === "campaigns");
+  $("view-health-btn").classList.toggle("active", view === "health");
   $("view-stats-btn").classList.toggle("active", view === "stats");
   state.selected = -1;
   $("detail-body").hidden = true;
@@ -4272,6 +4434,7 @@ $("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
 $("view-stats-btn").addEventListener("click", () => setView("stats"));
 $("view-archive-btn").addEventListener("click", () => setView("archive"));
 $("view-campaigns-btn").addEventListener("click", () => setView("campaigns"));
+$("view-health-btn").addEventListener("click", () => setView("health"));
 loadInbox().catch((e) => {
   $("scan-status").textContent = "load failed";
   console.error(e);

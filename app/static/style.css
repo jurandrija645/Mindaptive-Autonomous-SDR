@@ -1242,3 +1242,53 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 .timing-field { display: flex; flex-direction: column; gap: 8px; margin: 18px 0; font-size: 14px; }
 .timing-field input { padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); }
 .timing-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* ---------- mailbox + domain health ---------- */
+.detail-body.health-page { max-width: 1120px; }
+.health-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.health-head h2 { margin: 0 0 3px; font-size: 21px; }
+.health-head p { margin: 0; }
+.health-mode { margin: 16px 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
+.mode-active { background: var(--booked-bg); border-color: #b8d9c5; }
+.mode-monitor_only, .mode-dry_run { background: var(--followup-bg); border-color: #ead39f; }
+.health-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.health-summary-card { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--border); border-radius: 8px; padding: 13px; }
+.summary-good { border-top-color: var(--booked); }
+.summary-warn { border-top-color: var(--followup); }
+.summary-bad { border-top-color: var(--reply); }
+.health-summary-value { font-size: 26px; font-weight: 700; line-height: 1.1; }
+.health-summary-label { font-size: 13px; font-weight: 600; margin-top: 5px; }
+.health-summary-note { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.health-timing { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0 22px; color: var(--muted); font-size: 12px; }
+.health-section-title { margin: 24px 0 2px; font-size: 16px; }
+.health-section-title + p { margin-top: 0; }
+.health-table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
+.health-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.health-table th, .health-table td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.health-table th { color: var(--muted); text-transform: uppercase; letter-spacing: .04em; font-size: 10px; }
+.health-table tr:last-child td { border-bottom: none; }
+.health-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.health-full, .health-healthy { color: var(--booked); background: var(--booked-bg); }
+.health-rehab, .health-listed { color: var(--reply); background: var(--reply-bg); }
+.health-comeback, .health-warning { color: var(--followup); background: var(--followup-bg); }
+.health-unknown { color: var(--muted); background: #efece6; }
+.health-ok { color: var(--booked); }
+.health-error { color: var(--danger); font-size: 11px; white-space: normal; margin-top: 2px; }
+.domain-health-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.domain-health-card { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 8px; padding: 12px; min-width: 0; }
+.domain-healthy { border-left-color: var(--booked); }
+.domain-warning, .domain-unknown { border-left-color: var(--followup); }
+.domain-listed { border-left-color: var(--reply); }
+.domain-health-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.domain-health-top h4 { margin: 0; font-size: 14px; overflow-wrap: anywhere; }
+.domain-signals { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0; }
+.domain-checked { font-size: 11px; color: var(--text); margin: 7px 0 3px; overflow-wrap: anywhere; }
+
+@media (max-width: 980px) {
+  .health-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .health-summary, .domain-health-grid { grid-template-columns: 1fr; }
+  .health-head { align-items: stretch; flex-direction: column; }
+}
