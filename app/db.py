@@ -61,6 +61,16 @@ CREATE TABLE IF NOT EXISTS leads_state (
     -- reused on later drafts instead of re-researching the lead's website
     research_summary TEXT,
     researched_at TEXT,
+    -- manual, deeper contact lookup (app/lead_research.py) triggered by the
+    -- "Research this lead" button in the About-this-lead panel — a named
+    -- contact, their direct email/phone/LinkedIn, company background. Kept in
+    -- its own column rather than folded into research_summary above: that one
+    -- is a drafting aid the model keeps current on its own turn by turn, and
+    -- overwriting it here would feed a contact-hunting result back into the
+    -- next draft's <lead_research> reuse instructions as if it were website
+    -- research.
+    contact_research TEXT,
+    contact_researched_at TEXT,
     PRIMARY KEY (lead_id, campaign_id)
 );
 
@@ -571,6 +581,10 @@ def _migrate(conn) -> None:
         # The message app/reply_classifier.py last judged — see the schema
         # comment above.
         "category_message_id": "TEXT",
+        # Manual deep contact lookup (app/lead_research.py) — see the schema
+        # comment above.
+        "contact_research": "TEXT",
+        "contact_researched_at": "TEXT",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
@@ -907,12 +921,9 @@ def sort_replied_lead(
       all**. Not archived, not stopped, still in the inbox, one click from
       either.
     - `wrong_person` — labelled the same shallow way as not_interested (still
-      in the inbox, one click away, `status` back to 'active'). What actually
-      stops the follow-ups is the caller pushing this verdict to Smartlead's
-      category with pause_lead=True (scheduler._push_category_to_smartlead) —
-      once the lead's Smartlead category is no longer Interested/Auto-Reply/
-      Meeting-Booked, run_daily_scan's own gate stops generating candidates
-      for it. Deliberately not folded into not_interested's bucket: "wrong
+      in the inbox, one click away, `status` back to 'active'). Smartlead's own
+      canonical category later decides whether its sequence and our follow-up
+      scan stop. Deliberately not folded into not_interested's bucket: "wrong
       person" here means the mailbox itself is a dead end (nobody left to
       read it), not a verdict on the offer, so it must not share auto_reply's
       "keep chasing, they're coming back" treatment either.

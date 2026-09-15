@@ -31,6 +31,9 @@ const STATUS_FILTER_KEY = "responder.statusFilter";
 const CAMPAIGN_FILTER_KEY = "responder.campaignFilter";
 const SMARTLEAD_FILTER_KEY = "responder.smartleadCategoryFilter";
 const TEMPLATE_CLIENT_FILTER_KEY = "responder.templateClientFilter";
+const DATE_FROM_KEY = "responder.dateFrom";
+const DATE_TO_KEY = "responder.dateTo";
+const SORT_ORDER_KEY = "responder.sortOrder";
 
 // How hot the lead is (app/lead_temperature.py) — a different axis from CHIP
 // above, which says what the thread needs next. This one says whether they
@@ -63,8 +66,11 @@ const state = {
   templateAvailableClients: [],  // every client label this checkout knows about (from /api/templates)
   templateCurrentClient: "",     // client this deployment serves (client_assets.CLIENT_LABEL)
   templateClientFilter: loadTemplateClientFilter(),  // "default" | "all" | "general" | a client label
-  campaignFilter: loadCampaignFilter(),  // selected campaign_id for the inbox list, or null = "All campaigns"
+  campaignFilter: loadCampaignFilter(),  // null = no restriction, else a Set of allowed campaign_id values (as strings)
   smartleadCategoryFilter: loadSmartleadCategoryFilter(),  // null = no restriction, else a Set of allowed lead.smartlead_category values
+  dateFrom: loadDateBound(DATE_FROM_KEY),  // "YYYY-MM-DD" or null — inclusive lower bound on last_message_at_raw
+  dateTo: loadDateBound(DATE_TO_KEY),      // "YYYY-MM-DD" or null — inclusive upper bound on last_message_at_raw
+  sortOrder: loadSortOrder(),  // "default" (server/tier order) | "date_desc" | "date_asc"
   models: [],            // /api/models catalog: Anthropic + OpenRouter, with prices
   defaultModel: null,    // id of the model used when nothing is explicitly picked
   roles: [],             // per-task model assignments shown in the Models panel
@@ -534,6 +540,8 @@ function applyFilter() {
   // looking at: with a search active, "Meeting booked (0)" means none of the
   // matches are booked, not that no booked lead exists.
   const matched = state.allLeads.filter((l) => matchesSearch(l, query));
+  const fromTs = dateBoundToTimestamp(state.dateFrom, false);
+  const toTs = dateBoundToTimestamp(state.dateTo, true);
   state.leads = matched.filter((l) => {
     const cat = leadCategory(l);
     // A category outside CATEGORY_ORDER — every Smartlead-mirrored one
@@ -541,16 +549,18 @@ function applyFilter() {
     // auto_reply), known or custom — is never hidden by this dropdown; that
     // axis belongs to the Smartlead status dropdown (slOk below) instead.
     const catOk = !CATEGORY_ORDER.includes(cat) || state.categoryFilter.has(cat);
-    const campaignOk = !state.campaignFilter || String(l.campaign_id) === String(state.campaignFilter);
+    const campaignOk = !state.campaignFilter || (l.campaign_id != null && state.campaignFilter.has(String(l.campaign_id)));
     // Smartlead's own category (a different axis from `cat` above — see
     // CHIP's comment). No filter set (null) or no value on the lead both
     // mean "don't hide it".
     const slCat = l.smartlead_category || "";
     const slOk = !state.smartleadCategoryFilter || !slCat || state.smartleadCategoryFilter.has(slCat);
-    return catOk && campaignOk && slOk;
+    const dateOk = dateInRange(l.last_message_at_raw, fromTs, toTs);
+    return catOk && campaignOk && slOk && dateOk;
   });
+  applySortOrder();
   // Each dropdown's counts describe the search-matched list only (not net of
-  // the other two filters) — same "counts describe what a click would add
+  // the other filters) — same "counts describe what a click would add
   // back" idea as the comment above, kept independent per dropdown so picking
   // a campaign doesn't also start hiding rows from the status dropdown's counts.
   renderStatusFilter(matched);
@@ -559,47 +569,166 @@ function applyFilter() {
   renderList();
 }
 
-// ---------- campaign filter ----------
-// A single-select dropdown ("All campaigns" or exactly one) above the status
-// filter — every inbox row already carries campaign_id/campaign_name, so this
-// is purely a client-side narrowing, no new endpoint needed.
+// ---------- date range + sort ----------
+// Independent of the three dropdown filters above: a lower/upper bound on
+// leads_state.last_message_at (last_message_at_raw, the ISO timestamp riding
+// alongside the human-readable "Sep 15, 2026 · 14:30" preview) and an optional
+// override of the server's tier ordering (db.list_inbox — hot, then due, then
+// most-recent-first). "default" leaves the filtered list in whatever order it
+// arrived in; the two date sorts re-sort it by that same raw timestamp.
 
-function loadCampaignFilter() {
+function loadDateBound(key) {
   try {
-    return localStorage.getItem(CAMPAIGN_FILTER_KEY) || null;
+    return localStorage.getItem(key) || null;
   } catch (e) {
     return null;
   }
 }
 
-function saveCampaignFilter() {
+function saveDateBound(key, value) {
   try {
-    if (state.campaignFilter) localStorage.setItem(CAMPAIGN_FILTER_KEY, state.campaignFilter);
-    else localStorage.removeItem(CAMPAIGN_FILTER_KEY);
+    if (value) localStorage.setItem(key, value);
+    else localStorage.removeItem(key);
   } catch (e) {
     /* private mode / quota — the filter still works for this session */
   }
 }
 
-function setCampaignFilter(campaignId) {
-  state.campaignFilter = campaignId;
+function loadSortOrder() {
+  try {
+    const saved = localStorage.getItem(SORT_ORDER_KEY);
+    return saved === "date_desc" || saved === "date_asc" ? saved : "default";
+  } catch (e) {
+    return "default";
+  }
+}
+
+function saveSortOrder() {
+  try {
+    if (state.sortOrder === "default") localStorage.removeItem(SORT_ORDER_KEY);
+    else localStorage.setItem(SORT_ORDER_KEY, state.sortOrder);
+  } catch (e) {
+    /* private mode / quota — the sort still works for this session */
+  }
+}
+
+// A date-only bound ("2026-09-15") needs a time of day to become a real
+// instant: the "From" side means the start of that day, the "To" side means
+// the end of it, so a single day picked in both boxes still matches leads
+// that arrived any time during it.
+function dateBoundToTimestamp(bound, endOfDay) {
+  if (!bound) return null;
+  const iso = endOfDay ? `${bound}T23:59:59.999` : `${bound}T00:00:00`;
+  const ts = new Date(iso).getTime();
+  return Number.isNaN(ts) ? null : ts;
+}
+
+function dateInRange(rawTs, fromTs, toTs) {
+  if (!fromTs && !toTs) return true;
+  if (!rawTs) return false; // a bound is set and this lead has no timestamp to compare
+  const ts = new Date(rawTs).getTime();
+  if (Number.isNaN(ts)) return false;
+  if (fromTs && ts < fromTs) return false;
+  if (toTs && ts > toTs) return false;
+  return true;
+}
+
+function setDateFrom(value) {
+  state.dateFrom = value || null;
+  saveDateBound(DATE_FROM_KEY, state.dateFrom);
+  applyFilter();
+}
+
+function setDateTo(value) {
+  state.dateTo = value || null;
+  saveDateBound(DATE_TO_KEY, state.dateTo);
+  applyFilter();
+}
+
+function clearDateRange() {
+  state.dateFrom = null;
+  state.dateTo = null;
+  saveDateBound(DATE_FROM_KEY, null);
+  saveDateBound(DATE_TO_KEY, null);
+  $("date-from-input").value = "";
+  $("date-to-input").value = "";
+  applyFilter();
+}
+
+function setSortOrder(order) {
+  state.sortOrder = order === "date_desc" || order === "date_asc" ? order : "default";
+  saveSortOrder();
+  applyFilter();
+}
+
+// Applied after every other filter, directly on state.leads. "default" is a
+// no-op: the array is already in the server's priority order.
+function applySortOrder() {
+  if (state.sortOrder === "default") return;
+  const dir = state.sortOrder === "date_asc" ? 1 : -1;
+  state.leads.sort((a, b) => {
+    const ta = a.last_message_at_raw ? new Date(a.last_message_at_raw).getTime() : 0;
+    const tb = b.last_message_at_raw ? new Date(b.last_message_at_raw).getTime() : 0;
+    return (ta - tb) * dir;
+  });
+}
+
+// ---------- campaign filter ----------
+// A multi-select dropdown (checkboxes, same shape as the Smartlead status
+// filter below) above the status filter — every inbox row already carries
+// campaign_id/campaign_name, so this is purely a client-side narrowing, no
+// new endpoint needed. null means "no restriction" (all campaigns).
+
+function loadCampaignFilter() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CAMPAIGN_FILTER_KEY) || "null");
+    if (Array.isArray(saved)) return new Set(saved);
+    // Migrate a single-string value saved by the old single-select filter.
+    if (typeof saved === "string" && saved) return new Set([saved]);
+  } catch (e) {
+    /* unreadable storage — fall through to "no restriction" */
+  }
+  return null;
+}
+
+function saveCampaignFilter() {
+  try {
+    if (state.campaignFilter) {
+      localStorage.setItem(CAMPAIGN_FILTER_KEY, JSON.stringify([...state.campaignFilter]));
+    } else {
+      localStorage.removeItem(CAMPAIGN_FILTER_KEY);
+    }
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function setCampaignChecked(campaignId, on, allKnown) {
+  // Same "build the explicit set on first touch" logic as setSmartleadCategory.
+  let set = state.campaignFilter === null ? new Set(allKnown) : state.campaignFilter;
+  if (on) set.add(campaignId);
+  else set.delete(campaignId);
+  state.campaignFilter = allKnown.every((id) => set.has(id)) ? null : set;
   saveCampaignFilter();
   applyFilter();
 }
 
-function campaignFilterLabel() {
-  if (!state.campaignFilter) return "All campaigns";
-  const found = state.allLeads.find((l) => String(l.campaign_id) === String(state.campaignFilter));
-  return found ? found.campaign_name || "Campaign" : "All campaigns";
+function setAllCampaigns(on) {
+  state.campaignFilter = on ? null : new Set();
+  saveCampaignFilter();
+  applyFilter();
+}
+
+function campaignFilterLabel(allKnown, nameById) {
+  if (state.campaignFilter === null) return "All campaigns";
+  const chosen = state.campaignFilter;
+  if (chosen.size === 0) return "No campaigns — nothing shown";
+  if (chosen.size >= allKnown.length) return "All campaigns";
+  if (chosen.size === 1) return nameById.get([...chosen][0]) || "Campaign";
+  return `${chosen.size} of ${allKnown.length} campaigns`;
 }
 
 function renderCampaignFilter(leads) {
-  // A campaign saved from a previous session that no longer appears in the
-  // inbox at all (not just filtered out by search) resets rather than
-  // silently hiding every lead.
-  if (state.campaignFilter && !state.allLeads.some((l) => String(l.campaign_id) === String(state.campaignFilter))) {
-    state.campaignFilter = null;
-  }
   const counts = new Map();
   leads.forEach((l) => {
     if (!l.campaign_id) return;
@@ -608,35 +737,26 @@ function renderCampaignFilter(leads) {
     entry.count += 1;
     counts.set(key, entry);
   });
+  const allKnown = [...counts.keys()].sort((a, b) => (counts.get(a).name || "").localeCompare(counts.get(b).name || ""));
+  const nameById = new Map(allKnown.map((id) => [id, counts.get(id).name]));
 
   const box = $("campaign-menu-items");
   box.innerHTML = "";
-  const allRow = el("label", "status-option");
-  const allRadio = el("input");
-  allRadio.type = "radio";
-  allRadio.name = "campaign-filter-radio";
-  allRadio.checked = !state.campaignFilter;
-  allRadio.addEventListener("change", () => setCampaignFilter(null));
-  allRow.appendChild(allRadio);
-  allRow.appendChild(el("span", "status-option-label", "All campaigns"));
-  allRow.appendChild(el("span", "status-option-count", String(leads.length)));
-  box.appendChild(allRow);
-
-  [...counts.entries()]
-    .sort((a, b) => a[1].name.localeCompare(b[1].name))
-    .forEach(([id, entry]) => {
-      const row = el("label", "status-option");
-      const radio = el("input");
-      radio.type = "radio";
-      radio.name = "campaign-filter-radio";
-      radio.checked = state.campaignFilter === id;
-      radio.addEventListener("change", () => setCampaignFilter(id));
-      row.appendChild(radio);
-      row.appendChild(el("span", "status-option-label", entry.name));
-      row.appendChild(el("span", "status-option-count", String(entry.count)));
-      box.appendChild(row);
-    });
-  $("campaign-filter-label").textContent = campaignFilterLabel();
+  allKnown.forEach((id) => {
+    const entry = counts.get(id);
+    const row = el("label", "status-option");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = state.campaignFilter === null || state.campaignFilter.has(id);
+    cb.addEventListener("change", () => setCampaignChecked(id, cb.checked, allKnown));
+    row.appendChild(cb);
+    row.appendChild(el("span", "status-option-label", entry.name));
+    row.appendChild(el("span", "status-option-count", String(entry.count)));
+    box.appendChild(row);
+  });
+  $("campaign-filter-label").textContent = campaignFilterLabel(allKnown, nameById);
+  $("campaign-all-btn").onclick = () => setAllCampaigns(true);
+  $("campaign-none-btn").onclick = () => setAllCampaigns(false);
 }
 
 function openCampaignMenu(open) {
@@ -1973,6 +2093,7 @@ const VIEW_LOADERS = {
 };
 
 function setView(view) {
+  closeMobileMenu(true);
   state.view = view;
   clearTimeout(state.campaignPoll);
   if (view !== "health" && state.healthPoll) { clearInterval(state.healthPoll); state.healthPoll = null; }
@@ -2141,6 +2262,7 @@ async function selectLead(i) {
     state.detail = data;
     renderDetail();
     if (data.generating) pollGeneration(lead.campaign_id, lead.lead_id);
+    if (data.researching_contact) pollContactResearch(lead.campaign_id, lead.lead_id);
   } catch (e) {
     body.innerHTML = "";
     if (isMobileLayout()) {
@@ -2304,6 +2426,13 @@ function tempChip(lead) {
 // Captured once during drafting (Claude's <lead_research> block, see
 // drafter.py) and reused on later drafts instead of re-researching the
 // lead's website — shown here so it's always visible next to the thread.
+//
+// The contact-research half below it is a separate, on-demand deep lookup
+// (app/lead_research.py) triggered by the "Research this lead" button: a
+// named point of contact and their direct email/phone/LinkedIn, not just the
+// website-diagnostic summary above. Kept in its own column/section rather
+// than merged into the drafting research so a contact hunt never overwrites
+// what the next draft reuses.
 function renderResearchPanel(lead) {
   const panel = el("div", "research-panel");
   panel.id = "research-panel";
@@ -2318,7 +2447,96 @@ function renderResearchPanel(lead) {
       lead.research_summary || "No research yet — gathered automatically the first time a draft is generated for this lead."
     )
   );
+  panel.appendChild(renderContactResearch(lead));
   return panel;
+}
+
+function renderContactResearch(lead) {
+  const wrap = el("div", "contact-research");
+  const head = el("div", "research-head contact-research-head");
+  head.appendChild(el("span", "research-title", "Contact research"));
+
+  const isRunning = state.detail && state.detail.researching_contact;
+  if (isRunning) {
+    const spin = el("span", "muted research-time");
+    spin.appendChild(el("span", "spinner"));
+    spin.appendChild(document.createTextNode(" researching…"));
+    head.appendChild(spin);
+  } else {
+    if (lead.contact_researched_at) {
+      head.appendChild(el("span", "muted research-time", lead.contact_researched_at));
+    }
+    const btn = el("button", "btn-secondary btn-research-contact", lead.contact_research ? "↻ Research again" : "🔍 Research this lead");
+    btn.type = "button";
+    btn.title = "Find a real point of contact at this company — name, title, direct email/phone, LinkedIn";
+    btn.addEventListener("click", researchContact);
+    head.appendChild(btn);
+  }
+  wrap.appendChild(head);
+
+  if (isRunning) {
+    wrap.appendChild(el("div", "research-body muted", "Looking up a real point of contact — name, direct email/phone, LinkedIn. This can take a minute…"));
+  } else if (state.detail && state.detail.contact_research_error && !lead.contact_research) {
+    wrap.appendChild(el("div", "research-body error-note", state.detail.contact_research_error));
+  } else {
+    wrap.appendChild(
+      el(
+        "div",
+        "research-body",
+        lead.contact_research || "No contact lookup yet — click above to find a real point of contact at this company."
+      )
+    );
+  }
+  return wrap;
+}
+
+// "Research this lead" — a background contact lookup (app/lead_research.py),
+// polled the same way generate()/pollGeneration handles draft generation:
+// kicked off in a background thread server-side because a multi-tool-call web
+// search can run long enough to hit Cloudflare's ~100s tunnel timeout if
+// awaited inline.
+const contactPolls = new Map();
+
+function pollContactResearch(cid, lid) {
+  const key = `${cid}:${lid}`;
+  if (contactPolls.has(key)) return;
+
+  const interval = setInterval(async () => {
+    let data;
+    try {
+      data = await apiGet(`/api/leads/${cid}/${lid}`);
+    } catch (e) {
+      clearInterval(contactPolls.get(key));
+      contactPolls.delete(key);
+      return;
+    }
+    if (data.researching_contact) return;
+    clearInterval(contactPolls.get(key));
+    contactPolls.delete(key);
+
+    const cur = currentLeadIds();
+    if (!cur || cur.cid !== cid || cur.lid !== lid) return; // looking at a different lead now
+
+    state.detail = data;
+    const oldPanel = $("research-panel");
+    if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
+  }, 3000);
+  contactPolls.set(key, interval);
+}
+
+async function researchContact() {
+  const { cid, lid } = currentLeadIds();
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/research-contact`);
+  } catch (e) {
+    alert("Couldn't start the contact lookup: " + e.message);
+    return;
+  }
+  if (!state.detail) state.detail = {};
+  state.detail.researching_contact = true;
+  const oldPanel = $("research-panel");
+  if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
+  pollContactResearch(cid, lid);
 }
 
 // The LinkedIn export lives above the archived/snoozed early returns on
@@ -4399,6 +4617,14 @@ $("smartlead-filter-btn").addEventListener("click", (e) => {
 });
 $("smartlead-menu").addEventListener("click", (e) => e.stopPropagation());
 
+$("date-from-input").value = state.dateFrom || "";
+$("date-to-input").value = state.dateTo || "";
+$("sort-order-select").value = state.sortOrder;
+$("date-from-input").addEventListener("change", (e) => setDateFrom(e.target.value));
+$("date-to-input").addEventListener("change", (e) => setDateTo(e.target.value));
+$("date-range-clear-btn").addEventListener("click", clearDateRange);
+$("sort-order-select").addEventListener("change", (e) => setSortOrder(e.target.value));
+
 document.addEventListener("click", () => {
   openStatusMenu(false);
   openCampaignMenu(false);
@@ -4414,6 +4640,7 @@ document.addEventListener("keydown", (e) => {
 
 // ---------- init ----------
 function onMobileMqChange() {
+  closeMobileMenu();
   if (!isMobileLayout()) showMobileList();
 }
 if (MOBILE_MQ.addEventListener) {
@@ -4426,9 +4653,38 @@ if (MOBILE_MQ.addEventListener) {
 // button states which statuses are on even if that first load fails.
 renderStatusFilter([]);
 
-$("rescan-btn").addEventListener("click", rescan);
-$("models-btn").addEventListener("click", openModelsModal);
-$("followup-settings-btn").addEventListener("click", openFollowupSettings);
+function openMobileMenu() {
+  if (!isMobileLayout()) return;
+  document.body.classList.add("mobile-menu-open");
+  $("mobile-menu-backdrop").hidden = false;
+  $("mobile-menu-btn").setAttribute("aria-expanded", "true");
+  $("mobile-menu-btn").setAttribute("aria-label", "Close navigation");
+  $("mobile-menu-close").focus();
+}
+
+function closeMobileMenu(restoreFocus = false) {
+  document.body.classList.remove("mobile-menu-open");
+  $("mobile-menu-backdrop").hidden = true;
+  $("mobile-menu-btn").setAttribute("aria-expanded", "false");
+  $("mobile-menu-btn").setAttribute("aria-label", "Open navigation");
+  if (restoreFocus && isMobileLayout()) $("mobile-menu-btn").focus();
+}
+
+$("mobile-menu-btn").addEventListener("click", () => {
+  if (document.body.classList.contains("mobile-menu-open")) closeMobileMenu();
+  else openMobileMenu();
+});
+$("mobile-menu-close").addEventListener("click", () => closeMobileMenu(true));
+$("mobile-menu-backdrop").addEventListener("click", () => closeMobileMenu(true));
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.body.classList.contains("mobile-menu-open")) {
+    closeMobileMenu(true);
+  }
+});
+
+$("rescan-btn").addEventListener("click", () => { closeMobileMenu(true); rescan(); });
+$("models-btn").addEventListener("click", () => { closeMobileMenu(); openModelsModal(); });
+$("followup-settings-btn").addEventListener("click", () => { closeMobileMenu(); openFollowupSettings(); });
 $("view-inbox-btn").addEventListener("click", () => setView("inbox"));
 $("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
 $("view-stats-btn").addEventListener("click", () => setView("stats"));

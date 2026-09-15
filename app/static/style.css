@@ -77,6 +77,9 @@ header {
 header h1 { font-size: 17px; margin: 0; }
 .header-right { display: flex; align-items: center; gap: 10px; }
 .header-right form { margin: 0; }
+.mobile-menu-btn,
+.mobile-menu-head,
+.mobile-menu-backdrop { display: none; }
 
 .pill {
   font-size: 11px;
@@ -243,6 +246,39 @@ button:disabled { opacity: .55; cursor: default; }
   text-decoration: underline;
 }
 .link-btn:hover { color: var(--accent-dark); }
+/* ---- date range + sort row, directly below the three filter dropdowns ---- */
+.filter-row-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.date-range-field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.date-range-input {
+  font-size: 12.5px;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+.sort-order-select {
+  margin-left: auto;
+  font-size: 12.5px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
 .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
 .dot-reply { background: var(--reply); }
 .dot-followup { background: var(--followup); }
@@ -469,6 +505,10 @@ button:disabled { opacity: .55; cursor: default; }
 .research-title { font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); }
 .research-time { font-size: 11px; }
 .research-body { font-size: 13px; white-space: pre-wrap; line-height: 1.5; }
+
+.contact-research { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.contact-research-head .research-time { display: inline-flex; align-items: center; gap: 5px; }
+.btn-research-contact { padding: 4px 10px; font-size: 12px; }
 
 .lead-actions {
   display: flex;
@@ -887,51 +927,127 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
     overflow: hidden;
   }
 
-  /* Compact 2-row header so it doesn't eat half the phone viewport and crowd
-     the lead list. Row 1: title + Rescan + Log out. Row 2: full-width view
-     tabs. `display: contents` dissolves .header-right so its children can be
-     ordered/wrapped directly as flex items of <header>. */
+  /* On phones the desktop toolbar lives in an off-canvas menu. Keeping only
+     the client name and hamburger in the header gives the lead list most of
+     the viewport while every destination and action stays easy to reach. */
   header {
-    height: auto;
-    min-height: 0;
+    height: 56px;
+    min-height: 56px;
     width: 100%;
     max-width: 100%;
-    flex-wrap: wrap;
     align-items: center;
-    row-gap: 6px;
-    column-gap: 8px;
-    padding: 8px 12px;
+    gap: 10px;
+    padding: 0 14px;
     flex-shrink: 0;
+    position: relative;
+    z-index: 40;
   }
   header h1 {
-    font-size: 15px;
-    order: 1;
+    font-size: 16px;
     flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .header-right { display: contents; }
-  .pill-dry { order: 2; }
-  #rescan-btn { order: 3; }
-  .header-right form { order: 4; }
+  .client-badge { margin-left: 5px; }
+  .mobile-menu-btn {
+    display: inline-flex;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0 11px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 5px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .mobile-menu-btn span {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text);
+  }
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: rgba(42, 38, 34, .38);
+    backdrop-filter: blur(1px);
+  }
+  .header-right {
+    display: flex;
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(310px, 86vw);
+    padding: max(14px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    overflow-y: auto;
+    background: var(--card);
+    border-left: 1px solid var(--border);
+    box-shadow: -10px 0 30px rgba(42, 38, 34, .16);
+    transform: translateX(105%);
+    visibility: hidden;
+    transition: transform .2s ease, visibility 0s linear .2s;
+  }
+  body.mobile-menu-open .header-right {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform .2s ease;
+  }
+  .mobile-menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 42px;
+    font-size: 17px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .mobile-menu-close {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .header-right .pill-dry { align-self: flex-start; }
   .view-switch {
-    order: 5;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    flex: 0 0 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
+    gap: 4px;
+    padding: 4px;
   }
   .view-tab {
     min-width: 0;
-    padding: 9px 3px;
-    font-size: 11.5px;
+    min-height: 44px;
+    padding: 10px 8px;
+    font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  #rescan-btn,
-  .header-right form .btn-secondary { padding: 8px 12px; font-size: 13px; }
+  .header-right > .btn-secondary,
+  .header-right form .btn-secondary {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 14px;
+    text-align: left;
+  }
+  .header-right form { width: 100%; margin-top: auto; }
 
   .layout {
     display: grid;
@@ -944,6 +1060,9 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
     overflow-x: hidden;
     height: auto;
   }
+  .inbox-head { padding-top: 10px; }
+  .search-row { padding-bottom: 8px; }
+  .filter-row { padding-bottom: 8px; }
   .layout > * {
     min-height: 0;
     min-width: 0;
@@ -1041,6 +1160,16 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   .recipient-note { padding-left: 0; }
 
   .login-box { margin: 40px auto; padding: 20px 16px; }
+}
+
+@media (max-width: 360px) {
+  header { padding-inline: 10px; }
+  header h1 { font-size: 14px; }
+  .client-badge { font-size: 10px; padding-inline: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 768px) {
+  .header-right { transition: none; }
 }
 
 /* ---------- campaigns view ---------- */

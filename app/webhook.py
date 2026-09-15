@@ -448,6 +448,7 @@ async def booking_confirmed(request: Request):
             name=row["name"] or name,
         )
         booked.append({"campaign_id": campaign_id, "lead_id": lead_id})
+
     first_match = matches[0]
     sheet_status = interested_sheet.record_booking(
         email=email or first_match["email"] or "",
@@ -592,11 +593,18 @@ def _process_reply(
     if lead_row is None:
         lead_row = _record_incoming(campaign_id, lead_id, payload)
 
+    # Refresh Smartlead's own label before making our separate workflow
+    # judgement. This is informational and authoritative for the remote label;
+    # the classifier below is not allowed to overwrite it. Smartlead can still
+    # be uncategorized for a few minutes, so a failed/empty refresh must never
+    # delay visibility or drafting.
+    scheduler.refresh_smartlead_category_for_reply(campaign_id, lead_id)
+
     # Phase 2 — is this a person worth answering, or an out-of-office? This is
     # the gate the n8n workflow's gpt-5-mini + Switch pair used to apply before
     # forwarding, kept here so Smartlead's webhook can point straight at the app
-    # (app/reply_classifier.py). It decides whether to spend a draft and whether
-    # to push the lead to Smartlead's Interested category — nothing else.
+    # (app/reply_classifier.py). It decides only whether to spend a draft and
+    # how to arrange the local inbox. Smartlead owns its canonical category.
     label, reason = reply_classifier.classify(_reply_text(payload))
     log.info("lead %s reply: %s", lead_id, reason)
     if label == reply_classifier.BOOKED:
@@ -624,41 +632,7 @@ def _process_reply(
         # tick after that is free (see run_reply_catch_scan).
         with db.db_session() as conn:
             db.sort_replied_lead(conn, lead_id, campaign_id, label)
-        # Push it to Smartlead too — the app is meant to be 1:1 with
-        # Smartlead's own category, and without this Smartlead's sequence
-        # keeps mailing a lead the classifier already sorted as a machine or
-        # a no. See scheduler._push_category_to_smartlead.
-        if label == reply_classifier.AUTO_REPLY:
-            scheduler._push_category_to_smartlead(
-                campaign_id,
-                lead_id,
-                settings.autoreply_category_name,
-                initial_classification=not bool(
-                    lead_row and lead_row["category_message_id"]
-                ),
-            )
-        elif label == reply_classifier.NOT_INTERESTED:
-            scheduler._push_category_to_smartlead(
-                campaign_id,
-                lead_id,
-                settings.not_interested_category_name,
-                initial_classification=not bool(
-                    lead_row and lead_row["category_message_id"]
-                ),
-            )
-        elif label == reply_classifier.WRONG_PERSON:
-            scheduler._push_category_to_smartlead(
-                campaign_id,
-                lead_id,
-                settings.wrong_person_category_name,
-                pause=True,
-                initial_classification=not bool(
-                    lead_row and lead_row["category_message_id"]
-                ),
-            )
         return {"status": "ok", "note": f"recorded, no draft — {reason}"}
-
-    _promote_category_to_interested(campaign_id, lead_id, lead_row)
 
     raw_lead = smartlead.normalize_lead({"id": lead_id}, campaign_id)
     raw_lead["email"] = raw_lead["email"] or payload.get("to_email")
@@ -724,27 +698,6 @@ def _process_reply(
 
     _notify_n8n(dict(draft))
     return {"status": "ok", "draft_id": draft_id}
-
-
-def _promote_category_to_interested(campaign_id: int, lead_id: int, lead_row) -> None:
-    """Write the first reply's Interested verdict only if still uncategorized.
-
-    Never touches a lead we've recorded as booked: that category is the success
-    outcome and mark_lead_booked freezes outreach on it, so downgrading it to
-    Interested here would quietly un-book a won lead when they reply again.
-    Best-effort — a failure must not cost us the draft, which is the point of
-    the request.
-    """
-    if lead_row is not None and lead_row["status"] == "booked":
-        return
-    scheduler._push_category_to_smartlead(
-        campaign_id,
-        lead_id,
-        settings.interested_category_name,
-        initial_classification=not bool(
-            lead_row and lead_row["category_message_id"]
-        ),
-    )
 
 
 def _notify_n8n(draft: dict) -> None:

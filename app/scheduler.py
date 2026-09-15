@@ -281,7 +281,8 @@ def _sync_category_from_smartlead(
             settings.meeting_booked_category_name
         ):
             _push_category_to_smartlead(
-                campaign_id, lead_id, settings.meeting_booked_category_name, pause=True
+                campaign_id, lead_id, settings.meeting_booked_category_name,
+                pause=True, override_lock=True,
             )
         return
     if (
@@ -290,6 +291,8 @@ def _sync_category_from_smartlead(
         and norm_category_name(sl_category_name)
         == norm_category_name(settings.do_not_contact_category_name)
     ):
+        # Smartlead already made the correct compliance decision. Preserve it
+        # and ensure the stronger account-wide suppression is in place too.
         with db.db_session() as conn:
             db.upsert_lead_state(
                 conn, lead_id, campaign_id, smartlead_category=sl_category_name
@@ -326,29 +329,50 @@ def _push_category_to_smartlead(
     category_name: str,
     pause: bool = False,
     *,
-    initial_classification: bool = False,
     override_lock: bool = False,
 ) -> bool:
-    """Write only the first automatic verdict; never recategorize later."""
+    """Write a deterministic booking or explicit-opt-out verdict to Smartlead.
+
+    Every probabilistic classifier target is rejected at this boundary. The
+    dashboard's manual category endpoint does not use this helper and remains
+    the only general-purpose path allowed to recategorize an existing lead.
+
+    `pause` stops Smartlead's automated sequence for the lead too. Verified
+    booking and opt-out callers pass True; tests may use False to verify the
+    write/mirror behavior independently.
+
+    Best-effort and fails soft — a failure here must not cost the local
+    relabel, which has already happened by the time this runs. Respects
+    DRY_RUN like every other Smartlead category write (api_set_category, the
+    booking webhook). Returns True only when the remote write succeeded."""
     with db.db_session() as conn:
         state = db.get_lead_state(conn, lead_id, campaign_id)
     existing_category = (state["smartlead_category"] or "").strip() if state else ""
-    already_classified = bool(state and state["category_message_id"])
     existing_is_dnc = norm_category_name(existing_category) == norm_category_name(
         settings.do_not_contact_category_name
     )
     target_is_dnc = norm_category_name(category_name) == norm_category_name(
         settings.do_not_contact_category_name
     )
+    target_is_booked = norm_category_name(category_name) == norm_category_name(
+        settings.meeting_booked_category_name
+    )
+    if not (target_is_dnc or target_is_booked):
+        log.warning(
+            "refusing non-deterministic automatic Smartlead category change "
+            "for lead %s/%s to %r",
+            campaign_id,
+            lead_id,
+            category_name,
+        )
+        return False
     if existing_is_dnc and not target_is_dnc:
         log.info(
             "leaving lead %s/%s locked at Do Not Contact; ignored %r",
             campaign_id, lead_id, category_name,
         )
         return False
-    if not override_lock and (
-        existing_category or (already_classified and not initial_classification)
-    ):
+    if not override_lock and existing_category:
         log.info(
             "leaving lead %s/%s Smartlead category locked at %r; ignored automatic %r",
             campaign_id, lead_id, existing_category or "previous classification",
@@ -370,8 +394,6 @@ def _push_category_to_smartlead(
             )
             return False
         smartlead.update_lead_category(campaign_id, lead_id, category_id, pause_lead=pause)
-        # The filter reads this mirror, while the chip reads the local verdict.
-        # Refresh it only after the remote write succeeds.
         with db.db_session() as conn:
             db.upsert_lead_state(
                 conn, lead_id, campaign_id, smartlead_category=category_name
@@ -385,23 +407,59 @@ def _push_category_to_smartlead(
         return False
 
 
-_PUBLIC_MAIL_DOMAINS = {
-    "gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com",
-    "msn.com", "yahoo.com", "icloud.com", "me.com", "aol.com",
-    "protonmail.com", "proton.me", "gmx.com", "gmx.net", "zoho.com",
-    "yandex.com", "yandex.ru",
-}
+def refresh_smartlead_category_for_reply(campaign_id: int, lead_id: int) -> str | None:
+    """Refresh Smartlead's canonical label when a reply arrives.
+
+    The reply webhook itself carries no category. Smartlead's recent-replies
+    endpoint does, once its classifier has produced one, so check that cheap
+    account-wide feed and mirror the matching value locally. This function
+    never writes a category back to Smartlead and never delays reply handling
+    when Smartlead is still uncategorized or temporarily unavailable.
+    """
+    try:
+        recent = smartlead.list_recent_replies(limit=20)
+        match = next(
+            (
+                row for row in recent
+                if int(row.get("email_campaign_id") or 0) == int(campaign_id)
+                and int(row.get("email_lead_id") or 0) == int(lead_id)
+            ),
+            None,
+        )
+        category_id = match.get("lead_category_id") if match else None
+        if not category_id:
+            return None
+        category_id = int(category_id)
+        categories = {cid: name for name, cid in smartlead.fetch_categories().items()}
+        category_name = categories.get(category_id)
+        if not category_name:
+            return None
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, lead_id, campaign_id, smartlead_category=category_name
+            )
+        return category_name
+    except Exception:
+        log.warning(
+            "lead %s/%s: could not refresh Smartlead category for reply",
+            campaign_id,
+            lead_id,
+            exc_info=True,
+        )
+        return None
 
 
 def _block_entries_for_email(email: str) -> list[str]:
+    """Return the one mailbox that explicitly opted out.
+
+    An individual's opt-out is not an instruction to suppress every colleague
+    at the same company. Domain blocking is intentionally never inferred from
+    an inbound reply; it remains a separate manual Smartlead action.
+    """
     email = (email or "").strip().lower()
     if "@" not in email:
         return []
-    domain = email.rsplit("@", 1)[1].strip()
-    entries = [email]
-    if domain and domain not in _PUBLIC_MAIL_DOMAINS:
-        entries.append(domain)
-    return entries
+    return [email]
 
 
 def record_do_not_contact(
@@ -411,7 +469,11 @@ def record_do_not_contact(
     email: str = "",
     message_id: str | None = None,
 ) -> None:
-    """Freeze locally, then enforce Smartlead's account-wide suppression."""
+    """Freeze locally, then enforce Smartlead's account-wide suppression.
+
+    DNC is the only automatic category action allowed to tighten an existing
+    category. It can never weaken or replace a DNC verdict.
+    """
     with db.db_session() as conn:
         state = db.get_lead_state(conn, lead_id, campaign_id)
         resolved_email = email or ((state["email"] or "") if state else "")
@@ -429,6 +491,7 @@ def record_do_not_contact(
             pause=True,
             override_lock=True,
         )
+
     if settings.dry_run:
         log.info("[DRY_RUN] would globally suppress lead %s/%s", campaign_id, lead_id)
         return
@@ -455,14 +518,11 @@ def record_explicit_booking(
     message_id: str | None = None,
 ) -> None:
     """Freeze a lead who explicitly confirms their booking is complete."""
-    with db.db_session() as conn:
-        state = db.get_lead_state(conn, lead_id, campaign_id)
     _push_category_to_smartlead(
         campaign_id,
         lead_id,
         settings.meeting_booked_category_name,
         pause=True,
-        initial_classification=not bool(state and state["category_message_id"]),
         override_lock=True,
     )
     with db.db_session() as conn:
@@ -532,12 +592,9 @@ def _adopt_unknown_repliers() -> None:
     Smartlead's category onto it (_sync_category_from_smartlead) — the app is
     meant to be 1:1 with Smartlead for everything except the reply/followup/
     waiting sub-states and temperature, which have no Smartlead equivalent.
-    This is safe to do unconditionally now: app/reply_classifier.py's own
-    verdicts are pushed back to Smartlead the moment they're made
-    (_push_category_to_smartlead), so by the time this reads Smartlead's
-    category again it should already agree — this pull mostly matters for
-    whatever the classifier never sees at all (a hard bounce, an unsubscribe,
-    a category Andrew changed by hand directly in Smartlead).
+    Smartlead is the canonical source for these labels. The app's probabilistic
+    classifier only controls local workflow, so this pull deliberately replaces
+    a provisional local label when Smartlead has since supplied its own verdict.
 
     It writes the summary only, never a draft: the row plus the timestamp is
     enough to make the lead visible and to hand them to the loop below, which
@@ -750,16 +807,6 @@ def run_reply_catch_scan() -> None:
                                     conn, row["lead_id"], campaign_id, stored_label,
                                     message_id=last.message_id,
                                 )
-                            target_category = {
-                                "auto_reply": settings.autoreply_category_name,
-                                "not_interested": settings.not_interested_category_name,
-                                "wrong_person": settings.wrong_person_category_name,
-                            }[stored_label]
-                            if row["smartlead_category"] != target_category:
-                                _push_category_to_smartlead(
-                                    campaign_id, row["lead_id"], target_category,
-                                    pause=stored_label == "wrong_person",
-                                )
                             continue
                         # else: previously judged interested. category is
                         # already 'reply' from mark_lead_replied above —
@@ -803,30 +850,9 @@ def run_reply_catch_scan() -> None:
                                     conn, row["lead_id"], campaign_id, label,
                                     message_id=last.message_id,
                                 )
-                        # Push the verdict to Smartlead too, so its own copy
-                        # agrees and its sequence stops mailing someone we've
-                        # already sorted as a machine or a no — the app being
-                        # 1:1 with Smartlead means this app can't just decide
-                        # quietly on its own side.
-                        if label == reply_classifier.AUTO_REPLY:
-                            _push_category_to_smartlead(
-                                campaign_id, row["lead_id"], settings.autoreply_category_name,
-                                initial_classification=row["category_message_id"] is None,
-                            )
-                        elif label == reply_classifier.NOT_INTERESTED:
-                            _push_category_to_smartlead(
-                                campaign_id, row["lead_id"], settings.not_interested_category_name,
-                                initial_classification=row["category_message_id"] is None,
-                            )
-                        elif label == reply_classifier.WRONG_PERSON:
-                            # pause=True, unlike auto_reply — this mailbox has
-                            # no one left to read it, so there's no reason to
-                            # keep Smartlead's own sequence mailing it either.
-                            _push_category_to_smartlead(
-                                campaign_id, row["lead_id"], settings.wrong_person_category_name,
-                                pause=True,
-                                initial_classification=row["category_message_id"] is None,
-                            )
+                        # This verdict controls only local workflow. Smartlead
+                        # owns its canonical label; only deterministic booking
+                        # and explicit opt-out rules write back automatically.
                         if label != reply_classifier.INTERESTED:
                             continue
 
@@ -1180,7 +1206,7 @@ def _process_lead(
         ):
             _push_category_to_smartlead(
                 lead["campaign_id"], lead["id"], settings.meeting_booked_category_name,
-                pause=True,
+                pause=True, override_lock=True,
             )
         with db.db_session() as conn:
             db.mark_lead_booked(conn, lead["id"], lead["campaign_id"])

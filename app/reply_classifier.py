@@ -72,8 +72,8 @@ _DO_NOT_CONTACT_RE = re.compile(
 
 _SYSTEM = (
     "You are an AI text classification system. Your sole function is to analyze "
-    "the provided text and assign it exactly one of five categories: "
-    "INTERESTED, AUTO_REPLY, WRONG_PERSON, DO_NOT_CONTACT or NOT_INTERESTED."
+    "the provided text and assign it exactly one of four categories: "
+    "INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED."
 )
 
 _USER = """**CATEGORY DEFINITIONS:**
@@ -105,14 +105,6 @@ _USER = """**CATEGORY DEFINITIONS:**
   about the offer itself, not about who's reading it:
 - Flat rejection ("not interested", "no thank you", "not for us").
 - A reply that clearly ends the communication.
-
-* **DO_NOT_CONTACT** — an explicit instruction that future contact must stop:
-- "stop", "please stop the emails", "don't contact me again".
-- "remove me from your list", "take me off your list", or "unsubscribe me".
-- A demand to stop sending email or a data-protection deletion/opt-out request.
-
-Plain "not interested" is NOT_INTERESTED, never DO_NOT_CONTACT. DO_NOT_CONTACT
-requires an instruction not to contact the person again.
 
 **A doubt is not a no.** A price objection, a worry about fit, a concern about
 data protection, "I'm not sure this works for our margins", "we already use
@@ -147,7 +139,7 @@ Three edge cases, all seen in real traffic:
 
 **MANDATORY COMMAND:**
 Carefully read the text below. After your analysis, your output **must be only \
-one word**: INTERESTED, AUTO_REPLY, WRONG_PERSON, DO_NOT_CONTACT or NOT_INTERESTED.
+one word**: INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED.
 You must not write anything else. No explanations, no greetings, and no period at the end.
 
 **TEXT TO ANALYZE:**
@@ -194,16 +186,12 @@ def classify(reply_text: str) -> tuple[str, str]:
         log.warning("reply classifier failed (%s) — treating reply as interested", exc)
         return INTERESTED, f"classifier unavailable ({exc.__class__.__name__}) — treated as interested"
 
-    # Prefixes, not whole words: a reasoning model that runs out of budget
-    # returns a truncated verdict, and "NOT_INTER" is still unambiguous. The
-    # negative and WRONG_PERSON are tested before the bare "INTEREST" check
-    # because "NOT_INTERESTED" contains "INTERESTED" and — new since
-    # WRONG_PERSON was split out of NOT_INTERESTED — nothing here overlaps it,
-    # but keeping it ahead of AUTO_REPL/INTEREST is what future-proofs the
-    # ordering if that ever changes.
+    # DNC is deliberately absent here. Only the deterministic phrase matcher
+    # above may produce that irreversible compliance verdict; a probabilistic
+    # model is allowed to influence local workflow, never to unsubscribe or
+    # globally block a lead. Prefixes are retained for the four harmless
+    # workflow verdicts because reasoning models can return a truncated word.
     normalized = verdict.strip().upper()
-    if "DO_NOT_CONTACT" in normalized or "DO NOT CONTACT" in normalized:
-        return DO_NOT_CONTACT, "classified DO_NOT_CONTACT (explicit opt-out)"
     if "NOT_INTER" in normalized:
         return NOT_INTERESTED, "classified NOT_INTERESTED (rejection)"
     if "WRONG_PERSON" in normalized or "WRONG PERSON" in normalized:

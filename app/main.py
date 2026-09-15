@@ -23,7 +23,7 @@ from app import (
     campaign_report,
 )
 from app import candidates as candidates_module
-from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_temperature, library, message_templates, models_registry
+from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
 from app import events, pipeline, scheduler, signatures, smartlead
 from app import translator, uploads, webhook
 from app.exports import sheet_export
@@ -507,6 +507,10 @@ def _row_payload(l: dict, open_set: set) -> dict:
         "language": (l["language"] or "").upper(),
         "preview": l["last_message_preview"] or "",
         "last_message_at": _fmt_time(l["last_message_at"]),
+        # Raw ISO timestamp alongside the human-readable one above — the
+        # dashboard's date-range filter and date sort need something parseable
+        # and comparable, which "Sep 15, 2026 · 14:30" isn't.
+        "last_message_at_raw": l["last_message_at"],
         "last_message_kind": l["last_message_kind"],
         "has_draft": (l["lead_id"], l["campaign_id"]) in open_set,
         "archive_reason": l["archive_reason"],
@@ -652,6 +656,8 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "snooze_until": lead["snooze_until"] if lead else None,
             "research_summary": (lead["research_summary"] if lead else None) or None,
             "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
+            "contact_research": (lead["contact_research"] if lead else None) or None,
+            "contact_researched_at": _fmt_time(lead["contact_researched_at"]) if lead and lead["contact_researched_at"] else None,
             "email_display_name": (lead["email_display_name"] if lead else None) or None,
             # Template placeholder values, resolved server-side so the modal's
             # preview and the message that actually goes out are the same
@@ -666,6 +672,8 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         # Only meaningful when there's no draft to show; the client falls back
         # to its own wording when this is absent.
         "generation_error": candidates_module.last_error(campaign_id, lead_id),
+        "researching_contact": lead_research.is_researching(campaign_id, lead_id),
+        "contact_research_error": lead_research.last_error(campaign_id, lead_id),
     }
 
 
@@ -773,6 +781,21 @@ async def api_generate(request: Request, campaign_id: int, lead_id: int):
         use_web_search=use_web_search,
         base_draft=base_draft or None,
     )
+    return JSONResponse({"started": started})
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/research-contact")
+def api_research_contact(request: Request, campaign_id: int, lead_id: int):
+    """"Research this lead" button in the About-this-lead panel — a deeper,
+    on-demand contact lookup (named person, direct email/phone/LinkedIn), kept
+    separate from the automatic website research a draft generates for itself
+    (see app/lead_research.py). Same background-thread-plus-poll shape as
+    /generate above, for the same reason: a multi-tool-call web search can run
+    long enough to hit Cloudflare's ~100s tunnel timeout if awaited inline."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    started = lead_research.research_contact_in_background(campaign_id, lead_id)
     return JSONResponse({"started": started})
 
 

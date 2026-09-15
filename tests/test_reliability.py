@@ -105,21 +105,35 @@ class ReliabilityTests(unittest.TestCase):
             'data.categories.filter((c) => c !== "Interested")', source
         )
 
-    def test_category_push_refreshes_filter_mirror_only_after_success(self):
+    def test_verified_category_push_refreshes_filter_mirror_only_after_success(self):
         with db.db_session() as conn:
-            db.upsert_lead_state(conn, 20, 10, category="auto_reply")
+            db.upsert_lead_state(conn, 20, 10, category="reply")
         with patch.object(settings, "dry_run", False), patch.object(
-            smartlead, "fetch_categories", return_value={"Out Of Office": 6}
+            smartlead, "fetch_categories", return_value={"Meeting-Booked": 6}
         ), patch.object(smartlead, "update_lead_category") as update:
             update.side_effect = RuntimeError("temporary failure")
-            scheduler._push_category_to_smartlead(10, 20, "Out Of Office")
+            scheduler._push_category_to_smartlead(10, 20, "Meeting-Booked")
             with db.db_session() as conn:
                 self.assertIsNone(db.get_lead_state(conn, 20, 10)["smartlead_category"])
             update.side_effect = None
-            scheduler._push_category_to_smartlead(10, 20, "Out Of Office")
+            scheduler._push_category_to_smartlead(10, 20, "Meeting-Booked")
             with db.db_session() as conn:
-                self.assertEqual(db.get_lead_state(conn, 20, 10)["smartlead_category"], "Out Of Office")
+                self.assertEqual(
+                    db.get_lead_state(conn, 20, 10)["smartlead_category"],
+                    "Meeting-Booked",
+                )
             update.assert_called_with(10, 20, 6, pause_lead=False)
+
+    def test_probabilistic_category_push_is_refused(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, category="auto_reply")
+        with patch.object(smartlead, "fetch_categories") as fetch, patch.object(
+            smartlead, "update_lead_category"
+        ) as update:
+            changed = scheduler._push_category_to_smartlead(10, 20, "Out Of Office")
+        self.assertFalse(changed)
+        fetch.assert_not_called()
+        update.assert_not_called()
 
     def test_automatic_category_never_overwrites_existing_smartlead_category(self):
         with db.db_session() as conn:
@@ -132,7 +146,7 @@ class ReliabilityTests(unittest.TestCase):
             smartlead, "fetch_categories"
         ) as fetch, patch.object(smartlead, "update_lead_category") as update:
             changed = scheduler._push_category_to_smartlead(
-                10, 20, "Not Interested", initial_classification=True
+                10, 20, "Not Interested"
             )
         self.assertFalse(changed)
         fetch.assert_not_called()
@@ -170,6 +184,17 @@ class ReliabilityTests(unittest.TestCase):
                 reply_classifier.NOT_INTERESTED,
             )
 
+    def test_model_cannot_turn_out_of_office_into_do_not_contact(self):
+        message = (
+            "I am away from the office until Tuesday 15th Sept and will not be "
+            "picking up emails. I will reply when back at my office."
+        )
+        with patch.object(
+            reply_classifier.llm, "complete_for", return_value=("DO_NOT_CONTACT", {})
+        ):
+            label, _ = reply_classifier.classify(message)
+        self.assertEqual(label, reply_classifier.INTERESTED)
+
     def test_do_not_contact_overrides_category_lock_and_globally_suppresses(self):
         with db.db_session() as conn:
             db.upsert_lead_state(
@@ -190,13 +215,36 @@ class ReliabilityTests(unittest.TestCase):
             )
         update.assert_called_once_with(10, 20, 9, pause_lead=True)
         unsubscribe.assert_called_once_with(20)
-        block.assert_called_once_with("person@acme.example", "acme.example")
+        block.assert_called_once_with("person@acme.example")
         with db.db_session() as conn:
             state = db.get_lead_state(conn, 20, 10)
             self.assertEqual(state["status"], "blacklisted")
             self.assertEqual(state["category"], "do_not_contact")
             self.assertEqual(state["smartlead_category"], "Do Not Contact")
             self.assertEqual(state["category_message_id"], "reply-1")
+
+    def test_reply_refresh_mirrors_smartlead_category_without_writing_it(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, category="reply")
+        with patch.object(
+            smartlead,
+            "list_recent_replies",
+            return_value=[{
+                "email_campaign_id": 10,
+                "email_lead_id": 20,
+                "lead_category_id": "6",
+            }],
+        ), patch.object(
+            smartlead, "fetch_categories", return_value={"Out Of Office": 6}
+        ), patch.object(smartlead, "update_lead_category") as update:
+            category = scheduler.refresh_smartlead_category_for_reply(10, 20)
+        self.assertEqual(category, "Out Of Office")
+        update.assert_not_called()
+        with db.db_session() as conn:
+            self.assertEqual(
+                db.get_lead_state(conn, 20, 10)["smartlead_category"],
+                "Out Of Office",
+            )
 
     def test_public_mailbox_domain_is_not_blocked_for_everyone(self):
         self.assertEqual(
@@ -588,7 +636,13 @@ Discount Code: OBLACCESS55
             scheduler._process_lead(
                 lead, "Campaign", is_booked=False, smartlead_category="Interested"
             )
-            push.assert_called_once_with(10, 20, settings.meeting_booked_category_name, pause=True)
+            push.assert_called_once_with(
+                10,
+                20,
+                settings.meeting_booked_category_name,
+                pause=True,
+                override_lock=True,
+            )
         with db.db_session() as conn:
             row = db.get_lead_state(conn, 20, 10)
             self.assertEqual((row["status"], row["category"]), ("booked", "booked"))

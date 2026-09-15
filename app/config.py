@@ -62,25 +62,16 @@ class Settings:
     autoreply_category_name: str = os.getenv(
         "AUTOREPLY_CATEGORY_NAME", "Auto-Reply"
     )
-    # Smartlead's own "not interested" category — where an AUTO_REPLY/
-    # NOT_INTERESTED classifier verdict gets pushed (scheduler._push_category_
-    # to_smartlead), so Smartlead's account agrees with the app instead of the
-    # sequence quietly continuing to mail someone we've already sorted out.
+    # Smartlead's own category names. These are mirrored into the dashboard;
+    # probabilistic reply-classifier verdicts never write them back remotely.
     not_interested_category_name: str = os.getenv(
         "NOT_INTERESTED_CATEGORY_NAME", "Not Interested"
     )
     do_not_contact_category_name: str = os.getenv(
         "DO_NOT_CONTACT_CATEGORY_NAME", "Do Not Contact"
     )
-    # Smartlead's own "wrong person" category — where a WRONG_PERSON classifier
-    # verdict gets pushed (reply_classifier.WRONG_PERSON: "I no longer work
-    # here", "this address isn't monitored"). Distinct from Auto-Reply — an
-    # out-of-office reader is coming back to their inbox, this mailbox never
-    # will — so unlike AUTO_REPLY this one also pauses Smartlead's sequence
-    # (scheduler._push_category_to_smartlead(pause=True)), which is what
-    # actually stops the follow-up cadence: run_daily_scan only ever generates
-    # candidates for the Interested/Auto-Reply/Meeting-Booked categories, so a
-    # lead pushed to "Wrong Person" simply falls out of every future pass.
+    # "Wrong Person" remains distinct from Auto-Reply for local workflow: an
+    # out-of-office reader is coming back, while this mailbox never will.
     wrong_person_category_name: str = os.getenv(
         "WRONG_PERSON_CATEGORY_NAME", "Wrong Person"
     )
