@@ -492,6 +492,73 @@ Discount Code: OBLACCESS55
         self.assertEqual(ignored.status_code, 200)
         self.assertEqual(ignored.json()["status"], "ignored")
 
+    def _post_signed_calendly(self, client, payload):
+        raw = json.dumps(payload, separators=(",", ":")).encode()
+        timestamp = int(time.time())
+        signature = hmac.new(
+            b"calendly-test-key", str(timestamp).encode() + b"." + raw, hashlib.sha256
+        ).hexdigest()
+        return client.post(
+            "/webhooks/calendly",
+            content=raw,
+            headers={
+                "content-type": "application/json",
+                "calendly-webhook-signature": f"t={timestamp},v1={signature}",
+            },
+        )
+
+    def test_calendly_any_event_type_books_shared_mailbox_lead_by_domain(self):
+        client = TestClient(main.app)
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 21, 11, interested=1, name=None,
+                email="office@diamondheatcool.com", category="followup",
+            )
+        payload = {
+            "event": "invitee.created",
+            "payload": {
+                "email": "derien@diamondheatcool.com",
+                "name": "Derien Gee",
+                "scheduled_event": {
+                    "event_type": "https://api.calendly.com/event_types/website-redesign",
+                },
+            },
+        }
+        with patch.object(
+            settings, "calendly_webhook_signing_key", "calendly-test-key"
+        ), patch.object(settings, "calendly_event_type_uri", ""), patch.object(
+            settings, "dry_run", True
+        ), patch.object(webhook.interested_sheet, "mark_booked_match"), patch.object(
+            webhook.interested_sheet, "record_booking", return_value="recorded"
+        ):
+            response = self._post_signed_calendly(client, payload)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["matched_by"], "domain")
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, 21, 11)
+            self.assertEqual((row["status"], row["category"]), ("booked", "booked"))
+
+    def test_calendly_domain_fallback_skips_freemail(self):
+        client = TestClient(main.app)
+        with db.db_session() as conn:
+            db.upsert_lead_state(
+                conn, 22, 12, interested=1, name=None,
+                email="someone@gmail.com", category="followup",
+            )
+        payload = {
+            "event": "invitee.created",
+            "payload": {
+                "email": "stranger@gmail.com",
+                "name": "Stranger Person",
+                "scheduled_event": {"event_type": "https://api.calendly.com/event_types/x"},
+            },
+        }
+        with patch.object(
+            settings, "calendly_webhook_signing_key", "calendly-test-key"
+        ), patch.object(settings, "calendly_event_type_uri", ""):
+            response = self._post_signed_calendly(client, payload)
+        self.assertEqual(response.status_code, 404)
+
     def test_booking_matches_chris_to_christian_only_with_approved_code(self):
         client = TestClient(main.app)
         with db.db_session() as conn:

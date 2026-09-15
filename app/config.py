@@ -207,6 +207,9 @@ class Settings:
     calendly_webhook_signing_key: str = os.getenv(
         "CALENDLY_WEBHOOK_SIGNING_KEY", ""
     )
+    # Optional comma-separated allowlist of event type URIs. Blank accepts every
+    # event type on the account: a single URI silently dropped bookings made on
+    # any other link Andrew's team sends (e.g. /website-redesign).
     calendly_event_type_uri: str = os.getenv("CALENDLY_EVENT_TYPE_URI", "")
 
     # Google Sheets — the "Export for LinkedIn" button (app/exports/sheet_export.py).

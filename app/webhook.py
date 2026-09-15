@@ -250,8 +250,9 @@ async def calendly_booking(request: Request):
     """Record Andrew's configured Calendly event directly, without n8n.
 
     Calendly's signed invitee.created payload is trusted for exact normalized
-    full-name fallback when the invitee booked with a different email address.
-    Ambiguous names are never changed.
+    full-name fallback when the invitee booked with a different email address,
+    then a same-company-domain fallback for leads imported as a shared mailbox
+    (office@, info@). Ambiguous name or domain matches are never changed.
     """
     raw_body = await request.body()
     _verify_calendly_signature(
@@ -269,10 +270,11 @@ async def calendly_booking(request: Request):
     payload = envelope.get("payload") or envelope
     scheduled_event = payload.get("scheduled_event") or envelope.get("scheduled_event") or {}
     event_type = scheduled_event.get("event_type") or payload.get("event_type") or ""
-    configured_event_type = settings.calendly_event_type_uri
-    if not configured_event_type:
-        raise HTTPException(status_code=503, detail="Calendly event type is not configured")
-    if event_type != configured_event_type:
+    allowed_event_types = {
+        uri.strip() for uri in settings.calendly_event_type_uri.split(",") if uri.strip()
+    }
+    if allowed_event_types and event_type not in allowed_event_types:
+        log.warning("Calendly booking ignored: event type %s not allowed", event_type)
         return {"status": "ignored", "reason": "different Calendly event type"}
 
     email = str(payload.get("email") or "").strip().lower()
@@ -289,14 +291,25 @@ async def calendly_booking(request: Request):
         if not matches and name:
             matches = db.find_leads_by_name(conn, name)
             matched_by = "name" if matches else "none"
+        if not matches and email:
+            matches = db.find_interested_leads_by_domain(conn, email)
+            matched_by = "domain" if matches else "none"
         matches = [dict(row) for row in matches]
 
     if not matches:
+        log.warning(
+            "Calendly booking matched no lead: email=%s name=%s event_type=%s",
+            email, name, event_type,
+        )
         return JSONResponse(
             {"status": "not_found", "email": email, "name": name}, status_code=404
         )
     identities = {(row["email"] or "").strip().lower() for row in matches}
     if matched_by != "email" and len(identities) > 1:
+        log.warning(
+            "Calendly booking ambiguous by %s: email=%s name=%s matched %s",
+            matched_by, email, name, sorted(identities),
+        )
         return JSONResponse(
             {
                 "status": "ambiguous",

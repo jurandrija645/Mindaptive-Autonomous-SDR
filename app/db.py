@@ -629,6 +629,30 @@ def find_lead_by_email(conn, email: str):
     return conn.execute("SELECT * FROM leads_state WHERE lower(email) = ?", (email,)).fetchall()
 
 
+# Personal mailbox providers: sharing one of these says nothing about sharing a
+# company, so they never count for the domain fallback below.
+_FREEMAIL_DOMAINS = {
+    "gmail.com", "googlemail.com", "yahoo.com", "hotmail.com", "outlook.com",
+    "live.com", "msn.com", "icloud.com", "me.com", "aol.com", "proton.me",
+    "protonmail.com", "gmx.com", "gmx.de", "web.de", "mail.com", "yandex.com",
+}
+
+
+def find_interested_leads_by_domain(conn, email: str):
+    """Interested leads whose address is on the same company domain as `email`.
+
+    Booking fallback for leads imported as a shared mailbox (office@, info@)
+    where the person books with their own address on that domain. Freemail
+    domains never match; the caller still rejects more than one identity."""
+    domain = (email or "").strip().lower().rpartition("@")[2]
+    if not domain or domain in _FREEMAIL_DOMAINS:
+        return []
+    return conn.execute(
+        "SELECT * FROM leads_state WHERE interested = 1 AND lower(email) LIKE ?",
+        ("%@" + domain,),
+    ).fetchall()
+
+
 _NAME_TITLE_RE = re.compile(r"^(?:mr|mrs|ms|miss|dr|prof)\s+", re.I)
 _FIRST_NAME_EQUIVALENTS = {
     "chris": "christian",
