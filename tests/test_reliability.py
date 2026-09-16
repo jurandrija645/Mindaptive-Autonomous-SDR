@@ -66,7 +66,8 @@ class ReliabilityTests(unittest.TestCase):
             self.assertIn("OBLACCESS55", template)
             self.assertIn("https://onebodyldn.connect.tm3app.com/book/", template)
         self.assertIn("{{nearest_clinic}} is closest to you", direct)
-        self.assertNotIn("£4.99", direct)
+        for template in (direct, corporate):
+            self.assertIn("£4.99 booking fee", template)
 
     def test_thread_fetch_populates_cache(self):
         raw = [

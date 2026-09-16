@@ -8,9 +8,12 @@ persona, every clinic:
 
 - **Booking link:** `https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`
 - **Booking code:** `OBLACCESS55`
+- **Booking fee:** a small **£4.99** per booking, which holds the time slot.
 
 Use them exactly as written, every time. Never alter, abbreviate, or
-paraphrase either one.
+paraphrase either one. Every template that hands over the link and code also
+mentions the £4.99 booking fee in one sentence — keep that sentence when you
+personalize.
 
 Use `{{first_name}}` and `{{company_name}}` filled from the lead record, and
 use whichever persona (Kurt Johnson or Rebecca Bossick) actually sent the
@@ -48,8 +51,9 @@ Hi {{first_name}},
 thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
 
 The code is **OBLACCESS55**. Just select the clinic you want (probably
-{{nearest_clinic}} is closest to you) and book your free session. Let me know
-if you need any help.
+{{nearest_clinic}} is closest to you) and book your free session. There's a
+small £4.99 booking fee, which holds your time slot. Let me know if you need
+any help.
 
 Best
 {{sender_first_name}}
@@ -72,8 +76,9 @@ Brilliant. Your team can book here:
 https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
 
 The code is **OBLACCESS55**. They can use that to book the free session at
-whichever clinic suits them. No contract, nothing to sign, nothing for you to
-set up on your end.
+whichever clinic suits them. There's just a small £4.99 booking fee, which
+holds each person's time slot. No contract, nothing to sign, nothing for you
+to set up on your end.
 
 One thing that'd help: roughly how many people should the code cover, and is
 there a Slack channel or intranet page you'd want the one-pager dropped into,
@@ -112,7 +117,8 @@ amount.
 Hi {{first_name}},
 
 The first session's genuinely free — a proper assessment plus hands-on
-treatment, not just a chat. If you've got private health insurance we can
+treatment, not just a chat. The only cost is a small £4.99 booking fee,
+which holds your time slot. If you've got private health insurance we can
 usually run any further sessions through your cover, and if not, ongoing
 rates are straightforward and I'm happy to walk you through them once you've
 had the first one.
@@ -150,7 +156,8 @@ often means sessions at no cost to you.
 The booking link is
 https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
 and your code is **OBLACCESS55**. Pick {{nearest_clinic}} since you're just
-round the corner. Feel free to share that code with everyone in your building.
+round the corner. There's a small £4.99 booking fee, which holds the time
+slot. Feel free to share that code with everyone in your building.
 It's a free 55-minute session for anyone who wants to try us, and if they come
 back, they can use the lower rates offered in clinic or run sessions through
 their health insurance.
@@ -175,8 +182,9 @@ Hi {{first_name}},
 Fair question. We're a London physio group, 38 clinics across the city, every
 session is with an HCPC-registered physiotherapist (that's the official UK
 regulator, not a masseuse or a sports therapist). We're rated 4.9 from over
-7,700 reviews. No catch on the free session — it's genuinely how we get
-people through the door at a new clinic.
+7,700 reviews. No catch on the free session, just a small £4.99 booking fee
+that holds your time slot. It's genuinely how we get people through the door
+at a new clinic.
 
 Happy to send the code whenever you're ready.
 
