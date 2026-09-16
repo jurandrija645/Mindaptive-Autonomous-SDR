@@ -641,7 +641,7 @@ Discount Code: OBLACCESS55
         ), patch.object(interested_sheet.sheets, "create_tab") as create_tab, patch.object(
             interested_sheet.sheets, "write_header"
         ), patch.object(interested_sheet.sheets, "write_range") as write_range, patch.object(
-            interested_sheet.sheets, "read_column", return_value=["booking_id"]
+            interested_sheet.sheets, "read_range", return_value=[]
         ), patch.object(interested_sheet.sheets, "append_row") as append_row:
             status = interested_sheet.record_booking(
                 booking_id="provider-123",
@@ -663,6 +663,62 @@ Discount Code: OBLACCESS55
         row = append_row.call_args.args[2]
         self.assertEqual(row[0], "provider-123")
         self.assertEqual(row[8], interested_sheet.ATTRIBUTION_SHARED)
+
+    def _booking_row(self, key, email, lead_id):
+        return [key, "2026-09-01", "", "", "Name", email, "", "", "Contacted lead", "", "1", lead_id]
+
+    def test_confirmation_replaces_unconfirmed_booking_for_same_lead(self):
+        tabs = [interested_sheet.BOOKINGS_TAB, interested_sheet.BOOKING_SUMMARY_TAB]
+        existing = [self._booking_row("unconfirmed:1:42", "a@x.com", "42")]
+        with patch.object(settings, "interested_sheet_id", "sheet-1"), patch.object(
+            interested_sheet.sheets, "list_tabs", return_value=tabs
+        ), patch.object(
+            interested_sheet.sheets, "read_range", return_value=existing
+        ), patch.object(interested_sheet.sheets, "write_range") as write_range, patch.object(
+            interested_sheet.sheets, "append_row"
+        ) as append_row:
+            status = interested_sheet.record_booking(
+                booking_id="provider-1", email="a@x.com", code="OBLACCESS55",
+                recorded_at="now", attribution=interested_sheet.ATTRIBUTION_CONTACTED,
+                campaign_id=1, lead_id=42,
+            )
+            again = interested_sheet.record_lead_booking(
+                campaign_id=1, lead_id=42, email="a@x.com", name="", booked_at="now",
+                source="lead_reply",
+            )
+        self.assertEqual(status, "recorded")
+        append_row.assert_not_called()
+        self.assertEqual(write_range.call_args.args[2], "A2")
+        self.assertEqual(write_range.call_args.args[3][0], "provider-1")
+        # A later unconfirmed record for a lead that already has a row is a no-op.
+        self.assertEqual(again, "duplicate")
+
+    def test_reconcile_adds_every_booked_lead_missing_from_bookings(self):
+        tabs = ["Interested", interested_sheet.BOOKINGS_TAB, interested_sheet.BOOKING_SUMMARY_TAB]
+        bookings = [self._booking_row("provider-1", "other@x.com", "10")]
+        interested = [
+            ["Hand Typed", "", "hand@x.com", "", "", "", "TRUE"],
+            ["Not Booked", "", "no@x.com", "1", "30", "", ""],
+        ]
+
+        def read_range(_sheet, tab, _cells):
+            return interested if tab == "Interested" else bookings
+
+        booked_leads = [
+            {"campaign_id": 1, "lead_id": 10, "email": "zara@x.com", "name": "Zara", "booked_at": "t"},
+            {"campaign_id": 1, "lead_id": 20, "email": "ben@x.com", "name": "Ben", "booked_at": "t"},
+        ]
+        with patch.object(settings, "interested_sheet_id", "sheet-1"), patch.object(
+            interested_sheet.sheets, "list_tabs", return_value=tabs
+        ), patch.object(interested_sheet.sheets, "read_range", side_effect=read_range), patch.object(
+            interested_sheet.sheets, "append_row"
+        ) as append_row:
+            added = interested_sheet.reconcile_bookings(booked_leads)
+        self.assertEqual(added, 2)
+        appended = [c.args[2] for c in append_row.call_args_list]
+        self.assertEqual([row[5] for row in appended], ["ben@x.com", "hand@x.com"])
+        self.assertEqual(appended[0][0], "unconfirmed:1:20")
+        self.assertEqual([row[9] for row in appended], ["lead_status", "interested_sheet"])
 
     def test_onebody_booking_workflow_forwards_name_and_code(self):
         workflow = json.loads(

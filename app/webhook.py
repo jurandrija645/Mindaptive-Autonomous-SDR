@@ -326,6 +326,7 @@ async def calendly_booking(request: Request):
             row["campaign_id"],
             email=row["email"] or email,
             name=row["name"] or name,
+            record_sheet=False,
         )
         booked.append({"campaign_id": row["campaign_id"], "lead_id": row["lead_id"]})
 
@@ -459,6 +460,7 @@ async def booking_confirmed(request: Request):
             campaign_id,
             email=row["email"] or email,
             name=row["name"] or name,
+            record_sheet=False,
         )
         booked.append({"campaign_id": campaign_id, "lead_id": lead_id})
 

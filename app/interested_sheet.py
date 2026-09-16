@@ -14,9 +14,12 @@ Built for OneBodyLDN (see clients/onebodyldn/), which needed a live worklist
 an external automation could read against to match booking confirmations —
 but nothing here is OneBodyLDN-specific.
 
-This spreadsheet is also the booking attribution record. Every booking made
-with an allowlisted offer code lands in a separate Bookings tab, including a
-person who was never in Smartlead and received a shared code from a colleague.
+This spreadsheet is also the booking attribution record. The Bookings tab holds
+every booking: each confirmation email with an allowlisted offer code, including
+a person who was never in Smartlead and received a shared code from a colleague,
+and every known lead marked booked any other way (their own reply, a category
+change, a hand-ticked `booked` cell) — those arrive as unconfirmed rows, written
+immediately for a reply and by reconcile_bookings after each daily scan.
 A small Booking Summary tab keeps the direct-vs-shared totals visible without
 requiring a manual pivot table.
 
@@ -66,6 +69,16 @@ BOOKINGS_HEADER = [
 
 ATTRIBUTION_CONTACTED = "Contacted lead"
 ATTRIBUTION_SHARED = "Shared code / not contacted"
+
+# Key prefix for a booking we know happened but have no confirmation email for
+# (the lead told us in a reply, the category was set by hand or in Smartlead,
+# or it predates the Bookings tab). The confirmation email, if it arrives
+# later, replaces this row in place rather than adding a second one.
+UNCONFIRMED_PREFIX = "unconfirmed:"
+
+_BOOKING_KEY_COL = 0
+_BOOKING_EMAIL_COL = 5
+_BOOKING_LEAD_ID_COL = 11
 
 
 def _ensure_tab(sheet_id: str) -> None:
@@ -158,36 +171,152 @@ def record_booking(
     if not sheet_id:
         return "disabled"
     key = _booking_key(booking_id, email, name, appointment_date, appointment_time, location, code)
+    values = [
+        key,
+        recorded_at,
+        appointment_date,
+        appointment_time,
+        name,
+        email,
+        location,
+        code,
+        attribution,
+        matched_by,
+        str(campaign_id) if campaign_id is not None else "",
+        str(lead_id) if lead_id is not None else "",
+    ]
     try:
         _ensure_booking_tabs(sheet_id)
-        if any(
-            str(cell).strip() == key
-            for cell in sheets.read_column(sheet_id, BOOKINGS_TAB, "A")[1:]
-        ):
+        rows = _booking_rows(sheet_id)
+        if any(row[_BOOKING_KEY_COL] == key for _, row in rows):
             return "duplicate"
-        sheets.append_row(
-            sheet_id,
-            BOOKINGS_TAB,
-            [
-                key,
-                recorded_at,
-                appointment_date,
-                appointment_time,
-                name,
-                email,
-                location,
-                code,
-                attribution,
-                matched_by,
-                str(campaign_id) if campaign_id is not None else "",
-                str(lead_id) if lead_id is not None else "",
-            ],
+        # One lead, one free session: an unconfirmed row and the confirmation
+        # email for the same lead are the same booking, whichever lands first.
+        existing = next(
+            (
+                (row_number, row) for row_number, row in rows
+                if lead_id is not None and row[_BOOKING_LEAD_ID_COL] == str(lead_id)
+            ),
+            None,
         )
+        if existing is not None:
+            row_number, row = existing
+            if key.startswith(UNCONFIRMED_PREFIX):
+                return "duplicate"
+            if row[_BOOKING_KEY_COL].startswith(UNCONFIRMED_PREFIX):
+                sheets.write_range(sheet_id, BOOKINGS_TAB, f"A{row_number}", values)
+                log.info("interested_sheet: confirmed booking %s (row %s)", key, row_number)
+                return "recorded"
+        sheets.append_row(sheet_id, BOOKINGS_TAB, values)
         log.info("interested_sheet: recorded booking %s (%s)", key, attribution)
         return "recorded"
     except Exception:
         log.exception("interested_sheet: failed to record booking %s", key)
         return "failed"
+
+
+def _booking_rows(sheet_id: str) -> list[tuple[int, list[str]]]:
+    """Bookings data rows as (sheet row number, 12 stripped cells)."""
+    width = len(BOOKINGS_HEADER)
+    return [
+        (row_number, ([str(cell).strip() for cell in cells] + [""] * width)[:width])
+        for row_number, cells in enumerate(
+            sheets.read_range(sheet_id, BOOKINGS_TAB, "A2:L"), start=2
+        )
+    ]
+
+
+def record_lead_booking(
+    *,
+    campaign_id: int | None,
+    lead_id: int | None,
+    email: str,
+    name: str,
+    booked_at: str,
+    source: str,
+) -> str:
+    """A known lead booked, but no confirmation email is in hand to record.
+
+    Written as an unconfirmed row so the Bookings tab holds every booking, not
+    only the ones the booking webhook saw. `source` lands in matched_by so the
+    row says how we know."""
+    booking_id = (
+        f"{UNCONFIRMED_PREFIX}{campaign_id}:{lead_id}" if lead_id is not None
+        else f"{UNCONFIRMED_PREFIX}{email.strip().lower()}"
+    )
+    return record_booking(
+        booking_id=booking_id,
+        email=email,
+        name=name,
+        recorded_at=booked_at,
+        attribution=ATTRIBUTION_CONTACTED,
+        matched_by=source,
+        campaign_id=campaign_id,
+        lead_id=lead_id,
+    )
+
+
+def reconcile_bookings(booked_leads: list[dict]) -> int:
+    """Make sure every booking we know of has a row in the Bookings tab.
+
+    Two sources: leads the database has as booked (`booked_leads`, dicts with
+    campaign_id/lead_id/email/name/booked_at) and rows ticked `booked` in the
+    Interested tab, which includes hand edits. A booking already present by
+    lead id or by email is left alone. Returns how many rows were added."""
+    sheet_id = settings.interested_sheet_id
+    if not sheet_id:
+        return 0
+    try:
+        _ensure_booking_tabs(sheet_id)
+        rows = [row for _, row in _booking_rows(sheet_id)]
+        known_ids = {row[_BOOKING_LEAD_ID_COL] for row in rows if row[_BOOKING_LEAD_ID_COL]}
+        known_emails = {row[_BOOKING_EMAIL_COL].lower() for row in rows if row[_BOOKING_EMAIL_COL]}
+
+        wanted = [dict(lead, source="lead_status") for lead in booked_leads]
+        _ensure_tab(sheet_id)
+        for cells in sheets.read_range(sheet_id, TAB, "A2:G"):
+            values = [str(cell).strip() for cell in cells] + [""] * (7 - len(cells))
+            if values[6].upper() != "TRUE":
+                continue
+            wanted.append({
+                "name": values[0],
+                "email": values[2],
+                "campaign_id": int(values[3]) if values[3].isdigit() else None,
+                "lead_id": int(values[4]) if values[4].isdigit() else None,
+                "booked_at": values[5],
+                "source": "interested_sheet",
+            })
+
+        added = 0
+        for lead in wanted:
+            email = (lead.get("email") or "").strip()
+            lead_id = lead.get("lead_id")
+            if (lead_id is not None and str(lead_id) in known_ids) or (
+                email and email.lower() in known_emails
+            ):
+                continue
+            if lead_id is None and not email:
+                continue
+            status = record_lead_booking(
+                campaign_id=lead.get("campaign_id"),
+                lead_id=lead_id,
+                email=email,
+                name=lead.get("name") or "",
+                booked_at=lead.get("booked_at") or "",
+                source=lead["source"],
+            )
+            if status == "recorded":
+                added += 1
+            if lead_id is not None:
+                known_ids.add(str(lead_id))
+            if email:
+                known_emails.add(email.lower())
+        if added:
+            log.info("interested_sheet: reconciled %d missing booking(s)", added)
+        return added
+    except Exception:
+        log.exception("interested_sheet: failed to reconcile bookings")
+        return 0
 
 
 def _find_row(sheet_id: str, email: str) -> int | None:

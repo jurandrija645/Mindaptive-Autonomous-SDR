@@ -516,8 +516,12 @@ def record_explicit_booking(
     email: str = "",
     name: str = "",
     message_id: str | None = None,
+    record_sheet: bool = True,
 ) -> None:
-    """Freeze a lead who explicitly confirms their booking is complete."""
+    """Freeze a lead who explicitly confirms their booking is complete.
+
+    record_sheet=False is for the booking webhooks, which write the Bookings
+    row themselves with the confirmation's real date, location and code."""
     _push_category_to_smartlead(
         campaign_id,
         lead_id,
@@ -532,6 +536,11 @@ def record_explicit_booking(
                 conn, lead_id, campaign_id, category_message_id=message_id
             )
     interested_sheet.mark_booked_match(email=email, name=name, lead_id=lead_id)
+    if record_sheet:
+        interested_sheet.record_lead_booking(
+            campaign_id=campaign_id, lead_id=lead_id, email=email, name=name,
+            booked_at=db.now_iso(), source="lead_reply",
+        )
     log.info(
         "lead %s/%s marked booked from explicit reply confirmation",
         campaign_id, lead_id,
@@ -1114,6 +1123,13 @@ def run_daily_scan() -> None:
         failed_leads,
         failed_campaigns,
     )
+
+    # Every booking belongs in the Bookings tab, including ones recorded from
+    # Smartlead's category, a manual status change or before the tab existed.
+    # Fail-soft and a no-op without INTERESTED_SHEET_ID.
+    with db.db_session() as conn:
+        booked_leads = db.list_booked_leads(conn)
+    interested_sheet.reconcile_bookings(booked_leads)
 
     # Overnight pre-generation: hand every eligible due follow-up to the Batch
     # API (50% token cost) so drafts are waiting for review by morning. The

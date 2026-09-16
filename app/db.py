@@ -615,6 +615,14 @@ def get_lead_state(conn, lead_id: int, campaign_id: int):
     ).fetchone()
 
 
+def list_booked_leads(conn) -> list[dict]:
+    rows = conn.execute(
+        """SELECT campaign_id, lead_id, email, name, booked_at FROM leads_state
+           WHERE booked_at IS NOT NULL ORDER BY booked_at"""
+    ).fetchall()
+    return [dict(row) for row in rows]
+
+
 def find_lead_by_email(conn, email: str):
     """Every leads_state row for this email, case-insensitive.
 
