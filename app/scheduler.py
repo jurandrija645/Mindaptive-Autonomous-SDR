@@ -11,7 +11,7 @@ from apscheduler.triggers.cron import CronTrigger
 
 from app import (
     batch_gen, db, deliverability_health, detector, interested_sheet, lead_language, lead_temperature, pipeline,
-    reply_classifier, signatures, smartlead,
+    reply_classifier, sequences, signatures, smartlead,
 )
 from app.config import settings
 from app.email_clean import to_plain_text
@@ -276,6 +276,10 @@ def _sync_category_from_smartlead(
         state = db.get_lead_state(conn, lead_id, campaign_id)
     if not state:
         return
+    # A running subsequence whose trigger category the lead has left stops
+    # here. Before every early return below, since "Interested" and the
+    # booked category both return early and both mean the sequence is over.
+    sequences.on_smartlead_category(lead_id, campaign_id, sl_category_name)
     if state["status"] == "booked":
         if not sl_category_name or norm_category_name(sl_category_name) != norm_category_name(
             settings.meeting_booked_category_name
@@ -634,6 +638,18 @@ def _adopt_unknown_repliers() -> None:
             existing = db.get_lead_state(conn, lead_id, campaign_id)
 
         if existing:
+            # A lead in a subsequence who has written since its last email:
+            # record the reply, which stops the sequence (the hook inside
+            # mark_lead_replied). The webhook normally got there first; this is
+            # the one-minute backstop for when it didn't. Checked before the
+            # write so an old reply isn't re-marked every minute, which would
+            # undo the classifier's sorting of it.
+            with db.db_session() as conn:
+                if db.enrollment_reply_is_new(conn, lead_id, campaign_id, _to_utc_iso(replied_at)):
+                    db.mark_lead_replied(
+                        conn, lead_id, campaign_id,
+                        preview=None, received_at=_to_utc_iso(replied_at),
+                    )
             # Already tracked — mirror Smartlead's category the same way
             # run_daily_scan does for a lead it isn't otherwise processing
             # (_sync_category_from_smartlead opens its own session, so this
@@ -932,6 +948,10 @@ def _queue_due_followup(row, campaign_id: int, thread) -> bool:
     """
     if row["category"] not in ("waiting", "followup", "reply"):
         return False
+    with db.db_session() as conn:
+        # A lead in a subsequence is followed up by the sequence, not the AI cadence.
+        if sequences.open_enrollment_for_lead(conn, row["lead_id"], campaign_id) is not None:
+            return False
 
     decision = detector.decide(
         thread, row["followup_count"], row["status"],
@@ -1155,6 +1175,8 @@ def _process_lead(
     leads_state row (so it shows in the inbox); replies still auto-draft,
     follow-ups still become candidates, auto-replies get a one-shot nudge
     draft, and booked leads get frozen (db.mark_lead_booked)."""
+    if smartlead_category:
+        sequences.on_smartlead_category(lead["id"], lead["campaign_id"], smartlead_category)
     with db.db_session() as conn:
         state = db.get_lead_state(conn, lead["id"], lead["campaign_id"])
         followup_count = state["followup_count"] if state else 0
@@ -1248,8 +1270,12 @@ def _process_lead(
         with db.db_session() as conn:
             db.upsert_lead_state(conn, lead["id"], lead["campaign_id"], **base_fields, **summary)
         with db.db_session() as conn:
+            in_sequence = sequences.open_enrollment_for_lead(
+                conn, lead["id"], lead["campaign_id"]
+            ) is not None
             if (
                 not has_open
+                and not in_sequence
                 and last_msg is not None
                 and not db.has_drafted_reply_to(conn, lead["id"], lead["campaign_id"], last_msg.message_id)
             ):
@@ -1320,6 +1346,8 @@ def _process_lead(
 
     if decision.action == detector.Action.FOLLOWUP:
         with db.db_session() as conn:
+            if sequences.open_enrollment_for_lead(conn, lead["id"], lead["campaign_id"]) is not None:
+                return False  # the subsequence is doing the following up
             db.upsert_candidate(
                 conn,
                 lead["id"],
@@ -1339,14 +1367,47 @@ def _process_lead(
 
 
 def run_due_send_loop() -> None:
+    # Subsequence bookkeeping first: a queued category write (e.g. the trigger
+    # put back on resume) must land before that lead's step is checked.
+    try:
+        sequences.run_housekeeping()
+    except Exception:
+        log.exception("sequence housekeeping failed")
+
     with db.db_session() as conn:
         due = db.list_due_scheduled(conn)
 
     for draft in due:
-        _send_due_draft(dict(draft))
+        # Claim the draft before anything touches Smartlead. Without this a
+        # crash between the send and the "sent" write, or two overlapping
+        # loops, could send the same email twice. A claim that never resolves
+        # is left as 'sending' for a human rather than retried.
+        with db.db_session() as conn:
+            claimed = conn.execute(
+                "UPDATE drafts SET status = 'sending', send_error = NULL WHERE id = ? AND status = 'scheduled'",
+                (draft["id"],),
+            ).rowcount
+        if not claimed:
+            continue
+        # One draft failing must not take the rest of this minute's sends down
+        # with it, which is what an exception escaping this loop used to do.
+        try:
+            _send_due_draft(dict(draft))
+        except Exception as exc:
+            log.exception("scheduled send of draft %s failed", draft["id"])
+            with db.db_session() as conn:
+                current = db.get_draft(conn, draft["id"])
+                if current is None or current["status"] != "sending":
+                    continue
+                if current["kind"] == "sequence":
+                    sequences.on_send_failed(conn, current, str(exc))
+                else:
+                    db.update_draft(conn, draft["id"], status="scheduled", send_error=str(exc)[:500])
 
 
-def _mark_lead_waiting_on_them(conn, lead_id: int, campaign_id: int) -> None:
+def _mark_lead_waiting_on_them(
+    conn, lead_id: int, campaign_id: int, keep_category: bool = False
+) -> None:
     """We just sent a message — the ball is in the lead's court now, so the
     chip should say "In conversation", not whatever it said before we sent
     (main.api_send already did this for the immediate "Send now" click; a
@@ -1359,7 +1420,9 @@ def _mark_lead_waiting_on_them(conn, lead_id: int, campaign_id: int) -> None:
     a send."""
     state = db.get_lead_state(conn, lead_id, campaign_id)
     fields = {"last_message_kind": "sent", "last_message_at": db.now_iso()}
-    if not (state and state["status"] == "booked"):
+    # A subsequence step keeps the lead in its trigger category: 'waiting' is
+    # what puts a lead back on the AI follow-up clock (_queue_due_followup).
+    if not (state and state["status"] == "booked") and not keep_category:
         fields["category"] = "waiting"
     db.upsert_lead_state(conn, lead_id, campaign_id, **fields)
 
@@ -1369,6 +1432,19 @@ def _send_due_draft(draft: dict) -> str:
 
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
     last = thread[-1] if thread else None
+    is_sequence = draft["kind"] == "sequence"
+
+    if is_sequence:
+        # Its own, stricter check: any reply since the sequence's last email,
+        # the lead's live Smartlead category, and the enrollment still being
+        # the one this step belongs to. See sequences.presend_check.
+        verdict = sequences.presend_check(draft, thread)
+        if verdict == sequences.WAIT:
+            with db.db_session() as conn:
+                sequences.defer(conn, draft)
+            return "scheduled"
+        if verdict != sequences.SEND:
+            return "stale"
 
     # Race-check before sending. For a follow-up, the thread's last message is
     # normally *ours* (that's why a follow-up is due) — any reply appearing
@@ -1378,7 +1454,7 @@ def _send_due_draft(draft: dict) -> str:
     # to) — comparing kind alone would abort every single send. Only abort
     # there if it's a *newer* reply than the one this draft actually answers
     # (draft["reply_message_id"] is the message_id it was drafted against).
-    if last and last.kind == "reply":
+    if last and last.kind == "reply" and not is_sequence:
         if draft["kind"] == "followup" or last.message_id != draft["reply_message_id"]:
             with db.db_session() as conn:
                 db.update_draft(conn, draft["id"], status="stale")
@@ -1391,8 +1467,11 @@ def _send_due_draft(draft: dict) -> str:
     if settings.dry_run:
         log.info("[DRY_RUN] would send draft %s to lead %s", draft["id"], lead_id)
         with db.db_session() as conn:
-            db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())
-            _mark_lead_waiting_on_them(conn, lead_id, campaign_id)
+            sent_at = db.now_iso()
+            db.update_draft(conn, draft["id"], status="sent", sent_at=sent_at)
+            _mark_lead_waiting_on_them(conn, lead_id, campaign_id, keep_category=is_sequence)
+            if is_sequence:
+                sequences.on_step_sent(conn, draft, sent_at)
         return "sent"
 
     # Use the freshly-fetched thread's message identifiers rather than the
@@ -1414,6 +1493,8 @@ def _send_due_draft(draft: dict) -> str:
     if not signatures.is_sendable(sender_email):
         with db.db_session() as conn:
             db.update_draft(conn, draft["id"], status="aborted")
+            if is_sequence:
+                db.stop_sequence_enrollments(conn, lead_id, campaign_id, "mailbox_dead")
         log.warning(
             "draft %s aborted: sending mailbox %s is retired, thread is dead",
             draft["id"], sender_email or "(unknown)",
@@ -1455,10 +1536,13 @@ def _send_due_draft(draft: dict) -> str:
     log.info("[SIG-DEBUG] _send_due_draft: draft_id=%s smartlead response=%r", draft["id"], resp)
 
     with db.db_session() as conn:
-        db.update_draft(conn, draft["id"], status="sent", sent_at=db.now_iso())
+        sent_at = db.now_iso()
+        db.update_draft(conn, draft["id"], status="sent", sent_at=sent_at)
         if draft["kind"] == "followup":
             db.increment_followup_count(conn, lead_id, campaign_id)
-        _mark_lead_waiting_on_them(conn, lead_id, campaign_id)
+        _mark_lead_waiting_on_them(conn, lead_id, campaign_id, keep_category=is_sequence)
+        if is_sequence:
+            sequences.on_step_sent(conn, draft, sent_at)
     log.info("sent draft %s to lead %s", draft["id"], lead_id)
     return "sent"
 

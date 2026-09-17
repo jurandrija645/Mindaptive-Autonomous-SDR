@@ -114,13 +114,20 @@ def text_to_html(body: str) -> str:
 
 
 US_KEYWORDS = ("usa", "us -", "us-", "united states", "america")
+# Word-bounded: a bare "uk" substring would match "Ukraine" or "Duke".
+_UK_RE = re.compile(r"(uk|united kingdom|london|england|britain|great britain)")
+FALLBACK_TIMEZONE = "Europe/Zagreb"
 
 
 def guess_timezone(campaign_name: str) -> str:
     name = (campaign_name or "").lower()
     if any(kw in name for kw in US_KEYWORDS):
         return "America/New_York"
-    return "Europe/Zagreb"
+    if _UK_RE.search(name):
+        return "Europe/London"
+    from app.config import settings
+
+    return settings.default_lead_timezone or FALLBACK_TIMEZONE
 
 
 def next_morning_send_utc(tz_name: str, now: datetime | None = None) -> datetime:

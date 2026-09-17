@@ -95,6 +95,11 @@ class Settings:
     # still sort to the top of the inbox either way.
     hot_followup_wait_hours: int = int(os.getenv("HOT_FOLLOWUP_WAIT_HOURS", "24"))
     max_followups: int = int(os.getenv("MAX_FOLLOWUPS", "4"))
+    # Where a lead is assumed to be when neither the sequence nor the campaign
+    # name says otherwise (thread_utils.guess_timezone). Decides the morning
+    # send window for scheduled follow-ups and subsequence steps, so OneBodyLDN
+    # sets Europe/London; blank keeps the old Europe/Zagreb default.
+    default_lead_timezone: str = os.getenv("DEFAULT_LEAD_TIMEZONE", "").strip()
     # After the follow-up cap is hit, quietly resurface the lead for one
     # revival touch once this many days pass with no reply. 0 disables.
     revive_after_days: int = int(os.getenv("REVIVE_AFTER_DAYS", "60"))
@@ -244,6 +249,10 @@ class Settings:
     # SMARTLEAD_WEBHOOK_SECRET. Blank disables the route's secret check, which
     # is fine for local testing but should always be set once this is public.
     booking_webhook_secret: str = os.getenv("BOOKING_WEBHOOK_SECRET", "")
+    # Bearer token for POST /api/prospect-contacts (app/prospect_contacts.py):
+    # WebsiteGenerator's cli/contacts.mjs pushes the WhatsApp/phone/email/social
+    # contacts it scraped from a prospect's site. Blank disables the route.
+    contact_ingest_token: str = os.getenv("CONTACT_INGEST_TOKEN", "")
     # Codes that prove a booking came through this client's offer. An exact
     # email match never needs one; name fallback is disabled unless the booking
     # carries one of these codes.

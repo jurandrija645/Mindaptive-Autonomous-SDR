@@ -2090,6 +2090,7 @@ function conversationCard(person) {
 const VIEW_LOADERS = {
   inbox: loadInbox, scheduled: loadScheduled, archive: loadArchive,
   stats: loadStats, campaigns: loadCampaigns, health: loadHealth,
+  sequences: loadSequences,
 };
 
 function setView(view) {
@@ -2106,9 +2107,11 @@ function setView(view) {
   openSmartleadMenu(false);
   $("rescan-btn").hidden = view !== "inbox";
   // Campaigns and Stats don't list leads, so the lead search box would do nothing.
-  document.querySelector(".search-row").classList.toggle("hidden", view === "campaigns" || view === "stats" || view === "health");
+  document.querySelector(".search-row").classList.toggle("hidden", ["campaigns", "stats", "health", "sequences"].includes(view));
+  document.querySelector(".filter-row-secondary").classList.toggle("hidden", view === "sequences");
   $("view-inbox-btn").classList.toggle("active", view === "inbox");
   $("view-scheduled-btn").classList.toggle("active", view === "scheduled");
+  $("view-sequences-btn").classList.toggle("active", view === "sequences");
   $("view-archive-btn").classList.toggle("active", view === "archive");
   $("view-campaigns-btn").classList.toggle("active", view === "campaigns");
   $("view-health-btn").classList.toggle("active", view === "health");
@@ -2196,6 +2199,7 @@ function renderList() {
       row.appendChild(quickBtn);
     } else if (scheduledMode) {
       row.appendChild(el("div", "lead-preview", `Scheduled for ${lead.scheduled_at}`));
+      if (lead.sequence_label) row.appendChild(el("div", "lead-preview seq-label", `🔁 ${lead.sequence_label}`));
       if (lead.preview) row.appendChild(el("div", "lead-preview", lead.preview));
       const actions = el("div", null);
       const sendBtn = el("button", "btn-secondary row-action", "Send now");
@@ -2335,6 +2339,9 @@ function renderDetail() {
   if (state.nameNote) {
     body.appendChild(el("div", "detail-sub name-note", state.nameNote));
   }
+  if (state.detail.sequence) {
+    body.appendChild(renderLeadSequenceBadge(state.detail.sequence));
+  }
 
   body.appendChild(renderResearchPanel(lead));
   body.appendChild(renderLeadActionsBar(lead));
@@ -2451,6 +2458,112 @@ function renderResearchPanel(lead) {
   return panel;
 }
 
+// One-click reach-out icons parsed out of the contact-research CONTACT block
+// (app/lead_research.py: parse_channels) -- Andrew's ask 2026-09-17: don't
+// make him read prose to find a WhatsApp number, put every channel he can
+// actually reach the lead on right on the card as a single click.
+const CHANNEL_DEFS = {
+  whatsapp: { label: "WhatsApp", short: "WA", bg: "#25d366", href: (v) => `https://wa.me/${v.replace(/[^0-9]/g, "")}` },
+  linkedin: { label: "LinkedIn", short: "in", bg: "#0a66c2" },
+  facebook: { label: "Facebook", short: "f", bg: "#1877f2" },
+  instagram: { label: "Instagram", short: "ig", bg: "#e1306c" },
+  email: { label: "Direct email", short: "@", bg: "#6b7280", href: (v) => `mailto:${v}` },
+  phone: { label: "Phone", short: "☎", bg: "#6b7280", href: (v) => `tel:${v.replace(/[^0-9+]/g, "")}` },
+};
+// Only linkify a social profile when the value already names the platform's
+// own domain or a scheme -- normalizing "linkedin.com/in/x" to a clickable
+// https URL is fine; inventing a profile URL from a bare handle is not.
+const _CHANNEL_DOMAIN = { linkedin: "linkedin.com", facebook: "facebook.com", instagram: "instagram.com" };
+
+function channelHref(key, rawValue) {
+  const def = CHANNEL_DEFS[key];
+  if (def.href) return def.href(rawValue);
+  if (/^https?:\/\//i.test(rawValue)) return rawValue;
+  const domain = _CHANNEL_DOMAIN[key];
+  if (domain && rawValue.toLowerCase().includes(domain)) return `https://${rawValue.replace(/^\/+/, "")}`;
+  return null; // not a URL we can safely construct -- render as text, not a link
+}
+
+function renderContactChannels(channels) {
+  const entries = Object.keys(CHANNEL_DEFS).filter((k) => channels[k]);
+  if (!entries.length) return null;
+  const row = el("div", "channel-icons");
+  entries.forEach((key) => {
+    const def = CHANNEL_DEFS[key];
+    const value = channels[key];
+    const href = channelHref(key, value);
+    const node = el(href ? "a" : "span", "channel-icon", null);
+    if (href) {
+      node.href = href;
+      node.target = "_blank";
+      node.rel = "noopener noreferrer";
+    } else {
+      node.classList.add("channel-icon-nolink");
+    }
+    node.title = `${def.label}: ${value}`;
+    node.style.background = def.bg;
+    node.textContent = def.short;
+    row.appendChild(node);
+  });
+  return row;
+}
+
+// Every contact WebsiteGenerator scraped off the prospect's own website
+// (app/prospect_contacts.py) -- Andrew's ask 2026-09-17: leads ignore the email
+// with the site he built them, so he chases them on every channel they list.
+// WhatsApp first, it's the one that gets answers.
+const SITE_CONTACT_ORDER = ["whatsapp", "phones", "emails", "facebook", "instagram", "linkedin"];
+const SITE_CONTACT_LABELS = { whatsapp: "WhatsApp", phones: "Phone", emails: "Email", facebook: "Facebook", instagram: "Instagram", linkedin: "LinkedIn", x: "X / Twitter", youtube: "YouTube", tiktok: "TikTok" };
+
+function siteContactHref(key, value) {
+  if (key === "whatsapp") return /^https?:/i.test(value) ? value : `https://wa.me/${value.replace(/[^0-9]/g, "")}`;
+  if (key === "phones") return `tel:${value.replace(/[^0-9+]/g, "")}`;
+  if (key === "emails") return `mailto:${value}`;
+  return /^https?:\/\//i.test(value) ? value : null;
+}
+
+function renderSiteContacts(site) {
+  if (!site || !site.channels) return null;
+  const keys = [
+    ...SITE_CONTACT_ORDER.filter((k) => site.channels[k]),
+    ...Object.keys(site.channels).filter((k) => !SITE_CONTACT_ORDER.includes(k)),
+  ];
+  if (!keys.length && !site.demo_url) return null;
+  const box = el("div", "site-contacts");
+  box.appendChild(el("div", "site-contacts-title", `From their website (${site.domain})`));
+  if (site.demo_url) {
+    const demo = el("div", "site-contacts-row");
+    demo.appendChild(el("span", "site-contacts-label", "Site we built"));
+    const a = el("a", null, site.demo_url);
+    a.href = site.demo_url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    demo.appendChild(a);
+    box.appendChild(demo);
+  }
+  keys.forEach((key) => {
+    const row = el("div", "site-contacts-row");
+    row.appendChild(el("span", "site-contacts-label", SITE_CONTACT_LABELS[key] || key));
+    const values = el("span", "site-contacts-values");
+    site.channels[key].forEach((item) => {
+      const href = siteContactHref(key, item.value);
+      const node = el(href ? "a" : "span", null, item.value);
+      if (href) {
+        node.href = href;
+        node.target = "_blank";
+        node.rel = "noopener noreferrer";
+      }
+      values.appendChild(node);
+      if (key === "whatsapp") {
+        values.appendChild(el("span", item.confirmed ? "site-contacts-tag confirmed" : "site-contacts-tag", item.confirmed ? "confirmed" : "likely (mobile)"));
+      }
+    });
+    row.appendChild(values);
+    box.appendChild(row);
+  });
+  return box;
+}
+
 function renderContactResearch(lead) {
   const wrap = el("div", "contact-research");
   const head = el("div", "research-head contact-research-head");
@@ -2473,6 +2586,12 @@ function renderContactResearch(lead) {
     head.appendChild(btn);
   }
   wrap.appendChild(head);
+
+  const channels = lead.contact_channels || {};
+  const iconRow = renderContactChannels(channels);
+  if (iconRow) wrap.appendChild(iconRow);
+  const siteBlock = renderSiteContacts(lead.site_contacts);
+  if (siteBlock) wrap.appendChild(siteBlock);
 
   if (isRunning) {
     wrap.appendChild(el("div", "research-body muted", "Looking up a real point of contact — name, direct email/phone, LinkedIn. This can take a minute…"));
@@ -2887,6 +3006,12 @@ function normCategoryName(s) {
 const BOOKED_CATEGORY_NORM = "meetingbooked";
 
 async function changeCategory(name) {
+  // A status that starts a subsequence has its own confirmation and outcome.
+  const sequence = state.sequenceTriggers[normCategoryName(name)];
+  if (sequence) {
+    await startSequenceFromStatus(name, sequence);
+    return;
+  }
   const restoring = name === "Interested";
   const booking = normCategoryName(name) === BOOKED_CATEGORY_NORM;
   const pauseNote = PAUSE_CATEGORIES.has(name) ? " and pause their sequence" : "";
@@ -3408,15 +3533,23 @@ function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+// The editor the toolbar, link and image tools act on. Normally the draft
+// editor; a subsequence step editor claims it on focus (richEditor below), so
+// the same bold/link/image/resize code serves both without a second copy.
+function activeEditor() {
+  if (state.activeEditor && state.activeEditor.isConnected) return state.activeEditor;
+  return $("draft-editor");
+}
+
 function runEditorCommand(cmd, value) {
-  const editor = $("draft-editor");
+  const editor = activeEditor();
   editor.focus();
   document.execCommand(cmd, false, value);
   onEditorInput();
 }
 
 function insertLink() {
-  const editor = $("draft-editor");
+  const editor = activeEditor();
   editor.focus();
   const url = window.prompt("Link URL (include https://):");
   if (!url) return;
@@ -3457,7 +3590,7 @@ function setImageWidth(img, pct) {
 }
 
 function insertImageAtCursor(url) {
-  const editor = $("draft-editor");
+  const editor = activeEditor();
   editor.focus();
   const marker = "pending-img-" + Date.now();
   document.execCommand(
@@ -3480,7 +3613,7 @@ function insertImageAtCursor(url) {
 }
 
 async function uploadAndInsertImage(file) {
-  const editor = $("draft-editor");
+  const editor = activeEditor();
   if (editor) editor.classList.add("uploading");
   try {
     const fd = new FormData();
@@ -3634,7 +3767,8 @@ function positionImageBar() {
 }
 
 function onEditorClick(e) {
-  if (e.target && e.target.tagName === "IMG" && state.editMode === "original") {
+  const isDraftEditor = e.currentTarget && e.currentTarget.id === "draft-editor";
+  if (e.target && e.target.tagName === "IMG" && (!isDraftEditor || state.editMode === "original")) {
     selectEditorImage(e.target);
   } else {
     deselectEditorImage();
@@ -3643,7 +3777,7 @@ function onEditorClick(e) {
 
 document.addEventListener("click", (e) => {
   const bar = $("image-bar");
-  const editor = $("draft-editor");
+  const editor = activeEditor();
   if (!state.selectedImage) return;
   if ((bar && bar.contains(e.target)) || (editor && editor.contains(e.target))) return;
   deselectEditorImage();
@@ -3651,9 +3785,16 @@ document.addEventListener("click", (e) => {
 window.addEventListener("scroll", positionImageBar, true);
 window.addEventListener("resize", positionImageBar);
 
-function renderEditorToolbar() {
+function renderEditorToolbar(target) {
   const bar = el("div", "editor-toolbar");
-  bar.id = "editor-toolbar";
+  if (target) {
+    // A step editor's own toolbar: point the shared tools at it before any
+    // button acts, so a click never lands in a different step's email.
+    bar.addEventListener("mousedown", () => { state.activeEditor = target; }, true);
+  } else {
+    bar.id = "editor-toolbar";
+    bar.addEventListener("mousedown", () => { state.activeEditor = null; }, true);
+  }
   const boldBtn = el("button", "toolbar-btn toolbar-bold", "B");
   boldBtn.type = "button";
   boldBtn.title = "Bold";
@@ -3751,6 +3892,10 @@ function renderDraftSection(body) {
   if (draft.status === "scheduled" && draft.scheduled_at) {
     box.appendChild(el("span", "status-banner", `Scheduled for ${draft.scheduled_at}`));
   }
+  if (draft.sequence_label) {
+    box.appendChild(el("div", "draft-note",
+      `🔁 ${draft.sequence_label}. It sends on its own. Edit the text and click Schedule to keep your changes, or Skip to drop this email and queue the next.`));
+  }
   if (draft.status === "sending") {
     box.appendChild(el("span", "status-banner", "Sending…"));
   }
@@ -3792,8 +3937,10 @@ function renderDraftSection(body) {
   // "Apply to draft" anyway. Hidden, not removed, so setEditMode can toggle it.
   box.appendChild(renderEditorToolbar());
 
+  state.activeEditor = null;
   const editor = el("div", "draft-editor");
   editor.id = "draft-editor";
+  editor.addEventListener("focus", () => { state.activeEditor = null; });
   editor.contentEditable = draft.status === "sending" ? "false" : "true";
   editor.innerHTML = bodyHtml;
   editor.addEventListener("input", onEditorInput);
@@ -3862,6 +4009,8 @@ function renderDraftSection(body) {
   noteInput.placeholder = "What to change (e.g. shorten the 2nd paragraph). Empty = new draft.";
   actions.appendChild(noteInput);
   const regenBtn = el("button", "btn-secondary", "Regenerate");
+  // A sequence email is Andrew's own fixed copy; regenerating would swap it for AI text.
+  if (draft.sequence_label) { noteInput.hidden = true; regenBtn.hidden = true; }
   regenBtn.id = "regen-btn";
   regenBtn.title = "With an instruction: edits this draft, keeping everything else. Without one: writes a different draft.";
   regenBtn.addEventListener("click", () => generate(noteInput.value));
@@ -3949,6 +4098,7 @@ function currentAttachments() {
 }
 
 function renderAttachments(draft) {
+  state.onAttachmentsChange = null;
   state.attachments = (draft.attachments || []).slice();
   const wrap = el("div", "attachments");
   wrap.id = "attachments-row";
@@ -3970,6 +4120,11 @@ function renderAttachments(draft) {
 }
 
 function renderAttachmentChips() {
+  // A subsequence step opened the picker: hand the change back to that step.
+  if (state.onAttachmentsChange) {
+    state.onAttachmentsChange();
+    return;
+  }
   const chips = $("attachment-chips");
   if (!chips) return;
   chips.innerHTML = "";
@@ -4173,7 +4328,12 @@ function editorSerialize(editor) {
 }
 
 function onEditorInput() {
-  const editor = $("draft-editor");
+  const editor = activeEditor();
+  if (!editor) return;
+  if (editor.id !== "draft-editor") {
+    if (editor._onChange) editor._onChange();
+    return;
+  }
   if (state.editMode === "original") {
     state.originalHtml = editorSerialize(editor);
     state.englishHtml = null; // invalidate — refetch fresh next time English is viewed
@@ -4550,6 +4710,861 @@ async function withRowRemoval(action, index = state.selected) {
   }, 320);
 }
 
+// ---------- subsequences (app/sequences.py) ----------
+//
+// Follow-up emails Andrew writes once. Setting a lead's status to a sequence's
+// trigger category starts it; every email goes out as a threaded reply with the
+// persona's HTML signature, in the lead's morning; any reply or booking stops
+// it. The sidebar lists sequences, the right pane has two tabs: who is in it,
+// and the emails themselves.
+
+state.sequences = [];
+state.selectedSequence = null;   // id
+state.sequenceTab = "leads";     // "leads" | "builder"
+state.enrollmentFilter = "running";
+state.sequencePersonas = null;   // [{name, signature_html}] for the preview
+state.sequenceTriggers = {};     // normCategoryName(trigger) -> sequence summary
+state.activeEditor = null;
+state.onAttachmentsChange = null;
+
+const SEQUENCE_TIMEZONES = [
+  ["auto", "Automatic (from the campaign)"],
+  ["Europe/London", "London"],
+  ["Europe/Dublin", "Dublin"],
+  ["Europe/Berlin", "Berlin / Amsterdam / Paris"],
+  ["Europe/Zagreb", "Zagreb"],
+  ["Europe/Helsinki", "Helsinki"],
+  ["America/New_York", "US (8–10am Eastern)"],
+];
+
+const STOP_REASON_LABELS = {
+  replied: "Replied",
+  auto_reply: "Out of office",
+  booked: "Booked a meeting",
+  status_changed: "Status changed",
+  dnc: "Do not contact",
+  mailbox_dead: "Mailbox retired",
+  manual: "Removed by you",
+  manual_pause: "Paused by you",
+  send_failed: "Send failed",
+  lead_not_found: "Not found in Smartlead",
+};
+
+function rememberSequenceTriggers(list) {
+  state.sequenceTriggers = {};
+  (list || []).forEach((s) => {
+    state.sequenceTriggers[normCategoryName(s.trigger_category)] = s;
+  });
+}
+
+async function loadSequenceTriggers() {
+  try {
+    rememberSequenceTriggers((await apiGet("/api/sequences")).sequences);
+  } catch (e) {
+    console.error("could not load sequences", e);
+  }
+}
+
+// "Fri 19 Sep, 08:46" in the browser's own timezone.
+function formatYourTime(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d)) return "";
+  return d.toLocaleString(undefined, { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+}
+
+function zoneLabel(zone) {
+  const known = SEQUENCE_TIMEZONES.find(([z]) => z === zone);
+  if (zone === "America/New_York") return "Eastern";
+  return known ? known[1] : (zone || "").split("/").pop().replace(/_/g, " ");
+}
+
+async function loadSequences() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Sequences";
+  $("inbox-empty").hidden = true;
+  list.appendChild(el("li", "list-section", "Loading sequences…"));
+  const data = await apiGet("/api/sequences");
+  if (state.view !== "sequences") return data;
+  state.sequences = data.sequences || [];
+  rememberSequenceTriggers(state.sequences);
+  if (!state.categoryList) await loadCategories();
+  renderSequenceList();
+  const keep = state.sequences.find((s) => s.id === state.selectedSequence);
+  if (keep) openSequence(keep.id);
+  return data;
+}
+
+function renderSequenceList() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = `Sequences (${state.sequences.length})`;
+
+  const head = el("li", "account-switch");
+  const add = el("button", "btn-send", "+ New sequence");
+  add.type = "button";
+  add.addEventListener("click", renderNewSequenceForm);
+  head.appendChild(add);
+  list.appendChild(head);
+
+  if (!state.sequences.length) {
+    list.appendChild(el("li", "list-section", "No sequences yet"));
+    return;
+  }
+  state.sequences.forEach((s) => {
+    const li = el("li", "lead-row campaign-row sequence-row");
+    if (state.selectedSequence === s.id) li.classList.add("selected");
+    if (!s.active) li.classList.add("sequence-off");
+    const top = el("div", "lead-top");
+    top.appendChild(el("span", "lead-name", s.name));
+    if (!s.active) top.appendChild(el("span", "state-chip", "Off"));
+    li.appendChild(top);
+    const trig = el("div", "campaign-line");
+    trig.appendChild(el("span", "campaign-tag", s.trigger_category));
+    li.appendChild(trig);
+    const meta = el("div", "campaign-meta");
+    meta.appendChild(el("span", "campaign-stat", `${s.step_count} email${s.step_count === 1 ? "" : "s"} over ${s.total_days} days`));
+    const c = s.counts || {};
+    if (c.active) meta.appendChild(el("span", "campaign-stat good", `${c.active} running`));
+    if (c.paused) meta.appendChild(el("span", "campaign-stat", `${c.paused} paused`));
+    if (c.error) meta.appendChild(el("span", "campaign-stat bad", `${c.error} need attention`));
+    if (c.replied) meta.appendChild(el("span", "campaign-stat", `${c.replied} replied`));
+    if (c.booked) meta.appendChild(el("span", "campaign-stat good", `${c.booked} booked`));
+    li.appendChild(meta);
+    li.addEventListener("click", () => openSequence(s.id));
+    list.appendChild(li);
+  });
+}
+
+function sequencePane() {
+  $("detail-empty").hidden = true;
+  const body = $("detail-body");
+  body.hidden = false;
+  body.innerHTML = "";
+  if (isMobileLayout()) {
+    const back = el("button", "btn-back", "← Back");
+    back.type = "button";
+    back.addEventListener("click", () => {
+      state.selectedSequence = null;
+      renderSequenceList();
+      body.hidden = true;
+      $("detail-empty").hidden = false;
+      showMobileList();
+    });
+    body.appendChild(back);
+  }
+  showMobileDetail();
+  return body;
+}
+
+function categoryOptions(select, selected, { allowNone = false, noneLabel = "" } = {}) {
+  const names = (state.categoryList || []).slice();
+  if (selected && !names.includes(selected)) names.unshift(selected);
+  if (allowNone) {
+    const none = el("option", null, noneLabel);
+    none.value = "";
+    none.selected = !selected;
+    select.appendChild(none);
+  }
+  names.forEach((name) => {
+    const opt = el("option", null, name);
+    opt.value = name;
+    opt.selected = name === selected;
+    select.appendChild(opt);
+  });
+}
+
+function renderNewSequenceForm() {
+  state.selectedSequence = null;
+  renderSequenceList();
+  const body = sequencePane();
+  body.appendChild(el("h2", null, "New sequence"));
+  body.appendChild(el("p", "muted",
+    "Pick the Smartlead status that starts it. Setting a lead to that status (after you've sent your own message) enrolls them."));
+  const form = el("div", "seq-form");
+  const name = el("input");
+  name.type = "text";
+  name.placeholder = "e.g. Interested in the 55-minute session";
+  form.appendChild(labelled("Name", name));
+  const trigger = el("select", "cat-select");
+  categoryOptions(trigger, "", { allowNone: true, noneLabel: "Choose a status…" });
+  form.appendChild(labelled("Starts when status is set to", trigger));
+  form.appendChild(el("div", "muted small",
+    "Don't see it? Create the status in Smartlead first (Settings → Lead categories), then reload."));
+  const err = el("div", "error-note");
+  const create = el("button", "btn-send", "Create sequence");
+  create.type = "button";
+  create.addEventListener("click", async () => {
+    err.textContent = "";
+    try {
+      const data = await apiPost("/api/sequences", { name: name.value, trigger_category: trigger.value });
+      state.sequenceTab = "builder";
+      state.selectedSequence = data.sequence.id;
+      await loadSequences();
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  form.appendChild(create);
+  form.appendChild(err);
+  body.appendChild(form);
+  name.focus();
+}
+
+function labelled(text, control) {
+  const wrap = el("label", "seq-field");
+  wrap.appendChild(el("span", "seq-field-label", text));
+  wrap.appendChild(control);
+  return wrap;
+}
+
+async function openSequence(id) {
+  state.selectedSequence = id;
+  renderSequenceList();
+  const body = sequencePane();
+  body.appendChild(el("div", "loading-note", "Loading…"));
+  let data;
+  try {
+    data = await apiGet(`/api/sequences/${id}`);
+  } catch (e) {
+    body.innerHTML = "";
+    body.appendChild(el("div", "error-note", `Couldn't load this sequence: ${e.message}`));
+    return;
+  }
+  if (state.view !== "sequences" || state.selectedSequence !== id) return;
+  renderSequenceDetail(data.sequence);
+}
+
+function renderSequenceDetail(seq) {
+  const body = sequencePane();
+  const head = el("div", "campaign-head");
+  const title = el("div", "detail-header");
+  title.appendChild(el("h2", null, seq.name));
+  title.appendChild(el("span", `state-chip ${seq.active ? "cat-booked" : ""}`, seq.active ? "On" : "Off"));
+  head.appendChild(title);
+  const sub = el("div", "muted");
+  sub.appendChild(document.createTextNode("Starts when a lead's status is set to "));
+  sub.appendChild(el("strong", null, seq.trigger_category));
+  sub.appendChild(document.createTextNode(` · ${seq.step_count} email${seq.step_count === 1 ? "" : "s"} over ${seq.total_days} days`));
+  head.appendChild(sub);
+  body.appendChild(head);
+
+  if (state.categoryList && !state.categoryList.includes(seq.trigger_category)) {
+    body.appendChild(el("div", "status-banner warn",
+      `Smartlead has no "${seq.trigger_category}" status. Create it there, or no lead can start this sequence.`));
+  }
+
+  const tabs = el("div", "campaign-tabs");
+  const pane = el("div", "campaign-pane");
+  const c = seq.counts || {};
+  const running = (c.active || 0) + (c.paused || 0) + (c.error || 0);
+  [["leads", `Leads (${running} running)`], ["builder", "Emails & timing"]].forEach(([key, label]) => {
+    const b = el("button", "campaign-tab" + (state.sequenceTab === key ? " active" : ""), label);
+    b.type = "button";
+    b.addEventListener("click", () => {
+      state.sequenceTab = key;
+      renderSequenceDetail(seq);
+    });
+    tabs.appendChild(b);
+  });
+  body.appendChild(tabs);
+  body.appendChild(pane);
+  if (state.sequenceTab === "builder") renderSequenceBuilder(pane, seq);
+  else renderSequenceLeads(pane, seq);
+}
+
+// ---- leads tab ----
+
+const ENROLLMENT_FILTERS = [
+  ["running", "Running", (e) => ["active", "paused", "error"].includes(e.state)],
+  ["completed", "Finished", (e) => e.state === "completed"],
+  ["stopped", "Stopped", (e) => e.state === "stopped"],
+  ["all", "All", () => true],
+];
+
+async function renderSequenceLeads(pane, seq) {
+  pane.innerHTML = "";
+  pane.appendChild(el("div", "loading-note", "Loading leads…"));
+  let enrollments;
+  try {
+    enrollments = (await apiGet(`/api/sequences/${seq.id}/enrollments`)).enrollments || [];
+  } catch (e) {
+    pane.innerHTML = "";
+    pane.appendChild(el("div", "error-note", e.message));
+    return;
+  }
+  pane.innerHTML = "";
+
+  const filters = el("div", "convo-filter");
+  ENROLLMENT_FILTERS.forEach(([key, label, match]) => {
+    const n = enrollments.filter(match).length;
+    const chip = el("button", "chip-filter" + (state.enrollmentFilter === key ? " active" : ""), `${label} (${n})`);
+    chip.type = "button";
+    chip.addEventListener("click", () => {
+      state.enrollmentFilter = key;
+      renderSequenceLeads(pane, seq);
+    });
+    filters.appendChild(chip);
+  });
+  pane.appendChild(filters);
+
+  const match = (ENROLLMENT_FILTERS.find(([k]) => k === state.enrollmentFilter) || ENROLLMENT_FILTERS[0])[2];
+  const shown = enrollments.filter(match);
+  if (!shown.length) {
+    pane.appendChild(el("p", "muted",
+      enrollments.length
+        ? "Nobody in this group."
+        : `No leads yet. Send a lead your own message, then set their status to "${seq.trigger_category}".`));
+    return;
+  }
+  shown.forEach((e) => pane.appendChild(renderEnrollmentCard(e, () => refreshSequence(seq.id))));
+}
+
+async function refreshSequence(id) {
+  try {
+    state.sequences = (await apiGet("/api/sequences")).sequences || [];
+    rememberSequenceTriggers(state.sequences);
+  } catch (e) { /* the list just keeps its old counts */ }
+  if (state.view === "sequences") {
+    renderSequenceList();
+    openSequence(id);
+  }
+}
+
+function enrollmentStateChip(e) {
+  if (e.state === "active") return el("span", "state-chip cat-waiting", "Running");
+  if (e.state === "paused") {
+    return el("span", "state-chip cat-auto_reply", e.stop_reason === "auto_reply" ? "Paused · out of office" : "Paused");
+  }
+  if (e.state === "error") return el("span", "state-chip cat-reply", "Needs attention");
+  if (e.state === "completed") return el("span", "state-chip", "Finished");
+  const cls = e.stop_reason === "booked" ? "cat-booked" : e.stop_reason === "replied" ? "cat-followup" : "";
+  return el("span", `state-chip ${cls}`, STOP_REASON_LABELS[e.stop_reason] || "Stopped");
+}
+
+function stepDots(e) {
+  const wrap = el("span", "seq-dots");
+  wrap.title = `${e.steps_sent} of ${e.step_count} sent`;
+  for (let i = 1; i <= e.step_count; i++) {
+    wrap.appendChild(el("span", "seq-dot" + (i <= e.steps_sent ? " done" : i === e.steps_sent + 1 && e.state === "active" ? " next" : "")));
+  }
+  return wrap;
+}
+
+// One lead in a sequence. Used by the Leads tab and, compactly, on the lead's
+// own page; `onChange` re-renders whichever of the two it's in.
+function renderEnrollmentCard(e, onChange, { compact = false } = {}) {
+  const card = el("div", compact ? "seq-badge" : "convo-card seq-enrollment");
+  const top = el("div", "seq-enrollment-top");
+  if (compact) {
+    top.appendChild(el("span", "seq-badge-title", `🔁 ${e.sequence_name}`));
+  } else {
+    top.appendChild(el("span", "convo-company", e.lead_name || e.lead_email || "Lead"));
+    if (e.lead_company) top.appendChild(el("span", "muted", e.lead_company));
+  }
+  top.appendChild(enrollmentStateChip(e));
+  card.appendChild(top);
+
+  const progress = el("div", "seq-progress");
+  progress.appendChild(stepDots(e));
+  const sentText = e.steps_sent >= e.step_count
+    ? `All ${e.step_count} emails sent`
+    : `${e.steps_sent} of ${e.step_count} sent`;
+  progress.appendChild(el("span", "small", sentText));
+  card.appendChild(progress);
+
+  const lines = [];
+  if (e.state === "active" && e.next_send_at) {
+    lines.push(`Next email ${e.next_send_local} ${zoneLabel(e.lead_timezone)} time (${formatYourTime(e.next_send_at)} yours)`);
+  }
+  if (e.last_sent_at) lines.push(`Last sent ${formatYourTime(e.last_sent_at)}`);
+  if (e.state === "stopped" && e.stopped_at) {
+    lines.push(`${STOP_REASON_LABELS[e.stop_reason] || "Stopped"} ${formatYourTime(e.stopped_at)}, after email ${e.steps_sent} of ${e.step_count}`);
+  }
+  if (e.state === "completed" && e.completed_at) lines.push(`Finished ${formatYourTime(e.completed_at)}`);
+  if (e.state === "paused" && e.suggested_resume_at) lines.push(`Their autoreply says they're back ${formatDayLabel(e.suggested_resume_at)}`);
+  if (!compact && e.lead_email) lines.push(e.lead_email + (e.campaign_name ? ` · ${e.campaign_name}` : ""));
+  lines.forEach((t) => card.appendChild(el("div", "small muted", t)));
+  if (e.last_error) card.appendChild(el("div", "error-note", e.last_error));
+
+  const actions = el("div", "seq-actions");
+  const act = (label, action, body, cls = "btn-secondary", confirmText = "") => {
+    const b = el("button", cls, label);
+    b.type = "button";
+    b.addEventListener("click", async (ev) => {
+      ev.stopPropagation();
+      if (confirmText && !confirm(confirmText)) return;
+      b.disabled = true;
+      try {
+        await apiPost(`/api/enrollments/${e.id}/${action}`, body || {});
+        onChange();
+      } catch (err) {
+        alert(err.message);
+        b.disabled = false;
+      }
+    });
+    actions.appendChild(b);
+    return b;
+  };
+
+  if (e.state === "active") {
+    act("Send next email now", "send-now", null, "btn-secondary",
+      "Send the next email now? The usual checks still run first (no reply, still in this status).");
+    act("Skip this email", "skip", null, "btn-secondary", "Skip the next email and move on to the one after it?");
+    act("Pause", "pause");
+    act("Remove", "remove", null, "btn-danger", "Take this lead out of the sequence? Nothing more will be sent.");
+  } else if (e.state === "paused" || e.state === "error") {
+    if (e.suggested_resume_at) {
+      act(`Resume ${formatDayLabel(e.suggested_resume_at)}`, "resume", { resume_on: e.suggested_resume_at }, "btn-send");
+    }
+    actions.appendChild(renderResumePicker(e, onChange));
+    act("Remove", "remove", null, "btn-danger", "Take this lead out of the sequence? Nothing more will be sent.");
+  } else {
+    act("Re-enroll", "re-enroll", null, "btn-secondary",
+      "Start this sequence again from email 1? Only do this if they're waiting on nothing from you.");
+  }
+  card.appendChild(actions);
+  return card;
+}
+
+function renderResumePicker(e, onChange) {
+  const select = el("select", "cat-select");
+  const placeholder = el("option", null, "Resume…");
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+  [["now", "Resume now (next morning window)"], ["3", "In 3 days"], ["7", "In a week"], ["14", "In 2 weeks"], ["date", "On a date…"]]
+    .forEach(([value, label]) => {
+      const opt = el("option", null, label);
+      opt.value = value;
+      select.appendChild(opt);
+    });
+  select.addEventListener("click", (ev) => ev.stopPropagation());
+  select.addEventListener("change", async () => {
+    const value = select.value;
+    select.value = "";
+    let body = {};
+    if (value === "date") {
+      const picked = prompt("Resume on which date? (YYYY-MM-DD, the lead's own calendar)", dateInDays(7));
+      if (!picked) return;
+      body = { resume_on: picked.trim() };
+    } else if (value !== "now") {
+      body = { in_days: Number(value) };
+    }
+    try {
+      await apiPost(`/api/enrollments/${e.id}/resume`, body);
+      onChange();
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+  return select;
+}
+
+// The badge on a lead's own page: which sequence, which email, what's next.
+function renderLeadSequenceBadge(enrollment) {
+  const refresh = () => {
+    if (state.selected >= 0) selectLead(state.selected);
+  };
+  return renderEnrollmentCard(enrollment, refresh, { compact: true });
+}
+
+// ---- builder tab ----
+
+async function renderSequenceBuilder(pane, seq) {
+  pane.innerHTML = "";
+  if (!state.sequencePersonas) {
+    try {
+      state.sequencePersonas = (await apiGet("/api/sequences/signatures")).personas || [];
+    } catch (e) {
+      state.sequencePersonas = [];
+    }
+  }
+  pane.appendChild(renderSequenceSettings(seq));
+  pane.appendChild(renderSequenceTimeline(seq));
+
+  const steps = el("div", "seq-steps");
+  (seq.steps || []).forEach((step, i) => steps.appendChild(renderStepCard(seq, step, i)));
+  pane.appendChild(steps);
+
+  const add = el("button", "btn-secondary", "+ Add an email");
+  add.type = "button";
+  add.addEventListener("click", () => {
+    const draftStep = { id: null, position: (seq.steps || []).length + 1, delay_days: 2, body_html: "", attachments: [] };
+    const card = renderStepCard(seq, draftStep, (seq.steps || []).length);
+    steps.appendChild(card);
+    add.hidden = true;
+    const editor = card.querySelector(".step-editor");
+    if (editor) editor.focus();
+  });
+  pane.appendChild(add);
+}
+
+function renderSequenceSettings(seq) {
+  const box = el("details", "draft-box seq-settings");
+  box.open = !seq.step_count;
+  box.appendChild(el("summary", null, "Settings"));
+  const grid = el("div", "seq-form");
+
+  const name = el("input");
+  name.type = "text";
+  name.value = seq.name;
+  grid.appendChild(labelled("Name", name));
+
+  const trigger = el("select", "cat-select");
+  categoryOptions(trigger, seq.trigger_category);
+  grid.appendChild(labelled("Starts when status is set to", trigger));
+
+  const windowRow = el("div", "seq-inline");
+  const start = el("input");
+  start.type = "time";
+  start.value = seq.window_start;
+  const end = el("input");
+  end.type = "time";
+  end.value = seq.window_end;
+  windowRow.appendChild(start);
+  windowRow.appendChild(el("span", "muted", "to"));
+  windowRow.appendChild(end);
+  grid.appendChild(labelled("Send between (lead's local time)", windowRow));
+
+  const zone = el("select", "cat-select");
+  const zones = SEQUENCE_TIMEZONES.slice();
+  if (!zones.some(([z]) => z === seq.timezone_mode)) zones.push([seq.timezone_mode, seq.timezone_mode]);
+  zones.forEach(([value, label]) => {
+    const opt = el("option", null, label);
+    opt.value = value;
+    opt.selected = value === seq.timezone_mode;
+    zone.appendChild(opt);
+  });
+  grid.appendChild(labelled("Lead's timezone", zone));
+
+  const weekdays = el("input");
+  weekdays.type = "checkbox";
+  weekdays.checked = seq.weekdays_only;
+  const weekdaysLabel = el("label", "seq-check");
+  weekdaysLabel.appendChild(weekdays);
+  weekdaysLabel.appendChild(document.createTextNode(" Weekdays only"));
+  grid.appendChild(weekdaysLabel);
+
+  const finish = el("select", "cat-select");
+  categoryOptions(finish, seq.finish_category || "", { allowNone: true, noneLabel: "Leave their status as it is" });
+  grid.appendChild(labelled("After the last email, set status to", finish));
+  if (seq.finish_category && state.categoryList && !state.categoryList.includes(seq.finish_category)) {
+    grid.appendChild(el("div", "status-banner warn",
+      `Smartlead has no "${seq.finish_category}" status yet. Create it there, or finished leads keep "${seq.trigger_category}".`));
+  }
+  grid.appendChild(el("div", "muted small",
+    "US leads always get 8–10am Eastern, whatever the window says. Any reply or booked meeting stops the sequence straight away."));
+
+  const err = el("div", "error-note");
+  const row = el("div", "seq-actions");
+  const save = el("button", "btn-send", "Save settings");
+  save.type = "button";
+  save.addEventListener("click", async () => {
+    err.textContent = "";
+    try {
+      const data = await apiPatch(`/api/sequences/${seq.id}`, {
+        name: name.value,
+        trigger_category: trigger.value,
+        window_start: start.value,
+        window_end: end.value,
+        timezone_mode: zone.value,
+        weekdays_only: weekdays.checked,
+        finish_category: finish.value,
+      });
+      await refreshSequence(data.sequence.id);
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(save);
+
+  const toggle = el("button", "btn-secondary", seq.active ? "Switch off" : "Switch on");
+  toggle.type = "button";
+  toggle.title = seq.active
+    ? "Stops every queued email and lets no new lead start. Leads stay enrolled and pick up again when switched back on."
+    : "Queues the next email for every lead still in it.";
+  toggle.addEventListener("click", async () => {
+    try {
+      await apiPatch(`/api/sequences/${seq.id}`, { active: !seq.active });
+      await refreshSequence(seq.id);
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(toggle);
+
+  const del = el("button", "btn-danger", "Delete sequence");
+  del.type = "button";
+  del.addEventListener("click", async () => {
+    if (!confirm(`Delete "${seq.name}" and all its emails? This can't be undone.`)) return;
+    try {
+      await apiDelete(`/api/sequences/${seq.id}`);
+      state.selectedSequence = null;
+      await loadSequences();
+      $("detail-body").hidden = true;
+      $("detail-empty").hidden = false;
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(del);
+  grid.appendChild(row);
+  grid.appendChild(err);
+  box.appendChild(grid);
+  return box;
+}
+
+function renderSequenceTimeline(seq) {
+  const strip = el("div", "seq-timeline");
+  strip.appendChild(el("span", "seq-tl-node you", "Your email"));
+  let day = 0;
+  (seq.steps || []).forEach((s) => {
+    day += s.delay_days;
+    strip.appendChild(el("span", "seq-tl-gap", `+${s.delay_days}d`));
+    strip.appendChild(el("span", "seq-tl-node", `Email ${s.position} · day ${day}`));
+  });
+  if (seq.finish_category && seq.steps && seq.steps.length) {
+    strip.appendChild(el("span", "seq-tl-gap", "→"));
+    strip.appendChild(el("span", "seq-tl-node end", seq.finish_category));
+  }
+  return strip;
+}
+
+function sampleFill(html) {
+  const values = { name: "Jane", company: "Acme Physio Ltd", companyNickname: "Acme Physio" };
+  return (html || "").replace(/\{([A-Za-z0-9_]+)\}/g, (_, key) => escapeHtml(values[key] || ""));
+}
+
+function renderStepCard(seq, step, index) {
+  const card = el("div", "draft-box seq-step");
+  const head = el("div", "seq-step-head");
+  head.appendChild(el("h3", null, `Email ${index + 1}`));
+
+  const delayWrap = el("span", "seq-inline");
+  delayWrap.appendChild(el("span", null, "Send"));
+  const delay = el("input", "seq-delay");
+  delay.type = "number";
+  delay.min = "0";
+  delay.max = "90";
+  delay.value = String(step.delay_days);
+  delayWrap.appendChild(delay);
+  delayWrap.appendChild(el("span", null, index === 0 ? "days after your own email" : "days after the previous email"));
+  head.appendChild(delayWrap);
+
+  const tools = el("span", "template-actions");
+  const iconBtn = (glyph, title, handler, disabled) => {
+    const b = el("button", "btn-icon", glyph);
+    b.type = "button";
+    b.title = title;
+    b.setAttribute("aria-label", title);
+    b.disabled = !!disabled;
+    if (!disabled) b.addEventListener("click", handler);
+    tools.appendChild(b);
+  };
+  const total = (seq.steps || []).length;
+  if (step.id) {
+    iconBtn("▲", "Move up", () => moveStep(seq, step, "up"), index === 0);
+    iconBtn("▼", "Move down", () => moveStep(seq, step, "down"), index >= total - 1);
+    iconBtn("🗑", "Delete this email", () => deleteStep(seq, step));
+  }
+  head.appendChild(tools);
+  card.appendChild(head);
+
+  const editor = el("div", "draft-editor step-editor");
+  editor.contentEditable = "true";
+  editor.innerHTML = step.body_html || "";
+  card.appendChild(renderEditorToolbar(editor));
+  editor.addEventListener("focus", () => { state.activeEditor = editor; });
+  editor.addEventListener("mousedown", () => { state.activeEditor = editor; });
+  editor.addEventListener("input", onEditorInput);
+  editor.addEventListener("paste", (ev) => { state.activeEditor = editor; onEditorPaste(ev); });
+  editor.addEventListener("dragover", (ev) => ev.preventDefault());
+  editor.addEventListener("drop", (ev) => { state.activeEditor = editor; onEditorDrop(ev); });
+  editor.addEventListener("click", onEditorClick);
+  card.appendChild(editor);
+  card.appendChild(el("div", "muted small",
+    "Use {name}, {company} or {companyNickname} and they're filled in for each lead. The signature is added underneath automatically."));
+
+  // Files, kept per step. The shared library picker writes to
+  // state.attachments; the hook sends its changes back here instead of to a
+  // draft card.
+  let attachments = (step.attachments || []).slice();
+  const filesRow = el("div", "attachment-row");
+  filesRow.appendChild(el("span", "recipient-label", "Files"));
+  const chips = el("div", "attachment-chips");
+  filesRow.appendChild(chips);
+  const renderChips = () => {
+    chips.innerHTML = "";
+    if (!attachments.length) chips.appendChild(el("span", "muted", "None"));
+    attachments.forEach((a) => {
+      const chip = el("span", "attachment-chip");
+      const link = el("a", null, a.file_name);
+      link.href = a.file_url || a.url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      chip.appendChild(link);
+      const rm = el("button", "attachment-remove", "×");
+      rm.type = "button";
+      rm.addEventListener("click", () => {
+        attachments = attachments.filter((x) => x.slug !== a.slug);
+        renderChips();
+        markDirty();
+      });
+      chip.appendChild(rm);
+      chips.appendChild(chip);
+    });
+  };
+  const attach = el("button", "btn-secondary btn-attach", "+ Attach a file");
+  attach.type = "button";
+  attach.addEventListener("click", () => {
+    state.attachments = attachments.slice();
+    state.onAttachmentsChange = () => {
+      attachments = (state.attachments || []).slice();
+      renderChips();
+      markDirty();
+    };
+    openLibraryModal();
+  });
+  filesRow.appendChild(attach);
+  card.appendChild(filesRow);
+  renderChips();
+
+  const preview = el("div", "seq-preview");
+  preview.hidden = true;
+  const renderPreview = () => {
+    preview.innerHTML = "";
+    const personas = state.sequencePersonas || [];
+    const pick = el("select", "cat-select");
+    personas.forEach((p, i) => {
+      const opt = el("option", null, `Signature: ${p.name}`);
+      opt.value = String(i);
+      pick.appendChild(opt);
+    });
+    const shown = el("div", "seq-preview-mail");
+    const paint = () => {
+      const persona = personas[Number(pick.value || 0)];
+      shown.innerHTML = sampleFill(editorSerialize(editor)) + "<br><br>" + (persona ? persona.signature_html : "");
+    };
+    pick.addEventListener("change", paint);
+    preview.appendChild(el("div", "sig-preview-label", "Preview for a lead called Jane at Acme Physio Ltd"));
+    if (personas.length > 1) preview.appendChild(pick);
+    preview.appendChild(shown);
+    paint();
+  };
+
+  const err = el("div", "error-note");
+  const row = el("div", "seq-actions");
+  const save = el("button", "btn-send", step.id ? "Save" : "Add this email");
+  save.type = "button";
+  save.disabled = !!step.id;
+  const markDirty = () => {
+    save.disabled = false;
+    if (!preview.hidden) renderPreview();
+  };
+  editor._onChange = markDirty;
+  delay.addEventListener("input", markDirty);
+
+  save.addEventListener("click", async () => {
+    err.textContent = "";
+    const payload = {
+      delay_days: Number(delay.value),
+      body_html: editorSerialize(editor),
+      attachments: attachments.map((a) => a.slug),
+    };
+    try {
+      const data = step.id
+        ? await apiPatch(`/api/sequences/${seq.id}/steps/${step.id}`, payload)
+        : await apiPost(`/api/sequences/${seq.id}/steps`, payload);
+      await afterStepChange(data.sequence);
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(save);
+  const previewBtn = el("button", "btn-secondary", "Preview with signature");
+  previewBtn.type = "button";
+  previewBtn.addEventListener("click", () => {
+    preview.hidden = !preview.hidden;
+    previewBtn.textContent = preview.hidden ? "Preview with signature" : "Hide preview";
+    if (!preview.hidden) renderPreview();
+  });
+  row.appendChild(previewBtn);
+  if (!step.id) {
+    const cancel = el("button", "btn-secondary", "Cancel");
+    cancel.type = "button";
+    cancel.addEventListener("click", () => refreshSequence(seq.id));
+    row.appendChild(cancel);
+  }
+  card.appendChild(row);
+  card.appendChild(err);
+  card.appendChild(preview);
+  return card;
+}
+
+async function afterStepChange(sequence) {
+  state.sequenceTab = "builder";
+  await refreshSequence(sequence.id);
+}
+
+async function moveStep(seq, step, direction) {
+  try {
+    const data = await apiPost(`/api/sequences/${seq.id}/steps/${step.id}/move`, { direction });
+    await afterStepChange(data.sequence);
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+async function deleteStep(seq, step) {
+  if (!confirm("Delete this email from the sequence? Leads waiting for it move on to the next one.")) return;
+  try {
+    const data = await apiDelete(`/api/sequences/${seq.id}/steps/${step.id}`);
+    await afterStepChange(data.sequence);
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+// Setting a trigger status from a lead's page. The server runs every check
+// before touching Smartlead, so a refusal here leaves the lead as it was.
+async function startSequenceFromStatus(name, sequence) {
+  const count = sequence.step_count;
+  if (!confirm(
+    `Start the "${sequence.name}" sequence?\n\n` +
+    `This sets their Smartlead status to "${name}" and sends ${count} follow-up email${count === 1 ? "" : "s"} ` +
+    `automatically, each in their morning. Any reply or booked meeting stops it.`
+  )) return;
+  const { cid, lid } = currentLeadIds();
+  const post = async (reEnroll) => {
+    const r = await fetch(`/api/leads/${cid}/${lid}/category`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category_name: name, re_enroll: reEnroll }),
+    });
+    const data = await r.json().catch(() => ({}));
+    return { ok: r.ok, data };
+  };
+  let result = await post(false);
+  if (!result.ok && result.data.can_re_enroll) {
+    if (!confirm(`${result.data.error}\n\nStart it again from email 1?`)) return;
+    result = await post(true);
+  }
+  if (!result.ok) {
+    alert(result.data.error || "Couldn't start the sequence.");
+    return;
+  }
+  const e = result.data.enrollment;
+  await loadSequenceTriggers();
+  await withRowRemoval(async () => {
+    if (e && e.next_send_at) {
+      alert(`Started. Email 1 goes out ${e.next_send_local} ${zoneLabel(e.lead_timezone)} time (${formatYourTime(e.next_send_at)} yours).`);
+    }
+  });
+}
+
 // ---------- rescan ----------
 let scanPoll = null;
 async function rescan() {
@@ -4687,6 +5702,7 @@ $("models-btn").addEventListener("click", () => { closeMobileMenu(); openModelsM
 $("followup-settings-btn").addEventListener("click", () => { closeMobileMenu(); openFollowupSettings(); });
 $("view-inbox-btn").addEventListener("click", () => setView("inbox"));
 $("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
+$("view-sequences-btn").addEventListener("click", () => setView("sequences"));
 $("view-stats-btn").addEventListener("click", () => setView("stats"));
 $("view-archive-btn").addEventListener("click", () => setView("archive"));
 $("view-campaigns-btn").addEventListener("click", () => setView("campaigns"));
@@ -4696,6 +5712,7 @@ loadInbox().catch((e) => {
   console.error(e);
 });
 loadCategories();
+loadSequenceTriggers();
 loadModels();
 loadGoogleStatus();
 

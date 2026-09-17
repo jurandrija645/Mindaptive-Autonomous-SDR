@@ -510,6 +510,28 @@ button:disabled { opacity: .55; cursor: default; }
 .contact-research-head .research-time { display: inline-flex; align-items: center; gap: 5px; }
 .btn-research-contact { padding: 4px 10px; font-size: 12px; }
 
+/* One-click reach-out icons (LinkedIn/Facebook/Instagram/WhatsApp/email/phone)
+   parsed out of contact research -- see CHANNEL_DEFS in app.js. */
+.channel-icons { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 10px; }
+.channel-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .1s ease, filter .1s ease;
+}
+.channel-icon:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.channel-icon-nolink { cursor: default; opacity: .75; }
+.channel-icon-nolink:hover { transform: none; filter: none; }
+
 .lead-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1357,7 +1379,7 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 .extra-block > summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); }
 
 /* The lead search box belongs to the inbox-style views only. */
-.search-row.hidden { display: none; }
+.search-row.hidden, .filter-row-secondary.hidden { display: none; }
 
 /* Account switcher at the top of the Campaigns list (only shown with >1 account). */
 .account-switch { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
@@ -1421,3 +1443,61 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   .health-summary, .domain-health-grid { grid-template-columns: 1fr; }
   .health-head { align-items: stretch; flex-direction: column; }
 }
+
+/* ---- subsequences ---- */
+.sequence-row.sequence-off { opacity: .6; }
+.seq-form { display: flex; flex-direction: column; gap: 12px; max-width: 520px; }
+.seq-field { display: flex; flex-direction: column; gap: 4px; }
+.seq-field-label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.seq-field input[type=text], .seq-field select { width: 100%; box-sizing: border-box; }
+.seq-inline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; }
+.seq-check { font-size: 13px; display: flex; align-items: center; gap: 6px; }
+.seq-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.seq-actions .btn-secondary, .seq-actions .btn-danger, .seq-actions .btn-send { padding: 6px 11px; font-size: 13px; }
+.seq-settings > summary { cursor: pointer; font-weight: 600; margin-bottom: 10px; }
+.seq-settings:not([open]) > summary { margin-bottom: 0; }
+
+.seq-enrollment-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+.seq-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.seq-dots { display: inline-flex; gap: 4px; }
+.seq-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+.seq-dot.done { background: var(--waiting); }
+.seq-dot.next { background: var(--card); box-shadow: inset 0 0 0 2px var(--waiting); }
+.seq-badge {
+  background: var(--waiting-bg); border: 1px solid var(--border); border-left: 3px solid var(--waiting);
+  border-radius: 8px; padding: 10px 12px; margin: 10px 0;
+}
+.seq-badge-title { font-weight: 600; }
+.seq-label { color: var(--waiting); font-weight: 600; }
+
+.seq-timeline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 16px 0; }
+.seq-tl-node { font-size: 12px; padding: 3px 9px; border-radius: 12px; background: var(--waiting-bg); color: var(--waiting); font-weight: 600; }
+.seq-tl-node.you { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+.seq-tl-node.end { background: var(--booked-bg); color: var(--booked); }
+.seq-tl-gap { font-size: 11px; color: var(--muted); }
+
+.seq-steps { display: flex; flex-direction: column; gap: 14px; margin-bottom: 14px; }
+.seq-step-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 10px; }
+.seq-step-head h3 { margin: 0; }
+.seq-step-head .template-actions { margin-left: auto; }
+.seq-delay { width: 60px; }
+.step-editor { min-height: 120px; }
+.seq-preview { margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 10px; }
+.seq-preview select { margin-bottom: 8px; }
+.seq-preview-mail { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; font-size: 14px; overflow-x: auto; }
+.seq-preview-mail img { max-width: 100%; height: auto; }
+.seq-preview-mail p { margin: 0 0 10px; }
+
+@media (max-width: 600px) {
+  .seq-step-head .template-actions { margin-left: 0; }
+  .seq-form { max-width: none; }
+}
+
+/* "From their website" contacts pushed by WebsiteGenerator (app/prospect_contacts.py) */
+.site-contacts { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 0 0 10px; font-size: 13px; }
+.site-contacts-title { font-weight: 600; margin-bottom: 6px; }
+.site-contacts-row { display: flex; gap: 8px; padding: 2px 0; align-items: baseline; }
+.site-contacts-label { flex: 0 0 88px; color: var(--muted, #7a746c); }
+.site-contacts-values { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; min-width: 0; overflow-wrap: anywhere; }
+.site-contacts-tag { font-size: 11px; padding: 0 6px; border-radius: 999px; background: #eee; color: #555; }
+.site-contacts-tag.confirmed { background: #25d366; color: #fff; }

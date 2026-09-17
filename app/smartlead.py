@@ -361,6 +361,23 @@ def get_lead(lead_id: int, api_key: str | None = None) -> dict:
     return data or {}
 
 
+def get_lead_by_email(email: str, api_key: str | None = None) -> dict:
+    """GET /leads/?email= — the one cheap call that carries a lead's CURRENT
+    category per campaign, which GET /leads/{id} does not.
+
+    Verified against the Mindaptive Jones test lead 2026-09-16: a bare lead
+    object (no `data` wrapper) whose `lead_campaign_data` list holds, per
+    campaign, `campaign_id`, `lead_category_id`, `last_sent_at`,
+    `last_reply_at` and `last_activity_at`. `{}` when no lead has that address.
+    Used by the subsequence pre-send check (app/sequences.py)."""
+    data = _request("GET", "/leads/", params={"email": email}, api_key=api_key)
+    if isinstance(data, dict) and isinstance(data.get("data"), (dict, list)):
+        data = data["data"]
+    if isinstance(data, list):
+        data = data[0] if data else {}
+    return data if isinstance(data, dict) else {}
+
+
 def get_campaign(campaign_id: int, api_key: str | None = None) -> dict:
     """GET /campaigns/{id} — campaign settings. The fields that matter here are
     `track_settings` (this account runs DONT_EMAIL_OPEN/DONT_LINK_CLICK, i.e.

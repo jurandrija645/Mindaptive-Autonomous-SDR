@@ -108,6 +108,17 @@ def get_signature_html(sender_email: str) -> str:
     return html
 
 
+def all_personas() -> list[dict]:
+    """Every persona's name and signature HTML, for previewing what a
+    subsequence email will look like under each of them."""
+    out = []
+    for name, file in PERSONA_FILES.items():
+        path = SIGNATURES_DIR / file
+        if path.exists():
+            out.append({"name": name, "signature_html": path.read_text(encoding="utf-8")})
+    return out
+
+
 def _resolve_file(sender_email: str) -> str | None:
     email = (sender_email or "").lower()
     if not email:

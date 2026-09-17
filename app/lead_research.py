@@ -3,7 +3,10 @@ lead" button in the About-this-lead panel (app/static/app.js:
 renderResearchPanel). Andrew's ask: not just "what does this company do" (the
 website-diagnostic <lead_research> block drafter.py already captures during
 drafting, see leads_state.research_summary) but "who do I actually email or
-call there" — a named person, their direct email/phone, their LinkedIn.
+call there" — a named person, their direct email/phone, their LinkedIn — and,
+per his 2026-09-17 follow-up, every other channel that person can actually be
+reached on (Facebook, Instagram, a WhatsApp number) surfaced as one-click
+icons rather than something he has to read prose to find.
 
 Deliberately a separate column (leads_state.contact_research) rather than
 overwriting research_summary: that one is a drafting aid the model keeps
@@ -17,7 +20,9 @@ shape, small and fail-soft) and app/candidates.py's background-generation
 pattern (a synchronous "do the work" function plus an in-memory
 running/last-error tracker, since a multi-tool-call research pass can take
 long enough to hit Cloudflare's ~100s tunnel timeout if awaited inline)."""
+import json
 import logging
+import re
 import threading
 
 import anthropic
@@ -37,18 +42,24 @@ Use the web_search and web_fetch tools to find:
 writing on the email thread if one is given; if the thread only shows a \
 generic address (info@, contact@, sales@), find a named owner, founder, \
 marketing lead or ops lead at the company instead.
-- Direct contact info for that person, if it's publicly findable: their \
-personal LinkedIn profile URL, a direct/personal email if different from the \
-one on file, and a phone number (personal or the company's main line) if it \
-appears anywhere public — the company site, LinkedIn, a press mention.
-- Any other public contact point worth having: company phone number, \
-physical address, other social profiles.
+- Every channel that person can actually be reached on, checked one by one: \
+their personal LinkedIn profile URL, a personal Facebook profile URL, a \
+personal Instagram profile URL, a WhatsApp number (many people list a phone \
+number specifically as "WhatsApp" on a bio or contact page — call that one \
+out, it's the single most useful thing you can find), a direct/personal \
+email if different from the one on file, and a phone number (personal or \
+the company's main line) if it appears anywhere public — the company site, \
+LinkedIn, a press mention.
+- Any other public contact point worth having beyond those: a company phone \
+number, physical address, or another social profile not covered above.
 
-Never invent anything. If something can't be found, say so plainly rather \
-than guessing — a wrong phone number is worse than none.
+Never invent anything. If a specific channel can't be found, write exactly \
+"Not found" for it rather than guessing or leaving it blank — a wrong phone \
+number is worse than none.
 
 Reply in exactly this structure, plain text, no preamble and no markdown \
-headers other than these three labels:
+headers other than these three labels. Every line under CONTACT must be \
+present, in this order, even when the value is "Not found":
 
 COMPANY:
 (2-4 bullet points)
@@ -57,12 +68,50 @@ CONTACT:
 - Name:
 - Title:
 - LinkedIn:
+- Facebook:
+- Instagram:
+- WhatsApp:
 - Direct email:
 - Phone:
 
 OTHER:
-(other contact points or notes, or "None found")
+(other contact points or notes not already covered above, or "None found")
 """
+
+# Field label (as it appears after "- " in the CONTACT block, case-insensitive)
+# -> key in the parsed channels dict handed to the dashboard.
+_CHANNEL_FIELDS = {
+    "linkedin": "linkedin",
+    "facebook": "facebook",
+    "instagram": "instagram",
+    "whatsapp": "whatsapp",
+    "direct email": "email",
+    "phone": "phone",
+}
+_ABSENT = {"", "not found", "none", "none found", "n/a", "na", "-", "unknown"}
+_CONTACT_LINE_RE = re.compile(r"^-\s*([A-Za-z ]+?)\s*:\s*(.*)$")
+
+
+def parse_channels(research_text: str) -> dict:
+    """Pulls the CONTACT block's structured lines out of the model's plain-text
+    reply into {"linkedin": "...", "whatsapp": "...", ...}, dropping anything
+    marked (or left) as not found. Deliberately tolerant of the model wrapping
+    the value in a stray markdown link or trailing punctuation, since it's
+    plain text a language model wrote, not a machine format it filled in."""
+    channels: dict[str, str] = {}
+    for raw_line in (research_text or "").splitlines():
+        m = _CONTACT_LINE_RE.match(raw_line.strip())
+        if not m:
+            continue
+        label, value = m.group(1).strip().lower(), m.group(2).strip()
+        key = _CHANNEL_FIELDS.get(label)
+        if not key:
+            continue
+        value = value.strip("*_ \t")
+        if value.lower() in _ABSENT:
+            continue
+        channels[key] = value
+    return channels
 
 # Same tool budget as drafter.generate_draft's Website Diagnostic research —
 # this is the same kind of multi-page lookup (company site, LinkedIn, a press
@@ -185,10 +234,13 @@ def research_contact_in_background(campaign_id: int, lead_id: int) -> bool:
                 )
 
             summary = research_contact(lead, thread_text)
+            channels = parse_channels(summary)
             with db.db_session() as conn:
                 db.upsert_lead_state(
                     conn, lead_id, campaign_id,
-                    contact_research=summary, contact_researched_at=db.now_iso(),
+                    contact_research=summary,
+                    contact_researched_at=db.now_iso(),
+                    contact_channels=json.dumps(channels) if channels else None,
                 )
             log.info("contact research stored for lead %s/%s", campaign_id, lead_id)
         except Exception as exc:

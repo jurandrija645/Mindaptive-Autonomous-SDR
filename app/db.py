@@ -71,6 +71,11 @@ CREATE TABLE IF NOT EXISTS leads_state (
     -- research.
     contact_research TEXT,
     contact_researched_at TEXT,
+    -- JSON dict of the same lookup's structured channels (linkedin, facebook,
+    -- instagram, whatsapp, email, phone -> url/number or absent), parsed out
+    -- of contact_research so the dashboard can render one-click icons instead
+    -- of making Andrew read prose to find a WhatsApp number.
+    contact_channels TEXT,
     PRIMARY KEY (lead_id, campaign_id)
 );
 
@@ -468,6 +473,70 @@ CREATE TABLE IF NOT EXISTS app_settings (
     value      TEXT,
     updated_at TEXT NOT NULL
 );
+
+-- Subsequences (app/sequences.py, docs/subsequences-plan.md): fixed follow-up
+-- steps Andrew writes himself, started by moving a lead into a Smartlead
+-- category (`trigger_category`) and sent as threaded replies carrying the
+-- persona's HTML signature. Built here rather than in Smartlead because a
+-- Smartlead signature belongs to the mailbox, so it would also land on every
+-- cold first touch.
+CREATE TABLE IF NOT EXISTS sequences (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    name             TEXT NOT NULL,
+    trigger_category TEXT NOT NULL,
+    active           INTEGER NOT NULL DEFAULT 1,
+    window_start     TEXT NOT NULL DEFAULT '07:00',  -- lead-local; US leads use sequences.US_SEND_WINDOW
+    window_end       TEXT NOT NULL DEFAULT '09:00',
+    weekdays_only    INTEGER NOT NULL DEFAULT 1,
+    timezone_mode    TEXT NOT NULL DEFAULT 'auto',   -- 'auto' or an IANA zone
+    finish_category  TEXT DEFAULT 'Sequence finished',
+    created_at       TEXT NOT NULL,
+    updated_at       TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sequence_steps (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    sequence_id INTEGER NOT NULL,
+    position    INTEGER NOT NULL,          -- 1..N
+    delay_days  INTEGER NOT NULL,          -- days after the previous email (step 1: after Andrew's own)
+    body_html   TEXT NOT NULL,             -- body only; the signature is appended at send time
+    attachments TEXT,                      -- JSON, same shape as drafts.attachments
+    created_at  TEXT NOT NULL,
+    updated_at  TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_sequence_steps ON sequence_steps (sequence_id, position);
+
+-- One row per lead per sequence. The UNIQUE key is what stops a lead who
+-- replied from being silently re-enrolled: re-entry is an explicit action.
+-- Only the NEXT step exists as a drafts row (draft_id), status 'scheduled', so
+-- every existing "a reply/booking stales open drafts" path protects it too.
+CREATE TABLE IF NOT EXISTS sequence_enrollments (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    sequence_id         INTEGER NOT NULL,
+    lead_id             INTEGER NOT NULL,
+    campaign_id         INTEGER NOT NULL,
+    state               TEXT NOT NULL,   -- active|paused|completed|stopped|error
+    steps_sent          INTEGER NOT NULL DEFAULT 0,
+    anchor_at           TEXT NOT NULL,   -- UTC; the outbound email the next delay counts from
+    next_send_at        TEXT,
+    draft_id            INTEGER,
+    stop_reason         TEXT,            -- replied|auto_reply|booked|status_changed|dnc|mailbox_dead|manual|manual_pause|send_failed
+    last_error          TEXT,
+    send_failures       INTEGER NOT NULL DEFAULT 0,
+    -- A Smartlead category still to be written (Interested after a reply,
+    -- finish_category after the last step, the trigger again on resume).
+    -- Written by sequences.run_housekeeping, outside any send or webhook, and
+    -- retried until it lands.
+    pending_category    TEXT,
+    suggested_resume_at TEXT,            -- out-of-office return date read from the autoresponder
+    resume_checked      INTEGER NOT NULL DEFAULT 0,
+    last_sent_at        TEXT,
+    enrolled_at         TEXT NOT NULL,
+    stopped_at          TEXT,
+    completed_at        TEXT,
+    UNIQUE (sequence_id, lead_id, campaign_id)
+);
+CREATE INDEX IF NOT EXISTS idx_enrollments_lead ON sequence_enrollments (lead_id, campaign_id, state);
 """
 
 
@@ -520,6 +589,8 @@ def init_db() -> None:
         ).fetchone() is None
         conn.executescript(SCHEMA)
         _migrate(conn)
+        from app import prospect_contacts  # imports db; deferred to avoid a cycle
+        prospect_contacts.ensure_table(conn)
         if needs_template_seed:
             _seed_message_templates(conn)
 
@@ -544,6 +615,10 @@ def _migrate(conn) -> None:
         conn.execute("ALTER TABLE drafts ADD COLUMN attachments TEXT")
     if "send_error" not in draft_cols:
         conn.execute("ALTER TABLE drafts ADD COLUMN send_error TEXT")
+    # Subsequence drafts (kind='sequence'): which enrollment and step they are.
+    for name in ("enrollment_id", "step_position", "sequence_step_id"):
+        if name not in draft_cols:
+            conn.execute(f"ALTER TABLE drafts ADD COLUMN {name} INTEGER")
 
     lead_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads_state)")}
     inbox_columns = {
@@ -585,6 +660,7 @@ def _migrate(conn) -> None:
         # comment above.
         "contact_research": "TEXT",
         "contact_researched_at": "TEXT",
+        "contact_channels": "TEXT",
     }
     for name, decl in inbox_columns.items():
         if name not in lead_cols:
@@ -817,6 +893,7 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
     A snooze is always cleared while the lead is booked. Unlike an archive it
     says "not now" rather than "put this away", and a booking answers that; it
     also carries no timestamp of its own to age against."""
+    stop_sequence_enrollments(conn, lead_id, campaign_id, "booked")
     conn.execute(
         """UPDATE drafts SET status = 'stale'
            WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending', 'scheduled')""",
@@ -845,10 +922,142 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
     )
 
 
+# ---- subsequence stop hooks ----
+#
+# These live here, and are called from inside mark_lead_booked /
+# mark_lead_replied / mark_lead_do_not_contact rather than from each caller, so
+# that every path which records a reply or a booking — the webhooks, the
+# one-minute poll, the reply-catch pass, the daily scan, a dashboard click, and
+# any path added later — stops a running subsequence without anyone having to
+# remember to. app/sequences.py holds everything else about sequences.
+
+OPEN_ENROLLMENT_STATES = ("active", "error", "paused")
+
+
+def _parse_utc(raw) -> datetime | None:
+    if not raw:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed
+
+
+def _reply_is_newer(enrollment, event_at) -> bool:
+    """Does an inbound message at `event_at` postdate what this enrollment
+    already knows about? A running sequence counts from its anchor (our last
+    email); a paused one from the moment it paused, which is after the
+    out-of-office that paused it. Without this, the reply-catch pass re-marking
+    an old reply every tick would kill a sequence that started after it."""
+    event = _parse_utc(event_at)
+    if event is None:
+        return True
+    cutoff = enrollment["anchor_at"]
+    if enrollment["state"] == "paused" and enrollment["stopped_at"]:
+        cutoff = max(enrollment["stopped_at"], enrollment["anchor_at"], key=lambda v: _parse_utc(v))
+    cutoff_dt = _parse_utc(cutoff)
+    return cutoff_dt is None or event > cutoff_dt
+
+
+def enrollment_reply_is_new(conn, lead_id: int, campaign_id: int, event_at) -> bool:
+    """True when this lead has an open enrollment that a reply at `event_at`
+    would stop. Lets a cheap poll decide whether a reply it saw is news."""
+    rows = conn.execute(
+        f"""SELECT * FROM sequence_enrollments
+            WHERE lead_id = ? AND campaign_id = ?
+              AND state IN ({','.join('?' for _ in OPEN_ENROLLMENT_STATES)})""",
+        (lead_id, campaign_id, *OPEN_ENROLLMENT_STATES),
+    ).fetchall()
+    return any(_reply_is_newer(row, event_at) for row in rows)
+
+
+def stop_sequence_enrollments(
+    conn,
+    lead_id: int,
+    campaign_id: int,
+    reason: str,
+    *,
+    event_at=None,
+    push_interested: bool = False,
+    states: tuple[str, ...] = OPEN_ENROLLMENT_STATES,
+) -> int:
+    """Stop every open subsequence for this lead and stale its queued step.
+
+    `event_at` is the time of the inbound message causing the stop, when there
+    is one; see _reply_is_newer. `push_interested` queues the Smartlead
+    category move back to Interested (sequences.run_housekeeping writes it a
+    few minutes later, which is what gives the classifier time to say the
+    reply was only an out-of-office). Returns how many were stopped."""
+    rows = conn.execute(
+        f"""SELECT * FROM sequence_enrollments
+            WHERE lead_id = ? AND campaign_id = ?
+              AND state IN ({','.join('?' for _ in states)})""",
+        (lead_id, campaign_id, *states),
+    ).fetchall()
+    stopped = 0
+    for row in rows:
+        if event_at is not None and not _reply_is_newer(row, event_at):
+            continue
+        conn.execute(
+            """UPDATE sequence_enrollments
+               SET state = 'stopped', stop_reason = ?, stopped_at = ?,
+                   next_send_at = NULL, draft_id = NULL, pending_category = ?
+               WHERE id = ?""",
+            (
+                reason,
+                now_iso(),
+                settings.interested_category_name if push_interested else None,
+                row["id"],
+            ),
+        )
+        conn.execute(
+            """UPDATE drafts SET status = 'stale'
+               WHERE enrollment_id = ? AND status IN ('pending', 'scheduled')""",
+            (row["id"],),
+        )
+        stopped += 1
+    return stopped
+
+
+def pause_sequence_for_auto_reply(conn, lead_id: int, campaign_id: int) -> int:
+    """The reply that just stopped a sequence was an autoresponder: keep it
+    resumable instead of finished, and cancel the queued move to Interested
+    (resuming puts the trigger category back).
+
+    Accepts `status_changed` as well as `replied` because Smartlead's own AI
+    often recategorises an out-of-office before our classifier has run, and
+    whichever signal lands first decides the stop reason."""
+    cutoff = datetime.now(timezone.utc).timestamp() - 24 * 3600
+    rows = conn.execute(
+        """SELECT id, stopped_at FROM sequence_enrollments
+           WHERE lead_id = ? AND campaign_id = ? AND state = 'stopped'
+             AND stop_reason IN ('replied', 'status_changed')""",
+        (lead_id, campaign_id),
+    ).fetchall()
+    paused = 0
+    for row in rows:
+        stopped_at = _parse_utc(row["stopped_at"])
+        if stopped_at is None or stopped_at.timestamp() < cutoff:
+            continue
+        conn.execute(
+            """UPDATE sequence_enrollments
+               SET state = 'paused', stop_reason = 'auto_reply',
+                   pending_category = NULL, resume_checked = 0
+               WHERE id = ?""",
+            (row["id"],),
+        )
+        paused += 1
+    return paused
+
+
 def mark_lead_do_not_contact(
     conn, lead_id: int, campaign_id: int, message_id: str | None = None
 ) -> None:
     """Freeze locally before remote suppression calls are attempted."""
+    stop_sequence_enrollments(conn, lead_id, campaign_id, "dnc")
     conn.execute(
         """UPDATE drafts SET status = 'stale'
            WHERE lead_id = ? AND campaign_id = ?
@@ -910,6 +1119,14 @@ def mark_lead_replied(
     the meeting must not quietly un-book them. Their row still gets the new
     preview and timestamp."""
     existing = get_lead_state(conn, lead_id, campaign_id)
+
+    # A reply ends a running subsequence — Andrew is talking to them by hand
+    # now. Only a reply newer than the sequence's own anchor counts, since the
+    # reply-catch pass re-marks the same old reply every tick.
+    stop_sequence_enrollments(
+        conn, lead_id, campaign_id, "replied",
+        event_at=received_at, push_interested=True,
+    )
 
     fields: dict = dict(extra)
     fields.update(interested=1, last_message_kind="reply", last_message_at=received_at)
@@ -993,6 +1210,8 @@ def sort_replied_lead(
         fields["category_message_id"] = message_id
     if smartlead_category is not None:
         fields["smartlead_category"] = smartlead_category
+    if label == "auto_reply":
+        pause_sequence_for_auto_reply(conn, lead_id, campaign_id)
     if label == "auto_reply":
         upsert_lead_state(conn, lead_id, campaign_id, category="auto_reply", **fields)
     elif label == "not_interested":

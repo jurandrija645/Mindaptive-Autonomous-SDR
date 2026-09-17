@@ -24,8 +24,8 @@ from app import (
 )
 from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
-from app import events, pipeline, scheduler, signatures, smartlead
-from app import translator, uploads, webhook
+from app import events, pipeline, scheduler, sequences, signatures, smartlead
+from app import prospect_contacts, translator, uploads, webhook
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
@@ -49,6 +49,7 @@ log = logging.getLogger("main")
 app = FastAPI(title="Mindaptive Responder")
 install_session_middleware(app)
 app.include_router(webhook.router)
+app.include_router(prospect_contacts.router)
 
 
 @app.middleware("http")
@@ -202,6 +203,21 @@ def _fmt_time(ts) -> str:
     if dt is None:
         return ts if isinstance(ts, str) else ""
     return dt.strftime("%b %d, %Y · %H:%M")
+
+
+def _contact_channels_payload(lead) -> dict:
+    """Parses leads_state.contact_channels (JSON written by
+    lead_research.research_contact_in_background) back into a dict for the
+    dashboard's one-click icon row. Fail-soft: a garbled or pre-migration NULL
+    column should hide the icon row, never break the lead detail endpoint."""
+    raw = lead["contact_channels"] if lead else None
+    if not raw:
+        return {}
+    try:
+        parsed = json.loads(raw)
+    except (TypeError, ValueError):
+        return {}
+    return parsed if isinstance(parsed, dict) else {}
 
 
 def _fmt_time_with_lead_tz(ts, tz_guess: str | None) -> str:
@@ -549,6 +565,8 @@ def _draft_payload(draft) -> dict | None:
         "send_error": draft["send_error"],
         "scheduled_at": _fmt_time(draft["scheduled_at"]) if draft["scheduled_at"] else None,
         "attachments": scheduler.draft_attachments(draft),
+        # "55 min: email 1 of 4" on a subsequence step; the card says it sends itself.
+        "sequence_label": draft["triage_summary"] if draft["kind"] == "sequence" else None,
     }
 
 
@@ -568,6 +586,8 @@ def _scheduled_payload() -> list[dict]:
                 "campaign_name": d["campaign_name"] or "",
                 "preview": to_plain_text(d["body_html"])[:200],
                 "scheduled_at": _fmt_time(d["scheduled_at"]),
+                # "55 min: email 2 of 4" for a subsequence step, else empty.
+                "sequence_label": d["triage_summary"] if d["kind"] == "sequence" else "",
             }
         )
     return out
@@ -616,6 +636,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
     with db.db_session() as conn:
         lead = db.get_lead_state(conn, lead_id, campaign_id)
         draft = db.get_open_draft(conn, lead_id, campaign_id)
+        site_contacts_row = prospect_contacts.for_lead(conn, lead)
     lead_name = (lead["name"] if lead else None) or "Lead"
     raw = _load_thread_raw(campaign_id, lead_id)
     draft_payload = _draft_payload(draft)
@@ -625,6 +646,10 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
     if draft_payload and draft_payload["kind"] == "followup":
         tz_guess = (lead["timezone_guess"] if lead else None) or ""
         draft_payload["suggested_schedule_at"] = next_morning_send_utc(tz_guess).isoformat()
+    elif draft_payload and draft_payload["kind"] == "sequence" and draft["scheduled_at"]:
+        # The picker shows the time the sequence already chose, so saving an
+        # edit with Schedule doesn't quietly move the send.
+        draft_payload["suggested_schedule_at"] = draft["scheduled_at"]
     if draft_payload:
         draft_payload["recipients"] = _recipients_payload(
             raw, (lead["email"] if lead else "") or "", draft
@@ -658,6 +683,12 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             "researched_at": _fmt_time(lead["researched_at"]) if lead and lead["researched_at"] else None,
             "contact_research": (lead["contact_research"] if lead else None) or None,
             "contact_researched_at": _fmt_time(lead["contact_researched_at"]) if lead and lead["contact_researched_at"] else None,
+            "contact_channels": prospect_contacts.merge_icon_channels(
+                _contact_channels_payload(lead), site_contacts_row
+            ),
+            # Everything WebsiteGenerator scraped off their own site (every
+            # email, phone, WhatsApp, social), plus the demo site we built.
+            "site_contacts": prospect_contacts.payload(site_contacts_row),
             "email_display_name": (lead["email_display_name"] if lead else None) or None,
             # Template placeholder values, resolved server-side so the modal's
             # preview and the message that actually goes out are the same
@@ -674,7 +705,13 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         "generation_error": candidates_module.last_error(campaign_id, lead_id),
         "researching_contact": lead_research.is_researching(campaign_id, lead_id),
         "contact_research_error": lead_research.last_error(campaign_id, lead_id),
+        "sequence": _lead_sequence_payload(campaign_id, lead_id),
     }
+
+
+def _lead_sequence_payload(campaign_id: int, lead_id: int) -> dict | None:
+    with db.db_session() as conn:
+        return sequences.lead_enrollment_payload(conn, lead_id, campaign_id)
 
 
 @app.get("/api/leads/{campaign_id}/{lead_id}")
@@ -943,6 +980,214 @@ async def api_template_move(request: Request, template_id: int):
             ids[i], ids[j] = ids[j], ids[i]
             db.reorder_message_templates(conn, ids)
     return JSONResponse(_templates_payload())
+
+
+# ---- subsequences (app/sequences.py) ----
+
+def _sequence_error(exc: Exception) -> JSONResponse:
+    return JSONResponse({"error": str(exc)}, status_code=400)
+
+
+def _sequence_detail(sequence_id: int) -> JSONResponse:
+    with db.db_session() as conn:
+        sequence = sequences.get_sequence(conn, sequence_id)
+        if sequence is None:
+            return JSONResponse({"error": "Sequence not found."}, status_code=404)
+        return JSONResponse({"sequence": sequences.sequence_payload(conn, sequence)})
+
+
+def _step_body(body: dict) -> dict:
+    """Step fields from a request; attachments arrive as library slugs and are
+    resolved server-side exactly like a draft's (_attachment_updates)."""
+    fields = {k: body[k] for k in ("delay_days", "body_html") if k in body}
+    fields.update(_attachment_updates(body))
+    return fields
+
+
+@app.get("/api/sequences")
+def api_sequences(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        return JSONResponse({"sequences": sequences.list_sequences_payload(conn)})
+
+
+@app.post("/api/sequences")
+async def api_sequence_create(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    try:
+        with db.db_session() as conn:
+            sequence_id = sequences.create_sequence(conn, body)
+    except sequences.SequenceError as exc:
+        return _sequence_error(exc)
+    return _sequence_detail(sequence_id)
+
+
+@app.get("/api/sequences/signatures")
+def api_sequence_signatures(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse({"personas": signatures.all_personas()})
+
+
+@app.get("/api/sequences/{sequence_id}")
+def api_sequence(request: Request, sequence_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return _sequence_detail(sequence_id)
+
+
+@app.patch("/api/sequences/{sequence_id}")
+async def api_sequence_update(request: Request, sequence_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    try:
+        with db.db_session() as conn:
+            sequences.update_sequence(conn, sequence_id, body)
+    except sequences.SequenceError as exc:
+        return _sequence_error(exc)
+    return _sequence_detail(sequence_id)
+
+
+@app.delete("/api/sequences/{sequence_id}")
+def api_sequence_delete(request: Request, sequence_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    try:
+        with db.db_session() as conn:
+            sequences.delete_sequence(conn, sequence_id)
+    except sequences.SequenceError as exc:
+        return _sequence_error(exc)
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/sequences/{sequence_id}/steps")
+async def api_sequence_step_create(request: Request, sequence_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    try:
+        with db.db_session() as conn:
+            sequences.add_step(conn, sequence_id, _step_body(body))
+    except sequences.SequenceError as exc:
+        return _sequence_error(exc)
+    return _sequence_detail(sequence_id)
+
+
+@app.patch("/api/sequences/{sequence_id}/steps/{step_id}")
+async def api_sequence_step_update(request: Request, sequence_id: int, step_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    try:
+        with db.db_session() as conn:
+            sequences.update_step(conn, sequence_id, step_id, _step_body(body))
+    except sequences.SequenceError as exc:
+        return _sequence_error(exc)
+    return _sequence_detail(sequence_id)
+
+
+@app.delete("/api/sequences/{sequence_id}/steps/{step_id}")
+def api_sequence_step_delete(request: Request, sequence_id: int, step_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        sequences.delete_step(conn, sequence_id, step_id)
+    return _sequence_detail(sequence_id)
+
+
+@app.post("/api/sequences/{sequence_id}/steps/{step_id}/move")
+async def api_sequence_step_move(request: Request, sequence_id: int, step_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    direction = body.get("direction")
+    if direction not in ("up", "down"):
+        return JSONResponse({"error": "direction must be 'up' or 'down'."}, status_code=400)
+    try:
+        with db.db_session() as conn:
+            sequences.move_step(conn, sequence_id, step_id, 1 if direction == "down" else -1)
+    except sequences.SequenceError as exc:
+        return _sequence_error(exc)
+    return _sequence_detail(sequence_id)
+
+
+@app.get("/api/sequences/{sequence_id}/enrollments")
+def api_sequence_enrollments(request: Request, sequence_id: int, state: str | None = None):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        return JSONResponse({"enrollments": sequences.enrollments_payload(conn, sequence_id, state)})
+
+
+@app.post("/api/enrollments/{enrollment_id}/{action}")
+async def api_enrollment_action(request: Request, enrollment_id: int, action: str):
+    """pause | resume | skip | send-now | remove | re-enroll. Resume takes
+    `resume_on` (YYYY-MM-DD, lead-local) or `in_days`; neither means now."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    with db.db_session() as conn:
+        enrollment = sequences.get_enrollment(conn, enrollment_id)
+    if enrollment is None:
+        return JSONResponse({"error": "Enrollment not found."}, status_code=404)
+    thread = None
+    if action in ("resume", "re-enroll"):
+        try:
+            thread = await run_in_threadpool(
+                pipeline.fetch_normalized_thread, enrollment["campaign_id"], enrollment["lead_id"]
+            )
+        except Exception as exc:
+            return JSONResponse({"error": f"Couldn't load the thread from Smartlead: {exc}"}, status_code=502)
+    try:
+        with db.db_session() as conn:
+            if action == "pause":
+                sequences.pause(conn, enrollment_id)
+            elif action == "resume":
+                resume_on = None
+                if body.get("resume_on"):
+                    try:
+                        resume_on = datetime.strptime(str(body["resume_on"]), "%Y-%m-%d").date()
+                    except ValueError:
+                        raise sequences.SequenceError("Pick a date like 2026-09-29.")
+                in_days = body.get("in_days")
+                in_days = int(in_days) if in_days not in (None, "") else None
+                sequences.resume(conn, enrollment_id, thread, resume_on=resume_on, in_days=in_days)
+            elif action == "skip":
+                sequences.skip_step(conn, enrollment_id)
+            elif action == "send-now":
+                sequences.send_now(conn, enrollment_id)
+            elif action == "remove":
+                sequences.remove(conn, enrollment_id)
+            elif action == "re-enroll":
+                sequence = sequences.get_sequence(conn, enrollment["sequence_id"])
+                row = sequences.enroll(
+                    conn, sequence, enrollment["lead_id"], enrollment["campaign_id"],
+                    thread, re_enroll=True,
+                )
+                enrollment_id = row["id"]
+            else:
+                return JSONResponse({"error": f"Unknown action '{action}'."}, status_code=400)
+    except (sequences.SequenceError, ValueError) as exc:
+        return _sequence_error(exc)
+    with db.db_session() as conn:
+        row = sequences.get_enrollment(conn, enrollment_id)
+        return JSONResponse({"enrollment": sequences.enrollment_payload(conn, row) if row else None})
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/name")
@@ -1303,6 +1548,37 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
     )
     pause = category_name in PAUSE_CATEGORIES
 
+    # A category bound to a subsequence starts it. Every check runs BEFORE the
+    # Smartlead write, so a refusal ("they wrote last", "already been through
+    # it") leaves the lead exactly as it was.
+    with db.db_session() as conn:
+        sequence = sequences.sequence_for_category(conn, category_name)
+    thread = None
+    re_enroll = bool(body.get("re_enroll"))
+    if sequence is not None:
+        try:
+            thread = await run_in_threadpool(
+                pipeline.fetch_normalized_thread, campaign_id, lead_id
+            )
+        except Exception as exc:
+            return JSONResponse(
+                {"error": f"Couldn't load the thread from Smartlead: {exc}"}, status_code=502
+            )
+        with db.db_session() as conn:
+            try:
+                sequences.check_enrollable(
+                    conn, sequence, lead_id, campaign_id, thread, re_enroll=re_enroll
+                )
+            except sequences.SequenceError as exc:
+                return JSONResponse(
+                    {
+                        "error": str(exc),
+                        "can_re_enroll": "Re-enroll" in str(exc),
+                        "sequence_name": sequence["name"],
+                    },
+                    status_code=409,
+                )
+
     if settings.dry_run:
         log.info(
             "[DRY_RUN] would set lead %s/%s Smartlead category to %r (pause_lead=%s)",
@@ -1321,7 +1597,12 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
         except smartlead.SmartleadError as e:
             return JSONResponse({"error": str(e)}, status_code=502)
 
+    enrollment = None
     with db.db_session() as conn:
+        if sequence is None and not booking:
+            # Moving a lead to any other status by hand ends its sequence.
+            # (A booking ends it inside mark_lead_booked.)
+            db.stop_sequence_enrollments(conn, lead_id, campaign_id, "status_changed")
         if restoring:
             db.upsert_lead_state(
                 conn, lead_id, campaign_id,
@@ -1344,7 +1625,12 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
                 category=scheduler._local_category_slug(category_name),
                 smartlead_category=category_name, status="active",
             )
-    return JSONResponse({"ok": True})
+            if sequence is not None:
+                row = sequences.enroll(
+                    conn, sequence, lead_id, campaign_id, thread, re_enroll=re_enroll
+                )
+                enrollment = sequences.enrollment_payload(conn, row, sequence)
+    return JSONResponse({"ok": True, "enrollment": enrollment})
 
 
 @app.post("/api/leads/{campaign_id}/{lead_id}/archive")
@@ -1683,6 +1969,13 @@ def api_skip(request: Request, draft_id: int):
         draft = db.get_draft(conn, draft_id)
         if draft is None:
             return JSONResponse({"error": "Draft not found."}, status_code=404)
+        if draft["kind"] == "sequence" and draft["enrollment_id"]:
+            enrollment = sequences.get_enrollment(conn, draft["enrollment_id"])
+            if enrollment is not None and enrollment["state"] == "active" and enrollment["draft_id"] == draft_id:
+                # Cancelling a sequence email skips that email and queues the
+                # next, rather than leaving the sequence running with nothing queued.
+                sequences.skip_step(conn, enrollment["id"])
+                return JSONResponse({"ok": True})
         db.update_draft(conn, draft_id, status="skipped")
     return JSONResponse({"ok": True})
 
@@ -1698,6 +1991,7 @@ def api_stop(request: Request, draft_id: int):
             return JSONResponse({"error": "Draft not found."}, status_code=404)
         db.update_draft(conn, draft_id, status="skipped")
         db.upsert_lead_state(conn, draft["lead_id"], draft["campaign_id"], status="stopped")
+        db.stop_sequence_enrollments(conn, draft["lead_id"], draft["campaign_id"], "manual")
     return JSONResponse({"ok": True})
 
 

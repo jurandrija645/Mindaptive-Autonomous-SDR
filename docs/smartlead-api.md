@@ -305,6 +305,18 @@ plain text. Always check `isinstance(data, list)` *before* falling back to
 | Leads + variables (CSV) | `GET /campaigns/{id}/leads-export` | `campaigns/export-leads` |
 | Bulk threads | `POST /campaigns/{id}/message-history-for-leads/…` | `campaigns/get-leads-history-bulk` |
 
+## One lead's live category: `GET /leads/?email=`
+
+Verified against the Mindaptive Jones test lead 2026-09-16. `GET /leads/{id}`
+carries **no** category, but lookup by email does: the body is a bare lead object
+(no `data` wrapper) whose `lead_campaign_data` list holds, per campaign,
+`campaign_id`, `lead_category_id`, `campaign_lead_map_id`, `last_sent_at`,
+`last_reply_at` and `last_activity_at`. `{}` when no lead has the address. The
+documented example omits the three timestamps. Used by the subsequence pre-send
+check (`smartlead.get_lead_by_email`, `app/sequences.py: presend_check`), because
+it is the only single call that answers "is this lead still in that status, and
+have they replied?" without paginating a whole campaign.
+
 ## Available but unused (worth knowing)
 
 - **A whole Inbox API** (`/api-reference/inbox/*`): `get-messages`, `reply`,
