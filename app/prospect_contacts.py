@@ -198,7 +198,8 @@ def merge_icon_channels(researched: dict, row) -> dict:
     return merged
 
 
-def _authorized(request: Request) -> bool:
+def authorized(request: Request) -> bool:
+    """Shared with site_visits: both pushes come from the same script."""
     token = settings.contact_ingest_token
     if not token:
         return False
@@ -213,7 +214,7 @@ async def api_save_prospect_contacts(request: Request):
     dashboard session: it's a script on Andrew's machine, not a browser."""
     if not settings.contact_ingest_token:
         return JSONResponse({"error": "CONTACT_INGEST_TOKEN is not set on this server"}, status_code=503)
-    if not _authorized(request):
+    if not authorized(request):
         return JSONResponse({"error": "unauthorized"}, status_code=401)
     try:
         body = await request.json()

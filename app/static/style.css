@@ -40,7 +40,8 @@
   --cold: #7f8b96;
   --cold-bg: #eceef1;
 
-  --header-h: 56px;
+  --bar-h: 56px;      /* header row one */
+  --header-h: 100px;  /* both header rows; .layout / .crm-page size off this */
 }
 
 * { box-sizing: border-box; }
@@ -64,19 +65,75 @@ body {
   line-height: 1.5;
 }
 
-/* ---- header ---- */
+/* ---- header ----
+   Row one (.header-bar) is the workspace and the app-wide tools; row two
+   (.subnav) is the sections of whichever workspace is open. --header-h covers
+   both, since .layout and .crm-page size themselves off it. */
 header {
+  display: flex;
+  flex-direction: column;
+  height: var(--header-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.header-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: var(--header-h);
+  height: var(--bar-h);
   padding: 0 16px;
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
 }
 header h1 { font-size: 17px; margin: 0; }
 .header-right { display: flex; align-items: center; gap: 10px; }
 .header-right form { margin: 0; }
+
+.subnav {
+  display: flex;
+  align-items: center;
+  height: calc(var(--header-h) - var(--bar-h));
+  padding: 0 16px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.subnav-group {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-right: 4px;
+}
+.subnav-sep { width: 1px; height: 18px; background: var(--border); margin: 0 10px; }
+
+/* Settings dropdown: one button on desktop, a flat list inside the phone menu. */
+.more-menu { position: relative; }
+.more-list {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 60;
+  min-width: 190px;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(42, 38, 34, .14);
+}
+.more-menu.open .more-list { display: block; }
+.more-list form { margin: 0; }
+.more-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 9px 10px;
+  font-size: 14px;
+  color: var(--text);
+  border-radius: 7px;
+}
+.more-item:hover { background: var(--bg); }
 .mobile-menu-btn,
 .mobile-menu-head,
 .mobile-menu-backdrop { display: none; }
@@ -102,10 +159,19 @@ header h1 { font-size: 17px; margin: 0; }
   vertical-align: middle;
 }
 
-.view-switch { display: flex; gap: 2px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 2px; }
-.view-tab { background: transparent; border: none; color: var(--muted); padding: 6px 11px; font-size: 13px; border-radius: 6px; }
-.view-tab:hover { background: #efece6; }
-.view-tab.active { background: var(--card); color: var(--text); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+.view-switch { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.view-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 6px 6px 0 0;
+  white-space: nowrap;
+}
+.view-tab:hover { background: #e9e5dd; color: var(--text); }
+.view-tab.active { color: var(--text); font-weight: 600; border-bottom-color: var(--accent); background: transparent; }
 
 /* ---- buttons ---- */
 button, input[type=submit] {
@@ -949,20 +1015,50 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
     overflow: hidden;
   }
 
-  /* On phones the desktop toolbar lives in an off-canvas menu. Keeping only
-     the client name and hamburger in the header gives the lead list most of
-     the viewport while every destination and action stays easy to reach. */
+  /* On phones the workspace switch and the tools live in an off-canvas menu;
+     the section tabs stay on screen as a strip that scrolls sideways, which
+     beats hiding every destination behind the hamburger. */
   header {
-    height: 56px;
-    min-height: 56px;
+    height: auto;
     width: 100%;
     max-width: 100%;
-    align-items: center;
-    gap: 10px;
-    padding: 0 14px;
     flex-shrink: 0;
     position: relative;
     z-index: 40;
+  }
+  .header-bar {
+    height: 56px;
+    min-height: 56px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+  }
+  .subnav {
+    height: auto;
+    padding: 5px 10px;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .subnav::-webkit-scrollbar { display: none; }
+  .subnav-group, .subnav-sep { display: none; }
+  .more-menu { width: 100%; }
+  .more-btn { display: none; }
+  .more-list {
+    display: block;
+    position: static;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+  .more-item {
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    margin-bottom: 10px;
   }
   header h1 {
     font-size: 16px;
@@ -1046,20 +1142,11 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
     border: 1px solid var(--border);
   }
   .header-right .pill-dry { align-self: flex-start; }
-  .view-switch {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
-    gap: 4px;
-    padding: 4px;
-  }
+  .view-switch { flex-wrap: nowrap; }
   .view-tab {
-    min-width: 0;
-    min-height: 44px;
-    padding: 10px 8px;
+    min-height: 40px;
+    padding: 8px 12px;
     font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .header-right > .btn-secondary,
   .header-right form .btn-secondary {
@@ -1185,7 +1272,7 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 }
 
 @media (max-width: 360px) {
-  header { padding-inline: 10px; }
+  .header-bar { padding-inline: 10px; }
   header h1 { font-size: 14px; }
   .client-badge { font-size: 10px; padding-inline: 6px; }
 }

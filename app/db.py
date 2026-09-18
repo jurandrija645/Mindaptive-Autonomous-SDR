@@ -591,6 +591,8 @@ def init_db() -> None:
         _migrate(conn)
         from app import prospect_contacts  # imports db; deferred to avoid a cycle
         prospect_contacts.ensure_table(conn)
+        from app import site_visits  # imports db; deferred to avoid a cycle
+        site_visits.ensure_table(conn)
         from app import crm  # imports db; deferred to avoid a cycle
         crm.ensure_table(conn)
         if needs_template_seed:

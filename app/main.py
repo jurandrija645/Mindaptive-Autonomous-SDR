@@ -25,7 +25,7 @@ from app import (
 from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
 from app import crm, events, pipeline, scheduler, sequences, signatures, smartlead
-from app import prospect_contacts, translator, uploads, webhook
+from app import prospect_contacts, site_visits, translator, uploads, webhook
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
@@ -50,6 +50,7 @@ app = FastAPI(title="Mindaptive Responder")
 install_session_middleware(app)
 app.include_router(webhook.router)
 app.include_router(prospect_contacts.router)
+app.include_router(site_visits.router)
 app.include_router(crm.router)
 
 
@@ -638,6 +639,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         lead = db.get_lead_state(conn, lead_id, campaign_id)
         draft = db.get_open_draft(conn, lead_id, campaign_id)
         site_contacts_row = prospect_contacts.for_lead(conn, lead)
+        site_visits_row = site_visits.for_lead(conn, lead, site_contacts_row)
         crm_deal = crm.deal_for_lead(conn, lead_id, campaign_id)
     lead_name = (lead["name"] if lead else None) or "Lead"
     raw = _load_thread_raw(campaign_id, lead_id)
@@ -691,6 +693,9 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             # Everything WebsiteGenerator scraped off their own site (every
             # email, phone, WhatsApp, social), plus the demo site we built.
             "site_contacts": prospect_contacts.payload(site_contacts_row),
+            # Whether they ever opened that demo site, and when — pushed in by
+            # WebsiteGenerator's cli/visits.mjs from Vercel's request data.
+            "site_visits": site_visits.payload(site_visits_row),
             "email_display_name": (lead["email_display_name"] if lead else None) or None,
             # Template placeholder values, resolved server-side so the modal's
             # preview and the message that actually goes out are the same

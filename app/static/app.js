@@ -2522,30 +2522,55 @@ function siteContactHref(key, value) {
   return /^https?:\/\//i.test(value) ? value : null;
 }
 
-function renderSiteContacts(site) {
-  if (!site || !site.channels) return null;
+/** "3 visits · last Sep 14 16:00" — Vercel reports 4-hour blocks, so the
+ *  times are the block a human hit the site in, not an exact clock time. */
+function renderSiteVisitsRow(visits) {
+  if (!visits || !visits.visit_count) return null;
+  const when = (t) => (t ? `${t.slice(0, 10)} ${t.slice(11, 16)}` : "?");
+  const row = el("div", "site-contacts-row");
+  row.appendChild(el("span", "site-contacts-label", "Opened it"));
+  const values = el("span", "site-contacts-values");
+  const times = visits.visit_count === 1 ? "1 visit" : `${visits.visit_count} visits`;
+  const summary = visits.first_at === visits.last_at
+    ? `${times} · ${when(visits.last_at)} UTC`
+    : `${times} · first ${when(visits.first_at)} · last ${when(visits.last_at)} UTC`;
+  values.appendChild(el("span", null, summary));
+  (visits.visitors || []).slice(0, 3).forEach((v) => {
+    const parts = [v.device, v.country, v.isp].filter(Boolean).join(" · ");
+    if (parts) values.appendChild(el("span", "site-contacts-tag", parts));
+  });
+  row.appendChild(values);
+  return row;
+}
+
+function renderSiteContacts(site, visits) {
+  const channels = (site && site.channels) || {};
   const keys = [
-    ...SITE_CONTACT_ORDER.filter((k) => site.channels[k]),
-    ...Object.keys(site.channels).filter((k) => !SITE_CONTACT_ORDER.includes(k)),
+    ...SITE_CONTACT_ORDER.filter((k) => channels[k]),
+    ...Object.keys(channels).filter((k) => !SITE_CONTACT_ORDER.includes(k)),
   ];
-  if (!keys.length && !site.demo_url) return null;
+  const visitsRow = renderSiteVisitsRow(visits);
+  const demoUrl = (site && site.demo_url) || (visits && visits.demo_url) || null;
+  if (!keys.length && !demoUrl && !visitsRow) return null;
+  const domain = (site && site.domain) || (visits && visits.domain) || "";
   const box = el("div", "site-contacts");
-  box.appendChild(el("div", "site-contacts-title", `From their website (${site.domain})`));
-  if (site.demo_url) {
+  box.appendChild(el("div", "site-contacts-title", domain ? `From their website (${domain})` : "From their website"));
+  if (demoUrl) {
     const demo = el("div", "site-contacts-row");
     demo.appendChild(el("span", "site-contacts-label", "Site we built"));
-    const a = el("a", null, site.demo_url);
-    a.href = site.demo_url;
+    const a = el("a", null, demoUrl);
+    a.href = demoUrl;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     demo.appendChild(a);
     box.appendChild(demo);
   }
+  if (visitsRow) box.appendChild(visitsRow);
   keys.forEach((key) => {
     const row = el("div", "site-contacts-row");
     row.appendChild(el("span", "site-contacts-label", SITE_CONTACT_LABELS[key] || key));
     const values = el("span", "site-contacts-values");
-    site.channels[key].forEach((item) => {
+    channels[key].forEach((item) => {
       const href = siteContactHref(key, item.value);
       const node = el(href ? "a" : "span", null, item.value);
       if (href) {
@@ -2590,7 +2615,7 @@ function renderContactResearch(lead) {
   const channels = lead.contact_channels || {};
   const iconRow = renderContactChannels(channels);
   if (iconRow) wrap.appendChild(iconRow);
-  const siteBlock = renderSiteContacts(lead.site_contacts);
+  const siteBlock = renderSiteContacts(lead.site_contacts, lead.site_visits);
   if (siteBlock) wrap.appendChild(siteBlock);
 
   if (isRunning) {
@@ -5648,12 +5673,14 @@ document.addEventListener("click", () => {
   openStatusMenu(false);
   openCampaignMenu(false);
   openSmartleadMenu(false);
+  openMoreMenu(false);
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     openStatusMenu(false);
     openCampaignMenu(false);
     openSmartleadMenu(false);
+    openMoreMenu(false);
   }
 });
 
@@ -5700,6 +5727,19 @@ document.addEventListener("keydown", (e) => {
     closeMobileMenu(true);
   }
 });
+
+// The Settings dropdown (desktop). On phones the same list is always open
+// inside the off-canvas menu, so the toggle simply isn't drawn there.
+function openMoreMenu(open) {
+  const menu = $("more-menu");
+  menu.classList.toggle("open", open);
+  $("more-btn").setAttribute("aria-expanded", open ? "true" : "false");
+}
+$("more-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openMoreMenu(!$("more-menu").classList.contains("open"));
+});
+$("more-list").addEventListener("click", () => openMoreMenu(false));
 
 $("rescan-btn").addEventListener("click", () => { closeMobileMenu(true); rescan(); });
 $("models-btn").addEventListener("click", () => { closeMobileMenu(); openModelsModal(); });

@@ -26,7 +26,9 @@ function setMode(mode) {
   document.body.classList.toggle("crm-mode", inCrm);
   $("mode-outreach-btn").classList.toggle("active", !inCrm);
   $("mode-crm-btn").classList.toggle("active", inCrm);
+  // The section strip shows one workspace's tabs at a time.
   $("view-switch").hidden = inCrm;
+  $("crm-subnav").hidden = !inCrm;
   $("rescan-btn").hidden = inCrm || state.view !== "inbox";
   $("followup-settings-btn").hidden = inCrm;
   document.querySelector(".layout").hidden = inCrm;
@@ -692,6 +694,11 @@ function renderCrmLeadSections() {
 
 // ---------- boot ----------
 
+$("crm-pipeline-btn").addEventListener("click", () => {
+  crm.dealId = null;
+  if (state.mode === "crm") loadCrmBoard();
+  else setMode("crm");
+});
 $("mode-outreach-btn").addEventListener("click", () => setMode("outreach"));
 $("mode-crm-btn").addEventListener("click", () => {
   crm.dealId = null;

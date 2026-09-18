@@ -34,6 +34,9 @@ router = APIRouter()
 
 STAGES = [
     {"key": "meeting_booked", "label": "Meeting booked"},
+    # An outcome of the first column, not a rejection: they can be rebooked, so
+    # it sits before Negotiating rather than next to Lost.
+    {"key": "no_show", "label": "No-show"},
     {"key": "negotiating", "label": "Negotiating"},
     {"key": "proposal_sent", "label": "Proposal sent · awaiting payment"},
     {"key": "won", "label": "Paid · client"},

@@ -1,39 +1,62 @@
 {% extends "base.html" %}
 {% block body %}
+<!-- Two rows, because one was a wall of eleven controls: the bar says *where
+     you are* (workspace + the tools that act on the whole app), the strip
+     below it says *what you're looking at*. The section tabs only ever show
+     the current workspace's own — Outreach's seven, or the CRM's. -->
 <header>
-  <h1>Mindaptive Responder <span class="client-badge" style="background:{{ client_color }}">{{ client_label }}</span></h1>
-  <button id="mobile-menu-btn" class="mobile-menu-btn" type="button" aria-label="Open navigation" aria-controls="header-menu" aria-expanded="false">
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-  </button>
-  <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" hidden></div>
-  <div class="header-right" id="header-menu" aria-label="Main navigation">
-    <div class="mobile-menu-head">
-      <span>Menu</span>
-      <button id="mobile-menu-close" class="mobile-menu-close" type="button" aria-label="Close navigation">×</button>
+  <div class="header-bar">
+    <h1>Mindaptive Responder <span class="client-badge" style="background:{{ client_color }}">{{ client_label }}</span></h1>
+    <button id="mobile-menu-btn" class="mobile-menu-btn" type="button" aria-label="Open navigation" aria-controls="header-menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" hidden></div>
+    <div class="header-right" id="header-menu" aria-label="Main navigation">
+      <div class="mobile-menu-head">
+        <span>Menu</span>
+        <button id="mobile-menu-close" class="mobile-menu-close" type="button" aria-label="Close navigation">×</button>
+      </div>
+      {% if dry_run %}<span class="pill pill-dry">DRY RUN</span>{% endif %}
+      <!-- Outreach = everything that gets a lead to a booked meeting (the tabs
+           below). CRM = the pipeline after that, app/crm.py + static/crm.js. -->
+      <div class="mode-switch" id="mode-switch" role="tablist" aria-label="Workspace">
+        <button id="mode-outreach-btn" class="mode-tab active" type="button">Outreach</button>
+        <button id="mode-crm-btn" class="mode-tab" type="button">CRM</button>
+      </div>
+      <button id="rescan-btn" class="btn-secondary" type="button">Rescan now</button>
+      <!-- Settings and log out: needed rarely, so they collapse into one
+           button on desktop and list out flat inside the phone menu. -->
+      <div class="more-menu" id="more-menu">
+        <button id="more-btn" class="btn-secondary more-btn" type="button" aria-haspopup="true" aria-expanded="false">⚙ Settings ▾</button>
+        <div class="more-list" id="more-list">
+          <button id="followup-settings-btn" class="more-item" type="button">Follow-up timing</button>
+          <button id="models-btn" class="more-item" type="button" title="Choose which AI model does what">Models</button>
+          <form method="post" action="/logout"><button class="more-item" type="submit">Log out</button></form>
+        </div>
+      </div>
     </div>
-    {% if dry_run %}<span class="pill pill-dry">DRY RUN</span>{% endif %}
-    <!-- Outreach = everything that gets a lead to a booked meeting (the tabs
-         below). CRM = the pipeline after that, app/crm.py + static/crm.js. -->
-    <div class="mode-switch" id="mode-switch" role="tablist" aria-label="Workspace">
-      <button id="mode-outreach-btn" class="mode-tab active" type="button">Outreach</button>
-      <button id="mode-crm-btn" class="mode-tab" type="button">CRM</button>
-    </div>
+  </div>
+
+  <nav class="subnav" id="subnav" aria-label="Sections">
     <div class="view-switch" id="view-switch">
+      <span class="subnav-group">Work</span>
       <button id="view-inbox-btn" class="view-tab active" type="button">Inbox</button>
       <button id="view-scheduled-btn" class="view-tab" type="button">Scheduled</button>
       <button id="view-sequences-btn" class="view-tab" type="button">Sequences</button>
       <button id="view-archive-btn" class="view-tab" type="button">Archive</button>
+      <span class="subnav-sep" aria-hidden="true"></span>
+      <span class="subnav-group">Insights</span>
       <button id="view-campaigns-btn" class="view-tab" type="button">Campaigns</button>
       <button id="view-health-btn" class="view-tab" type="button">Health</button>
       <button id="view-stats-btn" class="view-tab" type="button">Stats</button>
     </div>
-    <button id="rescan-btn" class="btn-secondary" type="button">Rescan now</button>
-    <button id="followup-settings-btn" class="btn-secondary" type="button">Follow-up timing</button>
-    <button id="models-btn" class="btn-secondary" type="button" title="Choose which AI model does what">⚙ Models</button>
-    <form method="post" action="/logout"><button class="btn-secondary" type="submit">Log out</button></form>
-  </div>
+    <div class="view-switch" id="crm-subnav" hidden>
+      <span class="subnav-group">Sales</span>
+      <button id="crm-pipeline-btn" class="view-tab active" type="button">Pipeline</button>
+    </div>
+  </nav>
 </header>
 
 <div class="layout">
