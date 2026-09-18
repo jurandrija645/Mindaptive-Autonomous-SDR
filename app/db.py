@@ -591,6 +591,8 @@ def init_db() -> None:
         _migrate(conn)
         from app import prospect_contacts  # imports db; deferred to avoid a cycle
         prospect_contacts.ensure_table(conn)
+        from app import crm  # imports db; deferred to avoid a cycle
+        crm.ensure_table(conn)
         if needs_template_seed:
             _seed_message_templates(conn)
 
@@ -920,6 +922,10 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
            WHERE lead_id = ? AND campaign_id = ? AND booked_at IS NULL""",
         (now_iso(), lead_id, campaign_id),
     )
+    # A booking is where outreach ends and the CRM pipeline starts: the lead
+    # lands in its first column now, not whenever the board is next opened.
+    from app import crm  # imports db; deferred to avoid a cycle
+    crm.ensure_deal_for_lead(conn, lead_id, campaign_id, "booked")
 
 
 # ---- subsequence stop hooks ----

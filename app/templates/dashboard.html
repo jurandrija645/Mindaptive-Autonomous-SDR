@@ -14,6 +14,12 @@
       <button id="mobile-menu-close" class="mobile-menu-close" type="button" aria-label="Close navigation">×</button>
     </div>
     {% if dry_run %}<span class="pill pill-dry">DRY RUN</span>{% endif %}
+    <!-- Outreach = everything that gets a lead to a booked meeting (the tabs
+         below). CRM = the pipeline after that, app/crm.py + static/crm.js. -->
+    <div class="mode-switch" id="mode-switch" role="tablist" aria-label="Workspace">
+      <button id="mode-outreach-btn" class="mode-tab active" type="button">Outreach</button>
+      <button id="mode-crm-btn" class="mode-tab" type="button">CRM</button>
+    </div>
     <div class="view-switch" id="view-switch">
       <button id="view-inbox-btn" class="view-tab active" type="button">Inbox</button>
       <button id="view-scheduled-btn" class="view-tab" type="button">Scheduled</button>
@@ -126,5 +132,8 @@
   </section>
 </div>
 
+<main class="crm-page" id="crm-page" hidden></main>
+
 <script src="/static/app.js?v={{ static_version }}" defer></script>
+<script src="/static/crm.js?v={{ static_version }}" defer></script>
 {% endblock %}

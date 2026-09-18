@@ -2766,6 +2766,10 @@ function renderLeadActionsBar(lead) {
   const bar = el("div", "lead-actions");
   bar.id = "lead-actions";
 
+  // Before the archive/snooze early returns: an archived lead can still be a
+  // deal (static/crm.js owns the button).
+  bar.appendChild(renderCrmLeadButton());
+
   const exportControl = renderExportControl();
   if (exportControl) bar.appendChild(exportControl);
 
@@ -5734,7 +5738,7 @@ function leadKey(l) {
   return l ? `${l.campaign_id}/${l.lead_id}` : null;
 }
 async function autoRefreshInbox() {
-  if (state.view !== "inbox" || document.hidden) return;
+  if (state.view !== "inbox" || document.hidden || state.mode === "crm") return;
   const curKey = leadKey(state.selected >= 0 ? state.leads[state.selected] : null);
   try {
     await loadInbox();

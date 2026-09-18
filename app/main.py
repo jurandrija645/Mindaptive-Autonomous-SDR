@@ -24,7 +24,7 @@ from app import (
 )
 from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
-from app import events, pipeline, scheduler, sequences, signatures, smartlead
+from app import crm, events, pipeline, scheduler, sequences, signatures, smartlead
 from app import prospect_contacts, translator, uploads, webhook
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -50,6 +50,7 @@ app = FastAPI(title="Mindaptive Responder")
 install_session_middleware(app)
 app.include_router(webhook.router)
 app.include_router(prospect_contacts.router)
+app.include_router(crm.router)
 
 
 @app.middleware("http")
@@ -637,6 +638,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         lead = db.get_lead_state(conn, lead_id, campaign_id)
         draft = db.get_open_draft(conn, lead_id, campaign_id)
         site_contacts_row = prospect_contacts.for_lead(conn, lead)
+        crm_deal = crm.deal_for_lead(conn, lead_id, campaign_id)
     lead_name = (lead["name"] if lead else None) or "Lead"
     raw = _load_thread_raw(campaign_id, lead_id)
     draft_payload = _draft_payload(draft)
@@ -706,6 +708,8 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         "researching_contact": lead_research.is_researching(campaign_id, lead_id),
         "contact_research_error": lead_research.last_error(campaign_id, lead_id),
         "sequence": _lead_sequence_payload(campaign_id, lead_id),
+        # The lead's CRM deal, if it has one — drives "+ Add to CRM" vs "In CRM".
+        "crm_deal": crm_deal,
     }
 
 
