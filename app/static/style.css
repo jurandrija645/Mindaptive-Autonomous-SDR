@@ -1732,3 +1732,10 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   .crm-record-controls, .crm-field, .crm-field .crm-input { width: 100%; }
   .crm-search { flex: 1 1 100%; }
 }
+
+.site-feedback { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 0 0 10px; font-size: 13px; }
+.site-feedback-row { padding: 4px 0; }
+.site-feedback-row.like { border-left: 3px solid #16a34a; padding-left: 8px; }
+.site-feedback-row.change { border-left: 3px solid #d97706; padding-left: 8px; }
+.site-feedback-row.no { border-left: 3px solid #9ca3af; padding-left: 8px; }
+.site-feedback-urgent { margin-left: 8px; color: #fff; background: #dc2626; border-radius: 4px; padding: 1px 6px; font-size: 12px; }

@@ -2589,6 +2589,31 @@ function renderSiteContacts(site, visits) {
   return box;
 }
 
+const SITE_FEEDBACK_LABELS = {
+  like: "Likes it, wants pricing",
+  change: "Would change something",
+  no: "Not for us",
+};
+
+// Answers from the popup on the demo site we built. "like" is the hot one:
+// the pricing reply is due within minutes, so it gets its own loud style.
+function renderSiteFeedback(items) {
+  if (!items || !items.length) return null;
+  const box = el("div", "site-feedback");
+  box.appendChild(el("div", "site-contacts-title", "Their verdict on the site we built"));
+  items.slice(0, 5).forEach((f) => {
+    const row = el("div", `site-feedback-row ${f.answer}`);
+    row.appendChild(el("strong", null, SITE_FEEDBACK_LABELS[f.answer] || f.answer));
+    if (f.answer === "like" && !f.handled_at) {
+      row.appendChild(el("span", "site-feedback-urgent", `Reply with pricing within ${f.reply_within_minutes || 5} min`));
+    }
+    if (f.detail) row.appendChild(el("div", null, f.detail));
+    row.appendChild(el("div", "muted", `${f.created_at || ""}${f.page ? " · " + f.page : ""}`));
+    box.appendChild(row);
+  });
+  return box;
+}
+
 function renderContactResearch(lead) {
   const wrap = el("div", "contact-research");
   const head = el("div", "research-head contact-research-head");
@@ -2615,6 +2640,8 @@ function renderContactResearch(lead) {
   const channels = lead.contact_channels || {};
   const iconRow = renderContactChannels(channels);
   if (iconRow) wrap.appendChild(iconRow);
+  const feedbackBlock = renderSiteFeedback(lead.site_feedback);
+  if (feedbackBlock) wrap.appendChild(feedbackBlock);
   const siteBlock = renderSiteContacts(lead.site_contacts, lead.site_visits);
   if (siteBlock) wrap.appendChild(siteBlock);
 

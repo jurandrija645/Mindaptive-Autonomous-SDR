@@ -20,3 +20,9 @@ data/
 deploy/deploy.log
 .claude/
 .vscode/
+
+# Raw Smartlead dumps behind a campaign postmortem: ~35 MB of lead CSVs (names,
+# emails, phone numbers) and full thread transcripts. The postmortem .md and the
+# derived dataset .json next to it are the deliverable and ARE committed; this is
+# the intermediate scrape, regenerable from Smartlead, and git history is forever.
+docs/campaign-postmortems/_raw/
