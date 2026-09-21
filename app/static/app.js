@@ -218,6 +218,18 @@ async function openFollowupSettings() {
   if (current.cadence.length > 1) {
     form.appendChild(el("p", "muted", "Current intervals: " + current.cadence.join(" → ") + " days. Saving replaces these with the same interval for every follow-up."));
   }
+  const modeWrap = el("label", "timing-field", "Count days");
+  const mode = document.createElement("select");
+  mode.id = "followup-business-days";
+  for (const [value, text] of [["all", "All days (including weekends)"], ["business", "Business days only (Mon–Fri)"]]) {
+    const opt = document.createElement("option");
+    opt.value = value;
+    opt.textContent = text;
+    mode.appendChild(opt);
+  }
+  mode.value = current.business_days ? "business" : "all";
+  modeWrap.appendChild(mode);
+  form.appendChild(modeWrap);
   const hot = field("Very hot leads: shorter interval (hours; 0 uses the same days)", current.hot_hours, 0, 8760, "followup-hot-hours");
   form.appendChild(el("p", "muted", `Current limit: ${current.max_followups} follow-ups.` +
     (current.revive_after_days > 0 ? ` After that, a revival becomes due after ${current.revive_after_days} days of silence.` : " Revival is off.")));
@@ -238,7 +250,7 @@ async function openFollowupSettings() {
     save.disabled = true;
     note.textContent = "Saving…";
     try {
-      await apiPost("/api/followup-settings", {days: Number(days.value), hot_hours: Number(hot.value)});
+      await apiPost("/api/followup-settings", {days: Number(days.value), hot_hours: Number(hot.value), business_days: mode.value === "business"});
       note.textContent = "Saved for this client. Due statuses updated.";
       await loadInbox();
     } catch (e) { note.textContent = "Could not save: " + e.message; }

@@ -229,6 +229,10 @@ def decide(
     wait_days = waits[min(followup_count, len(waits) - 1)]
     wait = timedelta(days=wait_days)
     wait_label = f"{wait_days}d"
+    # With business days on, Saturdays and Sundays don't count toward the wait.
+    wait_age = _business_age(last.timestamp, now) if settings.followup_business_days else age
+    if settings.followup_business_days:
+        wait_label += " (weekdays)"
 
     # A hot lead is chased on hours, not days — but only ever *sooner* than the
     # normal cadence, never later, so setting HOT_FOLLOWUP_WAIT_HOURS above the
@@ -237,9 +241,10 @@ def decide(
         hot_wait = timedelta(hours=settings.hot_followup_wait_hours)
         if hot_wait < wait:
             wait = hot_wait
+            wait_age = age
             wait_label = f"{settings.hot_followup_wait_hours}h (🔥 hot lead)"
 
-    if age < wait:
+    if wait_age < wait:
         return Decision(
             Action.NONE,
             f"only {_age_label(age)} since our last message, waiting for {wait_label}",
@@ -251,6 +256,20 @@ def decide(
         f"follow-up #{followup_count + 1}"
         + (" — 🔥 hot lead, short cadence" if wait < timedelta(days=wait_days) else ""),
     )
+
+
+def _business_age(start: datetime, now: datetime) -> timedelta:
+    """Elapsed time minus one day per Saturday/Sunday date passed since start."""
+    age = now - start
+    weekend = 0
+    day = start.date()
+    for _ in range(max(age.days, 0) + 1):
+        day += timedelta(days=1)
+        if day > now.date():
+            break
+        if day.weekday() >= 5:
+            weekend += 1
+    return age - timedelta(days=weekend)
 
 
 def _age_label(age: timedelta) -> str:

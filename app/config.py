@@ -94,6 +94,8 @@ class Settings:
     # the short cadence off and puts hot leads back on FOLLOWUP_WAIT_DAYS; they
     # still sort to the top of the inbox either way.
     hot_followup_wait_hours: int = int(os.getenv("HOT_FOLLOWUP_WAIT_HOURS", "24"))
+    # When true, the follow-up wait in days skips Saturdays and Sundays.
+    followup_business_days: bool = os.getenv("FOLLOWUP_BUSINESS_DAYS", "false").lower() == "true"
     max_followups: int = int(os.getenv("MAX_FOLLOWUPS", "4"))
     # Where a lead is assumed to be when neither the sequence nor the campaign
     # name says otherwise (thread_utils.guess_timezone). Decides the morning

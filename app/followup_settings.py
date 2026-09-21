@@ -12,6 +12,7 @@ def payload():
         "days": settings.followup_wait_days[0],
         "cadence": list(settings.followup_wait_days),
         "hot_hours": settings.hot_followup_wait_hours,
+        "business_days": settings.followup_business_days,
         "max_followups": settings.max_followups,
         "revive_after_days": settings.revive_after_days,
     }
@@ -26,12 +27,16 @@ def validate(data):
         raise ValueError("Follow-up interval must be a whole number from 1 to 365 days.")
     if type(hot_hours) is not int or not 0 <= hot_hours <= 8760:
         raise ValueError("Very hot lead interval must be 0 to 8760 hours (0 disables it).")
-    return {"days": days, "hot_hours": hot_hours}
+    business = data.get("business_days", False)
+    if type(business) is not bool:
+        raise ValueError("Business days must be true or false.")
+    return {"days": days, "hot_hours": hot_hours, "business_days": business}
 
 
 def apply(data):
     settings.followup_wait_days = (data["days"],)
     settings.hot_followup_wait_hours = data["hot_hours"]
+    settings.followup_business_days = data.get("business_days", False)
 
 
 def load():
