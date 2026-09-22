@@ -24,7 +24,7 @@ from app import (
 )
 from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
-from app import crm, events, pipeline, scheduler, sequences, signatures, smartlead
+from app import crm, events, lead_touches, pipeline, scheduler, sequences, signatures, smartlead
 from app import prospect_contacts, site_feedback, site_visits, translator, uploads, webhook
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -481,6 +481,11 @@ def _thread_payload(raw: list[dict], lead_name: str, tz_guess: str | None = None
                 "who": "us" if is_us else "lead",
                 "name": "You" if is_us else (lead_name or "Lead"),
                 "time": _fmt_time_with_lead_tz(m.get("timestamp"), tz_guess),
+                # The raw instant, so the client can slot the manually logged
+                # off-email touches (app/lead_touches.py) into the right place
+                # in the thread. Kept separate from the formatted `time`
+                # because that one is prose, not something to sort on.
+                "at": _iso_or_none(m.get("timestamp")),
                 # Which mailbox this actually came from — for a lead's reply
                 # that's often a real person (marko@company.com) answering a
                 # cold email sent to a generic info@ address, so it's the only
@@ -488,6 +493,37 @@ def _thread_payload(raw: list[dict], lead_name: str, tz_guess: str | None = None
                 "from_email": (m.get("from_email") or "").strip(),
                 "html": clean_email_html(m.get("body")),
                 "english": english,
+            }
+        )
+    return out
+
+
+def _iso_or_none(ts) -> str | None:
+    dt = _parse_ts(ts)
+    return dt.astimezone(timezone.utc).isoformat() if dt else None
+
+
+def _touches_payload(campaign_id: int, lead_id: int, lead_name: str,
+                     tz_guess: str | None) -> list[dict]:
+    """The off-email outreach Andrew logged by hand (WhatsApp, LinkedIn, …).
+
+    Shipped alongside `thread` rather than merged into it: the per-message
+    translate endpoints address a message by its *index* into the Smartlead
+    thread, so slipping extra entries into that list would silently translate
+    the wrong message. The client merges the two by timestamp for display and
+    keeps each email's original index."""
+    out = []
+    for t in lead_touches.for_lead(lead_id, campaign_id):
+        out.append(
+            {
+                "id": t["id"],
+                "channel": t["channel"],
+                "direction": t["direction"],
+                "who": "us" if t["direction"] == "out" else "lead",
+                "name": "You" if t["direction"] == "out" else (lead_name or "Lead"),
+                "note": t["note"] or "",
+                "at": t["occurred_at"],
+                "time": _fmt_time_with_lead_tz(t["occurred_at"], tz_guess),
             }
         )
     return out
@@ -709,6 +745,11 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
             ),
         },
         "thread": _thread_payload(raw, lead_name, lead["timezone_guess"] if lead else None),
+        # Contacted them somewhere other than email — merged into the thread
+        # client-side, see _touches_payload.
+        "touches": _touches_payload(
+            campaign_id, lead_id, lead_name, lead["timezone_guess"] if lead else None
+        ),
         "draft": draft_payload,
         "generating": candidates_module.is_generating(campaign_id, lead_id),
         # Only meaningful when there's no draft to show; the client falls back
@@ -1738,6 +1779,56 @@ async def api_set_temperature(request: Request, campaign_id: int, lead_id: int):
         )
     return JSONResponse(
         {"ok": True, "temperature": temperature, "reason": reason, "locked": False}
+    )
+
+
+@app.post("/api/leads/{campaign_id}/{lead_id}/touches")
+async def api_add_touch(request: Request, campaign_id: int, lead_id: int):
+    """Logs that this lead was contacted somewhere other than email — WhatsApp,
+    LinkedIn, Facebook, Instagram, a phone call. Nothing is sent: this is a
+    note, and it shows up in the email thread at its own timestamp so the
+    history of a lead reads as one column instead of two places.
+
+    Returns the whole fresh list, like the template routes, so the client never
+    reconciles by hand."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await _json_body(request)
+    with db.db_session() as conn:
+        try:
+            lead_touches.add(
+                conn, lead_id, campaign_id,
+                channel=body.get("channel"),
+                direction=body.get("direction") or "out",
+                note=body.get("note"),
+                occurred_at=body.get("at"),
+            )
+        except ValueError as e:
+            return JSONResponse({"error": str(e)}, status_code=400)
+    return JSONResponse({"ok": True, "touches": _touch_list_payload(campaign_id, lead_id)})
+
+
+@app.delete("/api/leads/{campaign_id}/{lead_id}/touches/{touch_id}")
+async def api_delete_touch(request: Request, campaign_id: int, lead_id: int, touch_id: int):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    with db.db_session() as conn:
+        if not lead_touches.delete(conn, touch_id, lead_id, campaign_id):
+            return JSONResponse({"error": "That log entry is already gone."}, status_code=404)
+    return JSONResponse({"ok": True, "touches": _touch_list_payload(campaign_id, lead_id)})
+
+
+def _touch_list_payload(campaign_id: int, lead_id: int) -> list[dict]:
+    """Same shape the lead detail ships, so the client can drop the response
+    straight into state.detail.touches and re-render."""
+    with db.db_session() as conn:
+        lead = db.get_lead_state(conn, lead_id, campaign_id)
+    return _touches_payload(
+        campaign_id, lead_id,
+        (lead["name"] if lead else "") or "Lead",
+        lead["timezone_guess"] if lead else None,
     )
 
 

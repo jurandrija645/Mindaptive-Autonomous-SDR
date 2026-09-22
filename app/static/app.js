@@ -84,6 +84,7 @@ const state = {
   convoBrowseOpen: false, // raw-thread section stays open across filter clicks
   campaignPoll: null,    // setTimeout handle polling a running analysis
   healthPoll: null,      // short poll while an on-demand health check runs
+  touchFormOpen: false,  // "log a WhatsApp/LinkedIn message" form, under the thread
 };
 
 const DEFAULT_CATEGORIES = [
@@ -563,9 +564,9 @@ function applyFilter() {
     const catOk = !CATEGORY_ORDER.includes(cat) || state.categoryFilter.has(cat);
     const campaignOk = !state.campaignFilter || (l.campaign_id != null && state.campaignFilter.has(String(l.campaign_id)));
     // Smartlead's own category (a different axis from `cat` above — see
-    // CHIP's comment). No filter set (null) or no value on the lead both
+    // CHIP's comment). No filter set (null) or no value on either axis both
     // mean "don't hide it".
-    const slCat = l.smartlead_category || "";
+    const slCat = leadSmartleadAxis(l);
     const slOk = !state.smartleadCategoryFilter || !slCat || state.smartleadCategoryFilter.has(slCat);
     const dateOk = dateInRange(l.last_message_at_raw, fromTs, toTs);
     return catOk && campaignOk && slOk && dateOk;
@@ -785,6 +786,25 @@ function openCampaignMenu(open) {
 // rather than a fixed list — null means "no restriction", which is also what
 // lets a category nobody's seen before show up already-checked.
 
+// The value this dropdown filters and counts on. Smartlead's own category
+// name whenever the lead has one — but a reply the classifier sorted
+// (not_interested / wrong_person / auto_reply) only ever gets the *local*
+// mirror: scheduler._push_category_to_smartlead deliberately refuses every
+// probabilistic verdict, so nothing is written back and
+// leads_state.smartlead_category stays empty. Those leads then fell through
+// both dropdowns at once — outside CATEGORY_ORDER, so the status filter
+// exempts them by design, and blank here, so this one exempted them too —
+// which is what made "show only Interested" still show every rejection,
+// autoresponder and wrong-person reply in the account. So the local category
+// stands in for the missing Smartlead one, and only reply/followup/waiting
+// (the status dropdown's own three) return "" and stay exempt here.
+function leadSmartleadAxis(lead) {
+  const sl = (lead.smartlead_category || "").trim();
+  if (sl) return sl;
+  const cat = lead.category || "";
+  return CATEGORY_ORDER.includes(cat) ? "" : cat;
+}
+
 function loadSmartleadCategoryFilter() {
   try {
     const saved = JSON.parse(localStorage.getItem(SMARTLEAD_FILTER_KEY) || "null");
@@ -832,7 +852,9 @@ function smartleadCategoryLabel(category) {
   if (normalized === "out of office" || normalized === "auto reply") {
     return "Auto-reply / Out of office";
   }
-  return category;
+  // A local slug standing in for a category Smartlead hasn't been told about
+  // (leadSmartleadAxis) reads as its chip text, not as `not_interested`.
+  return CHIP[category] || category;
 }
 
 function smartleadFilterLabel(allKnown) {
@@ -847,7 +869,7 @@ function smartleadFilterLabel(allKnown) {
 function renderSmartleadFilter(leads) {
   const counts = new Map();
   leads.forEach((l) => {
-    const c = l.smartlead_category;
+    const c = leadSmartleadAxis(l);
     if (!c) return;
     counts.set(c, (counts.get(c) || 0) + 1);
   });
@@ -2262,6 +2284,7 @@ async function selectLead(i) {
   state.draftNote = null;
   state.exportNote = null;
   state.exportRunning = false;
+  state.touchFormOpen = false;  // half-typed log entry belongs to the lead it was opened on
   renderList();
   const row = document.querySelector(`.lead-row[data-index="${i}"]`);
   if (row) row.scrollIntoView({ block: "nearest" });
@@ -2372,11 +2395,36 @@ function renderDetail() {
   threadToggle.appendChild(document.createTextNode(" Show whole thread in English"));
   threadCb.addEventListener("change", () => setThreadLang(threadCb));
   threadActions.appendChild(threadToggle);
+  // Log a message sent somewhere other than email. It sits here, on the
+  // thread itself, because that's where the question gets asked: "have I
+  // chased this one anywhere yet?"
+  const logBtn = el("button", "btn-log-touch", "＋ Log a message (WhatsApp, LinkedIn…)");
+  logBtn.type = "button";
+  logBtn.addEventListener("click", () => toggleTouchForm());
+  threadActions.appendChild(logBtn);
   body.appendChild(threadActions);
 
+  body.appendChild(buildThreadEl());
+  syncThreadToggle();
+
+  renderDraftSection(body);
+}
+
+// The thread column itself: emails from Smartlead plus the off-email touches
+// Andrew logged (mergedThread). Split out of renderDetail so a touch can be
+// added or deleted without re-rendering the draft section underneath it —
+// that would throw away whatever is live in the editor.
+function buildThreadEl() {
+  const { thread, touches } = state.detail;
   const tc = el("div", "thread");
   tc.id = "thread";
-  thread.forEach((m, idx) => {
+  mergedThread(thread, touches).forEach((entry) => {
+    if (entry.kind === "touch") {
+      tc.appendChild(renderTouch(entry.t));
+      return;
+    }
+    const m = entry.m;
+    const idx = entry.idx;
     const wrap = el("div", `msg ${m.who}`);
     const meta = el("div", "msg-meta");
     meta.appendChild(document.createTextNode(`${m.name} · ${m.time} `));
@@ -2402,10 +2450,15 @@ function renderDetail() {
     wrap.appendChild(bubble);
     tc.appendChild(wrap);
   });
-  body.appendChild(tc);
-  syncThreadToggle();
+  tc.appendChild(touchFormHost());
+  return tc;
+}
 
-  renderDraftSection(body);
+function refreshThreadEl() {
+  const old = $("thread");
+  if (!old) { renderDetail(); return; }
+  old.replaceWith(buildThreadEl());
+  syncThreadToggle();
 }
 
 function archiveLabel(reason) {
@@ -2518,6 +2571,184 @@ function renderContactChannels(channels) {
     row.appendChild(node);
   });
   return row;
+}
+
+// ---------- off-email outreach, logged by hand (app/lead_touches.py) ----------
+//
+// Andrew's ask 2026-09-22: an email thread that reads "two emails, silence"
+// is a lie when he also messaged the lead on WhatsApp yesterday. So a touch
+// is rendered *inside* the thread, at its own timestamp, with the channel's
+// own icon — one column, read top to bottom.
+
+// Labels are ours; the icon and brand colour come from CHANNEL_DEFS above
+// wherever that already has the channel, so the reach-out icons and the log
+// entries can't drift apart. Keys must match lead_touches.CHANNELS.
+const TOUCH_CHANNELS = {
+  whatsapp: { label: "WhatsApp" },
+  linkedin: { label: "LinkedIn" },
+  facebook: { label: "Facebook" },
+  instagram: { label: "Instagram" },
+  phone: { label: "Phone call", short: "☎", bg: "#6b7280" },
+  sms: { label: "SMS", short: "✉", bg: "#6b7280" },
+  other: { label: "Somewhere else", short: "•", bg: "#6b7280" },
+};
+
+function touchChannel(key) {
+  const own = TOUCH_CHANNELS[key] || { label: key || "Somewhere else" };
+  const shared = CHANNEL_DEFS[key] || {};
+  return {
+    label: own.label,
+    short: own.short || shared.short || "•",
+    bg: own.bg || shared.bg || "#6b7280",
+  };
+}
+
+// Emails and touches into one list, ordered by time. Deliberately not a plain
+// sort of the two arrays together: the email order is Smartlead's and each
+// message carries the *index* the per-message translate endpoints address it
+// by, so emails keep their given order and position, and each touch is slotted
+// in before the first email that happened after it.
+function mergedThread(thread, touches) {
+  const out = thread.map((m, idx) => ({ kind: "msg", m, idx }));
+  const list = (touches || []).slice().sort((a, b) => String(a.at).localeCompare(String(b.at)));
+  list.forEach((t) => {
+    let pos = out.length;
+    for (let i = 0; i < out.length; i++) {
+      const at = out[i].kind === "msg" ? out[i].m.at : out[i].t.at;
+      if (at && t.at && at > t.at) { pos = i; break; }
+    }
+    out.splice(pos, 0, { kind: "touch", t });
+  });
+  return out;
+}
+
+function renderTouch(t) {
+  const def = touchChannel(t.channel);
+  const wrap = el("div", `msg touch ${t.who}`);
+  const meta = el("div", "msg-meta");
+  const icon = el("span", "channel-icon touch-icon", def.short);
+  icon.style.background = def.bg;
+  icon.title = def.label;
+  meta.appendChild(icon);
+  const what = t.direction === "in"
+    ? `${t.name} replied on ${def.label}`
+    : `You messaged on ${def.label}`;
+  meta.appendChild(document.createTextNode(` ${what} · ${t.time} `));
+  const del = el("button", "btn-touch-del", "×");
+  del.type = "button";
+  del.title = "Delete this log entry";
+  del.addEventListener("click", () => deleteTouch(t.id));
+  meta.appendChild(del);
+  wrap.appendChild(meta);
+  if (t.note) {
+    const bubble = el("div", "bubble touch-bubble");
+    bubble.textContent = t.note;   // Andrew's own words, never HTML
+    wrap.appendChild(bubble);
+  }
+  return wrap;
+}
+
+// The form lives at the bottom of the thread (where a new message would go)
+// and stays closed until the button in the thread actions row is clicked.
+function touchFormHost() {
+  const host = el("div", "touch-form-host");
+  host.id = "touch-form-host";
+  if (state.touchFormOpen) host.appendChild(buildTouchForm());
+  return host;
+}
+
+function toggleTouchForm(open) {
+  state.touchFormOpen = open === undefined ? !state.touchFormOpen : open;
+  const host = $("touch-form-host");
+  if (!host) return;
+  host.innerHTML = "";
+  if (!state.touchFormOpen) return;
+  host.appendChild(buildTouchForm());
+  const note = $("touch-note");
+  if (note) note.focus();
+}
+
+function buildTouchForm() {
+  const form = el("div", "touch-form");
+
+  const channel = el("select", "touch-field");
+  channel.id = "touch-channel";
+  Object.keys(TOUCH_CHANNELS).forEach((key) => {
+    const opt = el("option", null, touchChannel(key).label);
+    opt.value = key;
+    channel.appendChild(opt);
+  });
+  form.appendChild(channel);
+
+  const direction = el("select", "touch-field");
+  direction.id = "touch-direction";
+  [["out", "I messaged them"], ["in", "They answered there"]].forEach(([v, label]) => {
+    const opt = el("option", null, label);
+    opt.value = v;
+    direction.appendChild(opt);
+  });
+  form.appendChild(direction);
+
+  const when = el("input", "touch-field");
+  when.type = "datetime-local";
+  when.id = "touch-at";
+  when.value = toLocalInputValue(new Date().toISOString());
+  form.appendChild(when);
+
+  const note = el("input", "touch-field touch-note");
+  note.type = "text";
+  note.id = "touch-note";
+  note.placeholder = "What you said (optional)";
+  note.addEventListener("keydown", (e) => { if (e.key === "Enter") saveTouch(); });
+  form.appendChild(note);
+
+  const save = el("button", "btn-primary", "Log it");
+  save.type = "button";
+  save.addEventListener("click", () => saveTouch());
+  form.appendChild(save);
+
+  const cancel = el("button", "btn-secondary", "Cancel");
+  cancel.type = "button";
+  cancel.addEventListener("click", () => toggleTouchForm(false));
+  form.appendChild(cancel);
+
+  return form;
+}
+
+async function saveTouch() {
+  const lead = state.detail && state.detail.lead;
+  if (!lead) return;
+  const row = currentLead();
+  const at = $("touch-at").value;
+  try {
+    // datetime-local is browser-local wall time with no zone marker and the
+    // server stores UTC — same conversion scheduleDraft makes, for the same
+    // reason. An empty box means "now", which the server fills in.
+    const data = await apiPost(`/api/leads/${row.campaign_id}/${row.lead_id}/touches`, {
+      channel: $("touch-channel").value,
+      direction: $("touch-direction").value,
+      note: $("touch-note").value,
+      at: at ? new Date(at).toISOString() : null,
+    });
+    state.detail.touches = data.touches;
+    state.touchFormOpen = false;
+    refreshThreadEl();
+  } catch (e) {
+    alert("Couldn't log that: " + e.message);
+  }
+}
+
+async function deleteTouch(id) {
+  const row = currentLead();
+  if (!row) return;
+  if (!confirm("Delete this log entry?")) return;
+  try {
+    const data = await apiDelete(`/api/leads/${row.campaign_id}/${row.lead_id}/touches/${id}`);
+    state.detail.touches = data.touches;
+    refreshThreadEl();
+  } catch (e) {
+    alert("Couldn't delete that: " + e.message);
+  }
 }
 
 // Every contact WebsiteGenerator scraped off the prospect's own website

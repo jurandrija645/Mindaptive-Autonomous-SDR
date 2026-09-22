@@ -597,6 +597,8 @@ def init_db() -> None:
         site_feedback.ensure_table(conn)
         from app import crm  # imports db; deferred to avoid a cycle
         crm.ensure_table(conn)
+        from app import lead_touches  # imports db; deferred to avoid a cycle
+        lead_touches.ensure_table(conn)
         if needs_template_seed:
             _seed_message_templates(conn)
 
