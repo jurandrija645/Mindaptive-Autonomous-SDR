@@ -37,6 +37,11 @@ if [ "$LOCAL" = "$DEPLOYED" ]; then
 fi
 
 echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC') — building/redeploying $DEPLOYED -> $LOCAL"
+# --build alone rebuilt the image but reported the app containers as
+# "Running" and left them on the old code (seen 2026-09-23: a push built at
+# 07:02 while every app container still dated from the day before), so the
+# app services are recreated explicitly. cloudflared is left alone.
 docker compose up -d --build
+docker compose up -d --force-recreate --no-deps $(docker compose config --services | grep '^app')
 echo "$LOCAL" > "$DEPLOYED_SHA_FILE"
 echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC') — deploy complete ($LOCAL)"
