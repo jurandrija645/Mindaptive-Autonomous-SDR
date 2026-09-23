@@ -2118,6 +2118,22 @@ def api_check_deliverability_health(request: Request):
     return JSONResponse({"started": started, "running": started or deliverability_health.snapshot()["running"]})
 
 
+@app.post("/api/deliverability-health/policy")
+async def api_deliverability_policy(request: Request):
+    """Save this client's rehab switch and stage numbers. With automation on,
+    a check starts straight away so new numbers reach Smartlead now rather
+    than at the next daily check."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    try:
+        policy = deliverability_health.save_policy(await request.json())
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    started = deliverability_health.trigger() if policy["auto_apply"] else False
+    return JSONResponse({"policy": policy, "check_started": started})
+
+
 @app.get("/api/metrics")
 def api_metrics(request: Request):
     """Backs the dashboard's Stats view. Everything is derived from data the

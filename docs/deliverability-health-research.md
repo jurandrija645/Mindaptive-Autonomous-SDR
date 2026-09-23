@@ -29,7 +29,7 @@ Preporučeni ritam je:
 | Faza | Ulaz | Cold / campaign cap | Warm-up raspon | Očekivani maksimum | Izlaz |
 |---|---|---:|---:|---:|---|
 | Full | početno stanje ili završeni comeback | 25 | 18–25 | 50 | reputation < 90% |
-| Rehab | reputation < 90% | 5 | 32–40 | 45 | 5 različitih UTC dana na 100% |
+| Rehab | reputation < 90% | 5 | 35–45 | 50 | 5 različitih UTC dana na 100% |
 | Comeback | rehab uspješno završen | 15 | 25–30 | 45 | 5 različitih UTC dana na 100% |
 
 U rehab se ulazi odmah. Ručni refresh istog dana ne može ubrzati streak jer se računa najviše jedan savršen dan po UTC datumu. U rehab ili comeback fazi rezultat 90–99% resetira streak na nulu, ali ne radi dodatni nagli prijelaz. Rezultat ispod 90% iz bilo koje faze odmah vraća mailbox u rehab. Nepoznat score ne mijenja fazu.

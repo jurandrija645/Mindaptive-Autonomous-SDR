@@ -22,11 +22,18 @@ from app.config import settings
 
 log = logging.getLogger("deliverability_health")
 
+# The starting numbers for every client. Each container keeps its own copy in
+# its own app_settings once it is edited on the Health tab, so clients are
+# configured independently with no tenancy in the code.
 PHASES = {
-    "rehab": {"cold": 5, "warm_min": 32, "warm_max": 40, "total": 45},
-    "comeback": {"cold": 15, "warm_min": 25, "warm_max": 30, "total": 45},
-    "full": {"cold": 25, "warm_min": 18, "warm_max": 25, "total": 50},
+    "rehab": {"cold": 5, "warm_min": 35, "warm_max": 45},
+    "comeback": {"cold": 15, "warm_min": 25, "warm_max": 30},
+    "full": {"cold": 25, "warm_min": 18, "warm_max": 25},
 }
+POLICY_SETTING_KEY = "deliverability_policy"
+# Smartlead rejects total_warmup_per_day outside 1-50.
+_WARM_CEILING = 50
+_COLD_CEILING = 500
 
 _lock = threading.Lock()
 _running = False
@@ -55,13 +62,93 @@ def _domain(email: str) -> str:
     return value.rsplit("@", 1)[1] if "@" in value else ""
 
 
-def _initial_phase(account: dict) -> str:
+def _env_policy() -> dict:
+    return {
+        "auto_apply": bool(settings.deliverability_auto_apply),
+        "auto_apply_source": "env",
+        "threshold": settings.mailbox_rehab_threshold,
+        "stable_days": settings.mailbox_phase_stable_days,
+        "phases": {name: dict(values) for name, values in PHASES.items()},
+    }
+
+
+def load_policy(conn=None) -> dict:
+    """This client's switch and stage numbers: dashboard edits over env defaults."""
+    policy = _env_policy()
+    if conn is None:
+        with db.db_session() as own:
+            raw = db.get_setting(own, POLICY_SETTING_KEY)
+    else:
+        raw = db.get_setting(conn, POLICY_SETTING_KEY)
+    try:
+        stored = json.loads(raw) if raw else {}
+    except ValueError:
+        log.warning("ignoring unreadable %s setting", POLICY_SETTING_KEY)
+        stored = {}
+    if isinstance(stored.get("auto_apply"), bool):
+        policy["auto_apply"] = stored["auto_apply"]
+        policy["auto_apply_source"] = "dashboard"
+    for key in ("threshold", "stable_days"):
+        if isinstance(stored.get(key), int):
+            policy[key] = stored[key]
+    for name, values in (stored.get("phases") or {}).items():
+        if name in policy["phases"] and isinstance(values, dict):
+            for field in ("cold", "warm_min", "warm_max"):
+                if isinstance(values.get(field), int):
+                    policy["phases"][name][field] = values[field]
+    return policy
+
+
+def _int_in(value: Any, low: int, high: int, label: str) -> int:
+    if isinstance(value, bool):
+        raise ValueError(f"{label} must be a whole number")
+    try:
+        number = int(str(value).strip())
+    except (TypeError, ValueError):
+        raise ValueError(f"{label} must be a whole number")
+    if not low <= number <= high:
+        raise ValueError(f"{label} must be between {low} and {high}")
+    return number
+
+
+def save_policy(data: dict) -> dict:
+    """Validate and store a Health-tab edit.
+
+    ``reset`` restores the default numbers but keeps the switch where it is,
+    so resetting numbers can never silently turn automation on or off.
+    """
+    current = load_policy()
+    if data.get("reset"):
+        stored: dict = {"auto_apply": current["auto_apply"]}
+    else:
+        stored = {
+            "auto_apply": bool(data.get("auto_apply", current["auto_apply"])),
+            "threshold": _int_in(data.get("threshold", current["threshold"]), 1, 100, "Rehab threshold"),
+            "stable_days": _int_in(data.get("stable_days", current["stable_days"]), 1, 60, "Perfect days per step"),
+            "phases": {},
+        }
+        incoming = data.get("phases") or {}
+        for name, label in (("rehab", "Rehab"), ("comeback", "Comeback"), ("full", "Full")):
+            values = {**current["phases"][name], **(incoming.get(name) or {})}
+            cold = _int_in(values["cold"], 1, _COLD_CEILING, f"{label} cold emails")
+            warm_min = _int_in(values["warm_min"], 1, _WARM_CEILING, f"{label} warmup minimum")
+            warm_max = _int_in(values["warm_max"], 1, _WARM_CEILING, f"{label} warmup maximum")
+            if warm_min > warm_max:
+                raise ValueError(f"{label} warmup minimum is above its maximum")
+            stored["phases"][name] = {"cold": cold, "warm_min": warm_min, "warm_max": warm_max}
+    with db.db_session() as conn:
+        db.set_setting(conn, POLICY_SETTING_KEY, json.dumps(stored))
+        return load_policy(conn)
+
+
+def _initial_phase(account: dict, phases: dict | None = None) -> str:
     """Preserve an already-throttled mailbox on the first local check.
 
     The live Mindaptive account already contains rehab/comeback-shaped limits.
     Treating every >=90 reputation mailbox as full on first discovery would
     erase that operational state as soon as auto-apply was enabled.
     """
+    phases = phases or PHASES
     warm = account.get("warmup_details") or {}
     try:
         cold = int(account.get("message_per_day"))
@@ -71,20 +158,26 @@ def _initial_phase(account: dict) -> str:
         warm_max = int(warm.get("warmup_max_count") or warm.get("max_email_per_day"))
     except (TypeError, ValueError):
         warm_max = 0
-    if cold <= PHASES["rehab"]["cold"] and warm_max >= PHASES["rehab"]["warm_max"]:
+    # Above comeback's warm ceiling, not at rehab's own: mailboxes throttled
+    # by hand before the rehab range became 35-45 sit at 5 / 33-40, and must
+    # still be recognised as rehab rather than promoted to full.
+    if cold <= phases["rehab"]["cold"] and warm_max > phases["comeback"]["warm_max"]:
         return "rehab"
-    if cold <= PHASES["comeback"]["cold"] and 0 < warm_max <= PHASES["comeback"]["warm_max"]:
+    if cold <= phases["comeback"]["cold"] and 0 < warm_max <= phases["comeback"]["warm_max"]:
         return "comeback"
     return "full"
 
 
-def _next_phase(previous: Any, reputation: int | None, today: str) -> tuple[str, int, str | None]:
+def _next_phase(
+    previous: Any, reputation: int | None, today: str, policy: dict | None = None
+) -> tuple[str, int, str | None]:
+    policy = policy or _env_policy()
     old_phase = previous["phase"] if previous else "full"
     old_days = int(previous["perfect_days"] or 0) if previous else 0
     last_day = previous["last_observation_day"] if previous else None
     if reputation is None:
         return old_phase, old_days, None
-    if reputation < settings.mailbox_rehab_threshold:
+    if reputation < policy["threshold"]:
         transition = f"{old_phase}->rehab" if old_phase != "rehab" else None
         return "rehab", 0, transition
 
@@ -93,12 +186,12 @@ def _next_phase(previous: Any, reputation: int | None, today: str) -> tuple[str,
     is_new_day = today != last_day
     if old_phase == "rehab":
         days = old_days + 1 if reputation == 100 and is_new_day else (old_days if reputation == 100 else 0)
-        if days >= settings.mailbox_phase_stable_days:
+        if days >= policy["stable_days"]:
             return "comeback", 0, "rehab->comeback"
         return "rehab", days, None
     if old_phase == "comeback":
         days = old_days + 1 if reputation == 100 and is_new_day else (old_days if reputation == 100 else 0)
-        if days >= settings.mailbox_phase_stable_days:
+        if days >= policy["stable_days"]:
             return "full", 0, "comeback->full"
         return "comeback", days, None
     return "full", 0, None
@@ -200,9 +293,8 @@ def _notify(payload: dict) -> None:
         log.exception("deliverability alert webhook failed")
 
 
-def _apply_phase(account_id: int, phase: str) -> tuple[str | None, int | None]:
-    target = PHASES[phase]
-    if not settings.deliverability_auto_apply:
+def _apply_phase(account_id: int, target: dict, auto_apply: bool) -> tuple[str | None, int | None]:
+    if not auto_apply:
         return "monitor_only", None
     if settings.dry_run:
         return "dry_run", None
@@ -228,6 +320,8 @@ def run_health_check(*, force_domains: bool = False) -> dict:
         )
         run_id = cur.lastrowid
     try:
+        policy = load_policy()
+        phases = policy["phases"]
         accounts = list(smartlead.list_email_accounts())
         domains: set[str] = set()
         today = started.date().isoformat()
@@ -244,12 +338,12 @@ def run_health_check(*, force_domains: bool = False) -> dict:
                     "SELECT * FROM mailbox_health_state WHERE account_id=?", (account_id,)
                 ).fetchone()
             phase_seed = previous or {
-                "phase": _initial_phase(account),
+                "phase": _initial_phase(account, phases),
                 "perfect_days": 0,
                 "last_observation_day": None,
             }
-            phase, perfect_days, transition = _next_phase(phase_seed, reputation, today)
-            target = PHASES[phase]
+            phase, perfect_days, transition = _next_phase(phase_seed, reputation, today, policy)
+            target = phases[phase]
             action = None
             variation_confirmed = previous["variation_confirmed"] if previous else None
             applied_at = previous["last_applied_at"] if previous else None
@@ -267,7 +361,7 @@ def run_health_check(*, force_domains: bool = False) -> dict:
             )
             if needs_apply:
                 try:
-                    action, variation_confirmed = _apply_phase(account_id, phase)
+                    action, variation_confirmed = _apply_phase(account_id, target, policy["auto_apply"])
                     if action == "applied":
                         applied_at = _iso()
                 except Exception as exc:
@@ -414,6 +508,7 @@ def snapshot() -> dict:
         row["listings"] = json.loads(row.pop("listings_json") or "[]")
         row["auth"] = json.loads(row.pop("auth_json") or "{}")
         row["checked"] = json.loads(row.pop("checked_json") or "[]")
+    policy = load_policy()
     counts = {phase: sum(1 for row in mailboxes if row["phase"] == phase) for phase in PHASES}
     last_mailbox = max((row["last_checked_at"] for row in mailboxes), default=None)
     last_blacklist = max((row["blacklist_checked_at"] for row in domains if row["blacklist_checked_at"]), default=None)
@@ -427,7 +522,7 @@ def snapshot() -> dict:
         "last_run": dict(run) if run else None,
         "next_mailbox_check": next_at(last_mailbox, settings.mailbox_health_check_hours),
         "next_blacklist_check": next_at(last_blacklist, settings.domain_blacklist_check_hours),
-        "automation": "active" if settings.deliverability_auto_apply and not settings.dry_run else ("dry_run" if settings.deliverability_auto_apply else "monitor_only"),
+        "automation": "active" if policy["auto_apply"] and not settings.dry_run else ("dry_run" if policy["auto_apply"] else "monitor_only"),
         "blacklist_provider": "APIVoid" if settings.apivoid_api_key else "not_configured",
-        "policy": {"threshold": settings.mailbox_rehab_threshold, "stable_days": settings.mailbox_phase_stable_days, "phases": PHASES},
+        "policy": {**policy, "defaults": PHASES, "dry_run": settings.dry_run},
     }

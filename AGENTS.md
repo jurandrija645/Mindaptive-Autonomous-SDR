@@ -63,14 +63,20 @@ Files fall back to the repo root when a client doesn't override them, so a clien
 `app/deliverability_health.py` owns the Health tab, the daily mailbox state
 machine and domain checks. Each container reads only its own Smartlead API key,
 so domains are automatically client-specific. Below 90% reputation enters
-`rehab` (5 cold, 32–40 warm); five distinct UTC days at 100% moves to
+`rehab` (5 cold, 35–45 warm); five distinct UTC days at 100% moves to
 `comeback` (15 cold, 25–30 warm); another five moves to `full` (25 cold,
 18–25 warm). Existing 5/40 or 15/30-shaped limits are preserved as the initial
 phase on first discovery. Never count repeated checks on the same day toward a
 streak.
 
-Monitoring is on by default, but writes require both
-`DELIVERABILITY_AUTO_APPLY=true` and `DRY_RUN=false`. Smartlead's live response
+Monitoring is on by default. Writes need the Health tab's switch on and
+`DRY_RUN=false`. The switch, the three stages' cold/warmup numbers, the rehab
+threshold and the days-per-step all live in `app_settings.deliverability_policy`
+(`deliverability_health.load_policy`/`save_policy`), so each client container
+has its own; `DELIVERABILITY_AUTO_APPLY` and `PHASES` are only the values used
+until someone saves the panel. Andrew's standing choice (2026-09-23):
+Mindaptive off, OneBodyLDN on. Writes verified against the live OneBodyLDN
+account 2026-09-23 (POST limit + warmup range, read back as 5 / 35-45). Smartlead's live response
 uses `message_per_day` for the cold/campaign cap and separate
 `warmup_min_count`/`warmup_max_count` fields, despite its public update docs
 calling the write field `max_email_per_day`. Range fields are also missing from

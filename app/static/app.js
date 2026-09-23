@@ -1097,8 +1097,11 @@ function renderHealth(data) {
   mode.appendChild(el("strong", null, data.automation === "active" ? "Automatic changes are active" : data.automation === "dry_run" ? "Dry run: changes are simulated" : "Monitoring only"));
   mode.appendChild(document.createTextNode(data.automation === "active"
     ? " · Phase changes update Smartlead limits automatically."
-    : " · No Smartlead mailbox settings will be changed."));
+    : data.automation === "dry_run"
+      ? " · The switch is on, but DRY_RUN is set for this client, so Smartlead isn't changed."
+      : " · No Smartlead mailbox settings will be changed."));
   body.appendChild(mode);
+  body.appendChild(renderHealthSettings(policy));
 
   const summary = el("div", "health-summary");
   const card = (value, label, note, cls) => {
@@ -1108,9 +1111,10 @@ function renderHealth(data) {
     node.appendChild(el("div", "health-summary-note", note));
     summary.appendChild(node);
   };
-  card((data.counts || {}).full || 0, "Healthy / full", "Up to 25 cold · 18–25 warm", "summary-good");
-  card((data.counts || {}).rehab || 0, "In rehabilitation", "Up to 5 cold · 32–40 warm", "summary-bad");
-  card((data.counts || {}).comeback || 0, "Comeback", "Up to 15 cold · 25–30 warm", "summary-warn");
+  const limitsNote = (p) => (p ? `Up to ${p.cold} cold · ${p.warm_min}–${p.warm_max} warm` : "");
+  card((data.counts || {}).full || 0, "Healthy / full", limitsNote(phases.full), "summary-good");
+  card((data.counts || {}).rehab || 0, "In rehabilitation", limitsNote(phases.rehab), "summary-bad");
+  card((data.counts || {}).comeback || 0, "Comeback", limitsNote(phases.comeback), "summary-warn");
   const listed = (data.domains || []).filter((d) => d.status === "listed").length;
   const domainWarnings = (data.domains || []).filter((d) => d.status === "warning" || d.status === "unknown").length;
   card((data.domains || []).length - listed - domainWarnings, "Healthy domains", `${listed} listed · ${domainWarnings} need attention`, listed ? "summary-bad" : "summary-good");
@@ -1123,7 +1127,8 @@ function renderHealth(data) {
   body.appendChild(timing);
 
   body.appendChild(el("h3", "health-section-title", "Mailboxes"));
-  body.appendChild(el("p", "muted small", `Below ${policy.threshold || 90}% enters rehab immediately. Five distinct UTC days at 100% move rehab → comeback; another five at 100% move comeback → full.`));
+  const days = policy.stable_days || 5;
+  body.appendChild(el("p", "muted small", `Below ${policy.threshold || 90}% enters rehab immediately. ${days} distinct UTC days at 100% move rehab → comeback; another ${days} at 100% move comeback → full.`));
   const mailboxWrap = el("div", "health-table-wrap");
   const mailboxTable = el("table", "health-table");
   mailboxTable.innerHTML = "<thead><tr><th>Mailbox</th><th>State</th><th>Reputation</th><th>Streak</th><th>Limits</th><th>Connection</th><th>Last check</th></tr></thead>";
@@ -1190,18 +1195,128 @@ function renderHealth(data) {
   body.appendChild(domainGrid);
 }
 
+// This client's switch and stage numbers. Each client runs in its own
+// container with its own database, so what's saved here only ever applies to
+// the client whose dashboard this is.
+function renderHealthSettings(policy) {
+  const phases = policy.phases || {};
+  const box = el("section", "health-settings");
+
+  const top = el("div", "health-settings-top");
+  const toggle = el("label", "health-switch");
+  const input = el("input");
+  input.type = "checkbox";
+  input.checked = Boolean(policy.auto_apply);
+  toggle.appendChild(input);
+  toggle.appendChild(el("span", "health-switch-track"));
+  toggle.appendChild(el("span", "health-switch-label", "Change Smartlead mailbox limits automatically"));
+  top.appendChild(toggle);
+  top.appendChild(el("span", "muted small", input.checked
+    ? "On: mailboxes are moved between the stages below and Smartlead is updated."
+    : "Off: mailboxes are only watched. Nothing in Smartlead is changed until you switch this on."));
+  box.appendChild(top);
+
+  const grid = el("table", "health-settings-table");
+  grid.innerHTML = "<thead><tr><th>Stage</th><th>Cold emails / day</th><th>Warmup min / day</th><th>Warmup max / day</th></tr></thead>";
+  const tbody = el("tbody");
+  const inputs = {};
+  const numberInput = (value, min, max) => {
+    const node = el("input", "health-num");
+    node.type = "number";
+    node.min = String(min);
+    node.max = String(max);
+    node.step = "1";
+    node.value = value == null ? "" : String(value);
+    return node;
+  };
+  [["rehab", "Rehab"], ["comeback", "Comeback"], ["full", "Full"]].forEach(([key, label]) => {
+    const p = phases[key] || {};
+    const tr = el("tr");
+    tr.appendChild(el("td")).appendChild(healthBadge(key, label));
+    inputs[key] = { cold: numberInput(p.cold, 1, 500), warm_min: numberInput(p.warm_min, 1, 50), warm_max: numberInput(p.warm_max, 1, 50) };
+    ["cold", "warm_min", "warm_max"].forEach((f) => tr.appendChild(el("td")).appendChild(inputs[key][f]));
+    tbody.appendChild(tr);
+  });
+  grid.appendChild(tbody);
+  box.appendChild(grid);
+
+  const rules = el("div", "health-settings-rules");
+  const threshold = numberInput(policy.threshold, 1, 100);
+  const stable = numberInput(policy.stable_days, 1, 60);
+  const ruleLine = (text, node, after) => {
+    const line = el("label", "health-settings-rule");
+    line.appendChild(document.createTextNode(text));
+    line.appendChild(node);
+    line.appendChild(document.createTextNode(after));
+    rules.appendChild(line);
+  };
+  ruleLine("Go into rehab below ", threshold, "% reputation");
+  ruleLine("Move up one stage after ", stable, " days in a row at 100%");
+  box.appendChild(rules);
+
+  const actions = el("div", "health-settings-actions");
+  const note = el("span", "muted small", "");
+  const save = el("button", "btn-send", "Save settings");
+  const reset = el("button", "btn-secondary", "Reset numbers to defaults");
+  const submit = async (payload, button) => {
+    button.disabled = true;
+    note.textContent = "Saving…";
+    try {
+      const result = await apiPost("/api/deliverability-health/policy", payload);
+      note.textContent = result.check_started ? "Saved. Applying to Smartlead now…" : "Saved.";
+      const data = await loadHealth();
+      if (result.check_started && data && data.running) runHealthCheckPoll();
+    } catch (e) {
+      note.textContent = e.message;
+      note.className = "health-error";
+      button.disabled = false;
+    }
+  };
+  const collect = () => {
+    const out = {};
+    Object.entries(inputs).forEach(([key, fields]) => {
+      out[key] = {};
+      Object.entries(fields).forEach(([f, node]) => { out[key][f] = node.value; });
+    });
+    return out;
+  };
+  save.onclick = () => submit({ auto_apply: input.checked, threshold: threshold.value, stable_days: stable.value, phases: collect() }, save);
+  reset.onclick = () => {
+    if (confirm("Put the stage numbers back to the defaults? The on/off switch stays as it is.")) submit({ reset: true }, reset);
+  };
+  input.onchange = () => {
+    const turningOn = input.checked;
+    if (!confirm(turningOn
+      ? "Switch on automatic changes? Mailboxes below the threshold will have their Smartlead limits changed right away."
+      : "Switch off automatic changes? Mailboxes will only be watched and Smartlead won't be touched.")) {
+      input.checked = !turningOn;
+      return;
+    }
+    submit({ auto_apply: turningOn }, save);
+  };
+  actions.appendChild(save);
+  actions.appendChild(reset);
+  actions.appendChild(note);
+  box.appendChild(actions);
+  return box;
+}
+
+function runHealthCheckPoll() {
+  if (state.healthPoll) clearInterval(state.healthPoll);
+  state.healthPoll = setInterval(async () => {
+    const data = await loadHealth();
+    if (!data.running) {
+      clearInterval(state.healthPoll);
+      state.healthPoll = null;
+    }
+  }, 2500);
+}
+
 async function runHealthCheck() {
   try {
     const result = await apiPost("/api/deliverability-health/check", {});
     if (!result.running) return;
-    if (state.healthPoll) clearInterval(state.healthPoll);
-    state.healthPoll = setInterval(async () => {
-      const data = await loadHealth();
-      if (!data.running) {
-        clearInterval(state.healthPoll);
-        state.healthPoll = null;
-      }
-    }, 2500);
+    runHealthCheckPoll();
     await loadHealth();
   } catch (e) {
     alert("Health check failed: " + e.message);

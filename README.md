@@ -93,10 +93,14 @@ Check `deploy/deploy.log` on the droplet to see deploy history. You want lines l
 
 **Health tab** monitors every sending mailbox and domain belonging to this
 client's Smartlead account. Mailbox reputation below 90% enters rehab (5 cold,
-32–40 warm); five distinct days at 100% advances to comeback (15 cold, 25–30
+35–45 warm); five distinct days at 100% advances to comeback (15 cold, 25–30
 warm), and another five advances to full (25 cold, 18–25 warm). Monitoring is
-on by default, but Smartlead settings are changed only with
-`DELIVERABILITY_AUTO_APPLY=true` and `DRY_RUN=false`. DNS MX/SPF/DMARC and
+on by default. Smartlead settings are changed only when the switch at the top
+of the Health tab is on (and `DRY_RUN=false`). The same panel edits each
+stage's cold and warmup numbers, the rehab threshold and how many 100% days
+move a mailbox up a stage; it's saved per client, and "Reset numbers to
+defaults" restores the numbers above. `DELIVERABILITY_AUTO_APPLY` only sets
+where the switch starts before anyone has touched it. DNS MX/SPF/DMARC and
 APIVoid blacklist checks run daily. A missing `APIVOID_API_KEY` is shown as
 unknown/not configured instead of a false clean result. See
 `docs/deliverability-health-research.md` for evidence, limitations
