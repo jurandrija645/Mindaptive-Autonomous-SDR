@@ -707,6 +707,8 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         draft_payload["signature_html"] = _draft_signature_html(draft, raw)
     return {
         "lead": {
+            "campaign_id": campaign_id,
+            "lead_id": lead_id,
             "name": lead_name,
             "company": (lead["company"] if lead else "") or "",
             "email": (lead["email"] if lead else "") or "",

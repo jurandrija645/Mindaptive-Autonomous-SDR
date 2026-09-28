@@ -97,6 +97,49 @@ class ReliabilityTests(unittest.TestCase):
         )
         self.assertEqual(result.stdout.strip(), "Auto-reply / Out of office")
 
+    def test_touch_logging_uses_open_lead_when_list_row_disappears(self):
+        with patch.object(main, "_load_thread_raw", return_value=[]):
+            detail = main._lead_detail_payload(12, 34)
+        self.assertEqual((detail["lead"]["campaign_id"], detail["lead"]["lead_id"]), (12, 34))
+
+        source = Path("app/static/app.js").read_text(encoding="utf-8")
+        start = source.index("async function saveTouch()")
+        end = source.index("// Every contact WebsiteGenerator", start)
+        script = """
+const assert = require('node:assert/strict');
+const state = { leads: [], selected: -1, detail: {
+  lead: { campaign_id: 12, lead_id: 34 }, touches: []
+}, touchFormOpen: true };
+const fields = {
+  'touch-at': { value: '' }, 'touch-channel': { value: 'linkedin' },
+  'touch-direction': { value: 'out' }, 'touch-note': { value: 'Sent a note' }
+};
+const $ = (id) => fields[id];
+const calls = [];
+const apiPost = async (url, body) => {
+  calls.push([url, body]);
+  return { touches: [{ id: 1, channel: body.channel }] };
+};
+const apiDelete = async (url) => {
+  calls.push([url]);
+  return { touches: [] };
+};
+const refreshThreadEl = () => {};
+const alert = (message) => { throw new Error(message); };
+const confirm = () => true;
+""" + source[start:end] + """
+(async () => {
+  await saveTouch();
+  assert.equal(calls[0][0], '/api/leads/12/34/touches');
+  assert.equal(calls[0][1].channel, 'linkedin');
+  assert.equal(state.detail.touches.length, 1);
+  await deleteTouch(1);
+  assert.equal(calls[1][0], '/api/leads/12/34/touches/1');
+  assert.equal(state.detail.touches.length, 0);
+})().catch((error) => { console.error(error); process.exitCode = 1; });
+"""
+        subprocess.run(["node", "-e", script], capture_output=True, text=True, check=True)
+
     def test_change_status_dropdown_keeps_interested_restore_action(self):
         source = Path("app/static/app.js").read_text(encoding="utf-8")
         self.assertIn("state.categoryList = data.categories;", source)

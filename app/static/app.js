@@ -2833,18 +2833,18 @@ function buildTouchForm() {
 async function saveTouch() {
   const lead = state.detail && state.detail.lead;
   if (!lead) return;
-  const row = currentLead();
   const at = $("touch-at").value;
   try {
     // datetime-local is browser-local wall time with no zone marker and the
     // server stores UTC — same conversion scheduleDraft makes, for the same
     // reason. An empty box means "now", which the server fills in.
-    const data = await apiPost(`/api/leads/${row.campaign_id}/${row.lead_id}/touches`, {
+    const data = await apiPost(`/api/leads/${lead.campaign_id}/${lead.lead_id}/touches`, {
       channel: $("touch-channel").value,
       direction: $("touch-direction").value,
       note: $("touch-note").value,
       at: at ? new Date(at).toISOString() : null,
     });
+    if (state.detail?.lead !== lead) return;
     state.detail.touches = data.touches;
     state.touchFormOpen = false;
     refreshThreadEl();
@@ -2854,11 +2854,12 @@ async function saveTouch() {
 }
 
 async function deleteTouch(id) {
-  const row = currentLead();
-  if (!row) return;
+  const lead = state.detail && state.detail.lead;
+  if (!lead) return;
   if (!confirm("Delete this log entry?")) return;
   try {
-    const data = await apiDelete(`/api/leads/${row.campaign_id}/${row.lead_id}/touches/${id}`);
+    const data = await apiDelete(`/api/leads/${lead.campaign_id}/${lead.lead_id}/touches/${id}`);
+    if (state.detail?.lead !== lead) return;
     state.detail.touches = data.touches;
     refreshThreadEl();
   } catch (e) {
