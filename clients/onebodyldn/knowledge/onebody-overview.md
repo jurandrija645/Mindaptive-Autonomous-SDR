@@ -9,12 +9,16 @@ Source: `source-docs/Typeform - Results Table.pdf` (Kurt Johnson's own answers,
 submitted 2026-08-03) and `source-docs/One Body LDN — Cold Email Campaigns
 (Draft 2).docx` (the cold outreach this app is replying to).
 
+Current booking update: Kurt's message and Loom summary supplied by Andrew
+on 2026-10-21. See `booking-options.md` for the current offer rules; those
+rules supersede historical campaign durations, links and codes below.
+
 ## What One Body LDN is
 
-A private physiotherapy clinic group with **38 locations across London**
+A private physiotherapy clinic group with **43 locations across London**
 (the full list is in `locations.md`), each hosted inside an existing gym,
 serviced office or fitness studio near where people already work. Every
-treatment is delivered by an **HCPC-registered physiotherapist** — never a
+physiotherapy treatment is delivered by an **HCPC-registered physiotherapist** — never a
 sports therapist or unregulated practitioner — combining hands-on manual
 treatment with personalised rehabilitation, not a generic printed exercise
 sheet.
@@ -30,7 +34,7 @@ sheet.
    (ACL, rotator cuff, joint replacement, spinal surgery, fracture repair),
    need structured longer-term rehab, motivated to follow a programme.
 
-## The offer this app is replying to
+## Historical cold-email offers (read the thread for the original promise)
 
 Two live cold-email campaigns (see `response-templates.md` for the actual
 copy the leads already received):
@@ -47,10 +51,11 @@ copy the leads already received):
   it's very likely already covered and One Body LDN runs the whole insurance
   claim for them, start to finish, so nothing lands back on the lead's desk.
 
-Both campaigns are new — the first replies from these sequences are what
-you'll be drafting. There's no accumulated back-catalogue of "how we usually
-answer this" yet, so lean on this file and the templates rather than assuming
-prior convention.
+New replies must use the current partnership booking links and 45-minute
+physio duration in `booking-options.md`. The historical 55-minute and
+25-minute variants explain old threads; do not advertise them as current.
+Sports massage is now also an option, subject to that file's restrictions.
+Codes for the new options are pending from Kurt.
 
 ## Why someone should trust this over a competitor
 
@@ -68,7 +73,7 @@ prior convention.
 - **What competitors get wrong:** the industry has drifted toward
   exercise-only physio — generic printed programmes, or sports therapists
   doing work that should be done by a registered physiotherapist. Every
-  One Body LDN session is hands-on and delivered by an HCPC-registered
+  One Body LDN physio session is hands-on and delivered by an HCPC-registered
   physio. Competitors also tend to make insurance hard to use; One Body LDN
   activates and manages the client's cover end-to-end, including booking
   insured appointments online.
@@ -92,10 +97,10 @@ is, and offer to check for them once they confirm their insurer.
 percentage in an email.** The things you're allowed to say plainly, because
 they're the offer itself or approved public information, are:
 
-- The first session offered in the cold email is **free** (a 55-minute
-  session with hands-on treatment, or a free 25-minute assessment, depending
-  on which variant the lead received — check the thread for what was
-  actually promised).
+- The physio session offered in the cold email is **free**. The current
+  appointment is a **45-minute assessment and treatment**. Read the thread
+  for historical promises, but use current booking rules. Do not infer free
+  massage eligibility from the physio offer; new massage terms are pending.
 - Booking it carries a small **£4.99 booking fee**, which holds the time slot
   for the person booking. This is the one figure you may quote, and you must
   mention it whenever you hand over the booking link and code. Don't add
@@ -117,10 +122,10 @@ they're the offer itself or approved public information, are:
 
 If a direct-to-worker lead accepts their free session and also offers to
 share the offer with their wider business or building, welcome it. Book the
-lead first, then tell them they may share the same booking link and code with
-everyone in their business or building. In this scenario the code gives each
-person who wants to try One Body LDN a free 55-minute session. There is no
-need to delay while a separate corporate arrangement is created.
+lead first. They may share the current booking link with colleagues; share
+the new code only once Kurt confirms it for that offer. Current physio appointments
+are 45 minutes; the new code is still pending from Kurt. Do not share the
+legacy code as a new team offer or assert it works with the new links.
 
 If their message mentions an existing on-site clinic or competitor discount,
 use the dedicated template in `response-templates.md`: point to the public
@@ -131,9 +136,12 @@ named in the thread rather than guessing.
 
 ## Booking code / booking link
 
-The confirmed booking code is `OBLACCESS55` and the confirmed booking URL is
-`https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`.
-Use both exactly as written in the direct-to-worker first positive response.
+Use `booking-options.md` as the source of truth: partnership links only,
+45-minute physio at all locations, 20-minute massage at all locations,
+45-minute massage only at ten priority clinics. New codes are pending.
+The previously sent `OBLACCESS55` code remains live for its old offer only
+until month-end (interpreted as 31 October 2026); compatibility with the
+new links has not been confirmed. Do not send the old normal booking URL.
 
 ## Sender personas
 

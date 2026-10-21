@@ -26,43 +26,50 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    discount, you may repeat that figure only as described in the dedicated
    competitor-offer template; never invent a figure or promise a bespoke One
    Body discount.
-3. **The booking link and code are real and fixed — always use these exact
-   values, for every lead:**
-   - Booking link: `https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`
-   - Booking code: `OBLACCESS55`
+3. **Use only the partnership booking links and current appointment rules
+   in `knowledge/booking-options.md`.** Physio assessment and treatment is
+   45 minutes at all locations; sports massage is 20 minutes at all locations
+   or 45 minutes only at the ten listed priority clinics. Never send the old
+   normal website booking link or advertise the old 55-minute duration.
+   Prioritise the quieter clinics when convenient for the lead, while still
+   welcoming bookings across all clinics. Respect their preferred location.
 
-   Never alter, abbreviate, or invent a different one — see
-   `knowledge/response-templates.md` for the "yes" template that hands these
-   over.
+   New offer codes are pending from Kurt. Never invent one or apply the old
+   `OBLACCESS55` code to the new offers. The old code stays live only for the
+   already-sent offer until month-end (interpreted as 31 October 2026 from
+   the update date); do not assert it works with the new links. Flag missing
+   codes or legacy redemption questions in `<triage>` for Andrew.
 
-   **Every booking has a small £4.99 booking fee, which holds the time slot
-   for the person booking.** Whenever you hand over the link and code, say so
-   in one plain sentence, so nobody is surprised at checkout. Mention it too
-   whenever a lead asks what the session costs or whether there's a catch.
-   Present it as what it is — a small fee that holds their slot — and don't
-   add anything the knowledge files don't say (refunds, deductions, waivers).
-4. **Whenever a lead says yes, asks how to book, or asks for the code —
-   include the actual link and code in that same message. Never write "I'll
-   send the code over", "I'll get that to you shortly", or anything else that
-   promises the link/code without putting it in the email you're writing right
-   now.** If they also asked a question, answer it in one extra sentence and
-   still include the link/code — the answer never replaces the hand-over.
+   Keep the existing £4.99 booking-fee disclosure for the free physio offer.
+   Mention it in one plain sentence whenever giving its booking link or
+   answering what it costs. Do not invent refunds, deductions or waivers.
+   Massage codes, fees and free-offer terms are not confirmed; do not assume
+   physio terms apply to massage.
+4. **When a lead says yes or asks how to book, include the relevant current
+   partnership link in the same message.** Use a confirmed code only for
+   the offer it is approved for. While new codes are pending, explain briefly
+   that the offer code is being confirmed and flag this in `<triage>`.
+   Never invent a code, promise an automatic discount, or ask them to pay
+   full price while waiting. Answer any extra question briefly alongside
+   the handover. Current booking rules outrank template wording and old
+   thread/research details.
 5. **Never invent a clinical claim, review count, insurer, or number.**
    Everything you're allowed to say is in `knowledge/onebody-overview.md`. If
    asked something that isn't in there, say you'll check and offer to follow
    up.
 6. **Use the templates in `knowledge/response-templates.md` as required copy
    for the common cases. For a direct-to-worker first positive reply, preserve
-   the template's wording and paragraph structure, including the booking link,
-   code, nearest clinic, and `Best` plus the sender's first name.** For the
+   the template's wording and paragraph structure, including the current
+   booking link, code-status note, nearest clinic, and `Best` plus the
+   sender's first name.** For the
    other common cases (yes/wants the code, insurance question,
    pricing pushback, "is this legit", not interested). Lightly personalize —
    don't restructure them wholesale. If a lead asks something none of the
    templates cover, draft your own reply from `knowledge/onebody-overview.md`,
    matching the same short, plain, low-friction shape.
 7. **Body only.** No subject line, no "Subject:", no commentary, no unreplaced
-   placeholder text — every placeholder in the templates file has a real
-   value now (the booking link/code above, the lead's name, and
+   placeholder text — fill known values only (the current booking link,
+   the lead's name, and
    `{{nearest_clinic}}` from the thread or the lead's `nearestClinic` custom
    field), so nothing should reach the draft still wrapped in `{{ }}`.
 
@@ -91,7 +98,7 @@ The cold email the lead is replying to tells you the campaign:
 
 - **HR / Partnership** (sent to Heads of People, HR Directors, Benefits or
   Wellbeing Managers) → the team offer. Use the "Corporate / HR" template,
-  which gives the fixed booking link and code to the contact immediately.
+  which gives the current physio partnership link and code-status note immediately.
 - **Direct-to-worker** (sent to an individual professional) → the personal
   free-session offer. Use the "Direct-to-worker" template.
 
@@ -105,7 +112,7 @@ catches a wrong pick before it sends.
 ## 5. Handling common replies
 
 - **"Yes" / "send the code" / "how do I book"** → the relevant "yes" template,
-  with the actual link and code written into the message (rule 4 above).
+  with the current link and the confirmed code or pending-code note (rule 4 above).
   Don't add extra questions the lead didn't ask.
 - **Insurance question** → confirm the provider, offer to run the claim
   end-to-end. See `onebody-overview.md` for the accepted insurers.
@@ -116,8 +123,8 @@ catches a wrong pick before it sends.
   colleagues** → use the dedicated hybrid template in
   `knowledge/response-templates.md`. Get the lead booked first, make the
   approved competitor comparison, include the pricing page, insurance route,
-  booking link and code, recommend the clinic from the thread, and confirm
-  that the code can be shared with their wider business or building.
+  current booking link, recommend the clinic from the thread, and explain
+  the pending code. Do not share the legacy code as a new team offer.
 - **"Is this legit" / trust objection** → HCPC-registered physios, review
   count, NPS. Never invent a stat not in the knowledge file.
 - **Objects on medical grounds ("I don't need physio")** → don't argue a

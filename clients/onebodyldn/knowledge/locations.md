@@ -1,6 +1,9 @@
 # One Body LDN — clinic locations
 
-All 38 current London locations, from `source-docs/OneBodyLDN locations.docx`.
+43 London locations: the original 38 from
+`source-docs/OneBodyLDN locations.docx`, plus five new clinic addresses supplied
+by Andrew on 2026-10-21. For priority clinics and appointment restrictions,
+see `booking-options.md`; the five additions are all on that priority list.
 Use these only to answer a lead asking about a clinic that wasn't already
 named in their thread — the clinic named in the cold email they received
 takes priority, since that's the one the offer (and any walk-time claim) was
@@ -48,9 +51,14 @@ something to downplay.
 | Paddington | c/o BioLab London, 9 Bouverie Pl, Tyburnia, London, W2 1RB |
 | Primrose Hill | c/o The Green Rooms, 13 St George's Mews, London, NW1 8XE |
 | Shoreditch | 75 Great Eastern Street, London, EC2A 3HN |
+| Southfields | c/o The Gym Group London Southfields, 231 Wimbledon Park Road, Southfields Passage, London, SW18 5RJ |
 | Stratford | c/o Signature The Conductor, 8 Westfield Ave, London, E20 1NW |
+| Twickenham | c/o Regus Twickenham, Regal House, 70 London Road, Twickenham, TW1 3QS |
 | Vauxhall | c/o The Gym Group London Vauxhall, 6A Wandsworth Rd, St George Wharf, London, SW8 2LE |
 | Victoria | c/o Spaces - London, Spaces Victoria, 25 Wilton Rd, Pimlico, London, SW1V 1LW |
+| Waterloo | c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE |
+| West Kensington | c/o Spaces West Kensington, Avon House, Avonmore Road, London, W14 8TS |
+| Wimbledon | c/o Bounce Gym, Unit 1, Woodman Works, The Crescent, London, SW19 8DR |
 
 This list will drift as clinics open or close. If a lead names an area with no
 close match here, say you'll confirm the nearest clinic rather than guessing.

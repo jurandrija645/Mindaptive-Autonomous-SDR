@@ -3,17 +3,20 @@
 These are the required reply templates. Follow their wording and structure
 closely, especially the direct-to-worker first positive response.
 
-The booking code and link are real and fixed — the same for every lead, every
-persona, every clinic:
+## Current booking rules (updated 2026-10-21)
 
-- **Booking link:** `https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1`
-- **Booking code:** `OBLACCESS55`
-- **Booking fee:** a small **£4.99** per booking, which holds the time slot.
+`booking-options.md` governs all booking links, durations, location restrictions
+and code validity, and outranks older campaign wording. The templates below
+use the current 45-minute physio partnership link. New codes are pending
+from Kurt: retain the pending-code note until confirmed, and flag it in
+`<triage>`. Never supply `OBLACCESS55` as the code for the new offer.
+Keep the £4.99 booking-fee disclosure for the free physio offer.
 
-Use them exactly as written, every time. Never alter, abbreviate, or
-paraphrase either one. Every template that hands over the link and code also
-mentions the £4.99 booking fee in one sentence — keep that sentence when you
-personalize.
+For a massage request, replace the physio handover with the matching sports
+massage link from `booking-options.md`: 20 minutes at all clinics, 45 minutes
+only at the ten priority clinics. Do not apply physio free-session or fee
+claims to massage; its code and offer terms are pending. Do not send all
+three links in response to a simple physio yes.
 
 Use `{{first_name}}` and `{{company_name}}` filled from the lead record, and
 use whichever persona (Kurt Johnson or Rebecca Bossick) actually sent the
@@ -35,12 +38,12 @@ is a free session, not a high-ticket sale, so don't ask qualifying questions
 before handing over the next step.
 
 **This is the default reply for almost every positive reply to this
-campaign, and the link and code below must appear in the message itself,
-every single time — never write "I'll send the code/link over" or "I'll get
-that to you shortly" as a substitute for actually including them.** If the
+campaign, and the link and pending-code note below must appear in the message itself,
+every single time. Never promise a link later when it can be included now;
+while the new code is pending, say so instead of making one up.** If the
 lead asked something specific in their message (a question about a clinic,
 timing, insurance, etc.), answer it in one extra sentence — don't drop the
-link/code to make room for it, and don't let the answer replace the
+link or code-status note to make room for it, and don't let the answer replace the
 hand-over.
 
 Use this response for the first positive reply. Keep this wording and
@@ -48,10 +51,10 @@ paragraph structure. Replace every placeholder with the real value:
 
 Hi {{first_name}},
 
-thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
+thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/partnerships/physiotherapy_1/physiotherapy_assessment_treatment_45_min
 
-The code is **OBLACCESS55**. Just select the clinic you want (probably
-{{nearest_clinic}} is closest to you) and book your free session. There's a
+I'm just confirming the offer code. You can choose your clinic here (probably
+{{nearest_clinic}} is closest to you) for the free 45-minute physio session. There's a
 small £4.99 booking fee, which holds your time slot. Let me know if you need
 any help.
 
@@ -73,14 +76,14 @@ offer to HR/People/Benefits contacts).
 Hi {{first_name}},
 
 Brilliant. Your team can book here:
-https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
+https://onebodyldn.connect.tm3app.com/book/partnerships/physiotherapy_1/physiotherapy_assessment_treatment_45_min
 
-The code is **OBLACCESS55**. They can use that to book the free session at
-whichever clinic suits them. There's just a small £4.99 booking fee, which
-holds each person's time slot. No contract, nothing to sign, nothing for you
+I'm just confirming the offer code for the free 45-minute physio session.
+Your team can choose whichever clinic suits them. There's just a small £4.99
+booking fee, which holds each person's time slot. No contract, nothing to sign, nothing for you
 to set up on your end.
 
-One thing that'd help: roughly how many people should the code cover, and is
+One thing that'd help: roughly how many people would be interested, and is
 there a Slack channel or intranet page you'd want the one-pager dropped into,
 or would you rather I just send it straight to you first?
 
@@ -154,11 +157,11 @@ also accept all forms of health insurance and we'll help you set it up, which
 often means sessions at no cost to you.
 
 The booking link is
-https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1
-and your code is **OBLACCESS55**. Pick {{nearest_clinic}} since you're just
+https://onebodyldn.connect.tm3app.com/book/partnerships/physiotherapy_1/physiotherapy_assessment_treatment_45_min
+I'm just confirming the offer code. Pick {{nearest_clinic}} since you're just
 round the corner. There's a small £4.99 booking fee, which holds the time
-slot. Feel free to share that code with everyone in your building.
-It's a free 55-minute session for anyone who wants to try us, and if they come
+slot. Feel free to share the offer with everyone in your building once the
+code is confirmed. It's a free 45-minute physio session, and if they come
 back, they can use the lower rates offered in clinic or run sessions through
 their health insurance.
 
@@ -169,9 +172,9 @@ Thanks,
 
 Only use `{{competitor_name}}` and `{{competitor_discount}}` when the lead
 gave both in their own message. Repeat their figure accurately; never invent
-one. `{{nearest_clinic}}` must come from the thread or lead record. The code
-is explicitly shareable with the lead's wider business or building in this
-scenario.
+one. `{{nearest_clinic}}` must come from the thread or lead record.
+Share the new code with the wider business or building only once it is
+confirmed for that offer. Do not distribute the legacy code as a new offer.
 
 ---
 
@@ -179,8 +182,8 @@ scenario.
 
 Hi {{first_name}},
 
-Fair question. We're a London physio group, 38 clinics across the city, every
-session is with an HCPC-registered physiotherapist (that's the official UK
+Fair question. We're a London physio group, 43 clinics across the city, every
+physio session is with an HCPC-registered physiotherapist (that's the official UK
 regulator, not a masseuse or a sports therapist). We're rated 4.9 from over
 7,700 reviews. No catch on the free session, just a small £4.99 booking fee
 that holds your time slot. It's genuinely how we get people through the door
@@ -215,7 +218,7 @@ reply to accept.
 **First follow-up (a few days in):**
 
 Hi {{first_name}}, just floating this back up — the free session's still
-there whenever you want it. One word back and I'll send the code.
+there whenever you want it. One word back and I'll send the booking details.
 
 Kurt
 
@@ -227,15 +230,9 @@ it there").
 
 ---
 
-## Booking link and code — now real, wired 2026-09-01
+## Booking source of truth
 
-The booking code and link (see the top of this file) are confirmed and the
-same for every lead — unlike AeroDefense's per-persona `calendar_link`, this
-one needed no code change: it's a single global value, so it's hardcoded
-directly into this knowledge file and into `prompts/system.md`'s
-non-negotiable rules, both of which `app/drafter.py` already concatenates
-into every prompt. If it ever needs to differ per persona or per clinic, wire
-it the way AeroDefense wires `calendar_link` — add the field(s) to
-`personas.json` and pass them into the prompt from `app/pipeline.py` /
-`app/batch_gen.py` — but there's no reason to do that until it's actually
-true.
+Use `booking-options.md` for current links and restrictions. Codes for new
+appointments are awaiting Kurt. The legacy code is for the already-sent
+old offer only and is time-limited; never reuse it as a default in new
+handover templates. Flag the pending code in `<triage>` for review.
