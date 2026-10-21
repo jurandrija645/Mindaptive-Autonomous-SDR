@@ -7,16 +7,21 @@ closely, especially the direct-to-worker first positive response.
 
 `booking-options.md` governs all booking links, durations, location restrictions
 and code validity, and outranks older campaign wording. The templates below
-use the current 45-minute physio partnership link. New codes are pending
-from Kurt: retain the pending-code note until confirmed, and flag it in
-`<triage>`. Never supply `OBLACCESS55` as the code for the new offer.
-Keep the £4.99 booking-fee disclosure for the free physio offer.
+use the current 45-minute physio partnership link and **`VIP8401`**, which
+Kurt confirmed works on all three offers. Never supply `OBLACCESS55` as the
+code for the new offer. Keep the £4.99 booking-fee disclosure for physio.
 
-For a massage request, replace the physio handover with the matching sports
-massage link from `booking-options.md`: 20 minutes at all clinics, 45 minutes
-only at the ten priority clinics. Do not apply physio free-session or fee
-claims to massage; its code and offer terms are pending. Do not send all
-three links in response to a simple physio yes.
+Every booking/code handover must include this notice, even when shortening
+or personalizing, or sharing the offer with a team:
+
+> One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
+
+Each colleague can claim their own single offer once. Do not imply one use
+per offer, clinic or email, and do not invent the repeat-use charge amount.
+
+For massage, use the matching link and template below. Massage booking fees
+have not been confirmed; do not apply the physio £4.99 fee to massage. Do
+not send all three links in response to a simple physio yes.
 
 Use `{{first_name}}` and `{{company_name}}` filled from the lead record, and
 use whichever persona (Kurt Johnson or Rebecca Bossick) actually sent the
@@ -38,12 +43,11 @@ is a free session, not a high-ticket sale, so don't ask qualifying questions
 before handing over the next step.
 
 **This is the default reply for almost every positive reply to this
-campaign, and the link and pending-code note below must appear in the message itself,
-every single time. Never promise a link later when it can be included now;
-while the new code is pending, say so instead of making one up.** If the
+campaign, and the link, VIP8401 and offer terms below must appear in the message itself,
+every single time. Never promise a link or code later when both can be included now.** If the
 lead asked something specific in their message (a question about a clinic,
 timing, insurance, etc.), answer it in one extra sentence — don't drop the
-link or code-status note to make room for it, and don't let the answer replace the
+link, code or offer terms to make room for it, and don't let the answer replace the
 hand-over.
 
 Use this response for the first positive reply. Keep this wording and
@@ -53,10 +57,12 @@ Hi {{first_name}},
 
 thanks for getting back to me. Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/partnerships/physiotherapy_1/physiotherapy_assessment_treatment_45_min
 
-I'm just confirming the offer code. You can choose your clinic here (probably
+Use **VIP8401**. You can choose your clinic here (probably
 {{nearest_clinic}} is closest to you) for the free 45-minute physio session. There's a
 small £4.99 booking fee, which holds your time slot. Let me know if you need
 any help.
+
+One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
 
 Best
 {{sender_first_name}}
@@ -78,10 +84,12 @@ Hi {{first_name}},
 Brilliant. Your team can book here:
 https://onebodyldn.connect.tm3app.com/book/partnerships/physiotherapy_1/physiotherapy_assessment_treatment_45_min
 
-I'm just confirming the offer code for the free 45-minute physio session.
+Use **VIP8401** for the free 45-minute physio session.
 Your team can choose whichever clinic suits them. There's just a small £4.99
 booking fee, which holds each person's time slot. No contract, nothing to sign, nothing for you
 to set up on your end.
+
+One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
 
 One thing that'd help: roughly how many people would be interested, and is
 there a Slack channel or intranet page you'd want the one-pager dropped into,
@@ -119,14 +127,16 @@ amount.
 
 Hi {{first_name}},
 
-The first session's genuinely free — a proper assessment plus hands-on
-treatment, not just a chat. The only cost is a small £4.99 booking fee,
+Your one free physio session includes an assessment plus hands-on
+treatment. For that eligible session, there's a small £4.99 booking fee,
 which holds your time slot. If you've got private health insurance we can
 usually run any further sessions through your cover, and if not, ongoing
 rates are straightforward and I'm happy to walk you through them once you've
 had the first one.
 
-Want me to send the code over?
+One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
+
+Want me to send the booking details?
 
 Kurt
 
@@ -158,12 +168,13 @@ often means sessions at no cost to you.
 
 The booking link is
 https://onebodyldn.connect.tm3app.com/book/partnerships/physiotherapy_1/physiotherapy_assessment_treatment_45_min
-I'm just confirming the offer code. Pick {{nearest_clinic}} since you're just
+Use **VIP8401**. Pick {{nearest_clinic}} since you're just
 round the corner. There's a small £4.99 booking fee, which holds the time
-slot. Feel free to share the offer with everyone in your building once the
-code is confirmed. It's a free 45-minute physio session, and if they come
+slot. Feel free to share the link and code with everyone in your building. It's a free 45-minute physio session, and if they come
 back, they can use the lower rates offered in clinic or run sessions through
 their health insurance.
+
+One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
 
 Let me know your thoughts.
 
@@ -173,8 +184,8 @@ Thanks,
 Only use `{{competitor_name}}` and `{{competitor_discount}}` when the lead
 gave both in their own message. Repeat their figure accurately; never invent
 one. `{{nearest_clinic}}` must come from the thread or lead record.
-Share the new code with the wider business or building only once it is
-confirmed for that offer. Do not distribute the legacy code as a new offer.
+Share VIP8401 with the offer terms: each colleague may claim only one offer
+once. Do not distribute the legacy code as a new offer.
 
 ---
 
@@ -185,11 +196,13 @@ Hi {{first_name}},
 Fair question. We're a London physio group, 43 clinics across the city, every
 physio session is with an HCPC-registered physiotherapist (that's the official UK
 regulator, not a masseuse or a sports therapist). We're rated 4.9 from over
-7,700 reviews. No catch on the free session, just a small £4.99 booking fee
+7,700 reviews. The free physio session has a small £4.99 booking fee
 that holds your time slot. It's genuinely how we get people through the door
 at a new clinic.
 
-Happy to send the code whenever you're ready.
+One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
+
+Happy to send the booking details whenever you're ready.
 
 Kurt
 
@@ -230,9 +243,50 @@ it there").
 
 ---
 
+## Sports massage — wants to book
+
+Use the 20-minute option at any clinic or the 45-minute option only at one
+of the ten eligible priority clinics in `booking-options.md`. Use the chosen
+appointment's exact link below. Do not guess the lead's preferred duration
+if their message does not make it clear; ask which they would prefer.
+
+**20-minute option:**
+
+Hi {{first_name}},
+
+You can book the free 20-minute sports massage here:
+https://onebodyldn.connect.tm3app.com/book/partnerships/sports_massage_2/sports_massage_20_min
+
+Use **VIP8401** and choose the clinic that suits you.
+
+One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
+
+{{sender_first_name}}
+
+**45-minute option (eligible priority clinics only):**
+
+Hi {{first_name}},
+
+You can book the free 45-minute sports massage here:
+https://onebodyldn.connect.tm3app.com/book/partnerships/sports_massage_2/sports_massage_45_min
+
+Use **VIP8401**. This option is available at Wimbledon, Aldgate East, Hendon,
+High Street Kensington, Mill Hill, Moorgate, Southfields, Twickenham,
+Waterloo and West Kensington.
+
+One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
+
+{{sender_first_name}}
+
+When the lead has already chosen an eligible clinic, name it instead of
+listing all ten. Do not invent a massage booking fee or say there is none.
+
+---
+
 ## Booking source of truth
 
-Use `booking-options.md` for current links and restrictions. Codes for new
-appointments are awaiting Kurt. The legacy code is for the already-sent
-old offer only and is time-limited; never reuse it as a default in new
-handover templates. Flag the pending code in `<triage>` for review.
+Use `booking-options.md` for current links, restrictions and code terms.
+`VIP8401` works across all three offers, with one free offer per person once
+in total. Always include the repeat-use charge notice with the handover.
+The legacy code is for the already-sent old offer only and is time-limited;
+never reuse it as a default or a way to claim another free session.

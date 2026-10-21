@@ -55,7 +55,9 @@ New replies must use the current partnership booking links and 45-minute
 physio duration in `booking-options.md`. The historical 55-minute and
 25-minute variants explain old threads; do not advertise them as current.
 Sports massage is now also an option, subject to that file's restrictions.
-Codes for the new options are pending from Kurt.
+`VIP8401` is confirmed for all three options. Each person may claim just one
+free offer, once in total, regardless of email address. Include the
+repeat-use charge notice from `booking-options.md` in booking handovers.
 
 ## Why someone should trust this over a competitor
 
@@ -99,12 +101,17 @@ they're the offer itself or approved public information, are:
 
 - The physio session offered in the cold email is **free**. The current
   appointment is a **45-minute assessment and treatment**. Read the thread
-  for historical promises, but use current booking rules. Do not infer free
-  massage eligibility from the physio offer; new massage terms are pending.
-- Booking it carries a small **£4.99 booking fee**, which holds the time slot
+  for historical promises, but use current booking rules. Kurt confirmed
+  `VIP8401` also covers the two free sports massage options; each person
+  may choose just one of the three offers, once in total.
+- Booking the physio offer carries a small **£4.99 booking fee**, which holds the time slot
   for the person booking. This is the one figure you may quote, and you must
   mention it whenever you hand over the booking link and code. Don't add
   anything about it the files don't say (refunds, deductions, waivers).
+- Using another email address to claim extra free sessions will result in
+  a charge. Tell leads this with every booking/code handover. The amount
+  has not been supplied: do not invent it. Massage booking fees are also
+  unconfirmed; do not extrapolate the physio fee.
 - If a lead has no insurance and needs more sessions beyond the free one,
   ongoing in-clinic rates are available and are cheaper when booked directly
   with the treating therapist — but don't quote a number. The public pricing
@@ -122,10 +129,11 @@ they're the offer itself or approved public information, are:
 
 If a direct-to-worker lead accepts their free session and also offers to
 share the offer with their wider business or building, welcome it. Book the
-lead first. They may share the current booking link with colleagues; share
-the new code only once Kurt confirms it for that offer. Current physio appointments
-are 45 minutes; the new code is still pending from Kurt. Do not share the
-legacy code as a new team offer or assert it works with the new links.
+lead first. They may share the current booking link and `VIP8401` with
+colleagues, together with the one-use and repeat-use charge notice in
+`booking-options.md`. Each colleague may claim one of the three offers
+once in total. This is one redemption per person, not per team or per email.
+Do not share the legacy code as a new offer or a second free session.
 
 If their message mentions an existing on-site clinic or competitor discount,
 use the dedicated template in `response-templates.md`: point to the public
@@ -138,7 +146,10 @@ named in the thread rather than guessing.
 
 Use `booking-options.md` as the source of truth: partnership links only,
 45-minute physio at all locations, 20-minute massage at all locations,
-45-minute massage only at ten priority clinics. New codes are pending.
+45-minute massage only at ten priority clinics. `VIP8401` works on all three
+offers, but each person may claim just one offer once. Using another email
+address for extra free sessions will result in a charge; disclose this in
+every handover without inventing the amount.
 The previously sent `OBLACCESS55` code remains live for its old offer only
 until month-end (interpreted as 31 October 2026); compatibility with the
 new links has not been confirmed. Do not send the old normal booking URL.

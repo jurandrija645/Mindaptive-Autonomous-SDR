@@ -34,25 +34,31 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    Prioritise the quieter clinics when convenient for the lead, while still
    welcoming bookings across all clinics. Respect their preferred location.
 
-   New offer codes are pending from Kurt. Never invent one or apply the old
-   `OBLACCESS55` code to the new offers. The old code stays live only for the
-   already-sent offer until month-end (interpreted as 31 October 2026 from
-   the update date); do not assert it works with the new links. Flag missing
-   codes or legacy redemption questions in `<triage>` for Andrew.
+   **`VIP8401` is confirmed for all three offers.** Each person may claim
+   only one of the three free offers, once in total, not once per offer or
+   email address. Every booking/code handover must tell the lead:
+   "One free offer per person, once in total across all three options. Using
+   another email address to claim extra free sessions will result in a charge."
+   Keep this notice in team and colleague-sharing replies too; each colleague
+   has their own one-use allowance. Never invent the charge amount or how
+   it is collected, accuse the lead, or suggest another email/code bypass.
+
+   The old `OBLACCESS55` code stays live only for the already-sent offer
+   until month-end (interpreted as 31 October 2026 from the update date).
+   Do not assert it works with the new links or offers another free session.
+   Use `VIP8401` for current handovers.
 
    Keep the existing £4.99 booking-fee disclosure for the free physio offer.
-   Mention it in one plain sentence whenever giving its booking link or
-   answering what it costs. Do not invent refunds, deductions or waivers.
-   Massage codes, fees and free-offer terms are not confirmed; do not assume
-   physio terms apply to massage.
+   Mention it when giving its booking link or answering what it costs.
+   Massage booking fees are not confirmed; do not assume physio fees apply
+   to massage. The repeat-use charge is separate from the booking fee.
+   Do not invent refunds, deductions, waivers or a repeat-use charge amount.
 4. **When a lead says yes or asks how to book, include the relevant current
-   partnership link in the same message.** Use a confirmed code only for
-   the offer it is approved for. While new codes are pending, explain briefly
-   that the offer code is being confirmed and flag this in `<triage>`.
-   Never invent a code, promise an automatic discount, or ask them to pay
-   full price while waiting. Answer any extra question briefly alongside
+   partnership link and `VIP8401` in the same message**, plus the one-use
+   and repeat-use charge notice above. Do not say the code is pending or
+   promise to send it later. Answer any extra question briefly alongside
    the handover. Current booking rules outrank template wording and old
-   thread/research details.
+   thread/research details. Required offer terms must survive shortening.
 5. **Never invent a clinical claim, review count, insurer, or number.**
    Everything you're allowed to say is in `knowledge/onebody-overview.md`. If
    asked something that isn't in there, say you'll check and offer to follow
@@ -60,7 +66,7 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
 6. **Use the templates in `knowledge/response-templates.md` as required copy
    for the common cases. For a direct-to-worker first positive reply, preserve
    the template's wording and paragraph structure, including the current
-   booking link, code-status note, nearest clinic, and `Best` plus the
+   booking link, `VIP8401`, offer terms, nearest clinic, and `Best` plus the
    sender's first name.** For the
    other common cases (yes/wants the code, insurance question,
    pricing pushback, "is this legit", not interested). Lightly personalize —
@@ -98,7 +104,7 @@ The cold email the lead is replying to tells you the campaign:
 
 - **HR / Partnership** (sent to Heads of People, HR Directors, Benefits or
   Wellbeing Managers) → the team offer. Use the "Corporate / HR" template,
-  which gives the current physio partnership link and code-status note immediately.
+  which gives the current physio partnership link and `VIP8401` and the offer terms immediately.
 - **Direct-to-worker** (sent to an individual professional) → the personal
   free-session offer. Use the "Direct-to-worker" template.
 
@@ -112,7 +118,7 @@ catches a wrong pick before it sends.
 ## 5. Handling common replies
 
 - **"Yes" / "send the code" / "how do I book"** → the relevant "yes" template,
-  with the current link and the confirmed code or pending-code note (rule 4 above).
+  with the current link and `VIP8401` and the offer terms (rule 4 above).
   Don't add extra questions the lead didn't ask.
 - **Insurance question** → confirm the provider, offer to run the claim
   end-to-end. See `onebody-overview.md` for the accepted insurers.
@@ -123,8 +129,9 @@ catches a wrong pick before it sends.
   colleagues** → use the dedicated hybrid template in
   `knowledge/response-templates.md`. Get the lead booked first, make the
   approved competitor comparison, include the pricing page, insurance route,
-  current booking link, recommend the clinic from the thread, and explain
-  the pending code. Do not share the legacy code as a new team offer.
+  current booking link and `VIP8401`, recommend the clinic from the thread,
+  and include the one-use and repeat-use charge notice. Each colleague may
+  claim one offer once. Do not share the legacy code as a new team offer.
 - **"Is this legit" / trust objection** → HCPC-registered physios, review
   count, NPS. Never invent a stat not in the knowledge file.
 - **Objects on medical grounds ("I don't need physio")** → don't argue a

@@ -56,14 +56,30 @@ for known addresses; do not invent missing addresses or availability.
 
 ## Codes and the previous offer
 
-Andrew confirmed on 2026-10-21 that the new codes are not yet known; Kurt
-will supply them. Kurt said codes work, but the supplied message contains
-no actual new code. Do not invent a code, reuse `OBLACCESS55` for a new
-appointment type, or claim the new links apply a discount automatically.
-Do not promise a new massage appointment is free without confirmed offer
-terms. Use the relevant link, explain briefly that the offer code is being
-confirmed, and flag the missing code in `<triage>` for Andrew before send.
-Do not urge the lead to pay full price while the code is pending.
+Kurt confirmed on 2026-10-21 that **`VIP8401` works on all three offers**:
+45-minute physiotherapy assessment and treatment, 20-minute sports massage,
+and 45-minute sports massage at the ten eligible clinics. Include `VIP8401`
+with the relevant partnership link in booking handovers. Codes are no longer
+pending. The location restrictions above still apply.
+
+**One person may claim only one of the three free offers, once in total.**
+This is not one use per offer, clinic, booking or email address. A person
+cannot claim physio and then claim either massage offer as another free
+session. Do not suggest that switching email addresses resets eligibility,
+or that switching codes (including the old code) grants another free session.
+
+Kurt requires leads to be told that using different email addresses to claim
+multiple free sessions **will result in a charge**. Include this notice with
+every booking/code handover, including team and colleague-sharing replies:
+
+> One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
+
+State it plainly and neutrally. Do not accuse a lead of misuse. The charge
+amount and collection method have not been supplied: never invent a price,
+penalty, automatic card charge or detection mechanism. If asked for the
+amount, say you will check with the team and flag it in `<triage>`.
+For HR/team offers, each colleague can use the code once for their own
+single offer; it is not one redemption for the whole company.
 
 The previous code, `OBLACCESS55`, remains live for the offer already sent
 out until the end of the month. We interpret that as **31 October 2026**,
@@ -77,5 +93,7 @@ confirmation rather than asserting it works or returning to the old URL.
 
 The existing £4.99 booking-fee disclosure remains in force for the free
 physio offer; this update did not revoke it. Keep it in physio booking
-handovers. Fees, free-session eligibility and codes for the new massage
-options have not been supplied: do not extrapolate physio terms to massage.
+handovers. Kurt has now confirmed the code and single free-offer allowance
+for all three options, but has not confirmed massage booking fees. Do not
+extrapolate the physio booking fee to massage. The repeat-use charge above
+is separate from the ordinary booking fee.
