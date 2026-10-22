@@ -51,6 +51,16 @@ def read_text(*parts: str, default: str = "") -> str:
     return path.read_text(encoding="utf-8")
 
 
+def priority_clinics() -> list[str]:
+    """OneBody's operator reminder, from the same booking rules as drafts."""
+    if CLIENT_DIR != REPO_ROOT / "clients" / "onebodyldn":
+        return []
+    section = read_text("knowledge", "booking-options.md").partition(
+        "## Priority locations\n"
+    )[2].split("\n## ", 1)[0]
+    return [line[2:].strip() for line in section.splitlines() if line.startswith("- ")]
+
+
 def personas() -> list[dict]:
     """Sending personas for this client, from `<CLIENT_DIR>/personas.json`:
 

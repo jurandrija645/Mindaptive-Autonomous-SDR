@@ -1,5 +1,16 @@
 {% extends "base.html" %}
+{% block body_class %}{% if priority_clinics %}has-priority-notice{% endif %}{% endblock %}
 {% block body %}
+{% if priority_clinics %}
+<aside class="priority-notice" aria-labelledby="priority-notice-title">
+  <span class="priority-notice-flag" aria-hidden="true">⚑</span>
+  <div>
+    <strong id="priority-notice-title">Kurt's priority clinics</strong>
+    <p class="priority-notice-clinics">{{ priority_clinics | join(' · ') }}</p>
+    <p class="priority-notice-note">Prioritise these clinics when they suit the lead's area. Reply promptly to interest in them. These are also the only clinics offering the free 45-minute sports massage.</p>
+  </div>
+</aside>
+{% endif %}
 <!-- Two rows, because one was a wall of eleven controls: the bar says *where
      you are* (workspace + the tools that act on the whole app), the strip
      below it says *what you're looking at*. The section tabs only ever show

@@ -65,6 +65,37 @@ body {
   line-height: 1.5;
 }
 
+/* Keep the client reminder visible while the inbox and conversation scroll.
+   Flex sizing lets the reminder wrap on phones without covering the editor. */
+body.has-priority-notice {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+.has-priority-notice > header { flex-shrink: 0; }
+.has-priority-notice > .layout,
+.has-priority-notice > .crm-page {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
+.priority-notice {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #fff4d6;
+  color: #694613;
+  border-bottom: 1px solid #e9cb82;
+  font-size: 13px;
+}
+.priority-notice-flag { font-size: 22px; line-height: 1.3; }
+.priority-notice p { margin: 2px 0 0; }
+.priority-notice-clinics { font-weight: 600; }
+.priority-notice-note { font-size: 12px; }
+
 /* ---- header ----
    Row one (.header-bar) is the workspace and the app-wide tools; row two
    (.subnav) is the sections of whichever workspace is open. --header-h covers

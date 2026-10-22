@@ -170,6 +170,7 @@ def dashboard(request: Request):
             "request": request,
             "dry_run": settings.dry_run,
             "auto_send": settings.auto_send_followups,
+            "priority_clinics": client_assets.priority_clinics(),
         },
     )
 
