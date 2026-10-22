@@ -27,6 +27,19 @@ class _NoStartThread:
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_replaying_old_reply_preserves_snooze_but_new_reply_clears_it(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, interested=1,
+                                 last_message_at="2026-10-01T09:00:00+00:00",
+                                 snooze_until="2026-11-01T09:00:00+00:00")
+            db.mark_lead_replied(conn, 20, 10, preview="Thanks",
+                                 received_at="2026-10-01T09:00:00+00:00")
+            self.assertEqual(db.get_lead_state(conn, 20, 10)["snooze_until"],
+                             "2026-11-01T09:00:00+00:00")
+            db.mark_lead_replied(conn, 20, 10, preview="One more question",
+                                 received_at="2026-10-02T09:00:00+00:00")
+            self.assertIsNone(db.get_lead_state(conn, 20, 10)["snooze_until"])
+
     def test_bulk_history_splits_large_campaign_and_preserves_all_threads(self):
         def respond(method, path, **kwargs):
             ids = kwargs["json"]["lead_ids"]

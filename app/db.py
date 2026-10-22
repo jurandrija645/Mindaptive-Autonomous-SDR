@@ -1151,7 +1151,14 @@ def mark_lead_replied(
 
     if existing and existing["archived_at"] and existing["archived_at"] < received_at:
         fields.update(archived_at=None, archive_reason=None)
-    if existing and existing["snooze_until"]:
+    # The repair poll replays unchanged replies. Only a NEW inbound message
+    # answers a deliberate snooze; replaying an old thank-you must not cancel
+    # a reminder Andrew set after reading it.
+    received_dt = _parse_utc(received_at)
+    previous_dt = _parse_utc(existing["last_message_at"]) if existing else None
+    if existing and existing["snooze_until"] and received_dt and (
+        previous_dt is None or received_dt > previous_dt
+    ):
         fields["snooze_until"] = None
 
     upsert_lead_state(conn, lead_id, campaign_id, **fields)
