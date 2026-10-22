@@ -236,6 +236,12 @@ single-lead endpoint plus **`email_seq_number` on SENT messages** — which is
 what makes "which follow-up earned this reply" answerable. ~4 KB per lead.
 `lead_ids: null` means *every* lead in the campaign; never send it.
 
+Verified 2026-10-22 on OneBodyLDN: a request accepts at most **100 lead IDs**.
+Larger requests fail in full with HTTP 400, `Maximum of 100 lead_ids are
+allowed`. `get_message_history_bulk` now chunks and merges at that boundary.
+This limit previously stopped the recurring reply/follow-up sweep for the
+211- and 377-lead campaigns, leaving stale inbox statuses.
+
 #### `GET /campaigns/{id}/leads-export`
 
 Real CSV (`text/csv`, ~22 MB for 5k leads). Columns: `id`,

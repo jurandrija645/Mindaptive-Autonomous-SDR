@@ -27,6 +27,41 @@ class _NoStartThread:
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_bulk_history_splits_large_campaign_and_preserves_all_threads(self):
+        def respond(method, path, **kwargs):
+            ids = kwargs["json"]["lead_ids"]
+            self.assertLessEqual(len(ids), 100)
+            self.assertEqual(kwargs["api_key"], "client-key")
+            return {lid: {"history": [{"message_id": lid}]} for lid in ids}
+
+        with patch.object(smartlead, "_request", side_effect=respond) as request:
+            result = smartlead.get_message_history_bulk(10, list(range(211)), api_key="client-key")
+        self.assertEqual(len(result), 211)
+        self.assertEqual([len(c.kwargs["json"]["lead_ids"]) for c in request.call_args_list], [100, 100, 11])
+        self.assertEqual(result["210"]["history"][0]["message_id"], "210")
+
+    def test_bulk_history_never_returns_partial_result_after_failure(self):
+        with patch.object(smartlead, "_request", side_effect=[{"1": {"history": []}}, smartlead.SmartleadError("throttled")]):
+            with self.assertRaises(smartlead.SmartleadError):
+                smartlead.get_message_history_bulk(10, list(range(101)))
+
+    def test_restoring_interested_recomputes_due_or_unanswered_status(self):
+        from app.detector import NormalizedMessage
+        for kind, expected in (("sent", "followup"), ("reply", "reply")):
+            with self.subTest(kind=kind):
+                with db.db_session() as conn:
+                    db.upsert_lead_state(conn, 20, 10, category="waiting", interested=0, archived_at=db.now_iso())
+                thread = [NormalizedMessage(kind, datetime.now(timezone.utc) - timedelta(days=35), "last", "Hello")]
+                with patch.object(main, "require_auth", return_value=None), patch.object(settings, "dry_run", True), patch.object(pipeline, "fetch_normalized_thread", return_value=thread), patch.object(settings, "followup_wait_days", (3,)), patch.object(settings, "detect_language", False), patch.object(scheduler.signatures, "is_sendable", return_value=True):
+                    client = TestClient(main.app)
+                    response = client.post("/api/leads/10/20/category", json={"category_name": "Interested"})
+                self.assertEqual(response.status_code, 200, response.text)
+                with db.db_session() as conn:
+                    state = db.get_lead_state(conn, 20, 10)
+                    self.assertEqual(state["category"], expected)
+                    self.assertEqual(state["interested"], 1)
+                    self.assertIsNone(state["archived_at"])
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.old_db_path = settings.db_path
@@ -853,7 +888,7 @@ Discount Code: OBLACCESS55
             db.mark_lead_booked(conn, 20, 10)
         with patch.object(main, "require_auth", return_value=None), patch.object(
             settings, "dry_run", True
-        ):
+        ), patch.object(pipeline, "fetch_normalized_thread", return_value=[]):
             response = TestClient(main.app).post(
                 "/api/leads/10/20/category", json={"category_name": "Interested"}
             )

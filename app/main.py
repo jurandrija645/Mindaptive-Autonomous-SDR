@@ -1612,7 +1612,7 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
         sequence = sequences.sequence_for_category(conn, category_name)
     thread = None
     re_enroll = bool(body.get("re_enroll"))
-    if sequence is not None:
+    if sequence is not None or restoring:
         try:
             thread = await run_in_threadpool(
                 pipeline.fetch_normalized_thread, campaign_id, lead_id
@@ -1621,6 +1621,7 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
             return JSONResponse(
                 {"error": f"Couldn't load the thread from Smartlead: {exc}"}, status_code=502
             )
+    if sequence is not None:
         with db.db_session() as conn:
             try:
                 sequences.check_enrollable(
@@ -1661,9 +1662,18 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
             # (A booking ends it inside mark_lead_booked.)
             db.stop_sequence_enrollments(conn, lead_id, campaign_id, "status_changed")
         if restoring:
+            state = db.get_lead_state(conn, lead_id, campaign_id)
+            decision = scheduler.detector.decide(
+                thread or [], state["followup_count"] if state else 0, "active",
+                hot=bool(state and state["temperature"] == "hot"),
+            )
+            summary = scheduler._summary_for(
+                {}, thread or [], scheduler._CATEGORY[decision.action],
+                thread[-1] if thread else None,
+            )
             db.upsert_lead_state(
                 conn, lead_id, campaign_id,
-                status="active", category="waiting",
+                status="active", interested=1, **summary,
                 archived_at=None, archive_reason=None,
                 smartlead_category=category_name,
             )
@@ -1687,6 +1697,10 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
                     conn, sequence, lead_id, campaign_id, thread, re_enroll=re_enroll
                 )
                 enrollment = sequences.enrollment_payload(conn, row, sequence)
+    if restoring and thread:
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, lead_id, campaign_id)
+        scheduler._queue_due_followup(row, campaign_id, thread)
     return JSONResponse({"ok": True, "enrollment": enrollment})
 
 

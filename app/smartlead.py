@@ -493,13 +493,20 @@ def get_message_history_bulk(
     thousands of threads, so an empty list returns {} instead."""
     if not lead_ids:
         return {}
-    data = _request(
-        "POST",
-        f"/campaigns/{campaign_id}/message-history-for-leads/{_BULK_HISTORY_TOKEN}",
-        json={"lead_ids": [str(lead_id) for lead_id in lead_ids]},
-        api_key=api_key,
-    )
-    return data if isinstance(data, dict) else {}
+    # Live API rejects more than 100 IDs, failing the entire campaign's
+    # reply/follow-up sweep. Keep this limit here so every caller is covered.
+    result = {}
+    for start in range(0, len(lead_ids), 100):
+        data = _request(
+            "POST",
+            f"/campaigns/{campaign_id}/message-history-for-leads/{_BULK_HISTORY_TOKEN}",
+            json={"lead_ids": [str(lead_id) for lead_id in lead_ids[start:start + 100]]},
+            api_key=api_key,
+        )
+        if not isinstance(data, dict):
+            raise SmartleadError("Bulk message history returned an invalid response")
+        result.update(data)
+    return result
 
 
 def list_recent_replies(limit: int = 20, api_key: str | None = None) -> list[dict]:
