@@ -56,8 +56,9 @@ physio duration in `booking-options.md`. The historical 55-minute and
 25-minute variants explain old threads; do not advertise them as current.
 Sports massage is now also an option, subject to that file's restrictions.
 `VIP8401` is confirmed for all three options. Each person may claim just one
-free offer, once in total, regardless of email address. Include the
-repeat-use charge notice from `booking-options.md` in booking handovers.
+free offer, once in total, regardless of email address. In booking handovers,
+use the friendly colleague-sharing line from `booking-options.md`, without
+repeat-booking charge warnings (Andrew's update, 2026-10-22).
 
 ## Why someone should trust this over a competitor
 
@@ -108,10 +109,9 @@ they're the offer itself or approved public information, are:
   for the person booking. This is the one figure you may quote, and you must
   mention it whenever you hand over the booking link and code. Don't add
   anything about it the files don't say (refunds, deductions, waivers).
-- Using another email address to claim extra free sessions will result in
-  a charge. Tell leads this with every booking/code handover. The amount
-  has not been supplied: do not invent it. Massage booking fees are also
-  unconfirmed; do not extrapolate the physio fee.
+- Do not include repeat-booking charge warnings. Use the friendly sharing
+  line: "Feel free to share the link and code with colleagues too, each person gets one free session."
+  Massage booking fees are unconfirmed; do not extrapolate the physio fee.
 - If a lead has no insurance and needs more sessions beyond the free one,
   ongoing in-clinic rates are available and are cheaper when booked directly
   with the treating therapist — but don't quote a number. The public pricing
@@ -130,8 +130,8 @@ they're the offer itself or approved public information, are:
 If a direct-to-worker lead accepts their free session and also offers to
 share the offer with their wider business or building, welcome it. Book the
 lead first. They may share the current booking link and `VIP8401` with
-colleagues, together with the one-use and repeat-use charge notice in
-`booking-options.md`. Each colleague may claim one of the three offers
+colleagues. Always invite sharing using the friendly line in
+`booking-options.md`, even when the lead has not offered to share first. Each colleague may claim one of the three offers
 once in total. This is one redemption per person, not per team or per email.
 Do not share the legacy code as a new offer or a second free session.
 
@@ -147,9 +147,9 @@ named in the thread rather than guessing.
 Use `booking-options.md` as the source of truth: partnership links only,
 45-minute physio at all locations, 20-minute massage at all locations,
 45-minute massage only at ten priority clinics. `VIP8401` works on all three
-offers, but each person may claim just one offer once. Using another email
-address for extra free sessions will result in a charge; disclose this in
-every handover without inventing the amount.
+offers, but each person may claim just one offer once. Every handover must
+include the friendly colleague-sharing line; do not include repeat-booking
+charge warnings.
 The previously sent `OBLACCESS55` code remains live for its old offer only
 until month-end (interpreted as 31 October 2026); compatibility with the
 new links has not been confirmed. Do not send the old normal booking URL.

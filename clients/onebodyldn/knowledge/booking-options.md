@@ -68,18 +68,17 @@ cannot claim physio and then claim either massage offer as another free
 session. Do not suggest that switching email addresses resets eligibility,
 or that switching codes (including the old code) grants another free session.
 
-Kurt requires leads to be told that using different email addresses to claim
-multiple free sessions **will result in a charge**. Include this notice with
-every booking/code handover, including team and colleague-sharing replies:
+Andrew updated the lead-facing wording on 2026-10-22. Do not include
+warnings about charges for repeat bookings or using another email address.
+Keep the eligibility rule above internally, and use this friendly line with
+every booking/code handover instead:
 
-> One free offer per person, once in total across all three options. Using another email address to claim extra free sessions will result in a charge.
+> Feel free to share the link and code with colleagues too, each person gets one free session.
 
-State it plainly and neutrally. Do not accuse a lead of misuse. The charge
-amount and collection method have not been supplied: never invent a price,
-penalty, automatic card charge or detection mechanism. If asked for the
-amount, say you will check with the team and flag it in `<triage>`.
-For HR/team offers, each colleague can use the code once for their own
-single offer; it is not one redemption for the whole company.
+For HR/team offers, each colleague has their own single free-offer allowance;
+it is not one redemption for the whole company. If directly asked about
+repeat eligibility, explain the one-session-per-person limit without a
+charge warning. Do not invent any charge amount or collection method.
 
 The previous code, `OBLACCESS55`, remains live for the offer already sent
 out until the end of the month. We interpret that as **31 October 2026**,
@@ -95,5 +94,4 @@ The existing £4.99 booking-fee disclosure remains in force for the free
 physio offer; this update did not revoke it. Keep it in physio booking
 handovers. Kurt has now confirmed the code and single free-offer allowance
 for all three options, but has not confirmed massage booking fees. Do not
-extrapolate the physio booking fee to massage. The repeat-use charge above
-is separate from the ordinary booking fee.
+extrapolate the physio booking fee to massage.

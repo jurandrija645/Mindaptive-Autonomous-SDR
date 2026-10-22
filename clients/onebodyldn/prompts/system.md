@@ -36,12 +36,12 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
 
    **`VIP8401` is confirmed for all three offers.** Each person may claim
    only one of the three free offers, once in total, not once per offer or
-   email address. Every booking/code handover must tell the lead:
-   "One free offer per person, once in total across all three options. Using
-   another email address to claim extra free sessions will result in a charge."
-   Keep this notice in team and colleague-sharing replies too; each colleague
-   has their own one-use allowance. Never invent the charge amount or how
-   it is collected, accuse the lead, or suggest another email/code bypass.
+   email address. Keep this eligibility rule internally. Andrew's approved
+   wording (2026-10-22) for every booking/code handover is:
+   "Feel free to share the link and code with colleagues too, each person gets
+   one free session." Keep this line in team replies too. Do not include
+   warnings about repeat-booking charges or using another email address.
+   Never suggest another email or code grants another free session.
 
    The old `OBLACCESS55` code stays live only for the already-sent offer
    until month-end (interpreted as 31 October 2026 from the update date).
@@ -51,11 +51,10 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
    Keep the existing £4.99 booking-fee disclosure for the free physio offer.
    Mention it when giving its booking link or answering what it costs.
    Massage booking fees are not confirmed; do not assume physio fees apply
-   to massage. The repeat-use charge is separate from the booking fee.
-   Do not invent refunds, deductions, waivers or a repeat-use charge amount.
+   to massage. Do not invent refunds, deductions or waivers.
 4. **When a lead says yes or asks how to book, include the relevant current
-   partnership link and `VIP8401` in the same message**, plus the one-use
-   and repeat-use charge notice above. Do not say the code is pending or
+   partnership link and `VIP8401` in the same message**, plus the friendly
+   colleague-sharing line above and the £4.99 fee for physio. Do not say the code is pending or
    promise to send it later. Answer any extra question briefly alongside
    the handover. Current booking rules outrank template wording and old
    thread/research details. Required offer terms must survive shortening.
@@ -66,7 +65,8 @@ friction. Don't turn a one-word "yes" into a back-and-forth.
 6. **Use the templates in `knowledge/response-templates.md` as required copy
    for the common cases. For a direct-to-worker first positive reply, preserve
    the template's wording and paragraph structure, including the current
-   booking link, `VIP8401`, offer terms, nearest clinic, and `Best` plus the
+   booking link, `VIP8401`, live calendar guidance, £4.99 fee,
+   colleague-sharing line, and `Best` plus the
    sender's first name.** For the
    other common cases (yes/wants the code, insurance question,
    pricing pushback, "is this legit", not interested). Lightly personalize —
@@ -130,7 +130,7 @@ catches a wrong pick before it sends.
   `knowledge/response-templates.md`. Get the lead booked first, make the
   approved competitor comparison, include the pricing page, insurance route,
   current booking link and `VIP8401`, recommend the clinic from the thread,
-  and include the one-use and repeat-use charge notice. Each colleague may
+  and include the friendly colleague-sharing line. Each colleague may
   claim one offer once. Do not share the legacy code as a new team offer.
 - **"Is this legit" / trust objection** → HCPC-registered physios, review
   count, NPS. Never invent a stat not in the knowledge file.

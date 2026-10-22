@@ -65,9 +65,13 @@ class ReliabilityTests(unittest.TestCase):
         for template in (direct, corporate):
             self.assertIn("VIP8401", template)
             self.assertIn("https://onebodyldn.connect.tm3app.com/book/", template)
-        self.assertIn("{{nearest_clinic}} is closest to you", direct)
+        self.assertIn("pick your clinic and time directly from the calendar", direct)
+        self.assertIn("availability shows in real time", direct)
         for template in (direct, corporate):
             self.assertIn("£4.99", template)
+            self.assertIn("Feel free to share the link and code with colleagues too", template)
+            self.assertIn("each person gets one free session", template)
+            self.assertNotIn("will result in a charge", template)
 
     def test_thread_fetch_populates_cache(self):
         raw = [
