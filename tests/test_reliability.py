@@ -63,11 +63,11 @@ class ReliabilityTests(unittest.TestCase):
         direct = source[direct_start:corporate_start]
         corporate = source[corporate_start:insurance_start]
         for template in (direct, corporate):
-            self.assertIn("OBLACCESS55", template)
+            self.assertIn("VIP8401", template)
             self.assertIn("https://onebodyldn.connect.tm3app.com/book/", template)
         self.assertIn("{{nearest_clinic}} is closest to you", direct)
         for template in (direct, corporate):
-            self.assertIn("£4.99 booking fee", template)
+            self.assertIn("£4.99", template)
 
     def test_thread_fetch_populates_cache(self):
         raw = [
@@ -611,7 +611,7 @@ Discount Code: OBLACCESS55
                 email="christian.roberts@sucfin.com", category="reply",
             )
         with patch.object(settings, "booking_webhook_secret", ""), patch.object(
-            settings, "booking_match_codes", ("OBLACCESS55",)
+            settings, "booking_match_codes", ("VIP8401", "OBLACCESS55", "OBLACCESS25")
         ), patch.object(settings, "dry_run", True), patch.object(
             webhook.interested_sheet, "mark_booked_match"
         ) as mark_sheet, patch.object(
@@ -622,7 +622,7 @@ Discount Code: OBLACCESS55
                 json={
                     "email": "different.personal@gmail.com",
                     "client_name": "Mr Christian Roberts",
-                    "discount_code": "OBLACCESS55",
+                    "discount_code": "vip8401",
                 },
             )
         self.assertEqual(response.status_code, 200)
@@ -634,7 +634,7 @@ Discount Code: OBLACCESS55
     def test_booking_with_shared_code_is_recorded_without_a_smartlead_lead(self):
         client = TestClient(main.app)
         with patch.object(settings, "booking_webhook_secret", ""), patch.object(
-            settings, "booking_match_codes", ("OBLACCESS55",)
+            settings, "booking_match_codes", ("VIP8401", "OBLACCESS55", "OBLACCESS25")
         ), patch.object(
             webhook.interested_sheet, "record_booking", return_value="recorded"
         ) as record_booking:
@@ -644,7 +644,7 @@ Discount Code: OBLACCESS55
                     "booking_id": "outlook-message-123",
                     "email": "colleague@example.com",
                     "client_name": "New Colleague",
-                    "discount_code": "OBLACCESS55",
+                    "discount_code": "VIP8401",
                     "location": "Blackfriars",
                     "date": "18 September 2026",
                     "time": "10:00",
@@ -654,6 +654,7 @@ Discount Code: OBLACCESS55
         self.assertEqual(response.json()["attribution"], "shared_code")
         self.assertEqual(response.json()["matches"], [])
         kwargs = record_booking.call_args.kwargs
+        self.assertEqual(kwargs["code"], "VIP8401")
         self.assertEqual(kwargs["booking_id"], "outlook-message-123")
         self.assertEqual(kwargs["location"], "Blackfriars")
         self.assertEqual(kwargs["appointment_date"], "18 September 2026")
@@ -771,13 +772,37 @@ Discount Code: OBLACCESS55
         nodes = {node["name"]: node for node in workflow["nodes"]}
         extractor = nodes["Extract booked email"]["parameters"]["jsCode"]
         request_body = nodes["Mark booked"]["parameters"]["jsonBody"]
-        self.assertIn("discount_code: field('Discount Code')", extractor)
-        self.assertIn("booking_id: String($json.id", extractor)
+        self.assertEqual(extractor, Path("clients/onebodyldn/booking-extractor.js").read_text(encoding="utf-8"))
+        self.assertEqual(nodes["New booking email"]["parameters"]["output"], "raw")
+        self.assertEqual(nodes["New booking email"]["parameters"]["filters"]["readStatus"], "both")
+        self.assertTrue(nodes["Mark booked"]["retryOnFail"])
         self.assertIn("client_name: $json.client_name", request_body)
         self.assertIn("discount_code: $json.discount_code", request_body)
         self.assertIn("location: $json.location", request_body)
         self.assertIn("date: $json.date", request_body)
         self.assertIn("time: $json.time", request_body)
+
+    def test_onebody_booking_extractor_handles_full_html_multiple_items_and_empty_code(self):
+        source = Path("clients/onebodyldn/booking-extractor.js").read_text(encoding="utf-8")
+        messages = [
+            {"id": "vip-1", "body": {"content": "<p>" + "Details " * 100 + "</p><table>"
+                "<tr><td>Client Name:</td><td>Ms Alex Smith</td></tr>"
+                "<tr><td>Email:</td><td>alex@example.com</td></tr>"
+                "<tr><td>Discount Code:</td><td>vip8401</td></tr>"
+                "<tr><td>Location:</td><td>Wimbledon</td></tr></table>"}},
+            {"id": "vip-2", "body": {"content": "Client Name: Sam Jones\nEmail: sam@example.com\nDiscount Code: VIP8401\nAppointment Date: 24 October\nAppointment Time: 10:00"}},
+            {"id": "empty-code", "body": {"content": "Client Name: Other Person\nEmail: other@example.com\nDiscount Code:\nDiscount Code Value: 0\nLocation: Aldgate East"}},
+            {"id": "legacy", "body": {"content": "Client Name: Legacy Person\nEmail: old@example.com\nDiscount Code: OBLACCESS55"}},
+            {"id": "unrelated", "body": {"content": "Client Name: Other Person\nDiscount Code: ANOTHER"}},
+        ]
+        runner = "const run = new Function('$input', " + json.dumps(source) + "); console.log(JSON.stringify(run({all: () => " + json.dumps([{"json": m} for m in messages]) + "})));"
+        result = subprocess.run(["node", "-e", runner], capture_output=True, text=True, check=True)
+        parsed = json.loads(result.stdout)
+        self.assertEqual([r["json"]["booking_id"] for r in parsed], ["vip-1", "vip-2", "legacy"])
+        self.assertEqual(parsed[0]["json"]["discount_code"], "VIP8401")
+        self.assertEqual(parsed[0]["json"]["email"], "alex@example.com")
+        self.assertEqual(parsed[1]["json"]["date"], "24 October")
+        self.assertEqual(parsed[1]["pairedItem"], {"item": 1})
 
     def test_explicit_all_booked_reply_is_deterministic(self):
         label, _ = reply_classifier.classify("Many thanks — all booked!")
