@@ -129,6 +129,7 @@ function formatPrice(value) {
 function modelOptionLabel(m) {
   const price = `${formatPrice(m.input_per_mtok)}/${formatPrice(m.output_per_mtok)} per M`;
   const flags = [];
+  if (m.price_note) flags.push(m.price_note);
   if (m.id === state.defaultModel) flags.push("default");
   if (!m.available) flags.push("no API key");
   const suffix = flags.length ? ` — ${flags.join(", ")}` : "";

@@ -36,17 +36,24 @@ PROVIDER_OPENROUTER = "openrouter"
 DEFAULT_MODEL_SETTING_KEY = "default_model"
 
 # id -> (label, $/M input, $/M output, supports adaptive thinking + effort).
-# Prices verified against Anthropic's published rates 2026-08-05; Sonnet 5
-# carries a $2/$10 introductory rate through 2026-08-31, listed here at its
-# standard price.
+# IDs, prices and adaptive thinking verified 2026-10-26:
+# https://platform.claude.com/docs/en/models/overview
+# https://platform.claude.com/docs/en/about-claude/pricing
+# Haiku 5.5's base rate covers prompts <=100K tokens; catalog() exposes the
+# higher rate as a price note so the picker doesn't imply a flat price.
 #
 # That last flag is load-bearing, not decoration: `thinking: {type: "adaptive"}`
 # needs a 4.6+ model and `output_config.effort` is rejected outright on Haiku
 # 4.5. Campaign analysis sends both, so without this flag the first person to
 # pick Haiku for it would get a 400. app/llm.py reads it before attaching either.
 ANTHROPIC_MODELS: dict[str, tuple[str, float, float, bool]] = {
+    "claude-haiku-5-5": ("Haiku 5.5", 0.10, 0.50, True),
+    "claude-sonnet-5-5": ("Sonnet 5.5", 2.00, 10.00, True),
+    "claude-opus-5-5": ("Opus 5.5", 4.00, 20.00, True),
+    "claude-fable-5-1": ("Fable 5.1", 10.00, 50.00, True),
+    # Keep saved choices and existing drafts valid across upgrades.
     "claude-haiku-4-5": ("Haiku 4.5", 1.00, 5.00, False),
-    "claude-sonnet-5": ("Sonnet 5", 3.00, 15.00, True),
+    "claude-sonnet-5": ("Sonnet 5", 2.00, 10.00, True),
     "claude-opus-4-8": ("Opus 4.8", 5.00, 25.00, True),
     "claude-opus-5": ("Opus 5", 5.00, 25.00, True),
 }
@@ -223,6 +230,10 @@ def catalog() -> list[dict]:
             "provider_label": "Anthropic",
             "input_per_mtok": price_in,
             "output_per_mtok": price_out,
+            "price_note": (
+                ">100K input: $0.50/$2.50 per M"
+                if model_id == "claude-haiku-5-5" else None
+            ),
             "web_search": True,
             "available": anthropic_ready,
         })
