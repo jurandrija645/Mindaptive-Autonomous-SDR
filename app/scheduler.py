@@ -327,7 +327,7 @@ def _sync_category_from_smartlead(
         )
 
 
-def _show_not_interested_lead(lead: dict, campaign_name: str, category: str) -> None:
+def _show_not_interested_lead(lead: dict, campaign_name: str, category: str, *, thread=None) -> None:
     """Import negative leads for human review; never draft or recategorize them.
 
     Fetch history once for missing summaries. Preserve manual archive/snooze,
@@ -344,11 +344,16 @@ def _show_not_interested_lead(lead: dict, campaign_name: str, category: str) -> 
         timezone_guess=guess_timezone(campaign_name),
     )
     if not state or not state["name_locked"]:
-        fields["name"] = lead.get("name") or lead.get("first_name")
+        fields["name"] = lead.get("name") or lead.get("first_name") or (state["name"] if state else None)
+    for key in ("website", "company"):
+        value = lead.get("company_name" if key == "company" else key)
+        if value:
+            fields[key] = value
     if state and norm_category_name(state["archive_reason"] or "") == norm_category_name(category):
         fields.update(archived_at=None, archive_reason=None)
     if not state or not state["last_message_at"]:
-        thread = pipeline.fetch_normalized_thread(cid, lid)
+        if thread is None:
+            thread = pipeline.fetch_normalized_thread(cid, lid)
         if thread:
             last = thread[-1]
             fields.update(
