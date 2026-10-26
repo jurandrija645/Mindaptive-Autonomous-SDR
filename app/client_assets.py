@@ -19,6 +19,7 @@ system prompt and knowledge base, but shares prompts/human-writing.md).
 import json
 import logging
 import os
+import re
 from pathlib import Path
 
 log = logging.getLogger("client_assets")
@@ -59,6 +60,27 @@ def priority_clinics() -> list[str]:
         "## Priority locations\n"
     )[2].split("\n## ", 1)[0]
     return [line[2:].strip() for line in section.splitlines() if line.startswith("- ")]
+
+
+def booking_location_priority(location: str) -> str:
+    """Classify actual booked clinics against this client's current priority list.
+
+    Unknown names stay unknown; never infer a booked clinic from a campaign,
+    the lead's nearest clinic or an address fragment.
+    """
+    def key(value):
+        value = re.sub(r"^one\s*body\s*ldn\s*[-–—:]\s*", "", value.strip(), flags=re.I)
+        return re.sub(r"[^a-z0-9]", "", value.lower())
+
+    priority = {key(name) for name in priority_clinics()}
+    target = key(location)
+    if not target or not priority:
+        return "Unknown"
+    if target in priority:
+        return "Yes"
+    known = {key(line.split("|")[1]) for line in read_text("knowledge", "locations.md").splitlines()
+             if line.startswith("| ") and not line.startswith("| Clinic ") and "---" not in line}
+    return "No" if target in known else "Unknown"
 
 
 def personas() -> list[dict]:

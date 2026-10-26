@@ -25,6 +25,18 @@ massage bookings with the code follow the same path.
 
 ## Matching and accounting
 
+The notification's actual `Location` is stored in Bookings column G (`location`).
+Column M (`priority_location`) contains `Yes`, `No`, or `Unknown`, based on the
+current ten priority clinics in `knowledge/booking-options.md`. The One Body LDN
+prefix and punctuation/case differences are normalized. Missing or unrecognized
+clinic names stay `Unknown`; the campaign or nearest-clinic field is never used
+to guess where someone booked. Booking Summary includes totals for all three.
+Existing sheet columns retain their positions. Notification retries can fill a
+missing location and refresh priority without appending a duplicate booking.
+After a priority-list change, run `python -m scripts.backfill_booking_priority`
+inside the OneBody container to refresh existing rows from recorded locations.
+The command saves the pre-migration sheet values beside the database.
+
 The webhook first matches a known lead by email. With an approved code it
 can also match an unambiguous normalized name when a person uses a different
 address. Known matches are marked booked and their follow-ups stopped.

@@ -37,7 +37,7 @@ drafting or the booking webhook's response.
 import hashlib
 import logging
 
-from app import db, sheets
+from app import client_assets, db, sheets
 from app.config import settings
 
 log = logging.getLogger("interested_sheet")
@@ -65,6 +65,7 @@ BOOKINGS_HEADER = [
     "matched_by",
     "campaign_id",
     "lead_id",
+    "priority_location",
 ]
 
 ATTRIBUTION_CONTACTED = "Contacted lead"
@@ -93,10 +94,19 @@ def _ensure_tab(sheet_id: str) -> None:
 def _ensure_booking_tabs(sheet_id: str) -> None:
     tabs = sheets.list_tabs(sheet_id)
     normalized = {title.strip().lower() for title in tabs}
-    if BOOKINGS_TAB.lower() not in normalized:
+    migrate_priority = BOOKINGS_TAB.lower() not in normalized
+    if migrate_priority:
         sheets.create_tab(sheet_id, BOOKINGS_TAB)
         sheets.write_header(sheet_id, BOOKINGS_TAB, list(BOOKINGS_HEADER))
         log.info("interested_sheet: created tab %r", BOOKINGS_TAB)
+    else:
+        header = sheets.read_range(sheet_id, BOOKINGS_TAB, "M1")
+        cell = str(header[0][0]).strip() if header and header[0] else ""
+        if cell and cell != "priority_location":
+            raise sheets.SheetsError("Bookings column M is occupied; cannot add priority_location safely")
+        if not cell:
+            sheets.write_range(sheet_id, BOOKINGS_TAB, "M1", ["priority_location"], raw=True)
+            migrate_priority = True
     if BOOKING_SUMMARY_TAB.lower() not in normalized:
         sheets.create_tab(sheet_id, BOOKING_SUMMARY_TAB)
         sheets.write_range(
@@ -131,6 +141,13 @@ def _ensure_booking_tabs(sheet_id: str) -> None:
             ],
         )
         log.info("interested_sheet: created tab %r", BOOKING_SUMMARY_TAB)
+        migrate_priority = True
+    if migrate_priority:
+        for row, label, status in ((5, "Bookings at priority locations", "Yes"),
+                                   (6, "Bookings at other locations", "No"),
+                                   (7, "Bookings with unknown location priority", "Unknown")):
+            sheets.write_range(sheet_id, BOOKING_SUMMARY_TAB, f"A{row}",
+                               [label, f'=COUNTIF(\'{BOOKINGS_TAB}\'!M2:M,"{status}")'])
 
 
 def _booking_key(
@@ -184,11 +201,21 @@ def record_booking(
         matched_by,
         str(campaign_id) if campaign_id is not None else "",
         str(lead_id) if lead_id is not None else "",
+        client_assets.booking_location_priority(location),
     ]
     try:
         _ensure_booking_tabs(sheet_id)
         rows = _booking_rows(sheet_id)
-        if any(row[_BOOKING_KEY_COL] == key for _, row in rows):
+        for row_number, row in rows:
+            if row[_BOOKING_KEY_COL] != key:
+                continue
+            # Retries can enrich an old confirmation without duplicating it.
+            actual_location = location.strip() or row[6]
+            if actual_location and actual_location != row[6]:
+                sheets.write_range(sheet_id, BOOKINGS_TAB, f"G{row_number}", [actual_location], raw=True)
+            priority = client_assets.booking_location_priority(actual_location)
+            if row[12] != priority:
+                sheets.write_range(sheet_id, BOOKINGS_TAB, f"M{row_number}", [priority], raw=True)
             return "duplicate"
         # One lead, one free session: an unconfirmed row and the confirmation
         # email for the same lead are the same booking, whichever lands first.
@@ -216,12 +243,12 @@ def record_booking(
 
 
 def _booking_rows(sheet_id: str) -> list[tuple[int, list[str]]]:
-    """Bookings data rows as (sheet row number, 12 stripped cells)."""
+    """Bookings data rows as (sheet row number, 13 stripped cells)."""
     width = len(BOOKINGS_HEADER)
     return [
         (row_number, ([str(cell).strip() for cell in cells] + [""] * width)[:width])
         for row_number, cells in enumerate(
-            sheets.read_range(sheet_id, BOOKINGS_TAB, "A2:L"), start=2
+            sheets.read_range(sheet_id, BOOKINGS_TAB, "A2:M"), start=2
         )
     ]
 

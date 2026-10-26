@@ -27,6 +27,38 @@ class _NoStartThread:
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_booked_location_priority_uses_actual_clinic_and_keeps_unknowns(self):
+        from app import client_assets
+        with patch.object(client_assets, "CLIENT_DIR", client_assets.REPO_ROOT / "clients" / "onebodyldn"):
+            for location, expected in (("One Body LDN - Mill Hill", "Yes"),
+                                       (" one body ldn – ALDGATE EAST ", "Yes"),
+                                       ("High Street Kensington", "Yes"),
+                                       ("One Body LDN - Shoreditch", "No"),
+                                       ("", "Unknown"), ("New unknown clinic", "Unknown"),
+                                       ("Wimbledon Village", "Unknown")):
+                with self.subTest(location=location):
+                    self.assertEqual(client_assets.booking_location_priority(location), expected)
+
+    def test_booking_retry_enriches_location_without_duplicate_or_erasing_it(self):
+        row = self._booking_row("provider-1", "a@x.com", "42") + [""]
+        with patch.object(settings, "interested_sheet_id", "sheet-1"), patch.object(
+            interested_sheet, "_ensure_booking_tabs"
+        ), patch.object(interested_sheet, "_booking_rows", return_value=[(2, row)]), patch.object(
+            interested_sheet.client_assets, "booking_location_priority", return_value="Yes"
+        ), patch.object(interested_sheet.sheets, "write_range") as write, patch.object(
+            interested_sheet.sheets, "append_row"
+        ) as append:
+            status = interested_sheet.record_booking(booking_id="provider-1", location="Mill Hill",
+                recorded_at="now", attribution=interested_sheet.ATTRIBUTION_CONTACTED)
+            self.assertEqual(status, "duplicate")
+            self.assertEqual([c.args[2:] for c in write.call_args_list], [("G2", ["Mill Hill"]), ("M2", ["Yes"])])
+            append.assert_not_called()
+            row[6], row[12] = "Mill Hill", "Yes"
+            write.reset_mock()
+            interested_sheet.record_booking(booking_id="provider-1", recorded_at="now",
+                attribution=interested_sheet.ATTRIBUTION_CONTACTED)
+            write.assert_not_called()
+
     def test_negative_reply_poll_is_visible_only_when_enabled(self):
         from app.detector import NormalizedMessage
         message = NormalizedMessage("reply", datetime.now(timezone.utc), "remote-reply", "We've gone fully remote for now.")
@@ -810,7 +842,7 @@ Discount Code: OBLACCESS55
             [call.args[1] for call in create_tab.call_args_list],
             [interested_sheet.BOOKINGS_TAB, interested_sheet.BOOKING_SUMMARY_TAB],
         )
-        self.assertEqual(write_range.call_count, 4)
+        self.assertEqual(write_range.call_count, 7)
         row = append_row.call_args.args[2]
         self.assertEqual(row[0], "provider-123")
         self.assertEqual(row[8], interested_sheet.ATTRIBUTION_SHARED)
@@ -824,7 +856,7 @@ Discount Code: OBLACCESS55
         with patch.object(settings, "interested_sheet_id", "sheet-1"), patch.object(
             interested_sheet.sheets, "list_tabs", return_value=tabs
         ), patch.object(
-            interested_sheet.sheets, "read_range", return_value=existing
+            interested_sheet.sheets, "read_range", side_effect=lambda _s, _t, cells: [["priority_location"]] if cells == "M1" else existing
         ), patch.object(interested_sheet.sheets, "write_range") as write_range, patch.object(
             interested_sheet.sheets, "append_row"
         ) as append_row:
@@ -839,8 +871,8 @@ Discount Code: OBLACCESS55
             )
         self.assertEqual(status, "recorded")
         append_row.assert_not_called()
-        self.assertEqual(write_range.call_args.args[2], "A2")
-        self.assertEqual(write_range.call_args.args[3][0], "provider-1")
+        confirmation = next(c for c in write_range.call_args_list if c.args[2] == "A2")
+        self.assertEqual(confirmation.args[3][0], "provider-1")
         # A later unconfirmed record for a lead that already has a row is a no-op.
         self.assertEqual(again, "duplicate")
 
@@ -853,6 +885,8 @@ Discount Code: OBLACCESS55
         ]
 
         def read_range(_sheet, tab, _cells):
+            if _cells == "M1":
+                return [["priority_location"]]
             return interested if tab == "Interested" else bookings
 
         booked_leads = [
