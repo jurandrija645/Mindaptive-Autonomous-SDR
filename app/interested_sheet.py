@@ -109,45 +109,27 @@ def _ensure_booking_tabs(sheet_id: str) -> None:
             migrate_priority = True
     if BOOKING_SUMMARY_TAB.lower() not in normalized:
         sheets.create_tab(sheet_id, BOOKING_SUMMARY_TAB)
-        sheets.write_range(
-            sheet_id,
-            BOOKING_SUMMARY_TAB,
-            "A1",
-            ["Metric", "Count"],
-            raw=True,
-        )
-        sheets.write_range(
-            sheet_id,
-            BOOKING_SUMMARY_TAB,
-            "A2",
-            ["Total bookings", f"=COUNTA('{BOOKINGS_TAB}'!A2:A)"],
-        )
-        sheets.write_range(
-            sheet_id,
-            BOOKING_SUMMARY_TAB,
-            "A3",
-            [
-                "Bookings from contacted leads",
-                f'=COUNTIF(\'{BOOKINGS_TAB}\'!I2:I,"{ATTRIBUTION_CONTACTED}")',
-            ],
-        )
-        sheets.write_range(
-            sheet_id,
-            BOOKING_SUMMARY_TAB,
-            "A4",
-            [
-                "Additional bookings from shared code",
-                f'=COUNTIF(\'{BOOKINGS_TAB}\'!I2:I,"{ATTRIBUTION_SHARED}")',
-            ],
-        )
         log.info("interested_sheet: created tab %r", BOOKING_SUMMARY_TAB)
         migrate_priority = True
     if migrate_priority:
-        for row, label, status in ((5, "Bookings at priority locations", "Yes"),
-                                   (6, "Bookings at other locations", "No"),
-                                   (7, "Bookings with unknown location priority", "Unknown")):
-            sheets.write_range(sheet_id, BOOKING_SUMMARY_TAB, f"A{row}",
-                               [label, f'=COUNTIF(\'{BOOKINGS_TAB}\'!M2:M,"{status}")'])
+        refresh_booking_summary(sheet_id)
+
+
+def refresh_booking_summary(sheet_id: str) -> None:
+    # Whole-column references survive INSERT_ROWS appends. Single-argument
+    # formulas also work in locales whose argument separator is a semicolon.
+    sheets.write_range(sheet_id, BOOKING_SUMMARY_TAB, "A1", ["Metric", "Count"], raw=True)
+    sheets.write_range(sheet_id, BOOKING_SUMMARY_TAB, "A2",
+                       ["Total bookings", f"=COUNTA('{BOOKINGS_TAB}'!A:A)-1"])
+    for row, label, column, value in (
+        (3, "Bookings from contacted leads", "I", ATTRIBUTION_CONTACTED),
+        (4, "Additional bookings from shared code", "I", ATTRIBUTION_SHARED),
+        (5, "Bookings at priority locations", "M", "Yes"),
+        (6, "Bookings at other locations", "M", "No"),
+        (7, "Bookings with unknown location priority", "M", "Unknown"),
+    ):
+        sheets.write_range(sheet_id, BOOKING_SUMMARY_TAB, f"A{row}",
+                           [label, f'=SUMPRODUCT(N(\'{BOOKINGS_TAB}\'!{column}:{column}="{value}"))'])
 
 
 def _booking_key(

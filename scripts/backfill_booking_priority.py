@@ -18,6 +18,7 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     (folder / f"{stamp}.json").write_text(json.dumps(before), encoding="utf-8")
     interested_sheet._ensure_booking_tabs(sid)
+    interested_sheet.refresh_booking_summary(sid)
     rows = interested_sheet._booking_rows(sid)
     data = []
     counts = dict(Yes=0, No=0, Unknown=0)
