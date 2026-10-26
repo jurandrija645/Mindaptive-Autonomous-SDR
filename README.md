@@ -91,6 +91,13 @@ Check `deploy/deploy.log` on the droplet to see deploy history. You want lines l
 
 ## 3. Day-to-day usage
 
+OneBodyLDN enables `SHOW_NOT_INTERESTED_LEADS=true` so Smartlead's
+Not Interested leads remain available for human review in the inbox. The
+recent-reply poll imports new negative replies and the daily scan imports older
+ones, preserving their Smartlead label. Category changes to Not Interested no
+longer archive them in this mode; the separate Archive action still does.
+Other accounts keep their existing behavior unless this setting is enabled.
+
 **Health tab** monitors every sending mailbox and domain belonging to this
 client's Smartlead account. Mailbox reputation below 90% enters rehab (5 cold,
 35–45 warm); five distinct days at 100% advances to comeback (15 cold, 25–30

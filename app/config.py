@@ -67,6 +67,10 @@ class Settings:
     not_interested_category_name: str = os.getenv(
         "NOT_INTERESTED_CATEGORY_NAME", "Not Interested"
     )
+    # Review negative replies in the inbox without changing Smartlead's label.
+    show_not_interested_leads: bool = field(
+        default_factory=lambda: _bool("SHOW_NOT_INTERESTED_LEADS", False)
+    )
     do_not_contact_category_name: str = os.getenv(
         "DO_NOT_CONTACT_CATEGORY_NAME", "Do Not Contact"
     )

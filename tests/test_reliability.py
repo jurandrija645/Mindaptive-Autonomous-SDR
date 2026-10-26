@@ -27,6 +27,60 @@ class _NoStartThread:
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_negative_reply_poll_is_visible_only_when_enabled(self):
+        from app.detector import NormalizedMessage
+        message = NormalizedMessage("reply", datetime.now(timezone.utc), "remote-reply", "We've gone fully remote for now.")
+        recent = [dict(email_lead_id="20", email_campaign_id=10,
+                       lead_category_id=3, last_reply_time=message.timestamp.isoformat(),
+                       lead_first_name="Ryan", lead_last_name="Chana",
+                       lead_email="ryan@example.com", email_campaign_name="London")]
+        with patch.object(smartlead, "list_recent_replies", return_value=recent), patch.object(
+            smartlead, "fetch_categories", return_value={"Not Interested": 3}
+        ), patch.object(pipeline, "fetch_normalized_thread", return_value=[message]) as fetch, patch.object(
+            pipeline, "create_draft"
+        ) as draft, patch.object(smartlead, "update_lead_category") as recategorize:
+            with patch.object(settings, "show_not_interested_leads", False):
+                scheduler.run_new_reply_poll()
+                with db.db_session() as conn:
+                    self.assertIsNone(db.get_lead_state(conn, 20, 10))
+            with patch.object(settings, "show_not_interested_leads", True):
+                scheduler.run_new_reply_poll()
+                scheduler.run_new_reply_poll()
+            with db.db_session() as conn:
+                row = db.get_lead_state(conn, 20, 10)
+                self.assertEqual(row["category"], "not_interested")
+                self.assertEqual(row["smartlead_category"], "Not Interested")
+                self.assertEqual(row["name"], "Ryan Chana")
+                self.assertIn("remote", row["last_message_preview"])
+                self.assertEqual(len(db.list_inbox(conn)), 1)
+            fetch.assert_called_once()
+            draft.assert_not_called()
+            recategorize.assert_not_called()
+
+    def test_negative_import_preserves_manual_archive_and_suppression(self):
+        lead = dict(id=20, campaign_id=10, first_name="Ryan", email="ryan@example.com")
+        for status in ("booked", "stopped", "blacklisted"):
+            with self.subTest(status=status), patch.object(pipeline, "fetch_normalized_thread") as fetch:
+                with db.db_session() as conn:
+                    db.upsert_lead_state(conn, 20, 10, status=status)
+                scheduler._show_not_interested_lead(lead, "London", "Not Interested")
+                with db.db_session() as conn:
+                    self.assertEqual(db.get_lead_state(conn, 20, 10)["status"], status)
+                fetch.assert_not_called()
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, status="active", name="Correct Name", name_locked=1,
+                                 archived_at=db.now_iso(), archive_reason="manual", last_message_at=db.now_iso())
+        scheduler._show_not_interested_lead(lead, "London", "Not Interested")
+        with db.db_session() as conn:
+            row = db.get_lead_state(conn, 20, 10)
+            self.assertEqual(row["name"], "Correct Name")
+            self.assertEqual(row["archive_reason"], "manual")
+            self.assertEqual(len(db.list_inbox(conn)), 0)
+            db.upsert_lead_state(conn, 20, 10, archive_reason="Not Interested")
+        scheduler._show_not_interested_lead(lead, "London", "Not Interested")
+        with db.db_session() as conn:
+            self.assertEqual(len(db.list_inbox(conn)), 1)
+
     def test_replaying_old_reply_preserves_snooze_but_new_reply_clears_it(self):
         with db.db_session() as conn:
             db.upsert_lead_state(conn, 20, 10, interested=1,

@@ -1686,9 +1686,11 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
             db.mark_lead_booked(conn, lead_id, campaign_id)
             db.upsert_lead_state(conn, lead_id, campaign_id, smartlead_category=category_name)
         else:
+            keep_visible = settings.show_not_interested_leads and scheduler.norm_category_name(category_name) == scheduler.norm_category_name(settings.not_interested_category_name)
             db.upsert_lead_state(
                 conn, lead_id, campaign_id,
-                archived_at=db.now_iso(), archive_reason=category_name,
+                archived_at=None if keep_visible else db.now_iso(),
+                archive_reason=None if keep_visible else category_name,
                 category=scheduler._local_category_slug(category_name),
                 smartlead_category=category_name, status="active",
             )

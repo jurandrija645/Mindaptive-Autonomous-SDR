@@ -327,6 +327,44 @@ def _sync_category_from_smartlead(
         )
 
 
+def _show_not_interested_lead(lead: dict, campaign_name: str, category: str) -> None:
+    """Import negative leads for human review; never draft or recategorize them.
+
+    Fetch history once for missing summaries. Preserve manual archive/snooze,
+    bookings and contact suppression; only undo category-driven archives.
+    """
+    lid, cid = int(lead["id"]), int(lead["campaign_id"])
+    with db.db_session() as conn:
+        state = db.get_lead_state(conn, lid, cid)
+    if state and state["status"] in ("booked", "stopped", "blacklisted"):
+        return
+    fields = dict(
+        interested=1, category="not_interested", smartlead_category=category,
+        status="active", email=lead.get("email"), campaign_name=campaign_name,
+        timezone_guess=guess_timezone(campaign_name),
+    )
+    if not state or not state["name_locked"]:
+        fields["name"] = lead.get("name") or lead.get("first_name")
+    if state and norm_category_name(state["archive_reason"] or "") == norm_category_name(category):
+        fields.update(archived_at=None, archive_reason=None)
+    if not state or not state["last_message_at"]:
+        thread = pipeline.fetch_normalized_thread(cid, lid)
+        if thread:
+            last = thread[-1]
+            fields.update(
+                last_message_preview=to_plain_text(last.body)[:200],
+                last_message_at=last.timestamp.astimezone(timezone.utc).isoformat(),
+                last_message_kind=last.kind,
+                category_message_id=last.message_id,
+            )
+    with db.db_session() as conn:
+        # Recheck after network I/O so a concurrent booking/stop stays frozen.
+        current = db.get_lead_state(conn, lid, cid)
+        if current and current["status"] in ("booked", "stopped", "blacklisted"):
+            return
+        db.upsert_lead_state(conn, lid, cid, **fields)
+
+
 def _push_category_to_smartlead(
     campaign_id: int,
     lead_id: int,
@@ -634,6 +672,18 @@ def _adopt_unknown_repliers() -> None:
         if not isinstance(replied_at, str) or not replied_at.strip():
             continue
 
+        if settings.show_not_interested_leads and norm_category_name(category) == norm_category_name(settings.not_interested_category_name):
+            try:
+                _show_not_interested_lead(
+                    dict(id=lead_id, campaign_id=campaign_id,
+                         email=row.get("lead_email"),
+                         name=" ".join(p for p in (row.get("lead_first_name"), row.get("lead_last_name")) if p)),
+                    row.get("email_campaign_name") or "", category,
+                )
+            except Exception:
+                log.exception("could not import Not Interested reply %s/%s", campaign_id, lead_id)
+            continue
+
         with db.db_session() as conn:
             existing = db.get_lead_state(conn, lead_id, campaign_id)
 
@@ -881,6 +931,14 @@ def run_reply_catch_scan() -> None:
                         if label != reply_classifier.INTERESTED:
                             continue
 
+                    if settings.show_not_interested_leads and norm_category_name(row["smartlead_category"] or "") == norm_category_name(settings.not_interested_category_name):
+                        with db.db_session() as conn:
+                            db.sort_replied_lead(
+                                conn, row["lead_id"], campaign_id, "not_interested",
+                                message_id=last.message_id,
+                            )
+                        continue
+
                     interested_sheet.sync_interested(
                         campaign_id, row["lead_id"], row["email"] or "", row["name"] or "",
                         row["company"] or "", db.now_iso(),
@@ -1075,6 +1133,13 @@ def run_daily_scan() -> None:
                 is_autoreply = detector.category_matches(lead, autoreply_id)
                 is_booked = detector.category_matches(lead, booked_id)
                 sl_name = category_names.get(lead.get("lead_category_id"))
+                if settings.show_not_interested_leads and norm_category_name(sl_name or "") == norm_category_name(settings.not_interested_category_name):
+                    try:
+                        _show_not_interested_lead(lead, campaign_name, sl_name)
+                    except Exception:
+                        failed_leads += 1
+                        log.exception("could not import Not Interested lead %s", lead["id"])
+                    continue
                 if (
                     not detector.is_interested(lead, interested_id)
                     and not is_autoreply
