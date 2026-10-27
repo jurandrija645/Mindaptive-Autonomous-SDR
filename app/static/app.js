@@ -3020,10 +3020,12 @@ const SITE_FEEDBACK_LABELS = {
   like: "Likes it, wants pricing",
   change: "Would change something",
   no: "Not for us",
+  accept: "Approved the scope, wants the invoice",
 };
 
-// Answers from the popup on the demo site we built. "like" is the hot one:
-// the pricing reply is due within minutes, so it gets its own loud style.
+// Answers from the popup or proposal panel on the demo site we built. "like" and
+// "accept" are the hot ones: the reply (pricing, or the start-payment invoice) is
+// due within minutes, so they get their own loud style.
 function renderSiteFeedback(items) {
   if (!items || !items.length) return null;
   const box = el("div", "site-feedback");
@@ -3033,6 +3035,9 @@ function renderSiteFeedback(items) {
     row.appendChild(el("strong", null, SITE_FEEDBACK_LABELS[f.answer] || f.answer));
     if (f.answer === "like" && !f.handled_at) {
       row.appendChild(el("span", "site-feedback-urgent", `Reply with pricing within ${f.reply_within_minutes || 5} min`));
+    }
+    if (f.answer === "accept" && !f.handled_at) {
+      row.appendChild(el("span", "site-feedback-urgent", "Send the start-payment invoice today"));
     }
     if (f.detail) row.appendChild(el("div", null, f.detail));
     row.appendChild(el("div", "muted", `${f.created_at || ""}${f.page ? " · " + f.page : ""}`));

@@ -7,6 +7,11 @@ the new site?" with three answers:
   change  "I'd change something"         -> detail = the one thing they'd change
   no      "Not for us"                   -> detail = the reason they picked
 
+The proposal panel that replaces the popup (templates/shared/proposal-panel) adds:
+
+  accept  "Approve scope, send my invoice" -> hottest: detail = name, email, scope
+          version and amounts; send the start-payment invoice the same business day
+
 The site's own server function posts here (the token never reaches the browser).
 Rows are keyed by the demo site's host, because that is all the browser knows;
 prospect_contacts.demo_url is what ties the host back to a company and its lead.
@@ -22,17 +27,18 @@ from app.config import settings
 
 router = APIRouter()
 
-ANSWERS = {"like", "change", "no"}
+ANSWERS = {"like", "change", "no", "accept"}
 NO_REASONS = {"Too expensive", "Prefer current website", "Timing", "Not different enough", "Other"}
-# A "like" answer is a buying signal that goes cold fast.
+# "like" and "accept" are buying signals that go cold fast.
 REPLY_WITHIN_MINUTES = 5
+HOT_ANSWERS = {"like", "accept"}
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS site_feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     host TEXT NOT NULL,              -- demo site host, e.g. acme-hvac.vercel.app
     domain TEXT,                     -- prospect's own domain, when the host is known
-    answer TEXT NOT NULL,            -- like | change | no
+    answer TEXT NOT NULL,            -- like | change | no | accept
     detail TEXT,                     -- what they'd change, or why not
     page TEXT,                       -- path they were on
     trigger TEXT,                    -- time | scroll | navigation
@@ -63,7 +69,7 @@ def save(conn, payload: dict) -> dict:
         raise ValueError("host is required")
     answer = payload.get("answer")
     if answer not in ANSWERS:
-        raise ValueError("answer must be like, change or no")
+        raise ValueError("answer must be like, change, no or accept")
     detail = _clip(payload.get("detail"), 2000)
     if answer == "no" and detail not in NO_REASONS:
         detail = f"Other: {detail}" if detail else "Other"
@@ -122,7 +128,7 @@ def payload(rows) -> list[dict]:
             "page": r["page"],
             "created_at": r["created_at"],
             "handled_at": r["handled_at"],
-            "reply_within_minutes": REPLY_WITHIN_MINUTES if r["answer"] == "like" else None,
+            "reply_within_minutes": REPLY_WITHIN_MINUTES if r["answer"] in HOT_ANSWERS else None,
         }
         for r in rows
     ]
