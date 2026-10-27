@@ -85,6 +85,33 @@ documented payload only on a 422. Do not remove that fallback or enable writes
 without the one-mailbox probe described in
 `docs/deliverability-health-research.md`.
 
+**Custom ladders.** A client may store its own ordered `ladder` in the policy
+instead of the three default stages: rehab first, full last, cold strictly rising,
+one rung per `stable_days` at 100%. Mindaptive's (owner, 2026-10-27):
+5/40-45 → 10/35-40 → 15/30-35 → 20/25-30 → 25/20-25, threshold 100, 2 days per
+rung. Clients without a stored ladder keep rehab/comeback/full unchanged. On first
+sight a custom ladder reads the cold cap only (a 20/day mailbox starts on the 20
+rung); old `comeback` rows map to the rung with the nearest cold cap.
+
+**Placement tests** (`app/placement.py`). Warmup reputation does not see spam
+placement: on 27 Oct every Mindaptive mailbox read 100% while the 21 Oct seed test
+put a third of them in spam. The latest SmartDelivery result per mailbox therefore
+overrides reputation:
+- **Below `placement_threshold`** (default 90% inbox): the mailbox is held in rehab,
+  removed from every ACTIVE campaign and its leads reallocated. A campaign is never
+  emptied; that case only raises an alert.
+- **Reading results:** `placement_collect` (every 6 h, free) reads every finished
+  test, including ones made by hand in the Smartlead UI.
+- **Starting tests:** `placement_weekly` (Saturday 06:00 UTC) exists only with
+  `PLACEMENT_TESTS_ENABLED=true`, because it spends credits.
+- **Who can be tested:** SmartDelivery only accepts senders attached to the campaign
+  whose step-1 copy is sent, so each mailbox is tested through its own newest
+  campaign.
+- **Writes:** removal follows the same switch and `DRY_RUN` gate as stage changes.
+- **Excluded mailboxes:** `HEALTH_EXCLUDE_DOMAINS` (or the policy's
+  `exclude_domains`) lists domains that are never changed, tested or removed. On
+  Mindaptive's account that is Juran Pumpe's own mailboxes.
+
 Domain checks always cover MX/SPF/DMARC. Blacklist state is green only when the
 named provider actually ran; a missing `APIVOID_API_KEY` remains `unknown`.
 Do not query Spamhaus public mirrors through Google DNS/DigitalOcean: their

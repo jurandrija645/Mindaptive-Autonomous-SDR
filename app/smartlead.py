@@ -414,6 +414,66 @@ def get_campaign_sequences(campaign_id: int, api_key: str | None = None) -> list
     return data
 
 
+def get_campaign_email_accounts(campaign_id: int, api_key: str | None = None) -> list[dict]:
+    """The mailboxes in a campaign's sender rotation (`id`, `from_email`, ...)."""
+    data = _request("GET", f"/campaigns/{campaign_id}/email-accounts", api_key=api_key)
+    return data if isinstance(data, list) else (data or {}).get("data") or []
+
+
+def remove_campaign_email_accounts(
+    campaign_id: int, email_account_ids: list[int], api_key: str | None = None
+) -> Any:
+    """Take mailboxes out of a campaign's rotation. Smartlead refuses to empty an
+    ACTIVE campaign. Leads already assigned to a removed mailbox stay on it until
+    `reallocate_campaign_mailboxes` moves them."""
+    return _request(
+        "DELETE", f"/campaigns/{campaign_id}/email-accounts",
+        json={"email_account_ids": [int(i) for i in email_account_ids]}, api_key=api_key,
+    )
+
+
+def reallocate_campaign_mailboxes(
+    campaign_id: int, from_email_account_ids: list[int], api_key: str | None = None
+) -> Any:
+    """Move the leads of removed mailboxes onto ones still attached (1-100 ids,
+    each already removed). Leads in status STARTED are not moved."""
+    return _request(
+        "POST", f"/campaigns/{campaign_id}/reallocate-mailboxes",
+        json={"from_email_account_ids": [int(i) for i in from_email_account_ids]}, api_key=api_key,
+    )
+
+
+# SmartDelivery (inbox-placement tests) lives on its own host with the same key.
+# httpx ignores the client's base_url for an absolute URL, so these reuse the
+# account's connection pool and rate limiter.
+SMART_DELIVERY_URL = "https://smartdelivery.smartlead.ai/api/v1"
+
+
+def create_placement_test(payload: dict, api_key: str | None = None) -> Any:
+    """POST /spam-test/manual. Spends placement credits. Required, as probed
+    against the live API on 2026-10-27: test_name, spam_filters, link_checker,
+    campaign_id, sequence_mapping_id (a step id from get_campaign_sequences),
+    provider_ids, sender_accounts (emails), all_email_sent_without_time_gap,
+    min_time_btwn_emails, min_time_unit (minutes|hours|days), is_warmup."""
+    return _request("POST", f"{SMART_DELIVERY_URL}/spam-test/manual", json=payload, api_key=api_key)
+
+
+def list_placement_tests(api_key: str | None = None) -> list[dict]:
+    """Recent placement tests, newest first (`spam_test_id`, `test_name`,
+    `status` ACTIVE|COMPLETED, `created_at`, inbox/spam totals)."""
+    data = _request("POST", f"{SMART_DELIVERY_URL}/spam-test/report", json={}, api_key=api_key)
+    return data if isinstance(data, list) else (data or {}).get("data") or []
+
+
+def placement_sender_report(spam_test_id: int, api_key: str | None = None) -> list[dict]:
+    """Per sender mailbox: `email` and `details[]`, one per seed inbox, each with
+    `reply.mail_folder` (Inbox|Spam|...) once the seed has received it."""
+    data = _request(
+        "GET", f"{SMART_DELIVERY_URL}/spam-test/report/{spam_test_id}/sender-account-wise", api_key=api_key
+    )
+    return data if isinstance(data, list) else (data or {}).get("data") or []
+
+
 def iter_campaign_statistics(
     campaign_id: int,
     sent_time_start_date: str | None = None,

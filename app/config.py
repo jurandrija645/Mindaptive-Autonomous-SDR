@@ -156,6 +156,24 @@ class Settings:
     mailbox_phase_stable_days: int = int(
         os.getenv("MAILBOX_PHASE_STABLE_DAYS", "5")
     )
+    # Weekly inbox-placement tests (app/placement.py, Smartlead SmartDelivery).
+    # Off by default: every run spends placement credits. A mailbox whose latest
+    # test lands under PLACEMENT_INBOX_THRESHOLD % in the inbox is held in rehab
+    # and taken out of active campaigns (the latter only with auto-apply on and
+    # DRY_RUN=false).
+    placement_tests_enabled: bool = field(
+        default_factory=lambda: _bool("PLACEMENT_TESTS_ENABLED", False)
+    )
+    placement_inbox_threshold: int = int(os.getenv("PLACEMENT_INBOX_THRESHOLD", "90"))
+    placement_weekday: str = os.getenv("PLACEMENT_WEEKDAY", "sat")
+    placement_hour_utc: int = int(os.getenv("PLACEMENT_HOUR_UTC", "6"))
+    placement_collect_hours: int = int(os.getenv("PLACEMENT_COLLECT_HOURS", "6"))
+    # Campaign whose step-1 copy a mailbox is tested with when it is attached
+    # there; 0 = each mailbox's own newest active campaign.
+    placement_campaign_id: int = int(os.getenv("PLACEMENT_CAMPAIGN_ID", "0"))
+    # Comma-separated sending domains the Health tab must never change or test,
+    # e.g. a client's own mailboxes that happen to sit on this Smartlead account.
+    health_exclude_domains: str = os.getenv("HEALTH_EXCLUDE_DOMAINS", "")
     # Optional APIVoid Domain Reputation API. Without a key the app still
     # checks MX/SPF/DMARC and labels blacklist coverage as not configured.
     apivoid_api_key: str = os.getenv("APIVOID_API_KEY", "")

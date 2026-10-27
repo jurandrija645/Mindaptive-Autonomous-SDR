@@ -34,6 +34,12 @@ POLICY_SETTING_KEY = "deliverability_policy"
 # Smartlead rejects total_warmup_per_day outside 1-50.
 _WARM_CEILING = 50
 _COLD_CEILING = 500
+# A client may replace the three default stages with its own ladder, climbed one
+# rung at a time (Mindaptive: 5/45 -> 10/40 -> 15/35 -> 20/30 -> 25/25). The
+# bottom rung is always "rehab" and the top always "full", so every other part
+# of the app that only knows those two names keeps working.
+_MAX_STAGES = 8
+_STAGE_NAME = re.compile(r"^[a-z][a-z0-9_]{0,23}$")
 
 _lock = threading.Lock()
 _running = False
@@ -62,14 +68,62 @@ def _domain(email: str) -> str:
     return value.rsplit("@", 1)[1] if "@" in value else ""
 
 
+def _ladder_from_phases(phases: dict) -> list[dict]:
+    return [{"name": name, **{k: phases[name][k] for k in ("cold", "warm_min", "warm_max")}} for name in PHASES]
+
+
 def _env_policy() -> dict:
+    phases = {name: dict(values) for name, values in PHASES.items()}
     return {
         "auto_apply": bool(settings.deliverability_auto_apply),
         "auto_apply_source": "env",
         "threshold": settings.mailbox_rehab_threshold,
         "stable_days": settings.mailbox_phase_stable_days,
-        "phases": {name: dict(values) for name, values in PHASES.items()},
+        "placement_threshold": settings.placement_inbox_threshold,
+        "phases": phases,
+        "ladder": _ladder_from_phases(phases),
+        "custom_ladder": False,
+        "exclude_domains": sorted(
+            {d.strip().lower() for d in settings.health_exclude_domains.split(",") if d.strip()}
+        ),
     }
+
+
+_DOMAIN = re.compile(r"^[a-z0-9-]+(\.[a-z0-9-]+)+$")
+
+
+def excluded_domains(policy: dict | None = None) -> set[str]:
+    """Domains whose mailboxes are never changed, tested or taken out of a campaign."""
+    return set((policy or load_policy())["exclude_domains"])
+
+
+def _validate_ladder(rows: Any) -> list[dict]:
+    """A ladder edit: 2-8 rungs, cold strictly rising, rehab first, full last."""
+    if not isinstance(rows, list) or not 2 <= len(rows) <= _MAX_STAGES:
+        raise ValueError(f"The ladder needs between 2 and {_MAX_STAGES} stages")
+    out: list[dict] = []
+    for i, row in enumerate(rows):
+        if not isinstance(row, dict):
+            raise ValueError("Each stage must be an object")
+        name = str(row.get("name") or "").strip().lower()
+        if i == 0:
+            name = "rehab"
+        elif i == len(rows) - 1:
+            name = "full"
+        elif not _STAGE_NAME.match(name) or name in ("rehab", "full"):
+            name = f"step_{i}"
+        label = name.replace("_", " ").capitalize()
+        cold = _int_in(row.get("cold"), 1, _COLD_CEILING, f"{label} cold emails")
+        warm_min = _int_in(row.get("warm_min"), 1, _WARM_CEILING, f"{label} warmup minimum")
+        warm_max = _int_in(row.get("warm_max"), 1, _WARM_CEILING, f"{label} warmup maximum")
+        if warm_min > warm_max:
+            raise ValueError(f"{label} warmup minimum is above its maximum")
+        if out and cold <= out[-1]["cold"]:
+            raise ValueError(f"{label} must send more cold emails than the stage below it")
+        if any(s["name"] == name for s in out):
+            raise ValueError(f"Stage name {name} is used twice")
+        out.append({"name": name, "cold": cold, "warm_min": warm_min, "warm_max": warm_max})
+    return out
 
 
 def load_policy(conn=None) -> dict:
@@ -88,14 +142,28 @@ def load_policy(conn=None) -> dict:
     if isinstance(stored.get("auto_apply"), bool):
         policy["auto_apply"] = stored["auto_apply"]
         policy["auto_apply_source"] = "dashboard"
-    for key in ("threshold", "stable_days"):
+    for key in ("threshold", "stable_days", "placement_threshold"):
         if isinstance(stored.get(key), int):
             policy[key] = stored[key]
+    if isinstance(stored.get("exclude_domains"), list):
+        policy["exclude_domains"] = sorted({str(d).strip().lower() for d in stored["exclude_domains"] if str(d).strip()})
+    ladder = None
+    if stored.get("ladder"):
+        try:
+            ladder = _validate_ladder(stored["ladder"])
+        except ValueError:
+            log.warning("ignoring unreadable stored ladder; using the default stages")
+    if ladder:
+        policy["ladder"] = ladder
+        policy["custom_ladder"] = True
+        policy["phases"] = {s["name"]: {k: s[k] for k in ("cold", "warm_min", "warm_max")} for s in ladder}
+        return policy
     for name, values in (stored.get("phases") or {}).items():
         if name in policy["phases"] and isinstance(values, dict):
             for field in ("cold", "warm_min", "warm_max"):
                 if isinstance(values.get(field), int):
                     policy["phases"][name][field] = values[field]
+    policy["ladder"] = _ladder_from_phases(policy["phases"])
     return policy
 
 
@@ -125,8 +193,24 @@ def save_policy(data: dict) -> dict:
             "auto_apply": bool(data.get("auto_apply", current["auto_apply"])),
             "threshold": _int_in(data.get("threshold", current["threshold"]), 1, 100, "Rehab threshold"),
             "stable_days": _int_in(data.get("stable_days", current["stable_days"]), 1, 60, "Perfect days per step"),
-            "phases": {},
+            "placement_threshold": _int_in(
+                data.get("placement_threshold", current["placement_threshold"]), 1, 100, "Placement inbox threshold"
+            ),
         }
+        domains = data.get("exclude_domains", current["exclude_domains"])
+        if isinstance(domains, str):
+            domains = domains.split(",")
+        domains = sorted({str(d).strip().lower() for d in domains or [] if str(d).strip()})
+        bad = [d for d in domains if not _DOMAIN.match(d)]
+        if bad:
+            raise ValueError(f"Not a domain: {', '.join(bad)}")
+        stored["exclude_domains"] = domains
+        if "ladder" in data or current["custom_ladder"]:
+            stored["ladder"] = _validate_ladder(data.get("ladder", current["ladder"]))
+            with db.db_session() as conn:
+                db.set_setting(conn, POLICY_SETTING_KEY, json.dumps(stored))
+                return load_policy(conn)
+        stored["phases"] = {}
         incoming = data.get("phases") or {}
         for name, label in (("rehab", "Rehab"), ("comeback", "Comeback"), ("full", "Full")):
             values = {**current["phases"][name], **(incoming.get(name) or {})}
@@ -141,7 +225,11 @@ def save_policy(data: dict) -> dict:
         return load_policy(conn)
 
 
-def _initial_phase(account: dict, phases: dict | None = None) -> str:
+def _is_default_shape(ladder: list[dict] | None) -> bool:
+    return not ladder or [s["name"] for s in ladder] == list(PHASES)
+
+
+def _initial_phase(account: dict, phases: dict | None = None, ladder: list[dict] | None = None) -> str:
     """Preserve an already-throttled mailbox on the first local check.
 
     The live Mindaptive account already contains rehab/comeback-shaped limits.
@@ -154,6 +242,12 @@ def _initial_phase(account: dict, phases: dict | None = None) -> str:
         cold = int(account.get("message_per_day"))
     except (TypeError, ValueError):
         return "full"
+    if not _is_default_shape(ladder):
+        # A custom ladder is read off the cold cap alone: the highest rung the
+        # mailbox already sends at or above, so a 20/day mailbox resumes at the
+        # 20 rung and is never promoted past it on first sight.
+        reached = [s["name"] for s in ladder if s["cold"] <= cold]
+        return reached[-1] if reached else ladder[0]["name"]
     try:
         warm_max = int(warm.get("warmup_max_count") or warm.get("max_email_per_day"))
     except (TypeError, ValueError):
@@ -168,33 +262,70 @@ def _initial_phase(account: dict, phases: dict | None = None) -> str:
     return "full"
 
 
+def _field(row: Any, key: str) -> Any:
+    try:
+        return row[key]
+    except (KeyError, IndexError, TypeError):
+        return None
+
+
+def _resolve_phase(name: str, ladder: list[dict], target_cold: Any) -> str:
+    """Map a stored phase onto the current ladder.
+
+    Switching a client from the default stages to its own ladder leaves rows
+    saying "comeback"; they land on the rung whose cold cap is closest to what
+    the mailbox was last told to send, never on "full" by default.
+    """
+    names = [s["name"] for s in ladder]
+    if name in names:
+        return name
+    try:
+        cold = int(target_cold)
+    except (TypeError, ValueError):
+        return names[0]
+    return min(ladder, key=lambda s: abs(s["cold"] - cold))["name"]
+
+
 def _next_phase(
-    previous: Any, reputation: int | None, today: str, policy: dict | None = None
+    previous: Any,
+    reputation: int | None,
+    today: str,
+    policy: dict | None = None,
+    hold: bool = False,
 ) -> tuple[str, int, str | None]:
+    """The mailbox's stage after today's observation.
+
+    ``hold`` is a failed inbox-placement test. It sends the mailbox to rehab
+    whatever Smartlead's reputation says, and keeps it there until a later test
+    passes: on 27 Oct 2026 every Mindaptive mailbox read 100% reputation while
+    a third of them were landing in spam.
+    """
     policy = policy or _env_policy()
-    old_phase = previous["phase"] if previous else "full"
+    ladder = policy.get("ladder") or _ladder_from_phases(policy["phases"])
+    names = [s["name"] for s in ladder]
+    bottom, top = names[0], names[-1]
+    old_phase = previous["phase"] if previous else top
+    old_phase = _resolve_phase(old_phase, ladder, _field(previous, "target_cold"))
     old_days = int(previous["perfect_days"] or 0) if previous else 0
     last_day = previous["last_observation_day"] if previous else None
+    if hold:
+        return bottom, 0, (f"{old_phase}->{bottom}" if old_phase != bottom else None)
     if reputation is None:
         return old_phase, old_days, None
     if reputation < policy["threshold"]:
-        transition = f"{old_phase}->rehab" if old_phase != "rehab" else None
-        return "rehab", 0, transition
+        transition = f"{old_phase}->{bottom}" if old_phase != bottom else None
+        return bottom, 0, transition
+    if old_phase == top:
+        return top, 0, None
 
     # Only one streak increment per UTC calendar day. Repeated manual checks
-    # cannot speed a mailbox through the five-day safety gate.
+    # cannot speed a mailbox through the safety gate.
     is_new_day = today != last_day
-    if old_phase == "rehab":
-        days = old_days + 1 if reputation == 100 and is_new_day else (old_days if reputation == 100 else 0)
-        if days >= policy["stable_days"]:
-            return "comeback", 0, "rehab->comeback"
-        return "rehab", days, None
-    if old_phase == "comeback":
-        days = old_days + 1 if reputation == 100 and is_new_day else (old_days if reputation == 100 else 0)
-        if days >= policy["stable_days"]:
-            return "full", 0, "comeback->full"
-        return "comeback", days, None
-    return "full", 0, None
+    days = old_days + 1 if reputation == 100 and is_new_day else (old_days if reputation == 100 else 0)
+    if days >= policy["stable_days"]:
+        nxt = names[names.index(old_phase) + 1]
+        return nxt, 0, f"{old_phase}->{nxt}"
+    return old_phase, days, None
 
 
 def _doh(name: str, record_type: str) -> list[str]:
@@ -320,9 +451,18 @@ def run_health_check(*, force_domains: bool = False) -> dict:
         )
         run_id = cur.lastrowid
     try:
+        from app import placement  # placement imports this module
+
         policy = load_policy()
         phases = policy["phases"]
-        accounts = list(smartlead.list_email_accounts())
+        ladder = policy["ladder"]
+        with db.db_session() as conn:
+            held = placement.failing_emails(conn, policy["placement_threshold"])
+        excluded = excluded_domains(policy)
+        accounts = [
+            a for a in smartlead.list_email_accounts()
+            if _domain(a.get("from_email") or a.get("username") or "") not in excluded
+        ]
         domains: set[str] = set()
         today = started.date().isoformat()
         for account in accounts:
@@ -338,11 +478,12 @@ def run_health_check(*, force_domains: bool = False) -> dict:
                     "SELECT * FROM mailbox_health_state WHERE account_id=?", (account_id,)
                 ).fetchone()
             phase_seed = previous or {
-                "phase": _initial_phase(account, phases),
+                "phase": _initial_phase(account, phases, ladder),
                 "perfect_days": 0,
                 "last_observation_day": None,
             }
-            phase, perfect_days, transition = _next_phase(phase_seed, reputation, today, policy)
+            on_hold = email in held
+            phase, perfect_days, transition = _next_phase(phase_seed, reputation, today, policy, hold=on_hold)
             target = phases[phase]
             action = None
             variation_confirmed = previous["variation_confirmed"] if previous else None
@@ -405,7 +546,10 @@ def run_health_check(*, force_domains: bool = False) -> dict:
                     (account_id,email,_iso(),reputation,phase,perfect_days,transition,action,apply_error),
                 )
             if transition:
-                alerts.append({"type": "mailbox_phase_changed", "email": email, "reputation": reputation, "transition": transition})
+                alerts.append({
+                    "type": "mailbox_phase_changed", "email": email, "reputation": reputation,
+                    "transition": transition, "reason": "placement_test" if on_hold else "reputation",
+                })
             was_connected = bool(previous and previous["smtp_ok"] and previous["imap_ok"])
             is_connected = bool(account.get("is_smtp_success") and account.get("is_imap_success"))
             if (previous is None or was_connected) and not is_connected:
@@ -508,8 +652,25 @@ def snapshot() -> dict:
         row["listings"] = json.loads(row.pop("listings_json") or "[]")
         row["auth"] = json.loads(row.pop("auth_json") or "{}")
         row["checked"] = json.loads(row.pop("checked_json") or "[]")
+    from app import placement
+
     policy = load_policy()
-    counts = {phase: sum(1 for row in mailboxes if row["phase"] == phase) for phase in PHASES}
+    with db.db_session() as conn:
+        latest = placement.latest_by_email(conn)
+        last_test = conn.execute("SELECT MAX(created_at) AS at FROM placement_tests").fetchone()
+    for row in mailboxes:
+        result = latest.get(row["email"])
+        row["placement"] = (
+            {
+                "inbox_pct": result["inbox_pct"],
+                "tested_at": result["tested_at"],
+                "seeds": result["total"],
+                "passed": result["inbox_pct"] >= policy["placement_threshold"],
+            }
+            if result
+            else None
+        )
+    counts = {s["name"]: sum(1 for row in mailboxes if row["phase"] == s["name"]) for s in policy["ladder"]}
     last_mailbox = max((row["last_checked_at"] for row in mailboxes), default=None)
     last_blacklist = max((row["blacklist_checked_at"] for row in domains if row["blacklist_checked_at"]), default=None)
     def next_at(value: str | None, hours: int) -> str | None:
@@ -524,5 +685,10 @@ def snapshot() -> dict:
         "next_blacklist_check": next_at(last_blacklist, settings.domain_blacklist_check_hours),
         "automation": "active" if policy["auto_apply"] and not settings.dry_run else ("dry_run" if policy["auto_apply"] else "monitor_only"),
         "blacklist_provider": "APIVoid" if settings.apivoid_api_key else "not_configured",
+        "placement": {
+            "enabled": settings.placement_tests_enabled,
+            "last_test_at": last_test["at"] if last_test else None,
+            "eligible": sorted(e for e, r in latest.items() if r["inbox_pct"] >= policy["placement_threshold"]),
+        },
         "policy": {**policy, "defaults": PHASES, "dry_run": settings.dry_run},
     }

@@ -1077,12 +1077,31 @@ async function loadHealth() {
   return data;
 }
 
+// The ladder is the client's own list of stages, rehab first and full last.
+// Middle rungs reuse the comeback badge colour.
+function healthLadder(policy) {
+  const phases = policy.phases || {};
+  return policy.ladder || ["rehab", "comeback", "full"].map((name) => ({ name, ...(phases[name] || {}) }));
+}
+
+function stageLabel(name, stage) {
+  if (name === "rehab") return "Rehab";
+  if (name === "full") return "Full";
+  if (name === "comeback") return "Comeback";
+  return stage && stage.cold ? `Ramp ${stage.cold}` : name;
+}
+
+function stageBadge(name, stage) {
+  return healthBadge(name === "rehab" || name === "full" ? name : "comeback", stageLabel(name, stage));
+}
+
 function renderHealth(data) {
   const body = $("detail-body");
   body.innerHTML = "";
   body.classList.add("health-page");
   const policy = data.policy || {};
   const phases = policy.phases || {};
+  const ladder = healthLadder(policy);
   const head = el("div", "health-head");
   const title = el("div");
   title.appendChild(el("h2", null, "Deliverability health"));
@@ -1115,7 +1134,16 @@ function renderHealth(data) {
   const limitsNote = (p) => (p ? `Up to ${p.cold} cold · ${p.warm_min}–${p.warm_max} warm` : "");
   card((data.counts || {}).full || 0, "Healthy / full", limitsNote(phases.full), "summary-good");
   card((data.counts || {}).rehab || 0, "In rehabilitation", limitsNote(phases.rehab), "summary-bad");
-  card((data.counts || {}).comeback || 0, "Comeback", limitsNote(phases.comeback), "summary-warn");
+  const middle = ladder.slice(1, -1);
+  const climbing = middle.reduce((sum, s) => sum + ((data.counts || {})[s.name] || 0), 0);
+  card(climbing, middle.length === 1 ? stageLabel(middle[0].name, middle[0]) : "Ramping up",
+    middle.map((s) => `${s.cold} cold`).join(" → "), "summary-warn");
+  const placementInfo = data.placement || {};
+  const tested = (data.mailboxes || []).filter((m) => m.placement);
+  const passed = tested.filter((m) => m.placement.passed).length;
+  card(`${passed}/${tested.length}`, "Pass inbox placement",
+    `≥${policy.placement_threshold || 90}% inbox · last test ${healthTime(placementInfo.last_test_at)}`,
+    tested.length && passed < tested.length ? "summary-warn" : "summary-good");
   const listed = (data.domains || []).filter((d) => d.status === "listed").length;
   const domainWarnings = (data.domains || []).filter((d) => d.status === "warning" || d.status === "unknown").length;
   card((data.domains || []).length - listed - domainWarnings, "Healthy domains", `${listed} listed · ${domainWarnings} need attention`, listed ? "summary-bad" : "summary-good");
@@ -1129,10 +1157,10 @@ function renderHealth(data) {
 
   body.appendChild(el("h3", "health-section-title", "Mailboxes"));
   const days = policy.stable_days || 5;
-  body.appendChild(el("p", "muted small", `Below ${policy.threshold || 90}% enters rehab immediately. ${days} distinct UTC days at 100% move rehab → comeback; another ${days} at 100% move comeback → full.`));
+  body.appendChild(el("p", "muted small", `Below ${policy.threshold || 90}% reputation, or a latest placement test under ${policy.placement_threshold || 90}% inbox, enters rehab immediately. Each ${days} distinct UTC days at 100% move one stage up: ${ladder.map((s) => stageLabel(s.name, s)).join(" → ")}. A failed placement test also takes the mailbox out of active campaigns.`));
   const mailboxWrap = el("div", "health-table-wrap");
   const mailboxTable = el("table", "health-table");
-  mailboxTable.innerHTML = "<thead><tr><th>Mailbox</th><th>State</th><th>Reputation</th><th>Streak</th><th>Limits</th><th>Connection</th><th>Last check</th></tr></thead>";
+  mailboxTable.innerHTML = "<thead><tr><th>Mailbox</th><th>State</th><th>Reputation</th><th>Placement</th><th>Streak</th><th>Limits</th><th>Connection</th><th>Last check</th></tr></thead>";
   const mailboxBody = el("tbody");
   (data.mailboxes || []).forEach((m) => {
     const tr = el("tr");
@@ -1140,8 +1168,12 @@ function renderHealth(data) {
     address.appendChild(el("strong", null, m.email));
     if (m.apply_error) address.appendChild(el("div", "health-error", m.apply_error));
     tr.appendChild(address);
-    tr.appendChild(el("td")).appendChild(healthBadge(m.phase, m.phase === "full" ? "Full" : m.phase === "rehab" ? "Rehab" : "Comeback"));
+    tr.appendChild(el("td")).appendChild(stageBadge(m.phase, phases[m.phase]));
     tr.appendChild(el("td", m.reputation == null ? "muted" : "", m.reputation == null ? "Unknown" : `${m.reputation}%`));
+    const pl = m.placement;
+    const ptd = el("td", pl ? (pl.passed ? "health-ok" : "health-error") : "muted", pl ? `${pl.inbox_pct}% inbox` : "Not tested");
+    if (pl) ptd.appendChild(el("div", "muted small", `${pl.seeds} seeds · ${healthTime(pl.tested_at)}`));
+    tr.appendChild(ptd);
     tr.appendChild(el("td", null, m.phase === "full" ? "—" : `${m.perfect_days}/${policy.stable_days || 5} perfect days`));
     const p = phases[m.phase] || {};
     const current = `${m.cold_daily_limit == null ? "?" : m.cold_daily_limit} cold · ${m.warm_min == null ? "?" : m.warm_min}–${m.warm_max == null ? "?" : m.warm_max} warm`;
@@ -1200,7 +1232,7 @@ function renderHealth(data) {
 // container with its own database, so what's saved here only ever applies to
 // the client whose dashboard this is.
 function renderHealthSettings(policy) {
-  const phases = policy.phases || {};
+  const ladder = healthLadder(policy);
   const box = el("section", "health-settings");
 
   const top = el("div", "health-settings-top");
@@ -1230,10 +1262,10 @@ function renderHealthSettings(policy) {
     node.value = value == null ? "" : String(value);
     return node;
   };
-  [["rehab", "Rehab"], ["comeback", "Comeback"], ["full", "Full"]].forEach(([key, label]) => {
-    const p = phases[key] || {};
+  ladder.forEach((p) => {
+    const key = p.name;
     const tr = el("tr");
-    tr.appendChild(el("td")).appendChild(healthBadge(key, label));
+    tr.appendChild(el("td")).appendChild(stageBadge(key, p));
     inputs[key] = { cold: numberInput(p.cold, 1, 500), warm_min: numberInput(p.warm_min, 1, 50), warm_max: numberInput(p.warm_max, 1, 50) };
     ["cold", "warm_min", "warm_max"].forEach((f) => tr.appendChild(el("td")).appendChild(inputs[key][f]));
     tbody.appendChild(tr);
@@ -1251,8 +1283,10 @@ function renderHealthSettings(policy) {
     line.appendChild(document.createTextNode(after));
     rules.appendChild(line);
   };
+  const placementThreshold = numberInput(policy.placement_threshold, 1, 100);
   ruleLine("Go into rehab below ", threshold, "% reputation");
   ruleLine("Move up one stage after ", stable, " days in a row at 100%");
+  ruleLine("Hold in rehab and leave campaigns below ", placementThreshold, "% inbox in the latest placement test");
   box.appendChild(rules);
 
   const actions = el("div", "health-settings-actions");
@@ -1273,15 +1307,15 @@ function renderHealthSettings(policy) {
       button.disabled = false;
     }
   };
-  const collect = () => {
-    const out = {};
-    Object.entries(inputs).forEach(([key, fields]) => {
-      out[key] = {};
-      Object.entries(fields).forEach(([f, node]) => { out[key][f] = node.value; });
-    });
-    return out;
-  };
-  save.onclick = () => submit({ auto_apply: input.checked, threshold: threshold.value, stable_days: stable.value, phases: collect() }, save);
+  const collect = () => ladder.map((p) => {
+    const row = { name: p.name };
+    Object.entries(inputs[p.name]).forEach(([f, node]) => { row[f] = node.value; });
+    return row;
+  });
+  save.onclick = () => submit({
+    auto_apply: input.checked, threshold: threshold.value, stable_days: stable.value,
+    placement_threshold: placementThreshold.value, ladder: collect(),
+  }, save);
   reset.onclick = () => {
     if (confirm("Put the stage numbers back to the defaults? The on/off switch stays as it is.")) submit({ reset: true }, reset);
   };

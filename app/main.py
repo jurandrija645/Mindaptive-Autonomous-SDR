@@ -24,7 +24,7 @@ from app import (
 )
 from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
-from app import crm, events, lead_touches, pipeline, scheduler, sequences, signatures, smartlead
+from app import crm, events, lead_touches, pipeline, placement, scheduler, sequences, signatures, smartlead
 from app import prospect_contacts, site_feedback, site_visits, translator, uploads, webhook
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -2151,6 +2151,31 @@ async def api_deliverability_policy(request: Request):
         return JSONResponse({"error": str(exc)}, status_code=400)
     started = deliverability_health.trigger() if policy["auto_apply"] else False
     return JSONResponse({"policy": policy, "check_started": started})
+
+
+@app.post("/api/deliverability-health/placement-test")
+async def api_start_placement_test(request: Request):
+    """Start a placement test now. Spends SmartDelivery credits. Body:
+    {"emails": [...]} tests only those mailboxes; {} tests every mailbox."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    body = await request.json() if await request.body() else {}
+    emails = body.get("emails")
+    if emails is not None and not isinstance(emails, list):
+        return JSONResponse({"error": "emails must be a list"}, status_code=400)
+    all_mailboxes = [a.get("from_email") for a in smartlead.list_email_accounts()] if emails is None else None
+    result = placement.start_test(emails=emails if emails is not None else all_mailboxes, origin="manual")
+    return JSONResponse(result)
+
+
+@app.post("/api/deliverability-health/placement-collect")
+def api_collect_placement(request: Request):
+    """Read finished placement tests and act on them now (free)."""
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse(placement.run_collect_and_enforce())
 
 
 @app.get("/api/metrics")

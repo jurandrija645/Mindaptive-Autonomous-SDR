@@ -430,6 +430,43 @@ CREATE TABLE IF NOT EXISTS deliverability_runs (
     error       TEXT
 );
 
+-- SmartDelivery placement tests: ours (weekly) and any made by hand in the
+-- Smartlead UI, which are evidence too. A test is read once it completes.
+CREATE TABLE IF NOT EXISTS placement_tests (
+    spam_test_id INTEGER PRIMARY KEY,
+    test_name    TEXT,
+    created_at   TEXT NOT NULL,
+    origin       TEXT NOT NULL, -- weekly|manual|external
+    sender_count INTEGER,
+    status       TEXT,
+    collected_at TEXT
+);
+
+-- One row per mailbox per test: how many seed inboxes it reached and where.
+CREATE TABLE IF NOT EXISTS mailbox_placement (
+    spam_test_id INTEGER NOT NULL,
+    email        TEXT NOT NULL,
+    tested_at    TEXT NOT NULL,
+    inbox        INTEGER NOT NULL,
+    spam         INTEGER NOT NULL,
+    total        INTEGER NOT NULL,
+    inbox_pct    INTEGER NOT NULL,
+    PRIMARY KEY (spam_test_id, email)
+);
+CREATE INDEX IF NOT EXISTS idx_mailbox_placement_email
+    ON mailbox_placement (email, tested_at DESC);
+
+-- What a failed placement test did to a campaign's sender pool.
+CREATE TABLE IF NOT EXISTS placement_actions (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    at          TEXT NOT NULL,
+    campaign_id INTEGER NOT NULL,
+    campaign_name TEXT,
+    emails_json TEXT NOT NULL,
+    action      TEXT NOT NULL, -- removed|would_remove|kept_last_mailboxes|failed
+    detail      TEXT
+);
+
 -- One row per campaign per provider: the mix, and how that slice of the
 -- audience actually performed. Written on every analysis and never deleted,
 -- because the whole point is the record over time — "campaigns heavy on

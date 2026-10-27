@@ -11,7 +11,7 @@ from apscheduler.triggers.cron import CronTrigger
 
 from app import (
     batch_gen, db, deliverability_health, detector, interested_sheet, lead_language, lead_temperature, pipeline,
-    reply_classifier, sequences, signatures, smartlead,
+    placement, reply_classifier, sequences, signatures, smartlead,
 )
 from app.config import settings
 from app.email_clean import to_plain_text
@@ -1652,6 +1652,26 @@ def start_scheduler() -> BackgroundScheduler:
             # web server or competing with init_db/startup.
             next_run_time=datetime.now(timezone.utc) + timedelta(seconds=30),
         )
+        # Reading finished placement tests is free and also picks up tests made
+        # by hand in Smartlead; starting one spends credits, so that job only
+        # exists when PLACEMENT_TESTS_ENABLED is on.
+        sched.add_job(
+            placement.run_collect_and_enforce,
+            "interval",
+            hours=max(1, settings.placement_collect_hours),
+            id="placement_collect",
+            max_instances=1,
+            coalesce=True,
+            next_run_time=datetime.now(timezone.utc) + timedelta(minutes=2),
+        )
+        if settings.placement_tests_enabled:
+            sched.add_job(
+                placement.run_weekly,
+                CronTrigger(day_of_week=settings.placement_weekday, hour=settings.placement_hour_utc, minute=0),
+                id="placement_weekly",
+                max_instances=1,
+                coalesce=True,
+            )
     # Frequent, cheap safety-net so a lead's reply surfaces on its own within a
     # few minutes even when the webhook is missed (it's fire-and-forget, and a
     # reply landing during a deploy restart is lost). Unlike the daily scan this
