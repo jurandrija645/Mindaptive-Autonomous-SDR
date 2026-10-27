@@ -1252,7 +1252,6 @@ function renderHealthSettings(policy) {
   const grid = el("table", "health-settings-table");
   grid.innerHTML = "<thead><tr><th>Stage</th><th>Cold emails / day</th><th>Warmup min / day</th><th>Warmup max / day</th></tr></thead>";
   const tbody = el("tbody");
-  const inputs = {};
   const numberInput = (value, min, max) => {
     const node = el("input", "health-num");
     node.type = "number";
@@ -1262,16 +1261,40 @@ function renderHealthSettings(policy) {
     node.value = value == null ? "" : String(value);
     return node;
   };
-  ladder.forEach((p) => {
-    const key = p.name;
-    const tr = el("tr");
-    tr.appendChild(el("td")).appendChild(stageBadge(key, p));
-    inputs[key] = { cold: numberInput(p.cold, 1, 500), warm_min: numberInput(p.warm_min, 1, 50), warm_max: numberInput(p.warm_max, 1, 50) };
-    ["cold", "warm_min", "warm_max"].forEach((f) => tr.appendChild(el("td")).appendChild(inputs[key][f]));
-    tbody.appendChild(tr);
-  });
+  // Rehab and full stay; rungs in between can be added or removed. The server
+  // keeps the first named rehab and the last named full.
+  const rows = ladder.map((p) => ({ ...p }));
+  const drawRows = () => {
+    tbody.innerHTML = "";
+    rows.forEach((p, i) => {
+      const tr = el("tr");
+      const label = tr.appendChild(el("td"));
+      label.appendChild(stageBadge(p.name, p));
+      p.inputs = p.inputs || { cold: numberInput(p.cold, 1, 500), warm_min: numberInput(p.warm_min, 1, 50), warm_max: numberInput(p.warm_max, 1, 50) };
+      ["cold", "warm_min", "warm_max"].forEach((f) => tr.appendChild(el("td")).appendChild(p.inputs[f]));
+      if (i > 0 && i < rows.length - 1) {
+        const remove = el("button", "btn-secondary small", "Remove");
+        remove.onclick = () => { rows.splice(i, 1); drawRows(); };
+        label.appendChild(remove);
+      }
+      tbody.appendChild(tr);
+    });
+  };
+  drawRows();
   grid.appendChild(tbody);
   box.appendChild(grid);
+  const addStage = el("button", "btn-secondary", "Add stage");
+  addStage.onclick = () => {
+    const below = rows[rows.length - 2];
+    const top = rows[rows.length - 1];
+    const value = (node, fallback) => Number(node ? node.value : fallback);
+    const cold = Math.round((value(below.inputs && below.inputs.cold, below.cold) + value(top.inputs && top.inputs.cold, top.cold)) / 2);
+    let n = rows.length;
+    while (rows.some((r) => r.name === `ramp_${n}`)) n += 1;
+    rows.splice(rows.length - 1, 0, { name: `ramp_${n}`, cold, warm_min: below.warm_min, warm_max: below.warm_max });
+    drawRows();
+  };
+  box.appendChild(addStage);
 
   const rules = el("div", "health-settings-rules");
   const threshold = numberInput(policy.threshold, 1, 100);
@@ -1291,6 +1314,11 @@ function renderHealthSettings(policy) {
   ruleLine("Move up one stage after ", stable, " days in a row at 100%");
   ruleLine("", placementOn, " Run a placement test every week (spends SmartDelivery credits) and act on the results");
   ruleLine("Hold in rehab and leave campaigns below ", placementThreshold, "% inbox in the latest placement test");
+  const exclude = el("input", "health-text");
+  exclude.type = "text";
+  exclude.placeholder = "client-domain.com, other.com";
+  exclude.value = (policy.exclude_domains || []).join(", ");
+  ruleLine("Never change, test or move mailboxes on ", exclude, "");
   box.appendChild(rules);
 
   const actions = el("div", "health-settings-actions");
@@ -1311,14 +1339,15 @@ function renderHealthSettings(policy) {
       button.disabled = false;
     }
   };
-  const collect = () => ladder.map((p) => {
+  const collect = () => rows.map((p) => {
     const row = { name: p.name };
-    Object.entries(inputs[p.name]).forEach(([f, node]) => { row[f] = node.value; });
+    Object.entries(p.inputs).forEach(([f, node]) => { row[f] = node.value; });
     return row;
   });
   save.onclick = () => submit({
     auto_apply: input.checked, threshold: threshold.value, stable_days: stable.value,
-    placement_threshold: placementThreshold.value, placement_enabled: placementOn.checked, ladder: collect(),
+    placement_threshold: placementThreshold.value, placement_enabled: placementOn.checked,
+    exclude_domains: exclude.value, ladder: collect(),
   }, save);
   reset.onclick = () => {
     if (confirm("Put the stage numbers back to the defaults? The on/off switch stays as it is.")) submit({ reset: true }, reset);
