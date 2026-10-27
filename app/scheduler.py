@@ -1652,9 +1652,9 @@ def start_scheduler() -> BackgroundScheduler:
             # web server or competing with init_db/startup.
             next_run_time=datetime.now(timezone.utc) + timedelta(seconds=30),
         )
-        # Reading finished placement tests is free and also picks up tests made
-        # by hand in Smartlead; starting one spends credits, so that job only
-        # exists when PLACEMENT_TESTS_ENABLED is on.
+        # Both jobs exist in every container but do nothing until that client's
+        # Health tab turns placement tests on. Reading finished tests is free and
+        # also picks up tests made by hand in Smartlead; starting one spends credits.
         sched.add_job(
             placement.run_collect_and_enforce,
             "interval",
@@ -1664,14 +1664,13 @@ def start_scheduler() -> BackgroundScheduler:
             coalesce=True,
             next_run_time=datetime.now(timezone.utc) + timedelta(minutes=2),
         )
-        if settings.placement_tests_enabled:
-            sched.add_job(
-                placement.run_weekly,
-                CronTrigger(day_of_week=settings.placement_weekday, hour=settings.placement_hour_utc, minute=0),
-                id="placement_weekly",
-                max_instances=1,
-                coalesce=True,
-            )
+        sched.add_job(
+            placement.run_weekly,
+            CronTrigger(day_of_week=settings.placement_weekday, hour=settings.placement_hour_utc, minute=0),
+            id="placement_weekly",
+            max_instances=1,
+            coalesce=True,
+        )
     # Frequent, cheap safety-net so a lead's reply surfaces on its own within a
     # few minutes even when the webhook is missed (it's fire-and-forget, and a
     # reply landing during a deploy restart is lost). Unlike the daily scan this

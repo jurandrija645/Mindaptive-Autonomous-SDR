@@ -102,8 +102,12 @@ overrides reputation:
   emptied; that case only raises an alert.
 - **Reading results:** `placement_collect` (every 6 h, free) reads every finished
   test, including ones made by hand in the Smartlead UI.
-- **Starting tests:** `placement_weekly` (Saturday 06:00 UTC) exists only with
-  `PLACEMENT_TESTS_ENABLED=true`, because it spends credits.
+- **Off until a client opts in.** All of the above runs only when that client's Health
+  tab has "Run a placement test every week" on (policy `placement_enabled`, default
+  `PLACEMENT_TESTS_ENABLED`, false). Three containers share this code, and OneBodyLDN
+  already has automatic changes on, so a shared default must never start moving its
+  mailboxes.
+- **Starting tests:** `placement_weekly` (Saturday 06:00 UTC) spends credits.
 - **Who can be tested:** SmartDelivery only accepts senders attached to the campaign
   whose step-1 copy is sent, so each mailbox is tested through its own newest
   campaign.

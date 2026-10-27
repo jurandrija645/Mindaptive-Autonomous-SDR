@@ -221,8 +221,26 @@ class EnforceTests(unittest.TestCase):
             home = placement._home_campaigns(["a@x.com", "b@x.com", "c@x.com"])
         self.assertEqual(home, {"a@x.com": 20, "b@x.com": 10})
 
+    def test_placement_is_off_for_a_client_until_its_tab_turns_it_on(self):
+        self.assertFalse(health.load_policy()["placement_enabled"])
+        with patch.object(placement, "collect_results") as collect:
+            self.assertIn("skipped", placement.run_collect_and_enforce())
+        collect.assert_not_called()
+        self.assertEqual(placement.start_test()["started"], False)
+        account = {"id": 1, "from_email": "bad@x.com", "message_per_day": 25,
+                   "is_smtp_success": True, "is_imap_success": True,
+                   "warmup_details": {"status": "ACTIVE", "warmup_reputation": "100%"}}
+        auth = ({"mx": True, "spf": True, "dmarc": True, "dmarc_policy": "reject"}, None)
+        with (
+            patch.object(health.smartlead, "list_email_accounts", return_value=iter([account])),
+            patch.object(health, "_authentication", return_value=auth),
+            patch.object(health, "_apivoid_blacklist", return_value=([], ["x"], None)),
+        ):
+            health.run_health_check()
+        self.assertEqual(health.snapshot()["mailboxes"][0]["phase"], "full")  # failed test ignored
+
     def test_health_check_puts_a_failed_mailbox_in_rehab(self):
-        health.save_policy({"auto_apply": True, "ladder": LADDER, "threshold": 100, "stable_days": 2})
+        health.save_policy({"auto_apply": True, "placement_enabled": True, "ladder": LADDER, "threshold": 100, "stable_days": 2})
         account = {
             "id": 1, "from_email": "bad@x.com", "message_per_day": 20,
             "is_smtp_success": True, "is_imap_success": True,

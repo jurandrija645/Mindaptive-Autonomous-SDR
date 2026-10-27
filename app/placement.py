@@ -14,10 +14,11 @@ mailbox decides:
   an alert is raised instead.
 
 Tests made by hand in the Smartlead UI are read too; they are evidence like ours.
-Creating a test spends placement credits, so it only happens when
-PLACEMENT_TESTS_ENABLED is on (or when someone asks for one explicitly), and
-taking mailboxes out of campaigns also needs the Health switch on and
-DRY_RUN=false.
+Nothing here runs for a client until its Health tab turns placement tests on
+(the policy's ``placement_enabled``, default PLACEMENT_TESTS_ENABLED=false):
+three client containers share this code, and one of them already has automatic
+mailbox changes switched on. Creating a test spends placement credits; taking
+mailboxes out of campaigns also needs the Health switch on and DRY_RUN=false.
 """
 from __future__ import annotations
 
@@ -182,13 +183,13 @@ def start_test(*, emails: list[str] | None = None, label: str | None = None, ori
     The weekly job only runs with PLACEMENT_TESTS_ENABLED; passing ``emails``
     is an explicit request and runs regardless, but never under DRY_RUN.
     """
-    if emails is None and not settings.placement_tests_enabled:
-        return {"started": False, "reason": "PLACEMENT_TESTS_ENABLED is off"}
+    from app import deliverability_health as health
+
+    if emails is None and not health.load_policy()["placement_enabled"]:
+        return {"started": False, "reason": "placement tests are off for this client"}
     if not _lock.acquire(blocking=False):
         return {"started": False, "reason": "already_running"}
     try:
-        from app import deliverability_health as health
-
         excluded = health.excluded_domains()
         accounts = [
             a for a in smartlead.list_email_accounts()
@@ -306,6 +307,10 @@ def enforce() -> dict:
 
 def run_collect_and_enforce() -> dict:
     """The frequent job: read finished tests, then act if a verdict changed."""
+    from app import deliverability_health as health
+
+    if not health.load_policy()["placement_enabled"]:
+        return {"skipped": "placement tests are off for this client"}
     try:
         read = collect_results()
         result = {**read, **(enforce() if read["tests_read"] else {})}

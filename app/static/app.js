@@ -1284,8 +1284,12 @@ function renderHealthSettings(policy) {
     rules.appendChild(line);
   };
   const placementThreshold = numberInput(policy.placement_threshold, 1, 100);
+  const placementOn = el("input");
+  placementOn.type = "checkbox";
+  placementOn.checked = Boolean(policy.placement_enabled);
   ruleLine("Go into rehab below ", threshold, "% reputation");
   ruleLine("Move up one stage after ", stable, " days in a row at 100%");
+  ruleLine("", placementOn, " Run a placement test every week (spends SmartDelivery credits) and act on the results");
   ruleLine("Hold in rehab and leave campaigns below ", placementThreshold, "% inbox in the latest placement test");
   box.appendChild(rules);
 
@@ -1314,7 +1318,7 @@ function renderHealthSettings(policy) {
   });
   save.onclick = () => submit({
     auto_apply: input.checked, threshold: threshold.value, stable_days: stable.value,
-    placement_threshold: placementThreshold.value, ladder: collect(),
+    placement_threshold: placementThreshold.value, placement_enabled: placementOn.checked, ladder: collect(),
   }, save);
   reset.onclick = () => {
     if (confirm("Put the stage numbers back to the defaults? The on/off switch stays as it is.")) submit({ reset: true }, reset);

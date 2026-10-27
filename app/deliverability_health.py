@@ -80,6 +80,9 @@ def _env_policy() -> dict:
         "threshold": settings.mailbox_rehab_threshold,
         "stable_days": settings.mailbox_phase_stable_days,
         "placement_threshold": settings.placement_inbox_threshold,
+        # Per client, like the switch: three containers share this code and only
+        # a client that opts in may have placement results move its mailboxes.
+        "placement_enabled": bool(settings.placement_tests_enabled),
         "phases": phases,
         "ladder": _ladder_from_phases(phases),
         "custom_ladder": False,
@@ -145,6 +148,8 @@ def load_policy(conn=None) -> dict:
     for key in ("threshold", "stable_days", "placement_threshold"):
         if isinstance(stored.get(key), int):
             policy[key] = stored[key]
+    if isinstance(stored.get("placement_enabled"), bool):
+        policy["placement_enabled"] = stored["placement_enabled"]
     if isinstance(stored.get("exclude_domains"), list):
         policy["exclude_domains"] = sorted({str(d).strip().lower() for d in stored["exclude_domains"] if str(d).strip()})
     ladder = None
@@ -187,10 +192,11 @@ def save_policy(data: dict) -> dict:
     """
     current = load_policy()
     if data.get("reset"):
-        stored: dict = {"auto_apply": current["auto_apply"]}
+        stored: dict = {"auto_apply": current["auto_apply"], "placement_enabled": current["placement_enabled"]}
     else:
         stored = {
             "auto_apply": bool(data.get("auto_apply", current["auto_apply"])),
+            "placement_enabled": bool(data.get("placement_enabled", current["placement_enabled"])),
             "threshold": _int_in(data.get("threshold", current["threshold"]), 1, 100, "Rehab threshold"),
             "stable_days": _int_in(data.get("stable_days", current["stable_days"]), 1, 60, "Perfect days per step"),
             "placement_threshold": _int_in(
@@ -456,8 +462,10 @@ def run_health_check(*, force_domains: bool = False) -> dict:
         policy = load_policy()
         phases = policy["phases"]
         ladder = policy["ladder"]
-        with db.db_session() as conn:
-            held = placement.failing_emails(conn, policy["placement_threshold"])
+        held: set[str] = set()
+        if policy["placement_enabled"]:
+            with db.db_session() as conn:
+                held = placement.failing_emails(conn, policy["placement_threshold"])
         excluded = excluded_domains(policy)
         accounts = [
             a for a in smartlead.list_email_accounts()
@@ -686,7 +694,7 @@ def snapshot() -> dict:
         "automation": "active" if policy["auto_apply"] and not settings.dry_run else ("dry_run" if policy["auto_apply"] else "monitor_only"),
         "blacklist_provider": "APIVoid" if settings.apivoid_api_key else "not_configured",
         "placement": {
-            "enabled": settings.placement_tests_enabled,
+            "enabled": policy["placement_enabled"],
             "last_test_at": last_test["at"] if last_test else None,
             "eligible": sorted(e for e, r in latest.items() if r["inbox_pct"] >= policy["placement_threshold"]),
         },
