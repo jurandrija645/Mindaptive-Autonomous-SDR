@@ -24,7 +24,7 @@ from app import (
 )
 from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
-from app import crm, events, lead_touches, pipeline, placement, scheduler, sequences, signatures, smartlead
+from app import booking_guard, crm, events, lead_touches, pipeline, placement, scheduler, sequences, signatures, smartlead
 from app import prospect_contacts, site_feedback, site_visits, translator, uploads, webhook
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
@@ -1699,6 +1699,8 @@ async def api_set_category(request: Request, campaign_id: int, lead_id: int):
                     conn, sequence, lead_id, campaign_id, thread, re_enroll=re_enroll
                 )
                 enrollment = sequences.enrollment_payload(conn, row, sequence)
+    if booking:
+        await run_in_threadpool(booking_guard.enforce_booked_lead, lead_id, campaign_id)
     if restoring and thread:
         with db.db_session() as conn:
             row = db.get_lead_state(conn, lead_id, campaign_id)

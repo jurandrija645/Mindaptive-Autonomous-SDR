@@ -10,7 +10,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app import (
-    batch_gen, db, deliverability_health, detector, interested_sheet, lead_language, lead_temperature, pipeline,
+    batch_gen, booking_guard, db, deliverability_health, detector, interested_sheet, lead_language, lead_temperature, pipeline,
     placement, reply_classifier, sequences, signatures, smartlead,
 )
 from app.config import settings
@@ -313,6 +313,7 @@ def _sync_category_from_smartlead(
     if norm_category_name(sl_category_name) == norm_category_name(
         settings.meeting_booked_category_name
     ):
+        booking_guard.enforce_booked_lead(lead_id, campaign_id, state["email"] or "")
         return
     slug = _local_category_slug(sl_category_name)
     with db.db_session() as conn:
@@ -569,19 +570,19 @@ def record_explicit_booking(
 
     record_sheet=False is for the booking webhooks, which write the Bookings
     row themselves with the confirmation's real date, location and code."""
-    _push_category_to_smartlead(
-        campaign_id,
-        lead_id,
-        settings.meeting_booked_category_name,
-        pause=True,
-        override_lock=True,
-    )
     with db.db_session() as conn:
         db.mark_lead_booked(conn, lead_id, campaign_id)
         if message_id:
             db.upsert_lead_state(
                 conn, lead_id, campaign_id, category_message_id=message_id
             )
+    # Commit the freeze before any network call. Pausing only the parent does
+    # not stop Smartlead's independent child campaigns.
+    booking_guard.enforce_booked_lead(lead_id, campaign_id, email)
+    _push_category_to_smartlead(
+        campaign_id, lead_id, settings.meeting_booked_category_name,
+        pause=True, override_lock=True,
+    )
     interested_sheet.mark_booked_match(email=email, name=name, lead_id=lead_id)
     if record_sheet:
         interested_sheet.record_lead_booking(
@@ -1300,6 +1301,7 @@ def _process_lead(
             )
             db.mark_lead_booked(conn, lead["id"], lead["campaign_id"])
         if lead_status != "booked":
+            booking_guard.enforce_booked_lead(lead["id"], lead["campaign_id"], lead.get("email") or "")
             log.info("lead %s marked as booked (Meeting-Booked category)", lead["id"])
         return False
 
@@ -1500,6 +1502,16 @@ def _mark_lead_waiting_on_them(
 def _send_due_draft(draft: dict) -> str:
     lead_id, campaign_id = draft["lead_id"], draft["campaign_id"]
 
+    def stop_booked() -> str:
+        with db.db_session() as conn:
+            db.update_draft(conn, draft["id"], status="stale", send_error="Meeting booked; outreach stopped.")
+        log.info("draft %s blocked: meeting booked", draft["id"])
+        return "stale"
+
+    if booking_guard.is_locally_booked(lead_id, draft.get("lead_email") or ""):
+        booking_guard.freeze_local(lead_id, campaign_id, draft.get("lead_email") or "")
+        return stop_booked()
+
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
     last = thread[-1] if thread else None
     is_sequence = draft["kind"] == "sequence"
@@ -1593,6 +1605,10 @@ def _send_due_draft(draft: dict) -> str:
         draft["id"], sender_email, stats_id, len(send_body),
         "<table" in send_body, send_body[-120:],
     )
+    # Applies to replies, follow-ups AND local sequence steps, including the
+    # manual Send now button. An unreadable live status raises before sending.
+    if not booking_guard.allow_send(lead_id, campaign_id, lead_email):
+        return stop_booked()
     resp = smartlead.reply_to_thread(
         campaign_id,
         send_body,
@@ -1639,6 +1655,11 @@ def start_scheduler() -> BackgroundScheduler:
         id="daily_scan",
     )
     sched.add_job(run_due_send_loop, "interval", minutes=1, id="due_send_loop")
+    sched.add_job(
+        booking_guard.run_native_booking_guard, "interval", seconds=30,
+        id="native_booking_guard", max_instances=1, coalesce=True,
+        next_run_time=datetime.now(timezone.utc),
+    )
     sched.add_job(batch_gen.poll_gen_batches, "interval", minutes=5, id="gen_batch_poll")
     if settings.deliverability_health_enabled and settings.mailbox_health_check_hours > 0:
         sched.add_job(

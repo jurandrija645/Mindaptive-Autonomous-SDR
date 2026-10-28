@@ -232,6 +232,8 @@ class SequenceFlowTests(unittest.TestCase):
         with patch.object(settings, "dry_run", False), patch.object(
             pipeline, "fetch_normalized_thread", return_value=self.thread
         ), patch.object(sequences, "presend_check", return_value=sequences.SEND), patch.object(
+            scheduler.booking_guard, "allow_send", return_value=True
+        ), patch.object(
             smartlead, "reply_to_thread", side_effect=RuntimeError("boom")
         ):
             self.make_due()
@@ -298,7 +300,13 @@ class SequenceFlowTests(unittest.TestCase):
             smartlead, "fetch_categories",
             return_value=categories or {"Interested": 1, "Interested 55": 55, "Meeting-Booked": 6},
         ), patch.object(smartlead, "reply_to_thread", return_value="queued") as send:
-            scheduler.run_due_send_loop()
+            with patch.object(smartlead, "get_lead_campaign_overview", return_value={
+                "email_campaign_leads_mappings": [
+                    dict(row, email_campaign_id=str(row["campaign_id"]), is_active=True)
+                    for row in record.get("lead_campaign_data", [])
+                ]
+            }):
+                scheduler.run_due_send_loop()
         return send
 
     def campaign_row(self, category_id, last_reply_at=None):

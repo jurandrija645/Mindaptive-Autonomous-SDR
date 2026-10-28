@@ -56,6 +56,37 @@ Files fall back to the repo root when a client doesn't override them, so a clien
 - **English only** (`clients/onebodyldn/prompts/output-contract.md` leaves `<draft_english>` empty) and `DETECT_LANGUAGE=false`, same reasoning as AeroDefense: every lead is a London-based English speaker.
 - **Everything else is unverified.** The Smartlead category names (`INTERESTED_CATEGORY_NAME` etc.) are the defaults, not confirmed against OneBodyLDN's live account, and `REQUIRE_KNOWN_SENDER` is off since there's no history of retired mailboxes yet. Check both before relying on the daily scan.
 
+### Meeting Booked is an outreach stop (2026-10-28)
+
+`app/booking_guard.py` enforces bookings across this account's campaign
+mappings, including native Smartlead subsequences. `record_explicit_booking`
+(booking webhooks/reply confirmations) and the dashboard's manual category
+action freeze locally, then pause every STARTED/INPROGRESS mapping. Failures
+persist as `app_settings.booked_pause_pending:<lead_id>` and retry after
+restart. Bookings never go on the unsubscribe/block list and paused mappings
+are never automatically resumed.
+
+`run_native_booking_guard` runs at startup and every 30 seconds, listing
+native children and their parents' booked leads in bulk. This catches manual
+Smartlead changes and repairs mismatches such as Sean/Lila remaining active
+in a child after their parent became Meeting Booked. Native sends are owned
+by Smartlead, so external-only category changes have a polling delay; do not
+claim an atomic pre-send guarantee for that external system.
+
+All responder sends (reply/autoreply/follow-up/local sequence, including Send
+now) check local bookings across campaigns and read the live campaign
+overview immediately before `reply_to_thread`. Unknown/unavailable booking
+status delays the send. A booked lead stales the draft and cannot send.
+
+The new OneBody native children are 4235340/4235670 under parent 4235278 and
+4235352/4235673 under 4235286 (physio/sports). Initial wait is 48 hours from
+enrollment; subsequent step delays are 2/3/4 days. As updated 2026-10-28,
+all booking/code handovers include the £4.99 fee that holds the slot and
+"each person at {{company_name}} gets one free session", personalized from
+the real company. Both sports massage offers include the fee. Native child
+copy uses generic clinic wording; the latest conversation always outranks
+the imported `nearestClinic`, especially for Angie at Goldfinch Agency.
+
 ## How a message actually gets generated
 
 ### Deliverability health

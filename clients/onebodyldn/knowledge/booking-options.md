@@ -25,7 +25,16 @@ The pasted source ran the next label (`Sports Massage`) into the physio URL.
 The physio URL ends at `_45_min`; `Sports` is not part of the URL.
 
 Match the appointment to the lead's request. For a physio campaign's simple
-positive reply, use the 45-minute physio link. Send the matching massage link
+positive reply, use the 45-minute physio link.
+
+The two "Priority Clinics" campaigns (Smartlead 4235278 and 4235286, from
+26 October 2026) offer each lead either physio or a 45-minute sports massage
+at a priority clinic; the lead's `offer` custom field and the opening email
+say which. A simple positive reply gets the link for the offer that email
+made: `massage` → the 45-minute sports massage link (that clinic is always on
+the priority list), `physio` → the 45-minute physio link. Per Andrew's
+28 October update, include the £4.99 booking fee with either offer.
+Send the matching massage link
 when massage is requested; do not silently substitute massage for physio.
 If the lead wants 45-minute massage at a location outside the list, offer
 20-minute massage there or 45-minute massage at a listed clinic that suits
@@ -68,12 +77,18 @@ cannot claim physio and then claim either massage offer as another free
 session. Do not suggest that switching email addresses resets eligibility,
 or that switching codes (including the old code) grants another free session.
 
-Andrew updated the lead-facing wording on 2026-10-22. Do not include
+Andrew updated the lead-facing wording on 2026-10-28. Do not include
 warnings about charges for repeat bookings or using another email address.
 Keep the eligibility rule above internally, and use this friendly line with
 every booking/code handover instead:
 
-> Feel free to share the link and code with colleagues too, each person gets one free session.
+> Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
+
+Fill {{company_name}} with the actual company from the lead record or the
+latest thread/signature. A correction in the conversation outranks imported
+data. If it cannot be established, say "each person on your team"; never
+invent a company or leave braces in the draft. Keep the personalized line
+in every physio or massage booking/code handover, including shortened replies.
 
 For HR/team offers, each colleague has their own single free-offer allowance;
 it is not one redemption for the whole company. If directly asked about
@@ -90,8 +105,18 @@ not as the code for the new 45-minute physio or massage options. The old
 asks to redeem the old code through a new link, flag that compatibility for
 confirmation rather than asserting it works or returning to the old URL.
 
-The existing £4.99 booking-fee disclosure remains in force for the free
-physio offer; this update did not revoke it. Keep it in physio booking
-handovers. Kurt has now confirmed the code and single free-offer allowance
-for all three options, but has not confirmed massage booking fees. Do not
-extrapolate the physio booking fee to massage.
+Andrew's explicit update on 2026-10-28 requires the booking-fee disclosure
+for ALL three offers, including 20- and 45-minute sports massage:
+"There's a small £4.99 booking fee that holds your time slot."
+Include it whenever giving the booking link or code, even when shortening.
+This supersedes the earlier instruction that massage booking fees were
+unconfirmed. Do not describe it as the price of treatment or invent refunds,
+deductions or waivers.
+
+## Clinic corrections and automated follow-ups
+
+The latest conversation wins over the opening email and `nearestClinic`.
+If a lead rejects a clinic, never mention it as their clinic again. When
+several alternatives have been offered without a choice, say "the clinic
+that suits you". Smartlead's automated subsequences must use that generic
+wording rather than `{{nearestClinic}}`: they cannot read the latest thread.

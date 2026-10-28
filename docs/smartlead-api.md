@@ -325,6 +325,37 @@ have they replied?" without paginating a whole campaign.
 
 ## Available but unused (worth knowing)
 
+### Booking stop across native campaigns (verified 2026-10-28)
+
+`GET /leads/{leadId}/campaign-overview` returns `data` with
+`email_campaign_leads_mappings`. Each mapping exposes `id`, `status`,
+`lead_category_id`, `current_seq_num`, `next_timestamp_to_reach`,
+`email_campaign_id`, `email_account_id`, `is_active` and `email_campaign`.
+Used by `booking_guard` for the live pre-send category check across campaigns.
+Malformed or missing mappings must fail closed, not mean "not booked".
+
+`POST /campaigns/{cid}/leads/{lid}/pause` returns
+`{"ok":true,"data":"success"}` and changes the mapping to PAUSED with null
+`next_timestamp_to_reach`. A parent's Meeting Booked category/pause does NOT
+propagate to a child: Sean and Lila needed explicit child pauses. The guard
+does this on booking events and repairs native children every 30 seconds.
+GET campaign leads supports `lead_category_id` with normal 100-row pagination;
+the guard verifies the actual returned category too.
+
+For native OneBody child mappings, first send eligibility was exactly 48
+hours after enrollment despite step 1 having `delay_in_days=0`. Use the
+overview's timestamp for schedule auditing, rather than infer from that step.
+`/leads/{leadMapId}/sequence-details?campaignId=...` shows step statuses only.
+
+Resume warning: `resume_lead_with_delay_days` accepts fractions but is relative
+to the existing sequence anchor, not now. An empty resume payload can restore
+a timestamp in the past. Read back and verify the timestamp; never resume
+booked leads automatically. This guard only pauses.
+
+References: [campaign overview](https://api.smartlead.ai/api-reference/leads/campaign-overview),
+[pause lead](https://api.smartlead.ai/api-reference/campaigns/pause-lead),
+[resume lead](https://api.smartlead.ai/api-reference/campaigns/resume-lead).
+
 - **A whole Inbox API** (`/api-reference/inbox/*`): `get-messages`, `reply`,
   `forward`, `get-unread`, `mark-read`, `set-reminder`, `create-note`,
   `update-category`, `push-to-subsequence`. Potentially a better-fitting surface

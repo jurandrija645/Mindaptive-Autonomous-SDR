@@ -225,14 +225,18 @@ def fetch_categories(api_key: str | None = None) -> dict[str, int]:
 
 
 def list_campaign_leads(
-    campaign_id: int, page_size: int = 100, api_key: str | None = None
+    campaign_id: int, page_size: int = 100, api_key: str | None = None,
+    *, category_id: int | None = None,
 ) -> Iterator[dict]:
     offset = 0
     while True:
+        params = {"offset": offset, "limit": page_size}
+        if category_id is not None:
+            params["lead_category_id"] = category_id
         data = _request(
             "GET",
             f"/campaigns/{campaign_id}/leads",
-            params={"offset": offset, "limit": page_size},
+            params=params,
             api_key=api_key,
         )
         leads = data if isinstance(data, list) else (data or {}).get("data") or []
@@ -243,6 +247,21 @@ def list_campaign_leads(
         if len(leads) < page_size:
             return
         offset += page_size
+
+
+def get_lead_campaign_overview(lead_id: int, api_key: str | None = None) -> dict:
+    """Live campaign mappings, including each mapping's category and send state."""
+    result = _request("GET", f"/leads/{lead_id}/campaign-overview", api_key=api_key)
+    data = result.get("data") if isinstance(result, dict) else None
+    if not isinstance(data, dict) or not isinstance(data.get("email_campaign_leads_mappings"), list):
+        raise SmartleadError("Could not verify the lead's live booking status.")
+    return data
+
+
+def pause_campaign_lead(campaign_id: int, lead_id: int, api_key: str | None = None) -> None:
+    result = _request("POST", f"/campaigns/{campaign_id}/leads/{lead_id}/pause", api_key=api_key)
+    if not isinstance(result, dict) or not (result.get("ok") is True or result.get("success") is True):
+        raise SmartleadError("Smartlead did not confirm the lead was paused.")
 
 
 def list_email_accounts(page_size: int = 100, api_key: str | None = None) -> Iterator[dict]:

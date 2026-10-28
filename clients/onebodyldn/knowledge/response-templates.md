@@ -3,34 +3,41 @@
 These are the required reply templates. Follow their wording and structure
 closely, especially the direct-to-worker first positive response.
 
-## Current booking rules (updated 2026-10-22)
+## Current booking rules (updated 2026-10-28)
 
 `booking-options.md` governs all booking links, durations, location restrictions
 and code validity, and outranks older campaign wording. The templates below
 use the current 45-minute physio partnership link and **`VIP8401`**, which
 Kurt confirmed works on all three offers. Never supply `OBLACCESS55` as the
-code for the new offer. Keep the £4.99 booking-fee disclosure for physio.
+code for the new offer. Include the £4.99 booking fee that holds the
+time slot for every offer, including both sports massage options.
 
-Andrew approved this booking reply format on 2026-10-22. Every booking/code
+Andrew updated this booking reply format on 2026-10-28. Every booking/code
 handover must include this friendly sharing line, even when shortening or
 personalizing:
 
-> Feel free to share the link and code with colleagues too, each person gets one free session.
+> Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 Keep the single free session per person rule internally: one offer once in
 total across all three options. Do not include warnings about repeat-booking
 charges or using another email address. Each colleague has their own allowance.
 
-For massage, use the matching link and template below. Massage booking fees
-have not been confirmed; do not apply the physio £4.99 fee to massage. Do
-not send all three links in response to a simple physio yes.
+Fill {{company_name}} with the actual company from the lead record or latest
+thread/signature. Corrections in the conversation outrank imported data. If
+the company cannot be established, use "each person on your team". Never
+invent a company or leave the placeholder in a draft.
+
+For massage, use the matching link and template below, including the £4.99
+booking fee that holds the time slot, as instructed by Andrew on 2026-10-28.
+Do not send all three links in response to a simple physio yes.
 
 Use `{{first_name}}` and `{{company_name}}` filled from the lead record, and
 use whichever persona (Kurt Johnson or Rebecca Bossick) actually sent the
 thread — the app tells you which. `{{nearest_clinic}}` is whichever
-clinic the lead's own cold email already named — read it from the thread
-(it's also in the lead's `nearestClinic` custom field if the thread doesn't
-have it) rather than guessing; see `onebody-overview.md`'s "What this app
+clinic most recently agreed in the conversation. A later correction or
+rejection outranks the cold email and `nearestClinic` custom field. If no
+choice has been made between alternatives, let the lead choose rather than
+reusing a rejected clinic; see `onebody-overview.md`'s "What this app
 does NOT need to compute" for the full rule and the `locations.md` fallback
 for a lead who asks about a different clinic.
 
@@ -61,7 +68,7 @@ Thanks for getting back to me. Here is the booking link -> https://onebodyldn.co
 
 Use **VIP8401**. You can pick your clinic and time directly from the calendar when you book, availability shows in real time, so you'll see what slots are open. There's a small £4.99 booking fee, which holds your time slot. Let me know if you need any help.
 
-Feel free to share the link and code with colleagues too, each person gets one free session.
+Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 Best
 {{sender_first_name}}
@@ -88,7 +95,7 @@ Your team can choose whichever clinic suits them. There's just a small £4.99
 booking fee, which holds each person's time slot. No contract, nothing to sign, nothing for you
 to set up on your end.
 
-Feel free to share the link and code with colleagues too, each person gets one free session.
+Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 One thing that'd help: roughly how many people would be interested, and is
 there a Slack channel or intranet page you'd want the one-pager dropped into,
@@ -133,7 +140,7 @@ usually run any further sessions through your cover, and if not, ongoing
 rates are straightforward and I'm happy to walk you through them once you've
 had the first one.
 
-Feel free to share the link and code with colleagues too, each person gets one free session.
+Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 Want me to send the booking details?
 
@@ -173,7 +180,7 @@ slot. Feel free to share the link and code with everyone in your building. It's 
 back, they can use the lower rates offered in clinic or run sessions through
 their health insurance.
 
-Feel free to share the link and code with colleagues too, each person gets one free session.
+Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 Let me know your thoughts.
 
@@ -199,7 +206,7 @@ regulator, not a masseuse or a sports therapist). We're rated 4.9 from over
 that holds your time slot. It's genuinely how we get people through the door
 at a new clinic.
 
-Feel free to share the link and code with colleagues too, each person gets one free session.
+Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 Happy to send the booking details whenever you're ready.
 
@@ -256,9 +263,10 @@ Hi {{first_name}},
 You can book the free 20-minute sports massage here:
 https://onebodyldn.connect.tm3app.com/book/partnerships/sports_massage_2/sports_massage_20_min
 
-Use **VIP8401** and choose the clinic that suits you.
+Use **VIP8401** and choose the clinic that suits you. There's a small
+£4.99 booking fee that holds your time slot.
 
-Feel free to share the link and code with colleagues too, each person gets one free session.
+Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 {{sender_first_name}}
 
@@ -271,14 +279,15 @@ https://onebodyldn.connect.tm3app.com/book/partnerships/sports_massage_2/sports_
 
 Use **VIP8401**. This option is available at Wimbledon, Aldgate East, Hendon,
 High Street Kensington, Mill Hill, Moorgate, Southfields, Twickenham,
-Waterloo and West Kensington.
+Waterloo and West Kensington. There's a small £4.99 booking fee that holds
+your time slot.
 
-Feel free to share the link and code with colleagues too, each person gets one free session.
+Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session.
 
 {{sender_first_name}}
 
 When the lead has already chosen an eligible clinic, name it instead of
-listing all ten. Do not invent a massage booking fee or say there is none.
+listing all ten. Always retain the £4.99 booking fee that holds the time slot.
 
 ---
 
