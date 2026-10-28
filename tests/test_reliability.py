@@ -27,6 +27,63 @@ class _NoStartThread:
 
 
 class ReliabilityTests(unittest.TestCase):
+    def test_inbox_groups_statuses_and_prioritizes_oldest_followups(self):
+        with db.db_session() as conn:
+            for lead_id, category, date in (
+                (1, "waiting", "2026-10-26T10:00:00+00:00"),
+                (2, "followup", "2026-10-25T10:00:00+00:00"),
+                (3, "reply", "2026-10-23T10:00:00+00:00"),
+                (4, "followup", "2026-10-20T10:00:00+00:00"),
+                (5, "reply", "2026-10-25T12:00:00+03:00"),
+                (6, "waiting", "2026-10-20T10:00:00+00:00"),
+                (7, "reply", None), (8, "followup", None),
+                (9, "auto_reply", "2026-10-26T11:00:00+00:00"),
+                (10, "reply", "2026-10-25T10:00:00+00:00"),
+            ):
+                db.upsert_lead_state(conn, lead_id, 10, interested=1,
+                    category=category, last_message_at=date,
+                    temperature="hot" if lead_id in (1, 2, 3) else "cold",
+                    snooze_until="2020-01-01T00:00:00+00:00" if lead_id == 6 else None)
+            self.assertEqual([r["lead_id"] for r in db.list_inbox(conn)],
+                             [10, 5, 3, 7, 4, 2, 8, 1, 6, 9])
+
+    def test_browser_inbox_sort_keeps_groups_with_saved_date_sort(self):
+        source = Path("app/static/app.js").read_text(encoding="utf-8")
+        start = source.index("function applySortOrder()")
+        end = source.index("// ---------- campaign filter", start)
+        script = """
+const assert = require('node:assert/strict');
+const CATEGORY_ORDER = ['reply', 'followup', 'waiting'];
+const leadCategory = (lead) => lead.category || 'waiting';
+const state = { view: 'inbox', sortOrder: 'default', leads: [] };
+const rows = [
+  ['w-new', 'waiting', '2026-10-26'], ['f-new', 'followup', '2026-10-25'],
+  ['r-old', 'reply', '2026-10-20'], ['f-old', 'followup', '2026-10-20'],
+  ['r-new', 'reply', '2026-10-25'], ['w-old', 'waiting', '2026-10-20'],
+  ['f-missing', 'followup', null], ['r-invalid', 'reply', 'invalid']
+].map(([id, category, last_message_at_raw]) => ({id, category, last_message_at_raw}));
+""" + source[start:end] + """
+for (const [order, expected] of [
+  ['default', ['r-new', 'r-old', 'r-invalid', 'f-old', 'f-new', 'f-missing', 'w-new', 'w-old']],
+  ['date_desc', ['r-new', 'r-old', 'r-invalid', 'f-new', 'f-old', 'f-missing', 'w-new', 'w-old']],
+  ['date_asc', ['r-old', 'r-new', 'r-invalid', 'f-old', 'f-new', 'f-missing', 'w-old', 'w-new']]
+]) {
+  state.sortOrder = order;
+  state.leads = [...rows];
+  applySortOrder();
+  assert.deepEqual(state.leads.map(l => l.id), expected);
+}
+state.leads = rows.filter(l => l.category !== 'reply');
+state.sortOrder = 'default';
+applySortOrder();
+assert.deepEqual(state.leads.map(l => l.id), ['f-old', 'f-new', 'f-missing', 'w-new', 'w-old']);
+state.view = 'archive';
+state.leads = [...rows];
+applySortOrder();
+assert.deepEqual(state.leads, rows);
+"""
+        subprocess.run(["node", "-e", script], capture_output=True, text=True, check=True)
+
     def test_booked_location_priority_uses_actual_clinic_and_keeps_unknowns(self):
         from app import client_assets
         with patch.object(client_assets, "CLIENT_DIR", client_assets.REPO_ROOT / "clients" / "onebodyldn"):
@@ -204,7 +261,7 @@ class ReliabilityTests(unittest.TestCase):
         for template in (direct, corporate):
             self.assertIn("£4.99", template)
             self.assertIn("Feel free to share the link and code with colleagues too", template)
-            self.assertIn("each person gets one free session", template)
+            self.assertIn("each person at {{company_name}} gets one free session", template)
             self.assertNotIn("will result in a charge", template)
 
     def test_thread_fetch_populates_cache(self):

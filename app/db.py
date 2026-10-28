@@ -1290,17 +1290,10 @@ def list_inbox(conn):
     """Every interested, non-stopped, non-archived, non-snoozed(-future) lead for
     the unified inbox.
 
-    Ordering, outermost first: a 🔥 **very hot** lead — one who asked to meet or
-    call (app/lead_temperature.py) — sits above everything else, because that is
-    the one signal worth acting on before anything else in the list and it must
-    not be buried under a dozen leads whose only claim is that they replied more
-    recently. A booked lead is excluded from that promotion: the meeting is the
-    outcome, so there is nothing left to chase.
-
-    Within that, the tiers are as before: a snooze whose date has arrived jumps
-    to the top (that's the point of snoozing — surface it prominently once due),
-    then awaiting-our-reply (red), then follow-up-due (amber), then the rest;
-    within a tier, most recent activity first.
+    Group by status: awaiting our reply, follow-up due, in conversation, then
+    other categories. Follow-ups use oldest last-message first; all other
+    groups use newest first. Missing dates go last. Temperature and expired
+    snoozes do not override these groups or their chronological ordering.
 
     A lead whose draft is already *scheduled* is handled — it belongs to the
     Scheduled tab, not here. It used to sit in both, still wearing its amber
@@ -1334,15 +1327,19 @@ def list_inbox(conn):
                )
              )
            ORDER BY
-             CASE WHEN temperature = 'hot' AND status != 'booked' THEN 0 ELSE 1 END,
              CASE
-               WHEN snooze_until IS NOT NULL AND snooze_until <= ? THEN 0
-               WHEN category IN ('reply', 'auto_reply') THEN 1
-               WHEN category = 'followup' THEN 2
+               WHEN category = 'reply' THEN 0
+               WHEN category = 'followup' THEN 1
+               WHEN COALESCE(category, 'waiting') = 'waiting' THEN 2
                ELSE 3
              END,
-             last_message_at DESC""",
-        (now, now),
+             COALESCE(category, 'waiting'),
+             julianday(last_message_at) IS NULL,
+             CASE WHEN category = 'followup' THEN julianday(last_message_at) END ASC,
+             CASE WHEN category != 'followup' OR category IS NULL
+               THEN julianday(last_message_at) END DESC,
+             campaign_id, lead_id""",
+        (now,),
     ).fetchall()
 
 

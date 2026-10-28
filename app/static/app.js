@@ -37,8 +37,7 @@ const SORT_ORDER_KEY = "responder.sortOrder";
 
 // How hot the lead is (app/lead_temperature.py) — a different axis from CHIP
 // above, which says what the thread needs next. This one says whether they
-// asked to talk, and it's what the inbox sorts on first: every 🔥 lead is above
-// everything else in the list, regardless of category.
+// asked to talk. The badge stays visible within the lead's status group.
 const TEMP = {
   hot: "🔥 Very hot",
   warm: "🌤 Warm",
@@ -587,9 +586,8 @@ function applyFilter() {
 // Independent of the three dropdown filters above: a lower/upper bound on
 // leads_state.last_message_at (last_message_at_raw, the ISO timestamp riding
 // alongside the human-readable "Sep 15, 2026 · 14:30" preview) and an optional
-// override of the server's tier ordering (db.list_inbox — hot, then due, then
-// most-recent-first). "default" leaves the filtered list in whatever order it
-// arrived in; the two date sorts re-sort it by that same raw timestamp.
+// override of date direction within each status group. The default puts the
+// oldest follow-ups first and the newest replies/conversations first.
 
 function loadDateBound(key) {
   try {
@@ -675,14 +673,22 @@ function setSortOrder(order) {
   applyFilter();
 }
 
-// Applied after every other filter, directly on state.leads. "default" is a
-// no-op: the array is already in the server's priority order.
+// Keep statuses together even when a saved date-sort preference is active.
 function applySortOrder() {
-  if (state.sortOrder === "default") return;
-  const dir = state.sortOrder === "date_asc" ? 1 : -1;
+  if (state.view !== "inbox" && state.sortOrder === "default") return;
   state.leads.sort((a, b) => {
-    const ta = a.last_message_at_raw ? new Date(a.last_message_at_raw).getTime() : 0;
-    const tb = b.last_message_at_raw ? new Date(b.last_message_at_raw).getTime() : 0;
+    const catA = leadCategory(a), catB = leadCategory(b);
+    if (state.view === "inbox" && catA !== catB) {
+      const rank = (cat) => CATEGORY_ORDER.includes(cat) ? CATEGORY_ORDER.indexOf(cat) : CATEGORY_ORDER.length;
+      return rank(catA) - rank(catB) || catA.localeCompare(catB);
+    }
+    const dir = state.sortOrder === "default" ? (catA === "followup" ? 1 : -1)
+      : state.sortOrder === "date_asc" ? 1 : -1;
+    const ta = a.last_message_at_raw ? new Date(a.last_message_at_raw).getTime() : NaN;
+    const tb = b.last_message_at_raw ? new Date(b.last_message_at_raw).getTime() : NaN;
+    if (!Number.isFinite(ta) || !Number.isFinite(tb)) {
+      return Number.isFinite(ta) ? -1 : Number.isFinite(tb) ? 1 : 0;
+    }
     return (ta - tb) * dir;
   });
 }
@@ -2359,11 +2365,7 @@ function renderList() {
     ? "No leads match the current status filter or search."
     : 'No leads yet. Click <strong>Rescan now</strong> — it checks every “Interested” lead and takes a couple of minutes.';
 
-  // The inbox arrives with every hot lead first (db.list_inbox), so the two
-  // headings are just the place the run ends — no client-side sorting, and
-  // nothing to keep in step with the server's ordering.
   const inboxMode = !archiveMode && !scheduledMode;
-  const hotCount = inboxMode ? state.leads.filter(isHot).length : 0;
 
   state.leads.forEach((lead, i) => {
     if (archiveMode && i === 0 && state.snoozedCount > 0) {
@@ -2372,11 +2374,8 @@ function renderList() {
     if (archiveMode && i === state.snoozedCount) {
       list.appendChild(el("li", "list-section", "Archived"));
     }
-    if (hotCount > 0 && i === 0) {
-      list.appendChild(el("li", "list-section section-hot", "🔥 Very hot — they asked to talk"));
-    }
-    if (hotCount > 0 && i === hotCount) {
-      list.appendChild(el("li", "list-section", "Everyone else"));
+    if (inboxMode && (i === 0 || leadCategory(lead) !== leadCategory(state.leads[i - 1]))) {
+      list.appendChild(el("li", "list-section", leadCategoryLabel(lead)));
     }
 
     const rowClass = archiveMode || scheduledMode ? "archive-row" : "cat-" + leadCategory(lead);
@@ -2656,14 +2655,7 @@ function leadTemp(lead) {
 }
 
 function isHot(lead) {
-  // Must mirror db.list_inbox's sort exactly: `temperature = 'hot' AND status
-  // != 'booked'`. A booked lead's meeting is the outcome, so it's excluded
-  // from the hot tier there — but this used to check temperature alone, so a
-  // hot-then-booked lead was counted as hot here while the server had
-  // already sorted it further down. The mismatch inflated hotCount in
-  // renderList, which pushed the "Everyone else" divider one row too far and
-  // put the next lead in line — a warm or cold one, whatever actually sat at
-  // that position — visibly under the "🔥 Very hot" header.
+  // Booked meetings no longer need the hot-lead highlight.
   return leadTemp(lead) === "hot" && lead.category !== "booked";
 }
 

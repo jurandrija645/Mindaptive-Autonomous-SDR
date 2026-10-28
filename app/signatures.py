@@ -17,11 +17,13 @@ SIGNATURES_DIR = client_assets.SIGNATURES_DIR
 PERSONA_FILES = {
     "Andrew Juran": "andrew.html",
     "Mia Malcic": "mia.html",
+    "Luka Jovanovic": "luka.html",
 }
 
 _NAME_HINTS = {
     "andrew.html": ("andrew", "juran"),
     "mia.html": ("mia",),
+    "luka.html": ("luka", "jovanovic"),
 }
 
 _CALENDAR_LINKS: dict[str, str] = {}

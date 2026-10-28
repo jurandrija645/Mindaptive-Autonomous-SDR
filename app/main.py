@@ -555,8 +555,7 @@ def _row_payload(l: dict, open_set: set) -> dict:
         # scan or the 60s reply poll looked (see db.py's schema comment) —
         # shown next to "Change status" so a manual change isn't a guess.
         "smartlead_category": l["smartlead_category"] or "",
-        # How hot the lead is — a separate axis from `category` above, and the
-        # thing db.list_inbox sorts on first (app/lead_temperature.py).
+        # How hot the lead is — a badge separate from status/date ordering.
         "temperature": lead_temperature.current(l),
         "temperature_reason": l["temperature_reason"] or "",
         "temperature_locked": bool(l["temperature_locked"]),

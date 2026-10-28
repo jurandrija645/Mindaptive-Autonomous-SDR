@@ -87,6 +87,32 @@ the real company. Both sports massage offers include the fee. Native child
 copy uses generic clinic wording; the latest conversation always outranks
 the imported `nearestClinic`, especially for Angie at Goldfinch Agency.
 
+### OneBody booking and native subsequence update (2026-10-28)
+
+This update supersedes the older fee/sharing/clinic instructions above.
+Every physio or massage booking/code handover must include "There's a small
+£4.99 booking fee that holds your time slot" and "Feel free to share the link
+and code with colleagues too, each person at {{company_name}} gets one free
+session." Fill the actual company from the latest thread or lead record;
+when unknown, say "each person on your team". A corrected or rejected clinic
+in the conversation outranks `nearestClinic` and the opening email.
+
+The four **new** OneBody subsequences run in Smartlead, not `app/sequences.py`:
+4235340/4235670 under parent 4235278 and 4235352/4235673 under parent 4235286
+(physio/sports respectively). All 16 steps now use generic clinic wording,
+the £4.99 disclosure and `{{company_name}}`. Their first email waits **48
+hours from enrollment**, verified by `/leads/{leadId}/campaign-overview`
+`next_timestamp_to_reach`, despite step 1's `delay_in_days=0`. Subsequent
+step delays are 2/3/4 days. Send window: weekdays 08:00–18:00 London.
+The old local 55-minute sequence remains separate and unchanged.
+
+Before the booking guard was added, changing a parent lead to Meeting Booked
+did **not** pause its Smartlead child mapping: Sean and Lila were explicitly paused in the child campaigns
+during this audit. Do not assume local sequence stop hooks protect native
+Smartlead subsequences. Read each child mapping and the parent's live status.
+Ben's thank-you came before Andrew manually enrolled him, so his enrollment
+remains active. Audit evidence: `analysis/onebody-subsequence-audit-2026-10-28/`.
+
 ## How a message actually gets generated
 
 ### Deliverability health
@@ -284,7 +310,7 @@ commercial-use and resolver rules make the result/licensing unsuitable here.
 
 19. **How hot a lead is** (`app/lead_temperature.py`) — ❄️ cold / 🌤 warm / 🔥 very hot, stored on `leads_state.temperature`. A **third axis**, deliberately separate from the two statuses the app already had: `leads_state.category` (reply/followup/waiting/booked) says what the *thread* needs next, Smartlead's own lead category says how Smartlead filed the lead, and neither answers the question Andrew actually asks of the inbox each morning — *who wants to talk to us*. "Can we jump on a call Thursday?" and "please send more info" are both `reply` + `Interested`, and they are not the same lead.
     - **🔥 means they asked to talk** — a meeting, a call, a demo, their availability, a number to ring. 🌤 is a real person engaging without asking to talk yet (questions, "send more info", an objection, "check back in Q3"). ❄️ is no reply at all, or nothing but an autoresponder / rejection / unsubscribe.
-    - **Two things follow from 🔥**, and they are the point of it. The lead sorts **above every other tier** in `db.list_inbox` — above a due snooze, above an unanswered reply — because the strongest signal in the account must not be buried under a dozen leads whose only claim is replying more recently. And their follow-up cadence collapses to `HOT_FOLLOWUP_WAIT_HOURS` (24h) instead of the `FOLLOWUP_WAIT_DAYS` list (`detector.decide(..., hot=True)`; it only ever *shortens* the wait). A booked lead is excluded from the promotion — the meeting is the outcome, there's nothing left to chase.
+    - **Two things follow from 🔥**, and they are the point of it. The lead keeps its hot badge within its status group in `db.list_inbox`; status and last-message date determine the order (updated 2026-10-26). Their follow-up cadence collapses to `HOT_FOLLOWUP_WAIT_HOURS` (24h) instead of the `FOLLOWUP_WAIT_DAYS` list (`detector.decide(..., hot=True)`; it only ever *shortens* the wait). A booked lead is excluded from the hot highlight — the meeting is the outcome, there's nothing left to chase.
     - **24 hours needs a pass that runs more often than once a night** (`scheduler._queue_hot_followup`). The daily scan used to be the only thing that ever decided a follow-up was due, so "24 hours" would really have meant "whenever the next 6am run lands" — anywhere from 24 to 48h after the email went out, which is the entire difference between chasing someone the morning after they asked for a call and the morning after that. The 5-minute reply-catch pass already bulk-fetches every live lead's thread, so the clock is checked there for **hot leads only**, at the cost of one `detector.decide` call and no network at all. It queues a candidate rather than generating, exactly like the daily scan, so the model spend still happens on the overnight batch or on a click.
     - **The rating never cools down on its own.** It only moves up. An out-of-office from someone who asked for a call last week does not undo last week, and a lead who has gone quiet is precisely the one worth keeping in sight. The only thing that can cool a lead is Andrew, from the dropdown in the lead-actions row (`POST /api/leads/{cid}/{lid}/temperature`), which sets `temperature_locked=1` so the scan stops touching it — the same deal `name_locked` gives a corrected name. "↻ Let the AI decide" clears the lock **and re-rates on the spot**, because clearing alone wouldn't be enough: 🔥 is sticky, so the classifier would keep answering "nothing to do" and the lead would stay hot forever.
     - **One model call per inbound message, at most.** The message the rating came from is stored (`temperature_message_id`), so the 5-minute pass and the nightly scan re-read the same thread for free; a lead already rated 🔥 is never re-classified at all; and auto-reply leads are never classified, since Smartlead has already said what they are and the rating can't cool anyone down anyway. It rates the lead's **last three** messages together, not just the newest: "can we talk?" → "Thursday works" → "thanks!" would otherwise rate the thank-you and call a hot lead warm.
@@ -302,7 +328,7 @@ commercial-use and resolver rules make the result/licensing unsuitable here.
 ## Key config (`.env`, see `.env.example`)
 
 - `FOLLOWUP_WAIT_DAYS` / `MAX_FOLLOWUPS` — cadence and cap. `FOLLOWUP_WAIT_DAYS` accepts a comma list (`3,4,6,8` — wait before follow-up #N, last value repeats) or a single number (old fixed cadence).
-- `HOT_FOLLOWUP_WAIT_HOURS` — hours (not days) before chasing a lead rated 🔥 very hot (§19). Only ever shortens `FOLLOWUP_WAIT_DAYS`, never lengthens it; 0 puts hot leads back on the day cadence. They sort to the top of the inbox either way.
+- `HOT_FOLLOWUP_WAIT_HOURS` — hours (not days) before chasing a lead rated 🔥 very hot (§19). Only ever shortens `FOLLOWUP_WAIT_DAYS`, never lengthens it; 0 puts hot leads back on the day cadence. They retain their hot badge; inbox order stays grouped by status and last-message date.
 - `REVIVE_AFTER_DAYS` — after the cap, resurface a cold lead for one revival touch every N days of silence (0 disables).
 - `MEETING_BOOKED_CATEGORY_NAME` — Smartlead category that freezes outreach and counts as a booked meeting (Stats view).
 - `NOT_INTERESTED_CATEGORY_NAME` / `WRONG_PERSON_CATEGORY_NAME` — Smartlead category names mirrored into the dashboard; the local probabilistic classifier never writes them back (§17).
@@ -366,3 +392,7 @@ Before relying on any field, probe it against the Mindaptive Jones test lead
 - The webhook payload shape in `app/webhook.py` (`campaign_id`, `sl_email_lead_id`, `reply_message.text`, `to_name`, `to_email`) — confirmed from the existing n8n workflow, not guessed.
 - `signatures/andrew.html` / `signatures/mia.html` — real signatures pulled from Smartlead's actual sending accounts, HTML/inline-styled, not meant to be hand-edited casually. `PERSONA_FILES` in `app/signatures.py` maps a Smartlead `from_name` to one of these files.
 - Smartlead API response shapes are inconsistent per endpoint (some wrap in `{"data": [...]}`, others return a bare list, `message-history` wraps in `{"history": [...]}`, `reply-email-thread` returns plain text on success) — always check `isinstance(data, list)` *before* falling back to `.get("data")`, not after (a real bug fixed in `smartlead.py`'s pagination helpers), and `smartlead._request` checks `content-type` before assuming JSON.
+
+## Inbox ordering (2026-10-26)
+
+`db.list_inbox` and `app/static/app.js: applySortOrder` group Awaiting your reply, Follow-up due, then In conversation, followed by other categories. Replies and conversations use newest last-message first; follow-ups use oldest last-message first. This is the last message in either direction (`last_message_at`), not the date a draft or lead was created. Missing dates go last. Hot ratings and expired snoozes do not override this order. The browser shows status section headings; explicit date-sort choices change direction within each group while keeping statuses together.

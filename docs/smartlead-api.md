@@ -352,7 +352,42 @@ to the existing sequence anchor, not now. An empty resume payload can restore
 a timestamp in the past. Read back and verify the timestamp; never resume
 booked leads automatically. This guard only pauses.
 
+### Native OneBody subsequences (verified 2026-10-28)
+
+`GET /leads/{leadId}/campaign-overview` returns a `data` object with
+`email_campaign_leads_mappings`: each mapping includes `id`, `status`,
+`current_seq_num`, `next_timestamp_to_reach`, `email_campaign_id`,
+`email_account_id`, `is_active` and `email_campaign`. This is the useful
+per-lead schedule read; `/leads/{leadMapId}/sequence-details?campaignId=...`
+returns step status and sent time only. A child mapping's `STARTED` status
+means enrolled and waiting, not failed. All 16 new OneBody enrollments were
+scheduled 48 hours after their mapping's `created_at`, although sequence 1's
+`delay_in_days` is zero (the initial wait lives outside that step field).
+
+`POST /campaigns/{id}/status` with `PAUSED` pauses and `START` resumes;
+both were read back as PAUSED/ACTIVE. `POST /campaigns/{id}/sequences` with
+existing step IDs updates copy in place. Verified the four-step IDs, delays
+and enrolled leads' future timestamps survived the edit. Pause, update,
+read back, then resume. Current responses use `ok: true`, not the reference's
+`success` envelope.
+
+`POST /campaigns/{cid}/leads/{lid}/pause` returns `{"ok":true,"data":"success"}`;
+the child mapping reads back PAUSED with a null next timestamp. A parent
+Meeting Booked category does **not** automatically pause the child mapping.
+Sean/Lila required explicit child pauses. The app's local sequence hooks
+do not control these native mappings.
+
+**Resume delay trap:** `POST .../resume` accepts a numeric (including
+fractional) `resume_lead_with_delay_days`, but applies it to Smartlead's
+existing sequence anchor, **not the current time**. An empty payload can
+therefore restore a timestamp in the past. For an exact future resumption,
+derive the anchor from a read-back, calculate the delay from that anchor,
+and verify `next_timestamp_to_reach` before leaving it active. Verified for
+Ben: restored 2026-10-28 13:55:13 UTC, current sequence number zero, no send.
+
 References: [campaign overview](https://api.smartlead.ai/api-reference/leads/campaign-overview),
+[sequence details](https://api.smartlead.ai/api-reference/leads/sequence-details),
+[update sequences](https://api.smartlead.ai/api-reference/campaigns/update-sequences),
 [pause lead](https://api.smartlead.ai/api-reference/campaigns/pause-lead),
 [resume lead](https://api.smartlead.ai/api-reference/campaigns/resume-lead).
 
