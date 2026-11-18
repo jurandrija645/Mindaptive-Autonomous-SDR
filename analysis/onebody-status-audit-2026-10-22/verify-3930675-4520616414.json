@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5855,
+    "completion_tokens": 1267,
+    "total_tokens": 7122,
+    "cost": 0.004009305825,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 4573,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.004009305825,
+      "upstream_inference_prompt_cost": 0.001588676985,
+      "upstream_inference_completions_cost": 0.00242062884
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616414",
+      "genuine_engagement": true,
+      "verdict": "awaiting_us",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWLP302MB0311A6669066BEBE03496134AF842@CWLP302MB0311.GBRP302.PROD.OUTLOOK.COM>",
+      "human_quote": "I am away now in the US for 10 days – ping me post that",
+      "reason_hr": "Osoba je odgovorila na ponudu, traži da ju se kontaktira nakon povratka s puta. To je angažman vezan uz našu ponudu.",
+      "request_hr": "Ping me post that (nakon 10 dana odsutnosti)",
+      "next_action_hr": "Vlasnik treba poslati poruku 2026-10-01 ili nakon (10 dana od 21.09.), podsjetiti na ponudu i ponuditi kod za rezervaciju.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616143",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<7C7C03CE-94EA-4F9C-BE9D-943F6E7EFB9D@astusgroup.com>",
+      "human_quote": "NO",
+      "reason_hr": "Osoba je jasno odbila ponudu s 'NO', nema interesa.",
+      "request_hr": "none",
+      "next_action_hr": "Bez daljnjeg kontakta, označiti kao odbijeno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616107",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAJkvQjMvBu4o1AUKRdVHaWV-krQGRx7aa8UPd58wBtDJqP1xRA@mail.gmail.com>",
+      "human_quote": "No thanks. I'll keep you in mind if I need some physio in the future.",
+      "reason_hr": "Osoba je odbila ponudu riječima 'No thanks', izrazila nezainteresiranost za trenutnu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke, osim ako se osoba sama ne javi.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615628",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<CAHqHtLVDxpzMnSgkvV6ZyOvyu3s4tdSKi_mMa4BoEhvVvFkmXw@mail.gmail.com>",
+      "human_quote": "I'd need to pass on to our people team.",
+      "reason_hr": "Osoba je tražila prosljeđivanje HR timu. Poslan je link i kod. Nema potvrde rezervacije ni odbijanja, zadnja je naša poruka s uputama.",
+      "request_hr": "Pass on to people team",
+      "next_action_hr": "Pričekati odgovor ili eventualnu rezervaciju. Ako nema reakcije duže vrijeme, može se poslati jedan nježni follow-up.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615107",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAN4s=rvpG4rpPO2bGNLmuiS_bDfuV3-HCqdB7nQS15iYwGfsow@mail.gmail.com>",
+      "human_quote": "no.,",
+      "reason_hr": "Osoba je odgovorila 'no.' bez ikakvog interesa za ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Bez daljnjeg kontakta, označiti kao odbijeno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615084",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAJSwLNXfU8JKt26CZs4JnL6wKmh4bYXkar71m5_Jtx0242yfbA@mail.gmail.com>",
+      "human_quote": "no thanks",
+      "reason_hr": "Osoba je odbila ponudu s 'no thanks'.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

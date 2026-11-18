@@ -1,0 +1,70 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 3482,
+    "completion_tokens": 696,
+    "total_tokens": 4178,
+    "cost": 0.0041778,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0041778,
+      "upstream_inference_prompt_cost": 0.0031338,
+      "upstream_inference_completions_cost": 0.001044
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446318062",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska obavijest da David Morgan više nije na toj adresi; nije osobni odgovor na ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Adresa je neaktivna za Davida Morgana. Ne šalji daljnje poruke na ovaj kontakt.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317296",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<PAWPR07MB112103B2A8C0B4942BB22B34CF3B62@PAWPR07MB11210.eurprd07.prod.outlook.com>",
+      "human_quote": "Sure, if it's free, I will look at it.",
+      "reason_hr": "Cassian je osobno prihvatio ponudu i dobio kod i link. Naše zadnje poruke bez odgovora; čeka se njegovo bukiranje.",
+      "request_hr": "bez dodatnog zahtjeva",
+      "next_action_hr": "Lead je dobio sve potrebno za booking. Daljnji follow-upovi bi bili previše; ako se ne javi, kampanja je već iscrpljena. Ostavi status waiting_on_lead.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317376",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<873CE02E-C9D5-4981-82D6-90C4ECCF106D@themixglobal.com>",
+      "human_quote": "Sorry to have to say but we have been in Farringdon for a little while now. Where did you see info we were still in the area?",
+      "reason_hr": "Martyn odbija jer njegov ured više nije na toj lokaciji. Nudi 'Firefish' kao potencijalnu referalu, ali to nije angažman za sebe.",
+      "request_hr": "nema upotrebljiv zahtjev za nas",
+      "next_action_hr": "Odbijanje. Martyn ne želi uslugu za sebe. Ako želiš, možeš istražiti 'Firefish' kao novi lead, ali ovaj kontakt je negativan.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

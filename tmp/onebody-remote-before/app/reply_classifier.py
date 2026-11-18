@@ -1,0 +1,213 @@
+"""Is this inbound reply worth drafting an answer to?
+
+This is n8n's `OpenAI` → `Switch` node pair, moved into the app so Smartlead's
+webhook can point straight at `/webhooks/smartlead` with nothing in between.
+The n8n chain classified with gpt-5-mini and only forwarded RELEVANT replies;
+everything else was dropped on the floor, which meant the dashboard never heard
+about an out-of-office, a rejection or an unsubscribe at all.
+
+Two rules this keeps, deliberately:
+
+- **The verdict gates drafting, never visibility.** Every reply is recorded and
+  shown in the inbox (see db.mark_lead_replied); the classifier only decides
+  whether Claude spends tokens writing an answer and whether the lead is pushed
+  to Smartlead's "Interested" category. A message you can't see is the bug this
+  whole change exists to fix, and a classifier is exactly the wrong thing to put
+  in front of it — it will be wrong sometimes, and being wrong should cost a
+  wasted draft, not a lost lead.
+- **It fails OPEN.** No key, no answer, a timeout, an unparseable verdict: treat
+  the reply as relevant. The cost of a needless draft is a few cents; the cost
+  of silently ignoring a real buyer is the account.
+
+The categories and their wording are carried over from the n8n prompt so the
+behaviour Andrew already tuned doesn't change underneath him.
+"""
+
+import logging
+import re
+
+from app import llm, models_registry
+from app.email_clean import to_plain_text
+
+log = logging.getLogger("reply_classifier")
+
+# The reply's own text is all that's needed, and a long quoted history is both
+# noise and tokens. to_plain_text already drops the quoted part.
+_MAX_CHARS = 4000
+
+INTERESTED = "interested"
+AUTO_REPLY = "auto_reply"
+NOT_INTERESTED = "not_interested"
+DO_NOT_CONTACT = "do_not_contact"
+WRONG_PERSON = "wrong_person"
+BOOKED = "booked"
+UNKNOWN = "unknown"
+
+# High-confidence confirmations only. Do not match "all booked up" (which can
+# describe unavailable capacity) or a question such as "can I book?".
+_BOOKED_CONFIRMATION_RE = re.compile(
+    r"(?:\ball\s+booked\s*[.!]*$|"
+    r"\b(?:i|we)(?:'ve|\s+have)\s+(?:now\s+)?booked"
+    r"(?:\s+(?:it|in|the\s+(?:appointment|session)))?\s*[.!]*$|"
+    r"\b(?:appointment|session)(?:'s|\s+is)\s+(?:now\s+)?booked\s*[.!]*$)",
+    re.IGNORECASE,
+)
+
+# Compliance commands are not sales sentiment. Keep them deterministic and
+# ahead of the model so an explicit opt-out cannot be softened into the
+# broader NOT_INTERESTED bucket.
+_DO_NOT_CONTACT_RE = re.compile(
+    r"(?:"
+    r"^\s*stop\s*[.!]*\s*$|"
+    r"\bplease\s+stop(?:\s+(?:the\s+)?(?:emails?|emailing|contacting|messages?|sending))?\b|"
+    r"\bstop\s+(?:the\s+)?(?:emails?|emailing|contacting|messages?|sending)\b|"
+    r"\b(?:do\s+not|don['’]?t)\s+(?:email|contact|message|write\s+to|send(?:\s+(?:me|us))?)\b|"
+    r"\b(?:remove|delete)\s+(?:me|us)\s+from\s+(?:your|the|this)\s+(?:email\s+|mailing\s+)?list\b|"
+    r"\btake\s+(?:me|us)\s+off\s+(?:your|the|this)\s+(?:email\s+|mailing\s+)?list\b|"
+    r"\b(?:unsubscribe|opt\s+(?:me|us)\s+out)\b|"
+    r"\bno\s+more\s+(?:emails?|messages?)\b|"
+    r"\bcease\s+(?:all\s+)?(?:contact|communications?|emails?)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+_SYSTEM = (
+    "You are an AI text classification system. Your sole function is to analyze "
+    "the provided text and assign it exactly one of four categories: "
+    "INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED."
+)
+
+_USER = """**CATEGORY DEFINITIONS:**
+* **INTERESTED** — a real person wrote this and the conversation is alive:
+- Any interest in continuing the conversation.
+- Inquiries about price, a demo, a meeting.
+- Interest in the offer while bringing a relevant colleague into the conversation.
+- A question, an objection, or a request to talk at a specific later time.
+
+* **AUTO_REPLY** — nobody actually read it; a machine answered, and the person
+  behind this mailbox is expected back:
+- "Out of office" / holiday / away message with a return date, or none stated.
+- Autoresponder or ticket acknowledgement ("we have received your email").
+- "We will respond within X hours/days..."
+- Delivery failure, blocked message, or an anti-spam verification challenge.
+
+* **WRONG_PERSON** — this specific mailbox is a dead end, permanently, not just
+  this week:
+- "I no longer work here / at this company" — with or without a replacement
+  contact.
+- "This email address is not monitored" / "is no longer in use" / "is not
+  active" / "is being decommissioned".
+- Any reply whose point is "you have the wrong person or the wrong address",
+  as opposed to an opinion about the offer itself.
+- A referral-only reply directing us to someone else, with no temporary
+  absence and no interest in continuing the conversation themselves.
+
+* **NOT_INTERESTED** — a person answered and the answer is an unambiguous no
+  about the offer itself, not about who's reading it:
+- Flat rejection ("not interested", "no thank you", "not for us").
+- A reply that clearly ends the communication.
+
+**A doubt is not a no.** A price objection, a worry about fit, a concern about
+data protection, "I'm not sure this works for our margins", "we already use
+something like this" — all of those are INTERESTED. The person is still
+talking to us, and that is a conversation to answer, not to close. Choose
+NOT_INTERESTED only when there is nothing left to reply to.
+
+**Why WRONG_PERSON is its own category, not folded into AUTO_REPLY or
+NOT_INTERESTED:** an out-of-office reader is coming back to their inbox — keep
+following up, just don't count it as a live conversation. Someone who no
+longer works there, or a mailbox nobody reads any more, never will — chasing
+that address again is wasted mail, not persistence. That's a different
+downstream action from either AUTO_REPLY or NOT_INTERESTED, so it needs its own
+label even though the sentence itself is often short and machine-sounding, the
+same as an AUTO_REPLY.
+
+Three edge cases, all seen in real traffic:
+
+- An automatic absence notice remains AUTO_REPLY even with a return date or
+  instructions to contact someone else in the meantime. A personal response
+  to our offer asking us to follow up later is INTERESTED.
+- A warm, friendly, first-person greeting is still AUTO_REPLY if it says
+  nothing about *this* email. "Hi there, thanks so much for getting in touch,
+  we love hearing from you, someone will be with you shortly" is a form
+  response, however human it sounds. What makes a message INTERESTED is that
+  it responds to something we actually said.
+- Temporary absence takes precedence over a referral: "out of office till
+  September 15, contact Jordan in my absence", "taking some time away, in the
+  meantime contact John", and "I am OOO, forward to production" are AUTO_REPLY.
+  A colleague's address alone is NOT evidence that the sender has left.
+  "I no longer work here, contact John" is WRONG_PERSON.
+
+**MANDATORY COMMAND:**
+Carefully read the text below. After your analysis, your output **must be only \
+one word**: INTERESTED, AUTO_REPLY, WRONG_PERSON or NOT_INTERESTED.
+You must not write anything else. No explanations, no greetings, and no period at the end.
+
+**TEXT TO ANALYZE:**
+{text}"""
+
+
+def is_relevant(reply_text: str) -> tuple[bool, str]:
+    """`(relevant, reason)` — the two-way view, for callers that only need to
+    know whether to spend a draft."""
+    label, reason = classify(reply_text)
+    return label == INTERESTED, reason
+
+
+def classify(reply_text: str, *, fail_closed: bool = False) -> tuple[str, str]:
+    """`(label, reason)` where label is INTERESTED / AUTO_REPLY / WRONG_PERSON /
+    DO_NOT_CONTACT / NOT_INTERESTED.
+
+    Fails open to INTERESTED — see the module docstring."""
+    text = to_plain_text(reply_text or "").strip()
+    if not text:
+        if fail_closed:
+            return UNKNOWN, "empty message"
+        return INTERESTED, "empty message — nothing to classify, treated as interested"
+    if _DO_NOT_CONTACT_RE.search(text):
+        return DO_NOT_CONTACT, "explicit request to stop future contact"
+    if _BOOKED_CONFIRMATION_RE.search(text):
+        return BOOKED, "explicitly confirmed the appointment/session is booked"
+
+    try:
+        # 2048 tokens for a one-word answer, and it has to be. A reasoning
+        # model bills its thinking against this same budget, so a tight cap
+        # doesn't buy a short answer — it truncates it, or eats the whole
+        # allowance thinking and returns nothing. At 64 the out-of-office case
+        # came back as the literal string "NOT_RELEV"; at 512, one message in a
+        # 177-lead backfill still exhausted the budget and failed open. Same
+        # trap as _OPENROUTER_DRAFT_MAX_TOKENS and _REPORT_MAX_TOKENS. This is
+        # a ceiling, not a spend: the answer is one word, and on the default
+        # model even hitting it outright costs about $0.0006.
+        verdict, _ = llm.complete_for(
+            models_registry.ROLE_CLASSIFY,
+            _SYSTEM,
+            _USER.format(text=text[:_MAX_CHARS]),
+            max_tokens=2048,
+        )
+    except Exception as exc:
+        if fail_closed:
+            return UNKNOWN, f"classifier unavailable ({exc.__class__.__name__})"
+        log.warning("reply classifier failed (%s) — treating reply as interested", exc)
+        return INTERESTED, f"classifier unavailable ({exc.__class__.__name__}) — treated as interested"
+
+    # DNC is deliberately absent here. Only the deterministic phrase matcher
+    # above may produce that irreversible compliance verdict; a probabilistic
+    # model is allowed to influence local workflow, never to unsubscribe or
+    # globally block a lead. Prefixes are retained for the four harmless
+    # workflow verdicts because reasoning models can return a truncated word.
+    normalized = verdict.strip().upper()
+    if fail_closed:
+        exact = {"INTERESTED": INTERESTED, "AUTO_REPLY": AUTO_REPLY,
+                 "NOT_INTERESTED": NOT_INTERESTED, "WRONG_PERSON": WRONG_PERSON}
+        return exact.get(normalized, UNKNOWN), "strict classifier verdict"
+    if "NOT_INTER" in normalized:
+        return NOT_INTERESTED, "classified NOT_INTERESTED (rejection)"
+    if "WRONG_PERSON" in normalized or "WRONG PERSON" in normalized:
+        return WRONG_PERSON, "classified WRONG_PERSON (no longer there / mailbox not monitored)"
+    if "AUTO_REPL" in normalized or "AUTO REPL" in normalized:
+        return AUTO_REPLY, "classified AUTO_REPLY (autoresponder / out-of-office / bounce)"
+    if "INTEREST" in normalized:
+        return INTERESTED, "classified INTERESTED"
+    log.warning("reply classifier returned %r — treating reply as interested", verdict[:100])
+    return INTERESTED, f"classifier gave an unrecognized verdict ({verdict[:40]!r}) — treated as interested"

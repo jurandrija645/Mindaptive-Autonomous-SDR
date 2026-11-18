@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9994,
+    "completion_tokens": 2273,
+    "total_tokens": 12267,
+    "cost": 0.00705236616,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7808,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00705236616,
+      "upstream_inference_prompt_cost": 0.0027097542,
+      "upstream_inference_completions_cost": 0.00434261196
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316266",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatski email s pravnim odricanjem i dugim potpisom tvrtke, bez ikakve osobne poruke primatelja. Nakon toga slijede tri naše automatske follow-up poruke bez ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Lead nije pokazao ljudski interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Lead se može arhivirati ili označiti kao hladan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f0705fb7cbeb48e49bbf5ae2d69788f3@VI0PR01MB11940.eurprd01.prod.exchangelabs.com>",
+          "quote": "The contents of this email may be confidential, legally privileged or otherwise protected by law."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316262",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska 'Out of Office' poruka. Osoba je najavila povratak 3. rujna, ali nakon toga nije bilo ljudskog odgovora na naše naknadne poruke.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema znakova ljudskog interesa; OOO poruka ne predstavlja angažman.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<62987ce27a6c4cee8e2fee5d788cbb62@DU0PR01MB10115.eurprd01.prod.exchangelabs.com>",
+          "quote": "I am currently OOO returning on 3 Sept."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316257",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska 'Out of Office' poruka. Hilary je bila na odmoru do 8. rujna, ali nakon povratka nije odgovorila na naše follow-up poruke.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Bez ljudske interakcije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<26e3c235d6884e56b90c0ca3150d7a18@CWLP265MB4412.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am on holiday now until the 8th September and will not be checking emails."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316238",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska poruka o odsutnosti zbog cjelodnevnog sastanka. Poruka je poslana 8. rujna, nakon naše treće follow-up poruke, i nema nikakvog osobnog odgovora na ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0e5f10099f0f4d59bd40b82e1e86fe6f@CWLP123MB5635.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "We will be at an all day external meeting on Tuesday 8th September 2026 with limited access to emails."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316307",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska 'Out of Office' poruka s najavom povratka 10. rujna. Nakon tog datuma nije bilo ljudskog odgovora na naše follow-up poruke.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Bez ljudskog interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<eb207bf01a9c49be9f83042f1bc384bf@CWXP265MB2726.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office and will return\non 10th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316224",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska 'Out of Office' poruka. Kevin se trebao vratiti 14. rujna, ali nije bilo naknadnog ljudskog odgovora na našu posljednju follow-up poruku od 8. rujna.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Automatski odgovor, bez potvrde ljudskog interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<37e94f7b59b340c2b78c7b8858da8c65@LOBP123MB9040.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm currently out of the office until Monday 14 September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316298",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska 'Out of Office' poruka. Charles se trebao vratiti 3. rujna, ali nije bilo daljnjeg ljudskog odgovora na follow-up poruke.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Lead je arhiviran, ali to ne mijenja činjenicu da nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Arhiviraj ako već nije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0617927856b341269f4a92b9658da4fb@AM8P193MB1156.EURP193.PROD.OUTLOOK.COM>",
+          "quote": "Thanks for your email. I’m now out of the office until 3rd September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316250",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska 'Out of Office' poruka o porodiljnom dopustu od 15. svibnja 2026. Poruka je automatska i ne sadrži osobni odgovor na ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba je na porodiljnom dopustu, nije pokazala interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b8a2c266d55e43b4bf17dd65e6fb3e2a@LO8P123MB8433.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am on maternity from 15th May 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

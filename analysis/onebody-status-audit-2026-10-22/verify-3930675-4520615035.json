@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8508,
+    "completion_tokens": 1634,
+    "total_tokens": 10142,
+    "cost": 0.00529118514,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6804,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00529118514,
+      "upstream_inference_prompt_cost": 0.00216939546,
+      "upstream_inference_completions_cost": 0.00312178968
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520615035",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<49F2EFA9-73E3-4F4D-9A3D-F2F7CE263A49@xyi.com>",
+      "human_quote": "I am interested as I suffer from regular trapped nerves in my shoulder.",
+      "reason_hr": "Matthew je osobno odgovorio da je zainteresiran zbog problema s ramenom, poslan mu je link i kod, rekao je 'I shall make the booking today', ali nema potvrde da je rezervirao.",
+      "request_hr": "Pošaljite kod za rezervaciju (ispunjeno).",
+      "next_action_hr": "Matthew je obećao rezervirati termin 21.09., ali nema potvrde. Iako je lokalni status 'booked', u porukama nema dokaza rezervacije. Preporučujem provjeriti je li stvarno rezervirao izvan emaila; ako nije, treba ga nježno podsjetiti jer je prošlo više od mjesec dana bez povratne informacije.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614838",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GV5P280MB2169CA3D85BC1B6EDC19BB36FC832@GV5P280MB2169.SWEP280.PROD.OUTLOOK.COM>",
+      "human_quote": "Yes I would love this, when can I get in?",
+      "reason_hr": "Tania je pokazala stvarni interes, dobila link i kod. Kasnije je zaboravila na rezervirani termin, pitala za sljedeći četvrtak. Rebecca je ponudila pomoć oko novog termina, ali Tania nije odgovorila na tu poruku od 06.10.",
+      "request_hr": "Možemo li sljedeći četvrtak?",
+      "next_action_hr": "Tania je pitala za termin u četvrtak (vjerojatno 15.10. ili 22.10.). Prošlo je više od dva tjedna bez odgovora. Iako je lokalni status 'booked', iz poruka nije jasno je li novi termin dogovoren. Treba provjeriti je li rezervirala izvan emaila; ako nije, kontaktirati je s konkretnim prijedlogom termina u četvrtak.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614849",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CADtTdpcYyywx1m_Zxb+J2sPv-D1XT_JYNV9D4vZgtNDN-JF-BA@mail.gmail.com>",
+      "human_quote": "not interested",
+      "reason_hr": "Felicia je eksplicitno odbila ponudu porukom 'not interested'.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke, poštovati odbijanje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520614329",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka o godišnjem odmoru od 21.-25.09. Nema ljudskog angažmana u vezi ponude.",
+      "request_hr": "none",
+      "next_action_hr": "OOO je istekao prije mjesec dana, a nema ljudskog odgovora. Kontakt je hladan; može se pokušati ponovno kontaktirati kao novi lead, ali ne na temelju ovog threada.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613855",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAE48e4xGrSqeVx1pOfdC8NQRsys8gYMnOs22a-og-C7bCP=F8w@mail.gmail.com>",
+      "human_quote": "In answer yes please! Would be very keen on an assessment.",
+      "reason_hr": "Garrett je entuzijastično prihvatio ponudu, dobio link i kod, ali nikada nije potvrdio rezervaciju niti odgovorio na follow-up poruke.",
+      "request_hr": "Pošaljite informacije za rezervaciju (ispunjeno).",
+      "next_action_hr": "Posljednja naša poruka bila je 05.10. bez odgovora. Nakon više od dva tjedna šutnje, može se poslati završna poruka s pitanjem je li još uvijek zainteresiran, ali bez pritiska.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613664",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LODP265MB1599122D8CA455F62C86263B2EED662@LODP265MB159912.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "Yes would be interested in this if you can send the booking link?",
+      "reason_hr": "Jody je osobno odgovorio da je zainteresiran i tražio link za rezervaciju. Link i kod su poslani 21.10., čekamo njegov potez.",
+      "request_hr": "Pošaljite link za rezervaciju (ispunjeno).",
+      "next_action_hr": "Link i kod poslani su jučer. Pričekati nekoliko dana na rezervaciju, zatim provjeriti je li rezervirao.",
+      "bulk_group": "reply_booking",
+      "evidence_verified": true
+    }
+  ]
+}

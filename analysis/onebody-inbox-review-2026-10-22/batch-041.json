@@ -1,0 +1,223 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 20303,
+    "completion_tokens": 2907,
+    "total_tokens": 23210,
+    "cost": 0.0023233,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0023233,
+      "upstream_inference_prompt_cost": 0.00101515,
+      "upstream_inference_completions_cost": 0.00130815
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520622245",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Emily je već zakazala termin, a sada pita samo o tehničkom pitanju pomaka termina – nema promjene statusa.",
+      "next_step_hr": "Odgovoriti na njezin upit o otkazivanju terminata ili uputiti je na korisničku podršku.",
+      "last_inbound_summary_hr": "Pitala kako pomaknuti termin na webu jer ga ne vidi na računu.",
+      "last_outbound_summary_hr": "Rebecca joj je poslala link i kod za besplatnu fizioterapiju 18.9.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hello - is it possible to reschedule appointments on your website please? I have one next Tuesday I need to move but I can’t find it in my account."
+      ]
+    },
+    {
+      "key": "4006945/4608052354",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Coralie je potvrdila da je zakazala termin – status ostaje Meeting Booked.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom, termin je već zakazan.",
+      "last_inbound_summary_hr": "Potvrdila je da je zakazala termin i da se veseli.",
+      "last_outbound_summary_hr": "Rebecca je poslala podsjetnik o isteku ponude 8.10.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I just booked my session. Looking forward to it."
+      ]
+    },
+    {
+      "key": "3930675/4520618130",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Preporučam pregled jer partnerkin kod više ne radi, a pitanje stoji otvoreno: ljudska poruka o kvaru koda zahtjeva odgovor.",
+      "next_step_hr": "Provjeriti je li partnerica Virginia dobila novi važeći kod ili riješiti problem s njezinim terminom.",
+      "last_inbound_summary_hr": "Virginia je pitala za novi promo kod jer stari ne radi nakon otkazivanja.",
+      "last_outbound_summary_hr": "Rebecca je poslala link i kod za besplatnu fizioterapiju 22.9.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "When she went to book again, the link that you shared no longer works, I guess because it was a one-time promo code.",
+        "Is it possible to confirm a new date, but with the promo code?"
+      ]
+    },
+    {
+      "key": "3930675/4520614838",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Tania je već zakazala termin (spomenula booking) i pitala za pomak na idući tjedan, ali nije potvrđeno je li to riješeno – preporučam pregled.",
+      "next_step_hr": "Odgovoriti Tania na zahtjev za pomak termina na idući četvrtak.",
+      "last_inbound_summary_hr": "Pitala može li se pomaknuti termin na sljedeći četvrtak jer nije stigla na današnji.",
+      "last_outbound_summary_hr": "Rebecca je predložila da Lawrence preuzme njezin termin ili da ga pomakne.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Can we do next week Thursday?"
+      ]
+    },
+    {
+      "key": "3876232/4446317487",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Alexander je imao problema s pristupom računu i otkazivanjem termina, a njegova zadnja poruka traži otkazivanje svih termina – potrebno provjeriti.",
+      "next_step_hr": "Provjeriti ima li Alexander aktivan termin i otkazati ga po njegovom zahtjevu.",
+      "last_inbound_summary_hr": "Zamolio je za pomoć jer ne može pristupiti računu niti otkazati termine, moli otkazivanje svih termina u Shoreditchu.",
+      "last_outbound_summary_hr": "Kurt je poslao zadnji e-mail s ponudom 21.9.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I cannot access my email to alter or cancel any bookings that have been set up.",
+        "Can you please cancel any and all appointments I have at the Shoreditch site."
+      ]
+    },
+    {
+      "key": "4006945/4608049800",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Danial je potvrdio da je zakazao termin – status ostaje Meeting Booked.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom, termin je već zakazan.",
+      "last_inbound_summary_hr": "Potvrdio je da je sve zakazano.",
+      "last_outbound_summary_hr": "Rebecca je poslala podsjetnik 5.10.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "All booked!"
+      ]
+    },
+    {
+      "key": "3930675/4520617802",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Isabel je mislila da je već zakazala termin, ali Kurt nije vidio booking – neriješeno, potreban pregled.",
+      "next_step_hr": "Provjeriti je li Isabelin termin evidentiran u sustavu i po potrebi pomoći joj ponovno zakazati.",
+      "last_inbound_summary_hr": "Izjavila je da misli da je već zakazala termin prije nego što je dobila podsjetnik.",
+      "last_outbound_summary_hr": "Kurt je pitao je li imala problema s zakazivanjem i ponudio pomoć 5.10.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I think I have already booked it though?"
+      ]
+    },
+    {
+      "key": "3930675/4520621423",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Laura je izravno odgovorila \"No, thank you.\" – status ostaje Not Interested.",
+      "next_step_hr": "Zatvoriti ovu dretvu, ne slati daljnje poruke.",
+      "last_inbound_summary_hr": "Odgovorila je \"No, thank you.\"",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji e-mail s upitom je li zainteresirana 2.10.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No, thank you."
+      ]
+    },
+    {
+      "key": "3930675/4520619921",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sam je odgovorio \"no\" nakon automatskog odgovora o godišnjem odmoru – status ostaje Not Interested.",
+      "next_step_hr": "Zatvoriti ovu dretvu, ne slati daljnje poruke.",
+      "last_inbound_summary_hr": "Odgovorio je \"no\".",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji e-mail s upitom 30.9.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3876232/4446317374",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Veena je platila £4.99 za termin, ali je dobila pogrešnu računicu od £125 – tehnička neusklađenost zahtjeva pregled, iako je termin potencijalno zakazan.",
+      "next_step_hr": "Provjeriti je li Veenin termin ispravno evidentiran i otkloniti problem s računicom od £125.",
+      "last_inbound_summary_hr": "Pitala zašto je dobila račun od £125 nakon što je platila £4.99 prema linku.",
+      "last_outbound_summary_hr": "Rebecca je pitala je li koristila kod OBLACCESS55 i nudi rješavanje problema s osiguranjem.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I paid the £4.99 for a 35 mins appointment yesterday as per your magic link below and free offer.",
+        "However, I'm now getting an invoice for £125 can you please check why?"
+      ]
+    },
+    {
+      "key": "4006945/4608049382",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Devesh je umjesto Mikea zatražio kod i dobio ga, ali nema potvrde da je zakazao termin – potreban pregled.",
+      "next_step_hr": "Provjeriti je li Devesh zakazao termin nakon što je dobio link i kod.",
+      "last_inbound_summary_hr": "Devesh je odgovorio umjesto Mikea pitajući kako nastaviti s fizioterapijom.",
+      "last_outbound_summary_hr": "Rebecca je poslala link i kod za besplatnu fizioterapiju Deveshu 30.9.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Mike forwarded me this email and i would be keen to try the physio out, how do I proceed with this?"
+      ]
+    },
+    {
+      "key": "3930675/4520620562",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Edward je odgovorio \"no\" – status ostaje Not Interested.",
+      "next_step_hr": "Zatvoriti ovu dretvu, ne slati daljnje poruke.",
+      "last_inbound_summary_hr": "Odgovorio je \"no\".",
+      "last_outbound_summary_hr": "Kurt je poslao zadnji e-mail s upitom 28.9.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "no"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11608,
+    "completion_tokens": 2733,
+    "total_tokens": 14341,
+    "cost": 0.00181025,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00181025,
+      "upstream_inference_prompt_cost": 0.0005804,
+      "upstream_inference_completions_cost": 0.00122985
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317617",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake; pratiti uobičajeni tijek.",
+      "last_inbound_summary_hr": "Automatski odgovor: Ryan je izvan ureda do sljedećeg mjeseca.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will be returning next month."
+      ]
+    },
+    {
+      "key": "3876232/4446317199",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor jasno navodi da osoba više ne radi u tvrtki.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više emailova na ovu adresu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Melissa Gleave više ne radi u Martello.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Melissa Gleave no longer works at Martello"
+      ]
+    },
+    {
+      "key": "3876232/4446316994",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o porodiljnom dopustu, bez ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake; pratiti uobičajeni tijek.",
+      "last_inbound_summary_hr": "Automatski odgovor: Laurel je na porodiljnom dopustu do početka 2027.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on maternity leave and not regularly checking email until I'm back in early 2027."
+      ]
+    },
+    {
+      "key": "3876232/4446317730",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o godišnjem odmoru, bez ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake; pratiti uobičajeni tijek.",
+      "last_inbound_summary_hr": "Automatski odgovor: Gen je na godišnjem odmoru do 7. rujna.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on annual leave and will be back to work on Monday, 7th September."
+      ]
+    },
+    {
+      "key": "3930675/4520612267",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti zbog događaja, bez ljudskog odgovora na ponudu.",
+      "next_step_hr": "Nema potrebe za promjenom oznake; pratiti uobičajeni tijek.",
+      "last_inbound_summary_hr": "Automatski odgovor: Sarah je na događaju, vraća se 17. rujna.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: ponuda besplatne sesije, pitanje želi li link.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks for your email, I am onsite at an event so please expect a slight delay in response."
+      ]
+    },
+    {
+      "key": "3876232/4446317132",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti do 7. rujna, bez ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake; pratiti uobičajeni tijek.",
+      "last_inbound_summary_hr": "Automatski odgovor: Rob je izvan ureda do 7. rujna.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be out of the office until Monday 7th September."
+      ]
+    },
+    {
+      "key": "3876232/4446317231",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor jasno navodi da osoba više ne radi u tvrtki.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više emailova na ovu adresu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Ben Gunnee je napustio Gresham House.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Ben Gunnee has now left Gresham House"
+      ]
+    },
+    {
+      "key": "3876232/4446317073",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor jasno navodi da osoba više ne radi u tvrtki.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više emailova na ovu adresu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Harry Hills je napustio Helix International Group.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Helix International Group."
+      ]
+    },
+    {
+      "key": "3876232/4446316990",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor jasno navodi da osoba više nije zaposlena u tvrtki.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više emailova na ovu adresu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Pascal Hartwig više nije zaposlen u BeZero.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Pascal Hartwig is no longer employed with BeZero"
+      ]
+    },
+    {
+      "key": "3876232/4446316996",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor jasno navodi da osoba više nije zaposlena u tvrtki.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više emailova na ovu adresu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Louisa Freestone-Smith više nije zaposlena u BeZero.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Louisa Freestone-Smith is no longer employed here."
+      ]
+    },
+    {
+      "key": "3876232/4446315481",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti do 1. rujna, bez ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake; pratiti uobičajeni tijek.",
+      "last_inbound_summary_hr": "Automatski odgovor: Jeremy je izvan ureda do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until 1 September."
+      ]
+    },
+    {
+      "key": "3876232/4446315334",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti do 2. rujna, bez ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake; pratiti uobičajeni tijek.",
+      "last_inbound_summary_hr": "Automatski odgovor: Jessica je OOO do 2. rujna.",
+      "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am OOO until Wednesday 2nd September."
+      ]
+    }
+  ]
+}

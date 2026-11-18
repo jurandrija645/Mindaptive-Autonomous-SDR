@@ -3,11 +3,14 @@
 43 London locations: the original 38 from
 `source-docs/OneBodyLDN locations.docx`, plus five new clinic addresses supplied
 by Andrew on 2026-10-21. For priority clinics and appointment restrictions,
-see `booking-options.md`; the five additions are all on that priority list.
-Use these only to answer a lead asking about a clinic that wasn't already
-named in their thread — the clinic named in the cold email they received
-takes priority, since that's the one the offer (and any walk-time claim) was
-built around.
+see `booking-options.md`. Twickenham, Battersea, Chiswick, Finsbury Park and
+Vauxhall are fully booked and the free session is not offered there (Kurt,
+2026-10-29); `booking-options.md` says where to point those leads instead.
+This is an address directory, not proof of free-offer eligibility. Current
+exclusions override any clinic named in a thread, cold email, prior research
+or `nearestClinic`. Otherwise use the latest agreed eligible clinic. See
+`clinic-routing.md` for replacements; never transfer the old walk-time or
+station claim to a new clinic.
 
 Every clinic is hosted inside another business (a gym, serviced office or
 studio) — that's the "c/o" address. Read that out plainly if asked ("we're
@@ -28,7 +31,7 @@ something to downplay.
 | Clerkenwell | c/o AXIOM, Unit 2, 3 Lever Street, EC1V 3QU (gate code 7861, entrance code 1025*, tap the glass for the keypad) |
 | Elephant and Castle | c/o Snap Fitness, 130-138 Newington Butts, Elephant and Castle, London, SE11 4QU |
 | Farringdon | 16-18 St John's Lane, London, EC1M 4BS |
-| Fenchurch Street | c/o Regus - London, Fenchurch Street Station, 6 London Street, New London House, London, EC3R 7LP |
+| Fenchurch Street | **CLOSED 2026-11-02**, moved to Marble Arch. Do not offer or book. Was c/o Regus, 6 London Street, EC3R 7LP |
 | Finsbury Park | c/o Spaces Finsbury Park, 17 City North Place, Finsbury Park, N4 3FU |
 | Fitzrovia | c/o Engine Room Gym, St Bedes Hall, Little Albany Street (off Albany Street), London, NW1 4DY |
 | Fulham | c/o WOW Fulham, 1-7 Fulham High St, London, SW6 3JH |
@@ -38,7 +41,7 @@ something to downplay.
 | Hampstead | c/o WOW Hampstead, 2 Hampstead High St, London, NW3 1PR |
 | Hendon | c/o Anytime Fitness, 1 Cool Oak Lane, West Hendon, London, NW9 7FJ |
 | High Street Kensington | c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN |
-| Holborn | c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB |
+| Holborn | c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB until the week of 2026-11-09; from then c/o The Gym Group London Bloomsbury, Coram St, London, WC1N 1HB (Bloomsbury as well as Holborn) |
 | Islington | c/o The Angel Laser Clinic, 144 Liverpool Rd (The Maples Business Centre), Islington, London, N1 1LA |
 | Kings Cross | c/o HQ King's Cross, 344-354 Grays Inn Rd, London, WC1X 8BP |
 | Liverpool Street | c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA |

@@ -1,0 +1,233 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12048,
+    "completion_tokens": 2883,
+    "total_tokens": 14931,
+    "cost": 0.00189975,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00189975,
+      "upstream_inference_prompt_cost": 0.0006024,
+      "upstream_inference_completions_cost": 0.00129735
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520618266",
+      "recommended_label": "Not Interested",
+      "current_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Peter je izričito i nedvosmisleno odbio ponudu.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Peter je odgovorio: 'No thanks.'",
+      "last_outbound_summary_hr": "Poslana početna prodajna e-pošta.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks."
+      ]
+    },
+    {
+      "key": "3930675/4520612386",
+      "recommended_label": "Meeting Booked",
+      "current_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Arjun je potvrdio da je rezervirao prvi termin.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Arjun je napisao: 'Booked my first session for today - thanks again for reaching out.'",
+      "last_outbound_summary_hr": "Poslana poruka s poveznicom za rezervaciju, kodom i dodatnim pitanjima.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Booked my first session for today - thanks again for reaching out."
+      ]
+    },
+    {
+      "key": "3876232/4446316824",
+      "recommended_label": "Meeting Booked",
+      "current_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alexis je upitao o raspoloživosti i Bupa osiguranju, pokazujući jasan interes i namjeru rezervacije.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Alexis je upitao: 'Hi Rebecca - do you have availability this week? Also I see that you accept Bupa? Thanks.'",
+      "last_outbound_summary_hr": "Rebecca je poslala poveznicu za rezervaciju, kod OBLACCESS55 i informacije o Bupi.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "Hi Rebecca - do you have availability this week? Also I see that you accept Bupa?"
+      ]
+    },
+    {
+      "key": "3930675/4520617637",
+      "recommended_label": "Wrong Person",
+      "current_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dan je automatski odgovorio da više ne radi u tvrtki i da se na ovu adresu e-pošte više ne odgovara.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Dan je automatski odgovorio: 'I no longer work with Piercy&Company and this inbox will not be routinely monitored.'",
+      "last_outbound_summary_hr": "Poslana početna prodajna e-pošta.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work with Piercy&Company and this inbox will not be routinely monitored."
+      ]
+    },
+    {
+      "key": "3930675/4520617636",
+      "recommended_label": "Wrong Person",
+      "current_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mariana je automatski odgovorila da više nije u tvrtki.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Mariana je automatski odgovorila: 'I am no longer with the company.'",
+      "last_outbound_summary_hr": "Poslana početna prodajna e-pošta.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with the company"
+      ]
+    },
+    {
+      "key": "3930675/4520617650",
+      "recommended_label": "Wrong Person",
+      "current_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Theodoros je automatski odgovorio da više ne radi za MAPP i da se ova adresa e-pošte ne prati.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Theodoros je automatski odgovorio: 'Theodoros Ioakeim no longer works for MAPP and this email is not being monitored.'",
+      "last_outbound_summary_hr": "Poslana početna prodajna e-pošta.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Theodoros Ioakeim no longer works for MAPP and this email is not being monitored."
+      ]
+    },
+    {
+      "key": "3930675/4520613046",
+      "recommended_label": "Wrong Person",
+      "current_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alex je preusmjerio upit odjelu za ljudske resurse, što ukazuje da nije prava kontakt osoba za ovu ponudu.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Alex je odgovorio: 'I have passed your email to our HR department who organise anything health related at BBH.'",
+      "last_outbound_summary_hr": "Poslan nastavak prodajne e-pošte.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have passed your email to our HR department who organise anything health related at BBH."
+      ]
+    },
+    {
+      "key": "3930675/4520617169",
+      "recommended_label": "Wrong Person",
+      "current_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Freddie je automatski odgovorio da više nije u Edgefolio i da se ova adresa e-pošte više ne prati.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Freddie je automatski odgovorio: 'This mailbox is no longer monitored, as Freddie is no longer with Edgefolio.'",
+      "last_outbound_summary_hr": "Poslana početna prodajna e-pošta.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "This mailbox is no longer monitored, as Freddie is no longer with Edgefolio."
+      ]
+    },
+    {
+      "key": "3930675/4520610873",
+      "recommended_label": "Do Not Contact",
+      "current_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Janika je automatski odgovorila da je izvan ureda, a ne ljudski odgovor koji pokazuje interes.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Janika je automatski odgovorila: 'I am currently out of the office.'",
+      "last_outbound_summary_hr": "Poslan nastavak prodajne e-pošte.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office."
+      ]
+    },
+    {
+      "key": "3876232/4446316582",
+      "recommended_label": "Do Not Contact",
+      "current_label": "Do Not Contact",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Alex je pokazao interes i preusmjerio kolegu, ali je posljednja poruka zahvala; status 'Do Not Contact' možda nije prikladan jer je bilo interesa.",
+      "next_step_hr": "Ručno pregledati jer je bilo ljudskog interesa i slanja koda, a oznaka 'Do Not Contact' možda nije točna.",
+      "last_inbound_summary_hr": "Alex je odgovorio: 'Thank you', nakon što je prethodno pokazao interes i dobio poveznicu i kod.",
+      "last_outbound_summary_hr": "Rebecca je poslala poveznicu za rezervaciju i kod OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you",
+        "I'm cc'ing my colleague Devlyn who's interested."
+      ]
+    },
+    {
+      "key": "3930675/4520613935",
+      "recommended_label": "Wrong Person",
+      "current_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Declan je automatski odgovorio da je napustio tvrtku i više nije u mogućnosti odgovoriti.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Declan je automatski odgovorio: 'I have left Finseta Payment Solutions and am no longer able to respond.'",
+      "last_outbound_summary_hr": "Poslan nastavak prodajne e-pošte.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have left Finseta Payment Solutions and am no longer able to respond."
+      ]
+    },
+    {
+      "key": "3876232/4446316482",
+      "recommended_label": "Meeting Booked",
+      "current_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Graeme je potvrdio da je rezervirao prvi termin za danas.",
+      "next_step_hr": "Zadržati trenutnu oznaku, nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Graeme je napisao: 'Booked my first session for today - thanks again for reaching out.'",
+      "last_outbound_summary_hr": "Poslane višestruke poruke s poveznicom za rezervaciju i podsjetnicima.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Booked my first session for today - thanks again for reaching out."
+      ]
+    }
+  ]
+}

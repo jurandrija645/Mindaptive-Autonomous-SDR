@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10843,
+    "completion_tokens": 1267,
+    "total_tokens": 12110,
+    "cost": 0.00519534072,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8660,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00519534072,
+      "upstream_inference_prompt_cost": 0.00277471188,
+      "upstream_inference_completions_cost": 0.00242062884
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316619",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Samo automatski odgovor o porodiljnom dopustu, bez naznake osobnog angažmana s ponudom.",
+      "request_hr": "none",
+      "next_action_hr": "Julia je na porodiljnom. Po povratku ne šalji automatski, već ju vlasnik može ručno kontaktirati jer nema točnog datuma povratka.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316582",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<02FE1F28-AE81-44A8-8458-04CA231763D9@rfblegal.co.uk>",
+      "human_quote": "I’ve just booked myself in",
+      "reason_hr": "Franek je potvrdio da je rezervirao termin i dijeli kod s uredom. Zadnja poruka je naše zahvale; nema novog upita.",
+      "request_hr": "none",
+      "next_action_hr": "Franek je rezervirao i ambasador je. Naša posljednja poruka je zahvala; nema otvorenih pitanja. Ako želiš, možeš ga kontaktirati s konačnim brojkama, ali nije obavezno.",
+      "bulk_group": "acknowledgment",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316624",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO4P265MB36778332F5C9F479FBE3CF6AA7B12@LO4P265MB3677.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "no",
+      "reason_hr": "Odgovor 'no' na ponudu, jasno odbijanje.",
+      "request_hr": "none",
+      "next_action_hr": "Odbijeno. Ne šalji daljnje poruke za ovu ponudu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316577",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-09-14",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Samo automatska OOO poruka 'izvan ureda do 14. rujna'. Nema ljudskog angažmana.",
+      "request_hr": "none",
+      "next_action_hr": "Datum povratka je prošao. Osoba se nije javila ni nakon zadnje poruke. Možeš probati s novom kampanjom, ali izbjegavaj spominjanje stare ponude.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316541",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka o porodiljnom dopustu, povratak 2027. Nema osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Grace se vraća 2027., bez točnog datuma. Ne šalji ništa do tada. Vlasnik je može ručno kontaktirati u 2027.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316604",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<BR2PR04MB7882444E57C8AC7128FA7F9706ECBA2@BR2PR04MB788244.eurprd04.prod.outlook.com>",
+      "human_quote": "I'm cc'ing my colleague Devlyn who's interested",
+      "reason_hr": "Alex je proslijedio kolegu Devlyna koji je zainteresiran. Kod i link su poslani, ali nema potvrde o rezervaciji ni odbijanju.",
+      "request_hr": "Provjeri je li Devlyn rezervirao termin",
+      "next_action_hr": "Naša zadnja poruka sadrži kod i link. Nema novog odgovora. Čekaj da se Devlyn ili Alex jave s potvrdom ili pitanjem. Ne šalji ništa dok ne prođe razumni rok.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": false
+    }
+  ]
+}

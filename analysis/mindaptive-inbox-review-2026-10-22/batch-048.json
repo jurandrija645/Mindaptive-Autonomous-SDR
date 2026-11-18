@@ -1,0 +1,265 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 51381,
+    "completion_tokens": 4234,
+    "total_tokens": 55615,
+    "cost": 0.00447435,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00447435,
+      "upstream_inference_prompt_cost": 0.00256905,
+      "upstream_inference_completions_cost": 0.0019053
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3278845/3734013341",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini odgovor je automatska poruka da je e-mail općenita adresa bez prosljeđivanja. Nema ljudskog interesa. Postojeći draft je auto-odgovor koji pokušava nastaviti prodaju; prema pravilima ne smije se koristiti za ponovno slanje jer nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog odgovora ili preusmjeravanja. Zatvoriti lead.",
+      "missing_information": [],
+      "evidence": [
+        "Bei der von Ihnen gewählten eMail-Adresse unseres Unternehmens handelt es sich um eine allgemeine Adresse.",
+        "Da keine Weiterleitung an einen zuständigen Ansprechpartner statt findet"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog interesa. Postojeći draft nije valjan za slanje."
+    },
+    {
+      "key": "3278845/3734010089",
+      "recommended_label": "Redirect",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska obavijest o promjeni email adresa (preusmjeravanje). Nema ljudskog odgovora ili interesa. Postojeći draft koji pokušava nastaviti prodaju je neprimjeren.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Zatvoriti lead.",
+      "missing_information": [],
+      "evidence": [
+        "Effective immediately, we have made changes to our email addresses",
+        "Please direct your emails to our new dedicated email account"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Samo automatska obavijest o promjeni adrese, nema ljudskog odgovora."
+    },
+    {
+      "key": "3187248/3633990798",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Nils je izrazio interes ('klingt gar nicht so schlecht', 'wir können uns mal unterhalten'), a zatim su poslani detaljni odgovori (od 25.4. i 27.4.) s linkom za booking. Status 'booked' je već postavljen i ne smije se poništiti. Nema novih poruka od Nilsa nakon zadnjeg slanja. Mailovi su poslani prije više od 6 mjeseci bez odgovora - vjerojatno hladan lead, ali pravilo nalaže da se zadrži booked status.",
+      "priority": "P3",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je zakazan, ali nema potvrde da je održan ili ishod. Potrebna je ljudska provjera je li sastanak održan i kakav je ishod.",
+      "missing_information": [
+        "ishod zakazanog sastanka"
+      ],
+      "evidence": [
+        "so schlecht klingt das gar nicht",
+        "Ich denke wir können uns mal unterhalten, was das kosten würde"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo ishod sastanka. Nema neriješenog pitanja."
+    },
+    {
+      "key": "2738607/3025133908",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Consecutive_sent = 8 (više od 5), a zadnji ljudski odgovor je bio u prosincu 2025. (Hugo je pokazao interes i dogovorio sastanak). Nakon toga, poslano je 8 poruka bez ijednog odgovora. Ispunjena su pravila za Lead Done. Status 'booked' je iz ranijeg razdoblja, ali dugotrajna šutnja i 8 poslanih poruka bez odgovora znači da je lead gotov. Ažurirati labelu u Lead Done.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Lead je završen. Bez daljnjih radnji.",
+      "missing_information": [],
+      "evidence": [
+        "gracias por el mensaje, me lo ha comentado Natalia y nos parece interesante",
+        "podemos hacer una video la semana que viene"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Zadnji ljudski odgovor u 12.2025., nakon toga 8 poruka bez odgovora - Lead Done."
+    },
+    {
+      "key": "2538823/2758498078",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Zadnji ljudski odgovor iz 12.2025. Nakon toga poslano više od 5 poruka bez ijednog odgovora (samo automatski odgovori 'out of office' i Gmail reakcija). Consecutive_sent od zadnjeg REPLY uključujući auto odgovore je >5. Iako je status 'booked', dugotrajna šutnja i više od 5 poslanih poruka bez odgovora vodi do Lead Done.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Lead je završen.",
+      "missing_information": [],
+      "evidence": [
+        "Ich bin voraussichtlich ab Mittwoch, 03.12.2025 wieder zu erreichen"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Zadnji ljudski odgovor u 11-12.2025., nakon toga >5 poruka bez odgovora. Lead Done."
+    },
+    {
+      "key": "2732401/3016173489",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Zadnji ljudski odgovor iz 02.2026. (Tom pita za case study). Nakon toga poslano 0 poruka (consecutive_sent=0). Međutim, nakon zadnjeg odgovora nema nove korespondencije, a stara je stara više od 8 mjeseci bez zaključka. Status 'booked' je iz ranijeg razdoblja i ne odražava stvarno stanje. Iako consecutive_sent<5 pravilo sprječava automatski Lead Done, dugotrajna neaktivnost i činjenica da je zadnje pitanje (case study) ostalo bez odgovora s naše strane sugeriraju da je lead mrtav. Potrebna je ljudska odluka. Označiti za ljudski pregled.",
+      "priority": "P3",
+      "sales_state": "NEEDS_HUMAN_REVIEW",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Zadnje pitanje (case study) nije odgovoreno. Potrebna ljudska odluka: odgovoriti na pitanje ili zatvoriti lead.",
+      "missing_information": [],
+      "evidence": [
+        "Our company President Thomas York is asking for some examples of your companies success with clients using your AI marketing. Things such as Case Studies, Customer references, etc."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Zadnja poruka (case study zahtjev) nije odgovorena. Potrebna ljudska procjena može li se i treba li odgovoriti."
+    },
+    {
+      "key": "2515956/2722094646",
+      "recommended_label": "Lead Done",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Richard je pokazivao interes, ali nakon više rundi slanja (zadnje u 02.2026.) nema odgovora. Iako je bilo dogovora o terminu (druga siječnja), nema dokaza da je sastanak održan. Dugotrajna tišina (više od 8 mjeseci). Prema pravilima, potreban je ljudski pregled jer nije potpuno jasno je li lead gotov ili samo u snu.",
+      "priority": "P3",
+      "sales_state": "NEEDS_HUMAN_REVIEW",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebna ljudska procjena: je li sastanak održan? Je li lead još živ ili zatvoriti?",
+      "missing_information": [
+        "ishod dogovorenog sastanka"
+      ],
+      "evidence": [
+        "we really want to work on a cost per meeting basis",
+        "If you are willing to do this we would be willing to proceed as early as next week"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potrebna ljudska odluka o statusu ovog leada."
+    },
+    {
+      "key": "2738671/3025252578",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Steve je odgovorio danas (21.10.2026.) s detaljnim upitom o novom fokusu (Data Intelligence) i pita može li SparkSender raditi za njih. Ovo je stvarni ljudski interes i relevantno pitanje. Potrebno je odgovoriti.",
+      "priority": "P0",
+      "sales_state": "PRICE_QUESTION",
+      "next_action": "REPLY_NOW",
+      "next_action_at": null,
+      "next_step_hr": "Odgovoriti na Steveova pitanja o SparkSenderu, iskustvu sa sličnim konzultantskim uslugama i originalnim komercijalnim uvjetima. Predložiti kratki poziv za ažurirani pristup.",
+      "missing_information": [],
+      "evidence": [
+        "We are now revisiting lead generation at Next Digital Group, with a different focus.",
+        "Could you see SparkSender working well for this offering?",
+        "Could you also let us know whether the original commercial terms are still available?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hallo Steve,\n\ndanke für die ausführliche Antwort – das klingt nach einem spannenden neuen Fokus. Data Intelligence passt gut zu dem, was SparkSender kann.\n\nJa, wir haben Erfahrung mit ähnlichen Consulting-Dienstleistungen im DACH-Raum. Der Ansatz wäre: Wir definieren ein klares Signalset (z. B. Website-Relaunch, Data-Team-Aufbau, Plattform-Migration) und richten die KI-gestützte Ansprache genau auf die Entscheider aus, die für diese Signale relevant sind – Marketing, E-Commerce, Data/IT-Leadership.\n\nZu deiner Frage zu den Konditionen: Die ursprünglichen Bedingungen (€0 Setup, €220/Qualified Lead, ~€300/Monat Infrastruktur) gelten weiterhin. Für den Pilot würden wir eine klare Definition des Qualified Leads gemeinsam festlegen, z. B. „Positives Interesse eines Entscheiders aus der definierten Zielgruppe an einem Gespräch zu euren Data Intelligence Services\".\n\nEin kurzer Call wäre ideal, um das Signalset, die Zielgruppe und den Lead-Begriff abzustimmen. Wann passt es bei dir?\n\nBeste Grüße,\nAndrew",
+      "draft_english": "Hello Steve,\n\nthank you for the detailed reply – that sounds like an exciting new focus. Data Intelligence fits well with what SparkSender can do.\n\nYes, we have experience with similar consulting services in the DACH region. The approach would be: we define a clear signal set (e.g. website relaunch, data team build-up, platform migration) and target the AI-generated outreach precisely at the decision-makers relevant to those signals – marketing, e-commerce, data/IT leadership.\n\nRegarding your question about the terms: the original terms (€0 setup, €220/qualified lead, ~€300/month infrastructure) are still available. For the pilot, we would agree on a clear definition of a qualified lead together, e.g. \"a positive response from a decision-maker in the defined target group who wants a conversation about your Data Intelligence services.\"\n\nA quick call would be ideal to align on the signal set, target group and lead definition. When works for you?\n\nBest regards,\nAndrew",
+      "draft_language": "de",
+      "draft_reason_hr": "Steve je postavio konkretna pitanja o SparkSenderu, iskustvu i uvjetima. Potrebno je odgovoriti danas/odmah."
+    },
+    {
+      "key": "2515956/2722095318",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Spencer je pokazao snažan interes, dogovorio sastanak (10am ET petak, 30.1.2026.) i uključio partnera (Kirk). Ovo je stvarni ljudski interes i zakazivanje. Status 'booked' je ispravan. Nema novih poruka nakon toga.",
+      "priority": "P3",
+      "sales_state": "MEETING_BOOKED",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je zakazan za 30.1.2026. Potrebna je ljudska provjera je li sastanak održan i kakav je ishod.",
+      "missing_information": [
+        "ishod zakazanog sastanka"
+      ],
+      "evidence": [
+        "Hi Andrew, we do want to move forward with MindAptive.",
+        "I just booked the meeting for Friday at 10 am ET (New York)."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo ishod sastanka."
+    },
+    {
+      "key": "2732401/3016172360",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ismael je odgovorio s interesom ('I have an idea of where we can start', 'Would you have a moment to talk next Tuesday?'). Ovo je stvarni ljudski interes i zahtjev za sastanak. Status 'booked' je ispravan. Nakon toga nema novih poruka.",
+      "priority": "P3",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Ismael je tražio sastanak 'next Tuesday' (vjerojatno 19. ili 20.1.2026.). Potrebna ljudska provjera je li sastanak održan i ishod.",
+      "missing_information": [
+        "ishod traženog sastanka"
+      ],
+      "evidence": [
+        "I have an idea of where we can start to be successful.",
+        "Would you have a moment to talk next Tuesday?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo ishod sastanka."
+    }
+  ]
+}

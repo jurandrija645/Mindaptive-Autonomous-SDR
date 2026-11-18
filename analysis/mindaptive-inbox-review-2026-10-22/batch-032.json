@@ -1,0 +1,259 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 28395,
+    "completion_tokens": 5119,
+    "total_tokens": 33514,
+    "cost": 0.00347697,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00347697,
+      "upstream_inference_prompt_cost": 0.00255555,
+      "upstream_inference_completions_cost": 0.00092142
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2738607/3025135256",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Mic je odgovorio na hrvatskom, dao konkretan kontekst (rewrite softvera, 3-6 mjeseci), pitao za jednostavno objašnjenje i rekao da je pay-per-result normalno. Pokazao je stvarni ljudski interes, iako je trenutni tajming odgođen. Slažem se s prijašnjom 'Interested' oznakom.",
+      "priority": "P1",
+      "sales_state": "TIMING_OBJECTION",
+      "next_action": "WAIT",
+      "next_action_at": "2026-04-17T00:00:00Z",
+      "next_step_hr": "Mic je rekao da neće ulagati u prodaju 3-6 mjeseci (od 17.12.2025.). Sačekati do kraja travnja 2026. i onda poslati kratak follow-up. Ne slati ništa do tada.",
+      "missing_information": [],
+      "evidence": [
+        "Trenutno smo u punom rewrite našeg software koji ima 15+ godina",
+        "nećemo kreniti nikakve investment u prodaju u ovih ~3-6 mjeseci",
+        "ako možeš u jednostavnu i konciznu formu objasniti zašto je vaša ponuda tako genijalna",
+        "Plaćanje samo ako rezultat, čini se da je to normalno"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Mic je tražio jednostavno objašnjenje, a na to mu je već odgovoreno u zadnjoj poslanoj poruci. Sada smo u WAIT fazi do kraja travnja. Novi draft nije potreban."
+    },
+    {
+      "key": "2738607/3025135176",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Andy (CEO Muso) je odgovorio s direktnim pitanjem o cijeni po sastanku. Na to je dobio okvirne cijene i poziv na discovery call. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora od Andyja. Interes je potvrđen konkretnim upitom.",
+      "priority": "P1",
+      "sales_state": "PRICE_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-17T13:23:00.000Z",
+      "next_step_hr": "Andy je tražio cijenu, dobio je okvirne brojke i CTA za bookiranje poziva, ali nije odgovorio. Poslati kratak follow-up koji poštuje činjenicu da je cijena već dana, ali provjerava je li mu ta okvirna cijena ima smisla ili ima dodatnih pitanja prije nego što bookira poziv.",
+      "missing_information": [],
+      "evidence": [
+        "How much do you charge for each meeting?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Andy,\n\nQuick check — does the ballpark range I shared ($200–$500 per booked meeting) make sense for Muso, or is it off?\n\nIf the numbers work, I'd love to hop on a 15-min call to define your ideal target and give you exact pricing.\n\nOtherwise, what's the main thing holding it up?\n\nThanks,\nAndrew",
+      "draft_english": "Hey Andy,\n\nQuick check — does the ballpark range I shared ($200–$500 per booked meeting) make sense for Muso, or is it off?\n\nIf the numbers work, I'd love to hop on a 15-min call to define your ideal target and give you exact pricing.\n\nOtherwise, what's the main thing holding it up?\n\nThanks,\nAndrew",
+      "draft_language": "en",
+      "draft_reason_hr": "Andy je tražio cijenu i dobio okvirnu. Prošlo je 2 dana bez odgovora. Treba poslati kratak follow-up koji potvrđuje da li mu okvirna cijena odgovara i nudi poziv za detalje."
+    },
+    {
+      "key": "2738607/3025133653",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "David je tražio prezentaciju/propoziciju. Dobio je link na Loom video koji objašnjava proces. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora. Interes je pokazan traženjem informacija.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-15T13:22:00.000Z",
+      "next_step_hr": "David je tražio propoziciju, dobio je Loom video. Prošlo je 1-2 dana. Poslati kratak follow-up koji pita je li imao prilike pogledati video i ima li pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "¿Me compartes primero alguna presentación o propuesta?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hola David,\n\nSolo quería confirmar si tuviste oportunidad de ver el video que te envié.\n\nSi la lógica te encaja, podemos tener esa charla de 10 min para definir vuestro target y prepararte una propuesta a medida.\n\n¿Qué opinas?\n\nSaludos,\nMia",
+      "draft_english": "Hi David,\n\nJust wanted to check if you had a chance to watch the video I sent.\n\nIf the logic works for you, we can have that 10-min chat to define your target and prepare a tailored proposal.\n\nWhat do you think?\n\nRegards,\nMia",
+      "draft_language": "es",
+      "draft_reason_hr": "David je tražio propoziciju, dobio je video. Potreban je kratak follow-up na španjolskom da se provjeri je li pogledao video i je li zainteresiran za poziv."
+    },
+    {
+      "key": "2738607/3025134886",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Max je predložio točan termin za poziv (ponedjeljak 11:30 Riga vrijeme). Naš odgovor je rekao da taj termin ne radi i umjesto toga poslao booking link. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora od Maxa. Treba ručna provjera jer nismo prihvatili njegov prijedlog termina nego smo ga preusmjerili na booking link.",
+      "priority": "P2",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebna je ljudska provjera: Max je predložio konkretan termin koji nije prihvaćen. Treba odlučiti hoćemo li mu se ispričati i ponuditi alternativu u njegovoj vremenskoj zoni (Riga) ili pričekati da on sam bookira preko linka.",
+      "missing_information": [
+        "dostupnost u Riga vremenskoj zoni za ponedjeljak"
+      ],
+      "evidence": [
+        "We can speak next week, Monday 11:30 Riga time, for example",
+        "Monday at 11:30 doesn't work for us as next week is quite full. Please feel free to pick another time"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potrebna je ljudska odluka o tome kako pristupiti Maxovom prijedlogu termina. Ne može se generirati siguran draft bez poznavanja stvarne dostupnosti."
+    },
+    {
+      "key": "2738671/3025253592",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Tyrone je izričito tražio da zakažemo termin za sljedeći tjedan ('Please let's schedule some time and connect next week'). Poslan mu je booking link. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora. Interes je vrlo jasan.",
+      "priority": "P1",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-14T14:59:00.000Z",
+      "next_step_hr": "Tyrone je tražio sastanak sljedeći tjedan, dobio je booking link. Prošlo je 2 dana. Poslati kratak follow-up koji ga pita je li imao prilike bookirati termin ili želi da mu mi predložimo par termina.",
+      "missing_information": [],
+      "evidence": [
+        "Please let's schedule some time and connect next week."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Tyrone,\n\nQuick check — did you get a chance to book a slot?\n\nIf none of the available times work, I'm happy to suggest a couple of options directly.\n\nThanks,\nMia",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Tyrone je tražio sastanak, dobio je booking link prije 2 dana bez odgovora. Potreban je kratak follow-up koji nudi pomoć oko zakazivanja."
+    },
+    {
+      "key": "2738671/3025252894",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Marijus je pogledao video i postavio konkretna pitanja o iskustvu s litavskim direktorima i cijenama. Dobio je detaljne odgovore i poziv na discovery call. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora. Interes je potvrđen konkretnim upitima.",
+      "priority": "P2",
+      "sales_state": "PRICE_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-14T14:42:00.000Z",
+      "next_step_hr": "Marijus je pitao za cijenu i iskustvo, dobio je odgovore. Prošlo je par dana. Poslati kratak follow-up koji ga pita jesu li mu odgovori bili korisni i želi li bookirati discovery call za detaljnu ponudu.",
+      "missing_information": [],
+      "evidence": [
+        "watched it",
+        "What is your experience finding Lithuanian IT directors",
+        "what is your pricing, can it be result based?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Marijus,\n\nJust checking in — did my answers about the Lithuanian market and our pay-per-lead model make sense?\n\nIf everything sounds good, the next step would be a short discovery call where we define your target and give you exact pricing.\n\nLet me know if you'd like to book one.\n\nBest regards,\nMia",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Marijus je postavio konkretna pitanja i dobio odgovore. Potreban je kratak follow-up koji vodi prema bookiranju discovery calla."
+    },
+    {
+      "key": "2515956/2722088662",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ali je rekao 'Yes, let me know.' što je jasan pozitivan odgovor. Dobio je Loom video i poziv na discovery call. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora. Interes je potvrđen.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-13T12:07:00.000Z",
+      "next_step_hr": "Ali je tražio video, dobio ga je. Prošlo je 1-2 dana. Poslati kratak follow-up koji pita je li imao prilike pogledati video i ima li pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "Yes, let me know."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Ali,\n\nQuick check — did you get a chance to watch the video?\n\nIf the approach makes sense for Ephlux, I'd love to hop on a quick call to discuss specifics.\n\nLet me know what you think.\n\nCheers,\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Ali je tražio video i dobio ga. Potreban je kratak follow-up nakon 1-2 dana."
+    },
+    {
+      "key": "2738671/3025253762",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Albert (nakon što je Istvan bio prvotni kontakt) je odgovorio, tražio video, pogledao ga i pitao 'How fast we can talk?' što je snažan signal za sastanak. Dobio je booking link. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora. Interes je vrlo visok.",
+      "priority": "P1",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-13T08:35:00.000Z",
+      "next_step_hr": "Albert je pitao koliko brzo možemo razgovarati i dobio je booking link. Prošlo je 1-2 dana. Poslati kratak follow-up koji pita je li našao termin ili da mu mi predložimo par opcija.",
+      "missing_information": [],
+      "evidence": [
+        "How fast we can talk?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Albert,\n\nJust following up — did you manage to find a time that works?\n\nIf the calendar link didn't show anything suitable, let me know your timezone and I'll suggest a couple of options.\n\nBest regards,\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Albert je pokazao snažan interes za sastanak, dobio je booking link prije 1-2 dana. Potreban je kratak follow-up."
+    },
+    {
+      "key": "2738607/3025136155",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Roberto je napisao izuzetno detaljan i konkretan odgovor, prepoznao je AI pristup, pohvalio ga i postavio 4 vrlo specifična tehnička pitanja o stacku, modelima i cijenama. Dobio je detaljne odgovore na sva pitanja i poziv na call. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora. Interes je vrlo visok, radi se o kvalificiranom i obrazovanom prospectu.",
+      "priority": "P1",
+      "sales_state": "PRICE_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-14T08:01:00.000Z",
+      "next_step_hr": "Roberto je postavio detaljna pitanja i dobio odgovore. Prošlo je par dana. Poslati kratak follow-up na talijanskom koji ga pita jesu li mu odgovori bili korisni i želi li bookirati call za demonstraciju backend sustava uživo.",
+      "missing_information": [],
+      "evidence": [
+        "Quali tool di AI e marketing utilizzate per gestire queste campagne",
+        "Quali strumenti e metodologie usate per attività di scraping",
+        "Quali modelli AI utilizzate specificamente per generare le personalizzazioni",
+        "Qual è il costo operativo per generare circa 1.000 contatti"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Ciao Roberto,\n\nVolevo solo verificare se le risposte che ti ho inviato sono state chiare e se hai altre domande sul nostro framework.\n\nSe ti va di vedere i nostri agenti in azione dal vivo, possiamo fissare una call veloce di 15 minuti — ti mostro il backend e come orchestriamo il tutto.\n\nFammi sapere cosa ne pensi.\n\nA presto,\nMia",
+      "draft_english": "Hi Roberto,\n\nI just wanted to check if the answers I sent were clear and if you have any other questions about our framework.\n\nIf you'd like to see our agents in action live, we can schedule a quick 15-min call — I'll show you the backend and how we orchestrate everything.\n\nLet me know what you think.\n\nTalk soon,\nMia",
+      "draft_language": "it",
+      "draft_reason_hr": "Roberto je postavio detaljna pitanja i dobio odgovore na talijanskom. Potreban je kratak follow-up na talijanskom koji vodi prema pozivu."
+    },
+    {
+      "key": "2738607/3025135845",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Alexey je pokazao snažan interes kroz niz pitanja o modelu suradnje i cijenama. Imali smo razmjenu od 4 poruke. Njegov zadnji reply je bio prigovor na infrastrukturni trošak od ~$350 (loše iskustvo s prošlim partnerima). Na to smo odgovorili s objašnjenjem. Poslana je 1 poruka nakon njegovog zadnjeg replyja. Nema novog odgovora. Radi se o ozbiljnom pregovaranju oko uvjeta.",
+      "priority": "P1",
+      "sales_state": "BUDGET_OBJECTION",
+      "next_action": "WAIT",
+      "next_action_at": "2025-12-19T07:13:00.000Z",
+      "next_step_hr": "Alexey je jasno rekao da ne želi platiti infrastrukturu unaprijed zbog lošeg iskustva. Objasnili smo zašto je tražimo. Sada treba pričekati 5-7 dana da vidi hoće li sam odgovoriti. Ako ne odgovori, poslati kratak follow-up koji nudi kompromis (npr. probni period bez infrastrukturnog troška za mali broj leadova).",
+      "missing_information": [],
+      "evidence": [
+        "we can only agree to cover infrastructure costs once we begin seeing tangible results"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Alexey je postavio uvjet o infrastrukturnom trošku na koji smo već odgovorili. Sada treba pričekati njegov odgovor. Novi draft nije potreban do isteka perioda čekanja."
+    }
+  ]
+}

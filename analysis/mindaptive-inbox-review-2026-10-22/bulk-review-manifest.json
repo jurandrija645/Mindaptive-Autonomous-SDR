@@ -1,0 +1,1010 @@
+{
+  "approval_status": "awaiting_user_approval",
+  "client": "Mindaptive",
+  "review_date": "2026-10-22",
+  "model": "deepseek/deepseek-v4-flash",
+  "model_cost_usd": 0.1625427058,
+  "counts": {
+    "leads": 517,
+    "messages": 2251,
+    "drafts_saved_pending": 56,
+    "proposed_label_changes": 40,
+    "interested": 6,
+    "lead_done": 16,
+    "bookings_preserved": 46
+  },
+  "executed": {
+    "drafts_saved": true,
+    "categories_changed": false,
+    "emails_sent": false,
+    "emails_scheduled": false
+  },
+  "status_proposals": [
+    {
+      "key": "3950427/4542616672",
+      "name": "Joe Taylor",
+      "email": "info@jtaylorbuild.com",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 6,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 6 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Ok where is it?"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3950427/4542616222",
+      "name": "Bashkim Toma",
+      "email": "info@westlondonbuildinggroup.co.uk",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "I just want to see what you did then we can talk"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3950427/4542616297",
+      "name": "Gary Pinkey",
+      "email": "info@londonbuildingsolutions.com",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Not sure how you could possibly have done that please show me."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3950427/4542617994",
+      "name": "Dr. Band",
+      "email": "info@drbandclinic.co.uk",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Yes send it over thanks"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3912149/3734011321",
+      "name": "Lee",
+      "email": "info@hsbrenewables.co.uk",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Seems odd, But ok send me the link",
+        "Let me know what you think."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3960583/3729673474",
+      "name": "Stackrack team",
+      "email": "sales@stackrackbattery.com",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Worth a look",
+        "Just reply if you like the site and I'll send over the pricing and next steps."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3599203/4126837403",
+      "name": "Rodi",
+      "email": "rodi@maisonlunettes.be",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "When can we setup a meeting?",
+        "Feel free to select a time that works for you: [link: https://calendly.com/andrew-mindaptive/30min] https://calendly.com/andrew-mindaptive/30min"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3599203/4126836451",
+      "name": "Evi",
+      "email": "evianastasiou@healthydermaclinics.com",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Να το δούμε μετά τις 20 Αυγούστου",
+        "Στο μεταξύ έφτιαξα ήδη έναν πρωτότυπο AI Agent για το Healthy Derma Clinics"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3899056/4475672274",
+      "name": "Tristan Maclean",
+      "email": "tmaclean@ur.com",
+      "current_label": "Out Of Office",
+      "recommended_label": "Wrong Person",
+      "consecutive_sent": 0,
+      "reason_hr": "Automatski redirect - Tristan je napustio tvrtku (zadnji dan 23.4.2025.). Uputnica na Jamesa Warrena. Generic auto-redirect jer je osoba otišla = Wrong Person.",
+      "evidence": [
+        "PLEASE BE AWARE, MY LAST DAY WITH UNITED RENTALS WAS APRIL 23rd, 2025",
+        "Please Contact James Warren for any inquiries after my departure: jwarren@ur.com"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3960583/3729675040",
+      "name": "EVgo team",
+      "email": "info@evgo.com",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Interested",
+      "consecutive_sent": 0,
+      "reason_hr": "Automatski ticket odgovor, ALI nakon toga stvarni ljudski odgovor iz supporta koji je uputio na businessdev@evgo.com. To je stvarni ljudski odgovor s preporukom - nije automatski. Poslana samo 1 poruka.",
+      "evidence": [
+        "For inquiries related to business development, please feel free to reach out directly to our team at businessdev@evgo.com.",
+        "Please understand that this line is mainly for driver support and charger issues."
+      ],
+      "manual_review": true
+    },
+    {
+      "key": "3960583/3729673586",
+      "name": "Chloe",
+      "email": "chloe@turnkeyenergy.com",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Wrong Person",
+      "consecutive_sent": 0,
+      "reason_hr": "Automatski odgovor jasno kaže da Chloe više ne radi u Turnkey Energy - 'Chloe Fradue is no longer with TurnKey Energy'. To je Wrong Person (osoba je otišla iz tvrtke). Nije ljudski interes.",
+      "evidence": [
+        "Please note that Chloe Fradue is no longer with TurnKey Energy. Your message is being routed to our Support team",
+        "For all future communications, please contact us directly at support@turnkeyenergy.com"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3899056/4475676664",
+      "name": "Inna",
+      "email": "i.proshkina@ctrl2go.solutions",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "E-pošta nije dostavljena jer adresa nije pronađena (bounce). Nema interesa.",
+      "evidence": [
+        "Не удалось выполнить доставку следующим получателям или группам: i.proshkina@ctrl2go.solutions",
+        "550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3899056/4475670053",
+      "name": "Angelique",
+      "email": "atober@shopmonkey.io",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Not Interested",
+      "consecutive_sent": 0,
+      "reason_hr": "Gmail emoji reakcija (🥱 - dosadno) — to nije auto-reply, ali nije ni pozitivan signal. Vjerojatno označava nezainteresiranost. Potrebna ljudska procjena jer je nejasno.",
+      "evidence": [
+        "Angelique Tober reacted via Gmail: 🥱"
+      ],
+      "manual_review": true
+    },
+    {
+      "key": "3741157/4263805695",
+      "name": "Anthony",
+      "email": "alucas@nationalpaymentprocessing.com",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "Anthony je originalno pokazao interes ('Send it over I'll take a look'), poslali smo mu video i 2 follow-upa. Zadnja poruka je bounce (550 permanent failure) - email je blokiran. Stari draft pokušava poslati ponovno na isti email što neće raditi.",
+      "evidence": [
+        "Send it over I'll take a look - originalni interes",
+        "Message blocked. The response from the remote server was: 550 permanent failure"
+      ],
+      "manual_review": true
+    },
+    {
+      "key": "3750042/4287396682",
+      "name": "ops@urgentcare.com",
+      "email": "ops@urgentcare.com",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Wrong Person",
+      "consecutive_sent": 0,
+      "reason_hr": "Automatski odgovor obavještava da adresa ne postoji — 'you sent an email using an @urgentcare.com email address, which does not exist.' Ovo je pogrešna osoba/odskok, ne potencijalni klijent.",
+      "evidence": [
+        "You are receiving this message because you sent an email using an @urgentcare.com email address, which does not exist.",
+        "We would suggest that you contact the precise urgent care location you are trying to reach by phone."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3640877/4176334184",
+      "name": "info@dr-lansmann.de",
+      "email": "info@dr-lansmann.de",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "Povratna poruka: poštanski sandučić je pun. Ovo nije ljudski odgovor.",
+      "evidence": [
+        "Your message to was automatically rejected:",
+        "Quota exceeded (mailbox for user is full)"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3640877/4176335951",
+      "name": "info@zahnarztpraxis-wasserturm.de",
+      "email": "info@zahnarztpraxis-wasserturm.de",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "Povratna poruka: poštanski sandučić je pun. Ovo nije ljudski odgovor.",
+      "evidence": [
+        "Your message to was automatically rejected:",
+        "Quota exceeded (mailbox for user is full)"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3599203/4126835862",
+      "name": "Sara",
+      "email": "smalova@uvea.sk",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "Zadnja poruka je 'bounce' (povratna obavijest) - adresa smalova@uvea.sk više ne prima poštu. Bez ljudskog odgovora. 4 uzastopno poslane poruke, ali posljednja se nije isporučila. Postojeći draft je irelevantan.",
+      "evidence": [
+        "Správu sa nepodarilo doručiť... smalova@uvea.sk... Prijímanie do schránky uvea.sk je od 1.7. zakázané, použite prosím schránku @lexum.sk",
+        "550 5.7.1 TRANSPORT.RULES.RejectMessage; the message was rejected by organization policy"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3640877/4176331553",
+      "name": "info@treant.nl",
+      "email": "info@treant.nl",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "Poruka nije mogla biti dostavljena jer adresa info@treant.nl nije pronađena (bounce). Ovo nije ljudski odgovor.",
+      "evidence": [
+        "Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup'"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3599203/4126838234",
+      "name": "Corina",
+      "email": "hornischer.corina@pallas-kliniken.ch",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "E-mail adresa nije pronađena – poruka se vratila s greškom '550 5.1.10 RESOLVER.ADR.RecipientNotFound'. Nema ljudskog odgovora. Adresa je nevažeća.",
+      "evidence": [
+        "Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup'"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3562710/4080236189",
+      "name": "Erzvoltaik team",
+      "email": "info@erzvoltaik.de",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Interested",
+      "consecutive_sent": 0,
+      "reason_hr": "Ronny je tražio primjer njemačkog AI poziva; kasniji OOO ne briše interes. Povratak s godišnjeg bio je u srpnju i rok je prošao.",
+      "evidence": [
+        "Do you have also a video with a german ai call?",
+        "Ich bin in der Zeit vom 6.7.2026 bis 20.7.2026 im Urlaub."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3562710/4080234389",
+      "name": "Clive",
+      "email": "info@0800repair.com",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Sender Originated Bounce",
+      "consecutive_sent": 0,
+      "reason_hr": "Povratna poruka moderatora (bounce) nakon tri poslane poruke. Nema stvarnog ljudskog odgovora. Lead je mrtav.",
+      "evidence": [
+        "Your message has expired without any moderator decision for the following recipients.",
+        "info@0800repair.com"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3562710/4080232744",
+      "name": "Tolosa team",
+      "email": "central@ertolosa.com",
+      "current_label": "Auto-Reply",
+      "recommended_label": "Redirect",
+      "consecutive_sent": 0,
+      "reason_hr": "Automatska obavijest o promjeni e-mail adrese (preusmjeravanje). Nema ljudskog odgovora. Oznaka 'Redirect' odgovara stvarnom sadržaju.",
+      "evidence": [
+        "te informamos de que a partir de ahora todas las consultas, avisos y correos deberán enviarse exclusivamente a la dirección: 📩 sat@ertolosa.com"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3562710/4080233772",
+      "name": "Estudio",
+      "email": "estudio@medanoingenieros.com",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 6,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 6 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Sin problemas para que compartas ese clip",
+        "Voy a dejar esto por aquí, Estudio."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3562710/4080235584",
+      "name": "Eco Energy team",
+      "email": "info@eco-energy.co.uk",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "What is your pricing on this?",
+        "I actually went ahead and created a prototype assistant for Eco Energy."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "2538823/2758497291",
+      "name": "Pasquale",
+      "email": "p.madonna@ideasolutions.it",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Sono interessato al video."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "2538823/2758497636",
+      "name": "Remi",
+      "email": "rdessertine@wayden.fr",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Je vous laisse m'envoyer cette courte video"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "2538823/2758498676",
+      "name": "Vince",
+      "email": "vince@decastromedia.agency",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "sure.  I'll watch the video and let you know what I think.",
+        "Hi Vince,\n\nI'm following up because I genuinely believe our performance model is a perfect fit for the high-value trading tools you offer at Acuity."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3960583/3729673219",
+      "name": "Clear Efficiency team",
+      "email": "admin@clearefficiency.com",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Thanks Andrew, I'll take a look. how much do you charge for the services you provide?"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3950427/4542616399",
+      "name": "Saif Ali",
+      "email": "info@perfectbuilders.uk",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "Yes send"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3886379/4458132442",
+      "name": "John",
+      "email": "voltnvent@gmail.com",
+      "current_label": "Interested",
+      "recommended_label": "Lead Done",
+      "consecutive_sent": 5,
+      "reason_hr": "Od zadnjeg primljenog odgovora poslali smo 5 poruka zaredom bez odgovora; zadovoljen korisnikov kriterij za Lead Done.",
+      "evidence": [
+        "I like the design of the new site. Could you let me know what the cost would be to purchase or implement it?"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3991161/4176328608",
+      "name": "Derk Jan de Haan",
+      "email": "djdh@euronet.nl",
+      "current_label": "Uncategorizable by Ai",
+      "recommended_label": "Not Interested",
+      "consecutive_sent": 0,
+      "reason_hr": "Eksplicitno odbijanje: 'Ik vind mijn website onverbeterlijk!!!' (Moju web stranicu smatram nesavršivom / ne želim je mijenjati). Ovo je jasna izjava da nisu zainteresirani. Postoji stari nacrt koji to potvrđuje.",
+      "evidence": [
+        "Ik vind mijn website onverbeterlijk!!!"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3892258/4466858989",
+      "name": "Andrew Whiteside",
+      "email": "getcold@tdirefrigeration.com",
+      "current_label": "Not Interested",
+      "recommended_label": "Do Not Contact",
+      "consecutive_sent": 0,
+      "reason_hr": "Prospekt je izričito zatražio prestanak kontakta nazvavši poruke 'spamom': 'Please make this your last email. We dont need anymore spam.' Ovo je jasan opt-out koji zahtjeva oznaku Do Not Contact.",
+      "evidence": [
+        "Please make this your last email. We dont need anymore spam."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3899056/4475668358",
+      "name": "Zoë McCamley",
+      "email": "zoe.mccamley@kcftech.com",
+      "current_label": "Not Interested",
+      "recommended_label": "Do Not Contact",
+      "consecutive_sent": 0,
+      "reason_hr": "Prospekt je izričito zatražio uklanjanje s popisa za kontakt: 'No interest, remove me from outreach.' Ovo je jasan opt-out.",
+      "evidence": [
+        "No interest, remove me from outreach."
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3886379/4458132723",
+      "name": "Carmin Leone",
+      "email": "leoneelectricalcontractors@gmail.com",
+      "current_label": "Not Interested",
+      "recommended_label": "Do Not Contact",
+      "consecutive_sent": 0,
+      "reason_hr": "Prospekt je izričito zatražio uklanjanje s mailing liste: 'Please take me off your mailing list.' Ovo je jasan opt-out zahtjev koji zahtijeva oznaku Lead Opted Out.",
+      "evidence": [
+        "Please take me off your mailing list"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "3810275/4360210314",
+      "name": "Paul Corpadean",
+      "email": "paul.corpadean@medicalcor.ro",
+      "current_label": "Uncategorizable by Ai",
+      "recommended_label": "Interested",
+      "consecutive_sent": 1,
+      "reason_hr": "Kratak pozitivan odgovor 'čekam' i poslan mu je video. Nema odgovora na video, slijedi follow-up.",
+      "evidence": [
+        "Bună ziua aștept"
+      ],
+      "manual_review": true
+    },
+    {
+      "key": "3810275/4360210269",
+      "name": "Julija Ivanova",
+      "email": "julija.ivanova@inmedica.lt",
+      "current_label": "Contact later",
+      "recommended_label": "Interested",
+      "consecutive_sent": 1,
+      "reason_hr": "Zatražila je info i dobila video. Nema odgovora na video, slijedi follow-up.",
+      "evidence": [
+        "Galite atsiųsti susipažinti."
+      ],
+      "manual_review": true
+    },
+    {
+      "key": "3278845/3734010089",
+      "name": "Infinity Heating team",
+      "email": "infinityheatingandplumbing@gmail.com",
+      "current_label": "Wrong Person",
+      "recommended_label": "Redirect",
+      "consecutive_sent": 0,
+      "reason_hr": "Automatska obavijest o promjeni email adresa (preusmjeravanje). Nema ljudskog odgovora ili interesa. Postojeći draft koji pokušava nastaviti prodaju je neprimjeren.",
+      "evidence": [
+        "Effective immediately, we have made changes to our email addresses",
+        "Please direct your emails to our new dedicated email account"
+      ],
+      "manual_review": false
+    },
+    {
+      "key": "2515956/2722095669",
+      "name": "Trish",
+      "email": "patricia.csank@lmi.org",
+      "current_label": "Wrong Person",
+      "recommended_label": "Interested",
+      "consecutive_sent": 0,
+      "reason_hr": "Trish je pokazala interes, ali je zbog tržišnih uvjeta rekla da će se sama javiti ako se situacija smiri. Promjena domene ne čini je pogrešnom osobom.",
+      "evidence": [
+        "I'll be in touch if things settle in a direction that could be beneficial for you.",
+        "market headwinds have reshaped some priorities on our end."
+      ],
+      "manual_review": true
+    },
+    {
+      "key": "2538823/2758496772",
+      "name": "Michal",
+      "email": "michal.barwinski@wirtualnemedia.pl",
+      "current_label": "Wrong Person",
+      "recommended_label": "Interested",
+      "consecutive_sent": 0,
+      "reason_hr": "Michal je tražio razgovor prije automatskog OOO iz listopada 2025. OOO ne poništava interes. Pregledati postojeći pending draft i provjeriti aktualnost prije slanja.",
+      "evidence": [
+        "chętnie sie spotkam na callu i poznam Wasze rozwiązania"
+      ],
+      "manual_review": true
+    }
+  ],
+  "pending_drafts": [
+    {
+      "key": "3950427/4542617778",
+      "name": "Remis",
+      "draft_id": 1117,
+      "status": "pending",
+      "replaced_draft_id": 1060
+    },
+    {
+      "key": "3960357/3928775246",
+      "name": null,
+      "draft_id": 1118,
+      "status": "pending",
+      "replaced_draft_id": 1061
+    },
+    {
+      "key": "3892258/4466860359",
+      "name": null,
+      "draft_id": 1119,
+      "status": "pending",
+      "replaced_draft_id": 1062
+    },
+    {
+      "key": "3950427/4542616635",
+      "name": null,
+      "draft_id": 1063,
+      "status": "pending",
+      "replaced_draft_id": null
+    },
+    {
+      "key": "3562710/4080236189",
+      "name": "Erzvoltaik team",
+      "draft_id": 1120,
+      "status": "pending",
+      "replaced_draft_id": 1064
+    },
+    {
+      "key": "2732401/3016173350",
+      "name": "Anna",
+      "draft_id": 1121,
+      "status": "pending",
+      "replaced_draft_id": 1065
+    },
+    {
+      "key": "2538823/2758495592",
+      "name": "Francesco",
+      "draft_id": 1122,
+      "status": "pending",
+      "replaced_draft_id": 1066
+    },
+    {
+      "key": "2538823/2758495382",
+      "name": "Diego",
+      "draft_id": 1123,
+      "status": "pending",
+      "replaced_draft_id": 1067
+    },
+    {
+      "key": "2538823/2758494599",
+      "name": "Aleardo",
+      "draft_id": 1124,
+      "status": "pending",
+      "replaced_draft_id": 1068
+    },
+    {
+      "key": "3950427/4542616557",
+      "name": null,
+      "draft_id": 1125,
+      "status": "pending",
+      "replaced_draft_id": 1069
+    },
+    {
+      "key": "3950427/4542616876",
+      "name": null,
+      "draft_id": 1126,
+      "status": "pending",
+      "replaced_draft_id": 1070
+    },
+    {
+      "key": "3950427/4542616362",
+      "name": "Stephen",
+      "draft_id": 1127,
+      "status": "pending",
+      "replaced_draft_id": 1071
+    },
+    {
+      "key": "3950427/4542617705",
+      "name": null,
+      "draft_id": 1128,
+      "status": "pending",
+      "replaced_draft_id": 1072
+    },
+    {
+      "key": "3950427/4542615656",
+      "name": "Michael Hall",
+      "draft_id": 1129,
+      "status": "pending",
+      "replaced_draft_id": 1073
+    },
+    {
+      "key": "3950427/4542617773",
+      "name": "Tim",
+      "draft_id": 1130,
+      "status": "pending",
+      "replaced_draft_id": 1074
+    },
+    {
+      "key": "3899056/4475672680",
+      "name": "Yevhenii",
+      "draft_id": 1131,
+      "status": "pending",
+      "replaced_draft_id": 1075
+    },
+    {
+      "key": "3950427/4542617388",
+      "name": "Rachel",
+      "draft_id": 1132,
+      "status": "pending",
+      "replaced_draft_id": 1076
+    },
+    {
+      "key": "3899056/4475670673",
+      "name": "Ben",
+      "draft_id": 1133,
+      "status": "pending",
+      "replaced_draft_id": 1077
+    },
+    {
+      "key": "2738671/3025251433",
+      "name": "Jamie",
+      "draft_id": 1134,
+      "status": "pending",
+      "replaced_draft_id": 1078
+    },
+    {
+      "key": "2738671/3025253783",
+      "name": "Jedrzej",
+      "draft_id": 1135,
+      "status": "pending",
+      "replaced_draft_id": 1079
+    },
+    {
+      "key": "2738607/3025135572",
+      "name": "Andrea",
+      "draft_id": 1136,
+      "status": "pending",
+      "replaced_draft_id": 1080
+    },
+    {
+      "key": "2738607/3025135176",
+      "name": "Andy",
+      "draft_id": 1137,
+      "status": "pending",
+      "replaced_draft_id": 1081
+    },
+    {
+      "key": "2738607/3025133653",
+      "name": "David",
+      "draft_id": 1138,
+      "status": "pending",
+      "replaced_draft_id": 1082
+    },
+    {
+      "key": "2738671/3025253592",
+      "name": "Tyrone",
+      "draft_id": 1139,
+      "status": "pending",
+      "replaced_draft_id": 1083
+    },
+    {
+      "key": "2738671/3025252894",
+      "name": "Marijus",
+      "draft_id": 1140,
+      "status": "pending",
+      "replaced_draft_id": 1084
+    },
+    {
+      "key": "2515956/2722088662",
+      "name": "Ali",
+      "draft_id": 1141,
+      "status": "pending",
+      "replaced_draft_id": 1085
+    },
+    {
+      "key": "2738671/3025253762",
+      "name": "Istvan",
+      "draft_id": 1142,
+      "status": "pending",
+      "replaced_draft_id": 1086
+    },
+    {
+      "key": "2738607/3025136155",
+      "name": "Roberto",
+      "draft_id": 1143,
+      "status": "pending",
+      "replaced_draft_id": 1087
+    },
+    {
+      "key": "2738671/3025251931",
+      "name": "Kai",
+      "draft_id": 1144,
+      "status": "pending",
+      "replaced_draft_id": 1088
+    },
+    {
+      "key": "2732401/3016172105",
+      "name": "John",
+      "draft_id": 1145,
+      "status": "pending",
+      "replaced_draft_id": 1089
+    },
+    {
+      "key": "2515956/2722089937",
+      "name": "Diego",
+      "draft_id": 1146,
+      "status": "pending",
+      "replaced_draft_id": 1090
+    },
+    {
+      "key": "2738607/3025135558",
+      "name": "Henri",
+      "draft_id": 1147,
+      "status": "pending",
+      "replaced_draft_id": 1091
+    },
+    {
+      "key": "2732401/3016172998",
+      "name": "Jocelyn",
+      "draft_id": 1148,
+      "status": "pending",
+      "replaced_draft_id": 1092
+    },
+    {
+      "key": "2738607/3025135360",
+      "name": "Marco",
+      "draft_id": 1149,
+      "status": "pending",
+      "replaced_draft_id": 1093
+    },
+    {
+      "key": "2732401/3016172379",
+      "name": "Shebaz",
+      "draft_id": 1150,
+      "status": "pending",
+      "replaced_draft_id": 1094
+    },
+    {
+      "key": "2738607/3025134089",
+      "name": "Alina",
+      "draft_id": 1151,
+      "status": "pending",
+      "replaced_draft_id": 1095
+    },
+    {
+      "key": "2738607/3025135047",
+      "name": "Matthias",
+      "draft_id": 1152,
+      "status": "pending",
+      "replaced_draft_id": 1096
+    },
+    {
+      "key": "2738671/3025251911",
+      "name": "Francisco",
+      "draft_id": 1153,
+      "status": "pending",
+      "replaced_draft_id": 1097
+    },
+    {
+      "key": "2738671/3025253676",
+      "name": "Job",
+      "draft_id": 1154,
+      "status": "pending",
+      "replaced_draft_id": 1098
+    },
+    {
+      "key": "2732401/3016173185",
+      "name": "Jonathan",
+      "draft_id": 1155,
+      "status": "pending",
+      "replaced_draft_id": 1099
+    },
+    {
+      "key": "2538823/2758496613",
+      "name": "Maros",
+      "draft_id": 1156,
+      "status": "pending",
+      "replaced_draft_id": 1100
+    },
+    {
+      "key": "2515956/2722095330",
+      "name": "Sharjeel",
+      "draft_id": 1157,
+      "status": "pending",
+      "replaced_draft_id": 1101
+    },
+    {
+      "key": "2515956/2722089398",
+      "name": "Brian",
+      "draft_id": 1158,
+      "status": "pending",
+      "replaced_draft_id": 1102
+    },
+    {
+      "key": "2538823/2758495835",
+      "name": "Jean-Pierre",
+      "draft_id": 1159,
+      "status": "pending",
+      "replaced_draft_id": 1103
+    },
+    {
+      "key": "2515956/2722093804",
+      "name": "Nancy",
+      "draft_id": 1160,
+      "status": "pending",
+      "replaced_draft_id": 1104
+    },
+    {
+      "key": "2515956/2722089198",
+      "name": "Arnav",
+      "draft_id": 1161,
+      "status": "pending",
+      "replaced_draft_id": 1105
+    },
+    {
+      "key": "2538823/2758494751",
+      "name": "Antonio",
+      "draft_id": 1162,
+      "status": "pending",
+      "replaced_draft_id": 1106
+    },
+    {
+      "key": "3960583/3822375070",
+      "name": "Sid",
+      "draft_id": 1163,
+      "status": "pending",
+      "replaced_draft_id": 1107
+    },
+    {
+      "key": "3810275/4360210314",
+      "name": "Paul Corpadean",
+      "draft_id": 1164,
+      "status": "pending",
+      "replaced_draft_id": 1108
+    },
+    {
+      "key": "3810275/4360210269",
+      "name": "Julija Ivanova",
+      "draft_id": 1165,
+      "status": "pending",
+      "replaced_draft_id": 1109
+    },
+    {
+      "key": "3562710/4080234417",
+      "name": "SogoSolar team",
+      "draft_id": 1166,
+      "status": "pending",
+      "replaced_draft_id": 1110
+    },
+    {
+      "key": "2738607/3025134830",
+      "name": "Dan",
+      "draft_id": 1167,
+      "status": "pending",
+      "replaced_draft_id": 1111
+    },
+    {
+      "key": "2538823/2758496826",
+      "name": "Michel",
+      "draft_id": 1168,
+      "status": "pending",
+      "replaced_draft_id": 1112
+    },
+    {
+      "key": "2538823/2758495355",
+      "name": "Damian",
+      "draft_id": 1169,
+      "status": "pending",
+      "replaced_draft_id": 1113
+    },
+    {
+      "key": "2538823/2758495791",
+      "name": "Jari",
+      "draft_id": 1170,
+      "status": "pending",
+      "replaced_draft_id": 1114
+    },
+    {
+      "key": "2538823/2758495403",
+      "name": "Denis",
+      "draft_id": 1171,
+      "status": "pending",
+      "replaced_draft_id": 1115
+    }
+  ],
+  "held": [
+    {
+      "key": "3950427/4542617478",
+      "reason": "Četiri odlazne poruke bez odgovora; još ne ispunjava Lead Done kriterij. Zadnjom porukom najavljeno je zatvaranje/uklanjanje dema, pa prije dodatnog kontakta treba odlučiti želimo li nastaviti."
+    },
+    {
+      "key": "3950427/4542617094",
+      "reason": "Četiri odlazne poruke bez odgovora; još ne ispunjava Lead Done kriterij. Zadnjom porukom najavljeno je zatvaranje/uklanjanje dema, pa prije dodatnog kontakta treba odlučiti želimo li nastaviti."
+    },
+    {
+      "key": "3960583/3729675040",
+      "reason": "Stvarna ljudska preporuka na businessdev@evgo.com; treba potvrditi demo asset i recipient prije dovršenog drafta. Ne slati na opći support."
+    },
+    {
+      "key": "2738607/3025134886",
+      "reason": "Nedostaje odgovor na Maxov prijedlog termina. Naš prethodni odgovor nije prihvatio njegov termin i preusmjerio ga na booking link. Nedostaje potvrda je li Max odabrao novi termin. Potrebna ljudska procjena."
+    },
+    {
+      "key": "2538823/2758495441",
+      "reason": "Nedostaje cijena po kvalificiranom sastanku. Elisa je izričito pitala 'How much is that approximately?'. Ne smijemo izmisliti broj. Treba ili dati provjerenu cijenu ili priznati da ne možemo bez poziva."
+    },
+    {
+      "key": "2538823/2758495823",
+      "reason": "Ljudska provjera potrebna. Jan je rekao da će podijeliti video s kolegama. Od tad (23.10.) nema odgovora. Preporučujemo da čovjek pregleda prije slanja."
+    },
+    {
+      "key": "2538823/2758494883",
+      "reason": "Nedostaje video koji je obećan. Treba ljudska provjera je li video poslan izvan inboxa. Ako nije, hitno poslati video. Ako jest, nastaviti s upitom za povratnu informaciju."
+    },
+    {
+      "key": "2538823/2758494711",
+      "reason": "U razgovoru iz 2025. već je ponuđeno 200–400 € po kvalificiranom sastanku. Prije nove ponude potvrditi vrijede li te cijene i uvjeti i danas; ne izmišljati nove."
+    },
+    {
+      "key": "3950427/4542617719",
+      "reason": "Rachel je demo ponovno poslan 20. listopada, prije dva dana. Pričekati povratnu informaciju; prije eventualnog slanja cijene treba potvrditi stvarnu ponudu."
+    },
+    {
+      "key": "3892258/4466861837",
+      "reason": "Poslano 4 uzastopne poruke bez odgovora nakon odgovora na pitanja. Prije nego što se pošalje peti nastavak koji tjera na odluku nakon potpunog odgovora, trebate provjeriti da li postoji dogovoreni nastavak ili novi zahtjev. Prema pravilima, 5 uzastopnih poslanih poruka bez ljudskog odgovora znači LEAD DONE. Trenutno su 4 poslane poruke bez odgovora od zadnjeg ljudskog odgovora (Edov mail s pitanjima od 17. rujna). Potreban je peti 'final' follow-up ili jednostavno prestati. Ne postoji neodgovoreni zahtjev. Siguran mekan nastavak: 'Is this still on your radar?' bez novih obećanja ili pritiska na odluku."
+    }
+  ],
+  "draft_send_blockers": [
+    {
+      "draft_id": 1159,
+      "key": "2538823/2758495835",
+      "reason": "Missing sender signature; verify active mailbox and signature."
+    }
+  ],
+  "draft_revision_date": "2026-10-23",
+  "draft_revision_report": "C:\\Users\\AndRo\\Desktop\\VibeCode\\Mindaptive-Autonomous-SDR\\analysis\\mindaptive-draft-revision-2026-10-23\\draftovi-za-pregled.md",
+  "revision_errors": []
+}

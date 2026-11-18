@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6539,
+    "completion_tokens": 1433,
+    "total_tokens": 7972,
+    "cost": 0.0080346,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0080346,
+      "upstream_inference_prompt_cost": 0.0058851,
+      "upstream_inference_completions_cost": 0.0021495
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316635",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAOW_Pm5xr8UAAKJS_tMki+wp7qQKgvh+Hg=zPsS-cgrstjZ6Zw@mail.gmail.com>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, ne sadrži osobni odgovor na ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Paul je primio samo automatski odgovor 'izvan ureda'. Datum povratka je prošao (07.09.2026.), ali nema ljudskog odgovora. Ako ga želite ponovno kontaktirati, pošaljite novu poruku jer je stari niz završen bez angažmana.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316730",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2027-03-20",
+      "evidence_message_id": "<d08b673cced240c8ae12eb5ae3846ef8@LO0P123MB4250.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu do proljeća 2027. Nema osobnog odgovora.",
+      "request_hr": "nema",
+      "next_action_hr": "Hannah je na rodiljnom dopustu do proljeća 2027. (procjena povratka 20.03.2027.). Ne šaljite daljnje poruke do tog datuma. Kontaktirajte produkcijski tim samo u kontekstu njezine uloge, ne za ovu ponudu.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316729",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWLP123MB214861A612824273115279DD9DBF2@CWLP123MB2148.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Sounds good. I have lots of aches & pains.",
+      "reason_hr": "Dan osobno odgovara s interesom 'Sounds good'. Poslan mu je kod i link, prati se booking.",
+      "request_hr": "Pošalji kod za booking",
+      "next_action_hr": "Dan je izrazio interes i dobio kod. Zadnje poruke su naše (pratnja). Čekamo da se naruči. Ako želite osobno provjeriti, možete poslati kratku poruku, ali trenutno je status 'čekamo odgovor'.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316728",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<b3416a8e67444249905624bc823503ba@CWLP123MB4897.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor 'izvan ureda', vraća se 04.09.2026. Nema ljudskog odgovora nakon toga.",
+      "request_hr": "nema",
+      "next_action_hr": "Jessica je odgovorila samo automatskom porukom. Datum povratka je davno prošao, ali nije bilo ljudske interakcije. Stari niz je završen. Ako je relevantno, pošaljite novu poruku.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316676",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<11fb1494c631471a8a0b426d179f3748@CWLP265MB6183.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu. Ne navodi točan datum povratka.",
+      "request_hr": "nema",
+      "next_action_hr": "Jennifer je na rodiljnom dopustu, nema datuma povratka. Poruke joj nemojte slati. Ako želite, kontaktirajte navedenu zamjenu (Kate Osiadacz) kao novi lead, ali ne u kontekstu ovog niza.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316567",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GVUPR07MB11946E765BFCA375A86F0463CF1B12@GVUPR07MB11946.eurprd07.prod.outlook.com>",
+      "human_quote": "No",
+      "reason_hr": "Gene jasno odbija ponudu s 'No'.",
+      "request_hr": "odbijanje",
+      "next_action_hr": "Gene je odbio ponudu. Nemojte ga ponovno kontaktirati s ovom ponudom.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

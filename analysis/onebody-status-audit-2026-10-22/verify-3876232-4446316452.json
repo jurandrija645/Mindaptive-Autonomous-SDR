@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6966,
+    "completion_tokens": 1064,
+    "total_tokens": 8030,
+    "cost": 0.0078654,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0078654,
+      "upstream_inference_prompt_cost": 0.0062694,
+      "upstream_inference_completions_cost": 0.001596
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316452",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AM7PR05MB6931D8ECD8C9E475694D6765BFBE2@AM7PR05MB6931.eurprd05.prod.outlook.com>",
+      "human_quote": "No thank you",
+      "reason_hr": "Michelle je osobno odgovorila 'No thank you' na našu ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Lead je odbila ponudu. Zatvoriti kao negativan odgovor, nema daljnjeg kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316158",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu bez povratnog datuma. Nema osobne reakcije na ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Trenutno nedostupna zbog porodiljnog. Sačekati i probati ponovo za 6-12 mjeseci.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316129",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor do 3.9.2026., nakon toga nema ljudskog odgovora na naše follow-up poruke.",
+      "request_hr": "nema",
+      "next_action_hr": "OOO istekao prije više od mjesec dana bez ljudskog odgovora. Može se poslati novi pokušaj kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316390",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da osoba više ne radi u Sova Capital.",
+      "request_hr": "nema",
+      "next_action_hr": "Osoba više nije u firmi. Zatvoriti, nema daljnjeg kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316112",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor o godišnjem odmoru do 21.9.2026. Nakon isteka nema ljudskog odgovora na naše poruke.",
+      "request_hr": "nema",
+      "next_action_hr": "OOO istekao prije mjesec dana, nema ljudske reakcije. Može se razmotriti novi pokušaj kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316067",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2027-02-01",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu s povratkom u veljači 2027. Nema osobne reakcije na ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Osoba na porodiljnom do veljače 2027. Kontaktirati nakon tog datuma.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

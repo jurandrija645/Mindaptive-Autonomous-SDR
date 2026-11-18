@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11805,
+    "completion_tokens": 2592,
+    "total_tokens": 14397,
+    "cost": 0.00175665,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00175665,
+      "upstream_inference_prompt_cost": 0.00059025,
+      "upstream_inference_completions_cost": 0.0011664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616567",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti bez ljudske interakcije.",
+      "next_step_hr": "Pričekati povratak osobe ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 25. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: obavijest o zatvaranju komunikacije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office till Friday 25th September."
+      ]
+    },
+    {
+      "key": "3930675/4520614329",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: godišnji odmor 21.-25. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: obavijest o zatvaranju komunikacije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note I am on annual leave from Sept 21-25 inclusive."
+      ]
+    },
+    {
+      "key": "3930675/4520622184",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti bez ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 28. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: podsjetnik o ponudi.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m out of the office until 28 September and will respond to your email after I return."
+      ]
+    },
+    {
+      "key": "3930675/4520618173",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 24. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: obavijest o zatvaranju komunikacije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of the office and will return on 24 September."
+      ]
+    },
+    {
+      "key": "3930675/4520622218",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: OOO do 28. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: podsjetnik o ponudi.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m OOO until Monday 28 Sept."
+      ]
+    },
+    {
+      "key": "3930675/4520618187",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: na offsite događaju.",
+      "last_outbound_summary_hr": "Posljednja poruka: obavijest o zatvaranju komunikacije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am at an offsite event today (22nd Sept)."
+      ]
+    },
+    {
+      "key": "3930675/4520621578",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti na ročištu, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: na ročištu danas.",
+      "last_outbound_summary_hr": "Posljednja poruka: podsjetnik o ponudi.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am in a hearing today and will respond as soon as I can."
+      ]
+    },
+    {
+      "key": "3930675/4520621896",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o roditeljskom dopustu, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: na roditeljskom dopustu do 26. listopada.",
+      "last_outbound_summary_hr": "Posljednja poruka: podsjetnik o ponudi.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently on paternity leave and will be back on 26th October."
+      ]
+    },
+    {
+      "key": "3930675/4520621783",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: radi u američkoj vremenskoj zoni.",
+      "last_outbound_summary_hr": "Posljednja poruka: podsjetnik o ponudi.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm working a U.S. timezone this week so may be slow to reply."
+      ]
+    },
+    {
+      "key": "3930675/4520615129",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak ili označiti za ručni pregled.",
+      "last_inbound_summary_hr": "Automatski odgovor: OOO do 22. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: obavijest o zatvaranju komunikacije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently Out of Office until Tuesday 22nd September."
+      ]
+    },
+    {
+      "key": "3876232/4446318135",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Višestruki automatski odgovori o porodiljnom dopustu bez ljudske interakcije.",
+      "next_step_hr": "Osoba je dulje odsutna, razmisliti o isključivanju iz kampanje.",
+      "last_inbound_summary_hr": "Treći automatski odgovor: na porodiljnom dopustu, ne provjerava e-poštu.",
+      "last_outbound_summary_hr": "Posljednja poruka: obavijest o zatvaranju komunikacije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave and will not be checking my emails during my leave."
+      ]
+    },
+    {
+      "key": "3876232/4446318014",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Višestruki automatski odgovori o odsutnosti bez ljudskog odgovora.",
+      "next_step_hr": "Osoba je odsutna, moguće isključiti iz kampanje.",
+      "last_inbound_summary_hr": "Drugi automatski odgovor: OOO s ograničenim pristupom do 15. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: obavijest o zatvaranju komunikacije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office with limited access to emails until 15th September."
+      ]
+    }
+  ]
+}

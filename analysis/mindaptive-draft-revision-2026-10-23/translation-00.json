@@ -1,0 +1,51 @@
+{
+  "usage": {
+    "prompt_tokens": 1047,
+    "completion_tokens": 852,
+    "total_tokens": 1899,
+    "cost": 0.0001870778,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 869,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0001870778,
+      "upstream_inference_prompt_cost": 3.20138e-05,
+      "upstream_inference_completions_cost": 0.000155064
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "translations": [
+    {
+      "key": "2538823/2758495592",
+      "english": "Hi Francesco,\n\nIt's been a while since your request. over a year. I apologize for the delay in getting back in touch.\n\nIn the meantime, our system has improved quite a bit. I'm leaving you the video that shows how we find companies that match the ideal customer and start conversations:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf it can still be of interest to Mallei, let's set up a brief call. Otherwise, just let me know."
+    },
+    {
+      "key": "2538823/2758495382",
+      "english": "Hi Diego,\n\nIt's been a while since I promised you the video. over a year. I apologize for that.\n\nThe system has improved a lot since then. Here's the video showing how the agent finds and contacts founders and tech leaders:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIt works on a performance basis, so you only pay if it brings results.\n\nIf it's still okay for PPK Innovation, let me know. We can have a quick call to adapt it to your case."
+    },
+    {
+      "key": "2538823/2758494599",
+      "english": "Hi Aleardo,\n\nIt's been quite some time since your reply. over a year. I apologize for not following up sooner.\n\nIn the meantime, our system has improved a lot. I'll still leave you the video that explains the process, so you can watch it when you have time without needing a call:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIs there a part that could be useful to the Innova team, in addition to the tools you already use?"
+    },
+    {
+      "key": "2738671/3025253783",
+      "english": "Hi Jędrzej,\n\nWe haven't talked in a while and I'm returning to our old correspondence. I hope the video I sent was valuable to you.\n\nHere you'll find a brief overview of the process:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf the topic still interests you, I'd be happy to schedule a short conversation. If not, let me know and I won't write again."
+    },
+    {
+      "key": "2738607/3025133653",
+      "english": "Hello David,\n\nIt's been a while since we wrote. Our system has improved quite a bit since then.\n\nThe video I sent you is still the best way to see how we research companies and reach out to the right executives. without generic templates.\n\nHere's an overview of the process:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf the logic fits you, I'd be happy to have that 10-min chat to define your target and prepare a tailored proposal for you."
+    },
+    {
+      "key": "2738607/3025136155",
+      "english": "Hi Roberto,\n\nIt's been a while since our technical conversation. Looking back at your messages, I wanted to ask if the answers I sent you then clarified things.\n\nSince then, the system has improved quite a bit. The principle is always the same: finding the right companies, studying them, and starting relevant conversations.\n\nHere you'll find an overview of the process:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf you want to dig deeper into a specific point, let me know. Otherwise, if you'd like, we can have a quick call to see how it works now."
+    }
+  ]
+}

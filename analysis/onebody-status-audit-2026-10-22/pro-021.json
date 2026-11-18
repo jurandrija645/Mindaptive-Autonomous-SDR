@@ -1,0 +1,180 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9755,
+    "completion_tokens": 2635,
+    "total_tokens": 12390,
+    "cost": 0.012732,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.012732,
+      "upstream_inference_prompt_cost": 0.0087795,
+      "upstream_inference_completions_cost": 0.0039525
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520618273",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Joy Nazzari je izričito odbila ponudu.",
+      "last_human_request_hr": "No thanks Rebecca",
+      "unresolved_hr": "Ništa. Jasno odbijanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom. Označiti kao 'Not Interested' (već je tako označeno).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<54DB7BB0-05C5-4B27-ADF1-DAB9317CEED9@dnco.com>",
+          "quote": "No thanks Rebecca"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520618187",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO ('out of office') poruka s događaja. Nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "OOO poruka je stara mjesec dana (22. rujna 2026.). Nema pokazatelja interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom osim ako se ne pojavi novi odgovor. Sekvenca je završena.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHEcvjSRUvOn5hr0_uxe32S4j3QkNWUnCZ3b4bM9FpQGL_KR7g@mail.gmail.com>",
+          "quote": "I am at an offsite event today (22nd Sept). I am monitoring my email\nbut please anticipate a delayed response."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520618173",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO ('out of office') poruka. Osoba se trebala vratiti 24. rujna, ali nikad nije odgovorila.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema dokaza ljudskog interesa. Sekvenca je završena. Zastarjelo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0ac4af2f6e744270a5588e7b1968afe3@CWLP123MB4865.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I’m currently out of the office and will return on 24 September.\n\nI’ll respond upon my return."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520617893",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Annie Barker prihvatila je ponudu, poslan joj je link i kod. Rekla je da će rezervirati u sljedećih mjesec dana (24. rujna). Prošlo je više od mjesec dana (22. listopada 2026.), stoga je to sada prošli rok. Posljednje poruke klinike su bile 'posljednji email', ali to ne znači zatvaranje jer je osoba bila angažirana.",
+      "last_human_request_hr": "No not yet. I'm a bit busy at the moment, but I will look into it in the next month",
+      "unresolved_hr": "Rekla je da će rezervirati 'u sljedećih mjesec dana', a to je sada prošlo. Treba provjeriti je li rezervirala ili nježno podsjetiti jer je ranije pokazala interes. Stored label 'not_interested' je netočan.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Ručno provjeriti je li Annie rezervirala termin u međuvremenu. Ako nije, poslati personalizirani followup s obzirom da je 'sljedeći mjesec' prošao, pitajući je li još uvijek zainteresirana ili joj treba pomoć s rezervacijom. Ispraviti stored label iz 'not_interested' u adekvatnu oznaku.",
+      "defer_until": "2026-10-24",
+      "evidence": [
+        {
+          "message_id": "<CAB8FACgohPi8e=CjLFyQPQwOCUPmo4vOS0CJDRhGjGwNth3UHg@mail.gmail.com>",
+          "quote": "Sure it sounds like it could be interesting"
+        },
+        {
+          "message_id": "<CAB8FAChbDyPLBq3nWtt3WYJNxjDaVJ75StX0c8JWJk1GPNF28Q@mail.gmail.com>",
+          "quote": "No not yet. I'm a bit busy at the moment, but I will look into it in the next month"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520617890",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Steve Toland je odgovorio samo s 'No', bez daljnjeg interesa.",
+      "last_human_request_hr": "No",
+      "unresolved_hr": "Ništa. Jasno odbijanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom. Označiti kao 'Not Interested' (već je tako označeno).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<77268F73-CAE1-4C01-964E-32D370850A3A@transficc.com>",
+          "quote": "No"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520617802",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Isabel Casey je prihvatila ponudu i tvrdila da je rezervirala, ali klinika nije vidjela rezervaciju. Poslan joj je novi link i kod. Posljednja komunikacija bila je poruka podrške od Kurta 5. listopada. Od tada nema odgovora niti potvrde rezervacije. Status 'booked' i 'Meeting Booked' nisu potvrđeni stvarnom rezervacijom.",
+      "last_human_request_hr": "Thanks for checking in. I think I have already booked it though?",
+      "unresolved_hr": "Nije jasno je li Isabel uspjela rezervirati termin nakon posljednje poruke. Potrebna je provjera rezervacije i eventualni followup da se osigura da je dobila termin.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti u sustavu je li Isabel Casey rezervirala termin pod svojim imenom ili emailom. Ako nije, poslati joj kratki followup s pitanjem je li uspjela rezervirati ili joj treba pomoć s alternativnim načinom rezervacije (npr. telefonski).",
+      "defer_until": "2026-10-24",
+      "evidence": [
+        {
+          "message_id": "<CA+8-8X37-MtxqOTGghR9HAkTLcVATENeHO_rL0_7YfjXPWgUkw@mail.gmail.com>",
+          "quote": "I'd love to take you up on this offer, if it's still available. I've actually been having some issues with my neck, shoulders and back recently"
+        },
+        {
+          "message_id": "<172FD823-6066-44C3-B996-39638FC3A6CF@sifted.eu>",
+          "quote": "Thanks for checking in. I think I have already booked it though?"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520617653",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO ('out of office') poruka o godišnjem odmoru. Povratak je bio 24. rujna, ali nema daljnjeg odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Sekvenca je završena. Zastarjelo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1d3e6423983343a69603c1ced3cc60b5@LO7P123MB8577.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office on annual leave, returning on Thursday, 24th September."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520617452",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ryan Perkins je izričito odbio ponudu.",
+      "last_human_request_hr": "I'm not interested, thank you.",
+      "unresolved_hr": "Ništa. Jasno odbijanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom. Označiti kao 'Not Interested' (već je tako označeno).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+SZmhGkVQFsSV9pOOrx3x594WubDdCk2sFq+Wde66ER6AkwnQ@mail.gmail.com>",
+          "quote": "I'm not interested, thank you."
+        }
+      ]
+    }
+  ]
+}

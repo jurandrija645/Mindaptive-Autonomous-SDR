@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5389,
+    "completion_tokens": 1257,
+    "total_tokens": 6646,
+    "cost": 0.0067356,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0067356,
+      "upstream_inference_prompt_cost": 0.0048501,
+      "upstream_inference_completions_cost": 0.0018855
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520612049",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<39AB7CF3-DB46-463F-86C8-AB4B14DB03CF@stink.co>",
+      "human_quote": "👍🏻",
+      "reason_hr": "Lead je pokazao interes, dobio link i kod, zadnja ljudska poruka je palac gore - čeka se da rezervira.",
+      "request_hr": "nema",
+      "next_action_hr": "Čeka se da lead rezervira; status je booked u sustavu, provjeriti je li stvarno rezervirao izvan emaila. Ako nije, poslati nježni podsjetnik.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520611653",
+      "genuine_engagement": true,
+      "verdict": "later",
+      "confidence": "high",
+      "return_date": "2026-12-21",
+      "evidence_message_id": "<CAP9Ekf9+8jEnBQU9_5cQk=8__5oNr9s53kBd65Y2nfPmxhB9sA@mail.gmail.com>",
+      "human_quote": "Might get back to you on this in the Winter if the offer still stands.",
+      "reason_hr": "Lead trenutno nije zainteresiran, ali traži kontakt na zimu. Zima počinje 21.12., pa je return_date postavljen na taj datum.",
+      "request_hr": "Kontaktirati ga na zimu ako ponuda još vrijedi.",
+      "next_action_hr": "Pohraniti za kasnije; poslati poruku 21.12.2026. ili kasnije.",
+      "bulk_group": "later",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520611365",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAMMWkOO4HqOwzuAUzBfp85-NMTz5-ErwZugnuT8-_EKn99dsYQ@mail.gmail.com>",
+      "human_quote": "so yes please",
+      "reason_hr": "Lead je rekao 'yes please', poslan mu je link i kod, ali nije potvrdio rezervaciju.",
+      "request_hr": "nema",
+      "next_action_hr": "Provjeriti status rezervacije (sustav pokazuje booked). Ako nije rezervirao, poslati kratki podsjetnik/upit.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622428",
+      "genuine_engagement": true,
+      "verdict": "awaiting_us",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CADtR=S48Y+zRk+t5OZ7bS+UfF=HPzxms9z+FtVukW7m_H-q9cw@mail.gmail.com>",
+      "human_quote": "I asked my colleague Tom (added to this email), who is currently struggling with his back and he might want to book a session with you.",
+      "reason_hr": "Lead proslijedio kolegi Tomu s problemima s leđima; mi smo Tomu poslali link i kod. Čeka se Tomov odgovor.",
+      "request_hr": "Tom treba rezervirati.",
+      "next_action_hr": "Čeka se odgovor Toma. Ako ne odgovori, može se poslati nježni podsjetnik Tomu.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622510",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor je automatska obavijest s uputama za kontaktiranje drugih osoba; nema personaliziranog odgovora na ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Ne slati dalje; poruka je generička i nije potvrda interesa.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520622354",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Rebecca Bunting više ne radi u tvrtki; automatska poruka s uputom za kontaktiranje druge osobe. Nema interesa.",
+      "request_hr": "nema",
+      "next_action_hr": "Ne slati dalje; lead nije relevantan.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

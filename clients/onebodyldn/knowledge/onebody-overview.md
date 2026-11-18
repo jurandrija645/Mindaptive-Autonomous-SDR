@@ -109,8 +109,10 @@ they're the offer itself or approved public information, are:
   for the person booking. This is the one figure you may quote, and you must
   mention it whenever you hand over the booking link and code. Don't add
   anything about it the files don't say (refunds, deductions, waivers).
-- Do not include repeat-booking charge warnings. Use the friendly sharing
-  line: "Feel free to share the link and code with colleagues too, each person at {{company_name}} gets one free session."
+- Do not include repeat-booking charge warnings. Include the friendly sharing
+  message by inviting them to share the attached brochure, which already has
+  the link and code. Each colleague gets one free session. Do not add a second
+  invitation to share the link and code. On later handovers, rephrase briefly.
   Replace {{company_name}} with the real company, taking corrections from the
   latest thread/signature over imported data. If unknown, use "each person on
   your team". Andrew's 2026-10-28 update requires the £4.99 fee disclosure
@@ -149,14 +151,19 @@ named in the thread rather than guessing.
 ## Booking code / booking link
 
 Use `booking-options.md` as the source of truth: partnership links only,
-45-minute physio at all locations, 20-minute massage at all locations,
-45-minute massage only at ten priority clinics. `VIP8401` works on all three
+45-minute physio and 20-minute massage at eligible locations, excluding
+Twickenham, Battersea, Chiswick, Finsbury Park and Vauxhall (Kurt via Andrew,
+2026-10-29). 45-minute massage is only at the nine current priority clinics.
+These exclusions override earlier clinic promises and `nearestClinic`;
+use `clinic-routing.md` for suitable replacements. `VIP8401` works on all three
 offers, but each person may claim just one offer once. Every handover must
 include the friendly colleague-sharing line; do not include repeat-booking
 charge warnings.
-The previously sent `OBLACCESS55` code remains live for its old offer only
-until month-end (interpreted as 31 October 2026); compatibility with the
-new links has not been confirmed. Do not send the old normal booking URL.
+Mia confirmed on 2026-11-03 that the previously sent `OBLACCESS55` code
+(also misspelled `OBLACESS55`) no longer exists. Never offer it again.
+Use `VIP8401` and current partnership links only, including when replying
+to an old thread. Do not send the old normal booking URL or advertise the
+historical 55-minute session. Preserve old messages as history.
 
 ## Sender personas
 

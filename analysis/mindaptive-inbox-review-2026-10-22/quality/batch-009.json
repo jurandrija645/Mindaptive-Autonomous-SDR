@@ -1,0 +1,52 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 14471,
+    "completion_tokens": 777,
+    "total_tokens": 15248,
+    "cost": 0.0010732,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0010732,
+      "upstream_inference_prompt_cost": 0.00072355,
+      "upstream_inference_completions_cost": 0.00034965
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "3892258/4466861837",
+      "ready": false,
+      "language": "en",
+      "body": "",
+      "english": "",
+      "reason_hr": "Poslano 4 uzastopne poruke bez odgovora nakon odgovora na pitanja. Prije nego što se pošalje peti nastavak koji tjera na odluku nakon potpunog odgovora, trebate provjeriti da li postoji dogovoreni nastavak ili novi zahtjev. Prema pravilima, 5 uzastopnih poslanih poruka bez ljudskog odgovora znači LEAD DONE. Trenutno su 4 poslane poruke bez odgovora od zadnjeg ljudskog odgovora (Edov mail s pitanjima od 17. rujna). Potreban je peti 'final' follow-up ili jednostavno prestati. Ne postoji neodgovoreni zahtjev. Siguran mekan nastavak: 'Is this still on your radar?' bez novih obećanja ili pritiska na odluku."
+    },
+    {
+      "key": "3810275/4360210314",
+      "ready": true,
+      "language": "ro",
+      "body": "Salut Paul,\n\ntrimit din nou linkul în caz că s-a pierdut prin mesaje:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nUită-te la workflow-ul pentru ofertele de implanturi — acolo vezi exact sistemul.\n\nAndrew",
+      "english": "Hi Paul,\n\nsending the link again in case it got lost in messages:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nTake a look at the workflow for implant offers — you'll see the exact system there.\n\nAndrew",
+      "reason_hr": "Poslan video (demo) bez potvrde pregleda. Jedan kratak follow-up s ponovljenim linkom je primjeren. Nema novih zahtjeva ili cijena. Jezik: rumunjski, kao u njegovoj poruci."
+    },
+    {
+      "key": "3810275/4360210269",
+      "ready": true,
+      "language": "lt",
+      "body": "Sveiki Julija,\n\nsiunčiu nuorodą dar kartą, jei pasimeta:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nYpač pažiūrėkite į dalį apie sekimo sistemą gydymo planams.\n\nAndrew",
+      "english": "Hello Julija,\n\nsending the link again in case it got lost:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nEspecially watch the part about the tracking system for treatment plans.\n\nAndrew",
+      "reason_hr": "Poslan video (demo) bez potvrde pregleda. Jedan kratak follow-up s ponovljenim linkom je primjeren. Nema novih zahtjeva ili cijena. Jezik: litvanski, kao u njezinoj poruci."
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7008,
+    "completion_tokens": 1485,
+    "total_tokens": 8493,
+    "cost": 0.0085347,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0085347,
+      "upstream_inference_prompt_cost": 0.0063072,
+      "upstream_inference_completions_cost": 0.0022275
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520620575",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<A885B504-E2F7-4C0B-A9A9-A12C88DC4290@realdealsmedia.com>",
+      "human_quote": "Excellent GTM campaign. I’d be happy to take a trial if there is no ongoing commitment required",
+      "reason_hr": "Gabrielle je osobno odgovorila s interesom, primila link i kod, ali nije potvrdila booking niti odbila. Zadnja poruka je naša (follow-up), a lead je i dalje zainteresiran.",
+      "request_hr": "nema otvorenog zahtjeva",
+      "next_action_hr": "Čekati odgovor ili booking. Ako prođe 3-5 dana od zadnjeg follow-upa, poslati kratki podsjetnik. Ne slati novu poruku prije toga.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620062",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAHEcZq+t4GxxMppBPbVJws1Psnn4hydOp=o-yE0ThN=oiApyTw@mail.gmail.com>",
+      "human_quote": "i'd love to book in a deep tissue massage if possible ideally on a tuesday/wednesday or thursday in the coming weeks",
+      "reason_hr": "Ed je pokazao jasan interes za booking, tražio masažu i određene dane. Rebecca mu je poslala link s uputama. Zadnja poruka je naša – čekamo da Ed rezervira.",
+      "request_hr": "želi dubinsku masažu utorkom/srijedom/četvrtkom",
+      "next_action_hr": "Pratiti je li Ed napravio booking. Ako ne rezervira u roku 3-5 dana, poslati kratki nježni podsjetnik. Ne slati agresivne follow-upove.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619898",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAFD0EWMT=c88609rQAn=8WGqY8wo6XxHsUuMfVECKiXG2kfAKw@mail.gmail.com>",
+      "human_quote": "Thanks for reaching out. I'd be interested to know more!",
+      "reason_hr": "Jodie je izrazila interes, primila kod i link, ali nije dalje odgovorila niti rezervirala. Serija follow-upova je završena, no nema odbijanja.",
+      "request_hr": "nema otvorenog zahtjeva",
+      "next_action_hr": "Lead je 'topao' ali nije rezervirao. Obzirom da je serija follow-upova gotova, staviti u kategoriju 'later' za ponovni kontakt za 2-3 tjedna s novom ponudom/sadržajem. Ne forsirati odmah.",
+      "bulk_group": "later",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618682",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka koja preusmjerava na druge kontakte. Ne sadrži osobni odgovor na ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Provjeriti status ručno – OOO poruka je trajna (nema povratnog datuma) i moguće je da osoba više ne radi. Ako se ne pronađe novi kontakt, označiti kao 'auto_only'. Ne slati follow-up.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618718",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-09-28",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Laura je na godišnjem do 28. rujna 2026. Automatski odgovor, nema osobne interakcije s ponudom.",
+      "request_hr": "nema",
+      "next_action_hr": "Laura se vraća 2026-09-28, što je već prošlo. Ponovno poslati inicijalnu poruku ili follow-up jer je prozor odsutnosti završio.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618597",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka o porodiljnom dopustu do 30. studenog 2026. Nema osobnog odgovora, samo preusmjeravanje na druge kontakte.",
+      "request_hr": "nema",
+      "next_action_hr": "Osoba je nedostupna (porodiljni). Kontaktirati Ellie Hills za prodajne upite, no za fizioterapijsku ponudu vjerojatno nije relevantno. Označiti kao 'auto_only' i ne slati daljnje poruke do povratka. Može se arhivirati.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

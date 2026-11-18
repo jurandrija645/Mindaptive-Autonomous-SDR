@@ -1,0 +1,76 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23542,
+    "completion_tokens": 880,
+    "total_tokens": 24422,
+    "cost": 0.0015731,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0015731,
+      "upstream_inference_prompt_cost": 0.0011771,
+      "upstream_inference_completions_cost": 0.000396
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2515956/2722089198",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Arnav,\n\nJust checking in — did you get a chance to watch the video? Curious if the process makes sense for Outsourcing Technologies.\n\nAndrew",
+      "english": "",
+      "reason_hr": "Kratak follow-up nakon poslanog videa i jednog prethodnog follow-upa. Samo 2 poruke bez odgovora, još nije gotovo. Pita za dojam o videu, bez novih obećanja."
+    },
+    {
+      "key": "2538823/2758494883",
+      "ready": false,
+      "language": "",
+      "body": "",
+      "english": "",
+      "reason_hr": "Nedostaje video koji je obećan. Treba ljudska provjera je li video poslan izvan inboxa. Ako nije, hitno poslati video. Ako jest, nastaviti s upitom za povratnu informaciju."
+    },
+    {
+      "key": "2538823/2758494711",
+      "ready": false,
+      "language": "",
+      "body": "",
+      "english": "",
+      "reason_hr": "Nedostaje stvarni dogovor o modelu naplate – prethodna poruka je dala okvirne brojeve (200-400€) što je protiv pravila. Treba provjeriti je li točna cijena dogovorena u threadu, ali nema potvrde od korisnika. Ne može se slati sljedeća poruka dok se ne riješi ova nedosljednost."
+    },
+    {
+      "key": "2538823/2758494751",
+      "ready": true,
+      "language": "es",
+      "body": "Hola Antonio,\n\nSolo quería saber si el vídeo te resultó útil y si ves potencial en el enfoque para Viafirma.\n\n¿Te parece bien una llamada rápida de 15 minutos la próxima semana para verlo en detalle?",
+      "english": "Hi Antonio,\n\nJust wanted to know if the video was useful and if you see potential in the approach for Viafirma.\n\nWould a quick 15-minute call next week work to go into detail?",
+      "reason_hr": "Antonio je tražio video, dobio ga, ali nije odgovorio na 2 follow-upa. Kratak follow-up koji pita za mišljenje i nudi poziv. Još nije gotovo."
+    },
+    {
+      "key": "3950427/4542617719",
+      "ready": false,
+      "language": "",
+      "body": "",
+      "english": "",
+      "reason_hr": "Nedostaje odgovor na pitanje o cijeni – korisnik je tražio link i dobio demo, ali nema povratne informacije. Nema potvrđene cijene u threadu. Ne može se slati nova poruka dok se ne dobije odgovor na zadnji upit."
+    },
+    {
+      "key": "3960583/3822375070",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Sid,\n\nJust checking in — did the pricing I sent make sense for you?\n\nIf $750 works, just reply GO and I'll start the revision process.\n\nAndrew",
+      "english": "",
+      "reason_hr": "Sid je pitao 'how much?' i dobio cijenu od $750 i opcije. Nema odgovora na 3 follow-upa. Kratak follow-up koji pita je li cijena OK, s jasnim CTA-om."
+    }
+  ]
+}

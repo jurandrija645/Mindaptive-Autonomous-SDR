@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6133,
+    "completion_tokens": 1225,
+    "total_tokens": 7358,
+    "cost": 0.01338948,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01338948,
+      "upstream_inference_prompt_cost": 0.00956748,
+      "upstream_inference_completions_cost": 0.003822
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317948",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor - poruka je generička, ne spominje našu ponudu, već upućuje na drugu osobu za upite.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke na ovaj mail. Ako je prikladno, vlasnik može probati kontaktirati john@designbystructure.com kao potencijalnu referalu, ali tek nakon provjere.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317889",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO4P265MB35040FE4C1ED55C60CF79F42B5B22@LO4P265MB3504.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "all booked - thanks Rebecca.",
+      "reason_hr": "Korisnik je potvrdio da je obavio rezervaciju.",
+      "request_hr": "none",
+      "next_action_hr": "Nema potrebne akcije. Razgovor je uspješno zaključen.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317870",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAA7cFOPFrZVoTJg0Vd6BbdPXhZYMrrjigxr2EW=N9iE-9wyrtg@mail.gmail.com>",
+      "human_quote": "opt out",
+      "reason_hr": "Korisnica je izričito zatražila odjavu.",
+      "request_hr": "opt out",
+      "next_action_hr": "Odmah ukloniti s liste za kontaktiranje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317822",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO9P123MB8397CDB5214AA6208D0C5B2695BB2@LO9P123MB8397.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "not sure I need physio to be honest….",
+      "reason_hr": "Nakon što mu je ponovno pojašnjena ponuda, korisnik je izrazio nezainteresiranost, rekavši da nije siguran da mu treba fizioterapija.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317672",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO0P123MB41370414068EE2D55B0483B6BDB52@LO0P123MB4137.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "unsubscribe",
+      "reason_hr": "Korisnik je izričito zatražio odjavu.",
+      "request_hr": "unsubscribe",
+      "next_action_hr": "Odmah ukloniti s liste za kontaktiranje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317501",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO3P123MB3145CC2FF2D39FC6D1FE3ACBC4B52@LO3P123MB3145.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "What's the catch",
+      "reason_hr": "Korisnik je pokazao interes ('What's the catch') i dobio kod za rezervaciju. Njegov zadnji odgovor je automatski OOO, a ne odbijanje. Interes još uvijek postoji.",
+      "request_hr": "none",
+      "next_action_hr": "Pričekati da se korisnik javi. Ako prođe više vremena, može se poslati jedan, blagi follow-up mail koji uvažava da je bio na putu i nudi pomoć pri rezervaciji.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    }
+  ]
+}

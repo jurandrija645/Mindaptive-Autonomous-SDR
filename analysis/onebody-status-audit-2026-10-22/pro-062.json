@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 14335,
+    "completion_tokens": 2098,
+    "total_tokens": 16433,
+    "cost": 0.03541519,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.03541519,
+      "upstream_inference_prompt_cost": 0.02737985,
+      "upstream_inference_completions_cost": 0.00803534
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317932",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor. Osoba nije osobno odgovorila niti postavila pitanje.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema neriješenog ljudskog upita.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje radnje. Automatski OOO ne zahtijeva ljudski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAH8T4D3G8CnybBH=Byvt2te38-nHWWkp+gvB2VrS58iTygZDBg@mail.gmail.com>",
+          "quote": "I am currently on holiday until Monday 14th September.  For anything urgent please contact rhys.thomas@fifty.io"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317935",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Posljednja poruka je automatska obavijest o neisporuci (bounce).",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen. Nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Email adresa je nevažeća ili blokirana. Nema daljnje radnje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<17eaa027-30de-440d-9afb-56056145d9d0@CWLP123MB7283.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to ddave@falcongrp.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317887",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je eksplicitno odgovorila 'No' na ponudu.",
+      "last_human_request_hr": "No",
+      "unresolved_hr": "Osoba je odbila ponudu. Nema daljnjih radnji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Osoba je rekla 'No'. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAFkXmJSpsdMvbi8tUF1dv4k3j7+Xox+XsQeK__TBG9cNMMYzaQ@mail.gmail.com>",
+          "quote": "No"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317863",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljen je samo automatski OOO odgovor s preusmjeravanjem na kolege, ali nema osobne interakcije.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba nije osobno odgovorila. Prošlo je više od mjesec dana od OOO poruke bez daljnjeg odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Samo automatski OOO, nije pokazala interes. Nema daljnje radnje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5c3b0a38a0c8479e92f348831f9bade9@LO5P123MB9053.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am currently OOO and will respond as soon as possible upon my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317820",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovori, bez osobne poruke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba se vratila s odmora 14. rujna, ali nije naknadno odgovorila. Nema znakova interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema ljudskog odgovora, samo OOO. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAF6CX9QPqRZTOC4-19ST1VRFvmoD4hhy1+qUyLNuZbePzWkxqQ@mail.gmail.com>",
+          "quote": "I'm currently out of office until September 14th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317868",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je na porodiljnom i više puta uputila da se kontaktiramo s Eamonn Gashier. To je korisna preporuka koja zahtijeva naš odgovor.",
+      "last_human_request_hr": "Please contact Eamonn Gashier at eamonn.gashier@blockscholes.com in my absence.",
+      "unresolved_hr": "Potrebno je kontaktirati preporučenu osobu (Eamonn Gashier).",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Pratiti preporuku i kontaktirati Eamonn Gashier na eamonn.gashier@blockscholes.com s ponudom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CALo9yoCF9N0ocW0WZGgrzfELEkxYUynfUa__OghtS16=xkj_ZA@mail.gmail.com>",
+          "quote": "I am currently on maternity leave and have limited access to emails.\n\nPlease contact Eamonn Gashier at eamonn.gashier@blockscholes.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317837",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka je odbijena od strane primateljevog email sustava (Mimecast).",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen, nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Email adresa blokira naše poruke. Nema daljnje radnje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<34efb594-bde0-4c9e-ba7c-2b07c2627741@LO0P123MB6962.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to anne-laure.meynier@appositecapital.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317836",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka je odbijena od strane primateljevog email sustava (Mimecast).",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Email adresa blokira naše poruke. Nema daljnje radnje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0878e0df-9d64-45e3-b787-45bad656dcc6@CWYP123MB9060.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to sam.gray@appositecapital.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

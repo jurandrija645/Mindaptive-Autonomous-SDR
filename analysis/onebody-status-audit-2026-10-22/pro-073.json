@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9482,
+    "completion_tokens": 2596,
+    "total_tokens": 12078,
+    "cost": 0.008188249905,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6657,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.008188249905,
+      "upstream_inference_prompt_cost": 0.003228539985,
+      "upstream_inference_completions_cost": 0.00495970992
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316919",
+      "assessment": "closed_ack",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Stu je odgovorio da radi od kuće, a ne iz ureda u Shoreditchu. Nije postavio pitanje niti tražio daljnje informacije. Nakon toga smo poslali završni email.",
+      "last_human_request_hr": "Thanks for reaching out but I actually work from home.",
+      "unresolved_hr": "Potvrdio je da ponuda nije relevantna zbog rada od kuće. Ne zahtijeva daljnju radnju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Preporučujem ručnu provjeru vlasnika: Stu nije izričito rekao 'ne', ali je objasnio zašto ponuda nije primjenjiva. Ako vlasnik smatra da je ovo konačno, može se zatvoriti.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAb7LUB-N8mBxaN09PCGMN1-uygKuurNiouk7wbfKH2AEEMMnw@mail.gmail.com>",
+          "quote": "Thanks for reaching out but I actually work from home."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316825",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Jessica je na porodiljnom do listopada 2026. i uputila je na kolegu Flavia Gashija (accounts@artificial.io). To je ljudska referala koju nismo kontaktirali.",
+      "last_human_request_hr": "Please use the accounts@artificial.io email address where my colleague, Flavio Gashi can support in my absence.",
+      "unresolved_hr": "Nismo poslali ponudu Flaviou Gashiju kako je traženo.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati email na accounts@artificial.io s pažnjom na Flavia Gashija, predstaviti ponudu za besplatnu fizioterapiju i pitati je li zainteresiran.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CAL-c6UrT3dLoX3eu=FCq4+OZkqTWmcNcZoe8q6GSgj32pNBD6g@mail.gmail.com>",
+          "quote": "I am currently on maternity leave until October 2026... Please use the accounts@artificial.io email address where my colleague, Flavio Gashi can support in my absence."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316824",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Alexis je pitao za dostupnost i Bupa osiguranje. Poslali smo link i kod. Status je već 'booked'. Nema novih poruka.",
+      "last_human_request_hr": "Hi Rebecca - do you have availability this week? Also I see that you accept Bupa?",
+      "unresolved_hr": "Sve je riješeno, nema neriješenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjih akcija. Lead je uspješno rezerviran.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<58D110B8-7310-4A31-B560-BB401A1AFE25@artificial.io>",
+          "quote": "Hi Rebecca - do you have availability this week? Also I see that you accept Bupa?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316917",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ranj je napustio PA Media i uputio na Alicia Davison (Alicia.Davison@pamediagroup.com). To je ljudska referala koju nismo kontaktirali.",
+      "last_human_request_hr": "I have left PA and this mailbox is no longer monitored. For any urgent queries please contact Alicia Davison.",
+      "unresolved_hr": "Nismo poslali ponudu Aliciji Davison kako je traženo.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati email Aliciji Davison s predstavljanjem ponude za besplatnu fizioterapiju i pitati je li zainteresirana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<74fabed1c8a046499c452047b043ce63@GV2PR07MB11750.eurprd07.prod.outlook.com>",
+          "quote": "I have left PA and this mailbox is no longer monitored.\nFor any urgent queries please contact Alicia Davison who will support in redirecting your e-mail - Alicia.Davison@pamediagroup.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316903",
+      "assessment": "closed_ack",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Warren je odgovorio da živi u LA-u i ne prolazi pored klinike. Ponuda mu nije relevantna. Nije postavio pitanje niti tražio daljnje informacije.",
+      "last_human_request_hr": "I now live in LA - so not walking past. Thank you for reaching out.",
+      "unresolved_hr": "Potvrdio je da mu ponuda nije relevantna. Ne zahtijeva daljnju radnju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Preporučujem ručnu provjeru vlasnika: Warren nije izričito rekao 'ne', ali je objasnio zašto ponuda nije primjenjiva. Ako vlasnik smatra da je ovo konačno, može se zatvoriti.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<62B5176A-86C6-492D-9C21-4F551483850F@boxtoboxfilms.com>",
+          "quote": "I now live in LA - so not walking past.\n\nThank you for reaching out."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316790",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska poruka 'izvan ureda' do 14. rujna. Nije bilo ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Automatska poruka ne sadrži pitanje ili uputu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je arhiviran. Bez daljnjih akcija.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b8d147e991474a259c3b7e33a53b5cc2@AS8PR08MB10025.eurprd08.prod.outlook.com>",
+          "quote": "(Automatic reply)\n\nThank you for your email. I am out of the office, and have limited online access until my return on Monday 14th September.."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316914",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Clare je na bolovanju i uputila je na Kate Brunt i Matta Watson-Younga. To su ljudske referale koje nismo kontaktirali.",
+      "last_human_request_hr": "I am currently on sick leave. For anything urgent, please contact Kate Brunt... Or Matt Watson-Young...",
+      "unresolved_hr": "Nismo poslali ponudu Kate Brunt ili Mattu Watson-Youngu kako je traženo.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati email Kate Brunt i/ili Mattu Watson-Youngu s predstavljanjem ponude za besplatnu fizioterapiju i pitati jesu li zainteresirani.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<9d945fab64964f58b17511c13d78b387@LOAP123MB8228.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently on sick leave. For anything urgent, please contact Kate Brunt, Studio Manager: k.brunt@thameshudson.co.uk Or Matt Watson-Young..."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316913",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Hannah je pitala za lokaciju klinike. Poslali smo link i kod za Kings Cross. Zatim smo poslali dva follow-upa, uključujući završni email 25. rujna. Nije bilo odgovora niti odbijanja.",
+      "last_human_request_hr": "Hello Rebecca, Where is your clinic, our office is now in Britannia St Kings Cross?",
+      "unresolved_hr": "Poslali smo sve potrebne informacije. Čekamo da Hannah rezervira. Posljednji email je bio završni, pa daljnje slanje može biti kontraproduktivno.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti želi li ponovno kontaktirati Hannah nakon završnog emaila. Ako ne, može se arhivirati kao 'Lead Done'.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO0P123MB551755F948A9785BF02B6751DABF2@LO0P123MB5517.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Hello Rebecca,\n\nWhere is your clinic, our office is now in Britannia St Kings Cross?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

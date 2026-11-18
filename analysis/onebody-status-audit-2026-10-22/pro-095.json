@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7754,
+    "completion_tokens": 2062,
+    "total_tokens": 9816,
+    "cost": 0.0190048,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0190048,
+      "upstream_inference_prompt_cost": 0.0124064,
+      "upstream_inference_completions_cost": 0.0065984
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315707",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor bez ljudske zainteresiranosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog upita; OOO poruka ne traži daljnji kontakt.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; OOO ne predstavlja interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAO8BWYDFL3YbGuD7fPpLr1SnwPzoA7f3hdqDa=-cdckncCouZQ@mail.gmail.com>",
+          "quote": "I'm currently on annual leave and will return on Monday 7 September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315719",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor (porodiljni dopust) bez ljudske zainteresiranosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog upita; nema potrebe za daljnjim kontaktom s ovom osobom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; OOO ne predstavlja interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<fab1c773da4848b88299cdef83648880@CWXP123MB3080.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Please note, I am on Maternity Leave!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315679",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku i uputila na kolegu, ali bez interesa za ponudu.",
+      "last_human_request_hr": "I am no longer working at DigiTech Resourcing. Please contact luke.hutchins@digitechresourcing.co.uk",
+      "unresolved_hr": "Nema interesa za ponudu; moguće je kontaktirati navedenog kolegu zasebno.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti želi li vlasnik kontaktirati luke.hutchins@digitechresourcing.co.uk; ova poruka ne sadrži interes za ponudu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ef0b76d6297548f095f9029be526c995@LO2P123MB4272.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am no longer working at DigiTech Resourcing. Please contact luke.hutchins@digitechresourcing.co.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315678",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku i uputila na kolegu, ali bez interesa za ponudu.",
+      "last_human_request_hr": "I’ve now moved on from DigiTech and will no longer be monitoring this inbox.",
+      "unresolved_hr": "Nema interesa za ponudu; moguće je kontaktirati navedenog kolegu zasebno.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti želi li vlasnik kontaktirati Luke-a; ova poruka ne sadrži interes za ponudu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a741fb1f02b043809b44ca6f606c5443@CWLP123MB5008.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’ve now moved on from DigiTech and will no longer be monitoring this inbox."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315672",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor bez ljudske zainteresiranosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog upita; nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; OOO ne predstavlja interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7d85d05752974bc781b376fda0c1399c@AMBPR07MB11414.eurprd07.prod.outlook.com>",
+          "quote": "I am currently out of the office. Please contact dbnumis_investorrelations@list.db.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315667",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor bez ljudske zainteresiranosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog upita; nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; OOO ne predstavlja interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEDhAgiKU++ms-Z7zwm9qTVEwXkHw0hEc_g6zq=21Nt5EY+UmQ@mail.gmail.com>",
+          "quote": "I am currently away on A/L - I'll be back on the 7th Sept."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315665",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor bez ljudske zainteresiranosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog upita; nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; OOO ne predstavlja interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAM-YgPQbn6xYeLRmESPsTBgq6VdHJFycw_K6O4zRAvMqdX7nAQ@mail.gmail.com>",
+          "quote": "I'm out of the office on PTO and will be back on Wednesday 2nd September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315663",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor bez ljudske zainteresiranosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog upita; nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; OOO ne predstavlja interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAGj1uWdBDverHR6_cD3EfcFx3zTFNS7bmw0t82st7FrEuw5dxQ@mail.gmail.com>",
+          "quote": "I’m out of the office at the moment, returning on Monday 7th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

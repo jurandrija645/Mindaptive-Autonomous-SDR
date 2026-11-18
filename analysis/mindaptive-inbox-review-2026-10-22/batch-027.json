@@ -1,0 +1,257 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23453,
+    "completion_tokens": 2825,
+    "total_tokens": 26278,
+    "cost": 0.0024439,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0024439,
+      "upstream_inference_prompt_cost": 0.00117265,
+      "upstream_inference_completions_cost": 0.00127125
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3278845/3734013396",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski Zendesk potvrdni e-mail, nema ljudskog odgovora. Nema razloga za nastavak komunikacije.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne poduzimati ništa; postojeća verzija automatskog odgovora nije primjerena.",
+      "missing_information": [],
+      "evidence": [
+        "Your enquiry has been received and is being reviewed by our team. We'll reply to you shortly.",
+        "This email is a service from Jacksons Leisure Supplies. Delivered by Zendesk"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt (autoreply) pokušava iskoristiti automatski odgovor za prodaju - to je protiv pravila."
+    },
+    {
+      "key": "3278845/3734009297",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatske potvrde primitka e-pošte. Ni jedan ljudski odgovor. Poslano 3 poruke, ali bez pravog ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka; postojeći nacrt je neprimjeren.",
+      "missing_information": [],
+      "evidence": [
+        "Wir werden Ihr Anliegen schnellstmöglich bearbeiten.",
+        "vielen Dank für Ihre E-Mail, deren Eingang wir hiermit bestätigen"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je 'autoreply' koji pokušava iskoristiti OOO - protiv pravila. Nema ljudskog interesa."
+    },
+    {
+      "key": "3278845/3734013437",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatska potvrda primitka. Nema ljudskog odgovora niti interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "vielen Dank für Ihre E-Mail, deren Eingang wir Ihnen hiermit bestätigen",
+        "Ihr Anliegen wird schnellstmöglich bearbeitet"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren - pokušava iskoristiti automatski odgovor."
+    },
+    {
+      "key": "3278845/3734013212",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovori sustava za podršku. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "This is an automatically generated reply to let you know we've received your email",
+        "we will get back to you within 48 hours (or sooner!) with a personal response"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren; nema ljudskog odgovora."
+    },
+    {
+      "key": "3278845/3734013164",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "This is an automated message to let you know that we have received your email.",
+        "Currently we are experiencing a high volume of enquiries and it may take up to 10 working days to respond."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren; nema ljudskog odgovora."
+    },
+    {
+      "key": "3278845/3734013163",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "This is an automated message to let you know that we have received your email.",
+        "If you do not have a complaint reference number, you will need to make a formal complaint"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren; nema ljudskog odgovora."
+    },
+    {
+      "key": "3278845/3734012974",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatske potvrde primitka, uključujući i nakon dodatne poruke. Ni jedan ljudski odgovor. Poslano 2 puta, ali bez pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora nakon 2 poruke. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "vielen Dank dass Sie Kontakt mit uns aufgenommen haben. Ihre Nachricht haben wir erhalten.",
+        "Wir werden uns schnellstmöglich um Ihr Anliegen kümmern"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren; nema ljudskog odgovora."
+    },
+    {
+      "key": "3278845/3734012526",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Odgovor je automatski potvrdni e-mail (\"Many Thanks\\n\\nWDI Group (Surrey) Ltd\\n\\n0203 727 2578\"), vjerojatno auto-odgovor. Ne sadrži ljudski sadržaj.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "Many Thanks\n\nWDI Group (Surrey) Ltd\n\n0203 727 2578"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren; nema ljudskog odgovora."
+    },
+    {
+      "key": "3278845/3734012073",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji obavještava o kašnjenju. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you so much for your recent enquiry with Eco Home Insulation",
+        "We aim to get back to each enquiry within a week"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren; nema ljudskog odgovora."
+    },
+    {
+      "key": "3278845/3734010248",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor sustava za podršku (Freshdesk). Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora. Ne šaljite više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "Thanks for getting in touch with The Gym Group.",
+        "Your query is now closed however, if you have any other questions"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neprimjeren; nema ljudskog odgovora."
+    }
+  ]
+}

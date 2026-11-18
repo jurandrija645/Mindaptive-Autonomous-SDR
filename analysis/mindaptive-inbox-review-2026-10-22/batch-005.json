@@ -1,0 +1,249 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 20071,
+    "completion_tokens": 2713,
+    "total_tokens": 22784,
+    "cost": 0.0022244,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0022244,
+      "upstream_inference_prompt_cost": 0.00100355,
+      "upstream_inference_completions_cost": 0.00122085
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3960357/3928775197",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (out-of-office auto-reply). Nema stvarnog ljudskog interesa ili odgovora. Ne šaljemo više poruka dok ne dobijemo stvarni ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor. Ne slati dodatne poruke na auto-reply.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Richmond Heating and Air. One of our representatives will be in contact with you shortly."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je auto-reply nudge koji nije prikladan - pravila zabranjuju slanje prodajnih poruka kao odgovor na auto-reply bez stvarnog ljudskog interesa. Brišemo draft jer nema smisla slati išta dok ne dobijemo pravi odgovor."
+    },
+    {
+      "key": "3899056/4475669527",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski OOO odgovor. Poslali smo 3 poruke (zadnja je bila 'last email'), nema stvarnog ljudskog odgovora. Nema razloga za dodatno slanje.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnje akcije. Zadnja poruka je već bila zatvaranje. Nema ljudskog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email. I am currently out of the office and will return on Monday, September 28th.",
+        "Thanks for your time, Rose. I don't want to clog your inbox, so this will be my last email."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Već smo poslali zadnju poruku i zatvorili. Brišemo draft."
+    },
+    {
+      "key": "3950427/4542617428",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (auto-reply). Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting DK Building Liverpool Ltd. We have received your email and will respond within 24 hours."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga - pravila zabranjuju slanje na auto-reply."
+    },
+    {
+      "key": "3950427/4542617474",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "hello thank you for your message someone from our team will get back to you as soon as possible."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga."
+    },
+    {
+      "key": "3950427/4542617087",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s uputama za hitne poruke i booking linkovima. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email which has been received! Due to the high number of calls and emails we receive it can take up to 7 working days for us to respond."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga."
+    },
+    {
+      "key": "3950427/4542616954",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Vitality Skin Clinic. Your email has been received and we appreciate you taking the time to reach out to us."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga."
+    },
+    {
+      "key": "3950427/4542616346",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for reaching out to The Enchara Aesthetic Clinic. We have received your email and will respond within 3-5 business days."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga."
+    },
+    {
+      "key": "3950427/4542616117",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s uputom da nazovemo. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Automated message from Especially Roofing please do not respond to this email. Your email is very important to our team one of our team members from Especially Roofing will respond soon."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga."
+    },
+    {
+      "key": "3950427/4542616150",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email. We're working on your request and aim to respond within 24/48hours."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga."
+    },
+    {
+      "key": "3950427/4542616142",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting us. We have received your enquiry. A member of our team will review your message and contact you as soon as possible."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprikladan auto-reply nudge. Brišemo ga."
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8073,
+    "completion_tokens": 1979,
+    "total_tokens": 10052,
+    "cost": 0.02025166,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.02025166,
+      "upstream_inference_prompt_cost": 0.01356264,
+      "upstream_inference_completions_cost": 0.00668902
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520619921",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je odgovorila 'no' 5.10.2026. nakon godišnjeg odmora. Jasan odgovor.",
+      "last_human_request_hr": "No.",
+      "unresolved_hr": "Ništa. Odbili su.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije. Lead je odbio.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+nXq-2x0KaRxUsTSh194ZUQ2hUttPbEgLFd-06h79k-8do=Yw@mail.gmail.com>",
+          "quote": "no"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520619928",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je poslala 'unsubscribe' 19.10.2026. Jasan zahtjev za ispisom.",
+      "last_human_request_hr": "Unsubscribe.",
+      "unresolved_hr": "Ništa. Zahtjev za ispis mora se poštivati.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Osoba je odjavljena. Ne slati ništa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEQ7ocOEXP=hP=0UyaY7DxcTkJHXosH-dw1kwO379NU3ZN7bgg@mail.gmail.com>",
+          "quote": "unsubscribe"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520619754",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Mail je blokiran s greškom 'Recipient address rejected'. Nema ljudskog odgovora.",
+      "last_human_request_hr": "No human reply",
+      "unresolved_hr": "Mail adresa je odbila poruku. Ne može se isporučiti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati na ovu adresu. Lead je bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6ac359cb.d3669827.279b08.4475.GMR@mx.google.com>",
+          "quote": "550 5.4.1 Recipient address rejected: Access denied"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520618915",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Mark je odgovorio 'Its a No from me.' 24.9.2026. Jasno odbijanje.",
+      "last_human_request_hr": "No.",
+      "unresolved_hr": "Ništa za napraviti. Odbili su ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije. Lead je odbio.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<AS5PR06MB10848074D2F6E8A07FA461CFBD0812@AS5PR06MB10848.eurprd06.prod.outlook.com>",
+          "quote": "Its a No from me."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520618811",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Andrew je prihvatio ponudu 22.9.2026. ('physio appointment sounds amazing'). Poslali smo link i kod. Nema potvrde rezervacije niti daljnjeg odgovora. Potrebno je provjeriti je li bookirao.",
+      "last_human_request_hr": "Hi Rebecca, apologies for not replying; having just come back from climbing Ben Nevis, a physio appointment sounds amazing. ATB Andy",
+      "unresolved_hr": "Nije jasno je li Andrew rezervirao termin. Slijedi praćenje.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati nježan follow-up mail s pitanjem treba li pomoć oko rezervacije. Kod OBLACCESS55",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAE9Nvh3bPiRLd5Ez3dE5fYRyeTPBX1DqNerf=k7T39KM8ryCAA@mail.gmail.com>",
+          "quote": "a physio appointment sounds amazing"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520618281",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska poruka o odsutnosti do 29.9.2026. Nije bilo ljudskog angažmana nakon toga. Međutim, datum je prošao bez daljnje interakcije. Nema dokaza interesa.",
+      "last_human_request_hr": "No human reply",
+      "unresolved_hr": "Nema ljudskog odgovora na kampanju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema akcije. Osoba se nije javila nakon godišnjeg. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEUC=ZfQjmJGGQOr1AuxNf=LDz1xK9wuXz6G1sKSjnxyeLXpTQ@mail.gmail.com>",
+          "quote": "I'm currently on leave until the 29th Sept."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520618257",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Tuki je tražio uklanjanje s mailing liste 22.9.2026. To je zahtjev za odjavu.",
+      "last_human_request_hr": "Remove me from your mailing list thank you",
+      "unresolved_hr": "Zahtjev za odjavu. Mora se poštivati.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Osoba je odjavljena. Ne slati ništa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+J8SFoQETJMBA2za=BtfzitxtT-QNQuU95OUM6QRH8aZvLQVw@mail.gmail.com>",
+          "quote": "Remove me from your mailing list thank you"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520618267",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Rakhee je odgovorila 'no' 22.9.2026. Jasan odgovor.",
+      "last_human_request_hr": "No.",
+      "unresolved_hr": "Ništa za napraviti. Odbili su.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije. Osoba je odbila.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHR_OhXxTRHr_Z62FVPECymOuet-NXvyRzDqWPes6vAzoSxreg@mail.gmail.com>",
+          "quote": "no"
+        }
+      ]
+    }
+  ]
+}

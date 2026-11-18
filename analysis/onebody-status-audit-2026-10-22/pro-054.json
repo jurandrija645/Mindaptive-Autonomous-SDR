@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10132,
+    "completion_tokens": 2687,
+    "total_tokens": 12819,
+    "cost": 0.02964333,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.02964333,
+      "upstream_inference_prompt_cost": 0.01935212,
+      "upstream_inference_completions_cost": 0.01029121
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613801",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Affrica je poslala ljudski OOO odgovor s jasnim uputom: kontaktirati Willa. Ovo je korisna preporuka unutar tvrtke, ne automatsko odbijanje.",
+      "last_human_request_hr": "Molim kontaktirajte Willa koji vodi prodajni tim (will.sharman@ably.com).",
+      "unresolved_hr": "Nismo kontaktirali Willa kako je traženo. Preporuka nije obrađena.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati poruku Willu Sharmanu (will.sharman@ably.com) s ponudom, navodeći da ga je preporučila Affrica Cook.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAYAw8QPL-Vsbt=MwtUvn6zxi+w3bDDKoeKn5=p77CSsmC4HTQ@mail.gmail.com>",
+          "quote": "Please contact Will who's leading the sales team\n(will.sharman@ably.com)."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613868",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "E-pošta se vratila. Poruka nije dostavljena zbog sigurnosnih politika primatelja (Mimecast). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Dostava nije uspjela.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dalje. Problem s dostavom. Razmotriti alternativni kanal kontakta ako postoji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ce933aaa-1741-4551-9b5b-86b1aa012c98@LO8P123MB7677.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to charlie.kerr@withintelligence.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613854",
+      "assessment": "manual_review",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Alexandra je na godišnjem. Dala je kontakte kolega za hitne upite. Postojeća oznaka 'do_not_contact' je vjerojatno pogrešna jer nije izričito odbila ponudu, već je dala upute za kontaktiranje drugih.",
+      "last_human_request_hr": "Ako je upit hitan, kontaktirajte navedene kolege: Alistair Nichols, Kristina Todoric, Phil Hourdakis, Lily Sherston, Gemma Findlay.",
+      "unresolved_hr": "Postoji sukob između statusa 'Do Not Contact' i činjenice da je dala korisne kontakte. Ponuda nije odbijena.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti hoće li ukloniti status 'ne kontaktirati' i poslati ponudu navedenim kolegama. Poruka ne sadrži želju za odjavom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAB3i9mniYb2a166WVv-fE0tit+oqxPBLmZzEiEd4_8k3xgRH_Q@mail.gmail.com>",
+          "quote": "If you query is urgent, please contact:\nVMO2/ O2 Business - Alistair Nichols, alistair.nichols@vccp.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613853",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Christine je na bolovanju. Dala je izravan kontakt kolege Maxa Keanea. Ovo nije odbijanje ponude, već korisna interna preporuka unatoč statusu 'ne kontaktirati'.",
+      "last_human_request_hr": "Za hitne interne upite obratite se Maxu (Max.Keane@vccp.com).",
+      "unresolved_hr": "Nismo kontaktirali Maxa Keanea. Status 'ne kontaktirati' je netočan s obzirom na sadržaj poruke.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Ukloniti status 'do_not_contact'. Poslati ponudu Maxu Keaneu (Max.Keane@vccp.com) uz napomenu da ga je preporučila Christine Asbury.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHaTBN0ftZiaQk5DvrQwJr9YQ1XX=3Bw8qQ0Vk2QmGePrcEfgQ@mail.gmail.com>",
+          "quote": "For any urgent internal resourcing please speak to Max Max.Keane@vccp.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613852",
+      "assessment": "manual_review",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Becky je dala OOO odgovor da ne radi petkom. Poruka je standardna obavijest o odsutnosti, a ne izričito odbijanje. Ima oznaku 'do_not_contact' što može biti pogrešno.",
+      "last_human_request_hr": "Ako je hitno, nazovite me na 07763722349. Inače ću odgovoriti u ponedjeljak.",
+      "unresolved_hr": "Status 'ne kontaktirati' ne odgovara sadržaju poruke. Osoba nije odbila ponudu, samo je rekla da će odgovoriti kasnije.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti hoće li ukloniti status 'ne kontaktirati'. Ako da, može se poslati nastavak poruke s ponudom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEmLwUCau84b4HXpMeLWd-wVhHMGfdWJzFYVmuOOZtAU6UYTYA@mail.gmail.com>",
+          "quote": "If the matter is urgent please call me on 07763722349. Otherwise I will respond on Monday."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613791",
+      "assessment": "manual_review",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Alex je na odmoru do 22. rujna. Dala je kontakte drugih osoba za pomoć. Nije odbio ponudu. Ima oznaku 'do_not_contact' što je upitno.",
+      "last_human_request_hr": "Vraćam se u utorak 22. rujna. Za sve dok sam odsutan obratite se navedenim kolegama.",
+      "unresolved_hr": "Status 'ne kontaktirati' je vjerojatno netočan. Ponuda nije odbijena.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti o uklanjanju statusa 'do_not_contact' i eventualnom slanju ponude navedenim kolegama ili čekanju Alexovog povratka (datum je prošao).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJEzEHmm_QqhJ98incZ_yxUfPMQcn7vM_RP=-qU_VWYvwO1Q7A@mail.gmail.com>",
+          "quote": "I am now off on holiday, returning on Tuesday 22nd September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613746",
+      "assessment": "auto_reply",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Fred je poslao OOO poruku s povratkom 14. rujna. Ovo je auto-odgovor, ali budući da je ljudski generiran sadržaj (potpis, kontakt podaci), može se razmotriti naknadno praćenje.",
+      "last_human_request_hr": "Vraćam se u ured u ponedjeljak 14. rujna.",
+      "unresolved_hr": "Datum povratka 14.09. je prošao. Fred nije odgovorio na ponudu.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati nastavak poruke s ponudom s obzirom da je datum povratka prošao i nema odgovora na inicijalni kontakt.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<61a6cd03a05c4a5f838c3728374a7194@LO9P265MB7732.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of office on Friday 11 September. I will be back in the office on Monday 14 September."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613740",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "E-pošta se vratila. Poruka nije dostavljena Marcu Micoudu zbog Mimecast sigurnosnih politika.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Dostava nije uspjela.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dalje. Problem s dostavom e-pošte. Potrebno je provjeriti ispravnost adrese ili koristiti drugi kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<78b4c8e1-f47b-4524-9810-50c249b682f7@LO9P123MB7671.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to marc.micoud@schroders.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

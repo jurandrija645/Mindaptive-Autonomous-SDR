@@ -1,0 +1,251 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 24871,
+    "completion_tokens": 3171,
+    "total_tokens": 28042,
+    "cost": 0.0026705,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0026705,
+      "upstream_inference_prompt_cost": 0.00124355,
+      "upstream_inference_completions_cost": 0.00142695
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3640877/4176335096",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (OOO) primljen. Bez ljudskog odgovora. Postojeći draft je irelevantan 'autoreply' nudge koji treba ukloniti.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne slati sales nudge na OOO.",
+      "missing_information": [],
+      "evidence": [
+        "Wir werden Ihr Anliegen so schnell wie möglich bearbeiten",
+        "Ihr Team der Dr. Kraus Zahnärzte und Implantatklinik"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora na koji bi se odgovorilo."
+    },
+    {
+      "key": "3640877/4176335019",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor primljen. Bez ljudskog odgovora. Postojeći draft je irelevantan 'autoreply' nudge.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Dies ist eine automatisierte Antwort!"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    },
+    {
+      "key": "3640877/4176333890",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor primljen. Bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Ihre E-Mail ist in unserer Praxis eingegangen und wird bearbeitet."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    },
+    {
+      "key": "3640877/4176333871",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (OOO) primljen. Bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, vielen Dank für Ihre E-Mail. Wir haben Ihre Nachricht erhalten und werden diese zeitnah beantworten."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    },
+    {
+      "key": "3640877/4176333840",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor primljen. Bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Patientin, sehr geehrter Patient, vielen Dank für Ihre E-Mail. Wir werden uns schnellstmöglich um Ihr Anliegen kümmern."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    },
+    {
+      "key": "3640877/4176333335",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor primljen. Bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für Ihre E-Mail. Ihre Nachricht wird innerhalb von zwei Werktagen beantwortet."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    },
+    {
+      "key": "3640877/4176333508",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor primljen. Bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, vielen Dank für Ihre Nachricht! Ihre E-Mail ist in unserer Praxis eingegangen und wird bearbeitet."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    },
+    {
+      "key": "3599203/4126835862",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Zadnja poruka je 'bounce' (povratna obavijest) - adresa smalova@uvea.sk više ne prima poštu. Bez ljudskog odgovora. 4 uzastopno poslane poruke, ali posljednja se nije isporučila. Postojeći draft je irelevantan.",
+      "priority": "P3",
+      "sales_state": "BOUNCE",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije. Adresa je odbijena. Potrebno ažurirati kontakt ili ukloniti iz kampanje.",
+      "missing_information": [],
+      "evidence": [
+        "Správu sa nepodarilo doručiť... smalova@uvea.sk... Prijímanie do schránky uvea.sk je od 1.7. zakázané, použite prosím schránku @lexum.sk",
+        "550 5.7.1 TRANSPORT.RULES.RejectMessage; the message was rejected by organization policy"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "sk",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer je riječ o bounceu, a ne ljudskom odgovoru."
+    },
+    {
+      "key": "3599203/4126837910",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor primljen. Bez ljudskog odgovora. 3 uzastopno poslane poruke bez odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor na treću poruku (ponovno slanje u kolovozu/posljednja poruka).",
+      "missing_information": [],
+      "evidence": [
+        "PLEASE NOTE: To ensure efficiency and accuracy, we do not manage or take bookings via EMAIL or SMS."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge' koji se ne smije ponovno koristiti. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    },
+    {
+      "key": "3640877/4176333314",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovori primljeni. Bez ljudskog odgovora. Drugi auto-reply je stigao kao odgovor na naš auto-reply draft koji je već poslan (greška u prošlom draftu).",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Dva automatska odgovora, nema ljudskog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für deine E-Mail. Wir werden uns schnellstmöglich um die Erledigung deines Anliegens kümmern.",
+        "Vielen Dank für deine E-Mail. Wir werden uns schnellstmöglich um die Erledigung deines Anliegens kümmern."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stari 'auto-reply nudge'. Već je poslan i primio je drugi auto-reply. Potrebno ga je zamijeniti prazninom jer nema ljudskog odgovora."
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10212,
+    "completion_tokens": 2768,
+    "total_tokens": 12980,
+    "cost": 0.0133428,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0133428,
+      "upstream_inference_prompt_cost": 0.0091908,
+      "upstream_inference_completions_cost": 0.004152
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315879",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska 'Out of Office' poruka, nakon toga slijede samo naši follow-upovi. Nicholas Stevens nikada nije osobno odgovorio na našu ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema otvorenih pitanja; primatelj nikada nije stupio u interakciju. Naš posljednji email bio je 'posljednji email' 14. rujna.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja slanja. Razgovor je završio.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+wAqj0-WHB5r=h3319_OtvmnETzxneOaZP0PGS_AOTkBL7DFg@mail.gmail.com>",
+          "quote": "I'm out of the office until 1 September, I will pick up emails periodically."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315884",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska 'Out of Office' poruka ('I am currently out of the office'), nakon toga slijede samo naši follow-upovi. Ian Savage nikada nije osobno odgovorio.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema otvorenih pitanja. Naš posljednji email bio je 'posljednji email' 15. rujna.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja slanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<dae008ca62fd4c4cb0a460412ae3be99@LO2P265MB3593.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am currently out of the office until the 2nd September and during this time will have no access to email."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315842",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska poruka ('Thank you for your email. Please note that messages sent to this inbox are not currently being reviewed.'). Spencer Black nikada nije osobno odgovorio.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema otvorenih pitanja. Naš posljednji email bio je 'posljednji email' 14. rujna.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja slanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9970624e823e4f079aa1b48e7a97e040@CH3PR18MB6006.namprd18.prod.outlook.com>",
+          "quote": "Thank you for your email. Please note that messages sent to this inbox are not currently being reviewed."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315918",
+      "assessment": "contact_later",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska 'Out of Office' poruka koja specificira datum povratka: 'return on 13 October 2026'. Taj datum je prošao (danas je 22. listopada 2026.). Ne postoji nikakav ljudski odgovor Andrewa Hardyja. Status treba ažurirati kako bi se odražavalo da je prošlo 'contact_later'.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Datum povratka (13. listopada 2026.) je prošao, ali primatelj još uvijek nije odgovorio. Naš posljednji follow-up datira od 14. rujna, davno prije njegovog povratka. Nakon povratka nismo poslali nikakav novi kontakt.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati jedan oprezni follow-up email, s obzirom da je datum povratka s porodiljnog prošao. Primjer: 'Andrew, nadam se da si dobro. Primijetio sam da si se vratio 13. listopada. Moja ponuda za besplatnu fizioterapiju u City of London klinici još uvijek stoji. Javi ako želiš kod za booking.'",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<509dec702d7a4f83a79163a80d684e69@LO2P123MB5061.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Please be advised that I am currently on paternity leave and will return on 13 October 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315811",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska 'Out of Office' poruka ('I'm out travelling... I'll be back in the office on Wednesday morning'). Katharine Lindley nikada nije osobno odgovorila.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema otvorenih pitanja. Naš posljednji email bio je 'posljednji email' 11. rujna.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja slanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<adfdf2ab43a6463e9041a28e465d080d@AS8PR06MB8226.eurprd06.prod.outlook.com>",
+          "quote": "Thank you for your message. I'm out travelling to external meetings on Tuesday 1 September so will have limited access to emails."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315809",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Matthew Wiles je poslao dvije automatske 'Out of Office' poruke ('I am out of the office until Tuesday 1st September' i 'I am out of the office until Thursday 10th September'). Ne postoji niti jedan ljudski odgovor.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema otvorenih pitanja. Naš posljednji email bio je 'posljednji email' 15. rujna.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja slanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<bef6a1ce9a0d48479ae8d775968c15f6@VI1PR06MB4318.eurprd06.prod.outlook.com>",
+          "quote": "I am out of the office until Tuesday 1st September with limited access to emails and will\nrespond when I can."
+        },
+        {
+          "message_id": "<f5d2d9d2e0794671bd87d4ad7355182b@VI1PR06MB4318.eurprd06.prod.outlook.com>",
+          "quote": "I am out of the office until Thursday 10th September with limited access to emails and will\nrespond when I can."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315774",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Dimitri Savva je 7. rujna zatražio link za booking ('could you please send a link through?'). Mi smo link i kod poslali. Poslali smo dva follow-upa na koja nije odgovorio. Zadnja poruka je naša ('posljednji email') od 23. rujna. Nema potvrde bookinga niti odbijanja. Trenutna oznaka 'Lead Done' i 'not_interested' je netočna jer je pokazao jasan interes i nije odbio.",
+      "last_human_request_hr": "Just seen the below, could you please send a link through?",
+      "unresolved_hr": "Dimitri je dobio link i kod, ali nije potvrdio booking. Ne znamo je li uspješno bookirao ili je izgubio interes. Prošlo je mjesec dana od zadnjeg kontakta.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Ukloniti oznaku 'Lead Done' i 'not_interested'. Poslati jedan finalni follow-up za provjeru je li sve u redu s bookingom, s obzirom na dugi period tišine. Ne zatvarati kao odbijenicu bez eksplicitnog 'ne'.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO0P123MB55035046A459E76D9A6A7126E7B22@LO0P123MB5503.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Hi Rebecca\n\nJust seen the below, could you please send a link through?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315825",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Guillaume Andrieux je odgovorio s 'no' u poruci od 7. rujna 2026. nakon naše sekvence. Ovo je jasan, eksplicitan odgovor odbijanja.",
+      "last_human_request_hr": "no",
+      "unresolved_hr": "Nema ništa neriješeno. Kontakt je eksplicitno odbio ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Potvrditi da je oznaka 'Not Interested' ispravna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP265MB173667651B07E6BE6841D72786B22@CWXP265MB1736.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "no"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

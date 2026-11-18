@@ -1,0 +1,196 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8382,
+    "completion_tokens": 2418,
+    "total_tokens": 10800,
+    "cost": 0.005846,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.005846,
+      "upstream_inference_prompt_cost": 0.002219,
+      "upstream_inference_completions_cost": 0.003627
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520611106",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "James je odgovorio 'No' na posljednji email. Eksplicitno odbijanje.",
+      "last_human_request_hr": "No",
+      "unresolved_hr": "Nema neriješenih pitanja. Odbijanje je konačno.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Postojeća oznaka Not Interested je točna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<48D4ECB1-3CCB-5345-87C2-9D5351FAA5DB@hxcore.ol>",
+          "quote": "No"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622276",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Maya je odgovorila 'I am not interested'. Eksplicitno odbijanje ponude.",
+      "last_human_request_hr": "Thank you, but I am not interested.",
+      "unresolved_hr": "Nema neriješenih pitanja. Odbijanje je konačno.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaku treba ažurirati u Not Interested jer je postojeća prazna, ali daljnji kontakt nije potreban.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CABp2PrHY9D6hASronmA46HZiZOSkYx2yoZdZLew=7ySsEe6mAg@mail.gmail.com>",
+          "quote": "Thank you, but I am not interested."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622218",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor od Olivije. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba nije vidjela niti odgovorila na ponudu. Nakon povratka (28.09.) prošlo je dovoljno vremena, ali nema znakova interesa ili odbijanja. Preporučuje se ručni pregled vlasnika.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Olivia se vratila 28.09. Nema novih poruka. Preporučuje se ručna odluka hoće li se poslati završni follow-up ili zatvoriti.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CA+Bs6m+85WYUxuGiSiE2iUJKUYUZUcrBUH36Fj3qJPi6VckfCQ@mail.gmail.com>",
+          "quote": "I'm OOO until Monday 28 Sept."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520622184",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor od Sane. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba se vratila 28.09. Nema naknadnog odgovora. Preporučuje se ručni pregled vlasnika.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Sana se vratila 28.09. Nema novih poruka. Preporučuje se ručna odluka hoće li se poslati završni follow-up ili zatvoriti.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CANGhtrR=kj+4E+Ceq1h+cXSw+1QH1qHwvonVz9a2LPQrP+gueQ@mail.gmail.com>",
+          "quote": "I'm out of the office until 28 September"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621896",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor, Simon je na porodiljnom dopustu do 26.10. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Povratak se očekuje 26.10.2026. Do tada nije primjereno slati nove poruke.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Ne slati poruke do 26.10.2026. Nakon povratka poslati jednu follow-up poruku s ponudom.",
+      "defer_until": "2026-10-26",
+      "evidence": [
+        {
+          "message_id": "<CAKgobRey5jPOFtd8eh3HDTMFdUfyFrd0Uyt9obp8i9X3Tx===A@mail.gmail.com>",
+          "quote": "I'm currently on paternity leave and will be back on 26th October."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621715",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email je blokiran od strane poslužitelja primatelja (bounce). Poruka nije isporučena.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa blokira poruke. Nije moguće stupiti u kontakt ovim putem.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Adresu treba označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6ab27f1e.37c3a735.1cab98.293f.GMR@mx.google.com>",
+          "quote": "Message blocked"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621757",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Daniel je prihvatio ponudu ('Sounds great. Would love to give it a try.'). Dijeljeni su link i kod, poslano više follow-up poruka. Nema odgovora ni potvrde bookinga.",
+      "last_human_request_hr": "Sounds great. Would love to give it a try. Let me know what steps we need to take.",
+      "unresolved_hr": "Daniel je zainteresiran, dobio je sve potrebne informacije, ali nije potvrdio booking niti odbio. Posljednji follow-up bio je 05.10.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Daniel je angažiran lead s kojim je dovršena primopredaja informacija za booking. Preporučuje se ručni pregled vlasnika (možda zatvoriti kao closed_ack ili ostaviti otvoreno).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEXUhMa=PUhfZ+rqrEWXJCpjn13GMX3KNALs5fak3GxiPbhTLg@mail.gmail.com>",
+          "quote": "Sounds great.\nWould love to give it a try."
+        },
+        {
+          "message_id": "<67e16409-607b-slt38-43ef-a578-c8f2a744dca3-pm7hwmd@onebodyldnpro.com>",
+          "quote": "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1"
+        },
+        {
+          "message_id": "<67e16409-607b-slt38-43ef-a578-c8f2a744dca3-pm7hwmd@onebodyldnpro.com>",
+          "quote": "The code is OBLACCESS55."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621783",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor (radi u US vremenskoj zoni, upućuje na asistenticu). Nema izraženog interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema potvrde interesa. Asistentica nije uključena. Preporučuje se ručni pregled.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Ranzie nije odgovorio na ponudu, samo je poslao automatsku obavijest. Predlaže se ručni pregled vlasnika za odluku o daljnjem kontaktu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHjcMLERETq9VAaJvn=erBNe3zMcJyUxMeaVT3NaXTuW0J=Dnw@mail.gmail.com>",
+          "quote": "I'm working a U.S. timezone this week so may be slow to reply."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

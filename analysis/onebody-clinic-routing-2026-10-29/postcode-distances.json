@@ -1,0 +1,588 @@
+{
+  "method": "Haversine distance between postcodes.io postcode centroids, not walking or travel distance",
+  "excluded": [
+    "Battersea",
+    "Chiswick",
+    "Finsbury Park",
+    "Twickenham",
+    "Vauxhall"
+  ],
+  "locations": [
+    {
+      "clinic": "Aldgate East",
+      "postcode": "E1 8PZ",
+      "latitude": 51.514348,
+      "longitude": -0.069302
+    },
+    {
+      "clinic": "Bank",
+      "postcode": "EC4M 9DN",
+      "latitude": 51.513351,
+      "longitude": -0.093024
+    },
+    {
+      "clinic": "Battersea",
+      "postcode": "SW11 8BZ",
+      "latitude": 51.481512,
+      "longitude": -0.145438
+    },
+    {
+      "clinic": "Blackfriars",
+      "postcode": "EC4Y 0AB",
+      "latitude": 51.511745,
+      "longitude": -0.106552
+    },
+    {
+      "clinic": "Camden",
+      "postcode": "NW1 9PF",
+      "latitude": 51.541176,
+      "longitude": -0.140157
+    },
+    {
+      "clinic": "Charing Cross",
+      "postcode": "WC2N 4JF",
+      "latitude": 51.508476,
+      "longitude": -0.126387
+    },
+    {
+      "clinic": "Chiswick",
+      "postcode": "W4 5HA",
+      "latitude": 51.494731,
+      "longitude": -0.27015
+    },
+    {
+      "clinic": "City of London",
+      "postcode": "EC3V 3PD",
+      "latitude": 51.513308,
+      "longitude": -0.084811
+    },
+    {
+      "clinic": "Clapham",
+      "postcode": "SW11 1SA",
+      "latitude": 51.46368,
+      "longitude": -0.168921
+    },
+    {
+      "clinic": "Clerkenwell",
+      "postcode": "EC1V 3QU",
+      "latitude": 51.526485,
+      "longitude": -0.099395
+    },
+    {
+      "clinic": "Elephant and Castle",
+      "postcode": "SE11 4QU",
+      "latitude": 51.491592,
+      "longitude": -0.103195
+    },
+    {
+      "clinic": "Farringdon",
+      "postcode": "EC1M 4BS",
+      "latitude": 51.521512,
+      "longitude": -0.102687
+    },
+    {
+      "clinic": "Fenchurch Street",
+      "postcode": "EC3R 7LP",
+      "latitude": 51.511434,
+      "longitude": -0.07911
+    },
+    {
+      "clinic": "Finsbury Park",
+      "postcode": "N4 3FU",
+      "latitude": 51.56486,
+      "longitude": -0.10739
+    },
+    {
+      "clinic": "Fitzrovia",
+      "postcode": "NW1 4DY",
+      "latitude": 51.526014,
+      "longitude": -0.143514
+    },
+    {
+      "clinic": "Fulham",
+      "postcode": "SW6 3JH",
+      "latitude": 51.471034,
+      "longitude": -0.210744
+    },
+    {
+      "clinic": "Greenwich",
+      "postcode": "SE10 9SW",
+      "latitude": 51.481329,
+      "longitude": -0.010813
+    },
+    {
+      "clinic": "Hackney Wick",
+      "postcode": "E3 2JG",
+      "latitude": 51.53624,
+      "longitude": -0.022016
+    },
+    {
+      "clinic": "Hammersmith",
+      "postcode": "W6 8AF",
+      "latitude": 51.4897,
+      "longitude": -0.222373
+    },
+    {
+      "clinic": "Hampstead",
+      "postcode": "NW3 1PR",
+      "latitude": 51.55557,
+      "longitude": -0.174883
+    },
+    {
+      "clinic": "Hendon",
+      "postcode": "NW9 7FJ",
+      "latitude": 51.57581,
+      "longitude": -0.238236
+    },
+    {
+      "clinic": "High Street Kensington",
+      "postcode": "W8 6SN",
+      "latitude": 51.499075,
+      "longitude": -0.197904
+    },
+    {
+      "clinic": "Holborn",
+      "postcode": "WC1X 8WB",
+      "geocode_note": "Terminated postcode centroid; retained for geographic comparison only",
+      "latitude": 51.520376,
+      "longitude": -0.119253
+    },
+    {
+      "clinic": "Islington",
+      "postcode": "N1 1LA",
+      "latitude": 51.539763,
+      "longitude": -0.106355
+    },
+    {
+      "clinic": "Kings Cross",
+      "postcode": "WC1X 8BP",
+      "latitude": 51.529831,
+      "longitude": -0.12006
+    },
+    {
+      "clinic": "Liverpool Street",
+      "postcode": "EC3A 8AA",
+      "latitude": 51.515249,
+      "longitude": -0.080362
+    },
+    {
+      "clinic": "London Bridge",
+      "postcode": "SE1 3JB",
+      "latitude": 51.500632,
+      "longitude": -0.079017
+    },
+    {
+      "clinic": "Marylebone",
+      "postcode": "NW1 6HT",
+      "latitude": 51.52472,
+      "longitude": -0.161846
+    },
+    {
+      "clinic": "Mayfair",
+      "postcode": "W1S 1BN",
+      "latitude": 51.514289,
+      "longitude": -0.144726
+    },
+    {
+      "clinic": "Mill Hill",
+      "postcode": "NW7 4SD",
+      "latitude": 51.615945,
+      "longitude": -0.241378
+    },
+    {
+      "clinic": "Monument",
+      "postcode": "EC3R 6EN",
+      "latitude": 51.509143,
+      "longitude": -0.084784
+    },
+    {
+      "clinic": "Moorgate",
+      "postcode": "EC1Y 8SE",
+      "latitude": 51.522552,
+      "longitude": -0.091414
+    },
+    {
+      "clinic": "Paddington",
+      "postcode": "W2 1RB",
+      "latitude": 51.517188,
+      "longitude": -0.171316
+    },
+    {
+      "clinic": "Primrose Hill",
+      "postcode": "NW1 8XE",
+      "latitude": 51.540858,
+      "longitude": -0.158167
+    },
+    {
+      "clinic": "Shoreditch",
+      "postcode": "EC2A 3HN",
+      "latitude": 51.525302,
+      "longitude": -0.082505
+    },
+    {
+      "clinic": "Southfields",
+      "postcode": "SW18 5RJ",
+      "latitude": 51.44524,
+      "longitude": -0.205852
+    },
+    {
+      "clinic": "Stratford",
+      "postcode": "E20 1NW",
+      "latitude": 51.541802,
+      "longitude": -0.007397
+    },
+    {
+      "clinic": "Twickenham",
+      "postcode": "TW1 3QS",
+      "latitude": 51.449388,
+      "longitude": -0.329546
+    },
+    {
+      "clinic": "Vauxhall",
+      "postcode": "SW8 2LE",
+      "latitude": 51.485665,
+      "longitude": -0.126098
+    },
+    {
+      "clinic": "Victoria",
+      "postcode": "SW1V 1LW",
+      "latitude": 51.49534,
+      "longitude": -0.142427
+    },
+    {
+      "clinic": "Waterloo",
+      "postcode": "SE1 7AE",
+      "latitude": 51.500521,
+      "longitude": -0.113746
+    },
+    {
+      "clinic": "West Kensington",
+      "postcode": "W14 8TS",
+      "latitude": 51.493039,
+      "longitude": -0.203631
+    },
+    {
+      "clinic": "Wimbledon",
+      "postcode": "SW19 8DR",
+      "latitude": 51.433641,
+      "longitude": -0.195947
+    }
+  ],
+  "rankings": {
+    "Battersea": {
+      "postcode": "SW11 8BZ",
+      "nearest": [
+        {
+          "clinic": "Victoria",
+          "postcode": "SW1V 1LW",
+          "latitude": 51.49534,
+          "longitude": -0.142427,
+          "km": 1.55,
+          "priority": false
+        },
+        {
+          "clinic": "Clapham",
+          "postcode": "SW11 1SA",
+          "latitude": 51.46368,
+          "longitude": -0.168921,
+          "km": 2.56,
+          "priority": false
+        },
+        {
+          "clinic": "Waterloo",
+          "postcode": "SE1 7AE",
+          "latitude": 51.500521,
+          "longitude": -0.113746,
+          "km": 3.05,
+          "priority": true
+        },
+        {
+          "clinic": "Elephant and Castle",
+          "postcode": "SE11 4QU",
+          "latitude": 51.491592,
+          "longitude": -0.103195,
+          "km": 3.13,
+          "priority": false
+        }
+      ],
+      "massage45": [
+        {
+          "clinic": "Waterloo",
+          "postcode": "SE1 7AE",
+          "latitude": 51.500521,
+          "longitude": -0.113746,
+          "km": 3.05,
+          "priority": true
+        },
+        {
+          "clinic": "High Street Kensington",
+          "postcode": "W8 6SN",
+          "latitude": 51.499075,
+          "longitude": -0.197904,
+          "km": 4.12,
+          "priority": true
+        },
+        {
+          "clinic": "West Kensington",
+          "postcode": "W14 8TS",
+          "latitude": 51.493039,
+          "longitude": -0.203631,
+          "km": 4.23,
+          "priority": true
+        }
+      ]
+    },
+    "Chiswick": {
+      "postcode": "W4 5HA",
+      "nearest": [
+        {
+          "clinic": "Hammersmith",
+          "postcode": "W6 8AF",
+          "latitude": 51.4897,
+          "longitude": -0.222373,
+          "km": 3.35,
+          "priority": false
+        },
+        {
+          "clinic": "West Kensington",
+          "postcode": "W14 8TS",
+          "latitude": 51.493039,
+          "longitude": -0.203631,
+          "km": 4.61,
+          "priority": true
+        },
+        {
+          "clinic": "Fulham",
+          "postcode": "SW6 3JH",
+          "latitude": 51.471034,
+          "longitude": -0.210744,
+          "km": 4.89,
+          "priority": false
+        },
+        {
+          "clinic": "High Street Kensington",
+          "postcode": "W8 6SN",
+          "latitude": 51.499075,
+          "longitude": -0.197904,
+          "km": 5.02,
+          "priority": true
+        }
+      ],
+      "massage45": [
+        {
+          "clinic": "West Kensington",
+          "postcode": "W14 8TS",
+          "latitude": 51.493039,
+          "longitude": -0.203631,
+          "km": 4.61,
+          "priority": true
+        },
+        {
+          "clinic": "High Street Kensington",
+          "postcode": "W8 6SN",
+          "latitude": 51.499075,
+          "longitude": -0.197904,
+          "km": 5.02,
+          "priority": true
+        },
+        {
+          "clinic": "Southfields",
+          "postcode": "SW18 5RJ",
+          "latitude": 51.44524,
+          "longitude": -0.205852,
+          "km": 7.08,
+          "priority": true
+        }
+      ]
+    },
+    "Finsbury Park": {
+      "postcode": "N4 3FU",
+      "nearest": [
+        {
+          "clinic": "Islington",
+          "postcode": "N1 1LA",
+          "latitude": 51.539763,
+          "longitude": -0.106355,
+          "km": 2.79,
+          "priority": false
+        },
+        {
+          "clinic": "Camden",
+          "postcode": "NW1 9PF",
+          "latitude": 51.541176,
+          "longitude": -0.140157,
+          "km": 3.47,
+          "priority": false
+        },
+        {
+          "clinic": "Kings Cross",
+          "postcode": "WC1X 8BP",
+          "latitude": 51.529831,
+          "longitude": -0.12006,
+          "km": 3.99,
+          "priority": false
+        },
+        {
+          "clinic": "Clerkenwell",
+          "postcode": "EC1V 3QU",
+          "latitude": 51.526485,
+          "longitude": -0.099395,
+          "km": 4.3,
+          "priority": false
+        }
+      ],
+      "massage45": [
+        {
+          "clinic": "Moorgate",
+          "postcode": "EC1Y 8SE",
+          "latitude": 51.522552,
+          "longitude": -0.091414,
+          "km": 4.83,
+          "priority": true
+        },
+        {
+          "clinic": "Aldgate East",
+          "postcode": "E1 8PZ",
+          "latitude": 51.514348,
+          "longitude": -0.069302,
+          "km": 6.2,
+          "priority": true
+        },
+        {
+          "clinic": "Waterloo",
+          "postcode": "SE1 7AE",
+          "latitude": 51.500521,
+          "longitude": -0.113746,
+          "km": 7.17,
+          "priority": true
+        }
+      ]
+    },
+    "Twickenham": {
+      "postcode": "TW1 3QS",
+      "nearest": [
+        {
+          "clinic": "Fulham",
+          "postcode": "SW6 3JH",
+          "latitude": 51.471034,
+          "longitude": -0.210744,
+          "km": 8.58,
+          "priority": false
+        },
+        {
+          "clinic": "Southfields",
+          "postcode": "SW18 5RJ",
+          "latitude": 51.44524,
+          "longitude": -0.205852,
+          "km": 8.58,
+          "priority": true
+        },
+        {
+          "clinic": "Hammersmith",
+          "postcode": "W6 8AF",
+          "latitude": 51.4897,
+          "longitude": -0.222373,
+          "km": 8.67,
+          "priority": false
+        },
+        {
+          "clinic": "Wimbledon",
+          "postcode": "SW19 8DR",
+          "latitude": 51.433641,
+          "longitude": -0.195947,
+          "km": 9.42,
+          "priority": true
+        }
+      ],
+      "massage45": [
+        {
+          "clinic": "Southfields",
+          "postcode": "SW18 5RJ",
+          "latitude": 51.44524,
+          "longitude": -0.205852,
+          "km": 8.58,
+          "priority": true
+        },
+        {
+          "clinic": "Wimbledon",
+          "postcode": "SW19 8DR",
+          "latitude": 51.433641,
+          "longitude": -0.195947,
+          "km": 9.42,
+          "priority": true
+        },
+        {
+          "clinic": "West Kensington",
+          "postcode": "W14 8TS",
+          "latitude": 51.493039,
+          "longitude": -0.203631,
+          "km": 9.98,
+          "priority": true
+        }
+      ]
+    },
+    "Vauxhall": {
+      "postcode": "SW8 2LE",
+      "nearest": [
+        {
+          "clinic": "Victoria",
+          "postcode": "SW1V 1LW",
+          "latitude": 51.49534,
+          "longitude": -0.142427,
+          "km": 1.56,
+          "priority": false
+        },
+        {
+          "clinic": "Elephant and Castle",
+          "postcode": "SE11 4QU",
+          "latitude": 51.491592,
+          "longitude": -0.103195,
+          "km": 1.72,
+          "priority": false
+        },
+        {
+          "clinic": "Waterloo",
+          "postcode": "SE1 7AE",
+          "latitude": 51.500521,
+          "longitude": -0.113746,
+          "km": 1.86,
+          "priority": true
+        },
+        {
+          "clinic": "Charing Cross",
+          "postcode": "WC2N 4JF",
+          "latitude": 51.508476,
+          "longitude": -0.126387,
+          "km": 2.54,
+          "priority": false
+        }
+      ],
+      "massage45": [
+        {
+          "clinic": "Waterloo",
+          "postcode": "SE1 7AE",
+          "latitude": 51.500521,
+          "longitude": -0.113746,
+          "km": 1.86,
+          "priority": true
+        },
+        {
+          "clinic": "Moorgate",
+          "postcode": "EC1Y 8SE",
+          "latitude": 51.522552,
+          "longitude": -0.091414,
+          "km": 4.75,
+          "priority": true
+        },
+        {
+          "clinic": "Aldgate East",
+          "postcode": "E1 8PZ",
+          "latitude": 51.514348,
+          "longitude": -0.069302,
+          "km": 5.06,
+          "priority": true
+        }
+      ]
+    }
+  }
+}

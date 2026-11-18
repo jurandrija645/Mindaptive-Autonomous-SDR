@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11984,
+    "completion_tokens": 3142,
+    "total_tokens": 15126,
+    "cost": 0.000885976,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 10665,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000885976,
+      "upstream_inference_prompt_cost": 0.000314132,
+      "upstream_inference_completions_cost": 0.000571844
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520610060",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o odsutnosti zbog očinskog dopusta, bez ljudske reakcije.",
+      "next_step_hr": "Pratiti povratak Laurie 30. rujna; ako nema odgovora, moguće naknadno praćenje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Laurie je na očinskom dopustu do 30. rujna i daje upute za kontaktiranje kolega.",
+      "last_outbound_summary_hr": "Poslana hladna prodajna e-poruka s ponudom besplatne fizioterapijske sesije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently on paternity leave and will be out of office until Wednesday September 30th."
+      ]
+    },
+    {
+      "key": "3930675/4520610173",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o promjeni domene, bez ljudskog odgovora na ponudu; postojeća oznaka ostaje.",
+      "next_step_hr": "Pratiti odgovor Georgea s nove adrese seventeenagency.com; ako ga nema, moguće naknadno praćenje.",
+      "last_inbound_summary_hr": "Automatska poruka da je domena promijenjena i da će George odgovoriti s nove adrese.",
+      "last_outbound_summary_hr": "Poslana hladna prodajna e-poruka s ponudom besplatne fizioterapijske sesije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Your message has been forwarded and received, there is no need to resend it."
+      ]
+    },
+    {
+      "key": "3876232/4446316053",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je napustila tvrtku Pilbrow & Partners, stoga više nije relevantna za ciljanu tvrtku.",
+      "next_step_hr": "Prekinuti obraćanje na ovu adresu jer osoba više ne radi u ciljanoj tvrtki.",
+      "last_inbound_summary_hr": "Automatski odgovor da Flora više ne radi u Pilbrow & Partners i upućivanje na info@pilbrowandpartners.com.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please be advised that I am no longer with Pilbrow & Partners."
+      ]
+    },
+    {
+      "key": "3876232/4446315750",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski odgovor o godišnjem odmoru, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Pantelisa s obzirom na to da se vratio s odmora 8. rujna; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Pantelis je na godišnjem odmoru do 8. rujna s kontaktom za hitne slučajeve.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office on vacation returning on the Tuesday 8th of September."
+      ]
+    },
+    {
+      "key": "3876232/4446315804",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski odgovor o odsutnosti, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Pam s obzirom na to da se vratila 8. rujna; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Pam je na dopustu do 8. rujna i odgovorit će po povratku.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on leave until 8th September and will respond on my return."
+      ]
+    },
+    {
+      "key": "3876232/4446315615",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski odgovor o odsutnosti do 21. rujna, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Daniela s obzirom na to da se vratio 21. rujna; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Daniel je na dopustu do 21. rujna i odgovorit će po povratku.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on leave until the 21st of September."
+      ]
+    },
+    {
+      "key": "3876232/4446315922",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski odgovor o odsutnosti, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Howarda s obzirom na to da se vratio 4. rujna; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Howard je odsutan do 4. rujna 2026. s kontaktom za hitne upite.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that I am OOO until 04/09/2026 so there will be a delay in my response."
+      ]
+    },
+    {
+      "key": "3876232/4446315967",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo kratki automatski odgovor o odsutnosti, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Mevis s obzirom na to da se vratila 4. rujna; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Mevis je odsutna do 4. rujna.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "OOO back on the 4th of September"
+      ]
+    },
+    {
+      "key": "3876232/4446315662",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski odgovor o odsutnosti, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Benedicta s obzirom na to da se vratio 14. rujna; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Benedict je odsutan do 14. rujna s kontaktom za hitne upite.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will return on 14 September."
+      ]
+    },
+    {
+      "key": "3876232/4446315896",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je napustila tvrtku Brooks Macdonald, stoga više nije relevantna za ciljanu tvrtku.",
+      "next_step_hr": "Prekinuti obraćanje na ovu adresu jer osoba više ne radi u ciljanoj tvrtki.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Josh napustio Brooks Macdonald.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Brooks Macdonald."
+      ]
+    },
+    {
+      "key": "3876232/4446315681",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski odgovor o odsutnosti, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Diane, iako nije naveden točan datum povratka; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Diane je odsutna danas i odgovorit će po povratku.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office today and will respond to your query on my return."
+      ]
+    },
+    {
+      "key": "3876232/4446316227",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski odgovor o odsutnosti, bez ljudske reakcije nakon toga.",
+      "next_step_hr": "Pratiti mogući odgovor Orala s obzirom na to da se vratio 7. rujna; razmotriti ponovni kontakt.",
+      "last_inbound_summary_hr": "Automatski odgovor: Oral je odsutan do 7. rujna 2026. s ograničenim pristupom internetu.",
+      "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office with limited access to internet until September 7th , 2026 ( Monday )."
+      ]
+    }
+  ]
+}

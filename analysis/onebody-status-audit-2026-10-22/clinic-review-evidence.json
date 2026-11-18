@@ -1,0 +1,2904 @@
+{
+  "clinics": [
+    {
+      "name": "Aldgate East",
+      "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+      "postcode": "E1 8PZ",
+      "priority": true
+    },
+    {
+      "name": "Bank",
+      "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+      "postcode": "EC4M 9DN",
+      "priority": false
+    },
+    {
+      "name": "Battersea",
+      "address": "c/o The Engine Room, 18 The Power Station, Battersea Power Station, Circus Road South, 2nd & 3rd Floor, Nine Elms, London, SW11 8BZ",
+      "postcode": "SW11 8BZ",
+      "priority": false
+    },
+    {
+      "name": "Blackfriars",
+      "address": "c/o Regus - London, Blackfriars, Tallis House, 2 Tallis St, Blackfriars, London, EC4Y 0AB",
+      "postcode": "EC4Y 0AB",
+      "priority": false
+    },
+    {
+      "name": "Camden",
+      "address": "c/o SPACES Camden, 140 Camden St, London, NW1 9PF",
+      "postcode": "NW1 9PF",
+      "priority": false
+    },
+    {
+      "name": "Charing Cross",
+      "address": "c/o Regus - London, Strand, Golden Cross House, 8 Duncannon Street, London, WC2N 4JF",
+      "postcode": "WC2N 4JF",
+      "priority": false
+    },
+    {
+      "name": "Chiswick",
+      "address": "c/o Anytime Fitness Chiswick, Edmunds House, Colonial Dr, Bollo Ln, Chiswick, London, W4 5HA",
+      "postcode": "W4 5HA",
+      "priority": false
+    },
+    {
+      "name": "City of London",
+      "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+      "postcode": "EC3V 3PD",
+      "priority": false
+    },
+    {
+      "name": "Clapham",
+      "address": "c/o Fitness First Clapham Junction, Clapham Junction Station, 34 St John's Hill, SW11 1SA",
+      "postcode": "SW11 1SA",
+      "priority": false
+    },
+    {
+      "name": "Clerkenwell",
+      "address": "c/o AXIOM, Unit 2, 3 Lever Street, EC1V 3QU (gate code 7861, entrance code 1025*, tap the glass for the keypad)",
+      "postcode": "EC1V 3QU",
+      "priority": false
+    },
+    {
+      "name": "Elephant and Castle",
+      "address": "c/o Snap Fitness, 130-138 Newington Butts, Elephant and Castle, London, SE11 4QU",
+      "postcode": "SE11 4QU",
+      "priority": false
+    },
+    {
+      "name": "Farringdon",
+      "address": "16-18 St John's Lane, London, EC1M 4BS",
+      "postcode": "EC1M 4BS",
+      "priority": false
+    },
+    {
+      "name": "Fenchurch Street",
+      "address": "c/o Regus - London, Fenchurch Street Station, 6 London Street, New London House, London, EC3R 7LP",
+      "postcode": "EC3R 7LP",
+      "priority": false
+    },
+    {
+      "name": "Finsbury Park",
+      "address": "c/o Spaces Finsbury Park, 17 City North Place, Finsbury Park, N4 3FU",
+      "postcode": "N4 3FU",
+      "priority": false
+    },
+    {
+      "name": "Fitzrovia",
+      "address": "c/o Engine Room Gym, St Bedes Hall, Little Albany Street (off Albany Street), London, NW1 4DY",
+      "postcode": "NW1 4DY",
+      "priority": false
+    },
+    {
+      "name": "Fulham",
+      "address": "c/o WOW Fulham, 1-7 Fulham High St, London, SW6 3JH",
+      "postcode": "SW6 3JH",
+      "priority": false
+    },
+    {
+      "name": "Greenwich",
+      "address": "c/o The Gym Group Greenwich, Unit 2 Creek Rd, Mariners Parade, London, SE10 9SW",
+      "postcode": "SE10 9SW",
+      "priority": false
+    },
+    {
+      "name": "Hackney Wick",
+      "address": "c/o Studio E101, Tradestars - Block E, 415 Wick Lane, Hackney Wick, E3 2JG",
+      "postcode": "E3 2JG",
+      "priority": false
+    },
+    {
+      "name": "Hammersmith",
+      "address": "c/o Jetts 24HR Gym Hammersmith, 77 Fulham Palace Rd, London, W6 8AF",
+      "postcode": "W6 8AF",
+      "priority": false
+    },
+    {
+      "name": "Hampstead",
+      "address": "c/o WOW Hampstead, 2 Hampstead High St, London, NW3 1PR",
+      "postcode": "NW3 1PR",
+      "priority": false
+    },
+    {
+      "name": "Hendon",
+      "address": "c/o Anytime Fitness, 1 Cool Oak Lane, West Hendon, London, NW9 7FJ",
+      "postcode": "NW9 7FJ",
+      "priority": true
+    },
+    {
+      "name": "High Street Kensington",
+      "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+      "postcode": "W8 6SN",
+      "priority": true
+    },
+    {
+      "name": "Holborn",
+      "address": "c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB",
+      "postcode": "WC1X 8WB",
+      "priority": false
+    },
+    {
+      "name": "Islington",
+      "address": "c/o The Angel Laser Clinic, 144 Liverpool Rd (The Maples Business Centre), Islington, London, N1 1LA",
+      "postcode": "N1 1LA",
+      "priority": false
+    },
+    {
+      "name": "Kings Cross",
+      "address": "c/o HQ King's Cross, 344-354 Grays Inn Rd, London, WC1X 8BP",
+      "postcode": "WC1X 8BP",
+      "priority": false
+    },
+    {
+      "name": "Liverpool Street",
+      "address": "c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA",
+      "postcode": "EC3A 8AA",
+      "priority": false
+    },
+    {
+      "name": "London Bridge",
+      "address": "5A Maltings Place, 169 Tower Bridge Road, London, SE1 3JB",
+      "postcode": "SE1 3JB",
+      "priority": false
+    },
+    {
+      "name": "Marylebone",
+      "address": "c/o WOW Marylebone, 17 Linhope St, London, NW1 6HT (buzzer: press 14 then the call button)",
+      "postcode": "NW1 6HT",
+      "priority": false
+    },
+    {
+      "name": "Mayfair",
+      "address": "c/o Regus Hanover Square, 17 Hanover Square, London, W1S 1BN",
+      "postcode": "W1S 1BN",
+      "priority": false
+    },
+    {
+      "name": "Mill Hill",
+      "address": "c/o Daws House, 33-35 Daws Lane, London, NW7 4SD",
+      "postcode": "NW7 4SD",
+      "priority": true
+    },
+    {
+      "name": "Monument",
+      "address": "c/o The Gym Group London Monument, The Northern & Shell Building, 10 Lower Thames Street, London, EC3R 6EN",
+      "postcode": "EC3R 6EN",
+      "priority": false
+    },
+    {
+      "name": "Moorgate",
+      "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+      "postcode": "EC1Y 8SE",
+      "priority": true
+    },
+    {
+      "name": "Paddington",
+      "address": "c/o BioLab London, 9 Bouverie Pl, Tyburnia, London, W2 1RB",
+      "postcode": "W2 1RB",
+      "priority": false
+    },
+    {
+      "name": "Primrose Hill",
+      "address": "c/o The Green Rooms, 13 St George's Mews, London, NW1 8XE",
+      "postcode": "NW1 8XE",
+      "priority": false
+    },
+    {
+      "name": "Shoreditch",
+      "address": "75 Great Eastern Street, London, EC2A 3HN",
+      "postcode": "EC2A 3HN",
+      "priority": false
+    },
+    {
+      "name": "Southfields",
+      "address": "c/o The Gym Group London Southfields, 231 Wimbledon Park Road, Southfields Passage, London, SW18 5RJ",
+      "postcode": "SW18 5RJ",
+      "priority": true
+    },
+    {
+      "name": "Stratford",
+      "address": "c/o Signature The Conductor, 8 Westfield Ave, London, E20 1NW",
+      "postcode": "E20 1NW",
+      "priority": false
+    },
+    {
+      "name": "Twickenham",
+      "address": "c/o Regus Twickenham, Regal House, 70 London Road, Twickenham, TW1 3QS",
+      "postcode": "TW1 3QS",
+      "priority": true
+    },
+    {
+      "name": "Vauxhall",
+      "address": "c/o The Gym Group London Vauxhall, 6A Wandsworth Rd, St George Wharf, London, SW8 2LE",
+      "postcode": "SW8 2LE",
+      "priority": false
+    },
+    {
+      "name": "Victoria",
+      "address": "c/o Spaces - London, Spaces Victoria, 25 Wilton Rd, Pimlico, London, SW1V 1LW",
+      "postcode": "SW1V 1LW",
+      "priority": false
+    },
+    {
+      "name": "Waterloo",
+      "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+      "postcode": "SE1 7AE",
+      "priority": true
+    },
+    {
+      "name": "West Kensington",
+      "address": "c/o Spaces West Kensington, Avon House, Avonmore Road, London, W14 8TS",
+      "postcode": "W14 8TS",
+      "priority": true
+    },
+    {
+      "name": "Wimbledon",
+      "address": "c/o Bounce Gym, Unit 1, Woodman Works, The Crescent, London, SW19 8DR",
+      "postcode": "SW19 8DR",
+      "priority": true
+    }
+  ],
+  "rows": [
+    {
+      "key": "3930675/4520613046",
+      "name": "Alex Grieve",
+      "email": "alex.grieve@bartleboglehegarty.com",
+      "recommendation": "Zahvaliti Chloe na prosljeđivanju HR-u i ponuditi kratak sažetak za tim. Odgovoriti stvarnom pošiljatelju u postojećoj niti; ne dodavati nove kontakte.",
+      "ordinal": 1,
+      "address": "60 Kingly Street, London",
+      "postcode": "W1B 5DS",
+      "source_url": "https://www.bartleboglehegarty.com/offices/london",
+      "evidence_note": "Službeni londonski ured; odgovorila Chloe za HR.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.247
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 3.515
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 4.305
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Mayfair",
+          "address": "c/o Regus Hanover Square, 17 Hanover Square, London, W1S 1BN",
+          "postcode": "W1S 1BN",
+          "priority": false,
+          "km": 0.392
+        },
+        {
+          "name": "Charing Cross",
+          "address": "c/o Regus - London, Strand, Golden Cross House, 8 Duncannon Street, London, WC2N 4JF",
+          "postcode": "WC2N 4JF",
+          "priority": false,
+          "km": 1.032
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Mayfair"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317501",
+      "name": "Alistair Maher",
+      "email": "alistair.maher@mvs.co.uk",
+      "recommendation": "Osobno obnoviti razgovor nakon davno završenog OOO-a i pitati treba li pomoć s rezervacijom. Pitanje o £4.99 već je odgovoreno.",
+      "ordinal": 2,
+      "address": "Warnford Court, 29 Throgmorton Street",
+      "postcode": "EC2N 2AT",
+      "source_url": "https://mvsav.co.uk/office/london/",
+      "evidence_note": "London je jedan od više ureda. Potpis navodi i Basingstoke, Bournemouth i Amsterdam; Alistairov radni ured nije potvrđen.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.911
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.209
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.459
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "City of London",
+          "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+          "postcode": "EC3V 3PD",
+          "priority": false,
+          "km": 0.222
+        },
+        {
+          "name": "Liverpool Street",
+          "address": "c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA",
+          "postcode": "EC3A 8AA",
+          "priority": false,
+          "km": 0.444
+        }
+      ],
+      "review_group": "U",
+      "review_action": "Prvo potvrditi lokaciju ili okolnosti",
+      "thread_clinics": [
+        "City of London"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Srednja: postoji poslovna adresa, ali treba potvrditi odgovarajući ured/aktualne okolnosti."
+    },
+    {
+      "key": "3930675/4520616414",
+      "name": "Craig Beddis",
+      "email": "craig@hadean.com",
+      "recommendation": "Pozvati se na njegov zahtjev da se javimo nakon puta. Taj je rok prošao. Ponuditi aktualne booking detalje, bez pretvaranja da smo tek dočekali povratak.",
+      "ordinal": 3,
+      "address": "9 Appold Street",
+      "postcode": "EC2A 2AP",
+      "source_url": "https://hadean.com/privacy-policy/",
+      "evidence_note": "Adresa iz pravnog potpisa i službene politike privatnosti. Dnevni radni ured nije zasebno potvrđen.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.683
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.181
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.237
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.406
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.683
+        }
+      ],
+      "review_group": "U",
+      "review_action": "Prvo potvrditi lokaciju ili okolnosti",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Srednja: postoji poslovna adresa, ali treba potvrditi odgovarajući ured/aktualne okolnosti."
+    },
+    {
+      "key": "3930675/4520617891",
+      "name": "Joshua DiLorenzo",
+      "email": "joshua.dilorenzo@transficc.com",
+      "recommendation": "Odgovoriti što ponuda obuhvaća prema odobrenim podacima klinike. Uvažiti da tim radi na daljinu; ne vraćati ga na netočnu priču o blizini ureda.",
+      "ordinal": 4,
+      "address": "Nije utvrđeno gdje radi ili želi doći",
+      "postcode": "",
+      "source_url": "",
+      "evidence_note": "Izričito kaže da je tvrtka potpuno remote i da rijetko dolaze u ured.",
+      "review_group": "L",
+      "review_action": "Pitati koji dio Londona odgovara",
+      "thread_clinics": [
+        "Moorgate"
+      ],
+      "specific_clinic_recommendation": "Prvo odgovoriti što fizioterapijska ponuda uključuje; zatim pitati koji dio Londona mu odgovara. Ne ponavljati Moorgate kao navodno blizu ureda.",
+      "location_confidence": "Niska za osobnu lokaciju; nema potvrđenog polazišta."
+    },
+    {
+      "key": "3876232/4446317376",
+      "name": "Martyn Hill",
+      "email": "martyn@themixglobal.com",
+      "recommendation": "Odgovoriti na pitanje o izvoru lokacijskih podataka samo onim što znamo i zahvaliti na preporuci Vanesse u Firefishu. Kontaktiranje Vanesse nije dio ove akcije.",
+      "ordinal": 5,
+      "address": "Beton Building, 23 Goswell Road, 4. kat",
+      "postcode": "EC1M 7AJ",
+      "source_url": "https://themixglobal.com/lets-talk",
+      "evidence_note": "Lead ispravlja stari London Bridge u Farringdon. Aktualni kontakt navodi Goswell Road; stara privacy stranica još navodi Bermondsey. Prvo odgovoriti na njegov prigovor o podacima. Rade ponedjeljak–četvrtak.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.443
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.169
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.677
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Farringdon",
+          "address": "16-18 St John's Lane, London, EC1M 4BS",
+          "postcode": "EC1M 4BS",
+          "priority": false,
+          "km": 0.353
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.443
+        }
+      ],
+      "review_group": "U",
+      "review_action": "Prvo potvrditi lokaciju ili okolnosti",
+      "thread_clinics": [
+        "London Bridge"
+      ],
+      "specific_clinic_recommendation": "Ispraviti staru lokaciju bez izmišljanja izvora podataka. Tek zatim ponuditi Moorgate uz Farringdon. Martyn radi ponedjeljak–četvrtak, zato ovu poruku planirati za ponedjeljak.",
+      "location_confidence": "Srednja: postoji poslovna adresa, ali treba potvrditi odgovarajući ured/aktualne okolnosti."
+    },
+    {
+      "key": "3930675/4520614771",
+      "name": "German Diez",
+      "email": "german@nexusstudios.com",
+      "recommendation": "Provjeriti je li booking postupak bio jasan i je li negdje zapeo. Ne ponavljati već poslane upute bez razloga.",
+      "ordinal": 6,
+      "address": "25 Chart Street, Shoreditch",
+      "postcode": "N1 6FA",
+      "source_url": "https://nexusstudios.com/contact/",
+      "evidence_note": "Službeni londonski studio.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.718
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.919
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.615
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.397
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.718
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520616840",
+      "name": "Jeremy Robinson",
+      "email": "jeremy@housinghand.co.uk",
+      "recommendation": "Uvažiti da je tražio kontakt u listopadu. Zadnji podsjetnik bio je 20.10.; pripremiti miran follow-up za sljedeće primjereno jutro, ne agresivan novi niz.",
+      "ordinal": 7,
+      "address": "20–23 Mandela Street, Camden",
+      "postcode": "NW1 0DU",
+      "source_url": "",
+      "evidence_note": "Adresa iz njegova potpisa; interes za listopad, zadnji podsjetnik 20.10.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 3.592
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 4.468
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 5.373
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Camden",
+          "address": "c/o SPACES Camden, 140 Camden St, London, NW1 9PF",
+          "postcode": "NW1 9PF",
+          "priority": false,
+          "km": 0.414
+        },
+        {
+          "name": "Fitzrovia",
+          "address": "c/o Engine Room Gym, St Bedes Hall, Little Albany Street (off Albany Street), London, NW1 4DY",
+          "postcode": "NW1 4DY",
+          "priority": false,
+          "km": 1.406
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Camden"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317384",
+      "name": "Romelia Papalie",
+      "email": "rp@cobyphilips.co.uk",
+      "recommendation": "Provjeriti je li dobila dovoljno informacija nakon interesa za ponudu i želi li još rezervirati.",
+      "ordinal": 8,
+      "address": "8 Devonshire Square",
+      "postcode": "EC2M 4PL",
+      "source_url": "https://www.cobyphilips.co.uk/contact-us/",
+      "evidence_note": "Tvrtka navodi London i Epping. Predložiti samo ako koristi londonski ured.",
+      "nearest_priority": [
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 0.663
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.122
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.079
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Liverpool Street",
+          "address": "c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA",
+          "postcode": "EC3A 8AA",
+          "priority": false,
+          "km": 0.253
+        },
+        {
+          "name": "Fenchurch Street",
+          "address": "c/o Regus - London, Fenchurch Street Station, 6 London Street, New London House, London, EC3R 7LP",
+          "postcode": "EC3R 7LP",
+          "priority": false,
+          "km": 0.618
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Liverpool Street"
+      ],
+      "specific_clinic_recommendation": "Aldgate East je dobra londonska alternativa; u rečenici uvjetovati dolazak iz londonskog ureda jer tvrtka ima i Epping.",
+      "location_confidence": "Srednja: postoji poslovna adresa, ali treba potvrditi odgovarajući ured/aktualne okolnosti."
+    },
+    {
+      "key": "3876232/4446317574",
+      "name": "Satyen Shingadia",
+      "email": "satyen.shingadia@pnbint.com",
+      "recommendation": "Provjeriti je li još zainteresiran za ranije prihvaćenu sesiju. Bez nove tvrdnje da ponuda završava ovaj mjesec.",
+      "ordinal": 9,
+      "address": "1 Moorgate",
+      "postcode": "EC2R 6JH",
+      "source_url": "",
+      "evidence_note": "Potpis iz njegova odgovora izričito navodi Corporate Office. Stari cold email govorio je Clerkenwell, što ne treba ponavljati.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.839
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.422
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.315
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.293
+        },
+        {
+          "name": "City of London",
+          "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+          "postcode": "EC3V 3PD",
+          "priority": false,
+          "km": 0.399
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Clerkenwell"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520614839",
+      "name": "Louise Stevenson",
+      "email": "louise.stevenson@unit.tv",
+      "recommendation": "Uvažiti da je najavila povratak početkom listopada i pitati odgovara li joj sada pogledati termine.",
+      "ordinal": 10,
+      "address": "23/24 Margaret Street",
+      "postcode": "W1W 8RU",
+      "source_url": "https://www.unit.tv/advertising/contact/",
+      "evidence_note": "Službeni studio. Navela je ozljedu noge; zadržati fizioterapiju kao prvi izbor.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.64
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 3.528
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 4.368
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Mayfair",
+          "address": "c/o Regus Hanover Square, 17 Hanover Square, London, W1S 1BN",
+          "postcode": "W1S 1BN",
+          "priority": false,
+          "km": 0.353
+        },
+        {
+          "name": "Fitzrovia",
+          "address": "c/o Engine Room Gym, St Bedes Hall, Little Albany Street (off Albany Street), London, NW1 4DY",
+          "postcode": "NW1 4DY",
+          "priority": false,
+          "km": 1.036
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Mayfair"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520613112",
+      "name": "Nasir Jan",
+      "email": "nasir.jan@ciklum.com",
+      "recommendation": "Provjeriti je li uspio rezervirati. Ne slati individualne vježbe ili medicinske savjete u prodajnom odgovoru.",
+      "ordinal": 11,
+      "address": "Standon House, 21 Mansell Street, 5. kat",
+      "postcode": "E1 8AA",
+      "source_url": "https://www.ciklum.com/about-ciklum/",
+      "evidence_note": "Službena stranica navodi londonsko sjedište. Ne koristiti staru adresu Great Eastern Street iz direktorija.",
+      "nearest_priority": [
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 0.275
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.597
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.171
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 0.275
+        },
+        {
+          "name": "Fenchurch Street",
+          "address": "c/o Regus - London, Fenchurch Street Station, 6 London Street, New London House, London, EC3R 7LP",
+          "postcode": "EC3R 7LP",
+          "priority": false,
+          "km": 0.486
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "Ponuditi Aldgate East prema sadašnjem službenom sjedištu, uz pitanje odgovara li mu. Ne ponavljati staru priču o Shoreditchu. Bez individualnih vježbi u prodajnom emailu.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446316027",
+      "name": "Amanda John",
+      "email": "amanda.john@gunnercooke.com",
+      "recommendation": "Pitati je li uspjela riješiti problem s kodom i rezervirati. Stari zahtjev za 23.9. je prošao; ne nuditi ga kao važeći termin.",
+      "ordinal": 12,
+      "address": "1 Cornhill",
+      "postcode": "EC3V 3ND",
+      "source_url": "",
+      "evidence_note": "Iz njezina potpisa; više gradova nije dokaz da radi u svim uredima. Prvo riješiti problem s kodom.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.078
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.24
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.321
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "City of London",
+          "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+          "postcode": "EC3V 3PD",
+          "priority": false,
+          "km": 0.161
+        },
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.408
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "City of London"
+      ],
+      "specific_clinic_recommendation": "Prvo pomoći s kodom i rezervacijom. City of London je znatno bliže; Moorgate dodati samo kao izbor za 45-minutnu sportsku masažu, bez prisilne promjene.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446315434",
+      "name": "Joao Oliveira",
+      "email": "joao@currensea.com",
+      "recommendation": "Provjeriti je li dobio jasnu informaciju o lokaciji i našao termin. Koristiti samo potvrđene podatke o klinikama.",
+      "ordinal": 13,
+      "address": "25 Wilton Road, Pimlico",
+      "postcode": "SW1V 1LW",
+      "source_url": "https://www.currensea.com/legal/terms-of-use",
+      "evidence_note": "Službeno označeno kao head office. Victoria klinika je u istoj zgradi prema internom popisu; ne preusmjeravati radi kvote.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.067
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 3.863
+        },
+        {
+          "name": "West Kensington",
+          "address": "c/o Spaces West Kensington, Avon House, Avonmore Road, London, W14 8TS",
+          "postcode": "W14 8TS",
+          "priority": true,
+          "km": 4.245
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Victoria",
+          "address": "c/o Spaces - London, Spaces Victoria, 25 Wilton Rd, Pimlico, London, SW1V 1LW",
+          "postcode": "SW1V 1LW",
+          "priority": false,
+          "km": 0.0
+        },
+        {
+          "name": "Battersea",
+          "address": "c/o The Engine Room, 18 The Power Station, Battersea Power Station, Circus Road South, 2nd & 3rd Floor, Nine Elms, London, SW11 8BZ",
+          "postcode": "SW11 8BZ",
+          "priority": false,
+          "km": 1.552
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Victoria"
+      ],
+      "specific_clinic_recommendation": "Zadržati Victoriju. Prema adresama ured i klinika su na 25 Wilton Road; dodatni put do Waterlooa ne bih prodavao kao prednost.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520613855",
+      "name": "Garrett Dearey",
+      "email": "garrett.dearey@wearesocial.net",
+      "recommendation": "Osobno provjeriti je li uspio rezervirati traženu procjenu. Bez ponavljanja stare poruke o isteku ponude.",
+      "ordinal": 14,
+      "address": "Alphabeta, 14–18 Finsbury Square, 5. kat",
+      "postcode": "EC2A 1AH",
+      "source_url": "https://wearesocial.com/uk/contact-us/",
+      "evidence_note": "Službeni londonski ured. Tražio je procjenu, zato prvi izbor ostaje fizioterapija.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.358
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.456
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.059
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.358
+        },
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.444
+        }
+      ],
+      "review_group": "K",
+      "review_action": "Zadržati već spomenutu prioritetnu",
+      "thread_clinics": [
+        "Moorgate"
+      ],
+      "specific_clinic_recommendation": "Zadržati Moorgate i traženu fizioterapijsku procjenu. Sportska masaža može biti izbor ako je želi; ne zamijeniti procjenu masažom.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520613836",
+      "name": "Richard Darwin",
+      "email": "richard.darwin@bricklane.com",
+      "recommendation": "Vratiti se na njegov zahtjev da pošaljemo link i provjeriti treba li pomoć s terminom.",
+      "ordinal": 15,
+      "address": "Overseas House, 19–23 Ironmongers Row",
+      "postcode": "EC1V 3QN",
+      "source_url": "",
+      "evidence_note": "Potpis iz njegova odgovora. Izričito razmišlja o fizioterapiji.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.54
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.248
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.222
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Clerkenwell",
+          "address": "c/o AXIOM, Unit 2, 3 Lever Street, EC1V 3QU (gate code 7861, entrance code 1025*, tap the glass for the keypad)",
+          "postcode": "EC1V 3QU",
+          "priority": false,
+          "km": 0.33
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.54
+        }
+      ],
+      "review_group": "K",
+      "review_action": "Zadržati već spomenutu prioritetnu",
+      "thread_clinics": [
+        "Moorgate"
+      ],
+      "specific_clinic_recommendation": "Moorgate je već u razgovoru. Zadržati fizioterapiju koju je tražio; ne tvrditi da je Moorgate najbliži kad je Clerkenwell bliži po izračunu.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446316752",
+      "name": "Yasmin Nagi",
+      "email": "yasmin@yaspa.com",
+      "recommendation": "Provjeriti želi li još iskoristiti prihvaćenu ponudu; jedan jasan sljedeći korak.",
+      "ordinal": 16,
+      "address": "Shoreditch Works, 2–20 Scrutton Street, studio 29/30",
+      "postcode": "EC2A 4RJ",
+      "source_url": "https://www.yaspa.com/contact",
+      "evidence_note": "Službeni operativni ured razlikuje se od registered officea u St Katharine’s Way. Lead je rekla da nije u Londonu; povratak nije potvrđen.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.536
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.403
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.267
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.248
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.536
+        }
+      ],
+      "review_group": "U",
+      "review_action": "Prvo potvrditi lokaciju ili okolnosti",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "Prvo pitati je li se vratila u London i koji joj dio grada odgovara. Moorgate navesti samo uvjetno, ako koristi ured u Scrutton Streetu.",
+      "location_confidence": "Niska za osobnu lokaciju; nema potvrđenog polazišta."
+    },
+    {
+      "key": "3876232/4446315651",
+      "name": "Tej Patel",
+      "email": "tej.patel@elixirr.com",
+      "recommendation": "Provjeriti je li naknada bila prepreka rezervaciji i treba li pomoć. Ne obećavati ukidanje £4.99 bez potvrde klinike.",
+      "ordinal": 17,
+      "address": "100 Cheapside",
+      "postcode": "EC2V 6DT",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa. Već se žalio na naplatu; prvo jasno objasniti £4.99 physio booking fee.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.95
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.639
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.081
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.079
+        },
+        {
+          "name": "City of London",
+          "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+          "postcode": "EC3V 3PD",
+          "priority": false,
+          "km": 0.571
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Bank"
+      ],
+      "specific_clinic_recommendation": "Bank je gotovo uz ured; prvo razjasniti booking fee. Moorgate ponuditi samo zbog dodatnog izbora sportske masaže od 45 minuta, nikako kao bližu kliniku.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520619898",
+      "name": "Jodie Hurn",
+      "email": "jodie.hurn@uncommon.studio",
+      "recommendation": "Vratiti se na njegov zahtjev za više informacija i provjeriti je li još aktualno. Ne zaključiti da je nezainteresiran zbog tišine.",
+      "ordinal": 18,
+      "address": "102–108 Clerkenwell Road",
+      "postcode": "EC1M 5SA",
+      "source_url": "https://www.uncommon.studio/info",
+      "evidence_note": "Službena stranica i privacy potvrđuju ovu adresu; info stranica sadrži i stari footer 154 Clerkenwell Road. Ne pretvarati footer u drugi aktivni ured.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.941
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.522
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.633
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Farringdon",
+          "address": "16-18 St John's Lane, London, EC1M 4BS",
+          "postcode": "EC1M 4BS",
+          "priority": false,
+          "km": 0.197
+        },
+        {
+          "name": "Clerkenwell",
+          "address": "c/o AXIOM, Unit 2, 3 Lever Street, EC1V 3QU (gate code 7861, entrance code 1025*, tap the glass for the keypad)",
+          "postcode": "EC1V 3QU",
+          "priority": false,
+          "km": 0.586
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Farringdon"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446315522",
+      "name": "Michael Berring",
+      "email": "michael.berring@aptitudesoftware.com",
+      "recommendation": "Nastaviti od njegova pitanja koje informacije trebamo i pitati je li potreban još neki detalj za booking.",
+      "ordinal": 19,
+      "address": "138 Cheapside, 8. kat",
+      "postcode": "EC2V 6BJ",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.943
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.832
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 1.993
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.23
+        },
+        {
+          "name": "City of London",
+          "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+          "postcode": "EC3V 3PD",
+          "priority": false,
+          "km": 0.77
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Bank"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317331",
+      "name": "Richard Cowen",
+      "email": "richardcowen@jmangroup.com",
+      "recommendation": "Provjeriti je li pronašao vrijeme nakon što je rekao da će pogledati kalendar.",
+      "ordinal": 20,
+      "address": "10 Lloyd’s Avenue",
+      "postcode": "EC3N 3AJ",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa; aktivna poslovna adresa u poruci.",
+      "nearest_priority": [
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 0.649
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.539
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.79
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Fenchurch Street",
+          "address": "c/o Regus - London, Fenchurch Street Station, 6 London Street, New London House, London, EC3R 7LP",
+          "postcode": "EC3R 7LP",
+          "priority": false,
+          "km": 0.105
+        },
+        {
+          "name": "Liverpool Street",
+          "address": "c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA",
+          "postcode": "EC3A 8AA",
+          "priority": false,
+          "km": 0.439
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Fenchurch Street"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520616436",
+      "name": "Laura Wilkinson",
+      "email": "laura.wilkinson@intenthq.com",
+      "recommendation": "Provjeriti je li ponuda bila jasna nakon objašnjenja zašto je sesija besplatna. Bez nove priče o umjetnom isteku.",
+      "ordinal": 21,
+      "address": "33 Kingsway, 6. kat",
+      "postcode": "WC2B 6UF",
+      "source_url": "https://intenthq.com/contact",
+      "evidence_note": "Službeno londonsko sjedište.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 1.547
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 2.11
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 3.419
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Holborn",
+          "address": "c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB",
+          "postcode": "WC1X 8WB",
+          "priority": false,
+          "km": 0.7
+        },
+        {
+          "name": "Charing Cross",
+          "address": "c/o Regus - London, Strand, Golden Cross House, 8 Duncannon Street, London, WC2N 4JF",
+          "postcode": "WC2N 4JF",
+          "priority": false,
+          "km": 0.82
+        }
+      ],
+      "review_group": "O",
+      "review_action": "Samo ako prihvaća dodatni put",
+      "thread_clinics": [
+        "Charing Cross"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520613005",
+      "name": "Jonathan Lee",
+      "email": "jonathan.lee@blackwoodgroup.com",
+      "recommendation": "Pitati treba li pomoć s bookingom. Pitanje o izvoru podataka već je odgovoreno; ne izmišljati drukčije objašnjenje.",
+      "ordinal": 22,
+      "address": "Stanford Building, 27A Floral Street",
+      "postcode": "WC2E 9EZ",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa. Pitanje o izvoru podataka već je odgovoreno.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 1.525
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 2.668
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 3.932
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Charing Cross",
+          "address": "c/o Regus - London, Strand, Golden Cross House, 8 Duncannon Street, London, WC2N 4JF",
+          "postcode": "WC2N 4JF",
+          "priority": false,
+          "km": 0.384
+        },
+        {
+          "name": "Holborn",
+          "address": "c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB",
+          "postcode": "WC1X 8WB",
+          "priority": false,
+          "km": 1.049
+        }
+      ],
+      "review_group": "O",
+      "review_action": "Samo ako prihvaća dodatni put",
+      "thread_clinics": [
+        "Charing Cross"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520619273",
+      "name": "Leigh Middleton-ross",
+      "email": "leigh.middleton-ross@fiskeplc.com",
+      "recommendation": "Provjeriti je li stigao pogledati termine nakon jasnog „yes please”. Ponuditi pomoć, bez cijelog ponovljenog pitcha.",
+      "ordinal": 23,
+      "address": "100 Wood Street",
+      "postcode": "EC2V 7AN",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa; osim registracije navodi se i kao kontakt adresa.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.72
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.755
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.21
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.349
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.72
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Liverpool Street"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520620397",
+      "name": "Steve Bryen",
+      "email": "steve.bryen@mesh-ai.com",
+      "recommendation": "Poslati osobni follow-up uz lokaciju o kojoj je već razgovarao. Zapeli slijed je zaustavljen; ne pokretati ga ponovno.",
+      "ordinal": 24,
+      "address": "100 Liverpool Street",
+      "postcode": "EC2M 2AT",
+      "source_url": "https://indicium.ai/contact",
+      "evidence_note": "Aktualni Indicium ured; ne stari Mesh-AI kontakt. Prvo potvrditi odgovarajuću lokaciju i fizioterapiju za njegov upit, bez medicinskih savjeta.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.759
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.053
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.853
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Liverpool Street",
+          "address": "c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA",
+          "postcode": "EC3A 8AA",
+          "priority": false,
+          "km": 0.361
+        },
+        {
+          "name": "City of London",
+          "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+          "postcode": "EC3V 3PD",
+          "priority": false,
+          "km": 0.519
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Liverpool Street"
+      ],
+      "specific_clinic_recommendation": "Aktualna tvrtka i ured su Indicium, ne stari Mesh-AI. Moorgate je razumna alternativa Liverpool Streetu. Zadržati fizioterapiju kao prvi izbor za njegov upit o stopalu/Ahilovoj tetivi.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520615955",
+      "name": "Poldy / Leopold van Lynden",
+      "email": "leopold@tomandco.co.uk",
+      "recommendation": "Uvažiti da je u Londonu uglavnom utorkom ili četvrtkom; pitati želi li pogledati termine tih dana, bez obećavanja dostupnosti.",
+      "ordinal": 25,
+      "address": "38 Shad Thames",
+      "postcode": "SE1 2YD",
+      "source_url": "https://www.tomandco.co.uk/contact",
+      "evidence_note": "Službeni londonski studio. Osobno je u Londonu uglavnom utorkom/četvrtkom, pa ne nuditi termine kao potvrđene.",
+      "nearest_priority": [
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.215
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 2.369
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.729
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "London Bridge",
+          "address": "5A Maltings Place, 169 Tower Bridge Road, London, SE1 3JB",
+          "postcode": "SE1 3JB",
+          "priority": false,
+          "km": 0.474
+        },
+        {
+          "name": "Fenchurch Street",
+          "address": "c/o Regus - London, Fenchurch Street Station, 6 London Street, New London House, London, EC3R 7LP",
+          "postcode": "EC3R 7LP",
+          "priority": false,
+          "km": 0.886
+        }
+      ],
+      "review_group": "O",
+      "review_action": "Samo ako prihvaća dodatni put",
+      "thread_clinics": [
+        "London Bridge"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446315693",
+      "name": "Dean Forbes",
+      "email": "dean.forbes@forterro.com",
+      "recommendation": "Odgovor vezati uz traženu dostupnost. Provjeriti treba li komunicirati s asistenticom Cascade; ne izmišljati slobodne termine.",
+      "ordinal": 26,
+      "address": "25 Golden Square, 2. kat",
+      "postcode": "W1F 9LU",
+      "source_url": "https://www.forterro.com/en/contact",
+      "evidence_note": "Službeno sjedište. Razgovor vodi Cascade Brown; Deanova trenutna lokacija nije potvrđena.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.07
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 3.448
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 4.372
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Mayfair",
+          "address": "c/o Regus Hanover Square, 17 Hanover Square, London, W1S 1BN",
+          "postcode": "W1S 1BN",
+          "priority": false,
+          "km": 0.565
+        },
+        {
+          "name": "Charing Cross",
+          "address": "c/o Regus - London, Strand, Golden Cross House, 8 Duncannon Street, London, WC2N 4JF",
+          "postcode": "WC2N 4JF",
+          "priority": false,
+          "km": 0.866
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Mayfair"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520618811",
+      "name": "Andrew Macharg",
+      "email": "andy.macharg@hellomagazine.com",
+      "recommendation": "Kratko pitati je li uspio rezervirati nakon što je dobio link i kod. Bez ponovnog predstavljanja ponude.",
+      "ordinal": 27,
+      "address": "69–71 Upper Ground, South Bank",
+      "postcode": "SE1 9PQ",
+      "source_url": "https://grupohola.com/pais/reino-unido/",
+      "evidence_note": "Adresa potvrđena na stranici matične izdavačke grupe. Tražio je fizioterapiju nakon planinarenja.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 0.88
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 2.027
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.804
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Blackfriars",
+          "address": "c/o Regus - London, Blackfriars, Tallis House, 2 Tallis St, Blackfriars, London, EC4Y 0AB",
+          "postcode": "EC4Y 0AB",
+          "priority": false,
+          "km": 0.467
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 0.88
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Blackfriars"
+      ],
+      "specific_clinic_recommendation": "Waterloo na Lower Marshu ponuditi kao dodatnu opciju, uz Blackfriars. Prvo zadržati njegov interes za fizioterapiju nakon planinarenja; ne pretvoriti poruku u generički massage pitch.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446316648",
+      "name": "Matt Rimmington",
+      "email": "matt@listen-up.biz",
+      "recommendation": "Provjeriti je li uspio rezervirati nakon što je tražio upute. Ako je zapeo, ponuditi aktualni link.",
+      "ordinal": 28,
+      "address": "Listen Up (Drum 2), Labs Triangle, Chalk Farm Road",
+      "postcode": "NW1 8AB",
+      "source_url": "https://listen-up.biz/contact",
+      "evidence_note": "Aktualna kontakt stranica; privacy navodi staru/drugu Camden Road adresu. Obje su Camden; nema razloga za guranje u udaljenu prioritetnu kliniku.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 4.308
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 5.07
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 5.946
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Camden",
+          "address": "c/o SPACES Camden, 140 Camden St, London, NW1 9PF",
+          "postcode": "NW1 9PF",
+          "priority": false,
+          "km": 0.385
+        },
+        {
+          "name": "Primrose Hill",
+          "address": "c/o The Green Rooms, 13 St George's Mews, London, NW1 8XE",
+          "postcode": "NW1 8XE",
+          "priority": false,
+          "km": 0.866
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Camden"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446316913",
+      "name": "Hannah Corbett",
+      "email": "h.corbett@thameshudson.co.uk",
+      "recommendation": "Vratiti se na njezino pitanje o lokaciji kod Kings Crossa i provjeriti je li našla praktičan termin.",
+      "ordinal": 29,
+      "address": "6–24 Britannia Street, Kings Cross",
+      "postcode": "WC1X 9JD",
+      "source_url": "https://www.thamesandhudson.com/pages/contact-us",
+      "evidence_note": "Lead izričito ispravlja ured u Kings Crossu; službena stranica potvrđuje selidbu.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 2.022
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.303
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 3.798
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Kings Cross",
+          "address": "c/o HQ King's Cross, 344-354 Grays Inn Rd, London, WC1X 8BP",
+          "postcode": "WC1X 8BP",
+          "priority": false,
+          "km": 0.146
+        },
+        {
+          "name": "Holborn",
+          "address": "c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB",
+          "postcode": "WC1X 8WB",
+          "priority": false,
+          "km": 1.085
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Holborn",
+        "Kings Cross"
+      ],
+      "specific_clinic_recommendation": "Uvažiti novu Britannia Street lokaciju i zadržati Kings Cross. Ne ponavljati Holborn iz prvog cold emaila niti gurati Moorgate udaljen oko 2 km zračno.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "4006945/4608049691",
+      "name": "Lucie Hackman",
+      "email": "lucie.hackman@edelman.com",
+      "recommendation": "Pitati je li pronašla praktičnu lokaciju nakon što je rekla da će pogledati web. Ne tvrditi koja joj je klinika najbliža.",
+      "ordinal": 30,
+      "address": "Francis House, 11 Francis Street, Victoria",
+      "postcode": "SW1P 1DE",
+      "source_url": "https://www.edelman.com/uk/contact-us",
+      "evidence_note": "Lead osobno navodi Victoriju; službeni kontakt potvrđuje Francis House, ne stari 105 Victoria Street.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 1.629
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 4.241
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 4.261
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Victoria",
+          "address": "c/o Spaces - London, Spaces Victoria, 25 Wilton Rd, Pimlico, London, SW1V 1LW",
+          "postcode": "SW1V 1LW",
+          "priority": false,
+          "km": 0.439
+        },
+        {
+          "name": "Vauxhall",
+          "address": "c/o The Gym Group London Vauxhall, 6A Wandsworth Rd, St George Wharf, London, SW8 2LE",
+          "postcode": "SW8 2LE",
+          "priority": false,
+          "km": 1.421
+        }
+      ],
+      "review_group": "O",
+      "review_action": "Samo ako prihvaća dodatni put",
+      "thread_clinics": [
+        "Victoria"
+      ],
+      "specific_clinic_recommendation": "Lucie sama navodi Victoriju i bolove. Zadržati Victoriju kao prvi izbor; Waterloo samo ako joj ruta ili želja za 45-minutnom sportskom masažom to čini praktičnim.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520621755",
+      "name": "Harry Ead",
+      "email": "harry@dixonbaxi.com",
+      "recommendation": "Kratko provjeriti je li uspio rezervirati nakon povratka s puta. Ne pretvarati povijesno „sljedeći tjedan” u novi dogovoreni termin.",
+      "ordinal": 31,
+      "address": "5 Wharf Studios, 30 Wharf Road",
+      "postcode": "N1 7GR",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa. Nije 5 Wharf Road kako je pisalo u starom research sažetku. Oporavak gležnja: fizioterapija ostaje prvi izbor.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.026
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.623
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.663
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Clerkenwell",
+          "address": "c/o AXIOM, Unit 2, 3 Lever Street, EC1V 3QU (gate code 7861, entrance code 1025*, tap the glass for the keypad)",
+          "postcode": "EC1V 3QU",
+          "priority": false,
+          "km": 0.614
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.026
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Clerkenwell"
+      ],
+      "specific_clinic_recommendation": "Moorgate navesti samo ako mu odgovara dodatni put; konkretno Harryju prvo ponuditi fizioterapiju za oporavak gležnja. Ne predstavljati sportsku masažu kao zamjenu za rehabilitaciju.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317198",
+      "name": "Layla Zghari",
+      "email": "layla.zghari@emap.com",
+      "recommendation": "Jednim kratkim pitanjem provjeriti želi li još rezervirati prihvaćenu sesiju.",
+      "ordinal": 32,
+      "address": "Harmsworth House, Bouverie Street",
+      "postcode": "",
+      "source_url": "",
+      "evidence_note": "Lead sama navodi zgradu i postojeću Octopus Clinic u prizemlju. Točan postcode/ulica nisu neovisno potvrđeni primarnim izvorom u ovom pregledu; ne računati preciznu udaljenost.",
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Blackfriars"
+      ],
+      "specific_clinic_recommendation": "Zadržati razgovor o Blackfriarsu i poslovnoj ponudi. Ne obećavati novi postotni popust. Waterloo se može razmotriti tek nakon potvrde polazne lokacije i interesa; nema dovoljno dokaza za preciznu udaljenost.",
+      "location_confidence": "Niska za osobnu lokaciju; nema potvrđenog polazišta."
+    },
+    {
+      "key": "3930675/4520613376",
+      "name": "Lux Jega (Luxman Jegatheeswaran)",
+      "email": "lux.jega@glas.agency",
+      "recommendation": "Provjeriti je li dobio sve što treba za rezervaciju. Cijena/naknada i web već su objašnjeni; ne ponavljati neodgovoreno pitanje koje zapravo ne postoji.",
+      "ordinal": 33,
+      "address": "10 Old Bailey, 2. kat",
+      "postcode": "EC4M 7NG",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa. Cijena i web su već odgovoreni.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.144
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 1.774
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.28
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Blackfriars",
+          "address": "c/o Regus - London, Blackfriars, Tallis House, 2 Tallis St, Blackfriars, London, EC4Y 0AB",
+          "postcode": "EC4Y 0AB",
+          "priority": false,
+          "km": 0.45
+        },
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.658
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Blackfriars"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446316729",
+      "name": "Dan Moore",
+      "email": "dan@blackkitestudios.com",
+      "recommendation": "Provjeriti je li uspio iskoristiti poslane upute za booking; ponuditi pomoć jednim jasnim pitanjem.",
+      "ordinal": 34,
+      "address": "46 Featherstone Street",
+      "postcode": "EC1Y 8RN",
+      "source_url": "https://blackkitestudios.com/",
+      "evidence_note": "Službeni kontakt studija, različit od registrirane adrese na Queen Victoria Street.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.295
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.797
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.191
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.295
+        },
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.462
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "Dobar kandidat za prvi test: ponuditi Moorgate kao dodatnu opciju prema uredu na Featherstone Streetu; ta je prioritetna klinika i najbliža među izračunatima.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317432",
+      "name": "Sarah Skelton",
+      "email": "sarah@helloflourish.com",
+      "recommendation": "Provjeriti je li uspjela rezervirati. U prethodnom mailu pozdrav i potpis nisu usklađeni, pa prije slanja potvrditi stvarnog pošiljatelja i odgovarajući potpis.",
+      "ordinal": 35,
+      "address": "111 Buckingham Palace Road",
+      "postcode": "SW1W 0SR",
+      "source_url": "",
+      "evidence_note": "Iz njezina potpisa. Potvrditi personu i potpis jer su u staroj poruci bili neusklađeni.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.299
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 3.638
+        },
+        {
+          "name": "West Kensington",
+          "address": "c/o Spaces West Kensington, Avon House, Avonmore Road, London, W14 8TS",
+          "postcode": "W14 8TS",
+          "priority": true,
+          "km": 4.013
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Victoria",
+          "address": "c/o Spaces - London, Spaces Victoria, 25 Wilton Rd, Pimlico, London, SW1V 1LW",
+          "postcode": "SW1V 1LW",
+          "priority": false,
+          "km": 0.233
+        },
+        {
+          "name": "Battersea",
+          "address": "c/o The Engine Room, 18 The Power Station, Battersea Power Station, Circus Road South, 2nd & 3rd Floor, Nine Elms, London, SW11 8BZ",
+          "postcode": "SW11 8BZ",
+          "priority": false,
+          "km": 1.502
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Victoria"
+      ],
+      "specific_clinic_recommendation": "Zadržati Victoriju. Prije bilo kakvog testa provjeriti stvarnu personu i HTML potpis zbog povijesne neusklađenosti u niti.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317666",
+      "name": "Zoe Harkness",
+      "email": "zoe.harkness@thinkbox.tv",
+      "recommendation": "Uvažiti pitanje o pokriću/franšizi i pitati treba li pomoć. Ne obećavati osiguravateljsko pokriće koje nije potvrđeno.",
+      "ordinal": 36,
+      "address": "Holborn Gate, 326–330 High Holborn",
+      "postcode": "WC1V 7PP",
+      "source_url": "https://www.thinkbox.tv/about/privacy-policy",
+      "evidence_note": "Službena privacy adresa, nije neovisna potvrda dana u uredu. Ne obećavati BUPA pokriće ili ukidanje excessa.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.506
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 1.949
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.976
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Holborn",
+          "address": "c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB",
+          "postcode": "WC1X 8WB",
+          "priority": false,
+          "km": 0.572
+        },
+        {
+          "name": "Farringdon",
+          "address": "16-18 St John's Lane, London, EC1M 4BS",
+          "postcode": "EC1M 4BS",
+          "priority": false,
+          "km": 0.748
+        }
+      ],
+      "review_group": "O",
+      "review_action": "Samo ako prihvaća dodatni put",
+      "thread_clinics": [
+        "Holborn"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Srednja: postoji poslovna adresa, ali treba potvrditi odgovarajući ured/aktualne okolnosti."
+    },
+    {
+      "key": "3876232/4446315774",
+      "name": "Dimitri Savva",
+      "email": "dimitri.savva@monexeurope.com",
+      "recommendation": "Kratko se vratiti na njegov zahtjev za booking linkom i provjeriti je li još potreban. Potpis bez novog teksta nije nova potvrda interesa.",
+      "ordinal": 37,
+      "address": "40 Leadenhall Street, 12. kat (South)",
+      "postcode": "EC3A 2BJ",
+      "source_url": "",
+      "evidence_note": "Iz ponovljenog potpisa u njegovim odgovorima; ne stara adresa Monexa.",
+      "nearest_priority": [
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 0.703
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.335
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.77
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Fenchurch Street",
+          "address": "c/o Regus - London, Fenchurch Street Station, 6 London Street, New London House, London, EC3R 7LP",
+          "postcode": "EC3R 7LP",
+          "priority": false,
+          "km": 0.198
+        },
+        {
+          "name": "Liverpool Street",
+          "address": "c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA",
+          "postcode": "EC3A 8AA",
+          "priority": false,
+          "km": 0.239
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "City of London"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520616471",
+      "name": "Dylan Wanigasekera",
+      "email": "dylan@incubeta.com",
+      "recommendation": "Provjeriti je li uspio rezervirati nakon prihvaćanja ponude. Ne slati još jedan mail koji tvrdi da je posljednji.",
+      "ordinal": 38,
+      "address": "The Bower, 207–211 Old Street, 14. kat",
+      "postcode": "EC1V 9NR",
+      "source_url": "https://incubeta.com/gb/find-us/london-united-kingdom/",
+      "evidence_note": "Službeni londonski ured.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.425
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.886
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.316
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.425
+        },
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.458
+        }
+      ],
+      "review_group": "K",
+      "review_action": "Zadržati već spomenutu prioritetnu",
+      "thread_clinics": [
+        "Moorgate"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520621757",
+      "name": "Daniel Capstick",
+      "email": "dan@dixonbaxi.com",
+      "recommendation": "Provjeriti je li uspio napraviti sljedeći korak nakon prihvaćanja ponude. Ne ponavljati cijeli prodajni uvod.",
+      "ordinal": 39,
+      "address": "5 Wharf Studios, 30 Wharf Road",
+      "postcode": "N1 7GR",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa, isti ured kao Harry. Nije 5 Wharf Road.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.026
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.623
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.663
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Clerkenwell",
+          "address": "c/o AXIOM, Unit 2, 3 Lever Street, EC1V 3QU (gate code 7861, entrance code 1025*, tap the glass for the keypad)",
+          "postcode": "EC1V 3QU",
+          "priority": false,
+          "km": 0.614
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.026
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Clerkenwell"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317381",
+      "name": "Chris Thompson",
+      "email": "chris.thompson@datacenterdynamics.com",
+      "recommendation": "Uvažiti promjenjive dane u uredu i pitati želi li aktualni booking link. Ne tražiti odgovor kao da nije već pokazao interes.",
+      "ordinal": 40,
+      "address": "32–38 Saffron Hill",
+      "postcode": "EC1N 8FH",
+      "source_url": "https://www.datacenterdynamics.com/en/office-locations/",
+      "evidence_note": "Aktualna službena office-locations i privacy ažurirana 28.9.2026. Stari izvori navode Clifton Street. Njegovi dani u uredu su promjenjivi.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.087
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.285
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 2.688
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Farringdon",
+          "address": "16-18 St John's Lane, London, EC1M 4BS",
+          "postcode": "EC1M 4BS",
+          "priority": false,
+          "km": 0.303
+        },
+        {
+          "name": "Clerkenwell",
+          "address": "c/o AXIOM, Unit 2, 3 Lever Street, EC1V 3QU (gate code 7861, entrance code 1025*, tap the glass for the keypad)",
+          "postcode": "EC1V 3QU",
+          "priority": false,
+          "km": 0.83
+        }
+      ],
+      "review_group": "U",
+      "review_action": "Prvo potvrditi lokaciju ili okolnosti",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "Najprije potvrditi dolazi li iz Saffron Hilla, jer službeni kontakt više ne navodi stari ured u Shoreditchu. Ako da, Moorgate ponuditi kao alternativu Farringdonu, bez tvrdnje da je bliži.",
+      "location_confidence": "Srednja: postoji poslovna adresa, ali treba potvrditi odgovarajući ured/aktualne okolnosti."
+    },
+    {
+      "key": "3876232/4446318129",
+      "name": "Tom Caplan",
+      "email": "tom.caplan@sixteenth.com",
+      "recommendation": "Kratko pitati je li uspio rezervirati nakon prihvaćanja i poslanih detalja.",
+      "ordinal": 41,
+      "address": "107 Cheapside, 9. kat",
+      "postcode": "EC2V 6DN",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/10649498",
+      "evidence_note": "Potvrđen je samo registered office. Kontakt stranica Sixteentha ne potvrđuje radni ured; prvo pitati za lokaciju.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.943
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.678
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.064
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.099
+        },
+        {
+          "name": "City of London",
+          "address": "c/o STONE, 52 Cornhill, London, EC3V 3PD",
+          "postcode": "EC3V 3PD",
+          "priority": false,
+          "km": 0.613
+        }
+      ],
+      "review_group": "U",
+      "review_action": "Prvo potvrditi lokaciju ili okolnosti",
+      "thread_clinics": [
+        "Bank"
+      ],
+      "specific_clinic_recommendation": "107 Cheapside je samo registered office. Ne pisati da smo blizu njegova ureda. Pitati koji dio Londona koristi; tek ako potvrdi Cheapside, ponuditi Moorgate uz Bank.",
+      "location_confidence": "Niska za osobnu lokaciju; nema potvrđenog polazišta."
+    },
+    {
+      "key": "3930675/4520621199",
+      "name": "Claire O'brien",
+      "email": "claire.obrien@endersanalysis.com",
+      "recommendation": "Uvažiti da je bila zauzeta i pitati odgovara li joj sada pogledati termine. Ne pretpostaviti rezervaciju.",
+      "ordinal": 42,
+      "address": "46A Great Marlborough Street",
+      "postcode": "W1F 7JW",
+      "source_url": "https://www.endersanalysis.com/sites/default/files/uploaded-docs/Enders%20Analysis%20Call%20For%20Government%20Support%20for%20News%20%26%20Magazine%20Media.pdf",
+      "evidence_note": "Adresa u starijoj službenoj publikaciji; aktualni radni ured nije potvrđen. Samo orijentacijski Soho, ne precizna personalizirana tvrdnja.",
+      "nearest_priority": [
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.291
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 3.387
+        },
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 4.443
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Mayfair",
+          "address": "c/o Regus Hanover Square, 17 Hanover Square, London, W1S 1BN",
+          "postcode": "W1S 1BN",
+          "priority": false,
+          "km": 0.432
+        },
+        {
+          "name": "Charing Cross",
+          "address": "c/o Regus - London, Strand, Golden Cross House, 8 Duncannon Street, London, WC2N 4JF",
+          "postcode": "WC2N 4JF",
+          "priority": false,
+          "km": 1.052
+        }
+      ],
+      "review_group": "N",
+      "review_action": "Zadržati praktičniju postojeću lokaciju",
+      "thread_clinics": [
+        "Mayfair"
+      ],
+      "specific_clinic_recommendation": "",
+      "location_confidence": "Niska za osobnu lokaciju; nema potvrđenog polazišta."
+    },
+    {
+      "key": "4006945/4608052123",
+      "name": "Rory Sale",
+      "email": "rory.sale@fospha.com",
+      "recommendation": "Vratiti se na njegovo „how do I book” i provjeriti je li postupak uspio. Ne tretirati ga kao novi hladni lead.",
+      "ordinal": 43,
+      "address": "Scale Space, 58 Wood Lane",
+      "postcode": "W12 7RZ",
+      "source_url": "https://www.fospha.com/about-fospha",
+      "evidence_note": "Službeni londonski ured. W12 sam po sebi ne znači da je West Kensington odmah uz ured.",
+      "nearest_priority": [
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 2.379
+        },
+        {
+          "name": "West Kensington",
+          "address": "c/o Spaces West Kensington, Avon House, Avonmore Road, London, W14 8TS",
+          "postcode": "W14 8TS",
+          "priority": true,
+          "km": 2.67
+        },
+        {
+          "name": "Hendon",
+          "address": "c/o Anytime Fitness, 1 Cool Oak Lane, West Hendon, London, NW9 7FJ",
+          "postcode": "NW9 7FJ",
+          "priority": true,
+          "km": 6.963
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "High Street Kensington",
+          "address": "c/o Regus High Street Kensington, 1st Floor, 239 Kensington High Street, London, W8 6SN",
+          "postcode": "W8 6SN",
+          "priority": true,
+          "km": 2.379
+        },
+        {
+          "name": "West Kensington",
+          "address": "c/o Spaces West Kensington, Avon House, Avonmore Road, London, W14 8TS",
+          "postcode": "W14 8TS",
+          "priority": true,
+          "km": 2.67
+        }
+      ],
+      "review_group": "U",
+      "review_action": "Prvo potvrditi lokaciju ili okolnosti",
+      "thread_clinics": [
+        "Hammersmith"
+      ],
+      "specific_clinic_recommendation": "High Street Kensington oko 2,4 km i West Kensington oko 2,7 km zračno od potvrđenog ureda. To nije dokaz praktične pješačke blizine. Ponuditi oba samo ako mu odgovaraju ruta ili osobna preferencija; inače pitati za područje.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520622428",
+      "name": "Dag Wirdenius",
+      "email": "dag@siteassist.com",
+      "recommendation": "Obratiti se Tomu u postojećem razgovoru i provjeriti booking. Prije slanja provjeriti stvarni To/Cc da Tom ne ispadne iz niti.",
+      "ordinal": 44,
+      "address": "Tomova lokacija nije potvrđena",
+      "postcode": "",
+      "source_url": "",
+      "evidence_note": "Dag izričito nije u Londonu. Predstavio je Toma u istoj niti; pitati Toma koji mu dio Londona odgovara, uz provjeru To/Cc.",
+      "review_group": "L",
+      "review_action": "Pitati koji dio Londona odgovara",
+      "thread_clinics": [
+        "Primrose Hill"
+      ],
+      "specific_clinic_recommendation": "Razgovor voditi s predstavljenim Tomom uz postojeći To/Cc, ne Dagu slati osobni booking. Tom treba potvrditi dio Londona; Primrose Hill iz starog maila nije dokaz njegove lokacije.",
+      "location_confidence": "Niska za osobnu lokaciju; nema potvrđenog polazišta."
+    },
+    {
+      "key": "3930675/4520615628",
+      "name": "Digby Lewis",
+      "email": "digbyl@motherlondon.com",
+      "recommendation": "Pratiti prosljeđivanje people timu i ponuditi sažetak koji može podijeliti. Ne ponavljati već odgovoreno pitanje o obvezama.",
+      "ordinal": 45,
+      "address": "Biscuit Building, 10 Redchurch Street",
+      "postcode": "E2 7DD",
+      "source_url": "",
+      "evidence_note": "Iz njegova potpisa. Ponudu treba people timu, ne osobni booking za Digbyja.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.067
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.192
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.696
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.453
+        },
+        {
+          "name": "Liverpool Street",
+          "address": "c/o Regus - London, 63 St Mary Axe, London, EC3A 8AA",
+          "postcode": "EC3A 8AA",
+          "priority": false,
+          "km": 1.032
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "Ponuditi kratku informaciju za people tim: Moorgate kao dodatna opcija za kolege, Aldgate East kao drugi izbor samo ako im odgovara. Ne pitati Digbyja da osobno rezervira.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446315909",
+      "name": "Alex Timmons",
+      "email": "alexander.timmons@crowdcube.com",
+      "recommendation": "Pitati je li bilo odaziva nakon što je ponudu podijelio s oko 30 kolega. Ne pitati njega da rezervira osobnu sesiju.",
+      "ordinal": 46,
+      "address": "Zetland House, 109–123 Clifton Street, 3. kat",
+      "postcode": "EC2A 4LD",
+      "source_url": "https://help.crowdcube.com/hc/en-ie/requests/new",
+      "evidence_note": "Službeni help-centre kontakt. Podijelio je s oko 30 ljudi u londonskom uredu; osobno nije tražio tretman.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.566
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.42
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 3.317
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Shoreditch",
+          "address": "75 Great Eastern Street, London, EC2A 3HN",
+          "postcode": "EC2A 3HN",
+          "priority": false,
+          "km": 0.198
+        },
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 0.566
+        }
+      ],
+      "review_group": "P",
+      "review_action": "Ponuditi prioritetnu kao dodatnu opciju",
+      "thread_clinics": [
+        "Shoreditch"
+      ],
+      "specific_clinic_recommendation": "Za londonski Slack predložiti Moorgate kao dodatni izbor uz Shoreditch. Pitati je li bilo odaziva; ne prodavati osobni tretman Alexu koji je rekao da ga ne treba.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520616252",
+      "name": "Nadia Davies",
+      "email": "ndavies@cornerstonebarristers.com",
+      "recommendation": "Provjeriti je li kolega kojem je proslijedila ponudu uspio rezervirati. Dopuštenje za dijeljenje već je dobila.",
+      "ordinal": 47,
+      "address": "2–3 Gray’s Inn Square",
+      "postcode": "WC1R 5JH",
+      "source_url": "",
+      "evidence_note": "Iz njezina potpisa. Ponuda je za kolegu; zadržati Holborn kao praktičnu opciju.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.547
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 2.111
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 3.094
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Holborn",
+          "address": "c/o Spaces Theobalds Road, 98 Theobalds Rd, London, WC1X 8WB",
+          "postcode": "WC1X 8WB",
+          "priority": false,
+          "km": 0.427
+        },
+        {
+          "name": "Farringdon",
+          "address": "16-18 St John's Lane, London, EC1M 4BS",
+          "postcode": "EC1M 4BS",
+          "priority": false,
+          "km": 0.763
+        }
+      ],
+      "review_group": "O",
+      "review_action": "Samo ako prihvaća dodatni put",
+      "thread_clinics": [
+        "Holborn"
+      ],
+      "specific_clinic_recommendation": "Holborn je bliže. Kolegi ponuditi Moorgate samo ako mu dodatni put odgovara; potvrditi njegovu praktičnu lokaciju preko Nadije, bez dodavanja novog kontakta.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3930675/4520616518",
+      "name": "Rebecca Walsh",
+      "email": "rebecca.walsh@harringtonstarr.com",
+      "recommendation": "Pitati kakav je bio odaziv tima nakon dijeljenja. Ne tretirati je kao osobu koja mora sama rezervirati.",
+      "ordinal": 48,
+      "address": "Vintners Place, 68 Upper Thames Street",
+      "postcode": "EC4V 3BJ",
+      "source_url": "https://www.harringtonstarr.com/contact-us/contact-us-london/",
+      "evidence_note": "Službeni londonski ured. Tim želi dijeliti ponudu; nema potvrde da su svi blizu prioritetne klinike.",
+      "nearest_priority": [
+        {
+          "name": "Moorgate",
+          "address": "c/o Solo60: Errol Street (Moorgate), 10 Errol St, London, EC1Y 8SE",
+          "postcode": "EC1Y 8SE",
+          "priority": true,
+          "km": 1.325
+        },
+        {
+          "name": "Aldgate East",
+          "address": "c/o Movement Labs East, 78 Alie Street, London, E1 8PZ",
+          "postcode": "E1 8PZ",
+          "priority": true,
+          "km": 1.748
+        },
+        {
+          "name": "Waterloo",
+          "address": "c/o HQ Waterloo, 141–142 Lower Marsh, London, SE1 7AE",
+          "postcode": "SE1 7AE",
+          "priority": true,
+          "km": 1.783
+        }
+      ],
+      "nearest_any": [
+        {
+          "name": "Bank",
+          "address": "c/o Beauty Essence, 7 Well Court, City of London, London, EC4M 9DN",
+          "postcode": "EC4M 9DN",
+          "priority": false,
+          "km": 0.297
+        },
+        {
+          "name": "Monument",
+          "address": "c/o The Gym Group London Monument, The Northern & Shell Building, 10 Lower Thames Street, London, EC3R 6EN",
+          "postcode": "EC3R 6EN",
+          "priority": false,
+          "km": 0.654
+        }
+      ],
+      "review_group": "O",
+      "review_action": "Samo ako prihvaća dodatni put",
+      "thread_clinics": [
+        "Blackfriars"
+      ],
+      "specific_clinic_recommendation": "Za tim zadržati Blackfriars/Bank kao praktične opcije. Moorgate može biti dodatna mogućnost za 45-minutnu sportsku masažu, uz jasno pitanje odgovara li kolegama.",
+      "location_confidence": "Visoka za navedenu poslovnu adresu; osobni dolazak iz tog ureda nije potvrđen."
+    },
+    {
+      "key": "3876232/4446317241",
+      "name": "Joyce Mccarthy",
+      "email": "joycelai@ec1partners.com",
+      "recommendation": "Jednom pitati ima li imena kontakata koje je ponudila predstaviti. Ne slati joj generički podsjetnik za osobnu sesiju.",
+      "ordinal": 49,
+      "address": "Radi od kuće; lokacija nije poznata",
+      "postcode": "",
+      "source_url": "",
+      "evidence_note": "Izričito full-time home working. Ponudila je predstavljanje kontakata, ne vlastiti booking. Ne tražiti privatnu kućnu adresu.",
+      "review_group": "L",
+      "review_action": "Pitati koji dio Londona odgovara",
+      "thread_clinics": [
+        "Farringdon"
+      ],
+      "specific_clinic_recommendation": "Pitati želi li još predstaviti kontakte i koji dio Londona njima odgovara. Ne koristiti EC1 ured kao dokaz njezine osobne blizine i ne tražiti kućnu adresu.",
+      "location_confidence": "Niska za osobnu lokaciju; nema potvrđenog polazišta."
+    }
+  ],
+  "method": "Haversine between postcode centroids from api.postcodes.io, km, not walking routes",
+  "missing": []
+}

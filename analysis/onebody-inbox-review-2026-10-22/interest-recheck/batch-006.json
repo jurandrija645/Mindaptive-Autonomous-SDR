@@ -1,0 +1,167 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 7897,
+    "completion_tokens": 1394,
+    "total_tokens": 9291,
+    "cost": 0.00104713,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00104713,
+      "upstream_inference_prompt_cost": 0.000773906,
+      "upstream_inference_completions_cost": 0.000273224
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520617891",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je izjavio da su potpuno remote tvrtka i nije jasan cilj ponude, što ne pokazuje interes.",
+      "evidence": [
+        "Thanks, but we're a fully remote company, so we aren't in the office often.",
+        "it's not entirely clear what are you trying to sell"
+      ]
+    },
+    {
+      "key": "3930675/4520621977",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska obavijest o odlasku iz tvrtke, nema ljudskog odgovora.",
+      "evidence": [
+        "After 4 wonderful years I have left the Social Element to start my own business",
+        "For all press, client & new business enquiries please email ashley.cooksley@thesocialelement.agency"
+      ]
+    },
+    {
+      "key": "3930675/4520621716",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska obavijest o odlasku iz tvrtke, preusmjeravanje na investitore.",
+      "evidence": [
+        "I am no longer with Fiduciam",
+        "Please direct all future inquiries to investorteam@fiduciam.co.uk"
+      ]
+    },
+    {
+      "key": "3930675/4520612678",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je odbio ponudu, izjavio da nije zainteresiran i da će se javiti sam ako zatreba.",
+      "evidence": [
+        "Quite busy at the moment so not keen",
+        "I’ll get in touch then."
+      ]
+    },
+    {
+      "key": "3930675/4520612261",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je izričito odbio ponudu s 'No thanks'.",
+      "evidence": [
+        "No thanks :)"
+      ]
+    },
+    {
+      "key": "3930675/4520619514",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska obavijest o odlasku iz tvrtke, nema ljudskog odgovora.",
+      "evidence": [
+        "I have now left Mention Me.",
+        "Please redirect your email accordingly"
+      ]
+    },
+    {
+      "key": "3930675/4520619100",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska obavijest o porodiljnom dopustu, nema ljudskog odgovora.",
+      "evidence": [
+        "I am currently on Maternity leave"
+      ]
+    },
+    {
+      "key": "3930675/4520613432",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je zatražio uklanjanje iz baze, što je opt-out.",
+      "evidence": [
+        "Please remove my details from you database"
+      ]
+    },
+    {
+      "key": "3876232/4446317977",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je zatražio prestanak kontakta nakon ranijeg odbijanja.",
+      "evidence": [
+        "Please stop contacting me now."
+      ]
+    },
+    {
+      "key": "3930675/4520611653",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je odbio ponudu, izjavio da mu trenutno ne treba uz mogućnost javljanja kasnije – nije izričiti interes.",
+      "evidence": [
+        "I think I'm good for the moment.",
+        "Might get back to you on this in the Winter"
+      ]
+    },
+    {
+      "key": "3930675/4520613515",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je odbio ponudu, izjavio da im ne treba trenutno.",
+      "evidence": [
+        "this isn't something we need right now"
+      ]
+    },
+    {
+      "key": "3930675/4520618480",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska obavijest o odlasku iz tvrtke, preusmjeravanje na drugu osobu.",
+      "evidence": [
+        "I'm no longer working at the business.",
+        "Please contact Tom Darnell at tom@iris.audio"
+      ]
+    }
+  ]
+}

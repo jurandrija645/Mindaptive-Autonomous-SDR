@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 15879,
+    "completion_tokens": 853,
+    "total_tokens": 16732,
+    "cost": 0.000652379,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 13020,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000652379,
+      "upstream_inference_prompt_cost": 0.000497133,
+      "upstream_inference_completions_cost": 0.000155246
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2538823/2758496613",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Maros,\n\nIt's been a while since we last spoke. I was going through our older emails about the AI outreach engine for OneClick and wanted to check back in.\n\nWe've improved a lot since then. If it's still useful, here's a short video that walks through how we find suitable companies, research them, and start relevant conversations: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIs this still on your radar? Happy to have a quick call if that helps.",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2515956/2722095330",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Sharjeel,\n\nIt's been some months since we last spoke. I was reviewing our conversation about the AI outreach engine for Agile Falcon.\n\nOur system has come a long way since then. If it still might help, here's the video again that shows how we research companies and start relevant conversations: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIs this still of interest? A quick call could help us see if it's a fit.",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2515956/2722089398",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Brian,\n\nIt's been quite a while since we last spoke. I was going back through our conversation about the AI prospecting system for VentureOut.\n\nOur system has improved a lot since then, and I thought it might be worth reconnecting. If it's still useful, the same walkthrough applies: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIs this still on your radar? Happy to jump on a short call if that helps.",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2538823/2758495835",
+      "ready": true,
+      "language": "fr",
+      "body": "Bonjour Jean-Pierre,\n\nCela fait un moment que nous n'avons pas échangé. Je repensais à notre conversation sur la recherche d'experts pour vos projets.\n\nNotre système a beaucoup évolué depuis. Si le sujet vous intéresse toujours, je serais ravi d'en reparler.\n\nUn mot de votre part pour me dire si je dois garder ce dossier ouvert ou le clore ?",
+      "english": "Hello Jean-Pierre,\n\nIt's been a while since we last spoke. I was thinking back to our conversation about finding experts for your projects.\n\nOur system has evolved a lot since then. If the topic still interests you, I'd be happy to discuss it again.\n\nA word from you to let me know if I should keep this file open or close it?",
+      "reason_hr": ""
+    },
+    {
+      "key": "2515956/2722093804",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Nancy,\n\nIt's been a while since we last spoke. I was reviewing our conversation about reaching construction firms, suppliers, and lenders for iBUILD, including in Kenya.\n\nOur system has improved a lot since then. If it's still useful, we could revisit how we'd approach that.\n\nIs this still on your radar? Happy to have a quick call if that helps.",
+      "english": "",
+      "reason_hr": ""
+    }
+  ]
+}

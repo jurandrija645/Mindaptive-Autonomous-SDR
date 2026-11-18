@@ -1,0 +1,249 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 26484,
+    "completion_tokens": 2827,
+    "total_tokens": 29311,
+    "cost": 0.0013628524,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 21452,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0013628524,
+      "upstream_inference_prompt_cost": 0.0008483384,
+      "upstream_inference_completions_cost": 0.000514514
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3599203/4126835820",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primljen je hard bounce (RecipientNotFound). Adresa ne postoji, nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; adresa ne postoji, nema tko odgovoriti.",
+      "missing_information": [],
+      "evidence": [
+        "Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup'"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Stari autoreply draft ne valja: adresa je hard bounce, ne postoji osoba koja bi odgovorila. Ne generirati sales nudge na bounce."
+    },
+    {
+      "key": "3599203/4126835521",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog angažmana. 'Sadie' iz OOO teksta je pomoćnica, ne stvarni interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; samo OOO, nema interesa. Ne generirati nudge koji iskorištava OOO.",
+      "missing_information": [],
+      "evidence": [
+        "If you've contacted me regarding fertility advice or treatment, your message is important to me and my assistant will be in touch"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari autoreply draft je neprikladan sales nudge na OOO, protiv pravila. Nema ljudskog interesa, draft mora biti prazan."
+    },
+    {
+      "key": "3599203/4126835342",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor ureda, bez ljudskog interesa. Standardna poruka o radnom vremenu.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; samo auto-reply ureda, nema ljudskog angažmana.",
+      "missing_information": [],
+      "evidence": [
+        "Nous vous remercions pour votre message.",
+        "Aucune réponse à des questions d'ordre médical ne sera donnée par e-mail"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "fr",
+      "draft_reason_hr": "Stari draft je ironični sales nudge na auto-reply, protiv pravila. Nema ljudskog interesa, draft mora biti prazan."
+    },
+    {
+      "key": "3599203/4126835282",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski OOO odgovor, nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; samo automatski odgovor, nema stvarnog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "Uw bericht is ontvangen. Ik zal mijn uiterste best doen om u zsm te beantwoorden."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Stari draft je neprikladan nudge na auto-reply. Nema ljudskog interesa, draft mora biti prazan."
+    },
+    {
+      "key": "3599203/4126834746",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Dva automatska odgovora, bez ljudskog kontakta. Nema stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; samo automatski odgovori, nema ljudskog angažmana.",
+      "missing_information": [],
+      "evidence": [
+        "Hartelijk dank voor uw bericht. Er wordt zo spoedig mogelijk contact met U opgenomen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Stari draft je ironični nudge na auto-reply, protiv pravila. Nema ljudskog interesa."
+    },
+    {
+      "key": "3599203/4126834724",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Samo auto-reply. Ne smatramo 'fully booked' odgovorom kao stvarni ljudski interes u ovom kontekstu; to je automatska poruka. Ipak, 'fully booked' implicira mogući kapacitet, pa preporučujem ljudski pregled.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti za ljudski pregled; potencijalni interes zbog 'fully booked' statusa, ali nema ljudskog odgovora.",
+      "missing_information": [],
+      "evidence": [
+        "Unfortunately, I am fully booked through to the end of June for canine programmes and cannot take on any new clients at this time."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft je neprikladan nudge na auto-reply. Nema stvarnog ljudskog interesa, draft mora biti prazan ili za ljudski pregled."
+    },
+    {
+      "key": "3599203/4126834433",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Hard bounce (RecipientNotFound). Adresa ne postoji.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; adresa ne postoji (bounce).",
+      "missing_information": [],
+      "evidence": [
+        "Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup'"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Stari autoreply draft ne valja: hard bounce, ne postoji osoba koja bi odgovorila. Ne generirati sales nudge."
+    },
+    {
+      "key": "3562710/4080236459",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (respuesta automática), bez ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; samo automatski odgovor, nema ljudskog angažmana.",
+      "missing_information": [],
+      "evidence": [
+        "Respuesta automática: por favor no responda a este correo."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "es",
+      "draft_reason_hr": "Stari draft je neprikladan nudge na auto-reply. Nema ljudskog interesa, draft mora biti prazan."
+    },
+    {
+      "key": "3562710/4080236448",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (automatische Rückmeldung), bez ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; samo automatski odgovor, nema ljudskog angažmana.",
+      "missing_information": [],
+      "evidence": [
+        "Ihre Nachricht ist erfolgreich bei uns eingegangen. ... Unser Team wird sich so zeitnah wie möglich mit einer persönlichen Rückmeldung bei Ihnen melden."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Stari draft je neprikladan nudge na auto-reply. Nema ljudskog interesa, draft mora biti prazan."
+    },
+    {
+      "key": "3562710/4080236349",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Dva automatska odgovora, bez ljudskog kontakta. Nema stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; samo automatski odgovori, nema ljudskog angažmana.",
+      "missing_information": [],
+      "evidence": [
+        "Hemos recibido su consulta, le responderemos a la mayor brevedad."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "es",
+      "draft_reason_hr": "Stari draft je neprikladan nudge na auto-reply. Nema ljudskog interesa."
+    }
+  ]
+}

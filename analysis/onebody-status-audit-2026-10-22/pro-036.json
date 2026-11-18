@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 19568,
+    "completion_tokens": 2306,
+    "total_tokens": 21874,
+    "cost": 0.0210702,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0210702,
+      "upstream_inference_prompt_cost": 0.0176112,
+      "upstream_inference_completions_cost": 0.003459
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621685",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka koja nije automatizirana je automatski OOO odgovor. Osoba nije osobno odgovorila niti pokazala interes za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana za praćenje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom jer je odgovor bio samo automatska OOO poruka bez ljudskog interesa.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CAHKKUXugq5zOKn7O+wWCeeoRRT-RZqvX2A9THuQOhTEa3MreCg@mail.gmail.com>",
+          "quote": "Hi there,\\n\\nI am out of office at work event until Friday."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621689",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti jer je sustav primatelja odbio e-poštu kao spam ili virus. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s dostavom, potrebna je tehnička korekcija (npr. promjena domene pošiljatelja ili kontaktiranje admina domene primatelja).",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je trenutno nedostupan putem e-pošte s ove domene. Razmotrite slanje s druge domene ili kontaktiranje njihovog IT admina za dodavanje na listu dopuštenih pošiljatelja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<04a6b8cc-e09b-416e-b760-ac541116a6b7@LO2P123MB7258.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to lucas.peon@thegateworldwide.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621642",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti jer je sustav primatelja odbio e-poštu kao spam ili virus. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s dostavom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je trenutno nedostupan putem e-pošte s ove domene. Razmotrite slanje s druge domene ili kontaktiranje njihovog IT admina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<065e26b9-8a45-421d-8088-cada66e88aa5@CWXP123MB3926.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to alex.cole@russells.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621622",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti jer adresa primatelja ne prihvaća poruke od vanjskih pošiljatelja (ograničenje grupe). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s dostavom. Adresa je vjerojatno distribucijska grupa koja blokira vanjske pošiljatelje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je trenutno nedostupan putem ove e-pošte. Pokušajte pronaći izravnu adresu e-pošte ili alternativni način kontaktiranja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f773b9d9-4717-4faa-9015-95e7f0304b71@LOYP123MB3277.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "The group matthew.korner only accepts messages from people in its organization or on its allowed senders list"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621630",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti jer je sustav primatelja odbio e-poštu kao spam ili virus. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s dostavom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je trenutno nedostupan putem e-pošte s ove domene. Razmotrite slanje s druge domene ili kontaktiranje njihovog IT admina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<560b4228-8748-4e49-b9ae-7be1ca4166c8@LO0P123MB8932.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to james.austin@melqart.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621550",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti jer je sustav primatelja odbio e-poštu kao spam ili virus. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s dostavom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je trenutno nedostupan putem e-pošte s ove domene. Razmotrite slanje s druge domene ili kontaktiranje njihovog IT admina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<220702f8-f1eb-44de-8fc5-264c77f8ed68@CW1P123MB7843.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to hugo.macedo@indexventures.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621554",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti jer je sustav primatelja odbio e-poštu kao spam ili virus. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s dostavom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je trenutno nedostupan putem e-pošte s ove domene. Razmotrite slanje s druge domene ili kontaktiranje njihovog IT admina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7831eb19-1ae8-4d26-9e33-2ceee2065311@LO6P123MB6533.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to alex.jamieson@hayfin.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621553",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti jer je sustav primatelja odbio e-poštu kao spam ili virus. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s dostavom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je trenutno nedostupan putem e-pošte s ove domene. Razmotrite slanje s druge domene ili kontaktiranje njihovog IT admina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<35bc92bb-277d-49d1-84da-9d557aa51446@LO4P123MB6609.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to caoimhe.bain@hayfin.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

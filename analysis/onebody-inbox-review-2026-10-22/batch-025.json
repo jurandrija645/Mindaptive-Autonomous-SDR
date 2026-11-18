@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11403,
+    "completion_tokens": 2735,
+    "total_tokens": 14138,
+    "cost": 0.0018009,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0018009,
+      "upstream_inference_prompt_cost": 0.00057015,
+      "upstream_inference_completions_cost": 0.00123075
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316307",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora niti interesa.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 10. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will return on 10th September"
+      ]
+    },
+    {
+      "key": "3876232/4446317135",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom do kraja godine.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now on maternity leave and will be returning towards the end of the year."
+      ]
+    },
+    {
+      "key": "3876232/4446317134",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o umirovljenju, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: osoba je umirovljena iz tvrtke.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now retired from the Company"
+      ]
+    },
+    {
+      "key": "3876232/4446316395",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom dopustu, ne prati sandučić.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now on maternity leave and will not be monitoring my inbox."
+      ]
+    },
+    {
+      "key": "3876232/4446316540",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda bez pristupa e-pošti.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office with no access to my emails"
+      ]
+    },
+    {
+      "key": "3876232/4446316577",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 14. rujna, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 14. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Monday 14th September."
+      ]
+    },
+    {
+      "key": "3876232/4446316849",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 7. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be away on annual leave until Monday 7th September"
+      ]
+    },
+    {
+      "key": "3876232/4446316691",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da Morten više ne radi u tvrtci.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; promijenite oznaku u Wrong Person.",
+      "last_inbound_summary_hr": "Automatski odgovor: osoba više nije u tvrtci, kontaktirajte Chris Gibbs.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Morten is no longer with the Company."
+      ]
+    },
+    {
+      "key": "3876232/4446316250",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom od 15. svibnja 2026.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on maternity from 15th May 2026."
+      ]
+    },
+    {
+      "key": "3930675/4520615094",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu do lipnja 2027., nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom do lipnja 2027., e-pošta se ne prosljeđuje.",
+      "last_outbound_summary_hr": "Posljednja poruka: početni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave with no access to emails and will return June 2027."
+      ]
+    },
+    {
+      "key": "3876232/4446317323",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da Helise više ne radi u Foster Denovo.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; promijenite oznaku u Wrong Person.",
+      "last_inbound_summary_hr": "Automatski odgovor: osoba više ne radi u tvrtci, e-pošta nije proslijeđena.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at Foster Denovo and your email has not been forwarded."
+      ]
+    },
+    {
+      "key": "3876232/4446316257",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odmoru do 8. rujna, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; zadržite trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: na odmoru do 8. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s molbom za odgovor 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on holiday now until the 8th September"
+      ]
+    }
+  ]
+}

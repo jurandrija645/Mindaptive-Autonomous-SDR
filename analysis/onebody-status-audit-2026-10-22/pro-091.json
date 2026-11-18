@@ -1,0 +1,184 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7291,
+    "completion_tokens": 1930,
+    "total_tokens": 9221,
+    "cost": 0.01739556,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01739556,
+      "upstream_inference_prompt_cost": 0.01137396,
+      "upstream_inference_completions_cost": 0.0060216
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315854",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Svi primljeni odgovori su automatske OOO poruke. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenih zahtjeva; sve poruke su naše ili automatske.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<92543346f5f5409f87397db921d1cb3c@LOAP123MB8073.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’m out of the office until Wednesday 2nd Sept (parenting until the schools open again!)."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315852",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatski OOO od Dana. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenih zahtjeva; sve poruke su naše ili automatske.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b01ec3b3ff034e589e6005ae2f65dcbd@CWXP123MB4741.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’m OOO, please contact:\n\nGeorgina Bailey: Georgina.Bailey@majorplayers.co.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315850",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatski OOO od Jodie (vjerojatno s istog poslužitelja). Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenih zahtjeva; sve poruke su naše ili automatske.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9616cef490da4ede8454e8ac0f57fed4@LOAP123MB8073.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’m out of the office until Wednesday 2nd Sept (parenting until the schools open again!)."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315777",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Svi primljeni odgovori su automatske OOO poruke. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenih zahtjeva; sve poruke su naše ili automatske.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<094ef2d49a5240d28c31b25f533d7fba@LOBP123MB8841.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of office until Tuesday 1 September."
+        },
+        {
+          "message_id": "<467f35379d564e9f8c8c17165ba399f1@LOBP123MB8841.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of office until Tuesday 8th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315804",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenih zahtjeva; sve poruke su naše ili automatske.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<035529025cec485f919fca9848abc42e@LO9P265MB7621.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am on leave until 8th September and will respond on my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315823",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenih zahtjeva; sve poruke su naše ili automatske.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9af7c8d50d6e4187b11fa686af350560@LO6P265MB6767.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office from Monday 31 August to Friday 4 September, returning on Monday 7 September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315822",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Nikolay je odgovorio da više ne radi za ITI Capital. Nije zainteresiran i nije tražio ponudu. Nema korisne preporuke za daljnji kontakt.",
+      "last_human_request_hr": "I am no longer working for ITI Capital.",
+      "unresolved_hr": "Nema neriješenih zahtjeva. Lead više nije relevantan.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5032bb1af29a4250a55dfc8e41c802dc@LO4P265MB6569.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am no longer working for ITI Capital."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315723",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenih zahtjeva; sve poruke su naše ili automatske.",
+      "recommended_bulk_group": "no_outreach",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<da03e953ab3247fc865b883f9df08586@LO0P123MB3947.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am currently out of the office returning on 1 September 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9800,
+    "completion_tokens": 2283,
+    "total_tokens": 12083,
+    "cost": 0.01636205,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01636205,
+      "upstream_inference_prompt_cost": 0.0105404,
+      "upstream_inference_completions_cost": 0.00582165
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316940",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska poruka o neisporučenosti, ne poruka osobe.",
+      "last_human_request_hr": "Nema ljudskog odgovora, samo automatska obavijest o neisporučenosti.",
+      "unresolved_hr": "Nema ljudskog angažmana; adresa ne prima poruke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati novi kontakt; zapis ostaje kao bounce. Vlasnik može odlučiti o alternativnim podacima.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6b14d84c-e5f0-4def-8c89-0a3d1e944076@LO9P123MB7708.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to ravi@clara-pensions.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317061",
+      "assessment": "opted_out",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je eksplicitno zatražila uklanjanje s popisa.",
+      "last_human_request_hr": "Please remove me from your mailing list",
+      "unresolved_hr": "Zahtjev za ispis je jasan; potrebno je poštivati.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao odjavljenu i ne slati nove ponude.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAWMrTrpzYAieQEbpCV6Vx8_oRFihEMxGnSod4Kosw-s7TKVdA@mail.gmail.com>",
+          "quote": "Please remove me from your mailing list"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317001",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Fred je prihvatio ponudu i pitao za pripremni rad. Poslan mu je link i kod, nakon čega je poslano nekoliko follow-up poruka, ali nema potvrde bookinga niti odbijanja.",
+      "last_human_request_hr": "Do happen to do prep work too? I have a hyrox and ultra marathon coming up this month so great timing!",
+      "unresolved_hr": "Ostaje otvoreno hoće li iskoristiti link i kod; nema potvrde rezervacije ni odbijanja.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti želi li pomoć s bookingom ili ima pitanja; ne slati novu ponudu bez vlasničkog odobrenja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO2P265MB27033872B4386AF8C37C8DC2A5B62@LO2P265MB2703.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "That sounds great."
+        },
+        {
+          "message_id": "<LO2P265MB27033872B4386AF8C37C8DC2A5B62@LO2P265MB2703.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Do happen to do prep work too? I have a hyrox and ultra marathon coming up this month so great timing!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316998",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je odgovorila da nije zainteresirana, što je eksplicitno odbijanje.",
+      "last_human_request_hr": "Not interested thanks.",
+      "unresolved_hr": "Nema otvorenih pitanja; osoba je jasno odbila ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati daljnje poruke; ostaviti kao negativan zapis.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<PAVPR08MB97696080380359F4451FEE03E3B62@PAVPR08MB9769.eurprd08.prod.outlook.com>",
+          "quote": "Not interested thanks."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316758",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Liam je objasnio da već ima fizioterapiju nakon operacije, što je pristojno odbijanje ponude.",
+      "last_human_request_hr": "Thank you but I recently had back surgery and so I am in an ongoing program for Physio already.",
+      "unresolved_hr": "Nema otvorenog zahtjeva; osoba je jasno rekla da ne treba ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati daljnje poruke; poštujte odbijanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<PR3PR10MB40480D08DCA4A0CFA17B4F6FB3B72@PR3PR10MB4048.EURPRD10.PROD.OUTLOOK.COM>",
+          "quote": "Thank you but I recently had back surgery and so I am in an ongoing program for Physio already."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316495",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Tatia je zahvalila i rekla da već koristi drugu fizioterapiju te da će proslijediti ponudu, što je odbijanje.",
+      "last_human_request_hr": "Thanks for the offer. I personally am already using Excellence Physiotherapy and will pass this time.",
+      "unresolved_hr": "Nema otvorenog zahtjeva; osoba je jasno odbila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati daljnje poruke; ostaviti kao negativan zapis.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOKs2Yyp56tnRo+V_wPFHPtp2UQJvmNJB8VBGb7oZeyWCUdNSA@mail.gmail.com>",
+          "quote": "I personally am already using Excellence Physiotherapy and will pass this time."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316354",
+      "assessment": "opted_out",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je eksplicitno zatražila isključenje iz daljnje komunikacije.",
+      "last_human_request_hr": "Please consider this as me opting out of further communications.",
+      "unresolved_hr": "Zahtjev za ispis je jasan.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao odjavljenu i ne slati nove ponude.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP123MB376710EC13F7F7711738742DAEB72@CWXP123MB3767.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Please consider this as me opting out of further communications."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316223",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Odgovor sadrži automatsku ili standardnu poruku da osoba više ne radi; nema korisnog upita ili referala o ponudi, ali daje kontakt Chris Kelly za urgentna pitanja.",
+      "last_human_request_hr": "I no longer work for Antares Global. For anything urgent, please contact Chris Kelly, ckelly@antaresglobal.com",
+      "unresolved_hr": "Nema relevantnog ljudskog angažmana s ponudom; upućivanje na Chris Kelly nije vezano uz ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati daljnje poruke na ovu adresu; vlasnik može odlučiti o Chris Kelly kontaktu ako bude relevantno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<377c680db68644e7b9866bdbf6702346@CWLP265MB5834.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I no longer work for Antares Global. For anything urgent, please contact Chris Kelly, ckelly@antaresglobal.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

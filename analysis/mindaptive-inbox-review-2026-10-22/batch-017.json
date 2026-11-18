@@ -1,0 +1,248 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23306,
+    "completion_tokens": 3937,
+    "total_tokens": 27243,
+    "cost": 0.00293695,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00293695,
+      "upstream_inference_prompt_cost": 0.0011653,
+      "upstream_inference_completions_cost": 0.00177165
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3640877/4176331998",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Hartelijk dank voor uw bericht. Wij hebben uw e-mail ontvangen en streven ernaar deze binnen 10 werkdagen te beantwoorden."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hoi, ik zag dat je een automatisch antwoord stuurt over vertraagde reacties. Precies daarom nam ik contact op. Mijn bericht was bedoeld voor degene die verantwoordelijk is voor de praktijkvoering of het terugdringen van no-shows. Zou je het kunnen doorsturen? Alvast bedankt.\n\nGroet,\nAndrew",
+      "draft_english": "Hi, I noticed you have an automatic reply about delayed responses. That's exactly why I reached out. My message was meant for whoever handles practice management or no-show reduction. Could you forward it? Thanks in advance.\n\nBest,\nAndrew",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći draft je neprikladan jer koristi pogrešno ime (Mia umjesto Andrew), drugačiji ton i ne spominje dentalnu kliniku. Zamjenjujem ga kratkim, ljudskim nastavkom koji poštuje pravilo da se ne ponovno prodaje nakon OOO i ostaje pri autentičnom glasu."
+    },
+    {
+      "key": "3640877/4176332138",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Geachte lezer, bedankt voor uw mail. Wilt u een afspraak op korte termijn (binnen 7 dagen) maken, annuleren of verzetten? Dan verzoeken wij u om dit telefonisch te doen via 0182-536655."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hoi, ik zag dat jullie automatische antwoord aangeeft dat jullie afspraken telefonisch afhandelen. Mijn bericht was bedoeld voor degene die verantwoordelijk is voor het verminderen van no-shows in de praktijk. Zou je het kunnen doorsturen? Alvast bedankt.\n\nGroet,\nAndrew",
+      "draft_english": "Hi, I saw your automatic reply says you handle appointments by phone. My message was meant for whoever handles no-show reduction at the practice. Could you forward it? Thanks in advance.\n\nBest,\nAndrew",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći draft ima pogrešno ime i ton. Zamjenjujem ga kratkim nastavkom koji odgovara na auto-odgovor bez ponovne prodaje."
+    },
+    {
+      "key": "3640877/4176331489",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für ihre Anfrage. Wir werden Ihr Anliegen kurzfristig bearbeiten und Ihnen eine entsprechende Rückinformation geben."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hallo, danke für die automatische Antwort. Meine Nachricht war für die Person gedacht, die für die Reduzierung von No-Shows in der Praxis zuständig ist. Könnten Sie sie weiterleiten? Danke.\n\nGrüße,\nMia",
+      "draft_english": "Hello, thanks for the automatic reply. My message was meant for the person responsible for reducing no-shows at the practice. Could you forward it? Thanks.\n\nBest,\nMia",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft (od 106) je previše dugačak i sadrži nepotrebne obrane. Zamjenjujem ga kraćim, izravnijim nastavkom bez ponavljanja prodajnog pitcha."
+    },
+    {
+      "key": "3640877/4176332073",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Patientin, sehr geehrter Patient. Ihre E-Mail ist angekommen, danke."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hallo, danke für die automatische Antwort. Meine Nachricht war für die Person gedacht, die sich um die Reduzierung von No-Shows in der Praxis kümmert. Könnten Sie sie weiterleiten? Danke.\n\nGrüße,\nAndrew",
+      "draft_english": "Hello, thanks for the automatic reply. My message was meant for whoever handles no-show reduction at the practice. Could you forward it? Thanks.\n\nBest,\nAndrew",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft (od 111) je predugačak i ima obrambeni ton. Zamjenjujem ga kraćim nastavkom."
+    },
+    {
+      "key": "3640877/4176331459",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa. Auto-odgovor preusmjerava na online booking, nije 'Wrong Person' jer je to generički auto-odgovor.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für Ihre Email. Bitte beachten Sie: Terminanfragen können nur noch über die Online-Rezeption bearbeitet werden."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hallo, danke für die automatische Antwort. Meine Nachricht war nicht für eine Terminanfrage – sie war für die Person gedacht, die für die Reduzierung von No-Shows in der Praxis zuständig ist. Könnten Sie sie weiterleiten? Danke.\n\nGrüße,\nMia",
+      "draft_english": "Hello, thanks for the automatic reply. My message wasn't an appointment request – it was meant for whoever handles no-show reduction at the practice. Could you forward it? Thanks.\n\nBest,\nMia",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft (od 105) je previše dugačak i sadrži obrambeni ton. Zamjenjujem ga kraćim nastavkom koji objašnjava svrhu poruke bez ponovne prodaje."
+    },
+    {
+      "key": "3640877/4176331722",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Bedankt voor uw bericht, mocht u om een reactie hebben gevraagd dan proberen wij binnen 2 werkdagen te reageren."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hoi, dank voor het automatische antwoord. Mijn bericht was bedoeld voor degene die verantwoordelijk is voor het verminderen van no-shows in de praktijk. Zou je het kunnen doorsturen? Alvast bedankt.\n\nGroet,\nMia",
+      "draft_english": "Hi, thanks for the automatic reply. My message was meant for whoever handles no-show reduction at the practice. Could you forward it? Thanks in advance.\n\nBest,\nMia",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći draft (od 109) ima pogrešno ime (Mia umjesto Andrew). Zamjenjujem ga kratkim nastavkom."
+    },
+    {
+      "key": "3640877/4176331750",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, Wichtige Informationen für Patienten: ... zurzeit können wir Ihr Anliegen per Mail nicht bearbeiten."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hallo, danke für die automatische Antwort. Meine Nachricht war keine Patienten-Anfrage – sie war für die Person gedacht, die für die Reduzierung von No-Shows in der Praxis zuständig ist. Könnten Sie sie weiterleiten? Danke.\n\nGrüße,\nAndrew",
+      "draft_english": "Hello, thanks for the automatic reply. My message wasn't a patient inquiry – it was meant for whoever handles no-show reduction at the practice. Could you forward it? Thanks.\n\nBest,\nAndrew",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft (od 108) ima neprikladan ton i predstavlja se kao Mia. Zamjenjujem ga kratkim nastavkom."
+    },
+    {
+      "key": "3640877/4176331416",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, vielen Dank für Ihre Email. Ihre Nachricht wird derzeit bearbeitet."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hallo, danke für die automatische Antwort. Meine Nachricht war für die Person gedacht, die für die Reduzierung von No-Shows in der Praxis zuständig ist. Könnten Sie sie weiterleiten? Danke.\n\nGrüße,\nAndrew",
+      "draft_english": "Hello, thanks for the automatic reply. My message was meant for whoever handles no-show reduction at the practice. Could you forward it? Thanks.\n\nBest,\nAndrew",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft (od 104) ima neprikladan ton i ime (Mia). Zamjenjujem ga."
+    },
+    {
+      "key": "3640877/4176331553",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Poruka nije mogla biti dostavljena jer adresa info@treant.nl nije pronađena (bounce). Ovo nije ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "BOUNCE",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Adresa ne postoji (bounce). Ukloniti iz kampanje.",
+      "missing_information": [],
+      "evidence": [
+        "Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup'"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Bounce – nema smisla slati dalje. Postojeći draft (od 107) je neprimjeren."
+    },
+    {
+      "key": "3640877/4176330963",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo auto-odgovor primljen. Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo auto-odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Herzlich Willkommen bei Ihren Zahnärzten Dr. Vogtner Mit Ihrem Anliegen werden wir uns schnellstmöglich befassen und uns umgehend bei Ihnen melden."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hallo, danke für die automatische Antwort. Meine Nachricht war für die Person gedacht, die für die Reduzierung von No-Shows in der Praxis zuständig ist. Könnten Sie sie weiterleiten? Danke.\n\nGrüße,\nAndrew",
+      "draft_english": "Hello, thanks for the automatic reply. My message was meant for whoever handles no-show reduction at the practice. Could you forward it? Thanks.\n\nBest,\nAndrew",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft (od 101) ima neprikladan ton i ime (Mia). Zamjenjujem ga kratkim nastavkom."
+    }
+  ]
+}

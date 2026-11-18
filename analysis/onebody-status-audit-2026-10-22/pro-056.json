@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10710,
+    "completion_tokens": 2307,
+    "total_tokens": 13017,
+    "cost": 0.00773298891,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7886,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00773298891,
+      "upstream_inference_prompt_cost": 0.00332541927,
+      "upstream_inference_completions_cost": 0.00440756964
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613429",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Anthony je napustio tvrtku. Dao je kontakte drugih osoba za poslovne upite, ali nije izrazio interes za ponudu niti postavio pitanje.",
+      "last_human_request_hr": "no human reply relevant to the offer",
+      "unresolved_hr": "Nema neriješenih zahtjeva. Osoba je otišla.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Kontakt nije zainteresiran.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<df7fb7c115234cba80f13ec1854eb3ef@VI1PR04MB4768.eurprd04.prod.outlook.com>",
+          "quote": "I've now left Iris."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613353",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljen je automatski odgovor 'Out of Office'. Nema ljudskog odgovora na ponudu. Lead je na crnoj listi, zaštita ostaje.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba se nije javila, nema upita.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati ništa. Samo automatski OOO odgovor, lead je zaštićen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1b05f4a35e16490b8b474d61f07b7e63@CWLP265MB2724.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am away from the office until Tuesday 15th Sept and will not be picking up emails."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613347",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka da osoba više ne radi u HTB. Nema prosljeđivanja, nema ljudskog interesa. Lead je na crnoj listi, zaštita ostaje.",
+      "last_human_request_hr": "no human reply relevant to the offer",
+      "unresolved_hr": "Nema upita. Osoba je otišla.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<065082d79864439892fd9423b2e9f18d@LO0P265MB8986.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I no longer work at HTB, your email has not been forwarded"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613340",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka da Russ Fitzgerald više ne radi u HTB. Daje kontakt Andrew.Nixon@htb.co.uk za ponovno slanje, ali to nije izravan ljudski interes niti preporuka od strane zainteresirane osobe. Lead je na crnoj listi, zaštita ostaje.",
+      "last_human_request_hr": "no human reply relevant to the offer",
+      "unresolved_hr": "Nema upita od strane primatelja. Preporučeni kontakt je samo za ponovno slanje admin poruke.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik može razmotriti slanje inicijalne ponude na Andrew.Nixon@htb.co.uk kao novi lead, ali trenutni lead je zatvoren.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<da75696e1cc64788993f9904ec3657f7@LO2P265MB3999.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Your email has not been received as the intended recipient no longer works at HTB. Please resend to Andrew.Nixon@htb.co.uk."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613380",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Greška: 'Spam or virus detected'. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa ne prima poruke zbog sigurnosnih filtera.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem ove adrese.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e215e094-1d7d-4950-98de-7fa403e378e0@LO7P123MB8196.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to ybaidoukov@gemcorp.net couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613059",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Suzy je napustila Chip. Poruka je automatska obavijest s kontaktima drugih osoba, bez ikakvog interesa za ponudu.",
+      "last_human_request_hr": "no human reply relevant to the offer",
+      "unresolved_hr": "Osoba je otišla, nema upita.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAA=AfiQyUK8R5Y+8VBbcB+a+_FEm+865YC=qPOY3hC=A-Nz3Qg@mail.gmail.com>",
+          "quote": "Suzy has left Chip. For all queries please reach out to\nalex@getchip.uk or tom.martin@getchip.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613005",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Jonathan je izrazio interes ('I’m actually quite interested') i postavio pitanje o izvoru podataka. Dobio je odgovor, link i kod. Poslani su follow-upovi. Nije potvrdio booking niti odbio. Posljednja poruka je naša od 25.09.2026. Ponuda OBLACCESS55 vrijedi do kraja listopada, danas je 22.10.2026. - još uvijek aktualno. Status 'Lead Done' je pogrešan.",
+      "last_human_request_hr": "I’m actually quite interested so thanks for the note, but how did you get my details pls?",
+      "unresolved_hr": "Jonathan je zainteresiran ali nije bookirao. Čeka se njegova reakcija. Stari follow-upovi su se odnosili na rujan, sada je moguć novi pokušaj.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati novi follow-up podsjetnik da je ponuda još uvijek otvorena do 31.10.2026.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<AS8P192MB1144779A11B3713184293E33E5BF2@AS8P192MB1144.EURP192.PROD.OUTLOOK.COM>",
+          "quote": "I’m actually quite interested so thanks for the note, but how did you get my details pls?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613040",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Greška: 'Local Policy Violation - Spam'. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa blokira poruke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a14e482e-bd69-4634-b12b-cd35da441eda@LO2P123MB4064.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "mx07-0050eb01.pphosted.com rejected your message to the following email addresses:\ns.kumra@beshapingthefuture.co.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

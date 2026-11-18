@@ -1,0 +1,200 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 11555,
+    "completion_tokens": 2552,
+    "total_tokens": 14107,
+    "cost": 0.01168421,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 11520,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01168421,
+      "upstream_inference_prompt_cost": 0.00191005,
+      "upstream_inference_completions_cost": 0.00977416
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520614142",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je neaktivna/blokirana. Nije moguć kontakt.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije. Bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d2f8d611-1072-4689-ab69-6b5785f3b7f4@CWXP123MB3352.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to michael.furth@klarpartners.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614004",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'izvan ureda'. Nije ljudski angažman.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Shiv Patel je bio izvan ureda. Nema povratnog odgovora nakon toga. Potencijalno followup, ali trenutno samo auto-reply.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Sačekati. Nema znakova ljudskog interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAPTXM4cLU0Dni967niJnOF1usmFTF4VShGxqyjtuw8xXvWVqvg@mail.gmail.com>",
+          "quote": "Thanks for your message. I am at an offsite for the next few days and\nwill reply as soon as practical."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613935",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Declan Jones je napustio firmu i uputio na kolegu Rory Curnockcooka. To je korisna preporuka (referral) na koju treba odgovoriti.",
+      "last_human_request_hr": "I have left Finseta Payment Solutions... please contact Rory Curnockcook at rory.curnockcook@finseta.com.",
+      "unresolved_hr": "Kontaktirati Rory Curnockcooka s ponudom, zahvaliti Declanu.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Odgovoriti Declanu, zahvaliti na informaciji i potvrditi da ćemo kontaktirati Rorya. Zatim poslati outreach na rory.curnockcook@finseta.com. Stara oznaka 'wrong_person' je netočna; ovo je angažman.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAY9QnSRHUZW_qGH6xetuvDjySRER8WU06mJX+dYFsVY4+A9dw@mail.gmail.com>",
+          "quote": "I have left Finseta Payment Solutions and am no longer able to respond."
+        },
+        {
+          "message_id": "<CAAY9QnSRHUZW_qGH6xetuvDjySRER8WU06mJX+dYFsVY4+A9dw@mail.gmail.com>",
+          "quote": "please contact Rory Curnockcook at\nrory.curnockcook@finseta.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613864",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Mark Foster-brown je na bolovanju i uputio na dvojicu kolega: Louis Lundy i Henry Goode. To je ljudska interakcija i referral na koju treba odgovoriti.",
+      "last_human_request_hr": "I am currently on medical leave... please contact Louis Lundy or Henry Goode llundy@adjuvo.com hgoode@adjuvo.com",
+      "unresolved_hr": "Kontaktirati Louisa i Henrya s ponudom.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Odgovoriti Marku, zahvaliti i potvrditi da ćemo kontaktirati kolege. Poslati outreach na llundy@adjuvo.com i hgoode@adjuvo.com. Stara oznaka 'auto_reply' je netočna; ovo je ljudska poruka s uputom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e3dbb8d9ab1d4a1a8d1af7d49e81dac8@LO4P265MB4113.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am currently on medical leave and will not see emails immediately."
+        },
+        {
+          "message_id": "<e3dbb8d9ab1d4a1a8d1af7d49e81dac8@LO4P265MB4113.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "please contact Louis Lundy or Henry Goode\nllundy@adjuvo.com\nhgoode@adjuvo.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613633",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa blokirana. Nije moguć kontakt.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije. Bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aa7ddb2.e12bea9d.36157c.4451.GMR@mx.google.com>",
+          "quote": "Your message to chris.rokos@rokoscapital.com has been blocked."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613432",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Graham Tester je eksplicitno zatražio uklanjanje podataka. Opt-out.",
+      "last_human_request_hr": "Please remove my details from you database",
+      "unresolved_hr": "Zahtjev za brisanje. Poštivati.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne kontaktirati. Označiti kao unsubscribe/DNC.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<AM6PR07MB46790C81EEE072C3C9FAABCCD2B92@AM6PR07MB4679.eurprd07.prod.outlook.com>",
+          "quote": "Please remove my details from you database"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613384",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je neaktivna/blokirana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije. Bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5dcb3a39-565d-4375-afb3-2b076568886e@LO0P123MB6399.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to njacobsen@gemcorp.net couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613112",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Nasir Jan je potvrdio interes 'Yes I would be interested in this' i pitao za vježbe istezanja. Poslan mu je link i kod (OBLACCESS55). Posljednji kontakt je naša follow-up poruka 25.09.; nema potvrde bookinga niti odbijanja.",
+      "last_human_request_hr": "Yes I would be interested in this. I'm particularly interested in stretching exercises. Please let me know what time / date works",
+      "unresolved_hr": "Čekamo da se Naris naruči. Prošlo je skoro mjesec dana od zadnjeg follow-upa. Ponuda OBLACCESS55 vrijedi do 31.10. prema uputama vlasnika. Ovo nije 'not_interested' niti 'Lead Done'; stara oznaka je pogrešna. Potrebno ga je ponovno kontaktirati i provjeriti treba li pomoć.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati novi follow-up Nasiru. Provjeriti je li uspio rezervirati, ponuditi pomoć. Ne mijenjati kod (OBLACCESS55). Ne zatvarati.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAFGke=Jroe47w=vX-1GP2KzF_2iKp-d=buCod07GbVcaq9T5tQ@mail.gmail.com>",
+          "quote": "Yes I would be interested in this."
+        },
+        {
+          "message_id": "<CAFGke=Jroe47w=vX-1GP2KzF_2iKp-d=buCod07GbVcaq9T5tQ@mail.gmail.com>",
+          "quote": "I'm particularly interested in stretching exercises."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

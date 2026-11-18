@@ -1,0 +1,201 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12175,
+    "completion_tokens": 3192,
+    "total_tokens": 15367,
+    "cost": 0.0157455,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0157455,
+      "upstream_inference_prompt_cost": 0.0109575,
+      "upstream_inference_completions_cost": 0.004788
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616574",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor, nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema znakova ljudskog interesa; referral na hannah.steiner@octopusmoney.com nije upit, već standardna OOO poruka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije. Osoba nije pokazala interes, a OOO ne sadrži pitanja niti zahtjeve.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAD5RfZ66zy6c7odP3+PDRBxk8HiFr6SaSsrfJgK_zsKtNmC+Ww@mail.gmail.com>",
+          "quote": "Thanks for your email. I am currently on annual leave with limited\naccess to email. Please contact hannah.steiner@octopusmoney.com with\nany urgent queries."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616436",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Laura je pitala zašto je besplatno, dobila je link i kod, nakon toga poslano više follow-up poruka. Nije odbila, nije rezervirala. Posljednja naša poruka je 'last email' 28.9., ali razgovor je stvarno gotov s naše strane (rekli smo da nećemo dalje gurati). Ostaje mogućnost da rezervira u budućnosti, ali daljnji outreach bi bio kontraproduktivan.",
+      "last_human_request_hr": "Hi Rebecca,\n\nThank you for your email.\n\nIt sounds amazing. Why is it free?",
+      "unresolved_hr": "Lead je dobio sve informacije, poslane tri follow-up poruke i 'last email'. Nema potvrde rezervacije niti odbijanja. Prema pravilima, nakon handovera slijedimo dok ne rezerviraju ili odbiju. No, budući da je eksplicitno rečeno 'this is my last email', daljnji follow-up bi narušio to obećanje. Predlažem ručni pregled vlasnika: je li 'last email' zaista kraj ili želimo probati nešto drugo.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti želi li vlasnik poslati još jednu nenametljivu poruku (npr. podsjetnik na istek koda) unatoč 'last email' 28.9., ili ostaviti kako je.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHjYhC_22YjGKcFTRoXaNvG9tGSCg+f1g6NDQRsKyTezGo6nfA@mail.gmail.com>",
+          "quote": "It sounds amazing. Why is it free?"
+        },
+        {
+          "message_id": "<456118ce-af94-slt57-4dac-8f73-492097d41cd3-w5c4ujv@onebodybiz.com>",
+          "quote": "this is my last email. Don't want to push if now is not the right time."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616475",
+      "assessment": "auto_reply",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Automatski OOO odgovor s naznakom povratka u četvrtak (17.9.2026.). Osoba nije ljudski odgovorila na ponudu, nema pitanja niti interesa, ali postoji ljudski potpis (ime, titula). OOO poruka kaže 'odgovorit ću što prije', što implicira da će osoba možda pročitati i odgovoriti. Budući da nije bilo ljudskog odgovora, ne možemo sa sigurnošću reći da je lead propušten. Međutim, referral na dylan@incubeta.com nije interes za ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "OOO je istekao 17.9., osoba se nije javila. Nema znakova da je pročitala i ignorirala. Vlasnik može odlučiti poslati jedan nenametljivi follow-up sada (listopad) budući da je prošlo dovoljno vremena, ali prema strogim pravilima, ovo je još uvijek auto_reply.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Trenutno nema akcije. Ako vlasnik želi, može se poslati jedan follow-up s obzirom na to da je OOO istekao, ali bez daljnjih dokaza ljudskog interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAP5PYxskV7mR14Qw4aSWNx3DaW2f3p6KNtxnBR5Dk1t=n2+JBg@mail.gmail.com>",
+          "quote": "Thanks for your email. I am currently travelling for work, until\nThursday. I will respond as soon as possible but please expect\nresponses to be delayed."
+        }
+      ],
+      "rejected_evidence": [
+        {
+          "message_id": "<CAP5PYxskV7mR14Qw4aSWNx3DaW2f3p6KNtxnBR5Dk1t=n2+JBg@mail.gmail.com>",
+          "quote": "Elizabeth Sutton She/Her\nHead of Growth - UK | Global Capabilities Lead - Marketing Technology"
+        }
+      ],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616518",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Rebecca Walsh je pitala smije li podijeliti ponudu s timom, dobila je link i kod, te odobrenje. Nakon toga poslano više follow-up poruka. Nije odbila, nije rezervirala. Posljednja naša poruka je 'last email' 28.9. Ista situacija kao Laura: handover je završen, 'last email' poslan. Potencijalno je podijelila s timom i netko je rezervirao (nepoznato).",
+      "last_human_request_hr": "HI Rebecca,\n\nThank you for the email!\n\nAre you happy for me to share with the team who are based here?",
+      "unresolved_hr": "Lead je dobio sve informacije i odobrenje za dijeljenje s timom. Poslane tri follow-up poruke i 'last email'. Nema potvrde rezervacije niti odbijanja. Budući da je rekla 'this is my last email', daljnji follow-up bi narušio obećanje. Predlažem ručni pregled vlasnika: je li 'last email' zaista kraj ili želimo probati nešto drugo s obzirom na potencijalnu vrijednost tima.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti želi li vlasnik poslati još jednu poruku (npr. podsjetnik na istek koda) unatoč 'last email' 28.9., ili ostaviti kako je.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO2P265MB29435839248C9FD0B174ACCAF1BB2@LO2P265MB2943.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Are you happy for me to share with the team who are based here?"
+        },
+        {
+          "message_id": "<5b706ac6-e568-slt33-44a3-9b2f-fbc53988999a-dkdg1bj@onebodyclinics.com>",
+          "quote": "this is my last email. Don't want to push if now is not the right time."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616517",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor, bez ljudskog odgovora na ponudu. Nema imena u tijelu poruke, samo 'I am out of the office'.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema znakova ljudskog interesa. OOO je istekao 21.9., osoba se nije javila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<65552f6e229f48e0b99c5646266be34b@LOAP265MB8559.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office until Monday 21st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616516",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Lead je označen kao 'Meeting Booked' i stored_label je 'booked'. Barry je odgovorio 'Replying', dobio link i kod, te poslano više follow-upova. Sustav bilježi rezervaciju. Nema potrebe za daljnjom akcijom osim ako se ne otkaže.",
+      "last_human_request_hr": "Replying",
+      "unresolved_hr": "Rezervacija evidentirana. Nema otvorenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Potvrđeno booked. Bez daljnje akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO0P265MB4526DB644AE6A0A4E2A342C082BB2@LO0P265MB4526.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Replying"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616515",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email nije isporučen. Server je odbio poruku zbog URL-a na crnoj listi.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Email nije isporučen. Tehnički problem s reputacijom domene.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije putem ovog kanala. Problem je tehničke prirode i zahtijeva intervenciju admina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9196a4c4-89f4-405d-99d0-f9af4a437026@LOAP123MB8339.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to harriet@harringtonstarr.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616514",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email nije isporučen. Server je odbio poruku zbog URL-a na crnoj listi.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Email nije isporučen. Tehnički problem s reputacijom domene.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije putem ovog kanala. Problem je tehničke prirode i zahtijeva intervenciju admina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c39abe5b-d9d3-4a59-b6f3-5d56b34c4f4e@LO3P123MB3100.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to andrew.nitek@harringtonstarr.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

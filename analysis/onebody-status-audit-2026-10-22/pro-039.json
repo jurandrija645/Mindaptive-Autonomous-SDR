@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 11287,
+    "completion_tokens": 2797,
+    "total_tokens": 14084,
+    "cost": 0.03092668,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.03092668,
+      "upstream_inference_prompt_cost": 0.02021417,
+      "upstream_inference_completions_cost": 0.01071251
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520620062",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ed je izrazio interes za besplatnu sesiju, tražio deep tissue masažu i zamolio da mu se jave s terminima utorkom/srijedom/četvrtkom. Poslan mu je link i kod, ali nema potvrde rezervacije ni odbijanja. Zadnja poruka je naša, čeka se njegov potez.",
+      "last_human_request_hr": "i'd love to book in a deep tissue massage if possible ideally on a tuesday/wednesday or thursday in the coming weeks are you able to let me know when works?",
+      "unresolved_hr": "Nije potvrđeno da je rezervirao. Potrebno je ponovno nježno provjeriti treba li pomoć s rezervacijom, s obzirom da je prošlo više od mjesec dana od zadnjeg kontakta.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati personaliziranu poruku koja se referira na njegov zahtjev za deep tissue masažom i ponuditi pomoć pri odabiru termina utorkom/srijedom/četvrtkom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHEcZqLvVUf_tRtmqxt0B=cD0ESyoq3K6fpT81O633CdvD7prQ@mail.gmail.com>",
+          "quote": "can i get e.g. a deep tissue massage or something like that?"
+        },
+        {
+          "message_id": "<CAHEcZq+t4GxxMppBPbVJws1Psnn4hydOp=o-yE0ThN=oiApyTw@mail.gmail.com>",
+          "quote": "i'd love to book in a deep tissue massage if possible ideally on a tuesday/wednesday or thursday in the coming weeks\nare you able to let me know when works?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619919",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljen je samo automatski 'Out Of Office' odgovor koji kaže da je srijeda neradni dan i upućuje na drugi kontakt za hitne stvari. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema dokaza da je Bea osobno vidjela ili odgovorila na poruku. Automatski odgovor ne ukazuje na ljudski angažman.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Automatski OOO odgovor ne zahtijeva daljnje radnje. Status je ispravno označen kao auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CABk9gDZYXfsHEpXwXHEdsaSYCbzZuwBOWEBe4dFeLc32Gsze-A@mail.gmail.com>",
+          "quote": "Thanks for your email and I'm sorry that I missed you. Wednesdays are\nmy Non working day."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619905",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Sustav primatelja ju je odbio kao spam ili virus. Nema ljudske interakcije.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s isporukom. Potrebno je razmotriti tehničke korekcije (npr. kontaktirati administratora domene primatelja) prije ponovnog pokušaja, ali nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati nove poruke dok se ne riješi tehnički problem s dostavom. Istražiti uzrok odbijanja (Mimecast spam filter).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<78c8ab32-32cd-4e5e-a85a-221ee29a952a@LO7P123MB7577.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to dominic.sender@withersworldwide.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619898",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Jodie je odgovorila da je zainteresirana i želi znati više. Poslan joj je link i kod. Uslijedilo je nekoliko follow-upova s naše strane, ali nema daljnjeg odgovora, odbijanja niti potvrde rezervacije. Stari status 'Lead Done' i oznaka 'not_interested' su netočni jer osoba nikad nije odbila.",
+      "last_human_request_hr": "I'd be interested to know more!",
+      "unresolved_hr": "Inicijalni interes nije rezultirao rezervacijom, ali ni odbijanjem. Nakon mjesec dana bez odgovora, potreban je oprezan follow-up koji nudi pomoć ili nove opcije (npr. novi code VIP8401), bez pritiska.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Ispraviti status iz 'Lead Done' u aktivan. Poslati nježan follow-up s pitanjem treba li pomoć pri rezervaciji i informacijom da je ponuda i dalje dostupna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAFD0EWMT=c88609rQAn=8WGqY8wo6XxHsUuMfVECKiXG2kfAKw@mail.gmail.com>",
+          "quote": "Thanks for reaching out. I'd be interested to know more!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619746",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka obavještava da Seda Ambartsumian više ne radi u organizaciji i upućuje na kontakt daryaermolina@targetglobal.vc za sve upite.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je napustila tvrtku. Proslijeđena je adresa za kontakt, ali nema naznake da je itko osobno zainteresiran za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa prema ovoj adresi. Ako se želi, može se ručno kontaktirati navedenu adresu daryaermolina@targetglobal.vc, ali to je nova, nevezana domena.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<00000000000052ecda065b98c161@google.com>",
+          "quote": "Kindly note that Seda Ambartsumian is no longer with the organization."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619745",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka obavještava da Joshua Stein više ne radi u organizaciji i upućuje na kontakt mhegdekatte@targetglobal.vc za sve upite.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je napustila tvrtku. Proslijeđena je adresa za kontakt, ali nema naznake da je itko osobno zainteresiran za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa prema ovoj adresi. Ako se želi, može se ručno kontaktirati navedenu adresu mhegdekatte@targetglobal.vc, ali to je nova, nevezana domena.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000430c54065b98c188@google.com>",
+          "quote": "Kindly note that Joshua Stein is no longer with the organization."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619718",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Sustav primatelja ju je odbio kao spam ili virus. Nema ljudske interakcije.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s isporukom. Potrebno je razmotriti tehničke korekcije prije ponovnog pokušaja, ali nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati nove poruke dok se ne riješi tehnički problem s dostavom. Istražiti uzrok odbijanja (Mimecast spam filter).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<79169b59-4b4b-4848-b25b-31fbc1e6e040@LO7P123MB7657.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to natasha.bray@rapleys.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619514",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Dave Leaver je odgovorio da je napustio Mention Me i uputio na druge kontakte za različite upite. Ne pokazuje interes za ponudu.",
+      "last_human_request_hr": "I have now left Mention Me.",
+      "unresolved_hr": "Osoba je napustila tvrtku. Daje upute za daljnju komunikaciju s kolegama, ali nema upita o ponudi.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Oznaka 'Wrong Person' je ispravna. Ne postoji korisna preporuka za nastavak.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAG_PN4Rb-wCuOG1xkL+xncfWH9QmpzZNoiFbN9MOmma1bVhGiQ@mail.gmail.com>",
+          "quote": "I have now left Mention Me. Please redirect your email accordingly"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

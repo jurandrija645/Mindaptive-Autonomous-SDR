@@ -1,0 +1,200 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10170,
+    "completion_tokens": 2366,
+    "total_tokens": 12536,
+    "cost": 0.015557688,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.015557688,
+      "upstream_inference_prompt_cost": 0.01061748,
+      "upstream_inference_completions_cost": 0.004940208
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317835",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "David Porter je eksplicitno odbio ponudu.",
+      "last_human_request_hr": "Thank you but not currently necessary",
+      "unresolved_hr": "Ništa. Osoba je jasno odbila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta. Označiti kao odbijeno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO6P123MB70314245FF086459FDFB6CEE8CB12@LO6P123MB7031.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thank you but not currently necessary"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317493",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Thomas Luccock je nakon automatskih OOO poruka poslao eksplicitan zahtjev za odjavu.",
+      "last_human_request_hr": "Unsubscribe please",
+      "unresolved_hr": "Ništa. Osoba je zatražila odjavu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštivati zahtjev za odjavu. Nema daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<GV3P280MB14728AA5DF9D9FAB88C3F275FBBB2@GV3P280MB1472.SWEP280.PROD.OUTLOOK.COM>",
+          "quote": "Unsubscribe please"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317381",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Chris Thompson je pokazao interes, dobio link i kod, potvrdio da planira pogledati i poslao palac gore. Zadnja poruka je naša (bump). Nije se predomislio niti odbio.",
+      "last_human_request_hr": "👍",
+      "unresolved_hr": "Chris još nije potvrdio booking. Potrebno je daljnje praćenje.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Nastaviti s praćenjem. Provjeriti želi li pomoć s terminom ili ima pitanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CACn8htNArcs+H=LU2Z=5Mgzda4TM_apCdWB0FT7utMT2w6sirw@mail.gmail.com>",
+          "quote": "This sounds good to me. what are the next steps and timeslots you have available?"
+        },
+        {
+          "message_id": "<CACn8htM0P3jQQqeThQO+T5MV+9kscec-LvnK_z=_=JQ3qJphQw@mail.gmail.com>",
+          "quote": "Im planning on looking at it its just my office days are a buit skewed for the next cvouple of weeks"
+        },
+        {
+          "message_id": "<CACn8htOi+NzH601DX4u6TPvt4-oE+U3hNKwg2SXy0ZsQcrqjQA@mail.gmail.com>",
+          "quote": "👍"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317384",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Romelia Papalie je izrazila interes, dobila link i kod. Poslali smo više follow-upova, uključujući i 'posljednji email' 23.9. Nije se predomislila niti odbila.",
+      "last_human_request_hr": "Would be interested in finding out more",
+      "unresolved_hr": "Romelia nikada nije odgovorila nakon što je primila detalje za booking. Potrebno je provjeriti treba li pomoć.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Nježno provjeriti treba li pomoć s bookingom budući da je prošlo neko vrijeme od zadnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<AS8P251MB03287C5D044B2C01859D4353F9B22@AS8P251MB0328.EURP251.PROD.OUTLOOK.COM>",
+          "quote": "Would be interested in finding out more"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317489",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Anthony Karibian je odbio ponudu u ime tvrtke, navodeći da to ne rade za zaposlenike.",
+      "last_human_request_hr": "We don’t do this kind of stuff for our staff and most work remotely anyways.",
+      "unresolved_hr": "Ništa. Ponuda je odbijena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta. Označiti kao odbijeno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<866139DC-57DB-493C-B0A6-F8F3F7048F80@bonline.com>",
+          "quote": "We don’t do this kind of stuff for our staff and most work remotely anyways."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317331",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Richard Cowen je izrazio interes i rekao da će pogledati termine. Poslali smo detalje i više follow-upova, ali nije potvrdio booking niti ga odbio.",
+      "last_human_request_hr": "Okay, I will have a look and see if I can find a time.",
+      "unresolved_hr": "Richard nije potvrdio booking. Prošlo je dosta vremena, ali interes je bio jasan.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Nježno ponovno kontaktirati i ponuditi pomoć s pronalaskom termina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP123MB62545E172EDC15120A2BED63D5B22@CWXP123MB6254.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "This is actually of interest to me. Tell me a bit more about your company."
+        },
+        {
+          "message_id": "<CWXP123MB625448C5FD07FEDECC67C7D0D5B22@CWXP123MB6254.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Okay, I will have a look and see if I can find a time."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317185",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Josh Dernie je javio da tvrtka više nije u Hammersmithu. Nema iskazan interes za ponudu, samo ispravak informacije o lokaciji.",
+      "last_human_request_hr": "Thanks Rebecca, we're no longer in Hammersmith.",
+      "unresolved_hr": "Ponuda je bila vezana za lokaciju na kojoj više nisu. Nema upita za daljnje informacije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom osim ako ne postoji klinika blizu njihove nove lokacije, o čemu vlasnik treba odlučiti.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CACM=m4DdzUR7YtrE5ySQv7qXGX_3hpJXdYQ4wox=4aueVJXzWQ@mail.gmail.com>",
+          "quote": "Thanks Rebecca, we're no longer in Hammersmith."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317234",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ben Christie je eksplicitno zatražio uklanjanje s mailing liste.",
+      "last_human_request_hr": "please take me off this mailing list",
+      "unresolved_hr": "Ništa. Osoba se želi odjaviti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštivati zahtjev za odjavu. Nema daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2DD57BD2-BD2D-46D8-8CC9-4C2920D29618@magpie-studio.com>",
+          "quote": "please take me off this mailing list"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 13946,
+    "completion_tokens": 2458,
+    "total_tokens": 16404,
+    "cost": 0.00132034,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00132034,
+      "upstream_inference_prompt_cost": 0.00097622,
+      "upstream_inference_completions_cost": 0.00034412
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316627",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Carina je automatski odgovorila da više ne radi u Splendid, što je čini pogrešnom osobom.",
+      "next_step_hr": "Označiti kao pogrešnu osobu i obustaviti daljnje slanje.",
+      "last_inbound_summary_hr": "Automatski odgovor da više ne radi u Splendid.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer working at Splendid"
+      ]
+    },
+    {
+      "key": "3876232/4446317082",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Matt je automatski odgovorio OOO porukom, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako OOO više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska OOO poruka do 9. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office until Wednesday 9th September"
+      ]
+    },
+    {
+      "key": "3876232/4446317248",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sophie je automatski odgovorila OOO porukom, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako OOO više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska OOO poruka.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now out of the office until Tuesday 8th September"
+      ]
+    },
+    {
+      "key": "3876232/4446315634",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Halima je automatski odgovorila da je na porodiljnom dopustu, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako dopust više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska poruka o porodiljnom dopustu.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "currently on maternity leave and won’t be checking email during this period"
+      ]
+    },
+    {
+      "key": "3876232/4446316917",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ranj je automatski odgovorio da je napustio PA i da se sandučić više ne nadzire.",
+      "next_step_hr": "Označiti kao pogrešnu osobu i obustaviti daljnje slanje.",
+      "last_inbound_summary_hr": "Automatski odgovor da je napustio PA.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have left PA and this mailbox is no longer monitored"
+      ]
+    },
+    {
+      "key": "3876232/4446316262",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Julie je automatski odgovorila OOO porukom, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako OOO više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska OOO poruka s povratkom 3. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently OOO returning on 3 Sept"
+      ]
+    },
+    {
+      "key": "3876232/4446316682",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sonny je automatski odgovorio OOO porukom, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako OOO više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska OOO poruka.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on annual leave, I will respond to your email on my return"
+      ]
+    },
+    {
+      "key": "3876232/4446316744",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alice je automatski odgovorila OOO porukom, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako OOO više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska OOO poruka do 3. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will return on 3rd September"
+      ]
+    },
+    {
+      "key": "3876232/4446315423",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Helen je automatski odgovorila da je na odmoru, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako odmor više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska poruka o odmoru do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on leave/ PTO until Tuesday 1st September"
+      ]
+    },
+    {
+      "key": "3876232/4446315575",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "James je automatski odgovorio OOO porukom, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako OOO više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska OOO poruka.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently OOO"
+      ]
+    },
+    {
+      "key": "3876232/4446316056",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Stephen je automatski odgovorio da je napustio P&P.",
+      "next_step_hr": "Označiti kao pogrešnu osobu i obustaviti daljnje slanje.",
+      "last_inbound_summary_hr": "Automatski odgovor da je napustio P&P.",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have since left P&P"
+      ]
+    },
+    {
+      "key": "3876232/4446315388",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ausra je više puta automatski odgovorila da je na porodiljnom dopustu, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Može se označiti kao Out Of Office ili razmotriti uklanjanje ako dopust više nije aktivan.",
+      "last_inbound_summary_hr": "Automatska poruka o porodiljnom dopustu (posljednja od 14. rujna).",
+      "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "currently on maternity leave"
+      ]
+    }
+  ]
+}

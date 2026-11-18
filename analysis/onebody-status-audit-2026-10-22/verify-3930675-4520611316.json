@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5592,
+    "completion_tokens": 1281,
+    "total_tokens": 6873,
+    "cost": 0.0069543,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0069543,
+      "upstream_inference_prompt_cost": 0.0050328,
+      "upstream_inference_completions_cost": 0.0019215
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520611316",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka o rodiljnom dopustu, nema osobnog odgovora na ponudu.",
+      "request_hr": "nema",
+      "next_action_hr": "Pošiljateljica je na rodiljnom dopustu, nema naznake datuma povratka. Ako imate procijenjeni datum, unesite ga ručno; inače pratite do daljnjeg.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520610008",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CBAE12A3-0AB8-46A6-BBF1-FD92C2D10565@clarktv.com>",
+      "human_quote": "No thanks",
+      "reason_hr": "Osoba je osobno odbila ponudu s 'No thanks'.",
+      "request_hr": "odbio ponudu",
+      "next_action_hr": "Ne slati daljnje poruke. Označiti kao odbijeno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610124",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<LO8P302MB2346E6110880B8B50FBC8995FEBF2@LO8P302MB2346.GBRP302.PROD.OUTLOOK.COM>",
+      "human_quote": "Open to hearing more, yes. I have used physio’s before and could do with a session now so your timing is good.",
+      "reason_hr": "Potvrdio interes, poslan mu je link i kod za booking. Lokalni status je 'booked', ali u porukama nema potvrde da je rezervirao pa čekamo reakciju ili automatsku potvrdu sustava.",
+      "request_hr": "poslan link i kod za rezervaciju",
+      "next_action_hr": "Provjeriti u kalendaru je li stvarno rezervirao; ako nije, poslati jedan nježan follow-up podsjetnik na kod.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318135",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka o rodiljnom dopustu, tri puta identičan odgovor. Nema osobnog angažmana.",
+      "request_hr": "nema",
+      "next_action_hr": "Osoba je na rodiljnom dopustu bez poznatog datuma povratka. Ne slati daljnje poruke dok se ne vrati.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446318014",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-09-15",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka s eksplicitnim datumom povratka 15. rujna 2026. Datum je prošao, nakon toga nema ljudskog odgovora, ali posljednja naša poruka ostala bez reakcije.",
+      "request_hr": "nema",
+      "next_action_hr": "Datum povratka je prošao (15.9.), no osoba nije odgovorila na kasnije poruke. Možda je produžila odsutnost. Preporučujem jedan nježan re-engagement email sada kad je vjerojatno u uredu, ali bez forsiranja.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446318007",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka bez datuma povratka. Nakon toga dvije naše poruke bez ikakvog ljudskog odgovora.",
+      "request_hr": "nema",
+      "next_action_hr": "Samo automatski odgovor, nema znakova ljudske interakcije. Možete pokušati ponovo za nekoliko tjedana ako procijenite da se osoba vratila, ali trenutno nema osnove za kontakt.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

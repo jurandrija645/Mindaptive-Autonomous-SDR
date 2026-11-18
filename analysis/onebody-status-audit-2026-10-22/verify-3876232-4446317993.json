@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6994,
+    "completion_tokens": 1100,
+    "total_tokens": 8094,
+    "cost": 0.0079446,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0079446,
+      "upstream_inference_prompt_cost": 0.0062946,
+      "upstream_inference_completions_cost": 0.00165
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317993",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Sve poruke od Lukea su automatski OOO odgovori. Nema personalizirane reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Kontakt nije pokazao stvarni interes. Preporuča se trajno isključivanje iz kampanje jer su svi odgovori automatski.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317977",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAJ5y4ZZein_rWNP=A26qvA9Mtqa8NUqgdvmMVDLvCjfdvmSmhQ@mail.gmail.com>",
+      "human_quote": "Please stop contacting me now.",
+      "reason_hr": "Dan je prvo odbio ponudu (ured zatvoren, remote rad), a zatim izričito zatražio prestanak kontakta.",
+      "request_hr": "stop contacting",
+      "next_action_hr": "Poštovati zahtjev za prestankom kontakta. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446318022",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka o postavljanju događaja. Nema ljudske reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Nema dokaza o ljudskom interesu. Prekinuti daljnje pokušaje kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446318021",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka o događaju. Nema personalizirane reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Nema dokaza o ljudskom interesu. Prekinuti daljnje pokušaje kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317887",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAFkXmJSpsdMvbi8tUF1dv4k3j7+Xox+XsQeK__TBG9cNMMYzaQ@mail.gmail.com>",
+      "human_quote": "No",
+      "reason_hr": "Clarence je ljudski odgovorio kratkim 'No', što je jasno odbijanje ponude.",
+      "request_hr": "no",
+      "next_action_hr": "Poštovati odbijanje. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317868",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Svi odgovori su identične automatske poruke o porodiljnom dopustu s upućivanjem na kolegu. Nema dokaza da je Ekaterina osobno vidjela i odgovorila na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Automatski odgovori ne predstavljaju stvarni angažman. Preporuča se prekid daljnjih pokušaja kontakta s ovom adresom.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 14724,
+    "completion_tokens": 2701,
+    "total_tokens": 17425,
+    "cost": 0.0173031,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0173031,
+      "upstream_inference_prompt_cost": 0.0132516,
+      "upstream_inference_completions_cost": 0.0040515
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317822",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je pitala 'What session?' i rekla 'not sure I need physio to be honest...'. To nije izričito odbijanje. Posljednja poruka je naša (follow-up). Nema potvrde rezervacije ni odbijanja.",
+      "last_human_request_hr": "'Travelling abroad….not sure I need physio to be honest….' (14.09.)",
+      "unresolved_hr": "Nije potvrdio rezervaciju niti izričito odbio. Potrebno je provjeriti zanimanje s obzirom na proteklo vrijeme.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati kratki follow-up s pitanjem je li se vratio s putovanja i želi li još uvijek iskoristiti besplatnu sesiju.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO9P123MB83976AEA4123FF9F25DE6A8995B42@LO9P123MB8397.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Ok thank you, travelling at the moment but feel free to email your presentation through"
+        },
+        {
+          "message_id": "<LO9P123MB8397BB1BE3C30F46AADBEC5C95B02@LO9P123MB8397.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "What session?"
+        },
+        {
+          "message_id": "<LO9P123MB8397CDB5214AA6208D0C5B2695BB2@LO9P123MB8397.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Travelling abroad….not sure I need physio to be honest…."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317672",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je eksplicitno napisala 'unsubscribe'. Ovo je jasan zahtjev za odjavu.",
+      "last_human_request_hr": "'unsubscribe'",
+      "unresolved_hr": "Nema ništa za riješiti. Kontakt se ne smije kontaktirati.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Poštovati zahtjev za odjavu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO0P123MB41370414068EE2D55B0483B6BDB52@LO0P123MB4137.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "unsubscribe"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317501",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Alistair je pitao 'What's the catch' (pozitivan angažman) i poslao OOO automatsku poruku. Posljednja poruka je njegov OOO auto-odgovor nakon naše ljudske poruke s linkom i kodom. Njegovu ljudsku poruku pratimo, ali on je trenutno označen OOO-om.",
+      "last_human_request_hr": "'Sounds ideal. What's the catch' (04.09.)",
+      "unresolved_hr": "Nije potvrdio rezervaciju. OOO poruka je bila do 09.09., danas je 22.10. Prošlo je dosta vremena od posljednjeg kontakta.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati follow-up s pitanjem je li u međuvremenu rezervirao sesiju ili treba pomoć.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO3P123MB3145CC2FF2D39FC6D1FE3ACBC4B52@LO3P123MB3145.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Sounds ideal. What's the catch"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317579",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti. Mailbox ne postoji zbog pravila tvrtke ('The mail box does not exit').",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je nevažeća.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a6c143f9-3dd5-4502-b6b2-120ffd9851fb@LO0P123MB5848.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to ashish.kumar@pnbint.com couldn't be delivered.\n\nA custom mail flow rule created by an admin at pnbint.com has blocked your message.\n\nThe mail box does not exit."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317576",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti. Mailbox ne postoji zbog pravila tvrtke ('The mail box does not exit').",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je nevažeća.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d36a4a2d-5949-434e-910d-5fc0426e605e@LOYP123MB2976.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to chandra.pentakota@pnbint.com couldn't be delivered.\n\nA custom mail flow rule created by an admin at pnbint.com has blocked your message.\n\nThe mail box does not exit."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317574",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je izričito pitala 'what is the catch?' nakon povratka s godišnjeg. Poslali smo joj link i kod, ali nije odgovorila. Posljednja ljudska poruka je njen upit. Označen je kao 'Lead Done' i 'not_interested', ali u razgovoru se vidi jasan interes i pitanje.",
+      "last_human_request_hr": "'I would love to take you up on the below offer, have to ask what is the catch?' (04.09.)",
+      "unresolved_hr": "Nismo odgovorili na njen upit. Pitala je u čemu je kvaka, što ukazuje na interes. Potrebno je odgovoriti i ponovno poslati upute za rezervaciju.",
+      "recommended_bulk_group": "reply_question",
+      "recommended_action_hr": "Odgovoriti na njen upit, pojasniti da nema kvake osim £4.99 naknade za rezervaciju i ponovno ponuditi link i kod.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP123MB4456DA911B952925BAF05677F6B52@CWXP123MB4456.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I would love to take you up on the below offer, have to ask what is the catch?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317557",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Kate je rekla da više ne radi u Redgraveu i dala je uputnicu: 'Please contact Elliot Fisher at efisher@redgravesearch.com'. Ovo je korisna preporuka kolege unutar iste tvrtke. Označavanje kao 'Wrong Person' ignorira ovu priliku.",
+      "last_human_request_hr": "'I no longer work at Redgrave. Please contact Elliot Fisher at efisher@redgravesearch.com with any queries.' (04.09.)",
+      "unresolved_hr": "Nismo kontaktirali Elliota Fishera. Kateina preporuka predstavlja novu priliku za angažman unutar iste tvrtke.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Kontaktirati Elliota Fishera (efisher@redgravesearch.com) s referencom na Kateinu preporuku i ponudom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<809d59ff2ffd43d7b639d2b50dae1eac@LO0P123MB8770.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I no longer work at Redgrave. Please contact Elliot Fisher at efisher@redgravesearch.com with any queries."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317432",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Sarah je odgovorila 'Yes why not, thanks' i poslali smo joj link i kod. Posljednja poruka je naš follow-up. Nema potvrde rezervacije ni odbijanja.",
+      "last_human_request_hr": "'Yes why not, thanks' (04.09.)",
+      "unresolved_hr": "Nije potvrdila rezervaciju. Potrebno je provjeriti je li rezervirala.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati kratki follow-up s pitanjem je li rezervirala i treba li pomoć.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LOEP123MB2701270C1DE253099F280DE4A9AEB52@LOEP123MB270127.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Yes why not, thanks"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

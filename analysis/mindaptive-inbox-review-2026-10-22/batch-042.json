@@ -1,0 +1,251 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 22039,
+    "completion_tokens": 2943,
+    "total_tokens": 24982,
+    "cost": 0.001495998,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001495998,
+      "upstream_inference_prompt_cost": 0.001083978,
+      "upstream_inference_completions_cost": 0.00041202
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3912149/3734011834",
+      "recommended_label": "Lead Opted Out",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je izričito zatražio prestanak email komunikacije: 'If you did your research you’ll see I have a website. Please stop the emails.' Ovo je jasan opt-out. Postojeća Do Not Contact oznaka je ispravna.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt je zatražio prestanak kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "If you did your research you’ll see I have a website. Please stop the emails."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Prospekt je zatražio prestanak kontakta - nema potrebe za draftom."
+    },
+    {
+      "key": "3886379/4458132808",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je ljubazno ali jasno odbio: 'we don’t need this service at the moment.' Ovo nije pitanje ili prigovor koji ostavlja prostora za nastavak konverzacije. Konačno odbijanje nakon 3 poslane poruke bez prethodnog interesa.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt je jasno odbio ponudu.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for reaching out and for sharing the website. We appreciate the offer, but we don’t need this service at the moment."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Jasan 'Not Interested' odgovor - nema potrebe za draftom."
+    },
+    {
+      "key": "3892258/4466858989",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je izričito zatražio prestanak kontakta nazvavši poruke 'spamom': 'Please make this your last email. We dont need anymore spam.' Ovo je jasan opt-out koji zahtjeva oznaku Do Not Contact.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt zahtijeva prestanak kontakta i proziva spam.",
+      "missing_information": [],
+      "evidence": [
+        "Please make this your last email. We dont need anymore spam."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Opt-out zahtjev - nema potrebe za draftom."
+    },
+    {
+      "key": "3892258/4466864528",
+      "recommended_label": "Lead Opted Out",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je odgovorio samo s 'stop' što je jasan zahtjev za prestankom komunikacije. Označiti kao Lead Opted Out. Postojeća Do Not Contact oznaka je konzistentna.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt je zatražio prestanak kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "stop"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Opt-out zahtjev - nema potrebe za draftom."
+    },
+    {
+      "key": "3892258/4466859217",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je izričito zatražio prestanak kontakta: 'Please stop.' Ovo je jasan opt-out usprkos potpisu koji sadrži uobičajene informacije. Postojeća Do Not Contact oznaka je ispravna.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt zahtijeva prestanak kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "Please stop."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Opt-out zahtjev - nema potrebe za draftom."
+    },
+    {
+      "key": "3892258/4466860313",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je ljubazno ali jasno odbio: 'Thank you but we are not interested.' Ovo je konačno odbijanje nakon 3 poslane poruke. Bez ikakvog pitanja ili otvorenog prigovora koji bi održavao konverzaciju.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt je jasno odbio.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you but we are not interested."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Jasan 'Not Interested' - nema potrebe za draftom."
+    },
+    {
+      "key": "3899056/4475668358",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je izričito zatražio uklanjanje s popisa za kontakt: 'No interest, remove me from outreach.' Ovo je jasan opt-out.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt zahtijeva uklanjanje s popisa.",
+      "missing_information": [],
+      "evidence": [
+        "No interest, remove me from outreach."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Opt-out zahtjev - nema potrebe za draftom."
+    },
+    {
+      "key": "3899056/4475674681",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-reply obavještava da je Elyse Bandel u mirovini i više nije u tvrtki. Ovo je 'Wrong Person' - kontakt je stvarno otišao iz tvrtke, a ne samo preusmjeravanje na kolegu. Preporuka za kontakt je Dina Finnegan na dina.finnegan@newpoint.com.",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Kontakt više ne radi u tvrtki. Predloženi novi kontakt: Dina Finnegan dina.finnegan@newpoint.com. Potrebna ljudska odluka o daljnjem pristupu.",
+      "missing_information": [],
+      "evidence": [
+        "Please note that Elyse Bandel has retired and is no longer with NewPoint. For all marketing and communications-related inquiries moving forward, please reach out to Dina Finnegan at dina.finnegan@newpoint.com or (703) 282-2516."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Kontakt je otišao iz tvrtke - potrebna ljudska odluka o novom kontaktu."
+    },
+    {
+      "key": "3751357/4278751954",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Eva je imala poziv s Andrewom i zatražila WhatsApp gumb umjesto emaila. Poslana joj je nova verzija stranice. Demo je posjećen 1x (UK, iPhone). Imamo 4 uzastopne poslane poruke BEZ ljudskog odgovora nakon 8.9. Posljednja poruka je poslana s linkom na novu stranicu, ali Eva nije odgovorila. Nismo sigurni je li Eva vidjela novu verziju i što misli o njoj. Meeting-Booked status treba ostati jer je poziv održan, ali stanje zahtijeva ljudsku procjenu - je li potreban follow-up ili je Eva izgubila interes.",
+      "priority": "P2",
+      "sales_state": "POST_MEETING",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebna ljudska procjena: Eva je imala poziv, tražila WhatsApp opciju, primila novu verziju stranice, ali nije odgovorila na zadnju poruku od 8.9. Treba odlučiti želimo li poslati kratki follow-up s upitom je li nova verzija odgovarajuća ili zatvoriti lead.",
+      "missing_information": [
+        "Nepoznato je li Eva vidjela i odobrava novu verziju stranice s WhatsApp gumbom"
+      ],
+      "evidence": [
+        "Thanks for the call with Andrew. You mentioned you'd prefer a WhatsApp button on your site over email, so I built you a version with it in.",
+        "I built you a version with it in. Here it is -> https://eva-clinic-bath.vercel.app/"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potrebna ljudska odluka prije bilo kakvog drafta - lead je u fazi post-meeting gdje treba procijeniti interes."
+    },
+    {
+      "key": "3886379/4458132723",
+      "recommended_label": "Lead Opted Out",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt je izričito zatražio uklanjanje s mailing liste: 'Please take me off your mailing list.' Ovo je jasan opt-out zahtjev koji zahtijeva oznaku Lead Opted Out.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji. Prospekt zahtijeva uklanjanje s mailing liste.",
+      "missing_information": [],
+      "evidence": [
+        "Please take me off your mailing list"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Opt-out zahtjev - nema potrebe za draftom."
+    }
+  ]
+}

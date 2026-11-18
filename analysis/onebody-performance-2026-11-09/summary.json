@@ -1,0 +1,51 @@
+{
+  "leads": 1112,
+  "browser_checks_passed": 14,
+  "application_regression_tests_passed": 96,
+  "median_layout_ms": {
+    "list_rebuild": {
+      "before": 250.6,
+      "after": 18.8
+    },
+    "unchanged_refresh": {
+      "before": 273.2,
+      "after": 11.7
+    },
+    "select_lead": {
+      "before": 388.8,
+      "after": 15.5
+    },
+    "regen_input": {
+      "before": 0.5,
+      "after": 0.6
+    }
+  },
+  "production": {
+    "static_versions": {
+      "app.js": "1794230747",
+      "crm.js": "1794230747",
+      "style.css": "1794230747"
+    },
+    "served_assets_match": true,
+    "checks": [
+      {
+        "route": "/api/inbox",
+        "status": 200,
+        "ms": 140.42,
+        "lead_count": 1149
+      },
+      {
+        "route": "/api/leads/4235278/4816227199",
+        "status": 200,
+        "ms": 59.26,
+        "messages": 5
+      },
+      {
+        "route": "/api/auto-replies",
+        "status": 200,
+        "ms": 41.39,
+        "enabled": false
+      }
+    ]
+  }
+}

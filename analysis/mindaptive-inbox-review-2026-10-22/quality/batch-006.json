@@ -1,0 +1,76 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 14998,
+    "completion_tokens": 746,
+    "total_tokens": 15744,
+    "cost": 0.0005397756,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 13198,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0005397756,
+      "upstream_inference_prompt_cost": 0.0004040036,
+      "upstream_inference_completions_cost": 0.000135772
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2738607/3025134089",
+      "ready": true,
+      "language": "de",
+      "body": "Hey Alina,\n\nvermutlich ist Freitag um 12 inzwischen nicht mehr drin – kein Problem.\n\nMöchtest du stattdessen einfach kurz nächste Woche telefonieren?\n\nSag einfach, welcher Tag dir passt, und ich schick dir den Link.",
+      "english": "",
+      "reason_hr": "Nastavak na predloženi sastanak, nudi alternativu."
+    },
+    {
+      "key": "2738607/3025135047",
+      "ready": true,
+      "language": "de",
+      "body": "Hey Matthias,\n\nnur kurz nachfragen – hattest du Zeit, dir das Video anzuschauen?\n\nFalls ja, würde mich interessieren, ob die Strategie zu euch passen könnte.\n\nUnd falls nicht, sag einfach kurz Bescheid – dann belasse ich es dabei.",
+      "english": "",
+      "reason_hr": "Kratki follow-up nakon slanja videa."
+    },
+    {
+      "key": "2738671/3025251911",
+      "ready": true,
+      "language": "es",
+      "body": "Hola Francisco,\n\n¿tuviste tiempo de ver el vídeo?\n\nMe preguntaba si el enfoque para llegar a CFOs tiene sentido para Saima, o si te gustaría ajustar algo.\n\nSi prefieres, podemos saltarnos los correos y hablar 5 minutos directo.",
+      "english": "",
+      "reason_hr": "Follow-up na poslani video, s pitanjem o CFO fokusu."
+    },
+    {
+      "key": "2738671/3025253676",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Job,\n\njust checking in – did you get a chance to watch the video?\n\nIf it looked interesting, the next step would be a quick call to see how we'd set this up for 12Guide.\n\nAny thoughts so far?",
+      "english": "",
+      "reason_hr": "Kratki follow-up nakon slanja videa."
+    },
+    {
+      "key": "2732401/3016173185",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Dave,\n\ndid you get a chance to watch the video?\n\nIf the approach makes sense for CloudBlazer, the next step would be a quick call to see how we'd set it up.\n\nAny initial thoughts?",
+      "english": "",
+      "reason_hr": "Follow-up na poslani video, koristi ime Dave."
+    },
+    {
+      "key": "2538823/2758496613",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Maros,\n\njust quickly checking – did you get to watch the video?\n\nWould love to know if the approach makes sense for OneClick or if you have any questions.\n\nLet me know either way.",
+      "english": "",
+      "reason_hr": "Kratki follow-up nakon slanja videa."
+    }
+  ]
+}

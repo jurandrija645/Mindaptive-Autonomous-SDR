@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 4565,
+    "completion_tokens": 1088,
+    "total_tokens": 5653,
+    "cost": 0.01051596,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01051596,
+      "upstream_inference_prompt_cost": 0.0071214,
+      "upstream_inference_completions_cost": 0.00339456
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520618923",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor 'Unsubscribe' nije ljudski angažman već zahtjev za odjavu.",
+      "request_hr": "none",
+      "next_action_hr": "Kontakt je već na DNC listi i odjavljen. Nema daljnjih radnji.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520617905",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GV2PR07MB1166121D92A0470B68AF77197E3872@GV2PR07MB11661.eurprd07.prod.outlook.com>",
+      "human_quote": "No thanks",
+      "reason_hr": "Primatelj je eksplicitno odbio ponudu ('No thanks').",
+      "request_hr": "none",
+      "next_action_hr": "Označiti kao 'Not Interested'. Nema daljnjeg kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520617891",
+      "genuine_engagement": true,
+      "verdict": "awaiting_us",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CABmw3Azr_AYvjgU9bZVtgCyxGvHyOp3KLDy9+nAy_WnhUcXj_A@mail.gmail.com>",
+      "human_quote": "is this for when we need physio after injury or more as a preventative measure?",
+      "reason_hr": "Primatelj je postavio konkretno pitanje o prirodi ponude, što pokazuje interes.",
+      "request_hr": "Odgovoriti na pitanje je li fizioterapija za ozljede ili prevenciju.",
+      "next_action_hr": "Odgovoriti na Joshuaovo pitanje o svrsi tretmana.",
+      "bulk_group": "reply_question",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520617493",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka o promjeni pozicije/napuštanju tvrtke; nije osobni odgovor na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Zanemariti ovaj kontakt. Eventualno provjeriti preporučene kontakte ako su relevantni.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520617127",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska 'Out of Office' poruka bez osobnog angažmana.",
+      "request_hr": "none",
+      "next_action_hr": "Ne poduzimati ništa. Ako je potrebno, kontaktirati navedenu osobu za hitne slučajeve, ali ne za marketinšku ponudu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520616786",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAGH_SaA74DQzqvsidY0fxTHFA7a-Nn=J4Gr6aVxpEtC5J+k_XQ@mail.gmail.com>",
+      "human_quote": "Its not something I am looking for at the moment",
+      "reason_hr": "Primatelj je pristojno odbio ponudu, navodeći da trenutno nije zainteresiran.",
+      "request_hr": "none",
+      "next_action_hr": "Označiti kao 'Not Interested'. Nema daljnjeg kontakta.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

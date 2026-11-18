@@ -1,0 +1,223 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8560,
+    "completion_tokens": 2576,
+    "total_tokens": 11136,
+    "cost": 0.0007119112,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7361,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007119112,
+      "upstream_inference_prompt_cost": 0.0002430792,
+      "upstream_inference_completions_cost": 0.000468832
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520622428",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dag je jasno napisao da nije u Londonu te je proslijedio ponudu kolegi Tomu; nema interesa za sebe.",
+      "next_step_hr": "Thread se odnosi na Toma; pratiti njegov odgovor.",
+      "last_inbound_summary_hr": "Dag je odbio ponudu jer nije u Londonu i preporučio kolegu Toma.",
+      "last_outbound_summary_hr": "Poslan je booking link i kod za Toma.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Unfortunately, I am not based in London. I asked my colleague Tom (added to this email), who is currently struggling with his back",
+        "Here's the booking link for that free 55-minute session"
+      ]
+    },
+    {
+      "key": "3930675/4520617905",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Simon je eksplicitno odbio ponudu s 'No thanks'.",
+      "next_step_hr": "Zadržati oznaku i prekinuti kontakt.",
+      "last_inbound_summary_hr": "Simon je kratko odbio ponudu.",
+      "last_outbound_summary_hr": "Poslan je follow-up s ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks"
+      ]
+    },
+    {
+      "key": "3930675/4520616786",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ron je jasno napisao da mu ponuda trenutno nije relevantna.",
+      "next_step_hr": "Zadržati oznaku i prekinuti kontakt.",
+      "last_inbound_summary_hr": "Ron je zahvalio, ali odbio jer mu to trenutno ne treba.",
+      "last_outbound_summary_hr": "Poslan je follow-up s ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Its not something I am looking for at the moment"
+      ]
+    },
+    {
+      "key": "3930675/4520622354",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Becky je napustila tvrtku Audience te je preusmjerila kontakt na drugu osobu.",
+      "next_step_hr": "Kontaktirati hselfe@audience.co.uk.",
+      "last_inbound_summary_hr": "Becky je automatski odgovorila da je napustila tvrtku i preusmjerila na kolegicu.",
+      "last_outbound_summary_hr": "Poslana je hladna ponuda za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "officially moved on from my role at Audience.",
+        "Please redirect your message to hselfe@audience.co.uk"
+      ]
+    },
+    {
+      "key": "3930675/4520622309",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Steve je zatražio uklanjanje s mailing liste i brisanje podataka.",
+      "next_step_hr": "Poštivati zahtjev i oznaku Do Not Contact.",
+      "last_inbound_summary_hr": "Steve je zatražio uklanjanje s mailing liste.",
+      "last_outbound_summary_hr": "Poslana je hladna ponuda za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "PLease remove me from your mailing lists and delete my contact details"
+      ]
+    },
+    {
+      "key": "3930675/4520617493",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nigel je napustio upravni odbor MAPP-a i preusmjerio na druge kontakte.",
+      "next_step_hr": "Kontaktirati louise.bonham@wearemapp.com ili julie.smith@wearemapp.com.",
+      "last_inbound_summary_hr": "Nigel je obavijestio da je napustio tvrtku i dao zamjenske kontakte.",
+      "last_outbound_summary_hr": "Poslan je follow-up s ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have stepped back from the MAPP Ltd Board",
+        "you should contact louise.bonham@wearemapp.com"
+      ]
+    },
+    {
+      "key": "3930675/4520621893",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Becca je zatražila uklanjanje s liste.",
+      "next_step_hr": "Poštivati zahtjev i oznaku Do Not Contact.",
+      "last_inbound_summary_hr": "Becca je zatražila uklanjanje s liste.",
+      "last_outbound_summary_hr": "Poslana je hladna ponuda za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "take me off this list please"
+      ]
+    },
+    {
+      "key": "3930675/4520617891",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Joshua je postavio pitanje o ponudi iako je napomenuo da su remote; to pokazuje interes, ali je potrebno pojašnjenje.",
+      "next_step_hr": "Odgovoriti na pitanje o svrsi i mogućnosti korištenja unatoč remote radu.",
+      "last_inbound_summary_hr": "Joshua je napisao da su remote i pitao je li ponuda za ozljede ili prevenciju.",
+      "last_outbound_summary_hr": "Poslan je follow-up s ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "it's not entirely clear what are you trying to sell - is this for when we need physio after injury or more as a preventative measure?"
+      ]
+    },
+    {
+      "key": "3930675/4520621977",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Linn je napustila tvrtku Social Element, što je izričito navela.",
+      "next_step_hr": "Kontaktirati ashley.cooksley@thesocialelement.agency.",
+      "last_inbound_summary_hr": "Linn je obavijestila da je napustila tvrtku i dala zamjenski kontakt.",
+      "last_outbound_summary_hr": "Poslana je hladna ponuda za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "After 4 wonderful years I have left the Social Element to start my own business CNT"
+      ]
+    },
+    {
+      "key": "3930675/4520621716",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Carl je napustio Fiduciam i preusmjerio na investitore.",
+      "next_step_hr": "Kontaktirati investorteam@fiduciam.co.uk za eventualni nastavak.",
+      "last_inbound_summary_hr": "Carl je obavijestio da više nije u tvrtki i dao zamjenski kontakt.",
+      "last_outbound_summary_hr": "Poslana je hladna ponuda za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with Fiduciam"
+      ]
+    },
+    {
+      "key": "3930675/4520612678",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kerr je odbio ponudu, ali je izrazio mogući budući interes; trenutno nije zainteresiran.",
+      "next_step_hr": "Prekinuti kontakt, ali ostaviti mogućnost da se javi.",
+      "last_inbound_summary_hr": "Kerr je napisao da je zauzet i da će se javiti ako zatreba.",
+      "last_outbound_summary_hr": "Poslana je posljednja poruka s molbom za jasan odgovor.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Quite busy at the moment so not keen but I’m sure I’ll wake up with a back issue at some point. I’ll get in touch then."
+      ]
+    },
+    {
+      "key": "3930675/4520612261",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Caroline je eksplicitno odbila ponudu.",
+      "next_step_hr": "Zadržati oznaku i prekinuti kontakt.",
+      "last_inbound_summary_hr": "Caroline je odbila ponudu.",
+      "last_outbound_summary_hr": "Poslana je posljednja poruka s molbom za jasan odgovor.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks :)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 11142,
+    "completion_tokens": 2488,
+    "total_tokens": 13630,
+    "cost": 0.02946626,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.02946626,
+      "upstream_inference_prompt_cost": 0.01993722,
+      "upstream_inference_completions_cost": 0.00952904
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446318135",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Auto-reply majka porodiljni dopust. Osoba nije komunicirala. Prethodno označeno Out Of Office i auto_reply je ispravno.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Prateća poruka poslana 22.09. nakon tri automatska odgovora. Nema ljudskog angažmana. Čekanje je irelevantno jer osoba nije vidjela poruke.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti želi li vlasnik referencu kolegi (daniel@seedlegals.com) i eventualno ga kontaktirati putem drugog leada. Anu ne treba dalje kontaktirati.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMAsQrHX69wBwBoxVGF_jm+be586kqfk+rw-ZaCoZ=bQ=COADQ@mail.gmail.com>",
+          "quote": "Thank you for your email.\n\nI am currently on maternity leave and will not be checking my emails\nduring my leave."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318014",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Auto-reply izvan ureda do 15.09. Osoba nije komunicirala. Automatska oznaka Out Of Office je ispravna.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Zadnja poruka poslana 22.09. Očekivani povratak 15.09. je prošao, ali nema novog odgovora.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Nježno provjeriti nakon 30 dana (oko 22.10.) želi li još uvijek kod za besplatnu sesiju u Shoreditchu, budući da je OOO period završio, a osoba nije odbila.",
+      "defer_until": "2026-10-22",
+      "evidence": [
+        {
+          "message_id": "<CAMQMRqORS+hsd30m-B250Jdfpo-7d94uzjXvQ+8hOBxGn4C1hQ@mail.gmail.com>",
+          "quote": "I am currently out of the office with\nlimited access to emails until 15th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318007",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Dva automatska odgovora izvan ureda. Osoba nije osobno komunicirala. Automatska oznaka Out Of Office je točna.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Zadnji 'last email' poslan 18.09. Nema naknadnog odgovora ni odbijanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati daljnje radnje. Dva pokušaja i 'last email' su dovoljni bez ikakvog ljudskog odgovora.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CADNG6TXb=DmQork7vW1oESigHU_cU2536q3SOcArJe4aS2S6Kg@mail.gmail.com>",
+          "quote": "Thank you for your email. I am currently out of the office"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317993",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Dva automatska odgovora izvan ureda zbog službenog puta. Osoba nije komunicirala. Automatska oznaka je ispravna.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Zadnja poruka poslana 16.09. Očekivani povratak 24.09. je prošao, ali nema novog odgovora.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Nježno provjeriti nakon 30 dana (oko 27.10.) želi li još uvijek kod za besplatnu sesiju, budući da je OOO period završio, a osoba nije odbila.",
+      "defer_until": "2026-10-27",
+      "evidence": [
+        {
+          "message_id": "<CAH0HiSLtBPgoWd4t3bMUYbGAwr_sQA_7eOKNN7y+ej=7vkQM1Q@mail.gmail.com>",
+          "quote": "I will be out of office from 9th September - 24th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317996",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka vraćena s greškom isporuke. Domena odbija zbog URL-a na listi. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa ne prima poruke zbog sigurnosnih filtera.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dalje. Adresa je blokirana. Eventualno kontaktirati alternativnim putem ako postoji drugi kontakt.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d0619a2e-f9b9-47b4-909d-597c14115d26@LNXP123MB3737.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to laura@system-concepts.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317977",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je prvo odgovorila da je ured zatvoren i rade remote. Nakon ignoriranja odgovora, eksplicitno je zatražila prestanak kontakta.",
+      "last_human_request_hr": "Please stop contacting me now.",
+      "unresolved_hr": "Osoba je jasno odbila i zatražila prekid komunikacije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštivati zahtjev. Staviti na Do Not Contact listu ako već nije. Ne kontaktirati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJ5y4ZaTUPdMzhGt8oLh_aRDUFHx=8f6YyA7Tu19tgs3DpM3XA@mail.gmail.com>",
+          "quote": "Thanks Rebecca but that office is closed and we’re all remote now."
+        },
+        {
+          "message_id": "<CAJ5y4ZZein_rWNP=A26qvA9Mtqa8NUqgdvmMVDLvCjfdvmSmhQ@mail.gmail.com>",
+          "quote": "Please stop contacting me now."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318022",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "low",
+      "reason_hr": "Auto-reply zbog onsite događaja propadne tvrtke. Osoba nije komunicirala. Postoji mogućnost da je događaj završio, ali nema povratnog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Zadnja poruka poslana 16.09. Nema ljudskog odgovora. Nejasno je li osoba ikad vidjela poruke.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Niska vrijednost. Ostaviti vlasniku na odluku želi li probati opet s obzirom na prolaznost događaja ili zatvoriti.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CALAtu3aVCd0E=-p5fRP18xEN-jv2sVE-gkyVBNHtcK0LrKNbkw@mail.gmail.com>",
+          "quote": "I am currently onsite, setting up for PropTech Connect Europe."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318021",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "low",
+      "reason_hr": "Auto-reply zbog onsite događaja. Malo vjerojatno da će odgovoriti nakon što je poslan 'last email'.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Zadnja poruka poslana 16.09. Nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati daljnje radnje. 'Last email' je poslan i nema interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+DDJHsBxnymvJauMW+u1MYhnW1PfhTpV6-8ZWcgMP6sLpNftA@mail.gmail.com>",
+          "quote": "I am currently onsite at PropTech Connect"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

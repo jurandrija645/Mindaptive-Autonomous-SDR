@@ -1,0 +1,253 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 25784,
+    "completion_tokens": 2941,
+    "total_tokens": 28725,
+    "cost": 0.0013049036,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 21658,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0013049036,
+      "upstream_inference_prompt_cost": 0.0007696416,
+      "upstream_inference_completions_cost": 0.000535262
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3640877/4176336497",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (OOO/autoresponder) na prvu poruku; nema ljudskog interesa. Slijedi jedan poslani nudge na OOO (autoreply) koji treba ukloniti ili ne slati.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati daljnje poruke na automatski odgovor. Označiti kao Auto-Reply i prekinuti kampanju za ovaj kontakt.",
+      "missing_information": [],
+      "evidence": [
+        "Sie ahnen es, Sie haben gerade eine automatisierte Antwort erhalten.",
+        "Wir werden uns schnellstmöglich um Ihr Anliegen kümmern!"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ne postoji ljudski interes; postojeći nudge na OOO treba ukloniti, ne slati."
+    },
+    {
+      "key": "3640877/4176329693",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor na sve poruke (autoresponder na info@drklein.de, koji je privatna banka, ne zubarska ordinacija). Nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati daljnje poruke na automatski odgovor. Označiti kao Auto-Reply i prekinuti kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "vielen Dank für Ihre Anfrage!",
+        "Gerne sind wir für Sie da und kümmern uns schnellstmöglich um Ihr Anliegen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ne postoji ljudski interes; postojeći nudge na OOO treba ukloniti, ne slati."
+    },
+    {
+      "key": "3640877/4176333278",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Sve poruke su bile automatski odgovori o ljetnom odmoru. Nema ljudskog interesa, samo automatski OOO.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati daljnje poruke na automatski odgovor. Označiti kao Auto-Reply i prekinuti kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "Aufgrund des Sommerurlaubes des Empfangspersonals, kann es zu Verzögerung in den Antworten sowohl per mail als auch am Telefon geben."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ne postoji ljudski interes; postojeći nudge na OOO treba ukloniti, ne slati."
+    },
+    {
+      "key": "3640877/4176335830",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor koji poziva na korištenje njihovog online servisa i chata. Nema ljudskog interesa, samo OOO.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati daljnje poruke na automatski odgovor. Označiti kao Auto-Reply i prekinuti kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "Falls Sie diesen Autoresponder auf eine Terminbestätigungsmail bzw. Terminerinnerung mit Informationen erhielten, müssen Sie nicht weiter reagieren."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ne postoji ljudski interes; postojeći nudge na OOO treba ukloniti, ne slati."
+    },
+    {
+      "key": "3640877/4176335175",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o zatvaranju prakse zbog godišnjeg odmora. Nema ljudskog interesa, samo OOO.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati daljnje poruke na automatski odgovor. Označiti kao Auto-Reply i prekinuti kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "Wir befinden uns derzeit im Betriebsurlaub und sind ab dem 03.08.2026 zu den gewohnten Praxiszeiten wieder für Sie da."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ne postoji ljudski interes; postojeći nudge na OOO treba ukloniti, ne slati."
+    },
+    {
+      "key": "3640877/4176336157",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 24.08.2026. Nema ljudskog interesa, samo OOO.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-08-24T12:00:00.000Z",
+      "next_step_hr": "Poštivati navedeni rok. Vratiti se nakon 24.08.2026. Ne slati poruke prije toga. Ne slati nudge na OOO.",
+      "missing_information": [],
+      "evidence": [
+        "Leider erreicht uns diese während unseres Urlaubs. Ab dem 24.08.2026 sind wir wieder erreichbar."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ne postoji ljudski interes; postojeći nudge na OOO treba ukloniti, ne slati. Planirati ponovni kontakt nakon 24.08.2026."
+    },
+    {
+      "key": "3640877/4176334184",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Povratna poruka: poštanski sandučić je pun. Ovo nije ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Kontakt je nedostupan (puni sandučić). Prekinuti kampanju. Ne slati daljnje poruke.",
+      "missing_information": [],
+      "evidence": [
+        "Your message to was automatically rejected:",
+        "Quota exceeded (mailbox for user is full)"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Povratna poruka, ne ljudski interes. Ukloniti postojeći nudge na OOO."
+    },
+    {
+      "key": "3640877/4176331038",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatske poruke o isteku moderatora (expired messages). Nema ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati daljnje poruke na automatske odgovore. Prekinuti kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "Your message has expired without any moderator decision"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Automatske poruke, ne ljudski interes. Ukloniti postojeći nudge na OOO."
+    },
+    {
+      "key": "3640877/4176335951",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Povratna poruka: poštanski sandučić je pun. Ovo nije ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Kontakt je nedostupan (puni sandučić). Prekinuti kampanju. Ne slati daljnje poruke.",
+      "missing_information": [],
+      "evidence": [
+        "Your message to was automatically rejected:",
+        "Quota exceeded (mailbox for user is full)"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Povratna poruka, ne ljudski interes. Ukloniti postojeći nudge na OOO."
+    },
+    {
+      "key": "3640877/4176335264",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da je poruka zaprimljena. Nema ljudskog interesa, samo OOO.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati daljnje poruke na automatski odgovor. Prekinuti kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für Ihre E-Mail.",
+        "Ihre Nachricht ist bei uns eingegangen und wird schnellstmöglich bearbeitet."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ne postoji ljudski interes; postojeći nudge na OOO treba ukloniti, ne slati."
+    }
+  ]
+}

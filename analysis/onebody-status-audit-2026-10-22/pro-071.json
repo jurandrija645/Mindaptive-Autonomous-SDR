@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9754,
+    "completion_tokens": 2146,
+    "total_tokens": 11900,
+    "cost": 0.0224736,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0224736,
+      "upstream_inference_prompt_cost": 0.0156064,
+      "upstream_inference_completions_cost": 0.0068672
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317096",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Ellie na porodiljnom dopustu, automatski odgovor i upućuje na Oliviju Horsley; bez osobnog interesa ili pitanja.",
+      "last_human_request_hr": "Please contact olivia.horsley@f-lex.co.uk.",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom s Ellie; eventualno kontaktirati Oliviu ako se želi, ali nije traženo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti ovaj lead; Ellie nije dostupna i ne pokazuje interes. Ne kontaktirati.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJV12KmQN+sn9xzJ3h3oBnFQqhLbUBO13H6YZ2hK4_QdkhUOyg@mail.gmail.com>",
+          "quote": "I am currently on maternity leave and will be out of the office starting 20th July 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317093",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Mary je promijenila posao i prosljeđuje na novu adresu; nema interesa ni pitanja o ponudi.",
+      "last_human_request_hr": "I will be in touch shortly!",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom s Mary; eventualno primijetiti novu adresu ako se odluči proslijediti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead; Mary više nije na staroj adresi i ne pokazuje interes. Ne kontaktirati.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CABC0HjN3th2vV-fuU==NhytFy8BDYxBzmYfdM5VDBZqB4wy4EQ@mail.gmail.com>",
+          "quote": "I have transitioned into a new role at Mishcon de Reya LLP"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316890",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Pete je out of office automatski odgovor; nema ljudskog interesa.",
+      "last_human_request_hr": "No human reply",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead; automatski OOO odgovor bez interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2ff532e5354e48d58a372d8f18f06e04@CW1P265MB9117.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I’m currently out of the office. I’ll get back to you once I’m back online."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316996",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor da Louisa više ne radi u tvrtki; upućuje na Dan GK.",
+      "last_human_request_hr": "Please direct any future correspondence to Dan GK at dan@bezerocarbon.com",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom s Louisom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead; Louisa više nije zaposlena i ne pokazuje interes.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<c99feae0f66545f199d8e8b5ec4b677c@CWLP123MB6780.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Louisa Freestone-Smith is no longer employed here"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316994",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu; upućuje na Nicky Wrightson.",
+      "last_human_request_hr": "For anything urgent, please contact our CTO, Nicky: nicky.wrightson@bezerocarbon.com",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead; Laurel je na porodiljnom i ne pokazuje interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5386b13bb1bd48ad9ecfe7b8091c241d@CWLP123MB3843.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm on maternity leave and not regularly checking email until I'm back in early 2027."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316990",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor da Pascal više nije u tvrtki; upućuje na Nicky Wrightson.",
+      "last_human_request_hr": "Pascal Hartwig is no longer employed with BeZero",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead; Pascal više nije zaposlen i nema interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<df114d70d8604473b26f83b1032a9e40@LO2P123MB4895.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Pascal Hartwig is no longer employed with BeZero"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316925",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Tom je na godišnjem odmoru do 21. rujna; automatski odgovor, upućuje na kolege.",
+      "last_human_request_hr": "Please forward your email to alexsmith@bark.london and daniel@bark.london",
+      "unresolved_hr": "Tom se vraća 21. rujna; nema ljudskog interesa. Može se kontaktirati nakon povratka ako se želi.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Tom je OOO do 21. rujna; nema hitnog interesa. Ne kontaktirati sada; možda nakon povratka.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CACMCKnoE0B4=4f3e-5iMA12AkYHtcAOReJ++VfA-Zfzc_bseqw@mail.gmail.com>",
+          "quote": "I'm out of office until the 21st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317052",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Fraser više ne radi u Lantumu; automatski odgovor, upućuje na glen.mccracken.",
+      "last_human_request_hr": "Please redirect your email through to glen.mccracken@lantum.com",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead; Fraser više nije zaposlen i nema interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CALDLf9X2+=zOeMnoPSp+627+fyGBVKApjDKy0_-N6ez8hnrCXQ@mail.gmail.com>",
+          "quote": "I am no longer working at Lantum."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

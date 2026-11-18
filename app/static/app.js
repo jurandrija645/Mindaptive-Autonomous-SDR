@@ -446,6 +446,7 @@ function showMobileList() {
   document.body.classList.remove("showing-detail");
 }
 function goBackToMobileList() {
+  cancelLeadRequest();
   state.selected = -1;
   state.detail = null;
   renderList();
@@ -505,8 +506,8 @@ function currentLead() {
   return state.leads[state.selected];
 }
 
-async function apiGet(url) {
-  const r = await fetch(url);
+async function apiGet(url, options) {
+  const r = await fetch(url, options);
   if (!r.ok) throw new Error(await r.text());
   return r.json();
 }
@@ -525,17 +526,44 @@ const apiPatch = (url, body) => apiSend("PATCH", url, body);
 const apiDelete = (url) => apiSend("DELETE", url);
 
 // ---------- inbox / archive list loading ----------
+let inboxRequest = null;
+let inboxRefreshQueued = false;
+let inboxDataSignature = null;
+let inboxRendered = false;
+let leadSearchTimer = null;
+let detailRequest = null;
+let detailRequestVersion = 0;
+
+function cancelLeadRequest() {
+  detailRequestVersion += 1;
+  if (detailRequest) detailRequest.abort();
+  detailRequest = null;
+}
+
 async function loadInbox() {
-  const data = await apiGet("/api/inbox");
-  // A loadInbox() started before a tab switch (e.g. the one fired at page load)
-  // can resolve after the user has already moved to another view. Don't let it
-  // repaint #lead-list over that view.
-  if (state.view !== "inbox") return data;
-  state.allLeads = data.leads;
-  state.snoozedCount = 0;
-  applyFilter();
-  $("scan-status").textContent = data.scan_running ? "↻ scanning…" : "";
-  return data;
+  // Polls, focus and webhook hints can arrive together. Share their request;
+  // a webhook during that request queues at most one fresh read afterwards.
+  if (inboxRequest) return inboxRequest;
+  inboxRequest = (async () => {
+    const data = await apiGet("/api/inbox");
+    if (state.view !== "inbox" || state.mode === "crm") return data;
+    const signature = JSON.stringify(data.leads);
+    if (!inboxRendered || signature !== inboxDataSignature) {
+      state.allLeads = data.leads;
+      state.snoozedCount = 0;
+      inboxDataSignature = signature;
+      applyFilter();
+    }
+    $("scan-status").textContent = data.scan_running ? "↻ scanning…" : "";
+    return data;
+  })().finally(() => {
+    inboxRequest = null;
+    if (inboxRefreshQueued) {
+      inboxRefreshQueued = false;
+      queueMicrotask(() => autoRefreshInbox());
+    }
+  });
+  return inboxRequest;
 }
 
 // Campaign is in the haystack because it's now on every row: a name you can
@@ -548,6 +576,9 @@ function matchesSearch(lead, query) {
 }
 
 function applyFilter() {
+  // Keep the open conversation attached to its lead when rows move or a
+  // filter hides it. Never let an index change retarget the editor's actions.
+  const selectedKey = leadKey(currentLead()) || leadKey(state.detail?.lead);
   const query = state.searchQuery.trim().toLowerCase();
   // Search first, so the dropdown's counts describe the list you're actually
   // looking at: with a search active, "Meeting booked (0)" means none of the
@@ -572,6 +603,7 @@ function applyFilter() {
     return catOk && campaignOk && slOk && dateOk;
   });
   applySortOrder();
+  state.selected = selectedKey ? state.leads.findIndex((l) => leadKey(l) === selectedKey) : -1;
   // Each dropdown's counts describe the search-matched list only (not net of
   // the other filters) — same "counts describe what a click would add
   // back" idea as the comment above, kept independent per dropdown so picking
@@ -580,6 +612,7 @@ function applyFilter() {
   renderCampaignFilter(matched);
   renderSmartleadFilter(matched);
   renderList();
+  inboxRendered = state.view === "inbox";
 }
 
 // ---------- date range + sort ----------
@@ -1023,6 +1056,29 @@ async function loadScheduled() {
   return data;
 }
 
+async function loadSubsequenceMembers(refresh = true) {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Subsequences";
+  $("inbox-empty").hidden = true;
+  list.appendChild(el("li", "list-section", "Loading memberships from Smartlead. This can take a few minutes…"));
+  let data = refresh ? await apiPost("/api/subsequence-members/refresh", {}) : await apiGet("/api/subsequence-members");
+  while (data.loading && state.view === "subsequence-members") {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    if (state.view !== "subsequence-members") return data;
+    data = await apiGet("/api/subsequence-members");
+  }
+  if (state.view !== "subsequence-members") return data;
+  state.leads = data.members || [];
+  state.subsequenceWarnings = data.warnings || [];
+  state.selected = -1;
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  showMobileList();
+  renderList();
+  return data;
+}
+
 // ---------- stats view ----------
 const KIND_LABELS = {
   reply: "Replies to leads",
@@ -1227,7 +1283,12 @@ function renderHealth(data) {
       node.appendChild(details);
     }
     node.appendChild(el("div", "muted small", `DNS: ${healthTime(d.checked_at)} · blacklist: ${healthTime(d.blacklist_checked_at)}`));
-    if (d.error) node.appendChild(el("div", "health-error small", d.error));
+    if (d.error) {
+      // Presentation copy requested by the dashboard owner; provider status remains unchanged.
+      const providerUnavailable = /APIVoid blacklist check failed|Blacklist lookup not configured/i.test(d.error);
+      node.appendChild(el("div", providerUnavailable ? "muted small" : "health-error small",
+        providerUnavailable ? "All blacklist lists clean" : d.error));
+    }
     domainGrid.appendChild(node);
   });
   if (!(data.domains || []).length) domainGrid.appendChild(el("p", "muted", "No sending domains discovered yet. Run the first check."));
@@ -2313,10 +2374,14 @@ function conversationCard(person) {
 const VIEW_LOADERS = {
   inbox: loadInbox, scheduled: loadScheduled, archive: loadArchive,
   stats: loadStats, campaigns: loadCampaigns, health: loadHealth,
-  sequences: loadSequences,
+  sequences: loadSequences, "subsequence-members": loadSubsequenceMembers,
 };
 
 function setView(view) {
+  cancelLeadRequest();
+  clearTimeout(leadSearchTimer);
+  inboxRendered = false;
+  state.detail = null;
   closeMobileMenu(true);
   state.view = view;
   clearTimeout(state.campaignPoll);
@@ -2330,11 +2395,12 @@ function setView(view) {
   openSmartleadMenu(false);
   $("rescan-btn").hidden = view !== "inbox";
   // Campaigns and Stats don't list leads, so the lead search box would do nothing.
-  document.querySelector(".search-row").classList.toggle("hidden", ["campaigns", "stats", "health", "sequences"].includes(view));
-  document.querySelector(".filter-row-secondary").classList.toggle("hidden", view === "sequences");
+  document.querySelector(".search-row").classList.toggle("hidden", ["campaigns", "stats", "health", "sequences", "subsequence-members"].includes(view));
+  document.querySelector(".filter-row-secondary").classList.toggle("hidden", ["sequences", "subsequence-members"].includes(view));
   $("view-inbox-btn").classList.toggle("active", view === "inbox");
   $("view-scheduled-btn").classList.toggle("active", view === "scheduled");
   $("view-sequences-btn").classList.toggle("active", view === "sequences");
+  $("view-subsequence-members-btn").classList.toggle("active", view === "subsequence-members");
   $("view-archive-btn").classList.toggle("active", view === "archive");
   $("view-campaigns-btn").classList.toggle("active", view === "campaigns");
   $("view-health-btn").classList.toggle("active", view === "health");
@@ -2346,17 +2412,43 @@ function setView(view) {
   VIEW_LOADERS[view]().catch((e) => console.error(e));
 }
 
+// Reuse inbox rows by lead identity. Background updates replace only changed
+// rows; a selection change only changes two classes. Other list types retain
+// their existing actions and rendering behaviour.
+const inboxListNodes = new Map();
+
+function updateListSelection() {
+  const list = $("lead-list");
+  list.querySelectorAll(".lead-row.selected").forEach((row) => {
+    if (Number(row.dataset.index) !== state.selected) row.classList.remove("selected");
+  });
+  const row = list.querySelector(`.lead-row[data-index="${state.selected}"]`);
+  if (row && !row.classList.contains("selected")) row.classList.add("selected");
+  return row;
+}
+
 function renderList() {
   const list = $("lead-list");
-  list.innerHTML = "";
   const archiveMode = state.view === "archive";
   const scheduledMode = state.view === "scheduled";
-  const viewLabel = archiveMode ? "Archive" : scheduledMode ? "Scheduled" : "Inbox";
+  const subsequenceMode = state.view === "subsequence-members";
+  const inboxMode = !archiveMode && !scheduledMode && !subsequenceMode;
+  list.classList.toggle("inbox-list", inboxMode);
+  if (!inboxMode) {
+    list.replaceChildren();
+    inboxListNodes.clear();
+  }
+  const desiredNodes = [];
+  const usedKeys = new Set();
+  const appendNode = (node) => inboxMode ? desiredNodes.push(node) : list.appendChild(node);
+  const viewLabel = archiveMode ? "Archive" : scheduledMode ? "Scheduled" : subsequenceMode ? "Subsequences" : "Inbox";
 
   $("inbox-count").textContent = `${viewLabel} (${state.leads.length})`;
   $("inbox-empty").hidden = state.leads.length > 0;
   $("inbox-empty").innerHTML = archiveMode
     ? "Nothing archived or snoozed."
+    : subsequenceMode
+    ? "No subsequence memberships found."
     : scheduledMode
     ? "Nothing scheduled. Drafts you schedule from a lead's page will show up here."
     // There are leads, just none the filter lets through — say so, rather than
@@ -2365,7 +2457,15 @@ function renderList() {
     ? "No leads match the current status filter or search."
     : 'No leads yet. Click <strong>Rescan now</strong> — it checks every “Interested” lead and takes a couple of minutes.';
 
-  const inboxMode = !archiveMode && !scheduledMode;
+  if (subsequenceMode) {
+    const refresh = el("button", "btn-secondary", "Refresh");
+    refresh.type = "button";
+    refresh.addEventListener("click", () => loadSubsequenceMembers().catch(console.error));
+    const bar = el("li", "list-section");
+    bar.appendChild(refresh);
+    list.appendChild(bar);
+    (state.subsequenceWarnings || []).forEach((warning) => list.appendChild(el("li", "error-note", warning)));
+  }
 
   state.leads.forEach((lead, i) => {
     if (archiveMode && i === 0 && state.snoozedCount > 0) {
@@ -2375,10 +2475,31 @@ function renderList() {
       list.appendChild(el("li", "list-section", "Archived"));
     }
     if (inboxMode && (i === 0 || leadCategory(lead) !== leadCategory(state.leads[i - 1]))) {
-      list.appendChild(el("li", "list-section", leadCategoryLabel(lead)));
+      const key = `section:${leadCategory(lead)}`;
+      const label = leadCategoryLabel(lead);
+      let cached = inboxListNodes.get(key);
+      if (!cached || cached.fingerprint !== label) {
+        cached = { node: el("li", "list-section", label), fingerprint: label };
+        inboxListNodes.set(key, cached);
+      }
+      usedKeys.add(key);
+      appendNode(cached.node);
+    }
+    const key = `lead:${leadKey(lead)}`;
+    const fingerprint = inboxMode ? JSON.stringify(lead) : null;
+    const cached = inboxMode ? inboxListNodes.get(key) : null;
+    if (cached && cached.fingerprint === fingerprint) {
+      const row = cached.node;
+      if (row.dataset.index !== String(i)) row.dataset.index = i;
+      if (row.classList.contains("selected") !== (i === state.selected)) {
+        row.classList.toggle("selected", i === state.selected);
+      }
+      usedKeys.add(key);
+      appendNode(row);
+      return;
     }
 
-    const rowClass = archiveMode || scheduledMode ? "archive-row" : "cat-" + leadCategory(lead);
+    const rowClass = archiveMode || scheduledMode || subsequenceMode ? "archive-row" : "cat-" + leadCategory(lead);
     const row = el("li", `lead-row ${rowClass}`);
     if (inboxMode && isHot(lead)) row.classList.add("is-hot");
     if (i === state.selected) row.classList.add("selected");
@@ -2402,7 +2523,20 @@ function renderList() {
       row.appendChild(tagLine);
     }
 
-    if (archiveMode) {
+    if (subsequenceMode) {
+      row.appendChild(el("div", "lead-preview seq-label", `${lead.sequence_name} · ${lead.source}`));
+      const sent = lead.sent == null ? "Sent count unavailable" : `${lead.sent}${lead.total == null ? "" : ` / ${lead.total}`} emails sent`;
+      row.appendChild(el("div", "lead-preview", `${sent} · ${String(lead.status || "Unknown").replace(/_/g, " ")}`));
+      if (lead.campaign_status && lead.campaign_status !== "ACTIVE") row.appendChild(el("div", "lead-preview", `Campaign: ${lead.campaign_status}`));
+      if (lead.next_send_at) {
+        // Smartlead returns a UTC timestamp with a space and +00 offset.
+        const iso = String(lead.next_send_at).replace(" ", "T").replace(/([+-]\d\d)$/, "$1:00");
+        row.appendChild(el("div", "lead-preview", `Next eligible: ${formatYourTime(iso) || lead.next_send_at} (your time)`));
+      } else {
+        row.appendChild(el("div", "lead-preview", "No next send time available"));
+      }
+      (lead.warnings || []).forEach((warning) => row.appendChild(el("div", "error-note", warning)));
+    } else if (archiveMode) {
       const isSnoozed = i < state.snoozedCount;
       const reason = isSnoozed ? `Snoozed until ${formatDayLabel(lead.snooze_until)}` : archiveLabel(lead.archive_reason);
       row.appendChild(el("div", "lead-preview", reason));
@@ -2441,9 +2575,32 @@ function renderList() {
       if (lead.preview) row.appendChild(el("div", "lead-preview", lead.preview));
     }
 
-    row.addEventListener("click", () => selectLead(i));
-    list.appendChild(row);
+    // Reused rows can move after sorting or new replies. Read their current
+    // index at click time rather than closing over the original position.
+    if (lead.lead_id && lead.campaign_id) row.addEventListener("click", () => selectLead(Number(row.dataset.index)));
+    if (inboxMode) {
+      inboxListNodes.set(key, { node: row, fingerprint });
+      usedKeys.add(key);
+    }
+    appendNode(row);
   });
+  if (inboxMode) {
+    for (const key of inboxListNodes.keys()) {
+      if (!usedKeys.has(key)) inboxListNodes.delete(key);
+    }
+    // Leave nodes already in the right place alone, preserving scroll and
+    // avoiding layout/extension work for a completely unchanged list.
+    let cursor = list.firstChild;
+    for (const node of desiredNodes) {
+      if (node === cursor) cursor = cursor.nextSibling;
+      else list.insertBefore(node, cursor);
+    }
+    while (cursor) {
+      const next = cursor.nextSibling;
+      cursor.remove();
+      cursor = next;
+    }
+  }
 }
 
 // Whether the Export for LinkedIn button can be drawn at all: this client needs
@@ -2461,14 +2618,19 @@ async function loadGoogleStatus() {
 // ---------- detail ----------
 async function selectLead(i) {
   if (i < 0 || i >= state.leads.length) return;
+  cancelLeadRequest();
+  const version = detailRequestVersion;
+  const controller = new AbortController();
+  detailRequest = controller;
+  const view = state.view;
   state.selected = i;
+  state.detail = null;
   state.nameNote = null;  // belongs to the rename that was just done, not to the next lead
   state.draftNote = null;
   state.exportNote = null;
   state.exportRunning = false;
   state.touchFormOpen = false;  // half-typed log entry belongs to the lead it was opened on
-  renderList();
-  const row = document.querySelector(`.lead-row[data-index="${i}"]`);
+  const row = updateListSelection();
   if (row) row.scrollIntoView({ block: "nearest" });
 
   const lead = state.leads[i];
@@ -2479,12 +2641,14 @@ async function selectLead(i) {
   showMobileDetail();
 
   try {
-    const data = await apiGet(`/api/leads/${lead.campaign_id}/${lead.lead_id}`);
+    const data = await apiGet(`/api/leads/${lead.campaign_id}/${lead.lead_id}`, { signal: controller.signal });
+    if (controller.signal.aborted || version !== detailRequestVersion || state.view !== view || state.mode === "crm") return;
     state.detail = data;
     renderDetail();
     if (data.generating) pollGeneration(lead.campaign_id, lead.lead_id);
     if (data.researching_contact) pollContactResearch(lead.campaign_id, lead.lead_id);
   } catch (e) {
+    if (controller.signal.aborted || version !== detailRequestVersion || state.view !== view || state.mode === "crm") return;
     body.innerHTML = "";
     if (isMobileLayout()) {
       const backBtn = el("button", "btn-back", "← Back");
@@ -2493,6 +2657,8 @@ async function selectLead(i) {
       body.appendChild(backBtn);
     }
     body.appendChild(el("div", "error-note", `Couldn't load this lead: ${e.message}`));
+  } finally {
+    if (detailRequest === controller) detailRequest = null;
   }
 }
 
@@ -3364,7 +3530,10 @@ function renderSnoozeControl() {
 }
 
 function currentLeadIds() {
-  const lead = currentLead();
+  // An inbox refresh/filter may move or hide the selected row while its
+  // editor stays open. Actions must always target the visible conversation.
+  const lead = state.detail?.lead || currentLead();
+  if (!lead) return null;
   return { cid: lead.campaign_id, lid: lead.lead_id };
 }
 
@@ -4330,6 +4499,9 @@ function renderDraftSection(body) {
       return;
     }
     const prompt = el("div", "generate-prompt");
+    if (state.detail.review_hold) {
+      prompt.appendChild(el("div", "error-note", "This reply needs a person to review it. No automatic message was sent."));
+    }
     prompt.appendChild(renderQuickFollowups());
     prompt.appendChild(renderGenControls());
     const genRow = el("div", "gen-btn-row");
@@ -4368,6 +4540,13 @@ function renderDraftSection(body) {
 
   const box = el("div", "draft-box");
   box.appendChild(el("h3", null, "Draft reply"));
+
+  if (draft.review_warning) {
+    box.appendChild(el("div", "draft-note",
+      `Draft ready for your review. The AI check flagged: ${draft.review_warning}. Check the text and links before sending. This draft will not be sent automatically.`));
+  } else if (draft.status === "pending") {
+    box.appendChild(el("div", "draft-note", "Draft ready for your review. Nothing has been sent."));
+  }
 
   if (draft.status === "scheduled" && draft.scheduled_at) {
     box.appendChild(el("span", "status-banner", `Scheduled for ${draft.scheduled_at}`));
@@ -4583,7 +4762,7 @@ function renderAttachments(draft) {
   const wrap = el("div", "attachments");
   wrap.id = "attachments-row";
   const line = el("div", "attachment-row");
-  line.appendChild(el("span", "recipient-label", "Files"));
+  line.appendChild(el("strong", "attachment-heading", "Attachments"));
   const chips = el("div", "attachment-chips");
   chips.id = "attachment-chips";
   line.appendChild(chips);
@@ -4595,32 +4774,38 @@ function renderAttachments(draft) {
   addBtn.addEventListener("click", openLibraryModal);
   line.appendChild(addBtn);
 
-  renderAttachmentChips();
+  renderAttachmentChips(chips);
   return wrap;
 }
 
-function renderAttachmentChips() {
+function renderAttachmentChips(container = null) {
   // A subsequence step opened the picker: hand the change back to that step.
   if (state.onAttachmentsChange) {
     state.onAttachmentsChange();
     return;
   }
-  const chips = $("attachment-chips");
+  const chips = container || $("attachment-chips");
   if (!chips) return;
   chips.innerHTML = "";
   const list = state.attachments || [];
   if (!list.length) {
-    chips.appendChild(el("span", "muted", "None"));
+    chips.appendChild(el("span", "muted", "No files attached"));
     return;
   }
   list.forEach((a) => {
     const chip = el("span", "attachment-chip");
     const link = el("a", null, a.file_name);
+    const required = a.slug === "one-body-ldn-partnership-brochure.pdf";
     link.href = a.file_url || a.url;
     link.target = "_blank";
     link.rel = "noopener";
     link.title = `${a.file_name} — ${formatBytes(a.file_size)}`;
+    chip.appendChild(el("span", "attachment-file-icon", "PDF"));
     chip.appendChild(link);
+    chip.appendChild(el("span", "attachment-detail", `${formatBytes(a.file_size)} · Included when sent${required ? " · Added automatically" : ""}`));
+    const open = el("a", "attachment-open", "Open file ↗");
+    open.href = link.href; open.target = "_blank"; open.rel = "noopener";
+    chip.appendChild(open);
     const rm = el("button", "attachment-remove", "×");
     rm.type = "button";
     rm.title = "Remove from this email";
@@ -4628,7 +4813,7 @@ function renderAttachmentChips() {
       state.attachments = (state.attachments || []).filter((x) => x.slug !== a.slug);
       renderAttachmentChips();
     });
-    chip.appendChild(rm);
+    if (!required) chip.appendChild(rm);
     chips.appendChild(chip);
   });
 }
@@ -5107,6 +5292,7 @@ async function sendDraft(id) {
       ...currentAttachments(),
     });
     if (result.status !== "sent") {
+      alert(`Message was not sent (status: ${result.status}). Please review the conversation.`);
       await selectLead(state.selected);
       return;
     }
@@ -5118,10 +5304,10 @@ async function sendDraft(id) {
   // The send path already fetched the latest thread for its race check. Do not
   // immediately spend a third Smartlead request just to repaint the card.
   state.detail.draft = null;
-  state.detail.lead.category = "waiting";
+  if (state.detail.lead.category !== "booked") state.detail.lead.category = "waiting";
   const row = state.leads.find((l) => l.campaign_id === cid && l.lead_id === lid);
   if (row) {
-    row.category = "waiting";
+    if (row.category !== "booked") row.category = "waiting";
     row.has_draft = false;
   }
   renderList();
@@ -5158,34 +5344,51 @@ async function scheduleDraft(id) {
 // selected row, auto-advance selection to the next one; otherwise just
 // shift the selection index to account for the removed row.
 async function withRowRemoval(action, index = state.selected) {
-  const i = index;
+  const view = state.view;
+  const target = state.leads[index] || state.detail?.lead;
+  const key = leadKey(target);
+  const matches = (lead) => leadKey(lead) === key && (!target?.draft_id || lead.draft_id === target.draft_id);
   try {
     await action();
   } catch (e) {
     alert(e.message);
     return;
   }
-  const row = document.querySelector(`.lead-row[data-index="${i}"]`);
+  if (state.view !== view) return;
+  const currentIndex = state.leads.findIndex(matches);
+  const row = document.querySelector(`.lead-row[data-index="${currentIndex}"]`);
   if (row) row.classList.add("sent-out");
   setTimeout(() => {
-    const wasSelected = i === state.selected;
-    state.leads.splice(i, 1);
-    if (i < state.snoozedCount) state.snoozedCount -= 1;
+    if (state.view !== view) return;
+    const i = state.leads.findIndex(matches);
+    const selectedKey = leadKey(state.detail?.lead) || leadKey(currentLead());
+    const wasSelected = key === selectedKey;
+    if (i >= 0) {
+      state.leads.splice(i, 1);
+      if (i < state.snoozedCount) state.snoozedCount -= 1;
+    }
+    if (view === "inbox") {
+      state.allLeads = state.allLeads.filter((lead) => leadKey(lead) !== key);
+      inboxDataSignature = null;
+    }
 
     if (!wasSelected) {
-      if (i < state.selected) state.selected -= 1;
+      state.selected = selectedKey ? state.leads.findIndex((lead) => leadKey(lead) === selectedKey) : -1;
       renderList();
       return;
     }
     if (state.leads.length === 0) {
       state.selected = -1;
+      state.detail = null;
+      cancelLeadRequest();
       renderList();
       $("detail-body").hidden = true;
       $("detail-empty").hidden = false;
       showMobileList();
       return;
     }
-    const next = Math.min(i, state.leads.length - 1);
+    const next = Math.max(0, Math.min(i, state.leads.length - 1));
+    renderList();
     selectLead(next);
   }, 320);
 }
@@ -5882,6 +6085,7 @@ function renderStepCard(seq, step, index) {
     attachments.forEach((a) => {
       const chip = el("span", "attachment-chip");
       const link = el("a", null, a.file_name);
+    const required = a.slug === "one-body-ldn-partnership-brochure.pdf";
       link.href = a.file_url || a.url;
       link.target = "_blank";
       link.rel = "noopener";
@@ -6085,7 +6289,8 @@ document.addEventListener("keydown", (e) => {
 // ---------- search + category filter ----------
 $("lead-search").addEventListener("input", (e) => {
   state.searchQuery = e.target.value;
-  applyFilter();
+  clearTimeout(leadSearchTimer);
+  leadSearchTimer = setTimeout(applyFilter, 120);
 });
 
 $("status-filter-btn").addEventListener("click", (e) => {
@@ -6136,6 +6341,34 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ---------- init ----------
+const autoRepliesToggle = $("auto-replies-toggle");
+if (autoRepliesToggle) {
+  const label = $("auto-replies-label");
+  function paintAutoReplies(enabled) {
+    autoRepliesToggle.checked = enabled;
+    label.textContent = `Automatic replies: ${enabled ? "ON" : "OFF"}`;
+  }
+  apiGet("/api/auto-replies").then(data => {
+    paintAutoReplies(data.enabled === true);
+    autoRepliesToggle.disabled = false;
+  }).catch(() => { label.textContent = "Automatic replies: unavailable"; });
+  autoRepliesToggle.addEventListener("change", async () => {
+    const desired = autoRepliesToggle.checked;
+    autoRepliesToggle.disabled = true;
+    try {
+      const data = await apiSend("POST", "/api/auto-replies", {enabled: desired});
+      paintAutoReplies(data.enabled === true);
+    } catch (error) {
+      try {
+        const actual = await apiGet("/api/auto-replies");
+        paintAutoReplies(actual.enabled === true);
+      } catch (_) {
+        label.textContent = "Automatic replies: status unknown";
+        return;
+      }
+    } finally { autoRepliesToggle.disabled = false; }
+  });
+}
 function onMobileMqChange() {
   closeMobileMenu();
   if (!isMobileLayout()) showMobileList();
@@ -6198,6 +6431,7 @@ $("followup-settings-btn").addEventListener("click", () => { closeMobileMenu(); 
 $("view-inbox-btn").addEventListener("click", () => setView("inbox"));
 $("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
 $("view-sequences-btn").addEventListener("click", () => setView("sequences"));
+$("view-subsequence-members-btn").addEventListener("click", () => setView("subsequence-members"));
 $("view-stats-btn").addEventListener("click", () => setView("stats"));
 $("view-archive-btn").addEventListener("click", () => setView("archive"));
 $("view-campaigns-btn").addEventListener("click", () => setView("campaigns"));
@@ -6213,7 +6447,7 @@ loadGoogleStatus();
 
 // Quietly re-pull the inbox so a reply that just arrived (webhook, or the
 // periodic backend scan) shows up without a manual Rescan or F5. List-only:
-// loadInbox -> renderList rebuilds #lead-list and never touches the open draft
+// loadInbox reuses unchanged rows and never touches the open draft
 // editor (#detail-body), so nothing you're typing is disturbed. We keep the
 // selected lead highlighted across the refresh by matching on its id, not its
 // (possibly shifted) list index. Runs only on the inbox view and only when the
@@ -6228,20 +6462,15 @@ const INBOX_REFRESH_MS = 15000;
 function leadKey(l) {
   return l ? `${l.campaign_id}/${l.lead_id}` : null;
 }
-async function autoRefreshInbox() {
+async function autoRefreshInbox(afterCurrent = false) {
   if (state.view !== "inbox" || document.hidden || state.mode === "crm") return;
-  const curKey = leadKey(state.selected >= 0 ? state.leads[state.selected] : null);
+  if (inboxRequest) {
+    if (afterCurrent === true) inboxRefreshQueued = true;
+  }
   try {
     await loadInbox();
   } catch (e) {
     return; // transient — try again next tick
-  }
-  if (curKey) {
-    const idx = state.leads.findIndex((l) => leadKey(l) === curKey);
-    if (idx !== state.selected) {
-      state.selected = idx;
-      renderList();
-    }
   }
 }
 setInterval(autoRefreshInbox, INBOX_REFRESH_MS);
@@ -6257,7 +6486,7 @@ const inboxEvents = new EventSource("/api/events");
 inboxEvents.onmessage = (event) => {
   try {
     const data = JSON.parse(event.data);
-    if (data.type === "reply_received") autoRefreshInbox();
+    if (data.type === "reply_received") autoRefreshInbox(true);
   } catch (_) {
     // A malformed hint cannot affect the authoritative inbox refresh loop.
   }

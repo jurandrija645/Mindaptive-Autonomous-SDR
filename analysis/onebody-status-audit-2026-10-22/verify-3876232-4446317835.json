@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8292,
+    "completion_tokens": 1363,
+    "total_tokens": 9655,
+    "cost": 0.0095073,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0095073,
+      "upstream_inference_prompt_cost": 0.0074628,
+      "upstream_inference_completions_cost": 0.0020445
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317835",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO6P123MB70314245FF086459FDFB6CEE8CB12@LO6P123MB7031.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Thank you but not currently necessary",
+      "reason_hr": "Osoba je osobno odgovorila na našu ponudu i odbila je.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je odbijen. Nema potrebe za daljnjim kontaktom. Kategorizirati kao 'Not Interested'.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317493",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GV3P280MB14728AA5DF9D9FAB88C3F275FBBB2@GV3P280MB1472.SWEP280.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Nakon automatskih OOO poruka, osoba je eksplicitno zatražila odjavu s liste.",
+      "request_hr": "Unsubscribe please",
+      "next_action_hr": "Odmah ukloniti s liste slanja. Ne kontaktirati više.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317381",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CACn8htM0P3jQQqeThQO+T5MV+9kscec-LvnK_z=_=JQ3qJphQw@mail.gmail.com>",
+      "human_quote": "Im planning on looking at it its just my office days are a buit skewed for the next cvouple of weeks",
+      "reason_hr": "Osoba je potvrdila interes, dobila link i kod za booking, ali još nije potvrdila rezervaciju. Zadnja reakcija (👍) je pozitivna. Čeka se na potez leada.",
+      "request_hr": "none",
+      "next_action_hr": "Lead ima sve informacije. Zadnji kontakt je bio naš follow-up. Pričekati da lead rezervira ili se javi. Ne slati nove poruke zasad.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317384",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AS8P251MB03287C5D044B2C01859D4353F9B22@AS8P251MB0328.EURP251.PROD.OUTLOOK.COM>",
+      "human_quote": "Would be interested in finding out more",
+      "reason_hr": "Osoba je izrazila interes, dobila link i kod. Nakon toga više nije odgovarala. Zadnja poruka u lancu je naša. Čeka se na lead.",
+      "request_hr": "none",
+      "next_action_hr": "Sve informacije za booking su poslane. Naše zadnje poruke su ostale bez odgovora. Ako se lead ne javi, nema potrebe za daljnjim kontaktom.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317489",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<866139DC-57DB-493C-B0A6-F8F3F7048F80@bonline.com>",
+      "human_quote": "We don’t do this kind of stuff for our staff and most work remotely anyways.",
+      "reason_hr": "Osoba je ljutito/odrješito odbila ponudu, navodeći da tvrtka ne nudi takve benefite i da zaposlenici rade remote.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je odbijen. Ne kontaktirati ponovno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317331",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWXP123MB625448C5FD07FEDECC67C7D0D5B22@CWXP123MB6254.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Okay, I will have a look and see if I can find a time.",
+      "reason_hr": "Osoba je izrazila interes, dobila informacije i rekla da će pogledati termine. Zadnji kontakt u lancu je naš. Čeka se na akciju leada.",
+      "request_hr": "none",
+      "next_action_hr": "Lead ima sve što treba za booking. Naše zadnje poruke su bez odgovora. Ne slati daljnje poruke.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    }
+  ]
+}

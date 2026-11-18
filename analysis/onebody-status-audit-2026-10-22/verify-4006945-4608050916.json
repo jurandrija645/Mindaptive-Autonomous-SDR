@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6212,
+    "completion_tokens": 1225,
+    "total_tokens": 7437,
+    "cost": 0.01026755,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01026755,
+      "upstream_inference_prompt_cost": 0.0071438,
+      "upstream_inference_completions_cost": 0.00312375
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608050916",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWXP265MB17026DCCF120B7756178A7D786652@CWXP265MB1702.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "Yes please, would like to book this.",
+      "reason_hr": "Osoba je osobno i izravno prihvatila ponudu.",
+      "request_hr": "Što je dostupno za termin?",
+      "next_action_hr": "Prati je li Sam rezervirao termin; ako ne odgovori na link i kod, pošalji nježni podsjetnik.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608049691",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<DS0PR19MB2039872D7225F504106068611DE4802@DS0PR19MB203987.namprd19.prod.outlook.com>",
+      "human_quote": "That is a very kind offer - one you may regret. I am a woman who is in pain all the time!",
+      "reason_hr": "Osoba je osobno odgovorila i pokazala interes za ponudu.",
+      "request_hr": "Pogledat će web stranicu i provjeriti blizinu klinike Victoria.",
+      "next_action_hr": "Provjeri je li Lucie rezervirala termin; ako ne, pošalji podsjetnik s linkom i kodom.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608049443",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO2P265MB5493F1AFB7E48768D6EF08C9F1802@LO2P265MB5493.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "Thanks Rebecca, sounds great.",
+      "reason_hr": "Lead je već označen kao booked u lokalnom statusu.",
+      "request_hr": "none",
+      "next_action_hr": "Nema daljnje akcije; termin je već rezerviran.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608048668",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAL7dAQFbCKieCcYSYctj5b4YFJqdZhx=5asZ=GJJ15J1q41N0Q@mail.gmail.com>",
+      "human_quote": "Hiya, I don't work for Turo anymore so no thanks!",
+      "reason_hr": "Osoba je odbila ponudu jer više ne radi u navedenoj tvrtki.",
+      "request_hr": "none",
+      "next_action_hr": "Zatvori lead kao negativan/odbijen.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608052781",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<015901dd6211$67894b80$369be280$@murano.com.mx>",
+      "human_quote": "Thanks for the email and I would be interested.",
+      "reason_hr": "Osoba je osobno izrazila interes za ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Prati je li David rezervirao termin; ako ne, pošalji podsjetnik s linkom i kodom.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608052811",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<ee7480b6550143c2b37988b6dc6dc7b7@SJ2PR08MB8838.namprd08.prod.outlook.com>",
+      "human_quote": "Hello, this mailbox is no longer in use.",
+      "reason_hr": "Automatska poruka o neaktivnom sandučiću, nema osobne reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Pošalji novu poruku na novu adresu ako je to prikladno, ali ne tretiraj ovu kao stvarni interes.",
+      "bulk_group": "owner_review",
+      "evidence_verified": false
+    }
+  ]
+}

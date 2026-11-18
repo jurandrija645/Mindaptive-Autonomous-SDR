@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8563,
+    "completion_tokens": 2357,
+    "total_tokens": 10920,
+    "cost": 0.007219775475,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6239,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.007219775475,
+      "upstream_inference_prompt_cost": 0.002716679835,
+      "upstream_inference_completions_cost": 0.00450309564
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316072",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 1.9. i nema ljudskog odgovora nakon tri poslana emaila.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Kampanja je gotova.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Označiti kao Lead Done.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ce7ab861ad1746208fc5ce40d7436bf6@LO0P123MB7752.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am now on holiday until Monday 7th September  with no access to emails and will reply on my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316075",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 1.9. (vraćam se 2.9.). Nema ljudskog odgovora nakon tri poslana emaila.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Kampanja je gotova.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Označiti kao Lead Done.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5f9a70bc53fc4fbe8c0b7f45cfcacc93@LO8P123MB7507.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office, returning Wednesday 2nd of September 2026. I will have very limited access to email but will respond on my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316067",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je na porodiljnom, ali uputila na kolegu Daniela Ironsa s emailom. To je ljudska preporuka koju treba iskoristiti.",
+      "last_human_request_hr": "Please speak to my maternity cover, Daniel Irons: daniel.irons@rlam.com in my absence.",
+      "unresolved_hr": "Poslati ponudu za besplatnu fizioterapiju Danielu Ironsu na daniel.irons@rlam.com.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati novi email Danielu Ironsu s ponudom za One Body LDN, navodeći Alexandrinu preporuku. Ne slati ništa Alexandri. Označiti Alexandru kao Lead Done i kreirati novi lead za Daniela Ironsa ili ga dodati u kampanju.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e83526e8baa94befabde489b54281721@LO2P123MB4651.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently on maternity leave, returning in February 2027. Please speak to my maternity cover, Daniel Irons: daniel.irons@rlam.com in my absence."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316320",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 2.9. (godišnji odmor do 7.9.). Nema ljudskog odgovora nakon tri poslana emaila.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Kampanja je gotova.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Označiti kao Lead Done.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ffa882bf0a2942939ed4ef0faf0b6127@DU0PR02MB8362.eurprd02.prod.outlook.com>",
+          "quote": "I am currently away on annual leave and will be returning 07/09/26."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316253",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Andrew Rice je napustio firmu. Osoba koja odgovara daje alternativni kontakt (Rushi Lala), ali bez ikakve naznake interesa za ponudu. To je standardna obavijest o odlasku, a ne preporuka za fizioterapiju.",
+      "last_human_request_hr": "Please note that Andrew Rice has recently left the business... For any immediate matters, please contact your delivery team or Rushi Lala at rushi.lala@absolutelabs.co.",
+      "unresolved_hr": "Lead je nevažeći jer je osoba otišla. Alternativni kontakt nije tražio ponudu. Može se razmotriti slanje poruke Rushi Lali, ali nije obavezno. Trenutno nema što za riješiti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao Lead Done (Wrong Person). Ne slati ništa na ovaj email.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<754714b02aff47e187e36fa2d4125688@LOAP265MB9302.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Andrew Rice has recently left the business and will not be responding to emails going forward."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316251",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 8.9. (godišnji odmor do 9.9.). Poslan kao odgovor na 'posljednji email'. Nema ljudskog odgovora ni interesa.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Kampanja je gotova.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Označiti kao Lead Done.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<37ed6a9a0cb14f18a2eae3ff817087b0@LO4P265MB3565.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am on annual leave till 9th Sept."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316279",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 7.9. (odsutan do 14.9., povremeno provjeravam mail). Poslan kao odgovor na follow-up. Nema ljudskog odgovora ni interesa.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Kampanja je gotova.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Označiti kao Lead Done.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<471d11c6c68a41bb94b3bccd7ea0f6be@LO2P265MB3327.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I will be out of the office until Monday 14th September. I'll be monitoring emails, but responses may be delayed."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316318",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 7.9. (izvan ureda, upit na finance@ubluk.com). Nema ljudskog odgovora ni interesa.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Kampanja je gotova.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Označiti kao Lead Done.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9960a50915ac4f7bab84442c0dfc6e01@LO4P123MB5302.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office. For any enquiries please reach out to finance@ubluk.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

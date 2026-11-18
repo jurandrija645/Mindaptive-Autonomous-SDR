@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8214,
+    "completion_tokens": 2419,
+    "total_tokens": 10633,
+    "cost": 0.0110211,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0110211,
+      "upstream_inference_prompt_cost": 0.0073926,
+      "upstream_inference_completions_cost": 0.0036285
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316679",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 2.9. Osoba se nije javila. Sve poruke su naše.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za riješiti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije. Lead ostaje bez ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<26c22a2b52ed4c2587b5d9dd3247d7f0@LO7P265MB8875.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am out of the office until Monday 7th September and will not have access to emails during this period."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316676",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Jennifer je na porodiljnom i uputila nas na kolegicu Kate Osiadacz. Naše follow-up poruke ignoriraju tu uputu. Zadnja poruka je naša 'last email'.",
+      "last_human_request_hr": "Osoba je rekla: 'I'm currently on maternity leave, so please contact my cover, Kate Osiadacz, instead: kate.osiadacz@tsb.co.uk'",
+      "unresolved_hr": "Kontaktirali smo krivu osobu unatoč jasnoj uputi. Treba odlučiti želimo li kontaktirati Kate.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti je li Kate Osiadacz već kontaktirana. Ako nije, vlasnik može odobriti novi outreach na tu adresu. Ne slati ništa Jennifer.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<11fb1494c631471a8a0b426d179f3748@CWLP265MB6183.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I'm currently on maternity leave, so please contact my cover, Kate Osiadacz, instead: kate.osiadacz@tsb.co.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316667",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 'I am currently on annual leave'. Osoba se nije javila. Sve poruke su naše.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za riješiti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c3b7f6722efa4bfb8f26dea4ae8ac822@LOAP265MB8473.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am currently on annual leave"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316540",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor. Osoba se nije javila. Sve poruke su naše.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za riješiti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e4bc1daf23c944e6980d62c092610bcd@PH0PR17MB5296.namprd17.prod.outlook.com>",
+          "quote": "I am currently out of office with no access to my emails, for any urgent queries please email cgannatti@wisdomtree.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316536",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor. Osoba se nije javila. Sve poruke su naše.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za riješiti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<dfdd7b89b4d942149a420e0cc5ab0726@PH9PR17MB950318.namprd17.prod.outlook.com>",
+          "quote": "I am out of the office until Thursday 3rd September and will have limited access to emails."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316567",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Gene je eksplicitno odgovorio 'No' na ponudu. To je jasno odbijanje.",
+      "last_human_request_hr": "Osoba je rekla: 'No'",
+      "unresolved_hr": "Ništa. Odbijanje je konačno.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije. Lead je ispravno zatvoren.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<GVUPR07MB11946E765BFCA375A86F0463CF1B12@GVUPR07MB11946.eurprd07.prod.outlook.com>",
+          "quote": "No"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316619",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Julia je na porodiljnom i uputila nas na Alice Dee. Automatski OOO je dvaput poslan, uključujući i kao odgovor na naš follow-up. Zadnja poruka je naš 'last email'.",
+      "last_human_request_hr": "Osoba je rekla: 'I am on maternity leave. Please contact alice.dee@thefisergroup.com in my absence.'",
+      "unresolved_hr": "Kontaktirali smo krivu osobu unatoč jasnoj uputi. Treba odlučiti želimo li kontaktirati Alice.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti je li Alice Dee već kontaktirana. Ako nije, vlasnik može odobriti novi outreach na tu adresu. Ne slati ništa Juliji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d61596cb309a433f9529583b3d27abb6@LOYP123MB3519.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am on maternity leave. Please contact alice.dee@thefisergroup.com in my absence."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316582",
+      "assessment": "closed_ack",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Alex je zahvalio na informacijama s 'Thank you' nakon što smo mu poslali link i kod. On je proslijedio ponudu kolegi Devlynu. Nema otvorenih pitanja. Lead je blacklistan, vjerojatno zbog 'unsubscribe' linka u potpisu, ali sam Alex je bio angažiran i pozitivan.",
+      "last_human_request_hr": "Osoba je rekla: 'Thank you' nakon što je dobila booking link i kod.",
+      "unresolved_hr": "Razgovor s Alexom je završen. Status blacklist i unosubscribed=true su u sukobu s pozitivnim angažmanom. Devlyn nije direktno kontaktiran ovdje.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba ručno pregledati. Blacklist/unsubscribe vjerojatno potječe iz potpisnog linka, a ne Alexove namjere. Preporuka: označiti Alexa kao 'closed_ack' i ne slati mu dalje. Ako želimo kontaktirati Devlyna, treba poseban lead.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<BR2PR04MB7882444E57C8AC7128FA7F9706ECBA2@BR2PR04MB788244.eurprd04.prod.outlook.com>",
+          "quote": "I'm cc'ing my colleague Devlyn who's interested."
+        },
+        {
+          "message_id": "<BR2PR04MB788244910E593418667AC29B8EECBA2@BR2PR04MB788244.eurprd04.prod.outlook.com>",
+          "quote": "Thank you"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

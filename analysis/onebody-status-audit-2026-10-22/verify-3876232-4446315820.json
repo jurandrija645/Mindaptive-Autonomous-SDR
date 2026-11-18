@@ -1,0 +1,70 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7344,
+    "completion_tokens": 997,
+    "total_tokens": 8341,
+    "cost": 0.013222608,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.013222608,
+      "upstream_inference_prompt_cost": 0.010399104,
+      "upstream_inference_completions_cost": 0.002823504
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315820",
+      "genuine_engagement": true,
+      "verdict": "awaiting_us",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO2P123MB41414327BB4E9458F1062E08D19D2@LO2P123MB4141.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "I’m currently trying to make the booking for Caroline; however, when I go through the booking process, it appears to require a payment of\n£4.99.",
+      "reason_hr": "Vania (PA) aktivno pokušava rezervirati za Caroline i pita za naknadu od 4.99£. Naše zadnje objašnjenje poslano 20.10., ali nema potvrde da je pročitano/riješeno.",
+      "request_hr": "Provjeriti je li naknada od 4.99£ očekivana i potvrditi kako dovršiti rezervaciju.",
+      "next_action_hr": "Provjeri je li Vania odgovorila na objašnjenje od 20.10. Ako nema odgovora, pošalji kratki follow-up: 'Hi Vania, just checking if the £4.99 explanation helped and if Caroline managed to book. Anything else I can clarify?'",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315651",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<MIWP194MB3037067F9ECAF98537AD723787FDB22@MIWP194MB303706.EURP194.PROD.OUTLOOK.COM>",
+      "human_quote": "I’ve just looked at booking and it’s coming up with a charge (albeit nominal) but I thought this was a free 55 minute session?",
+      "reason_hr": "Tej je pokazao interes, dobio kod, pitao za naknadu, dobio odgovor 8.9., ali od tada nije odgovorio niti rezervirao. Naši follow-upovi ostali bez odgovora. Posljednja poruka naša 18.9.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je u fazi čekanja. Ako želiš ponovno pokušati, možeš poslati kratku poruku s pitanjem treba li pomoć, ali budući da smo već poslali 'zadnji email', razmisli o ručnom pregledu prije slanja.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315515",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<EAC4ADD5-FA34-41AE-96B8-E0E4626D19B3@roguefilms.co.uk>",
+      "human_quote": "Thanks Rebecca. I have next week 29th in my diary…",
+      "reason_hr": "Charlie je 23.9. rekao da ima 29.9. u planu, dobio upute za booking, ali nema potvrde rezervacije. Naši follow-upovi (25.9. i 28.9.) ostali bez odgovora. Posljednja poruka naša (28.9.).",
+      "request_hr": "none",
+      "next_action_hr": "Lead nije rezervirao unatoč namjeri. Nakon dva 'zadnja emaila', preporučam ručni pregled. Ako želiš, možeš poslati kratku poruku: 'Hi Charlie, just checking if you managed to book for the 29th or if you need a hand with the link/code.'",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    }
+  ]
+}

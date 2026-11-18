@@ -1,0 +1,221 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11396,
+    "completion_tokens": 2552,
+    "total_tokens": 13948,
+    "cost": 0.0017182,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0017182,
+      "upstream_inference_prompt_cost": 0.0005698,
+      "upstream_inference_completions_cost": 0.0011484
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315637",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti i nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hi, I'm out of the office on annual leave, returning on Wednesday 2nd August."
+      ]
+    },
+    {
+      "key": "3876232/4446316364",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti s ureda.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away from the office. Please contact daniel.fisk@mnc.co.uk"
+      ]
+    },
+    {
+      "key": "3876232/4446316384",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o ograničenom pristupu e-pošti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o periodičnom pristupu e-pošti.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that I may only have periodic access to this Ortecha email account."
+      ]
+    },
+    {
+      "key": "3876232/4446317472",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti na odmoru do 5. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office on vacation with my family until the 5th of September."
+      ]
+    },
+    {
+      "key": "3876232/4446316730",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu do proljeća 2027., nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o rodiljnom dopustu do proljeća 2027.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now on maternity leave until Spring 2027."
+      ]
+    },
+    {
+      "key": "3876232/4446315467",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 1. rujna, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until the 1st of September, with limited access to email."
+      ]
+    },
+    {
+      "key": "3876232/4446315842",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da se poruke ne pregledavaju, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor da se poruke ne pregledavaju.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that messages sent to this inbox are not currently being reviewed."
+      ]
+    },
+    {
+      "key": "3876232/4446315548",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave returning Tuesday 1st September."
+      ]
+    },
+    {
+      "key": "3876232/4446316072",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odmoru do 7. rujna, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o odmoru do 7. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now on holiday until Monday 7th September"
+      ]
+    },
+    {
+      "key": "3876232/4446317516",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor 'I am out of office'.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hello, I am out of office."
+      ]
+    },
+    {
+      "key": "3930675/4520612646",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o radnim danima i alternativnom kontaktu, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o radnim danima (srijeda-petak) i alternativnom kontaktu.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "My working days are Wednesdays - Fridays.",
+        "Please contact Alice.James@macmillan.com with anything urgent"
+      ]
+    },
+    {
+      "key": "3876232/4446316679",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 7. rujna, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 7. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka s ponudom i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Monday 7th September and will not have access to emails during this period."
+      ]
+    }
+  ]
+}

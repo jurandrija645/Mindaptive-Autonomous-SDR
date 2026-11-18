@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 14574,
+    "completion_tokens": 2186,
+    "total_tokens": 16760,
+    "cost": 0.0163956,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0163956,
+      "upstream_inference_prompt_cost": 0.0131166,
+      "upstream_inference_completions_cost": 0.003279
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621919",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; samo automatska obavijest o odbijanju. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za rješavanje; email nije primljen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje radnje. Lead ostaje nedostavljen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<8e2883f7-a0a0-443e-8942-fa37f08ac296@CW1P123MB8567.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to lorna.hamilton@localplanetmedia.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621918",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; samo automatska obavijest o odbijanju. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za rješavanje; email nije primljen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje radnje. Lead ostaje nedostavljen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d0635163-0196-47dd-a067-0ad8e1ca715a@CWXP123MB6141.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to martyn@localplanetmedia.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621893",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Primatelj je eksplicitno tražio uklanjanje s liste.",
+      "last_human_request_hr": "take me off this list please",
+      "unresolved_hr": "Ništa; zahtjev za odjavu je jasan.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Potvrditi status odjave i ne kontaktirati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHqO0RAHEhAKajdAq15J+dgof+CL2UYAghrDU-edt98MAWN1_Q@mail.gmail.com>",
+          "quote": "take me off this list please"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621874",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; samo automatska obavijest o odbijanju. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za rješavanje; email nije primljen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje radnje. Lead ostaje nedostavljen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<28345901-d466-4255-abfb-a5992ff0fb06@LO7P123MB8443.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to satyam.maheshwari@fiduciam.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621722",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; samo automatska obavijest o odbijanju. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za rješavanje; email nije primljen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje radnje. Lead ostaje nedostavljen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<94ce4df9-0b4f-4021-8263-57b6ee0339aa@CWLP123MB6541.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to pambinos.charalambous@fiduciam.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621721",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; samo automatska obavijest o odbijanju. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ništa za rješavanje; email nije primljen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje radnje. Lead ostaje nedostavljen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<faae51d4-07f2-4439-a74d-251a3fb45824@CWXP123MB3702.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to neal.skinner@fiduciam.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621720",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski odgovor o porodiljnom dopustu. Nema ljudskog odgovora na ponudu. Iako upućuje na kolegu, to je generički tekst.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba je na porodiljnom do 2026. Preusmjeravanje nije specifično za ovu ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje radnje na ovu adresu. Može se eventualno razmotriti kontaktiranje općeg kontakta (investorteam) ako je prikladno, ali ne na temelju ovog OOO-a.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1255fae64bca4c43b31420b478d603f2@AM7PR05MB6709.eurprd05.prod.outlook.com>",
+          "quote": "I am currently on Maternity Leave, returning later in 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621716",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Primatelj je napustio tvrtku i nije zainteresiran. Iako daje opću uputu za kontakt, to je automatska poruka i nije specifična preporuka za ovu ponudu. Nema daljnjeg angažmana.",
+      "last_human_request_hr": "I am no longer with Fiduciam... Please direct all future inquiries to investorteam@fiduciam.co.uk",
+      "unresolved_hr": "Osoba više ne radi tamo. Preporuka za investorteam je generička, ne odnosi se na našu ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao kriva osoba. Ne slati na investorteam, osim ako vlasnik ne odluči drugačije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<fb750b2e63104a2fbb47a8d6a121a0bd@PR3PR05MB7196.eurprd05.prod.outlook.com>",
+          "quote": "I am no longer with Fiduciam"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

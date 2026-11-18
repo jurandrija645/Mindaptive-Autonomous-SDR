@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7305,
+    "completion_tokens": 2020,
+    "total_tokens": 9325,
+    "cost": 0.0096045,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0096045,
+      "upstream_inference_prompt_cost": 0.0065745,
+      "upstream_inference_completions_cost": 0.00303
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520611525",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Auto-reply o porodiljnom dopustu. Nema ljudskog angažmana niti upita za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna. Pratiti ako dobijemo ljudski odgovor u budućnosti, ali trenutno nema osnove za daljnji kontakt od nas.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Osoba je na porodiljnom i nije pokazala interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CADQw2v=+5wWuJSzu66OPdFBcSHu7mWmd+V1P1NWfz1ptps1y7w@mail.gmail.com>",
+          "quote": "Thanks for your email, I'm currently OOO on maternity leave"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520611334",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Neil više ne radi u Thirdfortu. Ne nudi preporuku za sebe, samo preusmjerava upite na opći timski mail.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Kontakt je profesionalno irelevantan. Nema zahtjeva za ponudu ili osobni prijenos.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao 'wrong person'. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000561f43065b1d41dc@google.com>",
+          "quote": "I am no longer working at Thirdfort"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520611316",
+      "assessment": "needs_our_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Auto-reply o porodiljnom dopustu s preporukom da kontaktiramo Astha Sharma. Originalna poruka nije zahtjev za kod, ali jasno upućuje na drugu osobu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Margaretina poruka sadrži ime i email kolegice za kontakt. Ovo je implicitna preporuka koju bi trebalo istražiti.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti želi li kontaktirati Astha Sharma (astha.sharma@signal-ai.com) s novom ponudom ili zanemariti preporuku. Ne označavati kao Lead Done.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAKwcAuSbvt6Q3r2bY909XwKwZSv+28mjEqOmwbdotW_qiQd-6g@mail.gmail.com>",
+          "quote": "please reach out to Astha Sharma at\nastha.sharma@signal-ai.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520611291",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Kratki auto-reply o odsutnosti iz ureda. Nema ljudskog angažmana, interesa ili upita.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudske interakcije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Samo automatski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6966c7415f1a4d0bb086ace9d095aeb7@CWLP265MB4189.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office today."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610906",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane Mimecasta prije isporuke. Ne postoji ljudski primatelj niti odgovor.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa ne prima poruke s naše domene; problem s dostavom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dok se problem s dostavom ne riješi.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7f265dc3-dbe0-475a-8a34-00ab82185690@CWXP123MB4245.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Mimecast detected message as spam or virus -> 554 Email rejected due to security policies"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610876",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Diana je napustila GCL. Preusmjerava upite na kolege, ali ne traži ništa za sebe niti daje osobnu preporuku.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema interesa. Zatvoriti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao 'wrong person'.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<8566078543ea446c9bf382bc6e6acc5a@AM7PR07MB6627.eurprd07.prod.outlook.com>",
+          "quote": "I have now left GCL"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610403",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana zbog DMARC politike primatelja. Nije isporučena, nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s autentifikacijom emaila. Ne pokušavati ponovno s istih domena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aa264c1.8f3988f9.337494.308b.GMR@mx.google.com>",
+          "quote": "DMARC unauthenticated mail is prohibited."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610350",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane Mimecasta. Nije isporučena, nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa odbija poruke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aa2641a.beba4590.24aa44.f163.GMR@mx.google.com>",
+          "quote": "Email rejected due to security policies - https://community.mimecast.com/docs/DOC-1369#554"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

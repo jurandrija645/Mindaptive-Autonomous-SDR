@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 16964,
+    "completion_tokens": 2248,
+    "total_tokens": 19212,
+    "cost": 0.0186396,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0186396,
+      "upstream_inference_prompt_cost": 0.0152676,
+      "upstream_inference_completions_cost": 0.003372
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316573",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Kofil je izričito tražio rezervaciju i plaćanje na recepciji. Klinika nije riješila zahtjev.",
+      "last_human_request_hr": "Ako me možete rezervirati, platit ću kad dođem u vaše urede, inače neću ponovno pokušavati.",
+      "unresolved_hr": "Osoba je ponovila da ne može koristiti sustav plaćanja i traži da ju se rezervira ručno.",
+      "recommended_bulk_group": "reply_booking",
+      "recommended_action_hr": "Odgovoriti i potvrditi može li se napraviti ručna rezervacija uz plaćanje na recepciji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO9P123MB78561F3058C565E4907272C29CBA2@LO9P123MB7856.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "If you can book me in, and I will pay when iam in your offices otherwise I am not going to attempt again."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316571",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Chris je potvrdio da je rezervacija gotova.",
+      "last_human_request_hr": "Many thanks - all booked.",
+      "unresolved_hr": "Nema otvorenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja komunikacija.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CW1P123MB7696CC5176746B242C500ADA81B22@CW1P123MB7696.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Many thanks - all booked."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316482",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Graeme je potvrdio da je rezervirao prvu sesiju.",
+      "last_human_request_hr": "Booked my first session for today - thanks again for reaching out.",
+      "unresolved_hr": "Nema otvorenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja komunikacija.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMviJG8Tm+MOhUo5YSBZ7PmSUdth4CLY+XgYJoL7nxnqcoiDYA@mail.gmail.com>",
+          "quote": "Booked my first session for today - thanks again for reaching out."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316379",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Jason je pitao vrijedi li ponuda i za ostatak tima. Posljednja poruka je naša provjera je li rezervirao.",
+      "last_human_request_hr": "Thanks Rebecca, does this apply to other members of staff at our company or just to me?",
+      "unresolved_hr": "Nakon što je dobio potvrdu za tim, nismo dobili povratnu informaciju je li on osobno rezervirao.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Provjeriti je li Jason rezervirao svoju sesiju.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<GV1PR08MB768166116B23B6C7B37EFD8596B02@GV1PR08MB7681.eurprd08.prod.outlook.com>",
+          "quote": "Thanks Rebecca, does this apply to other members of staff at our company or just to me?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316305",
+      "assessment": "manual_review",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Lola je odgovorila da više ne radi u toj firmi i traži da se kontaktiramo s nekim drugim.",
+      "last_human_request_hr": "I no longer work for Neverland, so please reach out to another team member.",
+      "unresolved_hr": "Osoba je napustila tvrtku. Treba odlučiti želi li vlasnik proslijediti ponudu unutar iste domene.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Lola je otišla. Vlasnik neka odluči želi li ciljati drugog zaposlenika iste tvrtke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e8cd2376f77949db9d26634cd3fae175@LO2P123MB4942.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I no longer work for Neverland, so please reach out to another team member."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316085",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "E-pošta je blokirana od strane primateljeve domene; tehnički bounce.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Domena je blokirala poruku. Nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne pokušavati ponovno slati na tu adresu bez ispravka politike domene.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6a9a8061.633fc506.1a6af9.5018.GMR@mx.google.com>",
+          "quote": "550 5.7.1 The user or domain that you are sending to (or from) has a policy that prohibited the mail that you sent."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316027",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Amanda je poslala ljudski upit: kod za rezervaciju ne radi, traži pomoć za termin 23. rujna i pita je li sesija zaista besplatna. To su neriješeni zahtjevi.",
+      "last_human_request_hr": "Would you be able to book an appointment for the afternoon of Weds 23rd for me please?",
+      "unresolved_hr": "Kod nije radio. Postavila je pitanje o trošku. Nitko joj nije rezervirao traženi termin.",
+      "recommended_bulk_group": "reply_booking",
+      "recommended_action_hr": "Pojasniti naplatu i ručno joj rezervirati termin ako je još zainteresirana, ili dati ispravnu pomoć s kodom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<AM0PR09MB39050BEEC36B8446E0E5F0DEF6BB2@AM0PR09MB3905.eurprd09.prod.outlook.com>",
+          "quote": "I’ve tried to book an appointment but the code doesn’t work."
+        },
+        {
+          "message_id": "<DB8PR09MB391421518B362BC3657B65A1F6BA2@DB8PR09MB3914.eurprd09.prod.outlook.com>",
+          "quote": "Thanks, Rebecca. Your initial email indicated it was a free session?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316012",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "David je odbio ponudu jer nema ured.",
+      "last_human_request_hr": "We do not have an office, so it's a no, thanks",
+      "unresolved_hr": "Osoba nije zainteresirana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<AS8PR02MB100793F58F02E1DA5FEED113A86B62@AS8PR02MB10079.eurprd02.prod.outlook.com>",
+          "quote": "We do not have an office, so it's a no, thanks"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

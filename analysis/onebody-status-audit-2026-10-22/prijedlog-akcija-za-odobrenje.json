@@ -1,0 +1,529 @@
+{
+  "status": "for_owner_review_not_executed",
+  "verified_at": "2026-10-23T07:42:38.756733+00:00",
+  "counts": {
+    "responses": 5,
+    "followups": 44,
+    "team_followups_included": 6,
+    "capped_excluded": 9,
+    "snoozed_excluded": 3,
+    "pending_recent": 7,
+    "special_review": 4
+  },
+  "recommended_first_approval": "Prepare 5 replies and 44 personalized follow-up drafts for review. Do not send.",
+  "groups": {
+    "A_replies": [
+      {
+        "key": "3930675/4520613046",
+        "name": "Alex Grieve",
+        "email": "alex.grieve@bartleboglehegarty.com",
+        "recommendation": "Zahvaliti Chloe na prosljeđivanju HR-u i ponuditi kratak sažetak za tim. Odgovoriti stvarnom pošiljatelju u postojećoj niti; ne dodavati nove kontakte."
+      },
+      {
+        "key": "3876232/4446317501",
+        "name": "Alistair Maher",
+        "email": "alistair.maher@mvs.co.uk",
+        "recommendation": "Osobno obnoviti razgovor nakon davno završenog OOO-a i pitati treba li pomoć s rezervacijom. Pitanje o £4.99 već je odgovoreno."
+      },
+      {
+        "key": "3930675/4520616414",
+        "name": "Craig Beddis",
+        "email": "craig@hadean.com",
+        "recommendation": "Pozvati se na njegov zahtjev da se javimo nakon puta. Taj je rok prošao. Ponuditi aktualne booking detalje, bez pretvaranja da smo tek dočekali povratak."
+      },
+      {
+        "key": "3930675/4520617891",
+        "name": "Joshua DiLorenzo",
+        "email": "joshua.dilorenzo@transficc.com",
+        "recommendation": "Odgovoriti što ponuda obuhvaća prema odobrenim podacima klinike. Uvažiti da tim radi na daljinu; ne vraćati ga na netočnu priču o blizini ureda."
+      },
+      {
+        "key": "3876232/4446317376",
+        "name": "Martyn Hill",
+        "email": "martyn@themixglobal.com",
+        "recommendation": "Odgovoriti na pitanje o izvoru lokacijskih podataka samo onim što znamo i zahvaliti na preporuci Vanesse u Firefishu. Kontaktiranje Vanesse nije dio ove akcije."
+      }
+    ],
+    "B_individual_followups": [
+      {
+        "key": "3930675/4520614771",
+        "name": "German Diez",
+        "email": "german@nexusstudios.com",
+        "recommendation": "Provjeriti je li booking postupak bio jasan i je li negdje zapeo. Ne ponavljati već poslane upute bez razloga."
+      },
+      {
+        "key": "3930675/4520616840",
+        "name": "Jeremy Robinson",
+        "email": "jeremy@housinghand.co.uk",
+        "recommendation": "Uvažiti da je tražio kontakt u listopadu. Zadnji podsjetnik bio je 20.10.; pripremiti miran follow-up za sljedeće primjereno jutro, ne agresivan novi niz."
+      },
+      {
+        "key": "3876232/4446317384",
+        "name": "Romelia Papalie",
+        "email": "rp@cobyphilips.co.uk",
+        "recommendation": "Provjeriti je li dobila dovoljno informacija nakon interesa za ponudu i želi li još rezervirati."
+      },
+      {
+        "key": "3876232/4446317574",
+        "name": "Satyen Shingadia",
+        "email": "satyen.shingadia@pnbint.com",
+        "recommendation": "Provjeriti je li još zainteresiran za ranije prihvaćenu sesiju. Bez nove tvrdnje da ponuda završava ovaj mjesec."
+      },
+      {
+        "key": "3930675/4520614839",
+        "name": "Louise Stevenson",
+        "email": "louise.stevenson@unit.tv",
+        "recommendation": "Uvažiti da je najavila povratak početkom listopada i pitati odgovara li joj sada pogledati termine."
+      },
+      {
+        "key": "3930675/4520613112",
+        "name": "Nasir Jan",
+        "email": "nasir.jan@ciklum.com",
+        "recommendation": "Provjeriti je li uspio rezervirati. Ne slati individualne vježbe ili medicinske savjete u prodajnom odgovoru."
+      },
+      {
+        "key": "3876232/4446316027",
+        "name": "Amanda John",
+        "email": "amanda.john@gunnercooke.com",
+        "recommendation": "Pitati je li uspjela riješiti problem s kodom i rezervirati. Stari zahtjev za 23.9. je prošao; ne nuditi ga kao važeći termin."
+      },
+      {
+        "key": "3876232/4446315434",
+        "name": "Joao Oliveira",
+        "email": "joao@currensea.com",
+        "recommendation": "Provjeriti je li dobio jasnu informaciju o lokaciji i našao termin. Koristiti samo potvrđene podatke o klinikama."
+      },
+      {
+        "key": "3930675/4520613855",
+        "name": "Garrett Dearey",
+        "email": "garrett.dearey@wearesocial.net",
+        "recommendation": "Osobno provjeriti je li uspio rezervirati traženu procjenu. Bez ponavljanja stare poruke o isteku ponude."
+      },
+      {
+        "key": "3930675/4520613836",
+        "name": "Richard Darwin",
+        "email": "richard.darwin@bricklane.com",
+        "recommendation": "Vratiti se na njegov zahtjev da pošaljemo link i provjeriti treba li pomoć s terminom."
+      },
+      {
+        "key": "3876232/4446316752",
+        "name": "Yasmin Nagi",
+        "email": "yasmin@yaspa.com",
+        "recommendation": "Provjeriti želi li još iskoristiti prihvaćenu ponudu; jedan jasan sljedeći korak."
+      },
+      {
+        "key": "3876232/4446315651",
+        "name": "Tej Patel",
+        "email": "tej.patel@elixirr.com",
+        "recommendation": "Provjeriti je li naknada bila prepreka rezervaciji i treba li pomoć. Ne obećavati ukidanje £4.99 bez potvrde klinike."
+      },
+      {
+        "key": "3930675/4520619898",
+        "name": "Jodie Hurn",
+        "email": "jodie.hurn@uncommon.studio",
+        "recommendation": "Vratiti se na njegov zahtjev za više informacija i provjeriti je li još aktualno. Ne zaključiti da je nezainteresiran zbog tišine."
+      },
+      {
+        "key": "3876232/4446315522",
+        "name": "Michael Berring",
+        "email": "michael.berring@aptitudesoftware.com",
+        "recommendation": "Nastaviti od njegova pitanja koje informacije trebamo i pitati je li potreban još neki detalj za booking."
+      },
+      {
+        "key": "3876232/4446317331",
+        "name": "Richard Cowen",
+        "email": "richardcowen@jmangroup.com",
+        "recommendation": "Provjeriti je li pronašao vrijeme nakon što je rekao da će pogledati kalendar."
+      },
+      {
+        "key": "3930675/4520616436",
+        "name": "Laura Wilkinson",
+        "email": "laura.wilkinson@intenthq.com",
+        "recommendation": "Provjeriti je li ponuda bila jasna nakon objašnjenja zašto je sesija besplatna. Bez nove priče o umjetnom isteku."
+      },
+      {
+        "key": "3930675/4520613005",
+        "name": "Jonathan Lee",
+        "email": "jonathan.lee@blackwoodgroup.com",
+        "recommendation": "Pitati treba li pomoć s bookingom. Pitanje o izvoru podataka već je odgovoreno; ne izmišljati drukčije objašnjenje."
+      },
+      {
+        "key": "3930675/4520619273",
+        "name": "Leigh Middleton-ross",
+        "email": "leigh.middleton-ross@fiskeplc.com",
+        "recommendation": "Provjeriti je li stigao pogledati termine nakon jasnog „yes please”. Ponuditi pomoć, bez cijelog ponovljenog pitcha."
+      },
+      {
+        "key": "3930675/4520620397",
+        "name": "Steve Bryen",
+        "email": "steve.bryen@mesh-ai.com",
+        "recommendation": "Poslati osobni follow-up uz lokaciju o kojoj je već razgovarao. Zapeli slijed je zaustavljen; ne pokretati ga ponovno."
+      },
+      {
+        "key": "3930675/4520615955",
+        "name": "Poldy / Leopold van Lynden",
+        "email": "leopold@tomandco.co.uk",
+        "recommendation": "Uvažiti da je u Londonu uglavnom utorkom ili četvrtkom; pitati želi li pogledati termine tih dana, bez obećavanja dostupnosti."
+      },
+      {
+        "key": "3876232/4446315693",
+        "name": "Dean Forbes",
+        "email": "dean.forbes@forterro.com",
+        "recommendation": "Odgovor vezati uz traženu dostupnost. Provjeriti treba li komunicirati s asistenticom Cascade; ne izmišljati slobodne termine."
+      },
+      {
+        "key": "3930675/4520618811",
+        "name": "Andrew Macharg",
+        "email": "andy.macharg@hellomagazine.com",
+        "recommendation": "Kratko pitati je li uspio rezervirati nakon što je dobio link i kod. Bez ponovnog predstavljanja ponude."
+      },
+      {
+        "key": "3876232/4446316648",
+        "name": "Matt Rimmington",
+        "email": "matt@listen-up.biz",
+        "recommendation": "Provjeriti je li uspio rezervirati nakon što je tražio upute. Ako je zapeo, ponuditi aktualni link."
+      },
+      {
+        "key": "3876232/4446316913",
+        "name": "Hannah Corbett",
+        "email": "h.corbett@thameshudson.co.uk",
+        "recommendation": "Vratiti se na njezino pitanje o lokaciji kod Kings Crossa i provjeriti je li našla praktičan termin."
+      },
+      {
+        "key": "4006945/4608049691",
+        "name": "Lucie Hackman",
+        "email": "lucie.hackman@edelman.com",
+        "recommendation": "Pitati je li pronašla praktičnu lokaciju nakon što je rekla da će pogledati web. Ne tvrditi koja joj je klinika najbliža."
+      },
+      {
+        "key": "3930675/4520621755",
+        "name": "Harry Ead",
+        "email": "harry@dixonbaxi.com",
+        "recommendation": "Kratko provjeriti je li uspio rezervirati nakon povratka s puta. Ne pretvarati povijesno „sljedeći tjedan” u novi dogovoreni termin."
+      },
+      {
+        "key": "3876232/4446317198",
+        "name": "Layla Zghari",
+        "email": "layla.zghari@emap.com",
+        "recommendation": "Jednim kratkim pitanjem provjeriti želi li još rezervirati prihvaćenu sesiju."
+      },
+      {
+        "key": "3930675/4520613376",
+        "name": "Lux Jega (Luxman Jegatheeswaran)",
+        "email": "lux.jega@glas.agency",
+        "recommendation": "Provjeriti je li dobio sve što treba za rezervaciju. Cijena/naknada i web već su objašnjeni; ne ponavljati neodgovoreno pitanje koje zapravo ne postoji."
+      },
+      {
+        "key": "3876232/4446316729",
+        "name": "Dan Moore",
+        "email": "dan@blackkitestudios.com",
+        "recommendation": "Provjeriti je li uspio iskoristiti poslane upute za booking; ponuditi pomoć jednim jasnim pitanjem."
+      },
+      {
+        "key": "3876232/4446317432",
+        "name": "Sarah Skelton",
+        "email": "sarah@helloflourish.com",
+        "recommendation": "Provjeriti je li uspjela rezervirati. U prethodnom mailu pozdrav i potpis nisu usklađeni, pa prije slanja potvrditi stvarnog pošiljatelja i odgovarajući potpis."
+      },
+      {
+        "key": "3876232/4446317666",
+        "name": "Zoe Harkness",
+        "email": "zoe.harkness@thinkbox.tv",
+        "recommendation": "Uvažiti pitanje o pokriću/franšizi i pitati treba li pomoć. Ne obećavati osiguravateljsko pokriće koje nije potvrđeno."
+      },
+      {
+        "key": "3876232/4446315774",
+        "name": "Dimitri Savva",
+        "email": "dimitri.savva@monexeurope.com",
+        "recommendation": "Kratko se vratiti na njegov zahtjev za booking linkom i provjeriti je li još potreban. Potpis bez novog teksta nije nova potvrda interesa."
+      },
+      {
+        "key": "3930675/4520616471",
+        "name": "Dylan Wanigasekera",
+        "email": "dylan@incubeta.com",
+        "recommendation": "Provjeriti je li uspio rezervirati nakon prihvaćanja ponude. Ne slati još jedan mail koji tvrdi da je posljednji."
+      },
+      {
+        "key": "3930675/4520621757",
+        "name": "Daniel Capstick",
+        "email": "dan@dixonbaxi.com",
+        "recommendation": "Provjeriti je li uspio napraviti sljedeći korak nakon prihvaćanja ponude. Ne ponavljati cijeli prodajni uvod."
+      },
+      {
+        "key": "3876232/4446317381",
+        "name": "Chris Thompson",
+        "email": "chris.thompson@datacenterdynamics.com",
+        "recommendation": "Uvažiti promjenjive dane u uredu i pitati želi li aktualni booking link. Ne tražiti odgovor kao da nije već pokazao interes."
+      },
+      {
+        "key": "3876232/4446318129",
+        "name": "Tom Caplan",
+        "email": "tom.caplan@sixteenth.com",
+        "recommendation": "Kratko pitati je li uspio rezervirati nakon prihvaćanja i poslanih detalja."
+      },
+      {
+        "key": "3930675/4520621199",
+        "name": "Claire O'brien",
+        "email": "claire.obrien@endersanalysis.com",
+        "recommendation": "Uvažiti da je bila zauzeta i pitati odgovara li joj sada pogledati termine. Ne pretpostaviti rezervaciju."
+      },
+      {
+        "key": "4006945/4608052123",
+        "name": "Rory Sale",
+        "email": "rory.sale@fospha.com",
+        "recommendation": "Vratiti se na njegovo „how do I book” i provjeriti je li postupak uspio. Ne tretirati ga kao novi hladni lead."
+      }
+    ],
+    "B_team_followups": [
+      {
+        "key": "3930675/4520622428",
+        "name": "Dag Wirdenius",
+        "email": "dag@siteassist.com",
+        "recommendation": "Obratiti se Tomu u postojećem razgovoru i provjeriti booking. Prije slanja provjeriti stvarni To/Cc da Tom ne ispadne iz niti."
+      },
+      {
+        "key": "3930675/4520615628",
+        "name": "Digby Lewis",
+        "email": "digbyl@motherlondon.com",
+        "recommendation": "Pratiti prosljeđivanje people timu i ponuditi sažetak koji može podijeliti. Ne ponavljati već odgovoreno pitanje o obvezama."
+      },
+      {
+        "key": "3876232/4446315909",
+        "name": "Alex Timmons",
+        "email": "alexander.timmons@crowdcube.com",
+        "recommendation": "Pitati je li bilo odaziva nakon što je ponudu podijelio s oko 30 kolega. Ne pitati njega da rezervira osobnu sesiju."
+      },
+      {
+        "key": "3930675/4520616252",
+        "name": "Nadia Davies",
+        "email": "ndavies@cornerstonebarristers.com",
+        "recommendation": "Provjeriti je li kolega kojem je proslijedila ponudu uspio rezervirati. Dopuštenje za dijeljenje već je dobila."
+      },
+      {
+        "key": "3930675/4520616518",
+        "name": "Rebecca Walsh",
+        "email": "rebecca.walsh@harringtonstarr.com",
+        "recommendation": "Pitati kakav je bio odaziv tima nakon dijeljenja. Ne tretirati je kao osobu koja mora sama rezervirati."
+      },
+      {
+        "key": "3876232/4446317241",
+        "name": "Joyce Mccarthy",
+        "email": "joycelai@ec1partners.com",
+        "recommendation": "Jednom pitati ima li imena kontakata koje je ponudila predstaviti. Ne slati joj generički podsjetnik za osobnu sesiju."
+      }
+    ],
+    "C_capped_excluded": [
+      {
+        "key": "3876232/4446317153",
+        "name": "Beth Denham",
+        "email": "beth.denham@cube.global",
+        "recommendation": "Beth je već pitala je li £4.99 očekivana naknada. Ako odobriš, napraviti osobni follow-up oko te prepreke, bez obećanja besplatne rezervacije."
+      },
+      {
+        "key": "3876232/4446317296",
+        "name": "Cassian Scott",
+        "email": "cassian.scott@instinctdigital.io",
+        "recommendation": "Razmotriti jedan osobni pokušaj s aktualnom ponudom, samo ako ga posebno odobriš. Ne bih pokretao novi niz."
+      },
+      {
+        "key": "3876232/4446315515",
+        "name": "Charlie Roberson",
+        "email": "charlieroberson@roguefilms.co.uk",
+        "recommendation": "Prije prodajnog podsjetnika provjeriti je li spomenuti termin u kalendaru za 29.9. bio stvarna rezervacija. Ako jest, ne slati prodajni follow-up."
+      },
+      {
+        "key": "3930675/4520614234",
+        "name": "Edu Sampedro",
+        "email": "eduardo.sampedrodiaz@mccglc.com",
+        "recommendation": "Razmotriti jedan osobni pokušaj s aktualnom ponudom, samo ako ga posebno odobriš. Ne bih pokretao novi niz."
+      },
+      {
+        "key": "3876232/4446317001",
+        "name": "Fred Shears",
+        "email": "fshears@ctgroup.com",
+        "recommendation": "Ako odobriš, kratko provjeriti je li još aktualan interes. Ne davati individualne programe pripreme za sportska natjecanja."
+      },
+      {
+        "key": "3876232/4446317181",
+        "name": "Mark Bate",
+        "email": "mark.bate@nurole.com",
+        "recommendation": "Razmotriti jedan osobni pokušaj s aktualnom ponudom, samo ako ga posebno odobriš. Ne bih pokretao novi niz."
+      },
+      {
+        "key": "3876232/4446316214",
+        "name": "Mav Dhothar",
+        "email": "mav.dhothar@mandg.com",
+        "recommendation": "Razmotriti jedan osobni pokušaj s aktualnom ponudom, samo ako ga posebno odobriš. Ne bih pokretao novi niz."
+      },
+      {
+        "key": "3876232/4446316731",
+        "name": "Richard Samuels",
+        "email": "richard@blackkitestudios.com",
+        "recommendation": "Razmotriti jedan osobni pokušaj s aktualnom ponudom, samo ako ga posebno odobriš. Ne bih pokretao novi niz."
+      },
+      {
+        "key": "3876232/4446315820",
+        "name": "Caroline Hilton",
+        "email": "caroline.hilton@asr-re.com",
+        "recommendation": "Carolineina asistentica Vania pitala je za £4.99 i dobila objašnjenje. Ako odobriš izuzetak, provjeriti je li Caroline sada uspjela rezervirati; pisati stvarnoj sugovornici uz ispravan To/Cc."
+      }
+    ],
+    "E_deferred": [
+      {
+        "key": "3930675/4520617893",
+        "name": "Annie Barker",
+        "email": "annie.barker@transficc.com",
+        "recommendation": "Pregled 26.10., nakon mjesečnog prozora koji je tražila. Tada provjeriti je li i dalje potreban follow-up; datum je odgoda pregleda, ne zakazano slanje."
+      },
+      {
+        "key": "3930675/4520612744",
+        "name": "Ryan Thomas",
+        "email": "ryan@beam.org",
+        "recommendation": "Pregled 16.11. služi kao naš podsjetnik. Točan povratak nije potvrđen. Ne pisati sada niti tvrditi da je datum povratka dogovoren."
+      },
+      {
+        "key": "3876232/4446316050",
+        "name": "Ian Timlin",
+        "email": "itimlin@mccarthydenning.com",
+        "recommendation": "Pregled 29.10., nakon najmanje osam tjedana odsutnosti koje je najavio. Rekao je da će se sam javiti; prvo procijeniti treba li poruka."
+      }
+    ],
+    "recent_not_due": [
+      {
+        "key": "3930675/4520611104",
+        "name": "James Boal",
+        "email": "james.boal@ninetyone.com",
+        "recommendation": "Zadnji mail je naš i još nije dospjela nova poruka prema spremljenoj kadenci. Pričekati; ne duplicirati već poslan odgovor."
+      },
+      {
+        "key": "3930675/4520613664",
+        "name": "Jody Osman",
+        "email": "jody.osman@propellergroup.com",
+        "recommendation": "Zadnji mail je naš i još nije dospjela nova poruka prema spremljenoj kadenci. Pričekati; ne duplicirati već poslan odgovor."
+      },
+      {
+        "key": "3930675/4520615026",
+        "name": "Lawrence Tatler",
+        "email": "lawrence.tatler@unit.tv",
+        "recommendation": "Zadnji mail je naš i još nije dospjela nova poruka prema spremljenoj kadenci. Pričekati; ne duplicirati već poslan odgovor."
+      },
+      {
+        "key": "3930675/4520616556",
+        "name": "Ashil Shah",
+        "email": "ashil.s@omnea.co",
+        "recommendation": "Zadnji mail je naš i još nije dospjela nova poruka prema spremljenoj kadenci. Pričekati; ne duplicirati već poslan odgovor."
+      },
+      {
+        "key": "3930675/4520621425",
+        "name": "Faye Wilson",
+        "email": "faye.wilson@dawbell.com",
+        "recommendation": "Zadnji mail je naš i još nije dospjela nova poruka prema spremljenoj kadenci. Pričekati; ne duplicirati već poslan odgovor."
+      },
+      {
+        "key": "4006945/4608050916",
+        "name": "Sam Iddekinge",
+        "email": "sam.vaniddekinge@thetalentbusiness.com",
+        "recommendation": "Zadnji mail je naš i još nije dospjela nova poruka prema spremljenoj kadenci. Pričekati; ne duplicirati već poslan odgovor."
+      },
+      {
+        "key": "4006945/4608052781",
+        "name": "David Galan",
+        "email": "dgalan@murano.com.mx",
+        "recommendation": "Zadnji mail je naš i još nije dospjela nova poruka prema spremljenoj kadenci. Pričekati; ne duplicirati već poslan odgovor."
+      }
+    ]
+  },
+  "clinic_review": {
+    "date": "2026-10-23",
+    "fixed_cohort_count": 49,
+    "no_messages_sent_or_scheduled": true,
+    "groups": {
+      "P": {
+        "label": "Ponuditi prioritetnu kao dodatnu opciju",
+        "keys": [
+          "3930675/4520614771",
+          "3876232/4446317384",
+          "3876232/4446317574",
+          "3930675/4520613112",
+          "3876232/4446316027",
+          "3876232/4446315651",
+          "3930675/4520619898",
+          "3876232/4446315522",
+          "3876232/4446317331",
+          "3930675/4520619273",
+          "3930675/4520620397",
+          "3930675/4520618811",
+          "3930675/4520621755",
+          "3930675/4520613376",
+          "3876232/4446316729",
+          "3876232/4446315774",
+          "3930675/4520621757",
+          "3930675/4520615628",
+          "3876232/4446315909"
+        ]
+      },
+      "K": {
+        "label": "Zadržati već spomenutu prioritetnu",
+        "keys": [
+          "3930675/4520613855",
+          "3930675/4520613836",
+          "3930675/4520616471"
+        ]
+      },
+      "U": {
+        "label": "Prvo potvrditi lokaciju ili okolnosti",
+        "keys": [
+          "3876232/4446317501",
+          "3930675/4520616414",
+          "3876232/4446317376",
+          "3876232/4446316752",
+          "3876232/4446317381",
+          "3876232/4446318129",
+          "4006945/4608052123"
+        ]
+      },
+      "O": {
+        "label": "Samo ako prihvaća dodatni put",
+        "keys": [
+          "3930675/4520616436",
+          "3930675/4520613005",
+          "3930675/4520615955",
+          "4006945/4608049691",
+          "3876232/4446317666",
+          "3930675/4520616252",
+          "3930675/4520616518"
+        ]
+      },
+      "N": {
+        "label": "Zadržati praktičniju postojeću lokaciju",
+        "keys": [
+          "3930675/4520613046",
+          "3930675/4520616840",
+          "3930675/4520614839",
+          "3876232/4446315434",
+          "3876232/4446315693",
+          "3876232/4446316648",
+          "3876232/4446316913",
+          "3876232/4446317198",
+          "3876232/4446317432",
+          "3930675/4520621199"
+        ]
+      },
+      "L": {
+        "label": "Pitati koji dio Londona odgovara",
+        "keys": [
+          "3930675/4520617891",
+          "3930675/4520622428",
+          "3876232/4446317241"
+        ]
+      }
+    },
+    "evidence_file": "clinic-review-evidence.json",
+    "snapshot_file": "clinic-review-refresh-2026-10-23.json",
+    "pilot_names": [
+      "Dan Moore",
+      "Andrew Macharg"
+    ],
+    "approval_state": "owner_document_review; test_requires_explicit_instruction; bulk_requires_test_review_and_further_instruction"
+  }
+}

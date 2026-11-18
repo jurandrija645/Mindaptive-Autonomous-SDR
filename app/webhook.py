@@ -711,6 +711,8 @@ def _process_reply(
         draft_id = pipeline.create_draft(conn, raw_lead, campaign_name, "reply", thread)
         draft = db.get_draft(conn, draft_id)
 
+    from app import auto_replies
+    auto_replies.schedule_reviewed(draft_id, thread)
     _notify_n8n(dict(draft))
     return {"status": "ok", "draft_id": draft_id}
 

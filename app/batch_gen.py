@@ -245,13 +245,33 @@ def _handle_result(result) -> bool:
         return False
 
     lead = _candidate_lead(cand, lead_row)
+    from app import onebody_review
+    try:
+        draft_result, review_warning = onebody_review.review_for_display(
+            draft_result, render_thread_text(thread), lead,
+            models_registry.resolve_anthropic(None),
+        )
+    except Exception:
+        log.exception("batch result %s: review failed — candidate reopened", result.custom_id)
+        _reopen_candidate(result.custom_id)
+        return False
+    # Review can take time; check again before storing or scheduling.
+    if onebody_review.enabled():
+        thread_after_review = pipeline.fetch_normalized_thread(cand["campaign_id"], cand["lead_id"])
+        if thread_after_review != thread:
+            _reopen_candidate(result.custom_id)
+            return False
     with db.db_session() as conn:
+        current = db.get_candidate(conn, cand_id)
+        if current is None or current["status"] != "generating":
+            return False
         draft_id = pipeline.store_draft_result(
             # Batch generation is Anthropic-only (see
             # drafter.build_batch_request_params), so record the model it
             # actually resolved to, not whatever the dashboard default is.
             conn, lead, "followup", thread, draft_result,
             model=models_registry.resolve_anthropic(None),
+            review_warning=review_warning,
         )
         db.update_candidate(conn, cand_id, status="drafted", draft_id=draft_id)
         # Autonomous mode: with AUTO_SEND_FOLLOWUPS on, pre-generated
@@ -259,7 +279,7 @@ def _handle_result(result) -> bool:
         # weekday morning; the 1-minute due_send_loop (which re-race-checks
         # right before sending, and honours DRY_RUN) does the rest. Without
         # the flag they stay 'pending' for Andrew's review — the default.
-        if settings.auto_send_followups:
+        if settings.auto_send_followups and not review_warning:
             send_at = next_morning_send_utc((lead_row["timezone_guess"] if lead_row else "") or "")
             db.update_draft(conn, draft_id, status="scheduled", scheduled_at=send_at.isoformat())
 

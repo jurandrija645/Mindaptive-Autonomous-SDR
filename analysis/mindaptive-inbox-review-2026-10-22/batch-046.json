@@ -1,0 +1,250 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 20948,
+    "completion_tokens": 2688,
+    "total_tokens": 23636,
+    "cost": 0.0010229856,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 18853,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0010229856,
+      "upstream_inference_prompt_cost": 0.0005337696,
+      "upstream_inference_completions_cost": 0.000489216
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3640877/4176328440",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da adresa više nije aktivna; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke na neaktivnu adresu; samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "this email address is no longer monitored and messages sent here will not be responded to"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o neaktivnoj adresi; nema ljudskog interesa za daljnje slanje."
+    },
+    {
+      "key": "3599203/4126837594",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da je dr. Rembeck napustio praksu; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke; osoba više nije u tvrtki i adresa nije aktivna.",
+      "missing_information": [],
+      "evidence": [
+        "Dr. med. Erich Rembeck ist zum Jahreswechsel ... ausgeschieden und nicht mehr für unser Unternehmen tätig"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor zbog odlaska osobe; nema ljudskog interesa."
+    },
+    {
+      "key": "3599203/4126837396",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da račun više nije u upotrebi; preusmjeravanje na drugu adresu, ne stvarni interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke na neaktivnu adresu; samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "ACCOUNT NO LONGER IN USE",
+        "this account is no longer being used/monitored"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o neaktivnoj adresi; nema ljudskog interesa."
+    },
+    {
+      "key": "3562710/4080232856",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Joaquín je pokazao interes i tražio cijenu, ali postojeći status booked se ne smije promijeniti; čekamo potvrdu.",
+      "priority": "P2",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Čekati potvrdu sastanka i ishod; ne slati nove poruke dok se ne razjasni status.",
+      "missing_information": [],
+      "evidence": [
+        "pero coméntame el precio final si vemos que es interesante y funciona",
+        "te estuvimos esperando ayer"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći booked status se održava; potrebno je ljudsko praćenje ishoda sastanka."
+    },
+    {
+      "key": "3599203/4126837172",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da je Wendy otišla; potencijalni kontakt je Yvonne, ali to nije stvarni interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti je li se Yvonne javila; bez slanja prodajne poruke dok se ne potvrdi stvarni interes.",
+      "missing_information": [],
+      "evidence": [
+        "Wendy Best has left the practice and your email has been forwarded to our new practice manager, Yvonne Harley"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o promjeni osobe; nema stvarnog ljudskog interesa."
+    },
+    {
+      "key": "3599203/4126836274",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da se adresa više ne prati; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke na neaktivnu adresu; samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Diese Inbox wird nicht mehr aktiv betreut"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o neaktivnoj adresi; nema ljudskog interesa."
+    },
+    {
+      "key": "3599203/4126835902",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da Chrissie više ne radi; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke; osoba više nije u tvrtki.",
+      "missing_information": [],
+      "evidence": [
+        "Chrissie is no longer working for Firvale Clinic"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o odlasku osobe; nema ljudskog interesa."
+    },
+    {
+      "key": "3599203/4126835074",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da se adresa više ne prati; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke na neaktivnu adresu; samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "This email address is no longer monitored"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o neaktivnoj adresi; nema ljudskog interesa."
+    },
+    {
+      "key": "3599203/4126834795",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da se adresa više ne prati; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke na neaktivnu adresu; samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "This email is no longer monitored"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o neaktivnoj adresi; nema ljudskog interesa."
+    },
+    {
+      "key": "3562710/4080233287",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o promjeni web stranice; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez slanja prodajne poruke; samo automatski odgovor o novoj web stranici.",
+      "missing_information": [],
+      "evidence": [
+        "We have moved and our new website is https://npssolar.co.uk/"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postoji samo automatski odgovor o novoj web stranici; nema ljudskog interesa."
+    }
+  ]
+}

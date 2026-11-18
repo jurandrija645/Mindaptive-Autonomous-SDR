@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 16873,
+    "completion_tokens": 2230,
+    "total_tokens": 19103,
+    "cost": 0.0185307,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0185307,
+      "upstream_inference_prompt_cost": 0.0151857,
+      "upstream_inference_completions_cost": 0.003345
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520620950",
+      "assessment": "manual_review",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Auto-reply (Out of Office) prosljeđuje na drugu email adresu (accounts@unitylink.com i fsiddique@unitylink.com). Nema ljudskog interesa ni odbijanja. Označeno kao auto_reply, ali poruka sadrži potencijalne kontakte.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je dala uputu koga kontaktirati. Vlasnik treba odlučiti hoće li proslijediti ponudu na navedene adrese.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba pregledati i odlučiti želi li poslati ponudu na accounts@unitylink.com ili fsiddique@unitylink.com.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e1a8ad1ee9a74e80ae4e5712cfc8878f@CWLP265MB6119.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Please send all request to Unity Link Accounts accounts@unitylink.com. Or to Foysol Siddique fsiddique@unitylink.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620593",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane poslužitelja primatelja (spam filter). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen. Potrebna druga metoda kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje email akcije. Razmotriti ručno kontaktiranje telefonom ili drugim putem.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<12999732-5125-41e6-9b90-48da60e7d569@LO2P123MB6079.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to bill.dobie@sedna.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620575",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Gabrielle je pozitivno odgovorila 'I’d be happy to take a trial if there is no ongoing commitment required'. Poslani su link, kod i follow-upovi, ali posljednja ljudska poruka je njezino prihvaćanje. Nema potvrde bookinga niti odbijanja. Označeno kao 'booked' i 'Meeting Booked', ali u porukama nema dokaza o stvarnom booking terminu, što je u suprotnosti. Status je potrebno ispraviti i nastaviti praćenje.",
+      "last_human_request_hr": "I’d be happy to take a trial if there is no ongoing commitment required",
+      "unresolved_hr": "Potrebno je potvrditi je li booking stvarno napravljen. Ako nije, poslati novi follow-up jer je prošlo više od mjesec dana od zadnjeg našeg emaila (25.09.).",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Prvo provjeriti je li Gabrielle Cooke doista bukirana u sustavu. Ako nije, poslati personalizirani follow-up s pitanjem treba li pomoć s bookingom, s obzirom da je ranije izrazila interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<A885B504-E2F7-4C0B-A9A9-A12C88DC4290@realdealsmedia.com>",
+          "quote": "I’d be happy to take a trial if there is no ongoing commitment required"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620360",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane poslužitelja primatelja (spam filter). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje email akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<bb159aa8-ce55-40f9-9a9c-ac5b6606a756@LO3P123MB2682.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to gniven@peppergroup.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620144",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane poslužitelja primatelja (spam filter). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje email akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<78295529-bae6-48b9-b00c-0a92b1a29938@CWLP123MB4196.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to dev.jadeja@lppi.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620096",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane poslužitelja primatelja (spam filter). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje email akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d6fab301-c84d-455c-a8e4-04f2854290a7@CWLP123MB3155.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to sejal.amin@islaemea.org couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620113",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane poslužitelja primatelja (spam filter). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje email akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<cb7c660a-0b5d-4e75-a685-a8e505007047@CW1P123MB8792.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to adrian.dale@isla.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620127",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena od strane poslužitelja primatelja (spam filter). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje email akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a90f6087-c2b2-44f8-9580-701d3ca514d6@LODP123MB220770.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to henry.foster@hilcocapital.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

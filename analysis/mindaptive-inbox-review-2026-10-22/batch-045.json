@@ -1,0 +1,250 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 28171,
+    "completion_tokens": 3504,
+    "total_tokens": 31675,
+    "cost": 0.00298535,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00298535,
+      "upstream_inference_prompt_cost": 0.00140855,
+      "upstream_inference_completions_cost": 0.0015768
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3751357/4278752225",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitno obavještenje 'do not contact again' i referenca na GDPR. Nema ničega što bi sugeriralo stvarni interes. Trenutna oznaka 'Do Not Contact' je točna.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne poduzimati ništa. Ovo je trajno isključenje kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "Gdpr law breach- do not contact again",
+        "You do not have consent to send marketing/unsolicited emails to this mailbox."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potpuno isključenje kontakta, bez mogućnosti slanja poruke."
+    },
+    {
+      "key": "3599203/4126837514",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Hanna je eksplicitno pristala na sastanak ('Ok loade os lave en møde i næste uge'). Poslan je kalendarski link. Označena je kao 'Meeting-Booked' u smartleadu. Ovo je pozitivan, dogovoren sastanak.",
+      "priority": "P0",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je dogovoren (i navodno održan/booked_at 2026-08-04). Potrebno je provjeriti ishod sastanka - je li sklopljen dogovor ili je potrebno dodatno praćenje.",
+      "missing_information": [],
+      "evidence": [
+        "Ok loade os lave en møde i næste uge"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Sastanak je već dogovoren; draft nije potreban dok ne saznamo ishod."
+    },
+    {
+      "key": "3741157/4263806548",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Kontakt (Stephanie) više ne radi u PolyAI i preusmjerava na amy@poly-ai.com. Nema nikakvog interesa. Trenutna oznaka 'Wrong Person' je točna.",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnje akcije na ovaj kontakt. Ako je PolyAI cilj, treba kontaktirati amy@poly-ai.com.",
+      "missing_information": [],
+      "evidence": [
+        "I no longer work at PolyAI, for enquiries please contact amy@poly-ai.com."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Osoba je napustila tvrtku; nema smisla slati poruke."
+    },
+    {
+      "key": "3640877/4176334251",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (autoreply) obavještava da adresa info@dr-eickhoff.de više nije aktivna i šalje na novu adresu. Ovo je auto-preusmjeravanje, a ne stvarni interes. Trenutna oznaka 'Wrong Person' je točna, iako je to više 'automatski preusmjeravanje' nego pogrešna osoba.",
+      "priority": "P3",
+      "sales_state": "NEEDS_HUMAN_REVIEW",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne poduzimati ništa na staroj adresi. Razmotriti slanje na novu adresu (info@eickhoff-sternemann.de) kao novi lead ako je klinika i dalje ciljana.",
+      "missing_information": [],
+      "evidence": [
+        "Die Mailadresse Info@dr-eickhoff.de wird nicht mehr aktiv genutzt. Bitte schicken Sie Ihre Anfrage / Nachricht in Zukunft an die info@eickhoff-sternemann.de"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft je neprimjeren (auto-reply nudge 'funny timing') koji nema smisla slati na staru adresu koja se više ne koristi. Potrebno je ili poslati na novu adresu ili odustati."
+    },
+    {
+      "key": "3599203/4126835921",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Mike je napustio Cheshire Cardiology; svi odgovori su automatski (auto-reply) koji obavještavaju da je napustio firmu i šalju upite prema Lauri. Nema stvarnog interesa. Trenutna oznaka 'Wrong Person' je točna.",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnje akcije na ovaj kontakt. Razmotriti slanje na laura@cheshirecardiology.com ili pronaći novi kontakt.",
+      "missing_information": [],
+      "evidence": [
+        "I have now finished working for Cheshire Cardiology and your email will be forwarded to Laura Blakeley"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Osoba je napustila tvrtku; slanje poruke nema smisla. Postojeći draft (upućen Lauri) je već pending i može ostati kao takav, ali ga ne treba slati dok ne potvrdimo adresu."
+    },
+    {
+      "key": "3640877/4176335018",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor obavještava da se adresa koristi isključivo za administrativne svrhe i da se ne prati za upite pacijenata. Ovo nije stvarni interes. Trenutna oznaka 'Wrong Person' je prikladna (adresa nije za prodajne upite).",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne poduzimati ništa na ovoj adresi. Potražiti drugi kontakt za ovu ordinaciju (npr. telefon).",
+      "missing_information": [],
+      "evidence": [
+        "diese E-Mail-Adresse dient nur administrativen Zwecken. Für Terminanfragen- und Änderungen und alle weiteren praxisbezogenen Themen rufen Sie uns bitte an."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći 'funny timing' draft je neprikladan jer adresa nije za prodaju i neće biti pročitana."
+    },
+    {
+      "key": "3640877/4176334966",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor obavještava da se emailovi više ne obrađuju iz organizacijskih razloga i upućuje na online recepciju. Ovo nije stvarni interes. Trenutna oznaka 'Wrong Person' je prikladna.",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne poduzimati ništa na ovoj adresi. Razmotriti alternativni kanal (npr. online recepcija na web stranici).",
+      "missing_information": [],
+      "evidence": [
+        "bitte beachten Sie, dass E-Mails aus organisatorischen Gründen nicht mehr bearbeitet werden können. Nutzen Sie bitte unseren Service der Onlinerezeption auf unserer Website"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći 'funny timing' draft je neprikladan i neće biti pročitan."
+    },
+    {
+      "key": "3599203/4126837316",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Zadnji email je odbijen od strane poslužitelja jer kralik@uvea.sk je blokiran i preporučeno je korištenje @lexum.sk. Naknadno slanje na staru adresu je nemoguće. Nema stvarnog interesa. Trenutna oznaka 'Wrong Person' je prikladna.",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnje akcije na ovaj kontakt. Potražiti novi kontakt na @lexum.sk ako je Uvea/Slovakia i dalje ciljana.",
+      "missing_information": [],
+      "evidence": [
+        "Príjimanie do schránky uvea.sk je od 1.7. zakázané, použite prosím schránku @lexum.sk",
+        "kralik@uvea.sk"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći 'funny timing' draft nema smisla jer email na staru adresu ne prolazi. Potrebno je pronaći novu adresu."
+    },
+    {
+      "key": "3640877/4176332107",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor obavještava da se adresa koristi isključivo za kontakt forme i da se ne prati. Preporučeno je slanje na info@gebitszorg.nl. Ovo nije stvarni interes. Trenutna oznaka 'Wrong Person' je prikladna (adresa nije za prodajne upite).",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne poduzimati ništa na ovoj adresi. Razmotriti slanje na preporučenu adresu info@gebitszorg.nl kao novi lead.",
+      "missing_information": [],
+      "evidence": [
+        "Dit e-mail adres wordt uitsluitend gebruikt voor het versturen van e-mails via de contactformulieren op onze website en wordt niet gecontroleerd. Voor dringende zaken e-mail naar info@gebitszorg.nl"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći 'funny timing' draft je neprikladan i neće biti pročitan."
+    },
+    {
+      "key": "3640877/4176331736",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor obavještava da adresa info@tandartspraktijkarnhem.com više nije u upotrebi i server je preusmjerio na drugu domenu. Ovo je auto-preusmjeravanje, a ne stvarni interes. Trenutna oznaka 'Wrong Person' je prikladna.",
+      "priority": "P3",
+      "sales_state": "WRONG_PERSON",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne poduzimati ništa na ovoj adresi. Potražiti novi kontakt za Tandartspraktijk Nijmegen (kako je navedeno u auto-odgovoru).",
+      "missing_information": [],
+      "evidence": [
+        "Dit Mail adres is helaas niet meer in gebruik. vriendelijke groet, Tandartspraktijk Nijmegen"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći 'funny timing' draft je neprikladan i neće biti pročitan."
+    }
+  ]
+}

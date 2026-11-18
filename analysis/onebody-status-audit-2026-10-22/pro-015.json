@@ -1,0 +1,176 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8986,
+    "completion_tokens": 2473,
+    "total_tokens": 11459,
+    "cost": 0.0059729,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8960,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0059729,
+      "upstream_inference_prompt_cost": 0.0022634,
+      "upstream_inference_completions_cost": 0.0037095
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608050404",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "E-mail adresa ne postoji na domeni primatelja. Bounce poruka od Microsoft Exchange potvrđuje da isporuka nije uspjela.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema valjanog kontakta za ovu osobu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Kontakt je nepostojeći.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a8a98474-607c-4925-9850-762ff1c246f8@LO0P123MB6880.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to alessandra@gobubble.com couldn't be delivered.\n\nalessandra wasn't found at gobubble.com."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050322",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Steveov odgovor je isključivo automatska obavijest o odsutnosti s informacijom o putovanju i novoj e-mail adresi. Ne spominje ponudu niti postavlja pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Automatska poruka ne sadrži interes za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za odgovorom na ovu automatsku poruku. Ako se želi, može se u budućnosti kontaktirati na novu adresu steve@100x100.com, ali ne na temelju ovog automatiziranog odgovora.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJUng1b73eYk4_U8axgtUOgMXH_nFuRsySWG6LAf9Nwpt+DiQw@mail.gmail.com>",
+          "quote": "I'll be travelling for work from 15th to 25th September, so response\nwill be slow at best.... please Whatsapp me, or email Mel@100x100.com\nif urgent."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050170",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Andrew Hearn više ne radi u Dechertu. Poruka je automatska obavijest odvjetničke tvrtke i upućuje na glavni broj telefona, bez osobnog interesa ili preporuke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Kontakt osoba napustila tvrtku, nema upućivanja na drugu konkretnu osobu za ovu ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktiranjem.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e8b5a3f35604436d8064f732263a04f9@SJ5PPFD56C4208E.namprd11.prod.outlook.com>",
+          "quote": "Andrew Hearn is no longer working at Dechert. Please contact our main office number at +44 (0) 20 7184 7000 and you will be redirected to the appropriate team member for assistance."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050118",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Denver Sheridan više ne radi u Priori. Automatska poruka prosljeđuje poruku Bashi Rubin, ali ne sadrži nikakav interes za ponudu niti upit.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba više nije na toj poziciji. Nema izravne preporuke za daljnje postupanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktiranjem.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOy=6U3mLFRz-hOmO_-BFJ+JdDmq9g4xKa6ZKgxwGsRa0LbW5w@mail.gmail.com>",
+          "quote": "Denver Sheridan is no longer with Priori and your message has been forwarded to Basha Rubin."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050044",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Pauilin odgovor je automatska obavijest o odsutnosti zbog putovanja i vremenske razlike. Ne spominje ponudu, ne traži kod niti postavlja pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Automatska poruka ne ukazuje na angažman.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za odgovorom na ovu automatsku poruku.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CANznJwCbwKhq+uVFEgqFjjoeZqvtd44z32fe1R-ThwOLHZiERQ@mail.gmail.com>",
+          "quote": "I'm currently travelling for work and on a different time zone and\ntherefore can take longer than usual to reply to emails."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608049800",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Danial je potvrdio rezervaciju: 'All booked!'. Prije toga je izrazio interes i postavio pitanja, a naša klinika mu je poslala link i kod. Sada je rezervacija dovršena.",
+      "last_human_request_hr": "All booked!",
+      "unresolved_hr": "Nema neriješenih stavki. Termin je rezerviran.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Slanje daljnjih e-mailova nije potrebno. Označeno kao booked.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAA5-bdiJFJK78-v8b_csv3C3=K7Me_pCw3YiNrW1OJ9-bxaytQ@mail.gmail.com>",
+          "quote": "I'd love to take you up on the offer as I'm dealing with a few achilles and plantar issues as we speak."
+        },
+        {
+          "message_id": "<CAA5-bdinJA-r9-DBsWTZPVR5vs-pR89s4vwFhK1zSicXnuL4gg@mail.gmail.com>",
+          "quote": "All booked!"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608049834",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Vladin odgovor je automatska obavijest o odsutnosti do 24. rujna. Ne spominje ponudu niti izražava interes.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Automatska poruka ne zahtijeva odgovor. Odsutnost je istekla, ali nema naknadne ljudske interakcije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za odgovorom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJ_TLqhG7zjOTW7Dm6=fG2fN5iQnxT3Femikdhwp+VkiKsxE+g@mail.gmail.com>",
+          "quote": "I am currently out of the office till 24th September and will respond\nupon my return."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608049917",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Shitanshu više ne radi u Pactumu. Odgovor je automatska obavijest koja preusmjerava na drugu osobu, Rinusa. Shitanshu je već na 'do_not_contact' listi i unsubscribean, što je ispravno. Preporuka za kontaktiranje Rinusa je uputna, ali ne predstavlja ljudski angažman Shitanshua.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Kontakt osoba napustila tvrtku. Preporučen je kontakt s Rinusom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne kontaktirati Shitanshua. Preporuka za kontaktiranje Rinusa (rinus.strydom@pactum.com) može se razmotriti kao potpuno novi lead, ali nije dio ovog razgovora.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000ccbd0d065c24b232@google.com>",
+          "quote": "Please note that Shitanshu is no longer with Pactum.\nKindly re-direct your message to Rinus (rinus.strydom@pactum.com), and we’ll be happy to help you."
+        }
+      ]
+    }
+  ]
+}

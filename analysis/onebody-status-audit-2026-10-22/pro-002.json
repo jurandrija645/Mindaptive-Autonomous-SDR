@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6021,
+    "completion_tokens": 2288,
+    "total_tokens": 8309,
+    "cost": 0.0050237,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 5888,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0050237,
+      "upstream_inference_prompt_cost": 0.0015917,
+      "upstream_inference_completions_cost": 0.003432
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608049480",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor, nema ljudskog angažmana. Osoba se vraća 28. rujna 2026., datum je prošao, ali nema daljnjeg ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema znakova interesa ili odbijanja. Prošli OOO s povratkom 28.09.2026.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Nema dokaza o ljudskom odgovoru.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1e3aff17f59344b5bbfd4af37b5083d7@FR5P281MB5422.DEUP281.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am currently out of office until Monday 28th September, 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608048873",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor s rodiljnog dopusta. Povratak 2. studenog 2026., datum je u budućnosti.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema ljudskog angažmana. Osoba se vraća 02.11.2026.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Ponovno kontaktirati nakon 02.11.2026. jer je OOO još uvijek aktivan.",
+      "defer_until": "2026-11-02",
+      "evidence": [
+        {
+          "message_id": "<8677ec68b32c418480df030466fbec58@PA1PR04MB10963.eurprd04.prod.outlook.com>",
+          "quote": "I am currently on paternity leave and will return on Monday 2 November."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608049071",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor: sandučić više nije aktivan. Uputa da se nazove telefonski broj, ali to nije ljudski odgovor niti interes za ponudu.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Adresa e-pošte više nije aktivna. Nema ljudskog odgovora niti upita.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Sandučić nije aktivan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2122d44cd9214aaeb6c335183c43ba2a@PAXPR01MB8743.eurprd01.prod.exchangelabs.com>",
+          "quote": "This mailbox is no longer active. Please contact +44 (0)845\n644 6972"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608049070",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor s rodiljnog dopusta. Povratak u ožujku 2027.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema ljudskog angažmana. Osoba se vraća u ožujku 2027.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Ponovno kontaktirati nakon 01.03.2027. zbog dugotrajnog OOO.",
+      "defer_until": "2027-03-01",
+      "evidence": [
+        {
+          "message_id": "<326dade373964ff2af991cdf99e5663d@DU4PR01MB12036.eurprd01.prod.exchangelabs.com>",
+          "quote": "I'm on paternity leave and will be out of office until March 2027"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608048859",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor: Maria Kaae više ne radi u Trustmooreu. Navedena je kontakt osoba Louis Gray, ali nema upita za ponudu.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Osoba je napustila tvrtku. Nema interesa za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Osoba više nije zaposlena ovdje.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<009cb65ae8ae406f82f7948b3ab53ff6@VI1PR01MB6847.eurprd01.prod.exchangelabs.com>",
+          "quote": "We regret to inform you that Maria Kaae is no longer employed here."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608048695",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor s godišnjeg odmora. Povratak 8. listopada 2026., datum je prošao, ali nema daljnjeg ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema znakova interesa ili odbijanja. Prošli OOO s povratkom 08.10.2026.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Nema dokaza o ljudskom odgovoru.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CAJtoXSSqEL5YNVWunzas7NUVDXhQ+K3xgbGBkZC6-jhhZ+5i1w@mail.gmail.com>",
+          "quote": "I'm currently on leave with no access to email and will be returning on October 8th 2026."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608048718",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor za kratki period od 24.9. do 27.9.2026. Datum je prošao, ali nema daljnjeg ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema znakova interesa ili odbijanja. OOO period je završio.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Nema dokaza o ljudskom odgovoru.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CACQr_SxJZJjzV6czosqKSHYKzLRXK_XCy8-fmaqNSV24CO876Q@mail.gmail.com>",
+          "quote": "I'll be harder to reach from 24/9 - 27/9 so please expect a slight\ndelay in my response."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608048668",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ljudski odgovor: Catrin Harris izričito odbija ponudu jer više ne radi za Turo. Jasno 'no thanks'.",
+      "last_human_request_hr": "Hiya, I don't work for Turo anymore so no thanks!",
+      "unresolved_hr": "Osoba je eksplicitno odbila ponudu. Nema daljnjih koraka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao odbijeno. Osoba je jasno rekla ne.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAL7dAQFbCKieCcYSYctj5b4YFJqdZhx=5asZ=GJJ15J1q41N0Q@mail.gmail.com>",
+          "quote": "Hiya, I don't work for Turo anymore so no thanks!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

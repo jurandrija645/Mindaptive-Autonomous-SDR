@@ -1,0 +1,254 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 25566,
+    "completion_tokens": 4774,
+    "total_tokens": 30340,
+    "cost": 0.0034266,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0034266,
+      "upstream_inference_prompt_cost": 0.0012783,
+      "upstream_inference_completions_cost": 0.0021483
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3562710/4080234696",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovori (OOF i ticket potvrda) od općeg info@ maila, bez ikakvog ljudskog odgovora. Prodavač je poslao 2 poruke (1 inicijalna, 1 follow-up na OOF). nema interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski odgovor, nema ljudskog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "Gracias por ponerse en contacto con nosotros. Hemos recibido su mensaje y nos ocuparemos de su consulta lo antes posible.",
+        "Hemos recibido su mensaje y nos ocuparemos de su consulta lo antes posible."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Gracias por la confirmación automática, sin ninguna prisa por nuestra parte. Lo comento igualmente porque es justo el motivo por el que escribí: en el sector solar, responder tarde a una consulta suele traducirse en trabajos e ingresos que se van a la competencia. Si hay alguien en el equipo de ventas u operaciones que gestione mejor este tema, ¿le importaría reenviárselo? Se lo agradezco.",
+      "draft_english": "Thanks for the automatic confirmation, no rush at all. I mention it anyway because it's exactly the reason I wrote: in the solar sector, responding late to an inquiry usually means jobs and revenue go to the competition. If someone on the sales or operations team manages this better, would you mind forwarding it to them? Appreciate it.",
+      "draft_language": "es",
+      "draft_reason_hr": "Postoji pending autoreply draft na španjolskom - jezik je točan, namjera je ista (još jedan pokušaj prosljeđivanja). Nema potrebe za promjenom jer nema novih poruka koje bi zahtijevale novi draft."
+    },
+    {
+      "key": "3562710/4080234689",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s uputama za hitne slučajeve i radnim vremenom. Nikakvog ljudskog odgovora ili stvarnog interesa. Prodavač poslao 2 poruke.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski odgovor s uputama. Nema ljudskog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your enquiry; our office hours are 9am- 5pm, Monday to Friday.",
+        "If you have received a quote from us for a new boiler, and have any questions please contact the surveyor directly"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Thanks for the auto-reply, no rush at all. Worth mentioning, slow response to new enquiries is one of the main reasons heating and solar companies lose jobs to competitors, that's actually why I reached out in the first place. If this is better handled by Andy, Lewis, or whoever's on the ops side, would you mind forwarding it their way? Appreciate it.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postoji pending autoreply draft na engleskom. Jezik je točan, namjera ista. Nema novih poruka, ne treba mijenjati."
+    },
+    {
+      "key": "3562710/4080235082",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatska ticket potvrda i uputa da ne šalju dodatne poruke dok ne dobiju odgovor. Ovo je support ticket sustav (Klimaworld), ne ljudski odgovor. Prodavač poslao samo 1 poruku, nema follow-upa. Nema interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatska ticket potvrda. Prodavač nije poslao follow-up pa se ne računa kao 'Lead Done' (consecutive_sent=0).",
+      "missing_information": [],
+      "evidence": [
+        "wir haben Ihre Nachricht erhalten. Ihnen wurde die Ticketnummer K695596393 zugewiesen.",
+        "Wir bitten Sie deshalb, von weiteren Anrufen und Nachrichten abzusehen, bis Sie eine Antwort auf Ihre Anfrage erhalten haben."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Danke für die automatische Antwort, das eilt nicht. Nur der Vollständigkeit halber: Genau deshalb melde ich mich eigentlich, weil viele Solarunternehmen Anfragen zu langsam beantworten und dadurch Aufträge an schnellere Wettbewerber verlieren. Falls das Thema bei jemand anderem im Team besser aufgehoben ist, leiten Sie es doch bitte einfach weiter. Danke!",
+      "draft_english": "Thanks for the automatic reply, no rush. Just for completeness: That's exactly why I'm reaching out, because many solar companies respond to inquiries too slowly and lose jobs to faster competitors. If the topic is better suited for someone else on the team, please just forward it. Thanks!",
+      "draft_language": "de",
+      "draft_reason_hr": "Postoji pending autoreply draft na njemačkom. Jezik točan, namjera ista (još jedan pokušaj za prosljeđivanjem). Nema novih poruka."
+    },
+    {
+      "key": "3562710/4080235060",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s potvrdom primitka. Prodavač poslao samo 1 poruku. Bez ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "wir haben Ihre Anfrage per E-Mail erhalten und werden uns zeitnah um Ihr Anliegen kümmern.",
+        "Herzlichen Dank und sonnige Grüße Ihre Bürger-Energie Lüdenscheid eG"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Danke für die automatische Antwort, eilt überhaupt nicht. Ein Punkt noch, der eigentlich der Grund war, warum ich geschrieben habe: langsame Reaktion auf neue Anfragen kostet Solarunternehmen regelmäßig Aufträge, die sonst an schnellere Anbieter gehen. Falls das Thema besser bei jemand anderem im Team aufgehoben ist, dürften Sie die Mail kurz weiterleiten? Danke Ihnen.",
+      "draft_english": "Thanks for the automatic reply, no rush at all. One more point, which was actually the reason I wrote: slow reaction to new inquiries regularly costs solar companies jobs that would otherwise go to faster providers. If the topic is better suited for someone else on the team, could you forward the email briefly? Thank you.",
+      "draft_language": "de",
+      "draft_reason_hr": "Postoji pending autoreply draft na njemačkom. Jezik točan, namjera ista."
+    },
+    {
+      "key": "3562710/4080234563",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski OOF odgovor. Prodavač poslao 2 poruke (inicijalnu i follow-up). Bez ljudskog odgovora ili stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski odgovor. Nema ljudskog odgovora.",
+      "missing_information": [],
+      "evidence": [
+        "vielen Dank für Ihre Nachricht. Wir haben Ihre E-Mail erhalten und werden Ihr Anliegen so schnell wie möglich bearbeiten."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Danke für die automatische Antwort, kein Stress mit der Bearbeitungszeit. Nur zur Einordnung: langsame Rückmeldung bei neuen Anfragen ist einer der Hauptgründe, warum Solarunternehmen Aufträge an die Konkurrenz verlieren, genau deswegen hatte ich mich gemeldet. Falls das eher ins Vertriebs- oder Ops-Team gehört, wäre es klasse, wenn Sie es kurz weiterleiten könnten. Danke Ihnen!",
+      "draft_english": "Thanks for the automatic reply, no stress about processing time. Just to clarify: slow response to new inquiries is one of the main reasons solar companies lose jobs to competitors, that's exactly why I reached out. If it's more suited to the sales or ops team, it would be great if you could forward it briefly. Thank you!",
+      "draft_language": "de",
+      "draft_reason_hr": "Postoji pending autoreply draft na njemačkom. Jezik točan, namjera ista."
+    },
+    {
+      "key": "3562710/4080234399",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s potvrdom primitka. Prodavač poslao 2 poruke. Bez ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski odgovor s potvrdom.",
+      "missing_information": [],
+      "evidence": [
+        "Bedankt voor uw bericht. Wij hebben uw e-mail goed ontvangen en komen hier zo snel mogelijk bij u op terug."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hoi, bedankt voor de automatische bevestiging, geen haast van onze kant. Even voor de duidelijkheid: trage opvolging van nieuwe aanvragen is een van de grootste redenen waarom zonnepanelenbedrijven klussen mislopen aan concurrenten, en dat was precies de reden dat ik contact zocht. Als dit beter bij iemand anders in het team past, zoals sales of ops, zou je het dan naar hen kunnen doorsturen? Bedankt alvast.",
+      "draft_english": "Hi, thanks for the automatic confirmation, no rush from our side. Just to clarify: slow follow-up on new inquiries is one of the biggest reasons solar companies miss jobs to competitors, and that was exactly the reason I reached out. If this is better suited for someone else on the team, like sales or ops, could you forward it to them? Thanks in advance.",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postoji pending autoreply draft na nizozemskom. Jezik točan, namjera ista."
+    },
+    {
+      "key": "3562710/4080234412",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski ticket sustav (Freshdesk) s potvrdom i brojem tiketa. Prodavač poslao 2 poruke. Bez ljudskog odgovora ili stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski ticket sustav.",
+      "missing_information": [],
+      "evidence": [
+        "Dit is een automatische bevestiging dat we je melding hebben ontvangen en dat er een ticket is aangemaakt onder het ticketnummer 66824."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Bedankt voor de automatische bevestiging, geen haast. Wilde wel meegeven: trage opvolging van nieuwe aanvragen is een van de grootste redenen waarom zonnebedrijven klussen mislopen aan concurrenten, en dat was precies de reden dat ik contact zocht. Als dit beter bij iemand van sales of ops past, zou je het kunnen doorsturen? Dank je wel.",
+      "draft_english": "Thanks for the automatic confirmation, no rush. Just wanted to mention: slow follow-up on new inquiries is one of the biggest reasons solar companies miss jobs to competitors, and that was exactly the reason I reached out. If this is better suited for someone on sales or ops, could you forward it? Thanks.",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postoji pending autoreply draft na nizozemskom. Jezik točan, namjera ista."
+    },
+    {
+      "key": "3562710/4080234292",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski OOF odgovor. Prodavač poslao 2 poruke. Bez ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski OOF.",
+      "missing_information": [],
+      "evidence": [
+        "We value your enquiry and will respond back to you as soon as possible. Thank you! The Heat Source"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Thanks for the auto-reply, no rush at all. Worth mentioning, slow follow-up on inbound inquiries is one of the main reasons solar and heat pump companies lose jobs to competitors, that's actually the reason I reached out in the first place. If this is better handled by someone on the ops or leads side, would you mind forwarding it their way? Appreciate it.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postoji pending autoreply draft na engleskom. Jezik točan, namjera ista."
+    },
+    {
+      "key": "3562710/4080232420",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Više automatskih ticket potvrda (Klimaworld support sustav) bez ikakvog ljudskog odgovora. Prodavač poslao 3 poruke (inicijalnu i 2 follow-upa na automatske odgovore). Sustav je odgovarao s novim ticket brojem na svaki follow-up. Nikakvog stvarnog ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski ticket sustav. Prodavač je poslao 3 poruke zaredom bez ljudskog odgovora - ovo je samo gubljenje vremena.",
+      "missing_information": [],
+      "evidence": [
+        "Ihre Antwort zur Support-Anfrage K737631000 wurde gespeichert.",
+        "Hallo Andrew Juran, wir haben Ihre Nachricht erhalten. Ihnen wurde die Ticketnummer K349810924 zugewiesen.",
+        "Hallo Andrew Juran, wir haben Ihre Nachricht erhalten. Ihnen wurde die Ticketnummer K737631000 zugewiesen."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Danke fürs Bestätigen – Ticket K737631000 notiert. Bisschen ironisch, dass ich als Antwort auf \"Antwortzeit kostet Solarfirmen Aufträge\" jetzt selbst auf eine Antwort warte, aber kein Stress. Falls das Thema besser bei jemandem aus Vertrieb oder Kundenservice aufgehoben ist, einfach kurz weiterleiten – danke euch!",
+      "draft_english": "Thanks for confirming – ticket K737631000 noted. A bit ironic that as a response to \"response time costs solar companies jobs\" I'm now waiting for a response myself, but no stress. If the topic is better suited for someone in sales or customer service, just forward it briefly – thanks!",
+      "draft_language": "de",
+      "draft_reason_hr": "Postoji pending autoreply draft na njemačkom. Jezik točan, namjera ista (zadnji pokušaj). Nema promjene."
+    },
+    {
+      "key": "3562710/4080232491",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovori (Out of Office) na španjolskom. Prodavač poslao 3 poruke (inicijalnu i 2 follow-upa), svaki put dobio automatski OOF odgovor. Nikakvog ljudskog odgovora ili interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje. Samo automatski OOF odgovori. Prodavač poslao 3 poruke bez ljudskog odgovora - nema smisla nastavljati.",
+      "missing_information": [],
+      "evidence": [
+        "Respuesta automática: por favor no responda a este correo. Le informamos que hemos recibido correctamente su email."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Je, ya van tres respuestas automáticas seguidas, así que confirmo: los emails sí llegan. Solo la mitad de la ironía que necesitaba para el ejemplo de \"respuestas lentas cuestan trabajos\" jaja. Si alguien de vuestro equipo comercial u operaciones puede echarle un ojo al correo original, se lo agradezco.",
+      "draft_english": "Yeah, three automatic replies in a row, so I confirm: the emails do arrive. Just half the irony I needed for the example of \"slow responses cost jobs\" haha. If someone on your commercial or operations team can take a look at the original email, I'd appreciate it.",
+      "draft_language": "es",
+      "draft_reason_hr": "Postoji pending autoreply draft na španjolskom. Jezik točan, namjera ista (zadnji pokušaj s malo humora). Nema promjene."
+    }
+  ]
+}

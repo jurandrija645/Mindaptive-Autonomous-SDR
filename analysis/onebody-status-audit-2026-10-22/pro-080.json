@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7142,
+    "completion_tokens": 2331,
+    "total_tokens": 9473,
+    "cost": 0.0099243,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0099243,
+      "upstream_inference_prompt_cost": 0.0064278,
+      "upstream_inference_completions_cost": 0.0034965
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316611",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Pitanje ili konkretan zahtjev nije postavljen, ali osoba je proslijedila kontakte za hitne upite. Unatoč OOO, u poruci se ne odbija ponuda. Potrebno je poslati kod/link ili pitati žele li ga kad se vrate, budući da je Rebecca nastavila kontakt.",
+      "last_human_request_hr": "Thank you for your email. I am currently on annual leave, returning Monday. Please email louise.hughes@uksif.org or membership@uksif.org if your query is urgent.",
+      "unresolved_hr": "Nije odgovoreno na ponudu; potrebno je poslati kod/link ili potvrditi interes.",
+      "recommended_bulk_group": "reply_booking",
+      "recommended_action_hr": "Poslati kod za besplatnu sesiju i link za booking (Bank klinika).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<04a00806d3ee441ab1f0d30fafba6822@LO6P123MB7094.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am currently on annual leave, returning Monday. Please email louise.hughes@uksif.org or membership@uksif.org if your query is urgent."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316507",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je eksplicitno odbila ponudu s 'no'.",
+      "last_human_request_hr": "no",
+      "unresolved_hr": "Nema neriješenih stavki.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LOAP265MB9047BCBC2FB07CBE2F1B597A93B12@LOAP265MB9047.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "no"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316506",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka potvrđuje da Andrea više ne radi u Onetagu. Nema upita ni prosljeđivanja relevantnog kontakta.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<38f794c7ce2043bebb3482af1a9118d4@CWLP265MB2401.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Please note that as of 31 July 2026 I am no longer associated with Onetag Limited. This email account is no longer monitored and your message will not be read."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316402",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "OOO poruka s povratkom 7. rujna. Osoba nije odbila ponudu. Nakon povratka na datum procjene (22.10.2026.) je odgovor trebao biti poslan. Potrebno je poslati kod/link.",
+      "last_human_request_hr": "I am now out of the office until Monday 7 September.",
+      "unresolved_hr": "Nije odgovoreno na ponudu; potrebno je poslati kod/link.",
+      "recommended_bulk_group": "reply_booking",
+      "recommended_action_hr": "Poslati kod za besplatnu sesiju i link za booking (City of London klinika).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<aa7906b9f4764459bcb21578160d09f1@LO2P265MB5424.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am now out of the office until Monday 7 September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316401",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku. Iako je proslijeđen kontakt, to je za poslovne upite, a ne za osobnu fizioterapijsku ponudu. Poruka ne pokazuje interes za osobnim korištenjem usluge.",
+      "last_human_request_hr": "Please note I have now left Triple Point. Please forward your query to clientops.leadership@triplepoint.co.uk",
+      "unresolved_hr": "Nema.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<79fd8d09ac16496da4b166012be5d5e8@CW1P265MB8698.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Please note I have now left Triple Point. Please forward your query to clientops.leadership@triplepoint.co.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316396",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Charlotte je napustila Triple Point. Iako je proslijeđen kontakt Georgine, to je za poslovne upite. Poruka ne pokazuje interes za osobnim korištenjem usluge.",
+      "last_human_request_hr": "Please note that Charlotte no longer works at Triple Point. For any queries, please contact Georgina Pym.",
+      "unresolved_hr": "Nema.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<83b1b1109a214ad69e9198fa9f2133dc@LO2P265MB0912.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Charlotte no longer works at Triple Point."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316405",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ali više ne radi u Triple Pointu. Iako je proslijeđen kontakt Maxa, to je za poslovne upite. Poruka ne pokazuje interes za osobnim korištenjem usluge.",
+      "last_human_request_hr": "Ali no longer works at Triple Point.",
+      "unresolved_hr": "Nema.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<65c3bd71445e4a1292215dc3b5abbf7b@LO0P265MB4703.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Ali no longer works at Triple Point."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316395",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Diana je na porodiljnom. Iako OOO, poruka sadrži korisne kontakte za zamjenu, ali ne odbija osobnu ponudu. S obzirom na prošlo vrijeme, potrebno je kontaktirati zamjenske osobe (Laura, Fintan) jer je ponuda možda relevantna za tvrtku.",
+      "last_human_request_hr": "I am now on maternity leave and will not be monitoring my inbox. If you need any assistance during my absence, please contact Laura Henderson or Fintan Og Guilfoyle.",
+      "unresolved_hr": "Ponuda nije odbijena. Potrebno je proslijediti ponudu zamjenskim osobama.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Kontaktirati laurahenderson@triplepoint.co.uk i fintan-og.guilfoyle@triplepoint.co.uk s ponudom za City of London kliniku.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<025fed5c552f4067b45cb3cebd4a7c43@LO2P265MB3056.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am now on maternity leave and will not be monitoring my inbox.\n\nIf you need any assistance during my absence, please contact Laura Henderson at\nlaurahenderson@triplepoint.co.uk or Fintan Og Guilfoyle at\nfintan-og.guilfoyle@triplepoint.co.uk."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

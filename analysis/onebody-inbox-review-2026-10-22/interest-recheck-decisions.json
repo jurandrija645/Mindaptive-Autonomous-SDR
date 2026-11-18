@@ -1,0 +1,1535 @@
+[
+  {
+    "key": "3930675/4520621755",
+    "recommended_label": "Interested",
+    "interest_assessment": "clear_interest",
+    "confidence": "high",
+    "manual_review": true,
+    "reason_hr": "Harry je izričito izrazio interes i naveo razlog (oporavak od slomljenog gležnja) te traži termin nakon povratka s odmora. Poslan mu je booking link.",
+    "evidence": [
+      "I am actually interested!",
+      "I've been recovering from a broken ankle and my NHS physio is coming to an end so looking for some extra support to get back to normal.",
+      "I'm away this week but maybe the week after would be good?"
+    ]
+  },
+  {
+    "key": "4006945/4608048943",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor da više ne radi u Airshipu i da inbox nije aktivan; preusmjerava na kolege, nema osobnog interesa.",
+    "evidence": [
+      "I am no longer with Airship and this inbox is no longer actively monitored."
+    ]
+  },
+  {
+    "key": "3876232/4446317756",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor da je napustio Vixio i daje kontakt kolege. Kasnije bounce poruka (račun neaktivan). Nema izraženog interesa.",
+    "evidence": [
+      "Hi, I've now left Vixio, so for anything related to product marketing, please contact lheavens@vixio.com going forward."
+    ]
+  },
+  {
+    "key": "3930675/4520620950",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski OOO odgovor s preusmjeravanjem na kolege; nema osobnog interesa za ponudu.",
+    "evidence": [
+      "Unfortunately, I'm out of the office. Please send all request to Unity Link Accounts accounts@unitylink.com."
+    ]
+  },
+  {
+    "key": "3876232/4446317052",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Višestruki automatski odgovori da više ne radi u Lantumu i preusmjerava na glen.mccracken@lantum.com; nema osobnog interesa.",
+    "evidence": [
+      "I am no longer working at Lantum. Please redirect your email through to glen.mccracken@lantum.com."
+    ]
+  },
+  {
+    "key": "3930675/4520613050",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski OOO odgovor (godišnji odmor) koji obećava odgovor po povratku; nema izraženog interesa ni pitanja o ponudi.",
+    "evidence": [
+      "I am currently on annual leave with no access to emails or Slack. I will revert to your message on my return."
+    ]
+  },
+  {
+    "key": "3876232/4446317772",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor da više ne radi u Rokstoneu i preusmjerava na Jacka O'Sullivana; nema osobnog interesa.",
+    "evidence": [
+      "Please note that I no longer work at Rokstone and my emails will be forwarded to Jack O’Sullivan."
+    ]
+  },
+  {
+    "key": "3876232/4446316127",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski OOO odgovor s datumom povratka; naknadno poslane poruke nisu dobile ljudski odgovor. Nema izraženog interesa.",
+    "evidence": [
+      "I am currently out of office due to return on Monday the 7th of September 2026."
+    ]
+  },
+  {
+    "key": "3876232/4446316784",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski OOO odgovor (godišnji odmor) s preusmjeravanjem; nema osobnog interesa ni odgovora nakon povratka.",
+    "evidence": [
+      "Thanks for your email, I'm on annual leave, back on Monday 7th September"
+    ]
+  },
+  {
+    "key": "3876232/4446316020",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor da više ne radi za gunnercooke; nema osobnog interesa ni preusmjeravanja na relevantnu osobu za ponudu.",
+    "evidence": [
+      "I no longer work for gunnercooke."
+    ]
+  },
+  {
+    "key": "3876232/4446316384",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o ograničenom pristupu mailu s alternativnim kontaktom; nema izraženog interesa ni pitanja o ponudi.",
+    "evidence": [
+      "Please note that I may only have periodic access to this Ortecha email account."
+    ]
+  },
+  {
+    "key": "3876232/4446317082",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski OOO odgovor s periodom odsutnosti i preusmjeravanjem na kolege; nema osobnog interesa.",
+    "evidence": [
+      "I am currently out of the office until Wednesday 9th September"
+    ]
+  },
+  {
+    "key": "3876232/4446316578",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku Marka Pattersona iz tvrtke (no longer at Sucden Financial), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "Please note that Mark Patterson is no longer at Sucden Financial Limited"
+    ]
+  },
+  {
+    "key": "3876232/4446316577",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski out-of-office odgovor Roba Noycea (I am out of the office until Monday 14th September), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I am out of the office until Monday 14th September"
+    ]
+  },
+  {
+    "key": "3876232/4446317323",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku iz tvrtke (I no longer work at Foster Denovo), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I no longer work at Foster Denovo and your email has not been forwarded"
+    ]
+  },
+  {
+    "key": "3876232/4446316390",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku iz tvrtke (no longer with Sova Capital), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "this person is no longer with Sova Capital"
+    ]
+  },
+  {
+    "key": "3876232/4446316572",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku iz tvrtke (no longer works for Sucden Financial), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "Toby Osborne no longer works for Sucden Financial"
+    ]
+  },
+  {
+    "key": "3876232/4446315546",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku iz tvrtke (no longer work for Acquinex), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I no longer work for Acquinex"
+    ]
+  },
+  {
+    "key": "3876232/4446315792",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku iz tvrtke (have now left AlphaReal), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I have now left AlphaReal"
+    ]
+  },
+  {
+    "key": "3930675/4520610173",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski obavijest o promjeni email domene (updated our email domain), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "we have recently updated our email domain as part of our wider rebrand"
+    ]
+  },
+  {
+    "key": "3876232/4446315681",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski out-of-office odgovor Diane (out of the office today), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I'm out of the office today and will respond to your query on my return"
+    ]
+  },
+  {
+    "key": "3876232/4446315331",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski out-of-office odgovor Wesleya (out of the office until 7 September 2026), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I am out of the office until 7 September 2026 with no access to emails"
+    ]
+  },
+  {
+    "key": "3876232/4446315511",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski out-of-office odgovor Joea (on holiday, returning 15 September), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I'm on holiday, returning 15 September"
+    ]
+  },
+  {
+    "key": "3876232/4446315521",
+    "recommended_label": "Out Of Office",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku iz tvrtke (no longer working at Bulletproof), nema ljudskog odgovora na ponudu.",
+    "evidence": [
+      "I am no longer working at Bulletproof"
+    ]
+  },
+  {
+    "key": "3876232/4446317501",
+    "recommended_label": "Interested",
+    "interest_assessment": "clear_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Alistair je izričito pokazao interes pitanjem 'Sounds ideal. What's the catch' što predstavlja jasan pozitivan odgovor na ponudu. OOO automatski odgovor ne poništava prethodno iskazani interes.",
+    "evidence": [
+      "Sounds ideal. What's the catch"
+    ]
+  },
+  {
+    "key": "3930675/4520619928",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Mary je poslala 'unsubscribe' što je eksplicitni zahtjev za odjavu. Postojeća Do Not Contact oznaka se zadržava.",
+    "evidence": [
+      "unsubscribe"
+    ]
+  },
+  {
+    "key": "3930675/4520621423",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Laura je odgovorila 'No, thank you' što je jasno odbijanje ponude.",
+    "evidence": [
+      "No, thank you."
+    ]
+  },
+  {
+    "key": "3930675/4520619921",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Sam je poslao 'no' nakon automatskog odgovora o godišnjem odmoru, što je jasno odbijanje ponude.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3930675/4520620562",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Edward je odgovorio 'no' što je eksplicitno odbijanje ponude.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3930675/4520622281",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Harriet je odgovorila 'No, sorry' što je jasno odbijanje ponude.",
+    "evidence": [
+      "No, sorry."
+    ]
+  },
+  {
+    "key": "3930675/4520620358",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Patric je izjavio da već ima dugoročnog fizioterapeuta, što je odbijanje ponude i ne pokazuje interes.",
+    "evidence": [
+      "I’ve already got a long-term physiotherapist but it’s a great business idea!"
+    ]
+  },
+  {
+    "key": "4006945/4608052070",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Tara je zatražila uklanjanje iz CRM-a i budućeg kontaktiranja, što je ekvivalent odjavi.",
+    "evidence": [
+      "please remove me from your CRM and any future outreach."
+    ]
+  },
+  {
+    "key": "4006945/4608052309",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Naeha je automatski odgovor da više ne radi za tvrtku, s preusmjeravanjem na drugu osobu. Nema ljudskog interesa.",
+    "evidence": [
+      "I no longer work for Northern Data Group. Please email shari.yao@northerndata.de."
+    ]
+  },
+  {
+    "key": "4006945/4608052094",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Sandeep je automatski odgovor da više ne radi za High5, a zatim je druga osoba potvrdila da tvrtka više ne posluje. Nema ljudskog interesa ciljane osobe.",
+    "evidence": [
+      "I am no longer with High5.",
+      "Our business closed some time ago, and Sandeep has left, so you may want to remove us from your mailing lists."
+    ]
+  },
+  {
+    "key": "3930675/4520621239",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Mimi je izričito zatražila prestanak slanja poruka i izjavila da ne odgovara ciljanoj publici, što je odbijanje.",
+    "evidence": [
+      "We literally don't have an office and I live in Portugal. Please stop spamming me"
+    ]
+  },
+  {
+    "key": "4006945/4608048859",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Maria je automatski odgovor da više nije zaposlena u tvrtki, s preusmjeravanjem na drugu osobu. Nema ljudskog interesa.",
+    "evidence": [
+      "Maria Kaae is no longer employed here. Please direct any future correspondence to Louis Gray at louis.gray@trustmoore.com."
+    ]
+  },
+  {
+    "key": "4006945/4608048668",
+    "interest_assessment": "no_interest",
+    "recommended_label": "Not Interested",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Jasno odbijanje: osoba kaže da više ne radi u Turo i 'no thanks'",
+    "evidence": [
+      "I don't work for Turo anymore so no thanks!"
+    ]
+  },
+  {
+    "key": "3930675/4520621301",
+    "interest_assessment": "no_interest",
+    "recommended_label": "",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon automatskog odgovora (OOO) stiže izričito 'No thanks' što nadjačava bilo kakav potencijalni interes",
+    "evidence": [
+      "No thanks"
+    ],
+    "current_label": ""
+  },
+  {
+    "key": "4006945/4608051559",
+    "interest_assessment": "opted_out",
+    "recommended_label": "Do Not Contact",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričit zahtjev za uklanjanje sa svih lista",
+    "evidence": [
+      "Please remove me from every list."
+    ]
+  },
+  {
+    "key": "4006945/4608051276",
+    "interest_assessment": "no_interest",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Osoba je napustila tvrtku i proslijedila email dalje, nema interesa",
+    "evidence": [
+      "I no longer work at The Race Media. Please forward your email to tim.scott@the-race.com"
+    ]
+  },
+  {
+    "key": "4006945/4608050805",
+    "interest_assessment": "no_interest",
+    "recommended_label": "Do Not Contact",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Obavijest da je Gareth napustio tvrtku i zahtjev za uklanjanje s popisa",
+    "evidence": [
+      "Gareth has left the company so if you could please remove us from the list"
+    ]
+  },
+  {
+    "key": "3930675/4520618915",
+    "interest_assessment": "no_interest",
+    "recommended_label": "",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričito 'No from me'",
+    "evidence": [
+      "Its a No from me."
+    ]
+  },
+  {
+    "key": "4006945/4608050950",
+    "interest_assessment": "no_interest",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Osoba je napustila tvrtku i proslijedila kontakt drugoj osobi, nema interesa",
+    "evidence": [
+      "I have recently left my position with Tradeshift and I have transferred my responsibilities over to one of my colleagues, Mike Cowles."
+    ]
+  },
+  {
+    "key": "4006945/4608050760",
+    "interest_assessment": "no_interest",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Osoba je napustila tvrtku i proslijedila kontakt drugoj osobi, nema interesa",
+    "evidence": [
+      "I left Moove on 31 March 2026"
+    ]
+  },
+  {
+    "key": "4006945/4608050551",
+    "interest_assessment": "ambiguous",
+    "recommended_label": "Wrong Person",
+    "confidence": "low",
+    "manual_review": true,
+    "reason_hr": "Izjava 'I work from home' je sama po sebi dvosmislena - ne pokazuje ni interes ni odbijanje, ali niti ne potvrduje da je osoba pogrešna",
+    "evidence": [
+      "I work from home, Rebecca."
+    ]
+  },
+  {
+    "key": "4006945/4608049391",
+    "interest_assessment": "opted_out",
+    "recommended_label": "Do Not Contact",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričit zahtjev za odjavu",
+    "evidence": [
+      "Unsubscribe"
+    ]
+  },
+  {
+    "key": "3930675/4520616435",
+    "interest_assessment": "no_interest",
+    "recommended_label": "",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Ljubazno odbijanje uz obrazloženje",
+    "evidence": [
+      "Not something I need right now."
+    ]
+  },
+  {
+    "key": "3930675/4520618257",
+    "interest_assessment": "opted_out",
+    "recommended_label": "Do Not Contact",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričit zahtjev za uklanjanje s mailing liste",
+    "evidence": [
+      "Remove me from your mailing list thank you"
+    ]
+  },
+  {
+    "key": "3930675/4520618811",
+    "recommended_label": "Interested",
+    "interest_assessment": "clear_interest",
+    "confidence": "high",
+    "manual_review": true,
+    "reason_hr": "Andrew Macharg je izričito izrazio interes: 'a physio appointment sounds amazing'. Nastavak sa slanjem booking linka i koda potvrđuje interes – nije samo kompliment.",
+    "evidence": [
+      "a physio appointment sounds amazing"
+    ]
+  },
+  {
+    "key": "3930675/4520622276",
+    "recommended_label": "",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Maya Pursey je izričito odgovorila 'I am not interested'. Nema naknadnog povlačenja odbijanja.",
+    "evidence": [
+      "I am not interested"
+    ]
+  },
+  {
+    "key": "3930675/4520615628",
+    "recommended_label": "Interested",
+    "interest_assessment": "engaged_question",
+    "confidence": "high",
+    "manual_review": true,
+    "reason_hr": "Digby Lewis nije odbio; ponudio je proslijediti HR timu ('pass on to our people team'), što pokazuje angažman i potencijalni interes, iako nije osobno prihvatio.",
+    "evidence": [
+      "I'd need to pass on to our people team"
+    ]
+  },
+  {
+    "key": "3930675/4520618273",
+    "recommended_label": "",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Joy Nazzari je izričito odgovorila 'No thanks Rebecca'. Nema kasnijeg povlačenja odbijanja.",
+    "evidence": [
+      "No thanks Rebecca"
+    ]
+  },
+  {
+    "key": "3930675/4520618267",
+    "recommended_label": "",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Rakhee Ojah-Maharaj je odgovorila 'no'. Izričito odbijanje, nema naknadnog interesa.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3930675/4520617452",
+    "recommended_label": "",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Ryan Perkins je izričito odgovorio 'I'm not interested, thank you'. Nema kasnijeg povlačenja.",
+    "evidence": [
+      "I'm not interested, thank you"
+    ]
+  },
+  {
+    "key": "3930675/4520616143",
+    "recommended_label": "",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Frances Dickens je odgovorila 'NO'. Izričito odbijanje, nema naknadnog interesa.",
+    "evidence": [
+      "NO"
+    ]
+  },
+  {
+    "key": "3930675/4520617890",
+    "recommended_label": "",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Steve Toland je odgovorio 'No'. Izričito odbijanje, nema naknadnog interesa.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3930675/4520621302",
+    "recommended_label": "",
+    "interest_assessment": "ambiguous",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Kristian Tiffany daje detaljno objašnjenje o svojoj situaciji i aktivnosti, ali ne prihvaća ponudu niti je izričito ne odbija – govori o rotator cuff problemima, što je nejasno i nije čisti interes niti odbijanje.",
+    "evidence": [
+      "other than the odd occasion when one of my rotator cuffs is playing up"
+    ]
+  },
+  {
+    "key": "3930675/4520615107",
+    "recommended_label": "",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Drew Naylor je odgovorio 'no.' Izričito odbijanje, nema naknadnog interesa.",
+    "evidence": [
+      "no."
+    ]
+  },
+  {
+    "key": "3930675/4520613376",
+    "recommended_label": "Interested",
+    "interest_assessment": "clear_interest",
+    "confidence": "high",
+    "manual_review": true,
+    "reason_hr": "Lux Jega je postavio konkretna pitanja o cijeni i web stranici ('how much does it cost? Do you have a website?'), što je jasan znak interesa; odgovor je poslan s linkom i kodom.",
+    "evidence": [
+      "how much does it cost?",
+      "Do you have a website?"
+    ]
+  },
+  {
+    "key": "3930675/4520616107",
+    "recommended_label": "",
+    "interest_assessment": "ambiguous",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Chris Gent kaže 'No thanks. I'll keep you in mind if I need some physio in the future' – to nije izričito odbijanje već uvjetna izjava, ali nije ni prihvaćanje. Ne ulazi u kategoriju jasnog interesa.",
+    "evidence": [
+      "No thanks. I'll keep you in mind if I need some physio in the future"
+    ]
+  },
+  {
+    "key": "3930675/4520615084",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je odgovorio s 'no thanks', što je jasno odbijanje ponude.",
+    "evidence": [
+      "no thanks"
+    ]
+  },
+  {
+    "key": "3930675/4520618923",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je izričito zatražio 'Unsubscribe', što je zahtjev za uklanjanje s popisa.",
+    "evidence": [
+      "Unsubscribe"
+    ]
+  },
+  {
+    "key": "3930675/4520612263",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je izričito napisao 'I'm not interested', što je jasno odbijanje.",
+    "evidence": [
+      "I'm not interested but good luck with your business."
+    ]
+  },
+  {
+    "key": "3930675/4520620399",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je napisao 'Stop', što se smatra zahtjevom za prestanak slanja poruka.",
+    "evidence": [
+      "Stop"
+    ]
+  },
+  {
+    "key": "3930675/4520614849",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je odgovorio s 'not interested', što je izričito odbijanje.",
+    "evidence": [
+      "not interested"
+    ]
+  },
+  {
+    "key": "3930675/4520622428",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "ambiguous",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je rekao da nije u Londonu, ali je uputio kolegu Toma; nije osobni interes, ali je proslijedio kontakt – nije promjena oznake.",
+    "evidence": [
+      "I am not based in London. I asked my colleague Tom"
+    ]
+  },
+  {
+    "key": "3930675/4520617905",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je odgovorio s 'No thanks', što je jasno odbijanje.",
+    "evidence": [
+      "No thanks"
+    ]
+  },
+  {
+    "key": "3930675/4520616786",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je rekao 'not something I am looking for at the moment', što je odbijanje ponude.",
+    "evidence": [
+      "Its not something I am looking for at the moment"
+    ]
+  },
+  {
+    "key": "3930675/4520622354",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski odgovor o odlasku iz tvrtke s preusmjeravanjem – nije ljudski odgovor o interesu.",
+    "evidence": [
+      "I’ve officially moved on from my role at Audience. Please redirect your message to hselfe@audience.co.uk"
+    ]
+  },
+  {
+    "key": "3930675/4520622309",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je izričito zatražio uklanjanje s popisa i brisanje podataka.",
+    "evidence": [
+      "Please remove me from your mailing lists and delete my contact details"
+    ]
+  },
+  {
+    "key": "3930675/4520617493",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "ambiguous",
+    "confidence": "medium",
+    "manual_review": false,
+    "reason_hr": "Korisnik je obavijestio da je napustio tvrtku i uputio na druge kontakte – nije izrazio interes niti odbio ponudu.",
+    "evidence": [
+      "I have stepped back from the MAPP Ltd Board",
+      "contact louise.bonham@wearemapp.com or julie.smith@wearemapp.com"
+    ]
+  },
+  {
+    "key": "3930675/4520621893",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Korisnik je zatražio 'take me off this list', što je zahtjev za prestanak slanja poruka.",
+    "evidence": [
+      "take me off this list please"
+    ]
+  },
+  {
+    "key": "3930675/4520617891",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je izjavio da su potpuno remote tvrtka i nije jasan cilj ponude, što ne pokazuje interes.",
+    "evidence": [
+      "Thanks, but we're a fully remote company, so we aren't in the office often.",
+      "it's not entirely clear what are you trying to sell"
+    ]
+  },
+  {
+    "key": "3930675/4520621977",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska obavijest o odlasku iz tvrtke, nema ljudskog odgovora.",
+    "evidence": [
+      "After 4 wonderful years I have left the Social Element to start my own business",
+      "For all press, client & new business enquiries please email ashley.cooksley@thesocialelement.agency"
+    ]
+  },
+  {
+    "key": "3930675/4520621716",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska obavijest o odlasku iz tvrtke, preusmjeravanje na investitore.",
+    "evidence": [
+      "I am no longer with Fiduciam",
+      "Please direct all future inquiries to investorteam@fiduciam.co.uk"
+    ]
+  },
+  {
+    "key": "3930675/4520612678",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je odbio ponudu, izjavio da nije zainteresiran i da će se javiti sam ako zatreba.",
+    "evidence": [
+      "Quite busy at the moment so not keen",
+      "I’ll get in touch then."
+    ]
+  },
+  {
+    "key": "3930675/4520612261",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je izričito odbio ponudu s 'No thanks'.",
+    "evidence": [
+      "No thanks :)"
+    ]
+  },
+  {
+    "key": "3930675/4520619514",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska obavijest o odlasku iz tvrtke, nema ljudskog odgovora.",
+    "evidence": [
+      "I have now left Mention Me.",
+      "Please redirect your email accordingly"
+    ]
+  },
+  {
+    "key": "3930675/4520619100",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska obavijest o porodiljnom dopustu, nema ljudskog odgovora.",
+    "evidence": [
+      "I am currently on Maternity leave"
+    ]
+  },
+  {
+    "key": "3930675/4520613432",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je zatražio uklanjanje iz baze, što je opt-out.",
+    "evidence": [
+      "Please remove my details from you database"
+    ]
+  },
+  {
+    "key": "3876232/4446317977",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je zatražio prestanak kontakta nakon ranijeg odbijanja.",
+    "evidence": [
+      "Please stop contacting me now."
+    ]
+  },
+  {
+    "key": "3930675/4520611653",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je odbio ponudu, izjavio da mu trenutno ne treba uz mogućnost javljanja kasnije – nije izričiti interes.",
+    "evidence": [
+      "I think I'm good for the moment.",
+      "Might get back to you on this in the Winter"
+    ]
+  },
+  {
+    "key": "3930675/4520613515",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je odbio ponudu, izjavio da im ne treba trenutno.",
+    "evidence": [
+      "this isn't something we need right now"
+    ]
+  },
+  {
+    "key": "3930675/4520618480",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska obavijest o odlasku iz tvrtke, preusmjeravanje na drugu osobu.",
+    "evidence": [
+      "I'm no longer working at the business.",
+      "Please contact Tom Darnell at tom@iris.audio"
+    ]
+  },
+  {
+    "key": "3930675/4520618266",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kandidat je jasno odbio ponudu.",
+    "evidence": [
+      "No thanks."
+    ]
+  },
+  {
+    "key": "3930675/4520617637",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska poruka da više ne radi u tvrtki i da se adresa ne prati.",
+    "evidence": [
+      "I no longer work with Piercy&Company and this inbox will not be routinely monitored."
+    ]
+  },
+  {
+    "key": "3930675/4520617636",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska poruka da više nije u tvrtki i da se ne odgovara na ovoj adresi.",
+    "evidence": [
+      "I am no longer with the company, and as such, will not be responding to emails sent to this address."
+    ]
+  },
+  {
+    "key": "3930675/4520617650",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska poruka da zaposlenik više ne radi za tvrtku i da se adresa ne prati.",
+    "evidence": [
+      "Theodoros Ioakeim no longer works for MAPP and this email is not being monitored."
+    ]
+  },
+  {
+    "key": "3930675/4520613046",
+    "recommended_label": "Interested",
+    "interest_assessment": "engaged_question",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Kontakt je proslijedio ponudu HR odjelu, što ukazuje na angažman i potencijalni interes, iako nije osobno prihvatio ponudu.",
+    "evidence": [
+      "I have passed your email to our HR department who organise anything health related at BBH."
+    ]
+  },
+  {
+    "key": "3930675/4520617169",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska poruka da zaposlenik više ne radi za tvrtku i da se adresa ne prati.",
+    "evidence": [
+      "This mailbox is no longer monitored, as Freddie is no longer with Edgefolio."
+    ]
+  },
+  {
+    "key": "3876232/4446316582",
+    "recommended_label": "Interested",
+    "interest_assessment": "clear_interest",
+    "confidence": "high",
+    "manual_review": true,
+    "reason_hr": "Kontakt je pokazao interes i povezao kolegicu, a nakon slanja poveznice zahvalio se.",
+    "evidence": [
+      "I'm cc'ing my colleague Devlyn who's interested.",
+      "Thank you"
+    ]
+  },
+  {
+    "key": "3930675/4520613935",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska poruka da je zaposlenik napustio tvrtku i da više ne odgovara.",
+    "evidence": [
+      "I have left Finseta Payment Solutions and am no longer able to respond."
+    ]
+  },
+  {
+    "key": "3876232/4446316455",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je jasno odbio ponudu i naveo razlog.",
+    "evidence": [
+      "Unfortunately we do not get offered private health cover and hence not interested at this time."
+    ]
+  },
+  {
+    "key": "3876232/4446317714",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je odbio ponudu, iako je ispravio lokaciju.",
+    "evidence": [
+      "Regardless, this isn't relevant for us, but thank you for reaching out."
+    ]
+  },
+  {
+    "key": "3930675/4520612414",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je izričito zatražio uklanjanje s popisa.",
+    "evidence": [
+      "No thanks - pls remove meS"
+    ]
+  },
+  {
+    "key": "3876232/4446317720",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kontakt je odbio ponudu navodeći da već imaju fizioterapeuta.",
+    "evidence": [
+      "No thanks – we have physio in-house."
+    ]
+  },
+  {
+    "key": "3876232/4446317887",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Clarence je eksplicitno odgovorio 'No' na zadnju poruku što je jasno odbijanje.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446317493",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Thomas je zatražio 'Unsubscribe please' što je eksplicitni opt-out. Održavamo oznaku.",
+    "evidence": [
+      "Unsubscribe please"
+    ]
+  },
+  {
+    "key": "3876232/4446316452",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Michelle je odgovorila 'No thank you' što je jasno odbijanje.",
+    "evidence": [
+      "No thank you"
+    ]
+  },
+  {
+    "key": "3930675/4520613429",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Anthony je automatski odgovor o odlasku iz tvrtke bez interesa.",
+    "evidence": [
+      "I've now left Iris.",
+      "For anything operational, please contact Ali.Proctor-Walsh@iris-worldwide.com."
+    ]
+  },
+  {
+    "key": "3930675/4520613430",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Leon je automatski odgovor o odlasku iz tvrtke bez interesa.",
+    "evidence": [
+      "I have left IRIS and no longer have access to this email account."
+    ]
+  },
+  {
+    "key": "3930675/4520612048",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Daniel je izjavio da je u Los Angelesu, što implicira lokacijsko odbijanje bez interesa.",
+    "evidence": [
+      "I am in Los Angeles Sorry"
+    ]
+  },
+  {
+    "key": "3876232/4446316903",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Warren je odgovorio da sada živi u LA-u i nije zainteresiran.",
+    "evidence": [
+      "I now live in LA - so not walking past.",
+      "Thank you for reaching out."
+    ]
+  },
+  {
+    "key": "3876232/4446318019",
+    "recommended_label": "Do Not Contact",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Cathy je zatražila 'Unsubscribe me please' što je eksplicitni opt-out. Održavamo oznaku.",
+    "evidence": [
+      "Unsubscribe me please"
+    ]
+  },
+  {
+    "key": "3930675/4520610008",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Bernard je odgovorio 'No thanks' čime izričito odbija ponudu.",
+    "evidence": [
+      "No thanks"
+    ]
+  },
+  {
+    "key": "3876232/4446317185",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Josh je odgovorio da nisu više u Hammersmithu, što implicira odbijanje na temelju lokacije bez interesa za ponudu.",
+    "evidence": [
+      "we're no longer in Hammersmith."
+    ]
+  },
+  {
+    "key": "3876232/4446318153",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Graeme je izjavio da živi u Dubaiju i rekao 'not for me thanks', što je jasno odbijanje.",
+    "evidence": [
+      "I live in Dubai so not for me thanks"
+    ]
+  },
+  {
+    "key": "3876232/4446317852",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Paul je odgovorio da nisu blizu Shoreditcha i da već imaju zdravstvenu skrb, čime odbija ponudu.",
+    "evidence": [
+      "we are not anywhere near Shoreditch, and we have our healthcare sorted",
+      "many thanks"
+    ]
+  },
+  {
+    "key": "3876232/4446316101",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Odgovor 'No' uz napomenu da osobe ne rade više u tvrtki potvrđuje da je kontakt nevažeći; nema izraženog interesa.",
+    "evidence": [
+      "No\n\nOliver, sam, lawrie none of these people work at sps anymore!!"
+    ]
+  },
+  {
+    "key": "3876232/4446317234",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti zahtjev za uklanjanjem s mailing liste.",
+    "evidence": [
+      "please take me off this mailing list"
+    ]
+  },
+  {
+    "key": "3876232/4446317835",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Jasan odgovor da usluga trenutno nije potrebna.",
+    "evidence": [
+      "Thank you but not currently necessary"
+    ]
+  },
+  {
+    "key": "3876232/4446316624",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti odgovor 'no' na ponudu.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3876232/4446316507",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti odgovor 'no' na ponudu.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3876232/4446316567",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti odgovor 'No' na ponudu.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446316219",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti odgovor 'No thanks' na ponudu.",
+    "evidence": [
+      "No thanks Rebecca."
+    ]
+  },
+  {
+    "key": "3876232/4446316013",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti odgovor 'NO' na ponudu.",
+    "evidence": [
+      "NO"
+    ]
+  },
+  {
+    "key": "3876232/4446315825",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti odgovor 'no' na ponudu.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3876232/4446316919",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "ambiguous",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Odgovor da radi od kuće nije jasan pokazatelj interesa ili dezinteresa; ne sadrži izričito odbijanje ni prihvaćanje ponude.",
+    "evidence": [
+      "Hi Rebecca,\n\nThanks for reaching out but I actually work from home.\n\ncheers\n\nStu"
+    ]
+  },
+  {
+    "key": "3876232/4446315696",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Izričiti odgovor 'No' na ponudu.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446317489",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Odgovor implicira da ponuda nije relevantna jer većina zaposlenika radi na daljinu i ne nude takve benefite; nema interesa.",
+    "evidence": [
+      "We don’t do this kind of stuff for our staff and most work remotely anyways."
+    ]
+  },
+  {
+    "key": "3876232/4446317870",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Sara Cooper je izričito napisala 'opt out', što je jasna odjava i zahtjev za uklanjanje s popisa.",
+    "evidence": [
+      "opt out"
+    ]
+  },
+  {
+    "key": "3876232/4446318054",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Shivani Gupta više ne radi za Opinium, automatska obavijest s alternativnim kontaktom. Nema ljudskog odgovora o interesu.",
+    "evidence": [
+      "I no longer work for Opinium."
+    ]
+  },
+  {
+    "key": "3876232/4446318062",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "David Morgan više nije na ovoj adresi, automatska obavijest s preusmjeravanjem. Nema ljudskog odgovora o interesu.",
+    "evidence": [
+      "David Morgan is no longer on this email address"
+    ]
+  },
+  {
+    "key": "3876232/4446317432",
+    "recommended_label": "Interested",
+    "interest_assessment": "clear_interest",
+    "confidence": "high",
+    "manual_review": true,
+    "reason_hr": "Sarah Skelton je izravno napisala 'Yes why not, thanks', što je jasan pozitivan odgovor na ponudu. Poslan joj je booking link, ali nema potvrde rezervacije.",
+    "evidence": [
+      "Yes why not, thanks"
+    ]
+  },
+  {
+    "key": "3876232/4446315465",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Raj Dhanapala je izričito odbio ponudu: 'not something I would require'.",
+    "evidence": [
+      "it's not something I would require."
+    ]
+  },
+  {
+    "key": "3876232/4446317963",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Simen Plaha je automatski odgovorio da je napustio tvrtku s preusmjeravanjem. Nema ljudskog odgovora o interesu.",
+    "evidence": [
+      "I have now left the business."
+    ]
+  },
+  {
+    "key": "3876232/4446315408",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Joanna Mackeson je izravno odbila: 'sadly we don't have private healthcare', što implicira odbijanje ponude.",
+    "evidence": [
+      "sadly we don't have private healthcare."
+    ]
+  },
+  {
+    "key": "3876232/4446316839",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "opted_out",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Simon Batterham je napisao 'Unsubscribe', što je izričit zahtjev za odjavu.",
+    "evidence": [
+      "Unsubscribe"
+    ]
+  },
+  {
+    "key": "3876232/4446315417",
+    "recommended_label": "Not Interested",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Ankush Mehta je odgovorio s 'No', što je jasno odbijanje.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446317854",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska obavijest da je osoba napustila Lickd s preusmjeravanjem. Nema ljudskog odgovora o interesu.",
+    "evidence": [
+      "I have now left Lickd."
+    ]
+  },
+  {
+    "key": "3876232/4446317876",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Kimberley Burgess je automatski odgovorila da je napustila tvrtku. Nema ljudskog odgovora o interesu.",
+    "evidence": [
+      "I am no longer with GlobalReach Technology"
+    ]
+  },
+  {
+    "key": "3876232/4446317376",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "engaged_question",
+    "confidence": "high",
+    "manual_review": true,
+    "reason_hr": "Martyn Hill je prvo poslao OOO automatski odgovor, a zatim ljudski odgovor u kojem ispravlja lokaciju i daje prijedlog za drugu tvrtku. Postavlja pitanje o izvoru informacije ('Where did you see...'), što je angažirano pitanje, ali ne pokazuje izravan interes za ponudu.",
+    "evidence": [
+      "Where did you see info we were still in the area?",
+      "But my old agency, Firefish, is down on Tower Bridge Road, so you could try and hit them up?"
+    ]
+  },
+  {
+    "key": "3876232/4446317433",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "no_interest",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Osoba je napustila tvrtku i preusmjerava na drugu kontakt osobu, nema interesa za ponudu.",
+    "evidence": [
+      "I am no longer with EMJ as of 18th July 2025",
+      "Please direct all future inquiries to Shauna.Doyle@emjreviews.com"
+    ]
+  },
+  {
+    "key": "3876232/4446317455",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska poruka da osoba vise ne radi u tvrtki i da se pretinac ne prati. Nema ljudskog odgovora niti interesa.",
+    "evidence": [
+      "Debbie Nolan is no longer employed by Exclusive Household Staff",
+      "this mailbox is no longer monitored"
+    ]
+  },
+  {
+    "key": "3876232/4446315767",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatska poruka o odlasku iz tvrtke, a zatim bounce (spam blokada). Nema ljudskog odgovora niti interesa.",
+    "evidence": [
+      "I have now left BMS.",
+      "Your message to simon.evans@bmsgroup.com couldn't be delivered.",
+      "bmsgroup.com suspects your message is spam"
+    ]
+  },
+  {
+    "key": "3876232/4446315691",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski OOO odgovor, zatim bounce (spam blokada). Nema ljudskog odgovora niti interesa.",
+    "evidence": [
+      "I am out of the office from the Tuesday 1st to Friday 4th September.",
+      "Your message to kiri.kkoshi@healys.com couldn't be delivered.",
+      "healys.com suspects your message is spam"
+    ]
+  },
+  {
+    "key": "3876232/4446315699",
+    "recommended_label": "Wrong Person",
+    "interest_assessment": "automated_only",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Automatski OOO odgovor, zatim bounce (spam blokada). Nema ljudskog odgovora niti interesa.",
+    "evidence": [
+      "I am currently out of the office and will respond when available.",
+      "Your message to arranwright@daleuw.com couldn't be delivered.",
+      "daleuw.com suspects your message is spam"
+    ]
+  }
+]

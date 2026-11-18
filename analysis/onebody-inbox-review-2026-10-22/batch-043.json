@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8859,
+    "completion_tokens": 2715,
+    "total_tokens": 11574,
+    "cost": 0.0016647,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8704,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0016647,
+      "upstream_inference_prompt_cost": 0.00044295,
+      "upstream_inference_completions_cost": 0.00122175
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520620575",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je ljudski odgovorio, dobio link i kod za rezervaciju, nema potvrde zakazivanja niti povratne poruke pa ostaje postojeća oznaka Meeting Booked.",
+      "next_step_hr": "Bez promjene, pratiti je li klijent zakazao sastanak kroz sustav.",
+      "last_inbound_summary_hr": "Klijent je tražio probni termin bez obveze.",
+      "last_outbound_summary_hr": "Poslana su dva podsjetnika s linkom i kodom OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Excellent GTM campaign. I’d be happy to take a trial if there is no ongoing commitment required"
+      ]
+    },
+    {
+      "key": "4006945/4608052025",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka obavještava da je Jamie promijenio tvrtku i email, ostavljam postojeću oznaku Wrong Person.",
+      "next_step_hr": "Nema radnje, kontakt je nevažeći.",
+      "last_inbound_summary_hr": "Automatski odgovor: Jamie više ne radi u Readly, nova adresa j.white@cafeyn.co.",
+      "last_outbound_summary_hr": "Poslana početna ponuda za besplatnu fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Readly has now merged with Cafeyn so you will be able to reach me at my new email j.white@cafeyn.co."
+      ]
+    },
+    {
+      "key": "4006945/4608051805",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka kaže da Chris više nije zaposlen u Abionu, ostavljam Do Not Contact.",
+      "next_step_hr": "Nema daljnje radnje, kontakt je nevažeći.",
+      "last_inbound_summary_hr": "Automatski odgovor: Chris Sleep više nije zaposlen u Abionu.",
+      "last_outbound_summary_hr": "Poslana početna ponuda za besplatnu fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Chris Sleep is no longer employed by Abion."
+      ]
+    },
+    {
+      "key": "4006945/4608048603",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka obavještava da Rajesh više nije u Hadronu, ostavljam Wrong Person.",
+      "next_step_hr": "Nema radnje, kontakt je nevažeći.",
+      "last_inbound_summary_hr": "Automatski odgovor: Rajesh više nije zaposlen u Hadronu.",
+      "last_outbound_summary_hr": "Poslan podsjetnik s ponudom za besplatnu fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please be advised that Rajesh is no longer with Hadron."
+      ]
+    },
+    {
+      "key": "3930675/4520621301",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nakon automatskog out-of-office odgovora, Deborah je ljudski odgovorila 'No thanks' čime je jasno odbila ponudu.",
+      "next_step_hr": "Bez daljnjeg kontakta, označiti kao Not Interested.",
+      "last_inbound_summary_hr": "Ljudski odgovor: 'No thanks' – jasno odbijanje.",
+      "last_outbound_summary_hr": "Poslana tri emaila s ponudom besplatne sesije, zadnji je tražio potvrdu 'no'.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks"
+      ]
+    },
+    {
+      "key": "4006945/4608051559",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jamesin je ljudski zatražio uklanjanje sa svih lista, ostavljam Do Not Contact.",
+      "next_step_hr": "Bez daljnjeg kontakta, poštovati zahtjev.",
+      "last_inbound_summary_hr": "Ljudski zahtjev: 'Please remove me from every list.'",
+      "last_outbound_summary_hr": "Poslana početna ponuda za besplatnu fizioterapiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please remove me from every list."
+      ]
+    },
+    {
+      "key": "4006945/4608051667",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka obavještava da Martijn više nije zaposlen u Vogt Landscape, ostavljam Wrong Person.",
+      "next_step_hr": "Nema radnje, kontakt je nevažeći.",
+      "last_inbound_summary_hr": "Automatski odgovor: Martijn Slob nije zaposlen od 01.01.2026.",
+      "last_outbound_summary_hr": "Poslana početna ponuda za besplatnu fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Mr Martijn Slob has not been employed in our office since 01.January 2026."
+      ]
+    },
+    {
+      "key": "4006945/4608051197",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka obavještava da Sonia više ne radi u Liquidity Group, ostavljam Wrong Person.",
+      "next_step_hr": "Nema radnje, kontakt je nevažeći.",
+      "last_inbound_summary_hr": "Automatski odgovor: Sonia Perterson više ne radi u Liquidity Group.",
+      "last_outbound_summary_hr": "Poslana početna ponuda za besplatnu fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Sonia Perterson is no longer working in Liquidity Group"
+      ]
+    },
+    {
+      "key": "4006945/4608051276",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ljudski odgovor obavještava da Matt više ne radi u The Race Media, ostavljam Wrong Person.",
+      "next_step_hr": "Nema radnje, kontakt je nevažeći, preusmjeriti na tim.scott@the-race.com.",
+      "last_inbound_summary_hr": "Ljudski odgovor: Matt više ne radi u The Race Media, preusmjerava na tim.scott@the-race.com.",
+      "last_outbound_summary_hr": "Poslana početna ponuda za besplatnu fizioterapiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at The Race Media. Please forward your email to tim.scott@the-race.com"
+      ]
+    },
+    {
+      "key": "4006945/4608050805",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ljudski odgovor traži uklanjanje s liste jer Gareth je napustio tvrtku, ostavljam Do Not Contact.",
+      "next_step_hr": "Bez daljnjeg kontakta, poštovati zahtjev.",
+      "last_inbound_summary_hr": "Ljudski zahtjev: 'Gareth has left the company so if you could please remove us from the list.'",
+      "last_outbound_summary_hr": "Poslana početna ponuda s krivim imenom (Gareth umjesto Charlie).",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Gareth has left the company so if you could please remove us from the list that would be great."
+      ]
+    },
+    {
+      "key": "3930675/4520618915",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mark je ljudski odgovorio 'Its a No from me' čime je jasno odbio ponudu.",
+      "next_step_hr": "Bez daljnjeg kontakta, označiti kao Not Interested.",
+      "last_inbound_summary_hr": "Ljudski odgovor: 'Its a No from me.'",
+      "last_outbound_summary_hr": "Poslana tri emaila s ponudom besplatne sesije, zadnji je tražio potvrdu 'no'.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Its a No from me."
+      ]
+    },
+    {
+      "key": "4006945/4608051049",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijentica je ljudski zatražila informacije (send info) i dobila link i kod za rezervaciju, nema potvrde zakazivanja pa ostaje Meeting Booked.",
+      "next_step_hr": "Bez promjene, pratiti je li klijentica zakazala sastanak kroz sustav.",
+      "last_inbound_summary_hr": "Klijentica je tražila informacije: 'Great!! send info'.",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55 s preporukom Charing Cross klinike.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Great!! send info"
+      ]
+    }
+  ]
+}

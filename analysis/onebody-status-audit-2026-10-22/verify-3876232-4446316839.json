@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7619,
+    "completion_tokens": 1479,
+    "total_tokens": 9098,
+    "cost": 0.005299066035,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 5487,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.005299066035,
+      "upstream_inference_prompt_cost": 0.002473406955,
+      "upstream_inference_completions_cost": 0.00282565908
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316839",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CALkkisHUdcNiTG0gNVu52MpFk_Z=MucjESAbqKyogYxN+GzmiA@mail.gmail.com>",
+      "human_quote": "Unsubscribe",
+      "reason_hr": "Osoba je odgovorila s 'Unsubscribe' na naš follow-up. Nema upita niti interesa za našu ponudu.",
+      "request_hr": "opt-out zahtjev",
+      "next_action_hr": "Osoba je tražila odjavu. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316648",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<06C0D995-E16B-4887-979C-00FFBE16E08F@listen-up.biz>",
+      "human_quote": "Thanks for sending this over, happy to look into booking this. Let me know how!",
+      "reason_hr": "Osoba je izrazila jasan interes za ponudu i tražila upute za rezervaciju. Posljednja poruka u nizu je naša (9. rujna) s linkom i kodom, nakon čega je osoba šutjela. Nema dokaza da je termin rezerviran.",
+      "request_hr": "zahtjev za upute za rezervaciju",
+      "next_action_hr": "Posljednja naša poruka s linkom i kodom je od 9. rujna, a osoba nije odgovorila. Možete poslati jedan kratki follow-up s pitanjem je li uspjela rezervirati ili treba pomoć.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316731",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWLP123MB4596160B9D55760BA4A75859FAB22@CWLP123MB4596.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Is it possible for me to pop by the studio next time I pass? Probably tomorrow?",
+      "reason_hr": "Osoba je pokazala interes, ali traži posjet studiju umjesto online rezervacije. Posljednja poruka u razgovoru bila je naša uputa da rezervira online (7. rujna). Od tada je osoba šutjela.",
+      "request_hr": "zahtjev za posjet studiju bez termina",
+      "next_action_hr": "Osoba nije potvrdila rezervaciju. Možete poslati jedan kratki podsjetnik s pitanjem je li uspjela pronaći termin ili da se javi ako želi posjetiti kliniku.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316492",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<001c01dd3f74$bdc3e0b0$394ba210$@thinktank.org.uk>",
+      "human_quote": "Great thanks",
+      "reason_hr": "Osoba je primila link, kod i upute te odgovorila sa 'Great thanks'. Poruka ne sadrži nikakvo pitanje, zahtjev niti potvrdu rezervacije. Zvuči kao zahvala, ali nije potvrda termina.",
+      "request_hr": "nema (samo zahvala)",
+      "next_action_hr": "Osoba je zahvalila, ali nije potvrdila rezervaciju. Možete ostaviti da vlasnik ručno provjeri je li došlo do rezervacije izvan e-pošte, jer poruka ne zahtijeva odgovor.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317963",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor 'I have now left the business' s preusmjeravanjem na drugu osobu. Nema personaliziranog odgovora na našu ponudu.",
+      "request_hr": "automatsko preusmjeravanje",
+      "next_action_hr": "Osoba je napustila tvrtku. Možete kontaktirati navedenu zamjenu (matt.purt@secretsales.com) ako je relevantno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446318019",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAL+ChTq+nB6b3PetM3K8YDrk74c50jbvXTfms6sMzo8BsSs=sA@mail.gmail.com>",
+      "human_quote": "Unsubscribe me please",
+      "reason_hr": "Osoba se prvo javila automatskim 'između projekata' odgovorom, a zatim poslala direktan zahtjev za odjavu 'Unsubscribe me please'.",
+      "request_hr": "opt-out zahtjev",
+      "next_action_hr": "Osoba se odjavila. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

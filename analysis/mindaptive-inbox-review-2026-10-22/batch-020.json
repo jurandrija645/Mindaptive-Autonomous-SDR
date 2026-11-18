@@ -1,0 +1,251 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 21460,
+    "completion_tokens": 3018,
+    "total_tokens": 24478,
+    "cost": 0.001308272,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 11008,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001308272,
+      "upstream_inference_prompt_cost": 0.000885752,
+      "upstream_inference_completions_cost": 0.00042252
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3599203/4126837232",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (OOO). Nema stvarnog ljudskog interesa. Postoji nacrt koji ironizira OOO, ali ne generira novi interes. S obzirom da nema stvarnog odgovora, radnja nije potrebna.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor bez ljudskog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for getting in touch with Mini First Aid North Staffordshire... We are a local business... allow up to 3 working days."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor koji neće biti poslan jer nema stvarnog interesa. Zamjenjuje se praznim nacrtom jer je radnja NO_ACTION."
+    },
+    {
+      "key": "3599203/4126837210",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (može potrajati nekoliko dana). Nema stvarnog ljudskog odgovora. Postojeći nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting me, it may take me a few days to respond."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    },
+    {
+      "key": "3599203/4126836810",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (javljam se ASAP). Nema stvarnog ljudskog interesa. Postojeći nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for getting in touch with The Talking Hat. I will get back to you asap..."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    },
+    {
+      "key": "3562710/4080234389",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Povratna poruka moderatora (bounce) nakon tri poslane poruke. Nema stvarnog ljudskog odgovora. Lead je mrtav.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - email je odbijen od moderatora sustava.",
+      "missing_information": [],
+      "evidence": [
+        "Your message has expired without any moderator decision for the following recipients.",
+        "info@0800repair.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema nacrta i nije potreban - email je odbijen."
+    },
+    {
+      "key": "3599203/4126836648",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (48h). Poslan je jedan pratiteljski email koji je također samo auto-odgovor. Nema stvarnog ljudskog interesa. Nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - oba odgovora su automatska. Lead nije reagirao.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email. We are experiencing high levels of incoming emails and we will reply to your email within the next 48 hours.",
+        "Hi, funny timing. I got your auto-reply... (naš poslani pratitelj)"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor koji nije relevantan jer nema ljudskog interesa. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    },
+    {
+      "key": "3599203/4126836409",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor putem Zendesk ticketa. Nema stvarnog ljudskog odgovora. Postojeći nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor Zendeska.",
+      "missing_information": [],
+      "evidence": [
+        "Merci pour votre message et pour votre intérêt pour notre cabinet.",
+        "Votre email sera traité par notre secrétariat..."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    },
+    {
+      "key": "3599203/4126836263",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (javljam se ASAP). Nema stvarnog ljudskog interesa. Postojeći nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "This is a system auto-reply. Thank you for your message. I will respond to your email as soon as possible."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    },
+    {
+      "key": "3599203/4126835925",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (odmor/vacation). Nema stvarnog ljudskog interesa. Postojeći nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für Ihre E-Mail. Wir haben Ihre Nachricht erhalten und werden uns so schnell wie möglich darum kümmern. In Einzelfällen kann die Bearbeitung zur Zeit jedoch mehr als eine Woche dauern."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    },
+    {
+      "key": "3599203/4126836028",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (admin tim, ali nije za hitne stvari). Nema stvarnog ljudskog interesa. Postojeći nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email. This account is monitored by our admin team but not suitable for urgent requests."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    },
+    {
+      "key": "3599203/4126835832",
+      "recommended_label": "Auto-Reply",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (može potrajati do 7 radnih dana). Nema stvarnog ljudskog interesa. Postojeći nacrt je ironičan, ali ne stvara novi interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje - samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Hej, Tack för ditt mail! Jag svarar på alla mail men det kan ta upp till 7 arbetsdagar om det är hög belastning."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je ironičan auto-odgovor. Radnja NO_ACTION, stari nacrt se zamjenjuje praznim."
+    }
+  ]
+}

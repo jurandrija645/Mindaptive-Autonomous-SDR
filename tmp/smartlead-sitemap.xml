@@ -1,0 +1,1313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+    
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/campaign-list</loc>
+    <lastmod>2026-04-01T10:22:43.499Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/campaign-performance</loc>
+    <lastmod>2026-06-25T09:01:10.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/campaign-response-stats</loc>
+    <lastmod>2026-06-25T09:01:10.177Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/campaign-status-stats</loc>
+    <lastmod>2026-04-01T17:54:07.644Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/client-list</loc>
+    <lastmod>2026-04-01T10:22:43.488Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/client-performance</loc>
+    <lastmod>2026-06-25T09:01:10.179Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/day-wise-positive-reply</loc>
+    <lastmod>2026-06-25T09:01:10.176Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/day-wise-positive-sent-time</loc>
+    <lastmod>2026-06-25T09:01:10.181Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/day-wise-sent-time</loc>
+    <lastmod>2026-06-24T19:45:50.224Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/day-wise-stats</loc>
+    <lastmod>2026-06-24T19:45:50.230Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/domain-wise-health</loc>
+    <lastmod>2026-09-22T16:53:10.656Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/email-wise-health</loc>
+    <lastmod>2026-04-01T17:54:07.632Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/followup-reply-rate</loc>
+    <lastmod>2026-04-01T17:54:07.630Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/how-metrics-are-calculated</loc>
+    <lastmod>2026-06-25T09:01:10.178Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/lead-category-response</loc>
+    <lastmod>2026-04-01T17:54:07.643Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/lead-stats</loc>
+    <lastmod>2026-04-01T17:54:08.657Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/lead-to-reply-time</loc>
+    <lastmod>2026-04-01T17:54:08.661Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/leads-for-first-reply</loc>
+    <lastmod>2026-04-01T17:54:08.659Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/mailbox-health</loc>
+    <lastmod>2026-04-01T17:54:08.665Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/month-wise-client-count</loc>
+    <lastmod>2026-04-01T10:22:44.617Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/overview</loc>
+    <lastmod>2026-06-25T09:01:10.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/provider-performance</loc>
+    <lastmod>2026-04-01T17:54:08.651Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/analytics/team-board-stats</loc>
+    <lastmod>2026-04-01T17:54:08.650Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaign-statistics/get-by-date-range</loc>
+    <lastmod>2026-09-16T14:47:56.408Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaign-statistics/get-by-id</loc>
+    <lastmod>2026-09-24T12:47:07.511Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaign-statistics/lead-statistics</loc>
+    <lastmod>2026-09-22T16:53:10.655Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaign-statistics/mailbox-statistics</loc>
+    <lastmod>2026-04-01T17:54:08.654Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaign-statistics/sequence-analytics</loc>
+    <lastmod>2026-09-24T12:47:07.510Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaign-statistics/top-level</loc>
+    <lastmod>2026-04-01T17:54:09.560Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaign-statistics/top-level-by-date</loc>
+    <lastmod>2026-09-24T13:06:10.660Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/add-email-accounts</loc>
+    <lastmod>2026-09-22T18:58:06.204Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/add-email-accounts-by-tag</loc>
+    <lastmod>2026-09-22T18:58:06.206Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/add-leads</loc>
+    <lastmod>2026-01-27T10:41:09.776Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/add-tags</loc>
+    <lastmod>2026-09-22T08:58:23.370Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/all-leads-activities</loc>
+    <lastmod>2026-01-27T10:41:09.802Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/assign-client</loc>
+    <lastmod>2026-09-29T09:59:56.011Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/create</loc>
+    <lastmod>2026-01-27T10:41:09.799Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/create-prompt-template</loc>
+    <lastmod>2026-09-29T09:43:35.037Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/create-subsequence</loc>
+    <lastmod>2026-08-24T04:30:35.075Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/delete</loc>
+    <lastmod>2026-01-27T10:41:09.801Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/delete-lead</loc>
+    <lastmod>2026-01-27T10:41:09.798Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/delete-webhook</loc>
+    <lastmod>2026-01-27T10:41:09.794Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/duplicate</loc>
+    <lastmod>2026-06-01T07:48:21.805Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/export-leads</loc>
+    <lastmod>2026-01-27T10:41:09.797Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/forward-email</loc>
+    <lastmod>2026-01-27T10:41:09.801Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-all</loc>
+    <lastmod>2026-01-27T10:41:09.795Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-analytics</loc>
+    <lastmod>2026-01-27T10:41:09.796Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-analytics-by-date</loc>
+    <lastmod>2026-09-16T14:55:50.156Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-by-id</loc>
+    <lastmod>2026-04-01T01:18:46.009Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-email-accounts</loc>
+    <lastmod>2026-04-01T01:18:46.011Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-lead-by-id</loc>
+    <lastmod>2026-04-01T10:22:45.815Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-lead-history</loc>
+    <lastmod>2026-01-27T10:41:09.827Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-leads</loc>
+    <lastmod>2026-01-27T10:41:09.826Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-leads-history-bulk</loc>
+    <lastmod>2026-01-27T10:41:09.822Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-prompt-template</loc>
+    <lastmod>2026-09-29T09:43:35.039Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-sequences</loc>
+    <lastmod>2026-09-24T11:22:31.380Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-top-level-analytics</loc>
+    <lastmod>2026-01-27T10:41:09.819Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-webhook-summary</loc>
+    <lastmod>2026-04-01T10:22:45.816Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/get-webhooks</loc>
+    <lastmod>2026-01-27T10:41:09.843Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/mark-lead-complete</loc>
+    <lastmod>2026-01-27T10:41:09.849Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/pause-lead</loc>
+    <lastmod>2026-01-27T10:41:09.845Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/reallocate-mailboxes</loc>
+    <lastmod>2026-10-09T04:25:57.784Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/remove-email-accounts</loc>
+    <lastmod>2026-04-01T01:18:46.781Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/remove-tags</loc>
+    <lastmod>2026-09-22T08:58:22.826Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/reply-email-thread</loc>
+    <lastmod>2026-01-27T10:41:09.847Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/resume-lead</loc>
+    <lastmod>2026-01-27T10:41:09.846Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/retrigger-webhooks</loc>
+    <lastmod>2026-04-01T10:22:45.815Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/save-webhooks</loc>
+    <lastmod>2026-01-27T10:41:09.852Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/search-leads</loc>
+    <lastmod>2026-09-29T09:59:56.012Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/send-test-email</loc>
+    <lastmod>2026-01-27T10:41:09.851Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/statistics</loc>
+    <lastmod>2026-09-24T13:06:10.659Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/unsubscribe-lead</loc>
+    <lastmod>2026-01-27T10:41:09.874Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-folder</loc>
+    <lastmod>2026-09-29T09:43:34.985Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-lead</loc>
+    <lastmod>2026-01-27T10:41:09.873Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-lead-category</loc>
+    <lastmod>2026-01-27T10:41:09.871Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-lead-email-account</loc>
+    <lastmod>2026-01-27T10:41:09.872Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-prompt-template</loc>
+    <lastmod>2026-09-29T09:43:34.986Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-schedule</loc>
+    <lastmod>2026-04-01T01:18:47.751Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-sequences</loc>
+    <lastmod>2026-04-01T01:18:47.750Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-settings</loc>
+    <lastmod>2026-05-21T08:54:14.193Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-spintax-distribution</loc>
+    <lastmod>2026-09-29T09:59:56.012Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-status</loc>
+    <lastmod>2026-09-29T09:43:34.970Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/campaigns/update-team-member</loc>
+    <lastmod>2026-01-27T10:41:09.874Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/clients/api-keys</loc>
+    <lastmod>2026-03-12T10:44:28.159Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/clients/create</loc>
+    <lastmod>2026-09-29T09:43:34.989Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/clients/create-code-integration</loc>
+    <lastmod>2026-09-29T09:43:34.985Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/clients/delete</loc>
+    <lastmod>2026-10-22T09:03:47.273Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/clients/get-all</loc>
+    <lastmod>2026-03-12T10:44:28.636Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/clients/get-by-id</loc>
+    <lastmod>2026-09-29T09:43:34.987Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/clients/update</loc>
+    <lastmod>2026-09-29T09:43:34.989Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-account-tags/assign</loc>
+    <lastmod>2026-03-12T10:44:28.631Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-account-tags/create</loc>
+    <lastmod>2026-03-31T05:39:59.643Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-account-tags/create-new</loc>
+    <lastmod>2026-03-31T05:39:59.647Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-account-tags/get-all</loc>
+    <lastmod>2026-03-12T10:44:28.635Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-account-tags/remove</loc>
+    <lastmod>2026-03-12T10:44:28.634Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/add-oauth</loc>
+    <lastmod>2026-01-27T10:41:09.885Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/add-smtp</loc>
+    <lastmod>2026-01-27T10:41:09.903Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/bulk-update-config</loc>
+    <lastmod>2026-09-29T09:59:56.014Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/delete</loc>
+    <lastmod>2026-01-27T10:41:09.905Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/get-all</loc>
+    <lastmod>2026-06-04T08:55:07.067Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/get-by-email</loc>
+    <lastmod>2026-09-03T12:54:53.869Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/get-by-id</loc>
+    <lastmod>2026-01-27T10:41:09.907Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/reconnect-failed</loc>
+    <lastmod>2026-09-29T09:43:34.988Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/send-warmup-unblock-otp</loc>
+    <lastmod>2026-09-29T09:43:34.969Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/suspend</loc>
+    <lastmod>2026-01-27T10:41:09.904Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/tags</loc>
+    <lastmod>2026-06-04T08:55:07.069Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/unsuspend</loc>
+    <lastmod>2026-01-27T10:41:09.918Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/update</loc>
+    <lastmod>2026-01-27T10:41:09.916Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/verify-warmup-unblock-otp</loc>
+    <lastmod>2026-09-29T09:43:34.934Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/warmup-settings</loc>
+    <lastmod>2026-09-29T09:43:34.932Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/email-accounts/warmup-stats</loc>
+    <lastmod>2026-01-27T10:41:09.915Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/associate-untracked-reply</loc>
+    <lastmod>2026-09-29T14:34:41.216Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/block-domains</loc>
+    <lastmod>2026-01-27T10:41:09.936Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/create-note</loc>
+    <lastmod>2026-01-27T10:41:09.937Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/create-saved-view</loc>
+    <lastmod>2026-09-29T09:43:34.930Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/create-task</loc>
+    <lastmod>2026-04-01T17:54:09.558Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/forward</loc>
+    <lastmod>2026-06-08T13:18:50.812Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-archived</loc>
+    <lastmod>2026-01-27T10:41:09.939Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-assigned</loc>
+    <lastmod>2026-01-27T10:41:09.936Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-by-id</loc>
+    <lastmod>2026-01-27T10:41:09.939Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-important</loc>
+    <lastmod>2026-01-27T10:41:09.941Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-messages</loc>
+    <lastmod>2026-01-27T10:41:09.942Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-reminders</loc>
+    <lastmod>2026-04-01T17:54:09.564Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-scheduled</loc>
+    <lastmod>2026-01-27T10:41:09.964Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-sent</loc>
+    <lastmod>2026-01-27T10:41:09.959Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-snoozed</loc>
+    <lastmod>2026-04-01T17:54:09.559Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-unread</loc>
+    <lastmod>2026-01-27T10:41:09.961Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-untracked</loc>
+    <lastmod>2026-01-27T10:41:09.958Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/get-views</loc>
+    <lastmod>2026-01-27T10:41:09.963Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/ignore-reply</loc>
+    <lastmod>2026-09-29T09:43:34.934Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/mark-read</loc>
+    <lastmod>2026-01-27T10:41:09.965Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/push-to-subsequence</loc>
+    <lastmod>2026-01-27T10:41:09.962Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/reply</loc>
+    <lastmod>2026-04-01T08:04:43.989Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/reply-status</loc>
+    <lastmod>2026-03-31T05:40:00.241Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/resume-lead</loc>
+    <lastmod>2026-01-27T10:41:09.986Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/set-reminder</loc>
+    <lastmod>2026-04-01T17:54:09.559Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/update-category</loc>
+    <lastmod>2026-01-27T10:41:09.985Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/update-revenue</loc>
+    <lastmod>2026-01-27T10:41:09.978Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/inbox/update-team-member</loc>
+    <lastmod>2026-01-27T10:41:09.983Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/assign-tags</loc>
+    <lastmod>2026-03-12T10:44:29.506Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/create</loc>
+    <lastmod>2026-03-12T10:44:29.511Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/delete</loc>
+    <lastmod>2026-03-12T10:44:29.505Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/get-all</loc>
+    <lastmod>2026-03-12T10:44:29.499Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/get-by-id</loc>
+    <lastmod>2026-03-12T10:44:29.501Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/import-leads</loc>
+    <lastmod>2026-03-12T10:44:29.504Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/push-between-lists</loc>
+    <lastmod>2026-03-12T10:44:29.509Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/push-to-campaign</loc>
+    <lastmod>2026-03-12T10:44:29.882Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-lists/update</loc>
+    <lastmod>2026-03-12T10:44:29.874Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-notes/create</loc>
+    <lastmod>2026-03-12T10:44:29.880Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-notes/get-all</loc>
+    <lastmod>2026-03-12T10:44:29.879Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-tags/add-to-lead</loc>
+    <lastmod>2026-03-12T10:44:29.875Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-tags/create</loc>
+    <lastmod>2026-03-12T10:44:29.876Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-tags/get-all</loc>
+    <lastmod>2026-03-12T10:44:29.877Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-tags/remove-from-lead</loc>
+    <lastmod>2026-03-12T10:44:29.880Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-tasks/create</loc>
+    <lastmod>2026-03-12T10:44:29.878Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/lead-tasks/get-all</loc>
+    <lastmod>2026-03-12T10:44:29.881Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/activities</loc>
+    <lastmod>2026-09-22T16:53:10.643Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/add-to-campaign</loc>
+    <lastmod>2026-01-27T10:41:09.982Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/campaign-overview</loc>
+    <lastmod>2026-09-29T09:43:34.879Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/categories</loc>
+    <lastmod>2026-10-05T07:09:39.306Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/create-category</loc>
+    <lastmod>2026-10-05T07:09:39.306Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/delete</loc>
+    <lastmod>2026-01-27T10:41:09.985Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/delete-category</loc>
+    <lastmod>2026-10-05T07:09:39.305Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/export</loc>
+    <lastmod>2026-01-27T10:41:09.982Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/get-by-campaign</loc>
+    <lastmod>2026-01-27T10:41:10.003Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/get-by-email</loc>
+    <lastmod>2026-01-27T10:41:10.001Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/pause</loc>
+    <lastmod>2026-01-27T10:41:10.004Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/resume</loc>
+    <lastmod>2026-01-27T10:41:10.004Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/sequence-details</loc>
+    <lastmod>2026-09-29T09:43:34.881Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/unsubscribe</loc>
+    <lastmod>2026-01-27T10:41:10.006Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/update</loc>
+    <lastmod>2026-01-27T10:41:10.007Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/leads/update-category</loc>
+    <lastmod>2026-10-05T07:09:39.307Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/blacklists</loc>
+    <lastmod>2026-04-01T10:22:45.819Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/create-automated-test</loc>
+    <lastmod>2026-04-01T10:22:45.814Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/create-folder</loc>
+    <lastmod>2026-04-01T10:22:45.812Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/create-manual-test</loc>
+    <lastmod>2026-04-01T10:22:45.813Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/delete-folder</loc>
+    <lastmod>2026-04-01T10:22:46.453Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/delete-tests-bulk</loc>
+    <lastmod>2026-04-01T10:22:46.454Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/dkim-details</loc>
+    <lastmod>2026-04-01T10:22:46.449Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/domain-blacklist</loc>
+    <lastmod>2026-04-01T10:22:46.447Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/geo-report</loc>
+    <lastmod>2026-04-01T10:22:46.451Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/get-folder-by-id</loc>
+    <lastmod>2026-04-01T10:22:46.450Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/get-folders</loc>
+    <lastmod>2026-04-01T10:22:46.452Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/ip-blacklist-count</loc>
+    <lastmod>2026-04-01T10:22:46.450Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/ip-details</loc>
+    <lastmod>2026-04-01T10:22:46.446Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/list-tests</loc>
+    <lastmod>2026-04-01T10:22:46.448Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/mailbox-count</loc>
+    <lastmod>2026-04-01T10:22:50.206Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/mailbox-summary</loc>
+    <lastmod>2026-04-01T10:22:50.207Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/provider-ids</loc>
+    <lastmod>2026-04-01T10:22:50.201Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/provider-report</loc>
+    <lastmod>2026-04-01T10:22:50.203Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/rdns-report</loc>
+    <lastmod>2026-04-01T10:22:50.204Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/reply-headers</loc>
+    <lastmod>2026-04-01T10:22:50.199Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/schedule-history</loc>
+    <lastmod>2026-04-01T10:22:50.205Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/sender-list</loc>
+    <lastmod>2026-04-01T10:22:50.202Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/sender-report</loc>
+    <lastmod>2026-04-01T10:22:50.200Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/spam-filter-report</loc>
+    <lastmod>2026-04-01T10:22:50.198Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/spf-details</loc>
+    <lastmod>2026-04-01T10:22:50.724Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/stop-automated-test</loc>
+    <lastmod>2026-04-01T10:22:50.720Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/test-details</loc>
+    <lastmod>2026-04-01T10:22:50.721Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-delivery/test-email-content</loc>
+    <lastmod>2026-04-01T10:22:50.723Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/cities</loc>
+    <lastmod>2026-03-12T10:44:30.477Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/company</loc>
+    <lastmod>2026-03-12T10:44:30.474Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/countries</loc>
+    <lastmod>2026-03-12T10:44:30.475Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/departments</loc>
+    <lastmod>2026-03-12T10:44:30.470Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/domain</loc>
+    <lastmod>2026-03-12T10:44:30.473Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/fetch-contacts</loc>
+    <lastmod>2026-03-12T10:44:30.471Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/fetched-searches</loc>
+    <lastmod>2026-03-12T10:44:30.474Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/find-emails</loc>
+    <lastmod>2026-03-12T10:44:30.480Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/get-contacts</loc>
+    <lastmod>2026-03-12T10:44:30.472Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/head-counts</loc>
+    <lastmod>2026-03-12T10:44:30.478Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/industries</loc>
+    <lastmod>2026-03-12T10:44:30.981Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/job-title</loc>
+    <lastmod>2026-03-12T10:44:30.996Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/keywords</loc>
+    <lastmod>2026-03-12T10:44:30.989Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/levels</loc>
+    <lastmod>2026-03-12T10:44:30.983Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/recent-searches</loc>
+    <lastmod>2026-03-12T10:44:30.992Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/reply-analytics</loc>
+    <lastmod>2026-03-12T10:44:30.986Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/revenue</loc>
+    <lastmod>2026-03-12T10:44:30.979Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/review-contacts</loc>
+    <lastmod>2026-03-12T10:44:30.982Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/save-search</loc>
+    <lastmod>2026-03-12T10:44:30.985Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/saved-searches</loc>
+    <lastmod>2026-03-12T10:44:30.990Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/search-analytics</loc>
+    <lastmod>2026-03-12T10:44:31.443Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/search-contacts</loc>
+    <lastmod>2026-03-12T10:44:31.440Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/states</loc>
+    <lastmod>2026-03-12T10:44:31.442Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/sub-industries</loc>
+    <lastmod>2026-03-12T10:44:31.439Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/update-fetched-lead</loc>
+    <lastmod>2026-03-12T10:44:31.439Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-prospect/update-saved-search</loc>
+    <lastmod>2026-03-12T10:44:31.438Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/add-mailboxes</loc>
+    <lastmod>2026-10-19T13:06:25.583Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/auto-generate</loc>
+    <lastmod>2026-03-31T17:02:30.909Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/domain-list</loc>
+    <lastmod>2026-03-31T17:02:30.911Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/get-otp</loc>
+    <lastmod>2026-04-01T01:18:51.309Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/get-vendors</loc>
+    <lastmod>2026-03-31T17:02:31.410Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/order-details</loc>
+    <lastmod>2026-04-01T01:18:51.304Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/place-order</loc>
+    <lastmod>2026-06-01T06:22:26.056Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-senders/search-domain</loc>
+    <lastmod>2026-03-31T17:02:31.414Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-servers/assign-campaigns</loc>
+    <lastmod>2026-09-01T09:58:10.551Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-servers/get-campaign-servers</loc>
+    <lastmod>2026-10-22T10:10:39.125Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-servers/list-servers</loc>
+    <lastmod>2026-10-22T10:10:39.127Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/smart-servers/unassign-campaign</loc>
+    <lastmod>2026-09-29T09:43:34.731Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/utilities/domain-block-list</loc>
+    <lastmod>2026-04-01T10:22:50.717Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/utilities/send-single-email</loc>
+    <lastmod>2026-04-01T01:18:51.329Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/webhooks/create</loc>
+    <lastmod>2026-06-01T06:22:26.054Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/webhooks/delete</loc>
+    <lastmod>2026-04-01T10:22:50.719Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/webhooks/events</loc>
+    <lastmod>2026-06-01T06:22:26.056Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/webhooks/get</loc>
+    <lastmod>2026-06-01T06:22:26.053Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/api-reference/webhooks/update</loc>
+    <lastmod>2026-04-01T10:22:50.722Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/authentication</loc>
+    <lastmod>2026-01-27T10:41:10.095Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/core/campaigns</loc>
+    <lastmod>2026-01-27T10:32:35.964Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/core/email-accounts</loc>
+    <lastmod>2026-01-27T10:41:10.109Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/core/leads</loc>
+    <lastmod>2026-01-27T10:41:10.111Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/core/sequences</loc>
+    <lastmod>2026-01-27T10:41:10.126Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/core/webhooks</loc>
+    <lastmod>2026-01-27T10:41:10.114Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/faq</loc>
+    <lastmod>2026-03-19T11:25:05.052Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/best-practices</loc>
+    <lastmod>2026-03-12T06:27:44.630Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/campaign-setup</loc>
+    <lastmod>2026-03-12T06:27:44.619Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/email-warmup</loc>
+    <lastmod>2026-03-12T06:27:44.628Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/error-handling</loc>
+    <lastmod>2026-03-12T06:27:44.626Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/getting-started</loc>
+    <lastmod>2026-03-12T06:27:44.617Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/lead-management</loc>
+    <lastmod>2026-03-12T06:27:44.628Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/rate-limits</loc>
+    <lastmod>2026-09-22T16:53:10.644Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/guides/webhook-integration</loc>
+    <lastmod>2026-06-01T06:22:26.059Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/introduction</loc>
+    <lastmod>2026-03-12T06:27:45.998Z</lastmod>
+  </url>
+
+  <url>
+    <loc>https://api.smartlead.ai/quickstart</loc>
+    <lastmod>2026-01-27T10:41:10.141Z</lastmod>
+  </url>
+</urlset>

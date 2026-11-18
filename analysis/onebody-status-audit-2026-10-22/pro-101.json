@@ -1,0 +1,196 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9607,
+    "completion_tokens": 2611,
+    "total_tokens": 12218,
+    "cost": 0.0169765,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0169765,
+      "upstream_inference_prompt_cost": 0.01031845,
+      "upstream_inference_completions_cost": 0.00665805
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315434",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je 18.9. pozitivno odgovorila da želi čuti više o besplatnoj prvoj sesiji i pitala za točnu lokaciju. Dobila je link i kod, nakon toga nema rezervacije ni odbijenice, pa slijedi daljnje praćenje.",
+      "last_human_request_hr": "Seems like a great idea so happy to hear more about the 1st 55min session and start from there. Where is your exact location?",
+      "unresolved_hr": "Nije potvrđena rezervacija niti odbijenica nakon dostave linka i koda OBLACCESS55. Treba provjeriti želi li još pomoći s bookingom.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Još jedna kratka, ljubazna poruka s linkom i kodom te ponudom pomoći oko termina, jer je osoba bila jasno zainteresirana.",
+      "defer_until": "2026-10-24",
+      "evidence": [
+        {
+          "message_id": "<CWLP123MB505388948E2A7A17AD656B70D4872@CWLP123MB5053.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Seems like a great idea so happy to hear more about the 1st 55min session and start from there."
+        },
+        {
+          "message_id": "<CWLP123MB505388948E2A7A17AD656B70D4872@CWLP123MB5053.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Where is your exact location?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315388",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je više puta izričito zatražila da se kontaktiramo s HR timom na hr@clearjunction.com. To je korisna uputa za daljnji kontakt, a ne obična odsutnost.",
+      "last_human_request_hr": "Please get in touch with the HR team at hr@clearjunction.com.",
+      "unresolved_hr": "Nije zabilježeno da smo kontaktirali HR tim na hr@clearjunction.com, kako je osoba tražila.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Proslijediti ponudu ili otvoriti novi kontakt prema HR timu na hr@clearjunction.com prema uputi osobe.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+GKvfngVePTdKM8Px4QX9PJRVVKLUim_Ts6J7TMgfttCqTp+w@mail.gmail.com>",
+          "quote": "Please get in touch with the HR team at hr@clearjunction.com."
+        },
+        {
+          "message_id": "<CA+GKvfm0Gx_J50LmT2pCvs-zU2-+8wX5F8mh3Wmk4gH2bV+W=w@mail.gmail.com>",
+          "quote": "I’m currently on maternity leave."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315477",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka s uputom za hitne kontakte. Nema ljudskog angažmana ni pitanja o ponudi.",
+      "last_human_request_hr": "I’m currently out of office. I will reply to your email at the earliest opportunity.",
+      "unresolved_hr": "Nema ljudskog odgovora na ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg slanja ovoj osobi; kampanja je već iscrpljena, a odgovor je samo OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEy-3nJVTxFdpn6mZRiU91Lt7NzXA9Tmew724Y48BZ+HjFBEew@mail.gmail.com>",
+          "quote": "I’m currently out of office. I will reply to your email at the\nearliest opportunity."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315352",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka s povratkom 1. rujna i uputama za druge kontakte. Nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "I am currently out of the office and will return on Tuesday, 1st September.",
+      "unresolved_hr": "Nema ljudskog odgovora na ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg slanja ovoj osobi; odgovor je bio samo OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0b723312b90a458698177eabb400b168@GV2PR08MB8416.eurprd08.prod.outlook.com>",
+          "quote": "I am currently out of the office and will return on Tuesday, 1st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315345",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO/putna poruka o ograničenom pristupu e-pošti. Nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "I’ll have very limited access to email over the next few days due to travel and will check messages as and when I can.",
+      "unresolved_hr": "Nema ljudskog odgovora na ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg slanja ovoj osobi; odgovor je bio samo OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f06678d479384ada8932b5d415ffd03c@LOYP123MB3551.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’ll have very limited access to email over the next few days due to travel and will check messages as and when I can."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315353",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Osoba je na porodiljnom dopustu, ali je dala ljudsku uputu da se za sve drugo obratimo njoj na navedeni broj kako bi nas usmjerila na pravu osobu. Nije obična OOO poruka jer nudi konkretan kanal za preusmjeravanje.",
+      "last_human_request_hr": "If you need help with anything else, feel free to reach out to me on 07817702056 and I’ll direct you to the right person.",
+      "unresolved_hr": "Nije jasno je li kontakt s osobom preko navedenog broja obavljen ni je li ponuda proslijeđena pravoj osobi.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti želi li zvati navedeni broj radi preusmjeravanja na pravu osobu ili zaustaviti kontakt.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7569c9fffe704b3cae5f7625a8a739fa@LO2P123MB5143.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "If you need help with anything else, feel free to reach out to me on 07817702056 and I’ll direct you to the right person."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315437",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska poruka o državnom prazniku i sporijim odgovorima. Nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "It is a National Holiday in the UK and I am away from the office.",
+      "unresolved_hr": "Nema ljudskog odgovora na ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg slanja ovoj osobi; odgovor je bio samo OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b2e2b6fbb8014034ab639bcb9c1869fd@CWLP123MB3826.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "It is a National Holiday in the UK and I am away from the office."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315449",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka s povratkom 1.9. Nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "I am currently out of the office returning 1/9",
+      "unresolved_hr": "Nema ljudskog odgovora na ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg slanja ovoj osobi; odgovor je bio samo OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<50afdcce94d5440786b0962548c451c5@SJ0PR17MB4629.namprd17.prod.outlook.com>",
+          "quote": "I am currently out of the office returning 1/9"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

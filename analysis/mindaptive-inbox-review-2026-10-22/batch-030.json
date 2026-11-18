@@ -1,0 +1,263 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 38014,
+    "completion_tokens": 4799,
+    "total_tokens": 42813,
+    "cost": 0.00406025,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00406025,
+      "upstream_inference_prompt_cost": 0.0019007,
+      "upstream_inference_completions_cost": 0.00215955
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2538823/2758495592",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Francesco je odgovorio sa 'mi sembra interessante.. puoi mandarmi una presentazione?' - očigledan interes i zahtjev za informacijama. Nema opt-outa ili odbijanja.",
+      "priority": "P0",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_DEMO",
+      "next_action": "REPLY_NOW",
+      "next_action_at": null,
+      "next_step_hr": "Odgovoriti na zahtjev za prezentaciju. Predložiti kratki poziv umjesto generičke prezentacije jer je targeting specifičan za svakog klijenta.",
+      "missing_information": [],
+      "evidence": [
+        "mi sembra interessante..",
+        "puoi mandarmi una presentazione?"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Ciao Francesco,\n\nCerto, ti mando subito qualcosa di concreto piuttosto che una presentazione generica — hai ragione, con Mallei che segue settori molto diversi tra loro (robotica industriale, alimentare, oil&gas, software enterprise), l'AI Agent va tarato caso per caso su chi è il decision-maker giusto.\n\nPreferisco mostrartelo in 10 minuti con un caso simile al vostro, così vedi subito se ha senso: https://calendly.com/andrew-mindaptive/30min\n\nSe al momento non vi servono nuovi lead B2B, basta dirlo.\n\nA presto,\nMia",
+      "draft_english": "",
+      "draft_language": "it",
+      "draft_reason_hr": "Postojeći draft je previše izbjegavajući i agresivno gura prema pozivu bez davanja tražene informacije. Zamijeniti izravnijim i ljubaznijim odgovorom koji priznaje zahtjev, objašnjava zašto je poziv bolji i ostavlja opciju da kažu ne.",
+      "campaign_type": "generic_lead_gen"
+    },
+    {
+      "key": "2538823/2758495382",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Diego je zatražio video i rekao 'Mandami pure il video che lo condivido internamente' - jasna namjera da proslijedi informacije kolegama, što je pozitivan signal interesa.",
+      "priority": "P0",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_DEMO",
+      "next_action": "REPLY_NOW",
+      "next_action_at": null,
+      "next_step_hr": "Poslati video kako je obećano umjesto da se izbjegava. Ponuditi dodatni kratki poziv za pitanja nakon što ga pogledaju.",
+      "missing_information": [],
+      "evidence": [
+        "Mandami pure il video che lo condivido internamente"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Ciao Diego,\n\nEcco il video come promesso: https://www.loom.com/... (link do videa koji ste pripremili)\n\nMostra come l'agente trova e contatta founder e responsabili tech - baš vaši klijenti. Spoiler: radi na pay-per-result modelu, znači samo kad vam zakaže sastanak.\n\nKad pogledate i imate pitanja, tu sam za 10 min poziv da vidimo baš za PPK. Ili samo javite šta mislite.\n\nHvala,\nAndrew",
+      "draft_english": "",
+      "draft_language": "hr",
+      "draft_reason_hr": "Postojeći draft izbjegava slanje videa koji je izričito tražen (''preferirei saltare il video''). Ovo je pogrešno jer je video obećan i tražen. Zamijeniti sa slanjem videa i otvorenom ponudom za daljnji poziv.",
+      "campaign_type": "generic_lead_gen"
+    },
+    {
+      "key": "2538823/2758494685",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ankie je prvobitno pozitivno reagirala, primila video, ali zatim odgovorila 'ledsen, inte hunnit kika än...' - nije odbila, samo nije stigla. Interest postoji, ali je na čekanju.",
+      "priority": "P1",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Nema hitnosti. Posljednji odgovor je bio prije tjedan dana. Nije prigovor, samo 'nemam vremena'. Sačekati još 2-3 dana, pa poslati kratki follow-up.",
+      "missing_information": [],
+      "evidence": [
+        "Tar gärna emot en film och kikar läget!",
+        "ledsen, inte hunnit kika än..."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hej Ankie,\nIngen fara alls, vet hur det är – kalendern äter sig själv ibland.\nVi tar in ett par nya klienter innan årsskiftet, och med tanke på var ni befinner er just nu i tillväxten skulle jag gärna vilja se om det finns en match för Neovici också.\nOm det känns enklare kan vi bara hoppa förbi videon – ta 10 minuter istället så visar jag live hur det skulle kunna se ut för er, med er nisch (retail, energi, telecom) som utgångspunkt.\nBoka en tid direkt här: https://calendar.app.google/BmFEEdeSbtv3dQdk9\nAnnars hörs vi när det passar bättre.\nVarma hälsningar,\nMia",
+      "draft_english": "Hi Ankie,\nNo worries at all, I know how it is - the calendar eats itself sometimes.\nWe're onboarding a couple of new clients before year-end, and given where you are in your growth right now, I'd like to see if there's a match for Neovici too.\nIf it's easier, we can skip the video - take 10 minutes instead and I'll show you live how it would work for you, using your niche (retail, energy, telecom) as a starting point.\nBook a time directly here: https://calendar.app.google/BmFEEdeSbtv3dQdk9\nOtherwise, we'll talk when it suits you better.\nBest regards,\nMia",
+      "draft_language": "sv",
+      "draft_reason_hr": "Postojeći draft je na švedskom i odgovara na pitanje ('nisam stigla pogledati'). Nudi preskakanje videa i direktan poziv, što je razumna alternativa. Nije hitno slati, ali draft je valjan za kasnije.",
+      "campaign_type": "generic_lead_gen"
+    },
+    {
+      "key": "2538823/2758494599",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Aleardo je odgovorio 'grazie molte, abbiamo vari tool su questo. Non riesco a fare call ma se mi mandi qualcosa lo guardo con piacere' - nije odbijanje, već otvorenost da pogleda materijal, iako spominje postojeće alate.",
+      "priority": "P0",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_DEMO",
+      "next_action": "REPLY_NOW",
+      "next_action_at": null,
+      "next_step_hr": "Odgovoriti na zahtjev za slanjem materijala. Poslati kratak video ili PDF, ne gurati na poziv jer je rekao da ne može trenutno.",
+      "missing_information": [],
+      "evidence": [
+        "grazie molte, abbiamo vari tool su questo",
+        "Non riesco a fare call ma se mi mandi qualcosa lo guardo con piacere"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Ciao Aleardo,\n\nCapisco. Allora ti registro un mini video di 3 minuti - niente presentazione generica, ti mostro esattamente come l'agente trova founder e scienziati deep-tech e come li qualifica secondo criteri personalizzabili per Innova.\n\nLo ricevi in giornata, lo guardi quando hai tempo.\n\nA presto,\nMia",
+      "draft_english": "",
+      "draft_language": "it",
+      "draft_reason_hr": "Postojeći draft je dobar ali previše prodajno-push za nekoga tko je izričito rekao da ne može na poziv. Pojeftiniti i ispoštovati njegov zahtjev za slanjem materijala.",
+      "campaign_type": "generic_lead_gen"
+    },
+    {
+      "key": "3960583/3822372424",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Eddie je rekao YES na redesign i dobio cijenu od $850. Nakon toga je tišina - nije odbijeno, samo nije odgovoreno na cijenu. Demo posjećen 8 puta (do 19.10.), što pokazuje kontinuiran interes.",
+      "priority": "P1",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Cijena poslana, jedan follow-up bez odgovora. Sačekati još 2-3 dana pa poslati kratki follow-up po playbooku za PRICE_SENT_WAITING.",
+      "missing_information": [],
+      "evidence": [
+        "YES",
+        "That site is yours for $850, one time"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hey Eddie,\nNog nie iets van jou gehoor na die vorige mail nie. Die nuwe GreenMan Solar-werf staan nog net so reg soos ek dit gewys het, ek het dit nog nie vir ander projekte opgeskuif nie.\nAs die tydsberekening nie reg is nie, sê gerus net so, geen probleem. Maar as jy nog wil aangaan, stuur vir my die foto's en enige veranderinge wat jy wil hê, en ons het dit binne 5 dae live.\nGroete,\nMia",
+      "draft_english": "",
+      "draft_language": "af",
+      "draft_reason_hr": "Postojeći draft je na afrikaansu i prati PRICE_SENT_WAITING playbook (pita da li je tajming problem). Nije aktuelan za slanje jer je jos rano, ali je dobar za kasnije.",
+      "campaign_type": "website"
+    },
+    {
+      "key": "3950427/4542616557",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Info@cuparoofing.co.uk je zatražio link i dodao drugi email. Dobio link, demo posjećen 2 puta. Zatim je poslana poruka 'I did reply but still no link' što pokazuje da su pokušavali pristupiti. Nakon toga - tišina.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-24T09:00:00.000Z",
+      "next_step_hr": "Posljednji follow-up (30.9.) bez odgovora. Čekati još 2 dana do 24.10. pa poslati kratak 'which is closer? A ili B' pitanje kao u playbooku za DEMO_VISITED_SILENT.",
+      "missing_information": [],
+      "evidence": [
+        "Ok send the link here and to gfk0403@gmail.com",
+        "I did reply but still no link"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Quick question -\n\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg drafta. Sljedeći follow-up treba biti 'A ili B' pitanje prema playbooku za DEMO_VISITED_SILENT.",
+      "campaign_type": "website"
+    },
+    {
+      "key": "3950427/4542616876",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Stronghold je odgovorio 'Send me the link to look at the site' - izričit zahtjev i pozitivan signal. Primili link, demo posjećen 3 puta. Nema odbijanja, samo tišina nakon slanja.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-24T09:00:00.000Z",
+      "next_step_hr": "Posljednji follow-up (30.9.) bez odgovora. Sačekati još 2 dana pa poslati kratko 'A ili B' pitanje iz playbooka.",
+      "missing_information": [],
+      "evidence": [
+        "Send me the link to look at the site"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Quick one -\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg drafta. Sljedeći follow-up treba biti 'A ili B' pitanje prema playbooku.",
+      "campaign_type": "website"
+    },
+    {
+      "key": "3950427/4542616362",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Stephen je odgovorio 'I dont see the website?' - izričito je pitao za link, što je pozitivan signal. Dobio link, demo posjećen 3 puta. Nema odbijanja.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-24T09:00:00.000Z",
+      "next_step_hr": "Posljednji follow-up (30.9.) bez odgovora. Sačekati još 2 dana pa poslati kratko 'A ili B' pitanje iz playbooka.",
+      "missing_information": [],
+      "evidence": [
+        "I dont see the website?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Quick one -\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg drafta. Sljedeći follow-up treba biti 'A ili B' pitanje prema playbooku.",
+      "campaign_type": "website"
+    },
+    {
+      "key": "3950427/4542617705",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Rebecca je odgovorila 'Hi can you send me this' - izričit zahtjev za linkom. Primila link, demo posjećen 3 puta. Nema odbijanja.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-24T09:00:00.000Z",
+      "next_step_hr": "Posljednji follow-up (30.9.) bez odgovora. Sačekati još 2 dana pa poslati kratko 'A ili B' pitanje iz playbooka.",
+      "missing_information": [],
+      "evidence": [
+        "Hi can you send me this"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Quick question -\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stari 'server space' tekst koji je već poslan. Treba novi, svježi follow-up s 'A ili B' pitanjem.",
+      "campaign_type": "website"
+    },
+    {
+      "key": "3950427/4542615656",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Michael je odgovorio 'Send it over' - izričit zahtjev. Dobio link, ali nema podataka o posjetima. Nema odbijanja.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-24T09:00:00.000Z",
+      "next_step_hr": "Posljednji follow-up (30.9.) bez odgovora. Bez demo posjeta, sljedeći korak je 'dropping the link again' iz playbooka za DEMO_SENT_NO_CONFIRMED_VISIT.",
+      "missing_information": [],
+      "evidence": [
+        "Send it over"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Michael - dropping the link here again in case it got buried:\n\nhttps://a1-bespoke.vercel.app\n\nI'd especially look at the roof issue checker and how the AI assistant works on a real enquiry.\n\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg drafta. Sljedeći follow-up treba biti 'dropping the link again' jer nema potvrđene posjete.",
+      "campaign_type": "website"
+    }
+  ]
+}

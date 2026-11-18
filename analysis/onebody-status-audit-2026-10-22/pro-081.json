@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7789,
+    "completion_tokens": 2281,
+    "total_tokens": 10070,
+    "cost": 0.0104316,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0104316,
+      "upstream_inference_prompt_cost": 0.0070101,
+      "upstream_inference_completions_cost": 0.0034215
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316372",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka primatelja je automatska OOO poruka. Nema ljudskog odgovora na našu ponudu.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema znakova interesa. Kontakt je završio kampanju bez odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjih radnji. Nije bilo ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5a52c21673b646e7a84c2eec2ceed20b@CW1P265MB7882.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your mail. I'm away till Monday 14th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316348",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka primatelja je automatska OOO poruka poslana 08.09.2026. Nema ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema interesa ili pitanja od primatelja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJXMSWGeMBE_2pRAkxFVy74asP2rGHDA=NCFr+eDYrKoOGoqbw@mail.gmail.com>",
+          "quote": "Thanks for your email.\n\nNote that I am currently OOO. I'll be back online on 21st of September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316346",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka primatelja je automatska obavijest o putovanju/kašnjenju u odgovoru. Nije to ljudski odgovor na ponudu.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema znakova interesa. Kampanja je završila bez ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAM2G3cF1o33wu7LpCzPY=a2A8pyZC+dBhGhjy18eDuV1=w5cpg@mail.gmail.com>",
+          "quote": "I’m currently traveling for work and may be slower than usual to respond."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316476",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku, sandučić se ne nadzire. Nema korisne preporuke za fizioterapiju, samo kontakti za poslovne upite.",
+      "last_human_request_hr": "I have left Price Forbes Re and this mailbox will no longer be monitored.",
+      "unresolved_hr": "Kontakt je napustio tvrtku. Nema preporuke za fizioterapiju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjih radnji. Označiti kao 'wrong person'.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<36950de8c1814b8ebfd4d458346f5395@CWXP123MB3157.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I have left Price Forbes Re and this mailbox will no longer be monitored."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316384",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Steve je dao alternativni osobni email i LinkedIn. Nije odbio ponudu, već je pružio način za kontakt. Posljednja naša poruka bila je 14.09.2026.",
+      "last_human_request_hr": "Please note that I may only have periodic access to this Ortecha email account. If you would like to remain in contact, I can be reached on steve.prokopiou@outlook.com or via LinkedIn.",
+      "unresolved_hr": "Steve nije odgovorio na našu ponudu, ali je pokazao inicijativu davanjem osobnog kontakta. Vrijedi pokušati nastaviti komunikaciju na steve.prokopiou@outlook.com.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati jednu follow-up poruku na osobni email steve.prokopiou@outlook.com s ponudom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f8761583e26d4f97be77af992533c37b@CWLP265MB2659.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "If you would like to remain in contact, I can be reached on steve.prokopiou@outlook.com or via LinkedIn."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316455",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ana-maria je eksplicitno izjavila da nije zainteresirana jer nema privatno zdravstveno osiguranje.",
+      "last_human_request_hr": "Unfortunately we do not get offered private health cover and hence not interested at this time.",
+      "unresolved_hr": "Primatelj je izričito odbio ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštivati odluku. Bez daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAPQiSzUE=TkBY6XEJhm1BT_KU7t_LHQp7LVPxw8Qy_Brb+EuwQ@mail.gmail.com>",
+          "quote": "Unfortunately we do not get offered private health cover and hence not interested at this time."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316364",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska poruka 'odsutan sam', s uputom da se kontaktira kolega za poslovne upite. Nema osobnog odgovora niti izraženog interesa.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Bez ljudske interakcije. Kolega spomenut u OOO poruci nije preporuka za fizioterapiju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<70e285d7a68b45b395b43e7b7a63a90b@CWXP123MB5266.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently away from the office. Please contact daniel.fisk@mnc.co.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316371",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je izjavila da više ne radi u toj tvrtki i dala je opći kontakt za upite vezane uz tvrtku. Nije dala osobnu preporuku za fizioterapiju.",
+      "last_human_request_hr": "I am no longer working at Meet, charlotte@peoplewithchemistry.com can assist you with any enquiries.",
+      "unresolved_hr": "Alex više ne radi tamo. Nema relevantne preporuke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjih radnji. Označiti kao 'wrong person'.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<398f7686fcf34aa08342eb47ebbd4110@AS1P192MB1617.EURP192.PROD.OUTLOOK.COM>",
+          "quote": "I am no longer working at Meet, charlotte@peoplewithchemistry.com can assist you with any enquiries."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

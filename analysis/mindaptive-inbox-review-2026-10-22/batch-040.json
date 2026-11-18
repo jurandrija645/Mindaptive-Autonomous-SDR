@@ -1,0 +1,262 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 41334,
+    "completion_tokens": 3310,
+    "total_tokens": 44644,
+    "cost": 0.0035562,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0035562,
+      "upstream_inference_prompt_cost": 0.0020667,
+      "upstream_inference_completions_cost": 0.0014895
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3991161/4126836143",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski SPAM bounce na 'postmaster' adresu. Nema ljudskog odgovora. Lead je već označen kao Do Not Contact.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje radnje. Lead je blokiran zbog SPAM bounca.",
+      "missing_information": [],
+      "evidence": [
+        "Your message to: john@brackenfamilypractice.ie was considered unsolicited bulk e-mail (SPAM) by our mail filters. Delivery of the email was stopped!"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Bez ljudskog interesa. Samo automatski SPAM bounce."
+    },
+    {
+      "key": "3991161/4176328608",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitno odbijanje: 'Ik vind mijn website onverbeterlijk!!!' (Moju web stranicu smatram nesavršivom / ne želim je mijenjati). Ovo je jasna izjava da nisu zainteresirani. Postoji stari nacrt koji to potvrđuje.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Korisnik je izričito odbio ponudu. Nema daljnjeg slanja.",
+      "missing_information": [],
+      "evidence": [
+        "Ik vind mijn website onverbeterlijk!!!"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hoi Derk Jan, Helder. Dan sluit ik hierbij je gegevens. Mocht je ooit toch iets anders willen of hulp nodig hebben bij digitale aanvragen, dan weet je me te vinden. Groet, Andrew",
+      "draft_english": "Hi Derk Jan, Understood. I'll close your file here. If you ever need anything else or help with digital inquiries, you know where to find me. Greetings, Andrew",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći nacrt je još uvijek valjan — pristojno zatvara lead bez daljnjeg slanja. Ostajemo na njemu."
+    },
+    {
+      "key": "3991161/4126837530",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Osoba je napustila tvrtku. Automatsko preusmjeravanje na druge kontakte. Nije stvarna prodajna preporuka već generička obavijest o odlasku.",
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Kontakt je napustio tvrtku. Treba pronaći ispravnu osobu (Lisa Mason-Poyner ili Prof. Sandip Hindocha). Ne šaljemo više na ovu adresu.",
+      "missing_information": [],
+      "evidence": [
+        "I have now left the company. Please direct your communication to: Lisa Mason-Poyner (Head of Governance), or Prof Sandip Hindocha (Chief Medical Officer)"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Ništa ne šaljemo dok ne dobijemo točan kontakt za nasljednika. Potrebna ljudska provjera."
+    },
+    {
+      "key": "3950427/4542616178",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitno 'not intersted I have good webside'. Jasno odbijanje. Lead nije zainteresiran.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Korisnik je izričito odbio. Bez daljnjeg slanja.",
+      "missing_information": [],
+      "evidence": [
+        "not intersted I have good webside"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za nacrtom. Odbijanje je konačno."
+    },
+    {
+      "key": "3950427/4542617046",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Izričito negativan odgovor: 'I've never asked you to do anything for me mate what are you on about mate'. Ovo je odbijanje. Zbunjenost i ljutnja, nije produktivan upit.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Korisnik je izričito rekao da nije tražio ništa. Bez daljnjeg kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "I've never asked you to do anything for me mate what are you on about mate"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za nacrtom. Odbijanje je konačno."
+    },
+    {
+      "key": "3950427/4542615955",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatske marketinške e-poruke (automatizirani niz e-poruka tvrtke The Family Roofing Company) koje sadrže link za odjavu. Nema stvarnog ljudskog interesa. 'Unsubscribe' link u svakoj e-poruci. Potpuni nedostatak stvarne prodajne komunikacije.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Sve e-poruke su automatski marketinški nizovi OVE tvrtke (The Family Roofing Company). Bez ljudskog interesa. Ništa ne šaljemo.",
+      "missing_information": [],
+      "evidence": [
+        "unsubscribe",
+        "If you no longer wish to receive these emails you may unsubscribe",
+        "What actually happens during a roofing project?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Samo automatske e-poruke. Nema stvarnog prodajnog razgovora."
+    },
+    {
+      "key": "3751357/4278751410",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Sastanak je zakazan (John je pristao na sastanak 18.8., ali se nije pojavio). Nakon više pokušaja (5 poslanih e-poruka), zadnja e-poruka je zatvorila lead. Nema novijeg odgovora. Treba provjeriti je li sastanak ikada održan i želi li John nastaviti.",
+      "priority": "P2",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je zakazan, ali se nije održao. Treba provjeriti ima li novijih informacija o statusu. Možda poslati kratki upit za provjeru.",
+      "missing_information": [
+        "Je li sastanak ikada održan?",
+        "Želi li John nastaviti razgovor nakon propuštenog sastanka?"
+      ],
+      "evidence": [
+        "I could do tomorrow morning?",
+        "We missed you on the call, John.",
+        "I'm closing this file, John."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Prvo treba ljudska provjera statusa prije bilo kakvog novog nacrta."
+    },
+    {
+      "key": "3950427/4542615234",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Lead je odgovorio pozitivno (pitao gdje je web stranica i dobio link). Stranica je posjećena više od 60 puta (visok engagement). Međutim, nema povratnog odgovora na poslanu web stranicu i ponudu. Status je označen kao 'booked', ali nema dokaza o stvarnom sastanku. Potrebna ljudska provjera je li sastanak zakazan ili je status pogrešan.",
+      "priority": "P1",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Visok angažman (62 posjeta), ali nema povratnog odgovora na poslanu web stranicu. Treba provjeriti je li stvarno zakazan sastanak ili su oznake pogrešne. Ako je samo tišina, slijedi slanje cijene ili poziv za sastanak.",
+      "missing_information": [
+        "Je li sastanak stvarno zakazan?",
+        "Je li poslana cijena?",
+        "Je li klijent ikada odgovorio na poslanu web stranicu i ponudu?"
+      ],
+      "evidence": [
+        "Thank you for your email, but I can’t see anything that you’ve done for my company on website?",
+        "visits: 62, last: 2026-10-22"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potrebna ljudska provjera prije slanja cijene ili daljnjeg nacrta."
+    },
+    {
+      "key": "3960583/3822375610",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Izričita pravna obavijest o odjavi (Cease and Desist / CAN-SPAM Opt-Out). Zahtjeva uklanjanje iz baze. Nema interesa. Ne smijemo slati ništa više.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Izričita pravna odjava. Odmah ukloniti iz baze. Bez daljnjeg kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "FORMAL CEASE AND DESIST NOTICE",
+        "CAN-SPAM OPT-OUT DEMAND",
+        "REMOVE THIS EMAIL ADDRESS FROM ALL COMMERCIAL, MARKETING, SOLICITATION, LEAD-GENERATION, AND PROMOTIONAL DATABASES."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Pravna odjava. Ne smijemo slati ništa, čak ni potvrdu."
+    },
+    {
+      "key": "3950427/4542615947",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitno 'No thanks' na ponudu. Jasno odbijanje. Lead nije zainteresiran.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Korisnik je izričito odbio. Bez daljnjeg slanja.",
+      "missing_information": [],
+      "evidence": [
+        "No thanks"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za nacrtom. Odbijanje je konačno."
+    }
+  ]
+}

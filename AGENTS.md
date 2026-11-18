@@ -1,6 +1,44 @@
 # Mindaptive Responder
 
+### Manual immediate sends to booked leads (Andrew, 2026-11-11)
+
+An operator's explicit dashboard Send click may send a reviewed draft to a
+booked lead. This does not release the booking, resume campaign mappings, or
+allow scheduled or automatic outreach. Pending manually composed drafts survive
+booking sweeps so they can be edited and sent; opt-out and stopped-contact
+checks, thread race checks and the approved aftercare rules still apply.
+
+### Explicit booked-customer care exception (Mia, 2026-11-03)
+
+Mia explicitly approved the 28 reviewed A/B feedback emails with the partnership
+PDF for 2026-11-04, 09:00–11:00 Europe/London. `app/aftercare.py` stores per-draft
+approvals in `app_settings` under `booked_aftercare:<draft_id>`, pinning the
+exact text, recipient, signature, attachment,
+thread and schedule. Only `kind=aftercare` with a matching unexpired approval
+can pass the booked stop. Any new conversation activity, changed approved
+content, opted-out contact, unreadable live status, changed PDF or expiration
+stops it. There is no global booked bypass and no automatic aftercare generation.
+The periodic booking freeze preserves only these explicitly approved drafts;
+booked status, native campaign pauses and all sales follow-up stops remain.
+All ordinary sends still follow the booking guard below. The 28 approvals
+expire automatically at 11:00 UTC on 4 November, regardless of retries.
+Evidence and schedule: `analysis/onebody-booked-followup-2026-11-03/`.
+
 A self-hosted dashboard that helps Andrew (Mindaptive.ai) follow up with Smartlead leads: it surfaces leads with no contact in 3+ days, drafts a follow-up with Codex on click (single or bulk), and lets him review/edit/send from a browser. Lead replies still auto-draft immediately so hot leads get a fast response.
+
+### OneBody generation and sending are separate (Andrew, 2026-11-09)
+
+Interested replies should get a generated draft whether automatic sending is
+on or off, subject to the existing booking and opt-out stops. A failed second
+AI review must not discard a nonempty generated draft: `review_for_display`
+keeps the original as `pending`, with a persistent per-draft warning shown
+above the editor. Such drafts require human review and cannot be automatically
+queued by `auto_replies` or batch follow-ups. A successful manual Generate or
+Regenerate also remains pending. Background replies may auto-send only when
+the automatic-replies switch is on and all existing checks pass. Old review
+holds without any saved draft must not prevent background generation from
+repairing the missing draft. A primary model failure is still reported as a
+generation error and must preserve any previous draft.
 
 ## Where to make changes for better messages (start here)
 
@@ -55,6 +93,21 @@ Files fall back to the repo root when a client doesn't override them, so a clien
 - **Uses the root house voice unchanged** (no `clients/onebodyldn/prompts/human-writing.md` override) — casual, third-grade, conversational is exactly what this audience wants, unlike AeroDefense's professional-plain register.
 - **English only** (`clients/onebodyldn/prompts/output-contract.md` leaves `<draft_english>` empty) and `DETECT_LANGUAGE=false`, same reasoning as AeroDefense: every lead is a London-based English speaker.
 - **Everything else is unverified.** The Smartlead category names (`INTERESTED_CATEGORY_NAME` etc.) are the defaults, not confirmed against OneBodyLDN's live account, and `REQUIRE_KNOWN_SENDER` is off since there's no history of retired mailboxes yet. Check both before relying on the daily scan.
+
+### OneBody free-session clinic exclusions (2026-10-29)
+
+Kurt confirmed via Andrew that Twickenham, Battersea, Chiswick, Finsbury Park
+and Vauxhall are fully booked and intentionally removed from ALL free physio
+and massage offers. This supersedes the older all-locations and ten-priority
+instructions above, even if a thread or `nearestClinic` already named one.
+Twickenham is no longer quiet/priority; nine priority clinics remain.
+`clients/onebodyldn/knowledge/booking-options.md` governs eligibility and
+`clients/onebodyldn/knowledge/clinic-routing.md` maps nearby replacements
+separately for physio/20-minute massage and 45-minute massage. Do not switch
+offer type/duration, assume agreement to the replacement, or transfer old
+walk times. Geographic rankings use postcode-centroid straight-line distance,
+not travel time or live appointment availability. "Sessionet" was a
+transcription error, explicitly dismissed by Andrew; there is no sixth clinic.
 
 ### Meeting Booked is an outreach stop (2026-10-28)
 
@@ -396,3 +449,20 @@ Before relying on any field, probe it against the Mindaptive Jones test lead
 ## Inbox ordering (2026-10-26)
 
 `db.list_inbox` and `app/static/app.js: applySortOrder` group Awaiting your reply, Follow-up due, then In conversation, followed by other categories. Replies and conversations use newest last-message first; follow-ups use oldest last-message first. This is the last message in either direction (`last_message_at`), not the date a draft or lead was created. Missing dates go last. Hot ratings and expired snoozes do not override this order. The browser shows status section headings; explicit date-sort choices change direction within each group while keeping statuses together.
+
+### Dashboard responsiveness (2026-11-09)
+
+Inbox rows are reused by campaign/lead identity. Selection must not rebuild
+the list; unchanged polls must not mutate it. Share overlapping inbox requests
+and queue one further read when a webhook arrives during a request. Preserve
+the latest user selection, editor content, regeneration instructions and focus
+across background updates. Cancel superseded detail requests and reject late
+responses by version. Actions target the visible conversation's identity,
+including when filtering hides its row; deferred removal must re-resolve the
+target instead of using an old index. Keep offscreen browser layout containment
+compatible with variable row heights. Evidence and deployment checks:
+`analysis/onebody-performance-2026-11-09/`; workflow:
+`docs/performance-and-reply-delivery.md`.
+
+### OneBody partnership brochure (2026-11-02)
+Always attach `clients/onebodyldn/source-docs/One Body LDN Partnership Brochure.pdf` to every OneBody reply/follow-up and mention that it contains session details and can be shared with colleagues so they can book too. Andrew's standing instruction applies to future work as well.

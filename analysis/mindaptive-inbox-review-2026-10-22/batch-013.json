@@ -1,0 +1,251 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 29347,
+    "completion_tokens": 2559,
+    "total_tokens": 31906,
+    "cost": 0.0014057862,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 23771,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0014057862,
+      "upstream_inference_prompt_cost": 0.0009400482,
+      "upstream_inference_completions_cost": 0.000465738
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3751357/4278751898",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor iz Zendesk ticketing sustava, bez ljudskog odgovora. Istraživanje pokazuje da je ovo B2B lead-gen prilika, ne inbound za kliniku.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Preskočiti ovaj kontakt; lead-gen kut zahtijeva direktan kontakt s donositeljem odluka, ne podršku.",
+      "missing_information": [
+        "Imenovani kontakt donositelja odluka"
+      ],
+      "evidence": [
+        "A ticket has been created on iWantGreatCare's system",
+        "support@iwantgreatcare.org"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Bez ljudskog interesa; samo automatski ticketing odgovor."
+    },
+    {
+      "key": "3751357/4278751734",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski 'welcome' odgovor klinike, bez ljudskog angažmana. Postojeći nacrt je prodajna poruka na OOO odgovor; ne odgovara pravilima.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez dodatnih poruka na ovaj inbox; eventualno pokušati drugi kontakt kanal.",
+      "missing_information": [],
+      "evidence": [
+        "Welcome to Clinique Modèlè, we will be in contact shortly"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; auto-reply. Stari nacrt je prodajna poruka na OOO i treba ga odbaciti."
+    },
+    {
+      "key": "3751357/4278751572",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor s informacijama o radnom vremenu, bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema osnove za nastavak na ovom inboxu.",
+      "missing_information": [],
+      "evidence": [
+        "a member of our team will respond to your email as quickly as possible"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; auto-reply. Stari nacrt treba odbaciti."
+    },
+    {
+      "key": "3751357/4278751569",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor s radnim vremenom i poveznicama, bez ljudskog angažmana.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema osnove za nastavak.",
+      "missing_information": [],
+      "evidence": [
+        "We respond to messages Tuesday to Friday between 9.30am and 2.30pm"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; auto-reply."
+    },
+    {
+      "key": "3751357/4278751601",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor s radnim vremenom, bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema osnove za nastavak na ovom inboxu.",
+      "missing_information": [],
+      "evidence": [
+        "we will endeavour to get back to you within 24 hours"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; auto-reply. Stari nacrt treba odbaciti."
+    },
+    {
+      "key": "3751357/4278751470",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor s informacijama o online bookingu, bez ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema osnove za nastavak.",
+      "missing_information": [],
+      "evidence": [
+        "our patient coordinator's will get back to you shortly"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; auto-reply. Stari nacrt treba odbaciti."
+    },
+    {
+      "key": "3751357/4278751312",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor asistentice Gayle Parry, bez ljudskog angažmana na poruku.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema osnove za nastavak.",
+      "missing_information": [],
+      "evidence": [
+        "THIS IS AN AUTOMATED MESSAGE"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; auto-reply. Stari nacrt treba odbaciti."
+    },
+    {
+      "key": "3640877/4176335382",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Dvije poruke, oba puta samo automatski odgovor. Postojeći nacrt nudi termin i prototip, ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Preskočiti; samo auto-odgovori.",
+      "missing_information": [],
+      "evidence": [
+        "Wir werden Ihr Anliegen schnellstmöglich bearbeiten"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; samo auto-odgovori. Stari nacrt treba odbaciti."
+    },
+    {
+      "key": "3640877/4176335349",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Dvije poruke, oba puta samo automatski odgovor ordinacije.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Preskočiti; samo auto-odgovori.",
+      "missing_information": [],
+      "evidence": [
+        "vielen Dank für Ihre E-Mail. Wir werden uns so schnell wie möglich um Ihr Anliegen kümmern"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa; samo auto-odgovori. Stari nacrt treba odbaciti."
+    },
+    {
+      "key": "3640877/4176335538",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor koji jasno poručuje da ne primaju nove pacijente. Postojeći nacrt je previše prodajni i neprimjeren za ovu situaciju.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Preskočiti; praksa je puna i ne prima nove pacijente.",
+      "missing_information": [],
+      "evidence": [
+        "Neupatienten - egal ob kleine oder große - können wir leider aktuell nicht aufnehmen"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Iako je 'Full Capacity' kut u katalogu, nema ljudskog interesa; samo auto-odgovor. Stari nacrt treba odbaciti."
+    }
+  ]
+}

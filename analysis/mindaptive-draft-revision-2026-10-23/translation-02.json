@@ -1,0 +1,47 @@
+{
+  "usage": {
+    "prompt_tokens": 897,
+    "completion_tokens": 700,
+    "total_tokens": 1597,
+    "cost": 0.00035985,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00035985,
+      "upstream_inference_prompt_cost": 4.485e-05,
+      "upstream_inference_completions_cost": 0.000315
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "translations": [
+    {
+      "key": "2538823/2758495835",
+      "english": "Hello Jean-Pierre,\n\nIt's been a while since we last spoke. I was thinking back to our conversation about finding experts for your projects.\n\nOur system has evolved a lot since then. If the topic still interests you, I would be delighted to discuss it again.\n\nHere is a presentation of our method:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nA word from you to let me know if I should keep this file open or close it?"
+    },
+    {
+      "key": "2538823/2758494751",
+      "english": "Hello Antonio,\n\nIt's been quite a while since we last spoke. More than a year. I was reviewing our previous conversation and saw that you requested the video on how our AI agent finds customers for Viafirma, I sent it to you and then we lost contact.\n\nOur system has improved a lot since then.\n\nHere is an updated view of how it works: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIt locates companies that fit what you offer, researches them, and starts relevant conversations. If you are still interested, we can have a short call.\n\nLet me know if the timing is better now."
+    },
+    {
+      "key": "3810275/4360210314",
+      "english": "Hello Paul,\n\nA few months have passed since we spoke about the system for the clinic. I reviewed our conversation and wanted to come back to the topic.\n\nI am leaving you the presentation of the process again:\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nIf the topic is still of interest, would a short discussion be useful for you?"
+    },
+    {
+      "key": "3810275/4360210269",
+      "english": "Hello, Julija,\n\nA few months have passed since our conversation about the system for the clinic. While reviewing older emails I found our correspondence and wanted to return to this topic.\n\nHere again is the presentation of the process:\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nIf this is still relevant, would it be useful to briefly talk?"
+    },
+    {
+      "key": "2538823/2758495403",
+      "english": "Hello Denis,\n\nIt's been quite a while since our last conversation, but I wanted to come back to the topic of the video I sent you for Mormedi. You mentioned that you would share it with Growth to evaluate if it could contribute to the tools you already use.\n\nOur system has improved a lot since then, and the current video gives you an overview of how we find suitable companies, research them, and start relevant conversations. Here it is if you want to take a look: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nDoes it make sense to revisit this, or do you prefer to stick with the current system?"
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 21397,
+    "completion_tokens": 2992,
+    "total_tokens": 24389,
+    "cost": 0.00191667,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00191667,
+      "upstream_inference_prompt_cost": 0.00149779,
+      "upstream_inference_completions_cost": 0.00041888
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315820",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Vania je postavila neriješeno pitanje o naplati od £4.99 na koje je Rebecca odgovorila, ali posljednja poruka je Rebeccin odgovor bez potvrde da je Vania prihvatila ili nastavila s rezervacijom.",
+      "next_step_hr": "Pričekati povratnu informaciju od Vanie je li Caroline uspjela rezervirati ili ima dodatnih pitanja.",
+      "last_inbound_summary_hr": "Vania pita je li £4.99 očekivana naplata prilikom rezervacije za Caroline.",
+      "last_outbound_summary_hr": "Rebecca objašnjava da je £4.99 stvarna naknada za rezervaciju termina.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm still seeing a £4.99 charge during the booking process and wanted to check whether this is expected or not.",
+        "Good catch, that £4.99 is real and expected."
+      ]
+    },
+    {
+      "key": "3876232/4446315515",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Charlie je potvrdio interes i rekao da ima sljedeći tjedan (29.) u kalendaru, ali nije rezervirao niti odgovorio na zadnje poruke; nema potvrde o završetku.",
+      "next_step_hr": "Pričekati Charlieja da rezervira samostalno ili eventualno poslati blagi podsjetnik.",
+      "last_inbound_summary_hr": "Charlie kaže da ima sljedeći tjedan u kalendaru.",
+      "last_outbound_summary_hr": "Rebecca šalje zadnji email s linkom i kodom, bez obećanja daljnje akcije.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "I have next week 29th in my diary…",
+        "this is my last email. Don't want to push if now is not the right time."
+      ]
+    },
+    {
+      "key": "3930675/4520621755",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Harry je izrazio interes i dogovorio termin 'sljedeći tjedan', ali nije rezervirao niti odgovorio na Kurtovu posljednju poruku s linkom i uputama.",
+      "next_step_hr": "Pričekati Harryja da rezervira ili se javi; nema potrebe za dodatnim slanjem.",
+      "last_inbound_summary_hr": "Harry kaže da je zainteresiran i da bi mogao sljedeći tjedan nakon povratka s puta.",
+      "last_outbound_summary_hr": "Kurt šalje link, kod OBLACCESS55 i objašnjava naknadu od £4.99.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am actually interested!",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520614234",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Edu je potvrdio interes i najavio rezervaciju za kraj tjedna, ali nije rezervirao niti odgovorio na zadnji podsjetnik; nema potvrde o završetku.",
+      "next_step_hr": "Pričekati Edua da rezervira; nema potrebe za dodatnim slanjem.",
+      "last_inbound_summary_hr": "Edu obećava rezervirati za petak ili sljedeći tjedan, ali nije rezervirao.",
+      "last_outbound_summary_hr": "Rebecca pita je li Edu uspio rezervirati i nudi pomoć.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be able to confirm then, I will put a calendar on my side on Thursday to remind myself to hopefully book it for Friday",
+        "were you able to schedule your free session?"
+      ]
+    },
+    {
+      "key": "3876232/4446316731",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Richard je potvrdio interes i pitao može li uskočiti sutradan, ali nije rezervirao nakon Kurtovog odgovora da je potrebna rezervacija unaprijed; nema potvrde o završetku.",
+      "next_step_hr": "Pričekati Richarda da rezervira putem linka; nema potrebe za dodatnim slanjem.",
+      "last_inbound_summary_hr": "Richard pita može li uskočiti sutradan u studio.",
+      "last_outbound_summary_hr": "Kurt objašnjava da je potrebno rezervirati unaprijed putem linka i koda OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Is it possible for me to pop by the studio next time I pass? Probably tomorrow?",
+        "you can, but it is best if you schedule your free physio session in advance on this link"
+      ]
+    },
+    {
+      "key": "3876232/4446317153",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Beth je pokazala interes, ali ima neriješen tehnički problem s linkom i pitala je o naplati od £4.99; Rebecca je odgovorila, ali nema potvrde da je Beth uspjela rezervirati.",
+      "next_step_hr": "Pričekati Beth da se javi ako i dalje ima problema s rezervacijom; nije potrebno slati nove poruke.",
+      "last_inbound_summary_hr": "Beth pita je li naplata od £4.99 očekivana.",
+      "last_outbound_summary_hr": "Rebecca potvrđuje da je £4.99 naknada za rezervaciju termina.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Not sure what I’m doing wrong but the magic link always says it’s expired",
+        "Just trying to book now but it’s asking me to pay £4.99 online, is that expected?"
+      ]
+    },
+    {
+      "key": "3876232/4446316050",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ian je izrazio interes i obećao da će se javiti 'u dogledno vrijeme', ali nije rezervirao niti odgovorio na Kurtovu posljednju poruku s linkom i kodom.",
+      "next_step_hr": "Pričekati Iana da se javi kad bude spreman za rehabilitaciju; nema potrebe za dodatnim slanjem.",
+      "last_inbound_summary_hr": "Ian zahvaljuje i kaže da će se javiti u dogledno vrijeme.",
+      "last_outbound_summary_hr": "Kurt šalje link i kod OBLACCESS55 za besplatnu sesiju kad Ian bude spreman.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "If I may, I will take you up on your free 55 mins physio session for my leg in due course",
+        "Will revert in due course."
+      ]
+    },
+    {
+      "key": "3876232/4446317501",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alistair je odgovorio s automatskom porukom o odsutnosti i nikada nije osobno odgovorio; nema ljudske interakcije nakon OOO-a.",
+      "next_step_hr": "Nema potrebe za daljnjim slanjem dok se Alistair ne vrati i ne odgovori osobno.",
+      "last_inbound_summary_hr": "Automatska poruka: Alistair je na putu i na sastancima od 7. do 9. rujna.",
+      "last_outbound_summary_hr": "Kurt pita je li Alistair uspio rezervirati sesiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am travelling and in client meetings Monday 7th Sept - Wed 9th Sept.",
+        "I will get back to you as soon as I can."
+      ]
+    },
+    {
+      "key": "3930675/4520616252",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nadia je zatražila kod i informacije o BUPA-i, Rebecca je poslala sve, a zatim je Nadia pitala može li ponudu dati kolegi; Rebecca je odobrila. Posljednja poruka je Rebeccin odgovor, nema pitanja ni obećanja, ali nije ni potvrđeno da je Nadia ili kolega rezervirao, stvar ostaje otvorena bez 'handover complete'.",
+      "next_step_hr": "Pričekati Nadu ili njezinog kolegu da rezerviraju; nema potrebe za dodatnim slanjem.",
+      "last_inbound_summary_hr": "Nadia pita može li besplatnu sesiju dati kolegi s bolnim leđima.",
+      "last_outbound_summary_hr": "Rebecca odobrava dijeljenje koda s kolegom i kaže da je Nadijina sesija i dalje dostupna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have a colleague who has a bit of an uncomfortable back... Would that be ok?",
+        "Absolutely, share it with him. He can use the same code (OBLACCESS55)"
+      ]
+    },
+    {
+      "key": "3930675/4520621425",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Faye je odgovorila s interesom nakon automatske poruke, Rebecca je poslala link i kod, a zatim poslala još jedan podsjetnik; nema odgovora od Faye, ali nema ni odbijanja – interes je potvrđen ljudskom porukom.",
+      "next_step_hr": "Pričekati Fayin odgovor ili rezervaciju; nema potrebe za dodatnim slanjem.",
+      "last_inbound_summary_hr": "Faye potvrđuje interes i opisuje bolove u gornjem dijelu leđa i vratu.",
+      "last_outbound_summary_hr": "Rebecca podsjeća da je kod OBLACCESS55 važeći do kraja mjeseca i da može podijeliti s kolegama.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "Hi Rebecca, Thanks for reaching out! This sounds wonderful.",
+        "The code OBLACCESS55 is valid until the end of the month, so worth grabbing soon."
+      ]
+    }
+  ]
+}

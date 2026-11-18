@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11014,
+    "completion_tokens": 2876,
+    "total_tokens": 13890,
+    "cost": 0.0018449,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0018449,
+      "upstream_inference_prompt_cost": 0.0005507,
+      "upstream_inference_completions_cost": 0.0012942
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616719",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti do povratka sutradan.",
+      "last_outbound_summary_hr": "Posljednji pokušaj Rebecca: nudi kod uz upit 'reci ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks for your email. I am away today so will reply on my return tomorrow."
+      ]
+    },
+    {
+      "key": "3930675/4520620362",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: odsutna cijeli dan na sastanku.",
+      "last_outbound_summary_hr": "Kurt pita želi li besplatnu sesiju u Mayfairu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm away from my desk today at an all day meeting."
+      ]
+    },
+    {
+      "key": "3930675/4520618281",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o dopustu bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti nakon 29.9. i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: na dopustu do 29. rujna.",
+      "last_outbound_summary_hr": "Rebeccin posljednji email: 'zadnji email, reci ne ako nije relevantno'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently on leave until the 29th Sept."
+      ]
+    },
+    {
+      "key": "3930675/4520617653",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o godišnjem odmoru bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti 24.9. i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: na godišnjem odmoru do 24. rujna.",
+      "last_outbound_summary_hr": "Rebeccin posljednji email: 'zadnji email, reci ne ako nije relevantno'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office on annual leave, returning on Thursday, 24th September."
+      ]
+    },
+    {
+      "key": "3930675/4520613184",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti 22.9. i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: izvan ureda do 22. rujna.",
+      "last_outbound_summary_hr": "Kurtov posljednji email: 'zadnji email, reci ne ako nije relevantno'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be out of the office until Tuesday 22 September 2026."
+      ]
+    },
+    {
+      "key": "3930675/4520616414",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor kratka je poruka o odsutnosti u SAD-u bez interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se javiti nakon povratka.",
+      "last_inbound_summary_hr": "Craig poručuje: odsutan u SAD-u 10 dana, neka ga 'pingaju' poslije.",
+      "last_outbound_summary_hr": "Rebeccin posljednji email: 'zadnji email, reci ne ako nije relevantno'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am away now in the US for 10 days – ping me post that"
+      ]
+    },
+    {
+      "key": "3930675/4520619895",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o radionici bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se javiti nakon radionice.",
+      "last_inbound_summary_hr": "Automatska poruka: cjelodnevna radionica, ograničen pristup inboxu.",
+      "last_outbound_summary_hr": "Rebecca nudi besplatnu sesiju u Farringdonu, moli jednu riječ za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm in an all-day workshop on Monday with limited access to my inbox."
+      ]
+    },
+    {
+      "key": "3930675/4520612117",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: izvan ureda, za hitno kontaktirati Mari O'Hara.",
+      "last_outbound_summary_hr": "Rebeccin posljednji email: 'zadnji email, reci ne ako nije relevantno'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be out of the office and unlikely to be checking my emails."
+      ]
+    },
+    {
+      "key": "3930675/4520619918",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: izvan ureda danas, ograničen pristup emailu.",
+      "last_outbound_summary_hr": "Rebecca nudi besplatnu sesiju u Shoreditchu, moli jednu riječ za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m out of the office today with limited access to emails."
+      ]
+    },
+    {
+      "key": "3930675/4520618645",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa, a trenutna oznaka je već Out Of Office.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti 28.9. i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: izvan ureda do 28. rujna.",
+      "last_outbound_summary_hr": "Kurtov drugi email: nudi besplatnu sesiju u Blackfriarsu, pita je li zainteresiran.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will return on Monday 28th September"
+      ]
+    },
+    {
+      "key": "3930675/4520618826",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa, a trenutna oznaka je već Out Of Office.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: izvan ureda 18.8., smanjen pristup mailu.",
+      "last_outbound_summary_hr": "Rebeccin drugi email: nudi besplatnu sesiju u Holbornu, pita je li zainteresirana.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be out of the office on Friday 18th August, with reduced access to mail"
+      ]
+    },
+    {
+      "key": "3876232/4446318136",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor automatska je poruka o odsutnosti bez iskazanog interesa, a trenutna oznaka je već Out Of Office.",
+      "next_step_hr": "Nema radnje; pratiti hoće li se vratiti i odgovoriti ljudski.",
+      "last_inbound_summary_hr": "Automatska poruka: izvan ureda do 8. rujna.",
+      "last_outbound_summary_hr": "Rebeccin posljednji email: 'zadnji email, reci ne ako nije relevantno'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Im currently out of office until September 8th."
+      ]
+    }
+  ]
+}

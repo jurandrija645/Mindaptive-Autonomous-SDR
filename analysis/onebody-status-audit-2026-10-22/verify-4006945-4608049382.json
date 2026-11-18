@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6008,
+    "completion_tokens": 1409,
+    "total_tokens": 7417,
+    "cost": 0.0075207,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0075207,
+      "upstream_inference_prompt_cost": 0.0054072,
+      "upstream_inference_completions_cost": 0.0021135
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608049382",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CABuW3KxU=4rT1gbOrSv-pd5J78doerw0qUf1AyK3c=Gw6_Patw@mail.gmail.com>",
+      "human_quote": "i would be keen to try the physio out, how do I proceed with this?",
+      "reason_hr": "Devesh Joshi (proslijeđeno od Mike Park) osobno je odgovorio da želi isprobati fizioterapiju i pita kako dalje. Status u sustavu je 'Meeting Booked' – sesija je već rezervirana.",
+      "request_hr": "Kako dalje (ispunjeno slanjem linka).",
+      "next_action_hr": "Provjeriti je li Devesh Joshi stvarno rezervirao termin. Ako jest, slučaj je zatvoren; ako nije, poslati jedan kratki follow-up s podsjetnikom na link i kod.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622281",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAGNY5NvKnSQS7L_K-HekMBE-Y5yEL3bU6JJH+YbGvbHcZW_vEg@mail.gmail.com>",
+      "human_quote": "No, sorry.",
+      "reason_hr": "Harriet je izričito odbila ponudu. Daljnji kontakt nije primjeren.",
+      "request_hr": "Odbijanje.",
+      "next_action_hr": "Označiti kao odbijeno (opt-out). Ne kontaktirati ponovno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621755",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CA+E=1+xGdV+LCrH7ZUJMqWHUA_b0kekHorB2NrFnA=FB+Y2=OA@mail.gmail.com>",
+      "human_quote": "I am actually interested! ... I'm away this week but maybe the week after would be good?",
+      "reason_hr": "Harry je jasno izrazio interes, opisao situaciju s gležnjem i tražio da se termin odradi tjedan nakon 25.9. Poslan mu je link i kod; nema naknadne potvrde rezervacije.",
+      "request_hr": "Zakazati termin za tjedan nakon 25.9. (nije potvrđeno da je obavio rezervaciju).",
+      "next_action_hr": "Poslati kratki follow-up s pitanjem je li uspio rezervirati termin i treba li pomoć. Prošlo je više od tri tjedna bez odgovora.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621772",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<B58E4F26-F5FB-4B85-8E5A-3C9269E4FADC@breakthroughglobal.com>",
+      "human_quote": "Thanks for offer RebeccaBut we’ve moved",
+      "reason_hr": "Bart zahvaljuje, ali navodi da su se preselili – ponuda mu nije relevantna ni primjenjiva.",
+      "request_hr": "Zahvala i obavijest o preseljenju.",
+      "next_action_hr": "Označiti kao 'Nije zainteresiran – preselio se'. Nije potreban daljnji kontakt.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621423",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAK0bRZdirjZeyyTuoL-FLzuuhw3byOgZX920-4uw2WzHAON96Q@mail.gmail.com>",
+      "human_quote": "No, thank you.",
+      "reason_hr": "Laura je izravno odbila ponudu. Daljnji kontakt nije dopušten.",
+      "request_hr": "Odbijanje.",
+      "next_action_hr": "Označiti kao odbijeno (opt-out). Ne kontaktirati ponovno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621301",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAPhGahoNiv=sMLPfrxoYMkNt38wt5cyhEieLBqc5yM+XQhNd7A@mail.gmail.com>",
+      "human_quote": "No thanks",
+      "reason_hr": "Nakon početne automatske OOO poruke, Deborah je poslala osobno odbijanje. Zadnja ljudska poruka je jasno odbijanje.",
+      "request_hr": "Odbijanje.",
+      "next_action_hr": "Označiti kao odbijeno (opt-out). Ne kontaktirati ponovno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

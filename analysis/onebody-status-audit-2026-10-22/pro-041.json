@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 13496,
+    "completion_tokens": 2577,
+    "total_tokens": 16073,
+    "cost": 0.02834475852,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.02834475852,
+      "upstream_inference_prompt_cost": 0.02026586352,
+      "upstream_inference_completions_cost": 0.008078895
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520618682",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor uključuje imenovanu zamjenu (Safwan.naveed@adsum-works.com i Justina.tartilaite@adsum-works.com). Osoba nije odbila ponudu niti rekla da ne radi tamo. Zamjene su potencijalne preporuke.",
+      "last_human_request_hr": "Za bilo kakve upite kontaktirajte Safwan.naveed@adsum-works.com ili Justina.tartilaite@adsum-works.com.",
+      "unresolved_hr": "Ponuda još nije predstavljena imenovanim zamjenama. Nema nove poruke od Shreeye. Posljednji outreach bio je 16.09.2026. Preporučuje se slanje ponude zamjenama.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati ponudu za besplatnu fizioterapiju na Safwan.naveed@adsum-works.com i Justina.tartilaite@adsum-works.com, uz napomenu da je Shreeya trenutno izvan ureda i da je ponuda proslijeđena njima.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CABP-vrQ0RhvCQ804ULywb6uuMoWEaXmyYQ59Gycm3OnCEe5v7A@mail.gmail.com>",
+          "quote": "I am currently out of office and not checking my emails. For any\nurgent OpenTax queries, please contact opentax@adsum-works.com.\nFor any other queries, contact Safwan.naveed@adsum-works.com or\nJustina.tartilaite@adsum-works.com in my absence."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618718",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor s naznakom povratka 28. rujna. Osoba nije odbila ponudu. Ponuda ostaje otvorena i čeka njezin povratak.",
+      "last_human_request_hr": "Hvala na vašem emailu. Izvan sam ureda do 28. rujna. Odgovorit ću po povratku.",
+      "unresolved_hr": "Ponuda još nije prihvaćena ni odbijena. Datum povratka 28.09.2026. je prošao. Nema novog odgovora. Potrebno je poslati nježan follow-up.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati follow-up Lauri Perez s referencom na njezin OOO i pitati je li zainteresirana za ponudu besplatne sesije u Mayfair klinici.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CACuZyPMvgcA02AeNJ_MV8cCLqFa0mPjE0BdzO7Yj0WMwKZdAUQ@mail.gmail.com>",
+          "quote": "I am out of the office until the 28th of September. Otherwise I will respond to your email upon my return."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618622",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email nije isporučen. DMARC autentifikacijska pogreška za onebodyhq.com. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Tehnički problem s isporukom. Osoba nije zaprimila poruku.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg outreacha dok se ne riješi DMARC problem s domene onebodyhq.com.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c25aa503-ec89-4323-8709-4cae622844fe@LOBP302MB2316.GBRP302.PROD.OUTLOOK.COM>",
+          "quote": "Remote server returned '550 5.7.509 Access denied, sending domain onebodyhq.com does not pass DMARC verification and has a DMARC policy of reject.'"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618597",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je na porodiljnom dopustu do 30. studenog 2026. Poruka uključuje imenovane zamjene za prodaju (Ellie Hills: Ellie.Hills@threatspike.com) i GRC (Kate Blake: Kate.Blake@threatspike.com). Ovo su potencijalne preporuke.",
+      "last_human_request_hr": "Za prodajne upite/RFP-ove kontaktirajte Ellie Hills. Za hitne GRC upite kontaktirajte Kate Blake.",
+      "unresolved_hr": "Ponuda još nije predstavljena imenovanim zamjenama. Sabina se vraća 30.11.2026. Preporučuje se slanje upita prodajnoj zamjeni.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati ponudu za besplatnu fizioterapiju Ellie Hills (Ellie.Hills@threatspike.com), uz napomenu da je Sabina na porodiljnom i da je upit proslijeđen njoj kao prodajnom kontaktu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+Ct-rMc56Fu0z=OQjAGJywPdRb3=RUTFFpLAbSBCxTtYz_B5g@mail.gmail.com>",
+          "quote": "For any sales/customer related enquiries or RFPs, please contact Ellie Hills: Ellie.Hills@threatspike.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618646",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana od strane primateljeve domene. Nije isporučena. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Tehnička blokada isporuke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg outreacha dok se ne riješi problem blokade domene.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aaa43ca.089ebe8a.17f309.84ee.GMR@mx.google.com>",
+          "quote": "The user or domain that you are sending to (or from) has a policy that prohibited the mail that you sent."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618533",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email odbijen kao spam od strane Mimecasta. Nije isporučen. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Tehnička blokada isporuke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg outreacha dok se ne riješi reputacija pošiljatelja.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<56dc44a5-0e68-4633-ad80-5063765458f0@LOAP123MB8687.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Status code: 550 5.7.352 Mimecast detected message as spam or virus -> 554 Email rejected due to security policies"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618551",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email odbijen kao spam od strane Mimecasta. Nije isporučen. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Tehnička blokada isporuke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg outreacha dok se ne riješi reputacija pošiljatelja.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<45198532-5b80-4084-bb93-0456914182ee@CWLP123MB6444.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Status code: 550 5.7.352 Mimecast detected message as spam or virus -> 554 Email rejected due to security policies"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618550",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email odbijen kao spam od strane Mimecasta. Nije isporučen. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Tehnička blokada isporuke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg outreacha dok se ne riješi reputacija pošiljatelja.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<49df82bf-9e46-40e1-9cd6-ff9794a4a7e8@LO2P123MB4302.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Status code: 550 5.7.352 Mimecast detected message as spam or virus -> 554 Email rejected due to security policies"
+        }
+      ],
+      "evidence_verified": false
+    }
+  ]
+}

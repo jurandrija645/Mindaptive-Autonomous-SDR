@@ -1,0 +1,198 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 25090,
+    "completion_tokens": 2280,
+    "total_tokens": 27370,
+    "cost": 0.0012369084,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 20072,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0012369084,
+      "upstream_inference_prompt_cost": 0.0008219484,
+      "upstream_inference_completions_cost": 0.00041496
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2538823/2758495519",
+      "name": "Fabrizio",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Fabrizio je pokazao interes, ali je eksplicitno tražio kontakt krajem Q1 2026. Postojeća booked oznaka se ne smije zadržati jer nije došlo do potvrde sastanka; radi se o odgodi zbog fokusa na inbound.",
+      "priority": "P3",
+      "sales_state": "TIMING_OBJECTION_EXPLICIT_FUTURE",
+      "next_action": "WAIT",
+      "next_action_at": "2026-03-31T00:00:00+00:00",
+      "next_step_hr": "Poštivati navedeni rok i javiti se krajem Q1 2026. Ne slati nikakve poruke do tada.",
+      "missing_information": [],
+      "evidence": [
+        "please ping me again towards the end of Q1 2026",
+        "we want to focus on the inbound marketing activities"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za slanjem poruke; čekamo do zadanog roka."
+    },
+    {
+      "key": "2538823/2758495597",
+      "name": "Francisco",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Održan je prvi poziv, a postoji dogovor za drugi poziv. Bez obzira na nedostatak potvrde u threadu, status booked se zadržava, a potrebna je podrška za zakazivanje drugog poziva.",
+      "priority": "P1",
+      "sales_state": "POST_MEETING_FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Poslati podsjetnik za zakazivanje drugog poziva, s naglaskom na dostupnost sljedeći tjedan i poslati kalendarski link.",
+      "missing_information": [],
+      "evidence": [
+        "Are you available for that second call sometime next week",
+        "we have a preliminary strategy"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "es",
+      "draft_reason_hr": "Nema postojećeg nacrta; potrebno je odgovoriti na pitanje o zakazivanju drugog poziva."
+    },
+    {
+      "key": "2538823/2758496840",
+      "name": "Monica",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Monica je bila zainteresirana i predložila je konkretan sastanak. Iako nema potvrde u threadu, prema pravilima zadržavamo booked status i fokusiramo se na podršku za zakazivanje.",
+      "priority": "P1",
+      "sales_state": "MEETING_REQUESTED_AWAITING_CONFIRMATION",
+      "next_action": "REPLY_NOW",
+      "next_action_at": null,
+      "next_step_hr": "Odgovoriti na Monicino konkretno pitanje o mogućnosti identifikacije CPO/CTO/CEO u rumunjskim product companyjama i potvrditi dostupnost za sastanak.",
+      "missing_information": [],
+      "evidence": [
+        "Putem sa ne auzim joj, dupa ora 15:00?",
+        "Crezi ca este asta posibil?"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "ro",
+      "draft_reason_hr": "Nema postojećeg nacrta; potrebno je odgovoriti na konkretno pitanje o ciljanju i potvrditi termin."
+    },
+    {
+      "key": "2515956/2722094964",
+      "name": "Robert",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Robert je jasno odbio ponudu s 'not for now'. Postojeći nacrt je primjeren i ne treba ga mijenjati.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Zadržati postojeći nacrt koji priznaje odbijenicu i ostavlja otvorena vrata. Ne slati nove prodajne poruke.",
+      "missing_information": [],
+      "evidence": [
+        "Sorry, not for now"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći nacrt je valjan i odgovara na odbijenicu."
+    },
+    {
+      "key": "2538823/2758496772",
+      "name": "Michal",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Michal je pokazao interes i predložio sastanak. Iako je bio na godišnjem odmoru, njegov stvarni odgovor prije toga je pozitivan; auto-reply ne poništava interes.",
+      "priority": "P1",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_MEETING",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati da se Michal vrati s godišnjeg odmora. Postojeći nacrt je ispravan i koristiti ga za nastavak komunikacije.",
+      "missing_information": [],
+      "evidence": [
+        "chętnie sie spotkam na callu i poznam Wasze rozwiązania"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "pl",
+      "draft_reason_hr": "Postojeći nacrt je ispravan i čeka na Michalov povratak."
+    },
+    {
+      "key": "2515956/2722095650",
+      "name": "Tim",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Poziv je zakazan i potvrđen. Međutim, nedostaju podaci o ishodu poziva, stoga je potreban ljudski pregled.",
+      "priority": "P2",
+      "sales_state": "MEETING_BOOKED_OUTCOME_UNKNOWN",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti s operaterom ishod održanog poziva i zabilježiti sljedeće korake.",
+      "missing_information": [
+        "Ishod održanog poziva"
+      ],
+      "evidence": [
+        "Send over an invite",
+        "Yup. All good"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema potrebe za slanjem poruke dok se ne provjeri ishod poziva."
+    },
+    {
+      "key": "2538823/2758494730",
+      "name": "Antonella",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Barbara je potvrdila termin za poziv. Iako ishod poziva nije poznat, status booked se zadržava i potreban je nastavak prema dogovoru.",
+      "priority": "P2",
+      "sales_state": "MEETING_BOOKED_OUTCOME_UNKNOWN",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti s operaterom ishod održanog poziva i zabilježiti sljedeće korake.",
+      "missing_information": [
+        "Ishod održanog poziva"
+      ],
+      "evidence": [
+        "Ich kann leider keinen Termin um 9.30 buchen",
+        "vielen Dank für die Buchung des Termins"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Nema potrebe za slanjem poruke dok se ne provjeri ishod poziva."
+    }
+  ]
+}

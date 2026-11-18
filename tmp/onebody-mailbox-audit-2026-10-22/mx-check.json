@@ -1,0 +1,98 @@
+[
+  {
+    "domain": "onebodyconnect.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodyconnect.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodyconnect-com.mail.protection.outlook.com."
+      }
+    ]
+  },
+  {
+    "domain": "onebodydirect.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodydirect.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodydirect-com.mail.protection.outlook.com."
+      }
+    ]
+  },
+  {
+    "domain": "onebodyexpansion.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodyexpansion.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodyexpansion-com.mail.protection.outlook.com."
+      }
+    ]
+  },
+  {
+    "domain": "onebodyldnrehab.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodyldnrehab.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodyldnrehab-com.mail.protection.outlook.com."
+      }
+    ]
+  },
+  {
+    "domain": "onebodyldnworks.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodyldnworks.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodyldnworks-com.mail.protection.outlook.com."
+      }
+    ]
+  },
+  {
+    "domain": "onebodylink.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodylink.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodylink-com.mail.protection.outlook.com."
+      }
+    ]
+  },
+  {
+    "domain": "onebodyoutbound.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodyoutbound.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodyoutbound-com.mail.protection.outlook.com."
+      }
+    ]
+  },
+  {
+    "domain": "onebodyreach.com",
+    "status": 0,
+    "answers": [
+      {
+        "name": "onebodyreach.com.",
+        "type": 15,
+        "TTL": 3600,
+        "data": "0 onebodyreach-com.mail.protection.outlook.com."
+      }
+    ]
+  }
+]

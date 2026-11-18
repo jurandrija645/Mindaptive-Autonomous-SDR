@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 16263,
+    "completion_tokens": 2482,
+    "total_tokens": 18745,
+    "cost": 0.04056839,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.04056839,
+      "upstream_inference_prompt_cost": 0.03106233,
+      "upstream_inference_completions_cost": 0.00950606
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608050716",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; primatelj ne postoji na domeni. Automatski odgovor poslužitelja. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte je nevažeća. Nema ništa za daljnje praćenje na ovom kanalu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke. Ako postoji drugi kontakt, koristiti ga.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ac6ab071-56ab-4757-85ba-659965c8ea1a@GVXPR04MB10271.eurprd04.prod.outlook.com>",
+          "quote": "Your message to tom.ball@emarsys.com couldn't be delivered.\n\ntom.ball wasn't found at emarsys.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608050715",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; primatelj ne postoji na domeni. Automatski odgovor poslužitelja. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte je nevažeća. Nema ništa za daljnje praćenje na ovom kanalu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke. Ako postoji drugi kontakt, koristiti ga.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<dbd23d81-7f28-4d32-86c4-e1ee6b2d0d1d@AS8PR04MB7605.eurprd04.prod.outlook.com>",
+          "quote": "Your message to mawada@emarsys.com couldn't be delivered.\n\nmawada wasn't found at emarsys.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608050673",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana kao spam od strane primateljevog poslužitelja. Automatska obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena zbog spam filtera. Može se pokušati s drugom domenom pošiljatelja ili kontaktirati na drugi način.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke s ovih domena. Razmotriti alternativni kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<6ab4cfb9.3975cdb3.27a8c3.1700.GMR@mx.google.com>",
+          "quote": "Your message to james.rochford@db.com has been blocked. The response from the remote server was: 550 5.7.0 This message was classified as spam"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608050671",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana kao spam od strane primateljevog poslužitelja. Automatska obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena zbog spam filtera. Može se pokušati s drugom domenom pošiljatelja ili kontaktirati na drugi način.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke s ovih domena. Razmotriti alternativni kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<6ab59e18.188e7838.43b4e.22d4.GMR@mx.google.com>",
+          "quote": "Your message to alexandre.lotfi@db.com has been blocked. The response from the remote server was: 550 5.7.0 This message was classified as spam"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608050670",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana kao spam od strane primateljevog poslužitelja. Automatska obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena zbog spam filtera. Može se pokušati s drugom domenom pošiljatelja ili kontaktirati na drugi način.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke s ovih domena. Razmotriti alternativni kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<6ab4cfb6.935396a1.18ba94.4b00.GMR@mx.google.com>",
+          "quote": "Your message to saydam.salaheddin@db.com has been blocked. The response from the remote server was: 550 5.7.0 This message was classified as spam"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608050669",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana kao spam od strane primateljevog poslužitelja. Automatska obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena zbog spam filtera. Može se pokušati s drugom domenom pošiljatelja ili kontaktirati na drugi način.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke s ovih domena. Razmotriti alternativni kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<6ab4cfb3.4f68ad3d.1b4eb6.3cf0.GMR@mx.google.com>",
+          "quote": "Your message to nicholas.bone@db.com has been blocked. The response from the remote server was: 550 5.7.0 This message was classified as spam"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608050667",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana kao spam od strane primateljevog poslužitelja. Automatska obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena zbog spam filtera. Može se pokušati s drugom domenom pošiljatelja ili kontaktirati na drugi način.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke s ovih domena. Razmotriti alternativni kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<6ab4cfb1.4b4200c1.2f06d7.2038.GMR@mx.google.com>",
+          "quote": "Your message to fabrizio.campelli@db.com has been blocked. The response from the remote server was: 550 5.7.0 This message was classified as spam"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608050666",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana kao spam od strane primateljevog poslužitelja. Automatska obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena zbog spam filtera. Može se pokušati s drugom domenom pošiljatelja ili kontaktirati na drugi način.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao bounce; ne slati daljnje poruke s ovih domena. Razmotriti alternativni kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<6ab4cfad.7777696c.2eed48.3997.GMR@mx.google.com>",
+          "quote": "Your message to mohamed.bharwani@db.com has been blocked. The response from the remote server was: 550 5.7.0 This message was classified as spam"
+        }
+      ],
+      "evidence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 4855,
+    "completion_tokens": 1034,
+    "total_tokens": 5889,
+    "cost": 0.0059205,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0059205,
+      "upstream_inference_prompt_cost": 0.0043695,
+      "upstream_inference_completions_cost": 0.001551
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613505",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-11-30",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda - roditeljski dopust.",
+      "request_hr": "nema",
+      "next_action_hr": "Zabilježi povratak 30.11.2026. i pošalji poruku tada.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613515",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Osoba je odbila ponudu: 'this isn't something we need right now'.",
+      "request_hr": "nema",
+      "next_action_hr": "Ne kontaktiraj više. Odbijenica.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613430",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka - osoba je napustila tvrtku. Sadrži preusmjeravanje za regrutaciju.",
+      "request_hr": "nema",
+      "next_action_hr": "Ne kontaktiraj. Osoba više ne radi tamo.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613005",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AS8P192MB1144779A11B3713184293E33E5BF2@AS8P192MB1144.EURP192.PROD.OUTLOOK.COM>",
+      "human_quote": "I'm actually quite interested so thanks for the note, but how did you get my details pls?",
+      "reason_hr": "Osoba je izrazila interes i postavila pitanje o izvoru podataka. Poslan link i kod, nema potvrde rezervacije. Zadnja poruka je naša.",
+      "request_hr": "I'm actually quite interested so thanks for the note, but how did you get my details pls?",
+      "next_action_hr": "Čekaj odgovor na zadnje poslane poruke. Ako ne odgovori, ne šalji više.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612634",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda - porodiljni dopust bez datuma povratka.",
+      "request_hr": "nema",
+      "next_action_hr": "Osoba je na neodređenom porodiljnom. Pošalji ponovno za 3-4 mjeseca.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612632",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda - porodiljni dopust bez datuma povratka.",
+      "request_hr": "nema",
+      "next_action_hr": "Osoba je na neodređenom porodiljnom. Pošalji ponovno za 3-4 mjeseca.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

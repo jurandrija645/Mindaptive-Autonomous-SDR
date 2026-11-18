@@ -1,0 +1,176 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7880,
+    "completion_tokens": 2286,
+    "total_tokens": 10166,
+    "cost": 0.005564787525,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7229,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.005564787525,
+      "upstream_inference_prompt_cost": 0.001197338805,
+      "upstream_inference_completions_cost": 0.00436744872
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608050916",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Sam je zatražio booking, Rebecca mu je poslala link i kod. Nema daljnjeg odgovora, ali nije odbio. Potrebno je pratiti je li se registrirao.",
+      "last_human_request_hr": "Yes please, would like to book this. What is availability for this?",
+      "unresolved_hr": "Nema potvrde da je rezervirao termin niti odbijenice. Potrebna je daljnja provjera.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati kratki follow-up s pitanjem je li uspio rezervirati termin ili mu treba pomoć.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP265MB17026DCCF120B7756178A7D786652@CWXP265MB1702.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Yes please, would like to book this."
+        },
+        {
+          "message_id": "<2edd3605-df5a-slt56-4b3f-a060-359d84a6447c-ageal2i@onebodygrowth.com>",
+          "quote": "Use VIP8401. You can pick your clinic and time directly from the calendar when you book"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050786",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka o porodiljnom dopustu do rujna 2027. Preusmjerava upit na Lisu Timothy. Osoba nije raspravljala ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema angažmana. Lisa.Timothy@takeda.com je navedena za preusmjeravanje upita, ali to nije osobni interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati daljnje poruke Jade. Ako vlasnik želi, može kontaktirati Lisa Timothy kao potpuno novi lead.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<8c3cd018f86146919888a14969de9e67@MI3PR08MB12008.eurprd08.prod.outlook.com>",
+          "quote": "I am on maternity leave until September 2027 - to redirect your query please email lisa.timothy@takeda.com."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050633",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka da Peter Williams više ne radi tamo. Preusmjerava na Jamesa Parkera. Nema interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je napustila tvrtku. Kontakt James Parker može biti nova prilika, ali to nije ovaj razgovor.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti ovaj lead. Po želji kontaktirati James Parker kao novi lead.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<728feb2b3dc148af8d7f5cc9f51948a0@LO4P265MB6352.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Peter WILLIAMS is no longer working for the SCOR GROUP."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050581",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "OOO poruka do 27. listopada. Današnji datum je 22. listopada, osoba se vraća za 5 dana. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna do 27.10. Treba pričekati povratak prije ponovnog kontakta.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Poslati follow-up nakon 27. listopada ako nema odgovora.",
+      "defer_until": "2026-10-28",
+      "evidence": [
+        {
+          "message_id": "<cfecca4c43f948d19d2d9be0e7823741@DS4PR10MB997621.namprd10.prod.outlook.com>",
+          "quote": "I am out of the office on annual leave until Tuesday 27th October."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050388",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "OOO poruka bez datuma, preusmjerava na Rhea Raj i Siva M. Nema ljudskog odgovora. Nejasno kad se vraća.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema vremenskog okvira povratka. Osoba nije angažirana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati daljnje poruke. Ako vlasnik želi, kontaktirati Rhea Raj kao novi lead.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9fc66889f7924f098efbe0a9cd0f925a@OSNPR03MB9582.apcprd03.prod.outlook.com>",
+          "quote": "Hi, I am out of office."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050217",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "OOO poruka s povratkom 26. listopada. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna do 26.10. Treba pričekati povratak prije ponovnog kontakta.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Poslati follow-up nakon 26. listopada ako nema odgovora.",
+      "defer_until": "2026-10-27",
+      "evidence": [
+        {
+          "message_id": "<9eea33c2ab9a4cc0a58e9d6c091aef59@BYAPR04MB6056.namprd04.prod.outlook.com>",
+          "quote": "I’ll be back in the office on Monday, 26 October."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050349",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "OOO poruka s povratkom 27. listopada. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna do 27.10. Treba pričekati povratak prije ponovnog kontakta.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Poslati follow-up nakon 27. listopada ako nema odgovora.",
+      "defer_until": "2026-10-28",
+      "evidence": [
+        {
+          "message_id": "<a39a8a27f2d94985869bd85a629d48eb@DS0PR10MB8149.namprd10.prod.outlook.com>",
+          "quote": "I am out of the office, returning Tuesday 27th October"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050348",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "OOO poruka s povratkom 26. listopada. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna do 26.10. Treba pričekati povratak prije ponovnog kontakta.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Poslati follow-up nakon 26. listopada ako nema odgovora.",
+      "defer_until": "2026-10-27",
+      "evidence": [
+        {
+          "message_id": "<6c107790432847c5a6b82c39284cb8be@DS5PR10MB997753.namprd10.prod.outlook.com>",
+          "quote": "I am currently out of the office and back on Monday 26th October."
+        }
+      ]
+    }
+  ]
+}

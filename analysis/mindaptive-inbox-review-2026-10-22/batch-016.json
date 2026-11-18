@@ -1,0 +1,249 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23561,
+    "completion_tokens": 3474,
+    "total_tokens": 27035,
+    "cost": 0.00274135,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00274135,
+      "upstream_inference_prompt_cost": 0.00117805,
+      "upstream_inference_completions_cost": 0.0015633
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3640877/4176333304",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (OOO/vacation autoreply) koji obavještava da e-mail nije proslijeđen. Nema ljudskog interesa ni odgovora. Postojeći draft je neutemeljen i ne smije se koristiti jer nema stvarnog razgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, vielen Dank für Ihre E-Mail. wenn sie einen Termin absagen möchten, dann schicken sie bitte eine Mail an absage@mein-lachen.de ... Aus Vertraulichkeitsgründen wurde Ihre E-Mail nicht automatisch weitergeleitet."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji nema osnove u stvarnom interesu. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176333261",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji potvrđuje primitak i preusmjerava na kolegicu. Nema ljudskog odgovora ni stvarnog interesa. Pogrešna osoba bi bila samo da su rekli 'osoba je otišla', ovo je generički auto-odgovor.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, liebe Patientin, lieber Patient, vielen Dank für Ihre Nachricht. Wir haben Ihre Anfrage erhalten und an die zuständige Kollegin weitergeleitet."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176333017",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji potvrđuje primitak i obavještava da će se javiti. Nema ljudskog interesa ni stvarnog razgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, vielen Dank für Ihre Nachricht. Wir bearbeiten Ihr Anliegen schnellstmöglich und melden uns bei Ihnen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176333058",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji preusmjerava na online recepciju. Nema ljudskog odgovora ni stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Liebe Patienten, liebe Patientinnen, vielen Dank für Ihre Anfrage. ... bitten wir um ihr Verständnis, daß ihr Anliegen ausschließlich über unsere Onlinerezeption bearbeitet werden kann."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176332983",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji potvrđuje primitak i preusmjerava na telefon/online booking. Nema ljudskog interesa ni stvarnog razgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für Ihre Nachricht. Sehr gerne möchten wir diese mit Sorgfalt beantworten. Bitte haben Sie deshalb etwas Geduld."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176332772",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovori (dva) koji potvrđuju primitak. Nema ljudskog interesa ni stvarnog razgovora. Oba su auto-reply, ne ljudski odgovori.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovori, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Hallo und vielen Dank für Ihre Email. Wir haben Ihre Nachricht erhalten und werden uns so schnell wie möglich mit Ihnen in Verbindung setzen.",
+        "Hallo und vielen Dank für Ihre Email. Wir haben Ihre Nachricht erhalten und werden uns so schnell wie möglich mit Ihnen in Verbindung setzen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovori, nema razgovora."
+    },
+    {
+      "key": "3640877/4176332325",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji potvrđuje primitak i obećava brzi odgovor. Nema ljudskog interesa ni stvarnog razgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Liebe Patientinnen und Patienten, sehr geehrte Damen und Herren, wir haben Ihre Nachricht erhalten und werden diese so schnell wie möglich beantworten."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176332855",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji potvrđuje primitak i obavještava da će kontaktirati. Nema ljudskog interesa ni stvarnog razgovora. Lead je pogrešno ciljan (urologija, ne dentalna praksa).",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Sehr geehrte Damen und Herren, wir haben Ihre E-Mail erhalten und werden uns schnellstmöglich mit Ihnen in Verbindung setzen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176332851",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji potvrđuje primitak i obavještava o vremenu odgovora. Nema ljudskog interesa ni stvarnog razgovora. Ovo je pedijatrijska onkologija, ne dentalna praksa - pogrešno ciljanje.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "AUTOMATISCHE ANTWORT Liebe Patienten, liebe Eltern, herzlichen Dank für Ihre E-Mail-Nachricht, deren Eingang wir Ihnen hiermit bestätigen möchten."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    },
+    {
+      "key": "3640877/4176332184",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor koji potvrđuje primitak i upućuje na web stranicu. Nema ljudskog interesa ni stvarnog razgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa. Ne šaljite ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Goedendag, Wij hebben uw email in goede orde ontvangen en doen ons best u zo spoedig mogelijk van dienst te zijn."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći draft je neprikladan 'smiješno podudaranje' auto-odgovor koji simulira interes. Samo automatski odgovor, nema razgovora."
+    }
+  ]
+}

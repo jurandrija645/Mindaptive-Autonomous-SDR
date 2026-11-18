@@ -1,0 +1,475 @@
+{
+  "checked_at": "2026-11-10T08:47:54.932783+00:00",
+  "mode": "read-only; no production writes or code changes",
+  "sheet_booking_count": 79,
+  "known_smartlead_bookings": 48,
+  "unlinked_sheet_bookings": 31,
+  "people_with_mapping_category_mismatch": 17,
+  "mismatches": [
+    {
+      "row": 22,
+      "name": "Mrs Emma Mackenzie",
+      "email": "emsudnik@gmail.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "none",
+      "lead_id": "4608051049",
+      "local": [],
+      "mappings": [
+        {
+          "campaign": "4006946",
+          "category": null,
+          "status": "STARTED",
+          "active": true
+        },
+        {
+          "campaign": "4006945",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 25,
+      "name": "Mrs Lucy Price",
+      "email": "lucy@looptalent.co.uk",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4608049443",
+      "local": [
+        {
+          "lead_id": 4608049443,
+          "campaign_id": 4006945,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4006946",
+          "category": null,
+          "status": "STARTED",
+          "active": true
+        },
+        {
+          "campaign": "4006945",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 28,
+      "name": "Mr Gareth Kobrin",
+      "email": "gareth.kobrin@yondatax.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4608052447",
+      "local": [
+        {
+          "lead_id": 4608052447,
+          "campaign_id": 4006945,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4006946",
+          "category": null,
+          "status": "STARTED",
+          "active": true
+        },
+        {
+          "campaign": "4006945",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 33,
+      "name": "Miss Tania De Sousa",
+      "email": "tania@unit.tv",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4520614838",
+      "local": [
+        {
+          "lead_id": 4520614838,
+          "campaign_id": 3930675,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "3930675",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "3967420",
+          "category": null,
+          "status": "STARTED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 34,
+      "name": "Mrs Isabel Casey",
+      "email": "isabelcasey@sifted.eu",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4520617802",
+      "local": [
+        {
+          "lead_id": 4520617802,
+          "campaign_id": 3930675,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "3930675",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "3967420",
+          "category": null,
+          "status": "STARTED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 35,
+      "name": "Mr Danial Naqvi",
+      "email": "dnaqvi@strava.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4608049800",
+      "local": [
+        {
+          "lead_id": 4608049800,
+          "campaign_id": 4006945,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4006946",
+          "category": null,
+          "status": "STARTED",
+          "active": true
+        },
+        {
+          "campaign": "4006945",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 36,
+      "name": "Miss Coralie Carre",
+      "email": "coraliecarre.design@gmail.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "none",
+      "lead_id": "4608052354",
+      "local": [],
+      "mappings": [
+        {
+          "campaign": "4006946",
+          "category": null,
+          "status": "STARTED",
+          "active": true
+        },
+        {
+          "campaign": "4006945",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 47,
+      "name": "Miss Lila Szczesnowicz",
+      "email": "lilasz0405@gmail.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "none",
+      "lead_id": "4816226096",
+      "local": [],
+      "mappings": [
+        {
+          "campaign": "4235340",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 48,
+      "name": "Mr Sean Downey",
+      "email": "seandowney@rgjones.co.uk",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4816225915",
+      "local": [
+        {
+          "lead_id": 4816225915,
+          "campaign_id": 4235278,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4235670",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 52,
+      "name": "Mr marios dixon",
+      "email": "marios.dixon@ravelin.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4816226031",
+      "local": [
+        {
+          "lead_id": 4816226031,
+          "campaign_id": 4235278,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4235670",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 55,
+      "name": "Ms Kritika Naidu",
+      "email": "kritika.naidu@pinpoint-media.co.uk",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4816227012",
+      "local": [
+        {
+          "lead_id": 4816227012,
+          "campaign_id": 4235278,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4235670",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 56,
+      "name": "Mr Sam Copeland",
+      "email": "sam@rcwlitagency.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4816229174",
+      "local": [
+        {
+          "lead_id": 4816229174,
+          "campaign_id": 4235286,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4235673",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235286",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 59,
+      "name": "Miss Issy Cusack",
+      "email": "whizzybizzyissy@hotmail.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "none",
+      "lead_id": "4816228379",
+      "local": [],
+      "mappings": [
+        {
+          "campaign": "4235352",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235286",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 65,
+      "name": "Mr Syed Kashir Raza",
+      "email": "syed.raza@cameronkennedy.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4816225800",
+      "local": [
+        {
+          "lead_id": 4816225800,
+          "campaign_id": 4235278,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "COMPLETED",
+          "active": true
+        },
+        {
+          "campaign": "4235340",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 69,
+      "name": "Mr Jordan Fraser",
+      "email": "jordyfraser@gmail.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "none",
+      "lead_id": "4816227797",
+      "local": [],
+      "mappings": [
+        {
+          "campaign": "4235340",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 76,
+      "name": "Miss Alida Mancera",
+      "email": "alida.mancera@oneavenuegroup.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "email",
+      "lead_id": "4878288362",
+      "local": [
+        {
+          "lead_id": 4878288362,
+          "campaign_id": 4235278,
+          "status": "booked"
+        }
+      ],
+      "mappings": [
+        {
+          "campaign": "4235670",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    },
+    {
+      "row": 79,
+      "name": "Miss Olivia Gibson",
+      "email": "oliviabgibson@gmail.com",
+      "attribution": "Contacted lead",
+      "matched_by_now": "none",
+      "lead_id": "4878291260",
+      "local": [],
+      "mappings": [
+        {
+          "campaign": "4235670",
+          "category": null,
+          "status": "PAUSED",
+          "active": true
+        },
+        {
+          "campaign": "4235278",
+          "category": 177154,
+          "status": "PAUSED",
+          "active": true
+        }
+      ]
+    }
+  ],
+  "findings": [
+    "Every checked linked booking has Meeting Booked on at least one mapping. Seventeen have another mapping with a null category, not category 1 (Interested).",
+    "Ten mismatching child mappings are PAUSED. Seven remain STARTED inside DRAFTED child campaigns (4006946, 3967420). Those campaigns are not currently active.",
+    "record_explicit_booking writes the category only for the matched local campaign. enforce_booked_lead pauses all sendable mappings without synchronizing their categories.",
+    "booked_pause_pending retries pauses only. A failed category write is swallowed by _push_category_to_smartlead and webhook still acknowledges booked and records the sheet row. No matching failure was found in retained recent logs.",
+    "Native guard excludes DRAFTED/COMPLETED campaigns and skips non-sendable child mappings, leaving already-paused category mismatches unrepaired.",
+    "All 31 unlinked booking email addresses were queried against Smartlead get_lead_by_email; none matched. Different work/personal email identity was not inferred."
+  ]
+}

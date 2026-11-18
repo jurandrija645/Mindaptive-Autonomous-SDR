@@ -56,6 +56,33 @@ class BookingGuardTests(unittest.TestCase):
             with db.db_session() as conn:
                 self.assertEqual(db.get_draft(conn, did)["status"], "stale")
 
+    def test_manual_compose_survives_booking_sweep_but_scheduled_does_not(self):
+        with db.db_session() as conn:
+            pending = db.create_draft(conn, lead_id=20, campaign_id=10, kind="manual", body_html="hello", status="pending")
+            scheduled = db.create_draft(conn, lead_id=20, campaign_id=10, kind="manual", body_html="later", status="scheduled")
+        self.book()
+        with db.db_session() as conn:
+            self.assertEqual(db.get_draft(conn, pending)["status"], "pending")
+            self.assertEqual(db.get_draft(conn, scheduled)["status"], "stale")
+
+    def test_explicit_manual_click_sends_booked_lead_without_releasing_booking(self):
+        self.book()
+        with db.db_session() as conn:
+            did = db.create_draft(conn, lead_id=20, campaign_id=10, kind="manual", body_html="hello", status="sending")
+            draft = dict(db.get_draft(conn, did))
+        thread = [detector.NormalizedMessage(kind="sent", timestamp=datetime.now(timezone.utc),
+            message_id="outbound", body="Hello", from_email="sender@example.com", to_email="lead@example.com", stats_id="s1")]
+        with patch.object(pipeline, "fetch_normalized_thread", return_value=thread), patch.object(
+            signatures, "is_sendable", return_value=True
+        ), patch.object(signatures, "get_signature_html", return_value=""), patch.object(
+            smartlead, "reply_to_thread", return_value={}
+        ) as send:
+            self.assertEqual(scheduler._send_due_draft(draft, manual_click=True), "sent")
+        send.assert_called_once()
+        with db.db_session() as conn:
+            self.assertEqual(db.get_lead_state(conn, 20, 10)["status"], "booked")
+            self.assertEqual(db.get_draft(conn, did)["status"], "sent")
+
     def test_remote_parent_booking_blocks_child_even_if_local_status_is_stale(self):
         overview={"email": "lead@example.com", "email_campaign_leads_mappings": [mapping(10, "PAUSED", 7), mapping(11)]}
         with patch.object(smartlead, "get_lead_campaign_overview", return_value=overview), patch.object(

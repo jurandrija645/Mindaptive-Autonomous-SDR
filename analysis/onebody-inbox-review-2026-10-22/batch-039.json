@@ -1,0 +1,222 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12574,
+    "completion_tokens": 2453,
+    "total_tokens": 15027,
+    "cost": 0.00173255,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00173255,
+      "upstream_inference_prompt_cost": 0.0006287,
+      "upstream_inference_completions_cost": 0.00110385
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315521",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Lucy je javila da više ne radi u Bulletproofu pa se više ne isplati ciljati na nju.",
+      "next_step_hr": "Zatvoriti thread jer kontakt više nije relevantan.",
+      "last_inbound_summary_hr": "Lucy je poručila da više ne radi u Bulletproof Designu.",
+      "last_outbound_summary_hr": "Kurt je poslao zadnji email tražeći potvrdu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer working at Bulletproof. Please contact Carlie.Brown@wearebulletproof.com"
+      ]
+    },
+    {
+      "key": "3876232/4446315366",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Josh je poslao prazan auto-reply bez ljudskog odgovora.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor bez sadržaja.",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "kind\": \"reply",
+        "text\": \"\""
+      ]
+    },
+    {
+      "key": "3876232/4446315439",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Udai je poslao automatski odgovor o godišnjem odmoru bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 7. rujna 2026.",
+      "last_outbound_summary_hr": "Kurt je poslao zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave with occasional access to emails and will be returning to the Office on Monday 7th September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446316697",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Chris je poslao automatski OOO odgovor bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 21. rujna 2026.",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office until 21/09/2026"
+      ]
+    },
+    {
+      "key": "3876232/4446316348",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alberto je poslao automatski OOO odgovor bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 21. rujna 2026.",
+      "last_outbound_summary_hr": "Kurt je poslao zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Note that I am currently OOO. I'll be back online on 21st of September"
+      ]
+    },
+    {
+      "key": "3876232/4446316238",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Joanna je poslala automatski odgovor o sastanku bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski odgovor o vanjskom sastanku 8. rujna 2026.",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "We will be at an all day external meeting on Tuesday 8th September 2026 with limited access to emails."
+      ]
+    },
+    {
+      "key": "3876232/4446316251",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Rajinder je poslao automatski odgovor o godišnjem odmoru bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 9. rujna 2026.",
+      "last_outbound_summary_hr": "Kurt je poslao zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave till 9th Sept."
+      ]
+    },
+    {
+      "key": "3876232/4446316065",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Christopher je poslao automatski odgovor o godišnjem odmoru bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 11. rujna 2026.",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave from 04.09.26 to 11.09.26 inclusive and will not have access to my emails."
+      ]
+    },
+    {
+      "key": "3876232/4446316224",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kevin je poslao automatski OOO odgovor bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 14. rujna 2026.",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently out of the office until Monday 14 September"
+      ]
+    },
+    {
+      "key": "3876232/4446315983",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Laura je poslala automatski odgovor o odmoru bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 14. rujna 2026.",
+      "last_outbound_summary_hr": "Rebecca je poslala zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on holiday returning on Monday 14 September."
+      ]
+    },
+    {
+      "key": "3876232/4446315579",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Brett je poslao automatski OOO odgovor bez ljudskog angažmana.",
+      "next_step_hr": "Ostaviti trenutnu oznaku; nema ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor za 4. rujna 2026.",
+      "last_outbound_summary_hr": "Kurt je poslao zadnji email tražeći potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office on Friday, September 4th."
+      ]
+    },
+    {
+      "key": "3876232/4446317501",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Alistair je ljudski odgovorio s pitanjem o uvjetima, ali je kasnije dobiven automatski OOO bez potvrde knjiženja.",
+      "next_step_hr": "Provjeriti je li Alistair ikada knjižio termin; ako nije, nastaviti angažman.",
+      "last_inbound_summary_hr": "Alistair je pitao 'Sounds ideal. What's the catch' nakon čega je poslao automatski OOO.",
+      "last_outbound_summary_hr": "Kurt je poslao link za knjiženje i kod OBLACCESS55 uz pitanje je li uspješno knjiženo.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "Sounds ideal. What's the catch",
+        "I am travelling and in client meetings Monday 7th Sept - Wed 9th Sept."
+      ]
+    }
+  ]
+}

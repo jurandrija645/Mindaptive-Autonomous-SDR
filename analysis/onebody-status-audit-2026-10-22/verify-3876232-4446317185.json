@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12652,
+    "completion_tokens": 1414,
+    "total_tokens": 14066,
+    "cost": 0.00693279945,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8970,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00693279945,
+      "upstream_inference_prompt_cost": 0.00423132417,
+      "upstream_inference_completions_cost": 0.00270147528
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317185",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CACM=m4DdzUR7YtrE5ySQv7qXGX_3hpJXdYQ4wox=4aueVJXzWQ@mail.gmail.com>",
+      "human_quote": "we're no longer in Hammersmith.",
+      "reason_hr": "Osoba odgovara da više nisu u Hammersmithu, što znači da ponuda nije relevantna i odbijaju je.",
+      "request_hr": "nema zahtjeva",
+      "next_action_hr": "Ponuda je odbijena. Prekinuti daljnji kontakt.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317234",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<2DD57BD2-BD2D-46D8-8CC9-4C2920D29618@magpie-studio.com>",
+      "human_quote": "please take me off this mailing list",
+      "reason_hr": "Osoba je eksplicitno zatražila uklanjanje s popisa za slanje poruka.",
+      "request_hr": "uklanjanje s mailing liste",
+      "next_action_hr": "Odmah ukloniti s popisa i ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316379",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GV1PR08MB768166116B23B6C7B37EFD8596B02@GV1PR08MB7681.eurprd08.prod.outlook.com>",
+      "human_quote": "does this apply to other members of staff at our company or just to me?",
+      "reason_hr": "Osoba je dobila kod za rezervaciju i postavila dodatno pitanje, što je znak angažmana. Posljednja poruka je naša (follow-up), pa se čeka odgovor.",
+      "request_hr": "Informacija o mogućnosti korištenja koda za druge zaposlenike",
+      "next_action_hr": "Pričekati odgovor. Ako ne odgovori unutar standardnog okvira za praćenje, može se poslati dodatni podsjetnik.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316305",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<e8cd2376f77949db9d26634cd3fae175@LO2P123MB4942.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "I no longer work for Neverland, so please reach out to another team member.",
+      "reason_hr": "Osoba navodi da više ne radi za Neverland, što je čini nevažećim kontaktom za ovu ponudu.",
+      "request_hr": "nema zahtjeva",
+      "next_action_hr": "Označiti kao krivu osobu i ne pokušavati daljnji kontakt na ovu adresu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316027",
+      "genuine_engagement": true,
+      "verdict": "temporarily_away",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<d719425579f641c2bcb69b0362a6ff75@DB8PR09MB3914.eurprd09.prod.outlook.com>",
+      "human_quote": "I am out of the office with no access to emails.",
+      "reason_hr": "Posljednja poruka je automatski OOO odgovor nakon niza angažiranih poruka (interes, pitanje o kodu, pokušaj rezervacije). Osoba je odsutna, nije odbila.",
+      "request_hr": "Rezervacija termina za 23. rujna u popodnevnim satima",
+      "next_action_hr": "Osoba je privremeno odsutna. Pričekati njen povratak i ponovno provjeriti status komunikacije. Budući da je datum povratka nepoznat (zadnji OOO nema datum), pratiti inbox za novi angažirani odgovor.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316012",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AS8PR02MB100793F58F02E1DA5FEED113A86B62@AS8PR02MB10079.eurprd02.prod.outlook.com>",
+      "human_quote": "We do not have an office, so it's a no, thanks",
+      "reason_hr": "Osoba jasno odbija ponudu, objašnjavajući da nema ured na tu lokaciju.",
+      "request_hr": "nema zahtjeva",
+      "next_action_hr": "Ponuda je odbijena. Prekinuti daljnji kontakt.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10073,
+    "completion_tokens": 2440,
+    "total_tokens": 12513,
+    "cost": 0.0127257,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0127257,
+      "upstream_inference_prompt_cost": 0.0090657,
+      "upstream_inference_completions_cost": 0.00366
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317467",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 4. rujna, bez ljudskog odgovora nakon toga. Tri poslane poruke ostale bez reakcije.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana, nema upita, nema prihvaćanja ponude.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je hladan, automatski OOO bez naknadne ljudske interakcije. Nema potrebe za daljnjim kontaktom osim ako se ne pojavi novi ljudski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CANVs1f5oXmVDcxN7Up8SirXuO4MjXBjU+e15z7qL62e1yB0GPg@mail.gmail.com>",
+          "quote": "I'm OOO currently and will get back to you upon my return on September\n7th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317429",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Tri puta isti automatski OOO odgovor o porodiljnom dopustu. Nema naznake ljudskog interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Osoba je na porodiljnom i daje kontakt kolege, ali to je automatska poruka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je hladan s automatskim OOO. Nema potrebe za daljnjim kontaktom osim ako Lea ne odgovori osobno. Ne slati ponudu Tomu Rowlandsonu bez eksplicitnog odobrenja vlasnika.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CADoZCnVUPQoUCSEbrM+7itOMpGSj79Ffrap0ZS351XPa7bO1UA@mail.gmail.com>",
+          "quote": "I am currently away on Maternity Leave."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317487",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Alexander je prihvatio ponudu, dobio link/kod, ali sada 30.9. i 5.10. traži hitnu pomoć s otkazivanjem termina i pristupom računu. Posljednje dvije poruke su njegove i bez odgovora.",
+      "last_human_request_hr": "Can you please cancel any and all appointments I have at the Shoreditch site.",
+      "unresolved_hr": "Alexander ne može pristupiti računu i želi otkazati sve termine u Shoreditchu. Potrebna hitna akcija podrške, a ne prodajno praćenje.",
+      "recommended_bulk_group": "reply_booking",
+      "recommended_action_hr": "Odgovoriti Alexanderu i potvrditi otkazivanje svih termina u Shoreditchu, te mu pomoći s pristupom računu ili ga uputiti na korisničku podršku. Ovo je urgentno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<GVXPR02MB1212485CC3C33E837750C7E83AEBE2@GVXPR02MB12124.eurprd02.prod.outlook.com>",
+          "quote": "This would be amazing, I am travelling this week but let’s connect when I get back next week."
+        },
+        {
+          "message_id": "<GVXPR02MB12124AB46A8E6B272B1BDCF09AE962@GVXPR02MB12124.eurprd02.prod.outlook.com>",
+          "quote": "Can you please cancel any and all appointments I have at the Shoreditch site."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317451",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Odgovor dolazi od Patricka, a ne Huntera. Patrick je OOO i daje kontakte kolega za druge svrhe, ne spominje fizioterapiju ni ponudu.",
+      "last_human_request_hr": "no human reply from Hunter",
+      "unresolved_hr": "Nije jasno je li Hunter još uvijek zaposlen. Patrick ne pokazuje interes za ponudu. Bez ljudskog Hunterovog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je hladan. Patrickov OOO ne sadrži interes za ponudu. Ne nastavljati s kontaktom osim ako se Hunter osobno ne javi.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<dac060a5ab31420ebab965d8efb49140@LNXP265MB2490.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thanks so much for your message, I am out of the office welcoming our baby daughter into the world!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317377",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 11. rujna. Hugo vozi humanitarnu biciklističku utrku. Nema naknadnog ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Automatski OOO ne ukazuje na interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je hladan. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d9be6895f1f8494bbc287b1d9ed3c43e@DU4PR07MB12390.eurprd07.prod.outlook.com>",
+          "quote": "I am on away on a Charity Cycle Ride for Demalza, returning Monday September 14 2026"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317436",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 10. rujna. Greg je odsutan i upućuje na kolegicu, ali nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Automatski OOO.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je hladan. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<bb867a91e71147b1a18c218db259eb20@CWXP123MB4568.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently away from work and will respond to your\nmessage as soon as I can."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317268",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor 3. rujna. Jason je bio na odmoru i vratio se 8. rujna, ali nikad nije osobno odgovorio na dvije naknadne poruke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Jason se vratio prije više od mjesec dana, ali nije pokazao interes. Nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je hladan. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<00560291eb6a47a3af2dacaf64ee527c@PA1PPFBD7B99C4B.EURP251.PROD.OUTLOOK.COM>",
+          "quote": "I am working on Tuesday, September 1st, then on vacation, and back in the office  Tuesday, September 8th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317275",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Zadnja poruka je bounce s greškom 550 Envelope blocked. Prethodne poruke nisu imale ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa blokirana. Nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je bounce. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aa27bdd.bbfcf876.305af4.0db0.GMR@mx.google.com>",
+          "quote": "550 Envelope blocked - User Entry"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

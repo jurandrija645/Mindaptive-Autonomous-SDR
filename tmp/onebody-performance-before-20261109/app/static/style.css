@@ -1,0 +1,1841 @@
+:root {
+  --bg: #f6f5f2;
+  --card: #ffffff;
+  --border: #e2ded6;
+  --text: #2a2622;
+  --muted: #7a7468;
+  --accent: #b5602f;
+  --accent-dark: #8f4a22;
+  --danger: #a6402f;
+
+  --reply: #c0392b;      /* red    — lead replied, awaiting you */
+  --reply-bg: #fdecea;
+  --followup: #c98a1e;   /* amber  — follow-up due */
+  --followup-bg: #fbf1dd;
+  --autoreply: #6a5acd;  /* violet — auto-reply/OOO, needs a forward-nudge */
+  --autoreply-bg: #ece9fa;
+  --waiting: #3a72a8;    /* blue   — interested, in conversation */
+  --waiting-bg: #e5eef6;
+  --booked: #2e8b57;     /* green  — meeting booked, outreach frozen */
+  --booked-bg: #e4f3ea;
+  --not-interested: #b8496b;   /* rose    — a soft no */
+  --not-interested-bg: #f8e8ed;
+  --do-not-contact: #46413c;   /* charcoal — a hard stop */
+  --do-not-contact-bg: #e7e5e2;
+  --wrong-person: #1f7a72;     /* teal    — dead mailbox, not a rejection */
+  --wrong-person-bg: #e1f0ee;
+  --opted-out: #8a5a2e;        /* brown   — self-removed */
+  --opted-out-bg: #f2e6d8;
+  --bounced: #6b7280;          /* slate   — technical failure, not a person's answer */
+  --bounced-bg: #eaebee;
+
+  /* Lead temperature — how badly they want to talk (app/lead_temperature.py).
+     A different axis from the category colours above, so it gets its own
+     palette: hot is the only one loud enough to pull the eye down a list. */
+  --hot: #d1490f;
+  --hot-bg: #fde9dc;
+  --hot-row: #fff7f1;
+  --warm: #9a7b2a;
+  --warm-bg: #f7f0dc;
+  --cold: #7f8b96;
+  --cold-bg: #eceef1;
+
+  --bar-h: 56px;      /* header row one */
+  --header-h: 100px;  /* both header rows; .layout / .crm-page size off this */
+}
+
+* { box-sizing: border-box; }
+
+/* Any `display:` rule of ours beats the browser's own `[hidden] {display:none}`,
+   so `el.hidden = true` silently did nothing to a flex/inline-flex element: the
+   snooze date field sat next to the button that was supposed to reveal it, and
+   the editor toolbar and the localize row both showed on the tab they belong to
+   AND the one they don't. Rather than one `[hidden]` override per component
+   (the status filter's menu needs one), make the attribute win everywhere. */
+[hidden] { display: none !important; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Keep the client reminder visible while the inbox and conversation scroll.
+   Flex sizing lets the reminder wrap on phones without covering the editor. */
+body.has-priority-notice {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+.has-priority-notice > header { flex-shrink: 0; }
+.has-priority-notice > .layout,
+.has-priority-notice > .crm-page {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
+.priority-notice {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #fff4d6;
+  color: #694613;
+  border-bottom: 1px solid #e9cb82;
+  font-size: 13px;
+}
+.priority-notice-flag { font-size: 22px; line-height: 1.3; }
+.priority-notice p { margin: 2px 0 0; }
+.priority-notice-clinics { font-weight: 600; }
+.priority-notice-note { font-size: 12px; }
+
+/* ---- header ----
+   Row one (.header-bar) is the workspace and the app-wide tools; row two
+   (.subnav) is the sections of whichever workspace is open. --header-h covers
+   both, since .layout and .crm-page size themselves off it. */
+header {
+  display: flex;
+  flex-direction: column;
+  height: var(--header-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--bar-h);
+  padding: 0 16px;
+}
+header h1 { font-size: 17px; margin: 0; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-right form { margin: 0; }
+
+.subnav {
+  display: flex;
+  align-items: center;
+  height: calc(var(--header-h) - var(--bar-h));
+  padding: 0 16px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.subnav-group {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-right: 4px;
+}
+.subnav-sep { width: 1px; height: 18px; background: var(--border); margin: 0 10px; }
+
+/* Settings dropdown: one button on desktop, a flat list inside the phone menu. */
+.more-menu { position: relative; }
+.more-list {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 60;
+  min-width: 190px;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(42, 38, 34, .14);
+}
+.more-menu.open .more-list { display: block; }
+.more-list form { margin: 0; }
+.more-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 9px 10px;
+  font-size: 14px;
+  color: var(--text);
+  border-radius: 7px;
+}
+.more-item:hover { background: var(--bg); }
+.mobile-menu-btn,
+.mobile-menu-head,
+.mobile-menu-backdrop { display: none; }
+
+.pill {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.pill-dry { background: #fbeee3; border: 1px solid #eecfae; color: var(--accent-dark); }
+
+.client-badge {
+  display: inline-block;
+  color: #f6f5f2;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.view-switch { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.view-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 6px 6px 0 0;
+  white-space: nowrap;
+}
+.view-tab:hover { background: #e9e5dd; color: var(--text); }
+.view-tab.active { color: var(--text); font-weight: 600; border-bottom-color: var(--accent); background: transparent; }
+
+/* ---- buttons ---- */
+button, input[type=submit] {
+  border: none;
+  border-radius: 8px;
+  padding: 9px 13px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn-send { background: var(--accent); color: #fff; }
+.btn-send:hover { background: var(--accent-dark); }
+.btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #efece6; }
+.btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+button:disabled { opacity: .55; cursor: default; }
+
+/* ---- two-pane layout ---- */
+.layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  height: calc(100vh - var(--header-h));
+}
+
+/* ---- inbox (left) ---- */
+.inbox {
+  border-right: 1px solid var(--border);
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.inbox-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px 6px;
+}
+.inbox-count { font-weight: 600; }
+.scan-status { font-size: 12px; color: var(--muted); }
+.search-row { padding: 0 14px 10px; }
+.lead-search {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-family: inherit;
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--text);
+}
+/* ---- inbox filters: status / campaign / Smartlead status (dropdowns above
+   the lead list). Three independent instances of the same pattern, laid out
+   in a row that wraps at narrow widths. ---- */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 14px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.status-filter {
+  position: relative;
+  flex: 1 1 105px;
+  min-width: 0;
+}
+.status-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 12.5px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.status-filter-btn span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.status-filter-btn:hover { background: #efece6; }
+.status-caret { color: var(--muted); font-size: 11px; }
+.status-menu {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  top: calc(100% - 4px);
+  width: max-content;
+  min-width: 100%;
+  max-width: min(220px, 90vw);
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.12);
+  padding: 4px;
+}
+/* The rightmost of the three filter dropdowns would otherwise open off the
+   edge of the (narrow, overflow:hidden) sidebar — anchor it from the right
+   of its button instead of the left. */
+#smartlead-menu {
+  left: auto;
+  right: 0;
+}
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  cursor: pointer;
+  user-select: none;
+}
+.status-option:hover { background: var(--bg); }
+.status-option input { margin: 0; cursor: pointer; }
+.status-option-label { flex: 1; }
+.status-option-count { color: var(--muted); font-variant-numeric: tabular-nums; }
+.status-menu-foot {
+  display: flex;
+  gap: 12px;
+  padding: 6px 8px 4px;
+  margin-top: 2px;
+  border-top: 1px solid var(--border);
+}
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: underline;
+}
+.link-btn:hover { color: var(--accent-dark); }
+/* ---- date range + sort row, directly below the three filter dropdowns ---- */
+.filter-row-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.date-range-field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.date-range-input {
+  font-size: 12.5px;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+.sort-order-select {
+  margin-left: auto;
+  font-size: 12.5px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.dot-reply { background: var(--reply); }
+.dot-followup { background: var(--followup); }
+.dot-auto_reply { background: var(--autoreply); }
+.dot-waiting { background: var(--waiting); }
+.dot-booked { background: var(--booked); }
+.dot-not_interested { background: var(--not-interested); }
+.dot-do_not_contact { background: var(--do-not-contact); }
+.dot-wrong_person { background: var(--wrong-person); }
+.dot-opted_out { background: var(--opted-out); }
+.dot-bounced { background: var(--bounced); }
+
+.lead-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; }
+.inbox-empty { padding: 24px 16px; color: var(--muted); font-size: 14px; }
+
+.lead-row {
+  padding: 11px 14px 11px 12px;
+  border-bottom: 1px solid var(--border);
+  border-left: 4px solid transparent;
+  cursor: pointer;
+}
+.lead-row:hover { background: #faf8f5; }
+.lead-row.selected { background: #f1ede6; }
+.lead-row.cat-reply { border-left-color: var(--reply); }
+.lead-row.cat-followup { border-left-color: var(--followup); }
+.lead-row.cat-auto_reply { border-left-color: var(--autoreply); }
+.lead-row.cat-waiting { border-left-color: var(--waiting); }
+.lead-row.cat-booked { border-left-color: var(--booked); }
+.lead-row.cat-not_interested { border-left-color: var(--not-interested); }
+.lead-row.cat-do_not_contact { border-left-color: var(--do-not-contact); }
+.lead-row.cat-wrong_person { border-left-color: var(--wrong-person); }
+.lead-row.cat-opted_out { border-left-color: var(--opted-out); }
+.lead-row.cat-bounced { border-left-color: var(--bounced); }
+.lead-row.archive-row { border-left-color: var(--waiting); display: flex; flex-direction: column; }
+.lead-row.sent-out { opacity: .4; transition: opacity .3s ease; }
+
+/* 🔥 leads keep their category's left border (that still says what the thread
+   needs next) and get a warm wash behind it, so the block at the top of the
+   inbox reads as one group at a glance. After the hover/selected rules above
+   on purpose: those are the states this has to survive. */
+.lead-row.is-hot { background: var(--hot-row); }
+.lead-row.is-hot:hover { background: #fdefe3; }
+.lead-row.is-hot.selected { background: #f7e5d6; }
+
+/* Stats dashboard — rendered in the main detail pane (see renderStats in app.js) */
+.stats-head { margin-bottom: 8px; }
+.stats-head h2 { margin: 0 0 2px; font-size: 20px; }
+.stats-dash { display: flex; flex-direction: column; gap: 26px; }
+.stats-section h3 { margin: 0 0 6px; font-size: 15px; }
+.stats-note { margin: 0 0 12px; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+
+.stat-tiles { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.stat-tile {
+  flex: 1 1 150px;
+  min-width: 140px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.stat-tile-num { font-size: 26px; font-weight: 700; line-height: 1.1; color: var(--text); }
+.stat-tile-label { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+.stat-tile-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; opacity: .85; }
+
+.stats-table { width: 100%; border-collapse: collapse; }
+.stats-table td { border-bottom: 1px solid var(--border); padding: 9px 4px; vertical-align: top; }
+.stats-table tr:last-child td { border-bottom: none; }
+.stats-td-label { padding-right: 12px; }
+.stats-label-main { font-size: 13.5px; color: var(--text); }
+.stats-hint { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.stats-td-value { text-align: right; white-space: nowrap; font-weight: 700; font-size: 15px; }
+
+.booked-list { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.booked-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  padding: 7px 2px; border-bottom: 1px solid var(--border); font-size: 13.5px;
+}
+.booked-name { overflow: hidden; text-overflow: ellipsis; }
+.booked-date { color: var(--muted); white-space: nowrap; font-size: 12px; }
+.booked-batch {
+  background: var(--booked-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.booked-batch-head { font-size: 13px; font-weight: 600; color: var(--booked); }
+.booked-batch-names { font-size: 12.5px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+
+.list-section {
+  padding: 8px 14px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg);
+}
+.row-action {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 4px 9px;
+  font-size: 12px;
+}
+
+.lead-top { display: flex; align-items: center; gap: 7px; }
+.lead-name { font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lead-company { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Wraps because the row carries two chips now — how hot the lead is and what
+   the thread needs next — plus the time; on a narrow phone that can outgrow
+   one line, and a second line beats an overflow. */
+.lead-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 3px; }
+.lead-preview {
+  margin-top: 3px; font-size: 12.5px; color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.lead-time { font-size: 11px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+
+/* Campaign name, on every lead row and in the detail header. Its own line so a
+   long name ("B2B Tech & Consulting - EuropeanUnion") ellipsizes on its own
+   instead of squeezing the lead's name, and flex-start so the pill is only as
+   wide as the text. Full name is on the title attribute. */
+.campaign-line { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.campaign-tag {
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1px 8px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lead-row.selected .campaign-tag { background: var(--card); }
+
+.lang-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: .03em;
+  padding: 2px 5px; border-radius: 4px;
+  background: #ece7df; color: var(--muted);
+}
+/* Detail header: the lead's original language, made prominent (vs the tiny
+   2-letter code in the compact inbox rows). */
+.lang-badge-prominent {
+  font-size: 13px; font-weight: 700; letter-spacing: .01em;
+  padding: 3px 10px; border-radius: 20px;
+  background: var(--accent); color: #fff;
+  white-space: nowrap;
+}
+/* Default: any category the app mirrors straight from Smartlead with no
+   colour of its own (a custom category included) gets this muted look. */
+.state-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; background: #eeece7; color: var(--muted); }
+.state-chip.cat-reply { background: var(--reply-bg); color: var(--reply); }
+.state-chip.cat-followup { background: var(--followup-bg); color: var(--followup); }
+.state-chip.cat-auto_reply { background: var(--autoreply-bg); color: var(--autoreply); }
+.state-chip.cat-waiting { background: var(--waiting-bg); color: var(--waiting); }
+.state-chip.cat-booked { background: var(--booked-bg); color: var(--booked); }
+.state-chip.cat-not_interested { background: var(--not-interested-bg); color: var(--not-interested); }
+.state-chip.cat-do_not_contact { background: var(--do-not-contact-bg); color: var(--do-not-contact); }
+.state-chip.cat-wrong_person { background: var(--wrong-person-bg); color: var(--wrong-person); }
+.state-chip.cat-opted_out { background: var(--opted-out-bg); color: var(--opted-out); }
+.state-chip.cat-bounced { background: var(--bounced-bg); color: var(--bounced); }
+
+/* Smartlead's own category name, next to our chip above — informational only,
+   not something list_inbox filters on. See db.py's leads_state.smartlead_category. */
+.smartlead-cat-badge {
+  font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 20px;
+  background: var(--bg); color: var(--muted); border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+/* How hot the lead is, next to the category chip — same shape, own palette. */
+.temp-chip { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; white-space: nowrap; }
+.temp-chip.temp-hot { background: var(--hot-bg); color: var(--hot); }
+.temp-chip.temp-warm { background: var(--warm-bg); color: var(--warm); }
+.temp-chip.temp-cold { background: var(--cold-bg); color: var(--cold); }
+.list-section.section-hot { color: var(--hot); background: var(--hot-bg); }
+.ready-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-left: auto; flex-shrink: 0; }
+
+/* ---- detail (right) ---- */
+.detail { overflow-y: auto; }
+.detail-empty { padding: 60px 24px; text-align: center; color: var(--muted); }
+.detail-body { max-width: 780px; margin: 0 auto; padding: 20px 24px 60px; }
+
+.detail-header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.detail-header h2 { margin: 0; font-size: 19px; }
+.detail-name-wrap { display: inline-flex; align-items: baseline; gap: 6px; }
+.btn-edit-name {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 13px; padding: 2px; line-height: 1;
+}
+.btn-edit-name:hover { color: var(--accent); }
+.detail-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.muted { color: var(--muted); }
+/* "Renamed here only, Smartlead wasn't updated" — the rename half that failed
+   (main.api_set_lead_name). Amber, not red: nothing is broken, but it isn't
+   the whole job either. */
+.name-note { color: var(--followup); }
+
+.thread-actions { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 8px; }
+/* whole-thread + per-message English toggles (checkbox + label) */
+.thread-lang-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer;
+  user-select: none;
+}
+.thread-lang-toggle input { cursor: pointer; accent-color: var(--accent); margin: 0; }
+/* the mailbox a message actually came from, next to the sender/time */
+.msg-from { font-size: 11px; color: var(--muted); overflow-wrap: anywhere; }
+.msg-lang-toggle {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: var(--accent); cursor: pointer; user-select: none; padding-left: 6px;
+}
+.msg-lang-toggle input { cursor: pointer; accent-color: var(--accent); margin: 0; width: 12px; height: 12px; }
+
+/* Off-email outreach logged by hand (app/lead_touches.py), rendered inline in
+   the thread. Deliberately quieter than a real message — dashed, no fill — so
+   a glance still separates "I sent this" from "this was actually emailed". */
+.btn-log-touch {
+  background: none; border: 1px dashed var(--border); border-radius: 999px;
+  padding: 4px 10px; font-size: 12px; font-weight: 600;
+  color: var(--muted); cursor: pointer;
+}
+.btn-log-touch:hover { color: var(--text); border-color: var(--accent); }
+.msg.touch .msg-meta { display: inline-flex; align-items: center; gap: 6px; }
+.touch-icon { width: 20px; height: 20px; font-size: 10px; cursor: default; }
+.touch-icon:hover { transform: none; filter: none; }
+/* Specific enough (4 classes) to beat `.msg.us .bubble`'s fill further down,
+   whatever order these rules end up in. */
+.msg.touch .bubble.touch-bubble {
+  background: transparent;
+  border-style: dashed;
+  white-space: pre-wrap;
+  font-size: 13px;
+}
+.btn-touch-del {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 14px; line-height: 1; padding: 0 2px;
+}
+.btn-touch-del:hover { color: #b91c1c; }
+.touch-form-host { width: 100%; }
+.touch-form {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 10px 12px;
+  border: 1px dashed var(--border); border-radius: 10px;
+  background: var(--card);
+}
+.touch-form .touch-field {
+  padding: 6px 8px; font-size: 13px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--card); color: inherit;
+}
+.touch-form .touch-note { flex: 1 1 200px; min-width: 160px; }
+.touch-form .btn-primary, .touch-form .btn-secondary { padding: 6px 12px; font-size: 13px; }
+
+.research-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.research-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.research-title { font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); }
+.research-time { font-size: 11px; }
+.research-body { font-size: 13px; white-space: pre-wrap; line-height: 1.5; }
+
+.contact-research { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.contact-research-head .research-time { display: inline-flex; align-items: center; gap: 5px; }
+.btn-research-contact { padding: 4px 10px; font-size: 12px; }
+
+/* One-click reach-out icons (LinkedIn/Facebook/Instagram/WhatsApp/email/phone)
+   parsed out of contact research -- see CHANNEL_DEFS in app.js. */
+.channel-icons { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 10px; }
+.channel-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .1s ease, filter .1s ease;
+}
+.channel-icon:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.channel-icon-nolink { cursor: default; opacity: .75; }
+.channel-icon-nolink:hover { transform: none; filter: none; }
+
+.lead-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.lead-actions .btn-secondary { padding: 6px 11px; font-size: 13px; }
+/* Export for LinkedIn: the button plus the note describing what the last click
+   did, kept together so the note sits beside its button rather than wrapping to
+   the far end of the flex row. */
+.export-linkedin { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.export-linkedin .error-note { margin-top: 0; }
+/* The not-yet-connected state is an <a> (it leaves the SPA for Google's consent
+   screen), so it needs the padding/decoration button gets for free. */
+.lead-actions .btn-link {
+  display: inline-block; padding: 6px 11px; font-size: 13px;
+  border-radius: 8px; text-decoration: none;
+}
+.status-banner {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background: #eeece7;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+/* Same shape, amber — matches the "follow-up due" cue used in the lead list. */
+.status-banner.warn {
+  color: #7a5310;
+  background: #fbf0d9;
+  border: 1px solid var(--followup);
+}
+/* Something is wrong with the draft below it (e.g. a template that came back
+   still in English) — a block, not a pill, because it says what to do next. */
+.draft-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #7a5310;
+  background: #fbf0d9;
+  border: 1px solid var(--followup);
+  border-radius: 8px;
+  padding: 8px 11px;
+  margin: 8px 0 0;
+}
+.cat-select {
+  padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border);
+  font-family: inherit; font-size: 13px; background: var(--bg); color: var(--text);
+}
+.snooze-control { display: inline-flex; align-items: center; gap: 6px; }
+.snooze-picker { display: inline-flex; align-items: center; gap: 6px; }
+.snooze-picker input[type=date] {
+  padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border);
+  font-family: inherit; font-size: 13px; background: var(--bg); color: var(--text);
+}
+
+/* ---- chat bubbles ---- */
+.thread { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+.msg { display: flex; flex-direction: column; max-width: 82%; }
+.msg.us { align-self: flex-end; align-items: flex-end; }
+.msg.lead { align-self: flex-start; align-items: flex-start; }
+.msg-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; padding: 0 4px; }
+.bubble {
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+}
+.msg.lead .bubble { background: var(--card); border-top-left-radius: 4px; }
+.msg.us .bubble { background: #f3e7dd; border-color: #e7d4c4; border-top-right-radius: 4px; }
+.bubble p { margin: 0 0 8px; }
+.bubble p:last-child { margin-bottom: 0; }
+/* Images in a thread message. Everything here was rebuilt by
+   email_clean._rebuild_img from an attribute allowlist, so no sender markup or
+   inline width survives to fight these rules — the cap is all that stops a
+   full-size screenshot from stretching the bubble past its column. */
+.bubble img.msg-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 6px 0;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+/* An image whose sender stated no pixel width. Signature logos always state one
+   and stay small; this is the raw-screenshot case, held to a readable strip so
+   one image can't push the rest of the thread off screen. Click opens full size. */
+.bubble img.msg-img-unsized { max-height: 180px; width: auto; }
+.bubble .msg-img-link { display: inline-block; }
+/* An inline attachment (cid:) we have no bytes for — shown so the reader knows
+   an image was there rather than seeing a silent gap. */
+.msg-img-missing { font-size: 12px; color: var(--muted); font-style: italic; }
+
+/* Read-only signature preview under the draft editor — shown in both tabs,
+   never edited or translated; appended verbatim at send. */
+.sig-preview {
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 8px;
+  background: var(--bg);
+}
+.sig-preview-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 6px;
+}
+.sig-preview-body { font-size: 13px; opacity: .85; }
+.sig-preview-body table { max-width: 100%; }
+.sig-preview-body img { max-width: 100%; height: auto; }
+
+/* ---- draft area ---- */
+.draft-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.draft-box h3 { margin: 0 0 10px; font-size: 15px; }
+
+.edit-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
+.edit-tab {
+  background: var(--bg); color: var(--muted); border: 1px solid var(--border);
+  padding: 5px 13px; border-radius: 20px; font-size: 13px;
+}
+.edit-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.editor-toolbar { display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; }
+.toolbar-btn {
+  background: var(--bg); color: var(--text); border: 1px solid var(--border);
+  padding: 5px 11px; border-radius: 6px; font-size: 13px; min-width: 32px;
+}
+.toolbar-btn:hover { background: #efece6; }
+.toolbar-btn.toolbar-bold { font-weight: 700; }
+.toolbar-btn.toolbar-italic { font-style: italic; }
+.toolbar-btn.toolbar-underline { text-decoration: underline; }
+
+.draft-editor ul, .draft-editor ol { margin: 8px 0; padding-left: 24px; }
+
+.apply-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.apply-row .muted { font-size: 12px; }
+
+/* Signatures are authored for a fixed-width email client (~800px tables) —
+   force them to reflow to whatever width is actually available here instead
+   of overflowing/clipping the narrower editor pane. */
+.draft-editor table {
+  width: auto !important; max-width: 100%;
+}
+.draft-editor img {
+  max-width: 100%; height: auto;
+  cursor: pointer;
+}
+.draft-editor img.img-selected { outline: 2px solid var(--accent); outline-offset: 2px; }
+.draft-editor.uploading { opacity: 0.6; cursor: progress; }
+
+/* Floating resize bar, pinned above the image that's currently selected. */
+.image-bar {
+  position: fixed; z-index: 50; display: none; align-items: center; gap: 6px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 5px 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+.image-bar-btn {
+  background: #fff; color: var(--text); border: 1px solid var(--border);
+  padding: 3px 9px; border-radius: 6px; font-size: 12px; cursor: pointer;
+}
+.image-bar-btn:hover { background: #efece6; }
+.image-bar-del { color: #a33; }
+.image-bar-slider { width: 110px; }
+.image-bar-pct { font-size: 12px; color: var(--muted); min-width: 34px; }
+.draft-editor {
+  min-height: 200px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
+}
+.draft-editor:focus { border-color: var(--accent); }
+.draft-editor p { margin: 0 0 10px; }
+
+details.translation { margin-top: 10px; }
+details.translation summary { cursor: pointer; color: var(--accent-dark); font-size: 13px; }
+details.translation .translation-body { margin-top: 8px; font-size: 13px; color: var(--muted); white-space: pre-wrap; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 14px; }
+.actions input[type=text] {
+  padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
+  font-family: inherit; font-size: 13px; min-width: 200px; flex: 1;
+}
+.actions input[type=datetime-local] { padding: 7px 9px; border-radius: 8px; border: 1px solid var(--border); }
+
+.generate-prompt { padding: 30px 4px; text-align: center; }
+.generate-prompt .btn-send { font-size: 15px; padding: 11px 20px; }
+.gen-btn-row { display: flex; gap: 10px; justify-content: center; align-items: center; }
+.gen-note { display: block; margin: 12px auto 0; max-width: 420px; }
+.gen-note input {
+  width: 100%; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--border); font-family: inherit;
+}
+
+.gen-controls {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin: 12px 0; flex-wrap: wrap; font-size: 13px; color: var(--muted);
+}
+.gen-controls select {
+  padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; font-size: 13px;
+}
+.gen-websearch { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+/* Web search doesn't exist on the OpenRouter path — the toggle dims instead of
+   disappearing, so the option's absence is visible rather than mysterious. */
+.gen-websearch.is-disabled { opacity: 0.45; cursor: not-allowed; }
+/* The model dropdown carries provider optgroups and prices, so it needs more
+   room than the old three-item Anthropic list. */
+.gen-controls select.model-select { max-width: 320px; }
+.btn-set-default { font-size: 12px; padding: 5px 9px; white-space: nowrap; }
+.btn-set-default:disabled { opacity: 0.6; cursor: default; }
+
+/* ---- Models panel (⚙ Models) ---- */
+/* Qualified with .modal deliberately. Both selectors are one class deep, so the
+   later one in the file wins on source order alone — and .modal (further down,
+   with the rest of the modal styling) set max-width: 560px, quietly overriding
+   the 640px this panel asks for. It is the widest modal in the app: five rows
+   of long select labels, each with a status word on the far right. */
+.modal.models-modal { max-width: 640px; }
+/* The scroll container the panel was missing. .modal is overflow:hidden with a
+   max-height of 80vh, so a body that doesn't scroll for itself simply gets cut
+   — the footnote about batch pre-generation was sliced through mid-sentence on
+   a laptop screen. It carries the horizontal padding too: without it the rows
+   and their selects sat flush against the modal's edges while the header above
+   them was indented 20px, which is what made the panel look broken. */
+.models-body { overflow-y: auto; padding: 6px 20px 18px; }
+.models-roles { display: flex; flex-direction: column; gap: 4px; }
+.models-role { padding: 14px 0; border-bottom: 1px solid var(--border); }
+.models-role:last-child { border-bottom: none; }
+.models-role-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.models-role-label { font-weight: 600; font-size: 14px; min-width: 0; }
+/* Never let "FOLLOWS WRITING DRAFTS" wrap onto a second line or push past the
+   edge — it's the longest status and it sits hard against the right margin. */
+.models-role-status {
+  font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em;
+  white-space: nowrap; flex-shrink: 0;
+}
+.models-role-status.is-explicit { color: var(--accent, #2d7ff9); }
+.models-role-desc { font-size: 12px; color: var(--muted); margin: 4px 0 9px; line-height: 1.45; }
+.models-role-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.models-role-controls select { flex: 1 1 260px; max-width: 100%; padding: 6px 8px; border-radius: 8px;
+  border: 1px solid var(--border); font-family: inherit; font-size: 13px; }
+.btn-inherit { font-size: 12px; padding: 5px 9px; white-space: nowrap; }
+.btn-inherit:disabled { opacity: 0.5; cursor: default; }
+/* Inside the scrolling body, not pinned as a footer: it's three lines of
+   caveat, and giving it permanent space would cost a whole role row on a
+   laptop. Scrolled to, it reads fine; clipped, it read as a bug. */
+.models-note { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.quick-followups { margin: 0 0 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border); text-align: center; }
+.quick-followups-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.btn-quick { font-size: 12px; padding: 6px 10px; }
+.btn-templates { display: inline-block; }
+
+/* ---- templates modal ---- */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(42, 38, 34, .45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; padding: 24px;
+}
+.modal {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .18);
+  max-width: 560px; width: 100%; max-height: 80vh;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.modal-header h3 { margin: 0; font-size: 16px; }
+.modal-close {
+  background: none; border: none; font-size: 22px; line-height: 1; color: var(--muted);
+  cursor: pointer; padding: 0 4px;
+}
+.modal-close:hover { color: var(--text); }
+
+.template-filter-row { padding: 10px 20px 0; }
+.template-client-filter {
+  font: inherit; font-size: 12.5px; padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);
+}
+.templates-list { overflow-y: auto; padding: 14px 20px; display: flex; flex-direction: column; gap: 10px; }
+.template-card {
+  border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.template-card:hover { border-color: var(--accent); }
+.template-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.template-label-wrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.template-label { font-weight: 600; font-size: 13px; }
+.template-client-badge {
+  font-size: 10.5px; color: var(--muted); border: 1px solid var(--border);
+  border-radius: 999px; padding: 1px 8px; flex-shrink: 0;
+}
+.template-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.btn-icon {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 13px; line-height: 1; padding: 4px 6px; border-radius: 6px;
+}
+.btn-icon:hover:not(:disabled) { color: var(--accent); background: var(--bg); }
+.btn-icon:disabled { opacity: .3; cursor: default; }
+/* Clamped to 3 lines; .expanded (toggled by a click) shows the whole thing. */
+.template-preview {
+  font-size: 13px; color: var(--muted); white-space: pre-wrap; cursor: pointer;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.template-preview.expanded { display: block; overflow: visible; }
+.template-form { gap: 10px; }
+.template-form input, .template-form textarea, .template-form select {
+  width: 100%; font: inherit; font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text);
+}
+.template-form textarea { min-height: 140px; resize: vertical; }
+.template-form select { width: auto; }
+.template-form-actions { display: flex; gap: 8px; }
+.template-empty { color: var(--muted); font-size: 13px; text-align: center; padding: 28px 4px; }
+.modal-heading { display: flex; flex-direction: column; gap: 4px; }
+.modal-sub { font-size: 12px; color: var(--muted); }
+.modal-footer {
+  padding: 12px 20px; border-top: 1px solid var(--border); flex-shrink: 0;
+  display: flex; justify-content: flex-start;
+}
+
+/* ---- recipients row (above Send/Schedule) ---- */
+.recipients {
+  display: flex; flex-direction: column; gap: 8px;
+  margin: 0 0 14px; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--bg);
+}
+.recipient-row { display: flex; align-items: center; gap: 10px; }
+.recipient-label {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .04em; width: 26px; flex-shrink: 0;
+}
+.recipient-row input {
+  flex: 1; min-width: 0; font: inherit; font-size: 13px; padding: 6px 9px;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text);
+}
+.recipient-note { font-size: 11px; padding-left: 36px; }
+
+/* ---- attachments ---- */
+/* Sits directly under the recipients box and borrows its shape: both answer
+   "what exactly is about to leave", and both have to be readable at a glance
+   before the Send click. */
+.attachments {
+  display: flex; flex-direction: column; gap: 8px;
+  margin: -6px 0 14px; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--bg);
+}
+.attachment-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.attachment-row .recipient-label { width: auto; }
+.attachment-chips { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; min-width: 0; }
+.attachment-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 6px 3px 9px; font-size: 12px;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--card);
+}
+.attachment-chip a { color: var(--text); text-decoration: none; }
+.attachment-chip a:hover { text-decoration: underline; }
+.attachment-remove {
+  border: none; background: transparent; color: var(--muted);
+  font-size: 15px; line-height: 1; cursor: pointer; padding: 0 2px;
+}
+.attachment-remove:hover { color: var(--danger); }
+.btn-attach { font-size: 12px; padding: 4px 10px; }
+
+.library-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 2px; border-bottom: 1px solid var(--border);
+}
+.library-item:last-child { border-bottom: none; }
+.library-info { flex: 1; min-width: 0; }
+.library-name { font-size: 14px; word-break: break-word; }
+.library-meta { font-size: 11px; margin-top: 2px; }
+
+.spinner {
+  display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite;
+  vertical-align: -2px; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-note { color: var(--muted); font-size: 14px; padding: 24px 4px; text-align: center; }
+.error-note { color: var(--danger); font-size: 13px; margin-top: 8px; }
+
+/* ---- login ---- */
+.login-box {
+  max-width: 320px; margin: 80px auto; background: var(--card);
+  border: 1px solid var(--border); border-radius: 12px; padding: 24px;
+}
+.login-box input[type=password] {
+  width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--border);
+}
+.error { color: var(--danger); font-size: 14px; }
+
+/* ---- phone layout (desktop rules above stay untouched) ---- */
+@media (max-width: 768px) {
+  html, body {
+    height: 100%;
+    height: 100dvh;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* On phones the workspace switch and the tools live in an off-canvas menu;
+     the section tabs stay on screen as a strip that scrolls sideways, which
+     beats hiding every destination behind the hamburger. */
+  header {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 40;
+  }
+  .header-bar {
+    height: 56px;
+    min-height: 56px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+  }
+  .subnav {
+    height: auto;
+    padding: 5px 10px;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .subnav::-webkit-scrollbar { display: none; }
+  .subnav-group, .subnav-sep { display: none; }
+  .more-menu { width: 100%; }
+  .more-btn { display: none; }
+  .more-list {
+    display: block;
+    position: static;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+  .more-item {
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: 16px;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .client-badge { margin-left: 5px; }
+  .mobile-menu-btn {
+    display: inline-flex;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0 11px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 5px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .mobile-menu-btn span {
+    display: block;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text);
+  }
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: rgba(42, 38, 34, .38);
+    backdrop-filter: blur(1px);
+  }
+  .header-right {
+    display: flex;
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(310px, 86vw);
+    padding: max(14px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    overflow-y: auto;
+    background: var(--card);
+    border-left: 1px solid var(--border);
+    box-shadow: -10px 0 30px rgba(42, 38, 34, .16);
+    transform: translateX(105%);
+    visibility: hidden;
+    transition: transform .2s ease, visibility 0s linear .2s;
+  }
+  body.mobile-menu-open .header-right {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform .2s ease;
+  }
+  .mobile-menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 42px;
+    font-size: 17px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .mobile-menu-close {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .header-right .pill-dry { align-self: flex-start; }
+  .view-switch { flex-wrap: nowrap; }
+  .view-tab {
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .header-right > .btn-secondary,
+  .header-right form .btn-secondary {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 14px;
+    text-align: left;
+  }
+  .header-right form { width: 100%; margin-top: auto; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    height: auto;
+  }
+  .inbox-head { padding-top: 10px; }
+  .search-row { padding-bottom: 8px; }
+  .filter-row { padding-bottom: 8px; }
+  .layout > * {
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+  }
+
+  #detail { display: none; }
+  body.showing-detail #inbox { display: none; }
+  body.showing-detail #detail {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .desktop-only-hint { display: none; }
+
+  .btn-back {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    margin-right: 4px;
+  }
+  .btn-back:hover { background: #efece6; }
+
+  .detail-body {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 12px 14px 40px;
+    overflow-wrap: anywhere;
+  }
+  .detail-empty { padding: 40px 16px; }
+
+  .status-filter-btn { padding: 9px 12px; font-size: 13px; }
+  .status-option { padding: 10px 10px; font-size: 13px; }
+  .status-option input { width: 17px; height: 17px; }
+  .msg-lang-toggle input { width: 15px; height: 15px; }
+  .btn-edit-name { padding: 8px; font-size: 13px; }
+  .msg-from { display: block; }
+  .toolbar-btn { min-width: 40px; padding: 10px 12px; }
+  .modal-close { padding: 10px 12px; min-width: 44px; min-height: 44px; }
+
+  .msg { max-width: 100%; }
+  .bubble {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .bubble table { width: auto !important; max-width: 100%; }
+  .bubble img { max-width: 100%; height: auto; }
+
+  .draft-box,
+  .draft-editor,
+  .sig-preview,
+  .research-panel,
+  .report-md,
+  .email-preview,
+  .convo-card,
+  .variant-card {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .sig-preview-body { overflow-x: auto; }
+
+  .snooze-control,
+  .snooze-picker { flex-wrap: wrap; }
+  .actions input[type=text] { min-width: 0; width: 100%; }
+  .actions .btn-send { width: 100%; padding: 12px 14px; font-size: 15px; }
+  .actions input[type=datetime-local] { width: 100%; }
+
+  .modal-overlay { padding: 12px; align-items: flex-end; }
+  .modal {
+    min-width: 0;
+    max-width: 100%;
+    max-height: 90dvh;
+    max-height: 90vh;
+    border-radius: 12px 12px 0 0;
+  }
+  .models-role-head { flex-wrap: wrap; }
+  .template-head { flex-direction: column; align-items: stretch; gap: 8px; }
+  .template-actions { justify-content: space-between; }
+  .btn-icon { min-width: 44px; min-height: 36px; font-size: 15px; }
+  .template-actions .btn-quick { flex: 1; padding: 8px 12px; }
+
+  .recipient-row { flex-wrap: wrap; }
+  .recipient-note { padding-left: 0; }
+
+  .login-box { margin: 40px auto; padding: 20px 16px; }
+}
+
+@media (max-width: 360px) {
+  .header-bar { padding-inline: 10px; }
+  header h1 { font-size: 14px; }
+  .client-badge { font-size: 10px; padding-inline: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 768px) {
+  .header-right { transition: none; }
+}
+
+/* ---------- campaigns view ---------- */
+
+.campaign-row { display: flex; flex-direction: column; gap: 3px; border-left-color: var(--waiting); }
+.campaign-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.campaign-stat { font-size: 12px; color: var(--muted); }
+.campaign-stat.good { color: var(--booked); font-weight: 600; }
+.campaign-stat.bad { color: var(--danger); font-weight: 600; }
+.campaign-analyzed { font-size: 11px; color: var(--muted); font-style: italic; }
+
+.campaign-head h2 { margin: 0 0 2px; font-size: 20px; }
+.campaign-tabs { display: flex; gap: 4px; margin: 14px 0 12px; border-bottom: 1px solid var(--border); }
+.campaign-tab {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 8px 12px; cursor: pointer; color: var(--muted); font-size: 14px;
+}
+.campaign-tab:hover { color: var(--text); }
+.campaign-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+.campaign-pane h3 { margin: 22px 0 4px; font-size: 15px; }
+.campaign-pane h4 { margin: 16px 0 4px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.small { font-size: 12px; }
+
+.stat-cards { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.stat-card { flex: 1 1 140px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.stat-card-value { font-size: 22px; font-weight: 600; }
+.stat-card-label { font-size: 12px; color: var(--muted); }
+.stat-card-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Tables can be wide; scroll them rather than the page. */
+.metric-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; display: block; overflow-x: auto; }
+.metric-table th, .metric-table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.metric-table th { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+.metric-table tbody tr:hover { background: #faf8f5; }
+
+/* "Not enough data" must read as neutral, never as a result worth acting on. */
+.verdict { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.verdict-solid_above { background: var(--booked-bg); color: var(--booked); }
+.verdict-solid_below { background: var(--reply-bg); color: var(--reply); }
+.verdict-leaning_above { background: #eef5f0; color: #4a7c59; }
+.verdict-leaning_below { background: var(--followup-bg); color: var(--followup); }
+.verdict-not_enough_data { background: #efece6; color: var(--muted); }
+
+.report-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.report-md { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; line-height: 1.6; }
+.report-md h3 { margin: 18px 0 6px; font-size: 15px; }
+.report-md h4, .report-md h5 { margin: 14px 0 4px; font-size: 13px; }
+.report-md ul { margin: 6px 0; padding-left: 20px; }
+.report-md li { margin: 3px 0; }
+.report-md code { background: #f1ede6; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+.report-md p { margin: 8px 0; }
+.analysis-running { font-weight: 600; color: var(--accent); }
+.error-text { color: var(--danger); }
+
+.convo-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.chip-filter {
+  border: 1px solid var(--border); background: var(--card); border-radius: 12px;
+  padding: 3px 10px; font-size: 12px; cursor: pointer; color: var(--muted);
+}
+.chip-filter.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.convo-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.convo-card summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.convo-company { font-weight: 600; }
+.convo-cat, .convo-magnet, .convo-step, .convo-variant { font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #efece6; color: var(--muted); }
+.convo-magnet { background: var(--booked-bg); color: var(--booked); }
+.convo-turn { margin: 8px 0 0; padding: 8px 10px; border-radius: 6px; }
+.convo-us { background: #f6f5f2; }
+.convo-them { background: var(--reply-bg); }
+.convo-who { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 3px; }
+.convo-text { white-space: pre-wrap; font-size: 13px; line-height: 1.5; }
+.convo-extract { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
+
+/* Long text columns wrap so the Confidence chip — the column that decides
+   whether a row is worth acting on — stays visible without scrolling. */
+.metric-table.wrap-first td:nth-child(2) { white-space: normal; min-width: 190px; }
+.metric-table.wrap-mid td:nth-child(3) { white-space: normal; min-width: 130px; max-width: 210px; }
+.metric-table td:first-child { white-space: normal; }
+
+/* ---- Campaign analysis: recommendations, whole emails, reply insights ---- */
+
+/* The "what to do next" panel. Deliberately the first thing under the headline
+   numbers: it is the answer, the tables underneath are the evidence. */
+.rec-list { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.rec-row {
+  background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--border);
+  border-radius: 8px; padding: 10px 12px;
+}
+.rec-clear { border-left-color: var(--booked); }
+.rec-leaning { border-left-color: #4a7c59; }
+.rec-unresolved, .rec-untested { border-left-color: var(--border); }
+.rec-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.rec-role { font-weight: 600; font-size: 13px; }
+.rec-status { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
+.status-clear { background: var(--booked-bg); color: var(--booked); }
+.status-leaning { background: #eef5f0; color: #4a7c59; }
+.status-unresolved, .status-untested { background: #efece6; color: var(--muted); }
+.rec-copy { margin: 6px 0 4px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.rec-copy-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.rec-copy-text { font-size: 13px; line-height: 1.5; }
+.rec-action { font-size: 13px; line-height: 1.55; color: var(--text); }
+
+.next-test {
+  margin-top: 14px; background: var(--card); border: 1px solid var(--accent);
+  border-radius: 8px; padding: 12px 14px;
+}
+.next-test h4 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+.next-test-block { margin-bottom: 10px; }
+.next-test-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 4px; }
+.next-test-item { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; flex-wrap: wrap; }
+.next-test-size { font-size: 12px; font-weight: 600; margin: 8px 0 0; }
+
+/* ---- Where the mail was going (app/campaign_deliverability.py) ----
+   The provider mix as one bar, then the computed verdict. Sits above the copy
+   analysis because "your copy is fine, the list isn't" has to be read first. */
+.esp-bar {
+  display: flex; height: 26px; margin-top: 8px; border-radius: 6px;
+  overflow: hidden; border: 1px solid var(--border); background: var(--card);
+}
+.esp-seg {
+  font-size: 11px; font-weight: 600; color: #fff; line-height: 26px;
+  text-align: center; overflow: hidden; white-space: nowrap; min-width: 2px;
+}
+/* Microsoft and Google get their own colours because they are the comparison;
+   everything else is one neutral block on purpose. */
+.esp-microsoft { background: #2f6db5; }
+.esp-google { background: #3f8f5a; }
+.esp-other { background: #a9a294; }
+.esp-unknown { background: #d5d0c6; color: var(--muted); }
+
+.esp-verdict {
+  margin-top: 12px; background: var(--card); border: 1px solid var(--border);
+  border-left: 3px solid var(--border); border-radius: 8px; padding: 10px 12px;
+}
+.esp-verdict-provider_drag { border-left-color: var(--reply); }
+.esp-verdict-provider_gap { border-left-color: var(--followup); }
+.esp-verdict-no_provider_effect { border-left-color: var(--booked); }
+.esp-verdict-head { margin-bottom: 6px; }
+.esp-status { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
+.status-provider_drag { background: var(--reply-bg); color: var(--reply); }
+.status-provider_gap { background: var(--followup-bg); color: var(--followup); }
+.status-no_provider_effect { background: var(--booked-bg); color: var(--booked); }
+.esp-headline { font-size: 14px; font-weight: 600; line-height: 1.5; }
+.esp-detail { font-size: 13px; line-height: 1.55; margin: 6px 0 0; }
+.esp-history { font-size: 13px; line-height: 1.55; margin: 6px 0 0; color: var(--accent-dark); }
+.esp-caveat { margin: 8px 0 0; }
+
+/* One card per variant: the whole email, not a list of variable names. */
+.variant-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.variant-card summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.variant-label { font-weight: 600; font-size: 14px; min-width: 18px; }
+.variant-subject { flex: 1 1 220px; font-size: 13px; }
+.variant-nums { display: flex; gap: 8px; flex-wrap: wrap; }
+.variant-num { font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #efece6; color: var(--muted); }
+.variant-body { margin-top: 10px; }
+.variant-meta { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.email-preview { background: #faf8f5; border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; }
+.email-subject { font-weight: 600; font-size: 13px; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
+.email-body { white-space: pre-wrap; font-size: 13px; line-height: 1.6; }
+.slot-parts { margin-top: 10px; }
+.slot-part { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; flex-wrap: wrap; }
+.slot-tag { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; padding: 2px 6px; border-radius: 8px; background: #efece6; color: var(--muted); white-space: nowrap; }
+.slot-token { font-size: 11px; color: var(--muted); font-family: ui-monospace, monospace; }
+.slot-text { font-size: 12px; flex: 1 1 200px; line-height: 1.5; }
+
+/* The component tables lead with the sentence, so that column must wrap wide. */
+.slot-cell { max-width: 460px; }
+.slot-cell-text { font-size: 13px; line-height: 1.5; white-space: normal; }
+.slot-cell-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Won/lost split bar on the conversation breakdowns. */
+.split-bar { width: 70px; height: 6px; border-radius: 3px; background: #efece6; overflow: hidden; }
+.split-won { display: block; height: 100%; background: var(--booked); }
+
+.quote-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.quote-item { border-left: 3px solid var(--border); padding: 6px 10px; background: var(--card); border-radius: 0 6px 6px 0; }
+.quotes-good .quote-item { border-left-color: var(--booked); }
+.quotes-bad .quote-item { border-left-color: var(--danger); }
+.quote-text { font-size: 13px; line-height: 1.5; }
+.quote-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* Secondary detail (raw threads, every rendered subject) — present for
+   checking a claim, collapsed so it never competes with the analysis. */
+.extra-block { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 10px; }
+.extra-block > summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); }
+
+/* The lead search box belongs to the inbox-style views only. */
+.search-row.hidden, .filter-row-secondary.hidden { display: none; }
+
+/* Account switcher at the top of the Campaigns list (only shown with >1 account). */
+.account-switch { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--bg); }
+.account-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.account-select { flex: 1; padding: 4px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); font-size: 13px; }
+
+.followup-timing-dialog { width: min(520px, calc(100vw - 32px)); box-sizing: border-box; border: 1px solid var(--border); border-radius: 14px; padding: 24px; background: var(--card); color: var(--text); max-height: 90vh; overflow: auto; }
+.followup-timing-dialog::backdrop { background: rgba(0,0,0,.35); }
+.followup-timing-dialog h3 { margin-top: 0; }
+.followup-timing-dialog p { font-size: 13px; line-height: 1.5; }
+.timing-field { display: flex; flex-direction: column; gap: 8px; margin: 18px 0; font-size: 14px; }
+.timing-field input { padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); }
+.timing-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* ---------- mailbox + domain health ---------- */
+.detail-body.health-page { max-width: 1120px; }
+.health-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.health-head h2 { margin: 0 0 3px; font-size: 21px; }
+.health-head p { margin: 0; }
+.health-mode { margin: 16px 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
+.mode-active { background: var(--booked-bg); border-color: #b8d9c5; }
+.mode-monitor_only, .mode-dry_run { background: var(--followup-bg); border-color: #ead39f; }
+.health-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.health-settings { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin: 0 0 16px; }
+.health-settings-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-bottom: 12px; }
+.health-switch { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; font-weight: 600; font-size: 13px; }
+.health-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.health-switch-track { position: relative; width: 36px; height: 20px; border-radius: 10px; background: var(--border); transition: background .15s; flex: none; }
+.health-switch-track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
+.health-switch input:checked + .health-switch-track { background: var(--booked); }
+.health-switch input:checked + .health-switch-track::after { transform: translateX(16px); }
+.health-switch input:focus-visible + .health-switch-track { outline: 2px solid var(--accent); outline-offset: 2px; }
+.health-settings-table { border-collapse: collapse; font-size: 12px; width: 100%; max-width: 560px; }
+.health-settings-table th, .health-settings-table td { text-align: left; padding: 5px 8px 5px 0; }
+.health-settings-table th { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
+.health-num { width: 72px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 6px; font: inherit; }
+.health-settings-rules { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 12px 0; font-size: 12px; }
+.health-settings-rule { display: inline-flex; align-items: center; gap: 6px; }
+.health-settings-rule .health-num { width: 58px; }
+.health-settings-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.health-summary-card { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--border); border-radius: 8px; padding: 13px; }
+.summary-good { border-top-color: var(--booked); }
+.summary-warn { border-top-color: var(--followup); }
+.summary-bad { border-top-color: var(--reply); }
+.health-summary-value { font-size: 26px; font-weight: 700; line-height: 1.1; }
+.health-summary-label { font-size: 13px; font-weight: 600; margin-top: 5px; }
+.health-summary-note { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.health-timing { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0 22px; color: var(--muted); font-size: 12px; }
+.health-section-title { margin: 24px 0 2px; font-size: 16px; }
+.health-section-title + p { margin-top: 0; }
+.health-table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
+.health-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.health-table th, .health-table td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.health-table th { color: var(--muted); text-transform: uppercase; letter-spacing: .04em; font-size: 10px; }
+.health-table tr:last-child td { border-bottom: none; }
+.health-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.health-full, .health-healthy { color: var(--booked); background: var(--booked-bg); }
+.health-rehab, .health-listed { color: var(--reply); background: var(--reply-bg); }
+.health-comeback, .health-warning { color: var(--followup); background: var(--followup-bg); }
+.health-unknown { color: var(--muted); background: #efece6; }
+.health-ok { color: var(--booked); }
+.health-error { color: var(--danger); font-size: 11px; white-space: normal; margin-top: 2px; }
+.domain-health-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.domain-health-card { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 8px; padding: 12px; min-width: 0; }
+.domain-healthy { border-left-color: var(--booked); }
+.domain-warning, .domain-unknown { border-left-color: var(--followup); }
+.domain-listed { border-left-color: var(--reply); }
+.domain-health-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.domain-health-top h4 { margin: 0; font-size: 14px; overflow-wrap: anywhere; }
+.domain-signals { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0; }
+.domain-checked { font-size: 11px; color: var(--text); margin: 7px 0 3px; overflow-wrap: anywhere; }
+
+@media (max-width: 980px) {
+  .health-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .health-summary, .domain-health-grid { grid-template-columns: 1fr; }
+  .health-head { align-items: stretch; flex-direction: column; }
+}
+
+/* ---- subsequences ---- */
+.sequence-row.sequence-off { opacity: .6; }
+.seq-form { display: flex; flex-direction: column; gap: 12px; max-width: 520px; }
+.seq-field { display: flex; flex-direction: column; gap: 4px; }
+.seq-field-label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.seq-field input[type=text], .seq-field select { width: 100%; box-sizing: border-box; }
+.seq-inline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; }
+.seq-check { font-size: 13px; display: flex; align-items: center; gap: 6px; }
+.seq-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.seq-actions .btn-secondary, .seq-actions .btn-danger, .seq-actions .btn-send { padding: 6px 11px; font-size: 13px; }
+.seq-settings > summary { cursor: pointer; font-weight: 600; margin-bottom: 10px; }
+.seq-settings:not([open]) > summary { margin-bottom: 0; }
+
+.seq-enrollment-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+.seq-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.seq-dots { display: inline-flex; gap: 4px; }
+.seq-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+.seq-dot.done { background: var(--waiting); }
+.seq-dot.next { background: var(--card); box-shadow: inset 0 0 0 2px var(--waiting); }
+.seq-badge {
+  background: var(--waiting-bg); border: 1px solid var(--border); border-left: 3px solid var(--waiting);
+  border-radius: 8px; padding: 10px 12px; margin: 10px 0;
+}
+.seq-badge-title { font-weight: 600; }
+.seq-label { color: var(--waiting); font-weight: 600; }
+
+.seq-timeline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 16px 0; }
+.seq-tl-node { font-size: 12px; padding: 3px 9px; border-radius: 12px; background: var(--waiting-bg); color: var(--waiting); font-weight: 600; }
+.seq-tl-node.you { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+.seq-tl-node.end { background: var(--booked-bg); color: var(--booked); }
+.seq-tl-gap { font-size: 11px; color: var(--muted); }
+
+.seq-steps { display: flex; flex-direction: column; gap: 14px; margin-bottom: 14px; }
+.seq-step-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 10px; }
+.seq-step-head h3 { margin: 0; }
+.seq-step-head .template-actions { margin-left: auto; }
+.seq-delay { width: 60px; }
+.step-editor { min-height: 120px; }
+.seq-preview { margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 10px; }
+.seq-preview select { margin-bottom: 8px; }
+.seq-preview-mail { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; font-size: 14px; overflow-x: auto; }
+.seq-preview-mail img { max-width: 100%; height: auto; }
+.seq-preview-mail p { margin: 0 0 10px; }
+
+@media (max-width: 600px) {
+  .seq-step-head .template-actions { margin-left: 0; }
+  .seq-form { max-width: none; }
+}
+
+/* "From their website" contacts pushed by WebsiteGenerator (app/prospect_contacts.py) */
+.site-contacts { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 0 0 10px; font-size: 13px; }
+.site-contacts-title { font-weight: 600; margin-bottom: 6px; }
+.site-contacts-row { display: flex; gap: 8px; padding: 2px 0; align-items: baseline; }
+.site-contacts-label { flex: 0 0 88px; color: var(--muted, #7a746c); }
+.site-contacts-values { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; min-width: 0; overflow-wrap: anywhere; }
+.site-contacts-tag { font-size: 11px; padding: 0 6px; border-radius: 999px; background: #eee; color: #555; }
+.site-contacts-tag.confirmed { background: #25d366; color: #fff; }
+
+/* ---- Outreach / CRM workspace switch ---- */
+.mode-switch { display: flex; gap: 2px; background: var(--text); border-radius: 8px; padding: 2px; }
+.mode-tab { background: transparent; border: none; color: #d9d4cb; padding: 6px 12px; font-size: 13px; font-weight: 600; border-radius: 6px; }
+.mode-tab:hover { color: #fff; }
+.mode-tab.active { background: var(--card); color: var(--text); }
+
+/* ---- CRM (app/crm.py, static/crm.js) ---- */
+.crm-page {
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 16px 20px 32px;
+}
+.crm-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.crm-toolbar h2 { margin: 0 8px 0 0; font-size: 20px; }
+.crm-search { flex: 0 1 260px; }
+.crm-hint { margin-bottom: 12px; }
+.crm-input {
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  min-width: 0;
+}
+.crm-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px #f0dccd; }
+.crm-new-deal { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; padding: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+
+.crm-board {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  min-height: calc(100vh - var(--header-h) - 120px);
+}
+.crm-col {
+  flex: 0 0 272px;
+  background: #efece6;
+  border-radius: 10px;
+  border-top: 3px solid var(--muted);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - var(--header-h) - 120px);
+}
+.crm-stage-meeting_booked { border-top-color: var(--booked); border-left-color: var(--booked); }
+.crm-stage-negotiating { border-top-color: var(--waiting); border-left-color: var(--waiting); }
+.crm-stage-proposal_sent { border-top-color: var(--followup); border-left-color: var(--followup); }
+.crm-stage-won { border-top-color: var(--accent); border-left-color: var(--accent); }
+.crm-stage-lost { border-top-color: var(--bounced); border-left-color: var(--bounced); }
+.crm-col-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px 2px; gap: 8px; }
+.crm-col-title { font-weight: 700; font-size: 13px; }
+.crm-col-count { font-size: 12px; font-weight: 600; background: var(--card); border-radius: 20px; padding: 0 8px; color: var(--muted); }
+.crm-col-total { padding: 0 12px; }
+.crm-col-list { display: flex; flex-direction: column; gap: 8px; padding: 8px; overflow-y: auto; min-height: 80px; flex: 1; border-radius: 8px; }
+.crm-col-list.drop-target { background: #e6e1d8; }
+.crm-col-empty { text-align: center; padding: 18px 0; border: 1px dashed var(--border); border-radius: 8px; }
+.crm-drop-marker { height: 3px; border-radius: 2px; background: var(--accent); margin: -2px 0; }
+
+.crm-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 10px;
+  cursor: grab;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+.crm-card:hover { border-color: #cfc8bc; }
+.crm-card:focus-visible { outline: 2px solid var(--accent); }
+.crm-card.dragging { opacity: .45; }
+.crm-card-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.crm-card-name { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+.crm-card-value { font-size: 12px; font-weight: 700; color: var(--booked); white-space: nowrap; }
+.crm-card-company { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.crm-card-next { font-size: 12px; margin-top: 5px; padding: 3px 6px; background: var(--bg); border-radius: 6px; overflow-wrap: anywhere; }
+.crm-card-next.overdue, .crm-todo-due.overdue { color: var(--reply); background: var(--reply-bg); }
+.crm-card-next.due-today, .crm-todo-due.due-today { color: var(--followup); background: var(--followup-bg); }
+.crm-card-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
+
+/* record */
+.crm-back { margin-bottom: 12px; padding: 6px 11px; font-size: 13px; }
+.crm-record-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.crm-record-titles { min-width: 0; }
+.crm-record-titles h2 { margin: 0 0 2px; font-size: 22px; overflow-wrap: anywhere; }
+.crm-record-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+.crm-field { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); font-weight: 600; }
+.crm-field .crm-input { width: 230px; max-width: 100%; }
+.crm-stage-select { border-left-width: 4px; border-left-style: solid; }
+.crm-facts { margin: 8px 0 16px; }
+.crm-record-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; }
+.crm-record-main, .crm-record-side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.crm-section { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; min-width: 0; }
+.crm-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.crm-section h3 { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); }
+.crm-sub-title { margin: 10px 0 3px; font-weight: 600; }
+.crm-empty { list-style: none; padding: 4px 0; }
+
+.crm-add-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.crm-add-row .crm-input[type=text] { flex: 1 1 200px; }
+.crm-todo-list, .crm-journal, .crm-contact-list, .crm-link-list { list-style: none; margin: 0; padding: 0; }
+.crm-todo { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px solid var(--bg); }
+.crm-todo input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--accent); flex: 0 0 auto; cursor: pointer; }
+.crm-todo-title { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.crm-todo.done .crm-todo-title { text-decoration: line-through; color: var(--muted); }
+.crm-todo-due { font-size: 12px; padding: 3px 6px; width: 140px; }
+.crm-done summary { cursor: pointer; margin-top: 6px; }
+.crm-x { background: transparent; border: none; color: var(--muted); font-size: 18px; line-height: 1; padding: 2px 6px; }
+.crm-x:hover { color: var(--danger); }
+
+.crm-note-form { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; margin-bottom: 10px; }
+.crm-note-input { width: 100%; resize: vertical; }
+.crm-entry { padding: 8px 0; border-top: 1px solid var(--bg); }
+.crm-entry-meta { display: flex; justify-content: space-between; align-items: center; }
+.crm-entry-body { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; }
+.crm-entry-event .crm-entry-body { color: var(--muted); font-size: 13px; font-style: italic; }
+
+.crm-contact { padding: 6px 0; border-top: 1px solid var(--bg); display: flex; flex-direction: column; }
+.crm-contact-name { font-weight: 600; font-size: 14px; display: flex; align-items: baseline; gap: 2px; overflow-wrap: anywhere; }
+.crm-contact-name .crm-x { margin-left: auto; }
+.crm-contact a, .crm-link a { color: var(--accent-dark); overflow-wrap: anywhere; }
+.crm-link { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 5px 0; border-top: 1px solid var(--bg); }
+.crm-stack-form { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.crm-add-details summary { cursor: pointer; margin-top: 8px; font-size: 13px; color: var(--accent-dark); }
+.crm-remove { align-self: flex-start; padding: 6px 11px; font-size: 13px; }
+.crm-lead-sections { display: flex; flex-direction: column; gap: 16px; }
+.crm-thread-summary { cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); }
+.crm-thread .thread { margin: 12px 0 0; }
+.crm-lead-btn { font-weight: 600; }
+.crm-lead-btn.in-crm { color: var(--booked); border-color: var(--booked); }
+
+@media (max-width: 980px) {
+  .crm-record-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 768px) {
+  .mode-switch { width: 100%; }
+  .mode-tab { flex: 1; min-height: 44px; font-size: 14px; }
+  .crm-page { flex: 1; min-height: 0; height: auto; padding: 12px 16px 24px; width: 100%; }
+  .crm-board { min-height: 0; scroll-snap-type: x mandatory; }
+  .crm-col { flex-basis: 84vw; max-height: none; scroll-snap-align: start; }
+  .crm-record-controls, .crm-field, .crm-field .crm-input { width: 100%; }
+  .crm-search { flex: 1 1 100%; }
+}
+
+.site-feedback { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 0 0 10px; font-size: 13px; }
+.site-feedback-row { padding: 4px 0; }
+.site-feedback-row.like { border-left: 3px solid #16a34a; padding-left: 8px; }
+.site-feedback-row.accept { border-left: 3px solid #c2410c; padding-left: 8px; }
+.site-feedback-row.change { border-left: 3px solid #d97706; padding-left: 8px; }
+.site-feedback-row.no { border-left: 3px solid #9ca3af; padding-left: 8px; }
+.site-feedback-urgent { margin-left: 8px; color: #fff; background: #dc2626; border-radius: 4px; padding: 1px 6px; font-size: 12px; }
+
+/* Keep outgoing files readable beside the send controls. */
+.attachments { padding: 16px; border: 1px solid var(--border); border-radius: 10px; }
+.attachments .attachment-row { align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+.attachments .attachment-heading { padding-top: 10px; }
+.attachments .attachment-chips { flex-direction: column; }
+.attachments .attachment-chip { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px; border-radius: 8px; }
+.attachments .attachment-chip > a:first-of-type { font-weight: 600; overflow-wrap: anywhere; }
+.attachment-file-icon { font-size: 11px; font-weight: 700; padding: 3px 6px; border: 1px solid currentColor; border-radius: 4px; }
+.attachment-detail { width: 100%; font-size: 12px; opacity: .8; }
+.attachments .attachment-open { text-decoration: underline; font-size: 13px; }

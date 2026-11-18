@@ -1,0 +1,249 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 26893,
+    "completion_tokens": 3855,
+    "total_tokens": 30748,
+    "cost": 0.0030794,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0030794,
+      "upstream_inference_prompt_cost": 0.00134465,
+      "upstream_inference_completions_cost": 0.00173475
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2738607/3025134089",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Alina je izrazila interes i predložila sastanak (petak u 12h). Poslana su dva follow-upa nakon toga, ali nema odgovora. Nije se zakazalo putem kalendarskog linka. I dalje postoji ljudski interes, ali komunikacija je u zastoju. Potrebno je nastaviti pratiti, ne zaključivati kao 'Lead Done' jer su poslane samo 2 poruke nakon njenog odgovora.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak, direktan upit je li još uvijek zainteresirana za poziv, bez ponovnog slanja kalendarskog linka. Predloži konkretno vrijeme.",
+      "missing_information": [],
+      "evidence": [
+        "lass uns den Call gern mal machen, Wir wärs mit Freitag um 12 Uhr?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Alina,\n\nklingt, als wäre Freitag um 12 inzwischen nicht mehr drin – kein Problem.\n\nMöchtest du stattdessen einfach kurz nächste Woche telefonieren?\n\nSag einfach, welcher Tag dir passt, und ich schick dir den Link.",
+      "draft_english": "Hey Alina,\n\nsounds like Friday at 12 didn't work out – no problem.\n\nWould you prefer a quick call next week instead?\n\nJust tell me which day works and I'll send you the link.",
+      "draft_language": "de",
+      "draft_reason_hr": "Alina je predložila sastanak, ali nije odgovorila na dva follow-upa. Treba kratak upit da se vrati u konverzaciju bez pritiska."
+    },
+    {
+      "key": "2738607/3025135047",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Matthias je zatražio video („lasse mir gerne Euer Video zukommen\"). Video je poslan. Samo 1 poruka poslana nakon njegovog odgovora. Čekamo njegov odgovor. Nema odluke o 'Lead Done'.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak follow-up 2-3 dana nakon slanja videa. Pitaj je li ga pogledao i ima li pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "lasse mir gerne Euer Video zukommen, ich bin immer an anderen Vertriebswegen und neuen KI-Agenten interessiert."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Matthias,\n\nnur kurz nachfragen – hattest du Zeit, dir das Video anzuschauen?\n\nFalls ja, würde mich interessieren, ob die Strategie zu euch passen könnte.\n\nUnd falls nicht, sag einfach kurz Bescheid – dann belasse ich es dabei.",
+      "draft_english": "Hey Matthias,\n\njust checking in – did you have time to watch the video?\n\nIf so, I'd be curious whether the strategy could fit for you.\n\nIf not, just let me know and I'll leave it there.",
+      "draft_language": "de",
+      "draft_reason_hr": "Video poslan prije 12 dana. Matthias je pokazao interes, pa je fer poslati jedan kratak follow-up."
+    },
+    {
+      "key": "2738671/3025251911",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Francisco je pozitivno odgovorio s upitom za video (specifično za CFO, ne za digitalnu transformaciju). Video je poslan. Samo 1 poruka nakon njegovog odgovora. Čekamo povratnu informaciju. Treba pratiti.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak follow-up pitajući je li pogledao video i je li pristup za CFO imao smisla.",
+      "missing_information": [],
+      "evidence": [
+        "Tengo curiosidad por saber más. En concreto, no nos interesa tanto identificar a responsables de transformación digital como a CFO´s"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hola Francisco,\n\n¿tuviste tiempo de ver el vídeo?\n\nMe preguntaba si el enfoque para llegar a CFOs tiene sentido para Saima, o si te gustaría ajustar algo.\n\nSi prefieres, podemos saltarnos los correos y hablar 5 minutos directo.",
+      "draft_english": "Hi Francisco,\n\ndid you have time to watch the video?\n\nI was wondering if the approach to reach CFOs makes sense for Saima, or if you'd like to adjust anything.\n\nIf you prefer, we can skip the emails and talk for 5 minutes directly.",
+      "draft_language": "es",
+      "draft_reason_hr": "Francisco je konkretno pitao za CFO. Poslali smo video, ali nismo dobili povratnu informaciju tjedan dana. Jedan nježan follow-up je na mjestu."
+    },
+    {
+      "key": "2738671/3025253676",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Job je odgovorio s 'yes' i zatražio video. Video poslan. Samo 1 poruka nakon toga. Čekamo odgovor.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak follow-up da ga vratiš u konverzaciju.",
+      "missing_information": [],
+      "evidence": [
+        "yes"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Job,\n\njust checking in – did you get a chance to watch the video?\n\nIf it looked interesting, the next step would be a quick call to see how we'd set this up for 12Guide.\n\nAny thoughts so far?",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Job je rekao 'yes' na originalni pitch, primio je video, ali nije odgovorio. Slijedi standardni follow-up."
+    },
+    {
+      "key": "2732401/3016173185",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Dave (umjesto Jonathana) je odgovorio, ispravio pogrešan kontakt i zatražio video. Video je poslan. Samo 1 poruka nakon toga. Čekamo odgovor. Ovo nije 'Wrong Person' – osoba je ispravila i ostala zainteresirana.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak follow-up pitajući je li pogledao video.",
+      "missing_information": [],
+      "evidence": [
+        "Yes please send me the video"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Dave,\n\ndid you get a chance to watch the video?\n\nIf the approach makes sense for CloudBlazer, the next step would be a quick call to see how we'd set it up.\n\nAny initial thoughts?",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Dave je zatražio video nakon ispravka. Poslan je. Potreban je kratak follow-up."
+    },
+    {
+      "key": "2538823/2758496613",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Maros je odgovorio s 'Yes, you can send' i primio video. Samo 1 poruka nakon toga. Čekamo odgovor. Nije 'Lead Done'.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak follow-up za video.",
+      "missing_information": [],
+      "evidence": [
+        "Yes, you can send."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Maros,\n\njust quickly checking – did you get to watch the video?\n\nWould love to know if the approach makes sense for OneClick or if you have any questions.\n\nLet me know either way.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Maros je potvrdio interes, primio video, ali nije odgovorio. Treba kratak podsjetnik."
+    },
+    {
+      "key": "2515956/2722095330",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Sharjeel je odgovorio i zatražio više informacija. Video je poslan. Samo 1 poruka nakon toga. Čekamo odgovor.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak follow-up za video.",
+      "missing_information": [],
+      "evidence": [
+        "Yes, please share more information."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Sharjeel,\n\nquick check – did you have time to look at the video?\n\nIf the approach seems like it could work for Agile Falcon, I'd love to set up a short call to go into details.\n\nAny questions so far?",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Sharjeel je zatražio info, primio video, ali se nije javio. Slijedi standardni follow-up."
+    },
+    {
+      "key": "2538823/2758497291",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Pasquale je pokazao interes (zatražio video), ali nije odgovorio ni na jedan od 4 follow-upa. Ukupno 5 poslanih poruka nakon njegovog odgovora. Prema pravilima, nakon 5 uzastopno poslanih poruka bez odgovora, vodi se kao 'Lead Done'. Nema ljudskog interesa u zadnje vrijeme.",
+      "priority": "P3",
+      "sales_state": "LEAD_DONE",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Zatvori ovaj lead. Poslano je 5 poruka bez odgovora.",
+      "missing_information": [],
+      "evidence": [
+        "Sono interessato al video."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Lead je 'Lead Done' zbog 5 uzastopno poslanih poruka bez odgovora."
+    },
+    {
+      "key": "2538823/2758497636",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Remi je zatražio video, ali nije odgovorio ni na jedan od 4 follow-upa. Ukupno 5 poslanih poruka nakon njegovog odgovora. Prema pravilima, nakon 5 uzastopno poslanih poruka bez odgovora, vodi se kao 'Lead Done'. Nema ljudskog interesa u zadnje vrijeme.",
+      "priority": "P3",
+      "sales_state": "LEAD_DONE",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Zatvori ovaj lead. Poslano je 5 poruka bez odgovora.",
+      "missing_information": [],
+      "evidence": [
+        "Je vous laisse m'envoyer cette courte video"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Lead je 'Lead Done' zbog 5 uzastopno poslanih poruka bez odgovora."
+    },
+    {
+      "key": "2538823/2758497979",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Sebastian je pokazao interes (zatražio video, čak i dodatno potvrdio s 'OK'), ali nije odgovorio ni na jedan od 4 follow-upa. Ukupno 4 poslane poruke nakon njegovog odgovora. Nema 'Lead Done' jer je 4, ne 5. Poslat ćemo još jedan kratak, završni follow-up.",
+      "priority": "P2",
+      "sales_state": "FOLLOWUP_DUE",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratak, posljednji follow-up prije zatvaranja. Pitaj je li uopće zainteresiran.",
+      "missing_information": [],
+      "evidence": [
+        "Hola Mia Me interesaría.",
+        "OK"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hola Sebastian,\n\nsé que has estado ocupado, así que seré breve.\n\n¿Sigue siendo de interés el modelo de crecimiento basado en rendimiento para E Process Med, o puedo cerrar el tema?\n\nUn sí o un no me sirve.",
+      "draft_english": "Hi Sebastian,\n\nI know you've been busy, so I'll be brief.\n\nIs the performance-based growth model still of interest for E Process Med, or can I close the topic?\n\nA yes or no works for me.",
+      "draft_language": "es",
+      "draft_reason_hr": "Sebastian je dvaput potvrdio interes (\"Me interesaría\" i \"OK\"). Poslano je 4 follow-upa, ali nema odgovora. Pošalji jedan zadnji, vrlo kratak upit prije nego što se lead zatvori."
+    }
+  ]
+}

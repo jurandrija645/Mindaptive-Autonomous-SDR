@@ -324,10 +324,18 @@ def create_draft(
     # Record the model actually used (drafter falls back to the default for
     # anything not in the picker) — feeds the Stats view's cost proxy.
     resolved_model = models_registry.resolve(model)
-    return store_draft_result(conn, lead, kind, thread, result, model=resolved_model)
+    from app import onebody_review
+    result, review_warning = onebody_review.review_for_display(
+        result, thread_text, lead_payload, resolved_model,
+    )
+    if onebody_review.enabled() and not review_warning:
+        onebody_review.clear_hold(conn, lead["campaign_id"], lead["id"])
+    return store_draft_result(conn, lead, kind, thread, result, model=resolved_model,
+                              review_warning=review_warning)
 
 
-def store_draft_result(conn, lead: dict, kind: str, thread, result, model: str | None = None) -> int:
+def store_draft_result(conn, lead: dict, kind: str, thread, result, model: str | None = None,
+                       review_warning: str | None = None) -> int:
     """Persist a drafter.DraftResult as a pending draft row (plus the lead's
     research summary). Shared by create_draft above and the Batch API result
     handler (app/batch_gen.py) so both paths store byte-identical drafts."""
@@ -369,4 +377,9 @@ def store_draft_result(conn, lead: dict, kind: str, thread, result, model: str |
         signature_html=signature_html or None,
         model=model,
     )
+    if review_warning:
+        from app import onebody_review
+        db.set_setting(conn, f"onebody_review_warning:{draft_id}", review_warning)
+        if kind == "reply" and last_message.message_id:
+            onebody_review.set_hold(lead["campaign_id"], lead["id"], last_message.message_id, conn)
     return draft_id

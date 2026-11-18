@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9616,
+    "completion_tokens": 2410,
+    "total_tokens": 12026,
+    "cost": 0.015071184,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.015071184,
+      "upstream_inference_prompt_cost": 0.010039104,
+      "upstream_inference_completions_cost": 0.00503208
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315439",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor. Osoba nije osobno odgovorila. Naš zadnji e-mail bio 09.09., preporuča se naknadni kontakt jer nema odbijenice.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Još uvijek bez ljudskog odgovora, nije potvrđeno odbijanje. Pročitati hoće li se poslati 'bump' nakon stanke.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Kampanja je završila bez odgovora osobe. Nema eksplicitnog odbijanja. Možete ručno poslati kratki 'bump' ili zatvoriti. Preporuka: no outreach trenutno, vlasnik odlučuje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<27f2e8ad549a4007a0bab68d966edbdd@DBAPR01MB6664.eurprd01.prod.exchangelabs.com>",
+          "quote": "I am on annual leave with occasional access to emails"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315341",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'no longer with the company' uz upućivanje na druge kontakte unutar iste firme.",
+      "last_human_request_hr": "For ongoing projects, please contact Richard Hall rhall@acrisurere.com, or our Executive Assistant Libby Eastaugh leastaugh@acrisurere.com",
+      "unresolved_hr": "Osoba je napustila tvrtku. Nije izrazila interes za ponudu. Lead se zatvara.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao kriva osoba. Ako vlasnik želi, preusmjeriti na Richarda/Libby.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<838546a50bf948d787a20e2866708ae6@MN2PR18MB3477.namprd18.prod.outlook.com>",
+          "quote": "I am no longer with the company. For ongoing projects, please contact Richard Hall rhall@acrisurere.com, or our Executive Assistant Libby Eastaugh leastaugh@acrisurere.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315339",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'I have now left Acrisure'. Nema upita za ponudu.",
+      "last_human_request_hr": "I have now left Acrisure. For any recruitment enquires please get in touch with Louis O'Sullivan (louisosullivan@acrisure.com)",
+      "unresolved_hr": "Lead je napustio tvrtku. Zatvara se.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao kriva osoba.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b63ed1f76b354f4c866e1e5daf4eb73f@MW3PR18MB3498.namprd18.prod.outlook.com>",
+          "quote": "I have now left Acrisure."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315337",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "OOO odgovor 'department is taking a break'. Ljudski potpis, ali automatska poruka. Naš zadnji e-mail bio 15.09., nakon čega nema odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Kampanja završena bez ljudskog odgovora. Preporuka vlasniku za eventualni 'bump'.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Nema hitnosti. Vlasnik može poslati ručni podsjetnik. Preporuka: no outreach zasad.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2ec644e473c145b0b45ee598212f97af@LO2P265MB2815.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "The department is taking a break for the bank holiday and I will return to work on Tuesday 1 September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315438",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "OOO 'on annual leave returning Tuesday 1st September'. Automatski. Zadnja poruka naša 14.09.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Može se poslati jedan 'breakup bump' jer nema odbijanja niti daljnjih OOO nakon povratka.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Iako je kampanja završila, pošaljite kratki ručni 'bump' s pitanjem je li još zainteresiran.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c268da2bf55c4bbfa7353bcfc1a31d83@LO9P265MB7420.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am on annual leave returning Tuesday 1st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315393",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Dva OOO odgovora 'taking a few days off' i 'off to uni... back tomorrow'. Oba automatska. Naš zadnji e-mail bio 'last email', nakon čega je stigao drugi OOO bez ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Kampanja završena. Preporuka vlasniku za eventualni završni 'bump'.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Vlasnik može odlučiti ručno poslati 'jesi li još zainteresiran'. Preporuka: no outreach zasad.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<fe60121b2fa04a2288583be1b799504d@LO9P123MB7848.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm monitoring emails and will forward on to members of the team as appropriate."
+        },
+        {
+          "message_id": "<acb50ebc55084620821d73d175864aa5@LO9P123MB7848.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm off to uni today... back tomorrow."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315408",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je odgovorila ljudski, rekla 'sadly we don't have private healthcare'. To je odbijanje ponude.",
+      "last_human_request_hr": "Thanks, but sadly we don't have private healthcare.",
+      "unresolved_hr": "Odbijeno. Zatvoriti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead je negativan. Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP123MB3397FF19B4DD4EA9FDC537B1E5B22@CWXP123MB3397.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thanks, but sadly we don't have private healthcare."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315407",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "OOO 'I am away on leave and will return to the office on Wednesday, 9 September'. Automatski. Naš zadnji e-mail bio 11.09., bez daljnjeg odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Kampanja završena. Preporuka vlasniku za eventualni završni 'bump'.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Vlasnik može odlučiti ručno poslati 'jesi li još zainteresiran'. Preporuka: no outreach zasad.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<977d28557c3e4fb9892906228c4d9ad9@CWXP123MB3029.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am away on leave and will return to the office on Wednesday, 9 September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

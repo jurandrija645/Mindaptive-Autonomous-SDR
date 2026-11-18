@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7847,
+    "completion_tokens": 1364,
+    "total_tokens": 9211,
+    "cost": 0.01886789,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01886789,
+      "upstream_inference_prompt_cost": 0.01364377,
+      "upstream_inference_completions_cost": 0.00522412
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317472",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska 'out of office' poruka o odmoru, bez ikakvog osobnog osvrta na našu ponudu.",
+      "request_hr": "Nema stvarnog zahtjeva.",
+      "next_action_hr": "Lead je automatski odgovorio OOO. Više nije aktivan OOO, a na naknadne poruke nije bilo ljudskog odgovora. Preporučam arhiviranje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317487",
+      "genuine_engagement": true,
+      "verdict": "awaiting_us",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GVXPR02MB1212485CC3C33E837750C7E83AEBE2@GVXPR02MB12124.eurprd02.prod.outlook.com>",
+      "human_quote": "This would be amazing, I am travelling this week but let’s connect when I get back next week.",
+      "reason_hr": "Alexander je osobno prihvatio ponudu i tražio da se povežemo nakon povratka s putovanja. Poslije je dobio link i kod. Lokalni status 'booked' sugerira da je bookirao, ali posljednje poruke su njegovi zahtjevi za pomoć oko otkazivanja termina jer se ne može ulogirati u account. Ti zahtjevi su neodgovoreni i zahtijevaju našu hitnu reakciju.",
+      "request_hr": "Can you please cancel any and all appointments I have at the Shoreditch site.",
+      "next_action_hr": "Alexander je angažiran, ali ima hitan problem: ne može pristupiti računu i traži otkazivanje svih termina u Shoreditchu. Potrebno je odmah odgovoriti, riješiti problem s pristupom i/ili ručno otkazati termine, te mu javiti ishod.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317251",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor 'no longer work for gunnercooke'. Osoba više ne radi u toj tvrtki, nije ljudski odgovor na ponudu.",
+      "request_hr": "Nema stvarnog zahtjeva, samo upućivanje na druge kontakte.",
+      "next_action_hr": "Lead nije više na toj poziciji. Nema smisla dalje kontaktirati ovu adresu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317291",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka o porodiljnom dopustu, bez naznake datuma povratka. Nema osobnog angažmana.",
+      "request_hr": "Nema stvarnog zahtjeva, samo obavijest o odsutnosti.",
+      "next_action_hr": "Emma je na porodiljnom bez naznačenog datuma povratka. Preporučam pauziranje komunikacije na dulje vrijeme ili uklanjanje iz aktivne liste.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317323",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor 'I no longer work at Foster Denovo'. Osoba više ne radi u toj tvrtki, nije ljudski odgovor na ponudu.",
+      "request_hr": "Nema stvarnog zahtjeva, samo upućivanje na druge kontakte.",
+      "next_action_hr": "Lead nije više na toj poziciji. Nema smisla dalje kontaktirati ovu adresu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317325",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor 'David Watkins is no longer employed here'. Osoba više ne radi u toj tvrtki, nije ljudski odgovor na ponudu.",
+      "request_hr": "Nema stvarnog zahtjeva, samo upućivanje na drugi kontakt.",
+      "next_action_hr": "Lead nije više na toj poziciji. Nema smisla dalje kontaktirati ovu adresu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

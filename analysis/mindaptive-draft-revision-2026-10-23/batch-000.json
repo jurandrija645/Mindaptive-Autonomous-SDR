@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23661,
+    "completion_tokens": 944,
+    "total_tokens": 24605,
+    "cost": 0.001372686,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7424,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001372686,
+      "upstream_inference_prompt_cost": 0.001240526,
+      "upstream_inference_completions_cost": 0.00013216
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "3950427/4542617778",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Remis,\n\nIt's been a while since we last spoke about the roofing subscription idea. Is that still something you're working on?\n\nIf it is, a short call to figure out the subscriber flow and payment setup would get us to a solid quote. If not, no worries — just let me know.",
+      "english": "",
+      "reason_hr": "Već je prošlo 17 dana, nema novog odgovora. Remis je tražio poziv za subscription ideju. Kratak podsjetnik koji poštuje taj zahtjev i pita je li još aktualno."
+    },
+    {
+      "key": "3960357/3928775246",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Todd,\n\nIt's been a few weeks since I shared the site. I'm checking in one last time before I leave it.\n\nIf you'd like the price, just reply PRICE and I'll send it over. If it's not for you, a quick no is fine — I'll take the hint.",
+      "english": "",
+      "reason_hr": "Četiri poslana, bez odgovora od 15.09. Posljednji follow-up. Prirodno zatvaranje bez prisile. Ponuđen PRICE odgovor jer je to bio jedini otvoreni request (nikad nije tražio cijenu)."
+    },
+    {
+      "key": "3892258/4466860359",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Tom,\n\nJust checking in — did you get a chance to look at the site since we put it back up?\n\nWould you use this version as it stands, or is there one thing you'd change first?",
+      "english": "",
+      "reason_hr": "Gap 20 dana. Tom je rekao da su mailovi išli u spam i pitao za ponovni pokušaj. Poslan link i jedan podsjetnik. Kratak, direktan nastavak s jednim pitanjem za odluku."
+    },
+    {
+      "key": "3950427/4542616635",
+      "ready": false,
+      "language": "en",
+      "body": "",
+      "english": "",
+      "reason_hr": "William još uvijek nije otvorio stranicu (greška regije) — zadnji odgovor je bio 5.10. Poslan link i podsjetnik. Nema smisla slati isti upit opet dok ne riješimo tehnički problem. Bez regije ili potvrde da je otvorio stranicu, daljnji email bi bio prazan. Potrebno pričekati njegov odgovor ili riješiti pristup."
+    },
+    {
+      "key": "3562710/4080236189",
+      "ready": true,
+      "language": "de",
+      "body": "Hallo Ronny,\n\nSie hatten nach einer deutschen KI-Sprachdemo gefragt, als wir zuletzt sprachen — dann kam die Abwesenheitsnotiz und es ist ruhig geworden.\n\nIst das Thema für Erzvoltaik noch aktuell? Falls ja, kann ich schauen, welches live Beispiel wir teilen können.",
+      "english": "Hello Ronny, You had asked for a German AI voice demo when we last spoke — then came the out-of-office notice and it went quiet. Is the topic still current for Erzvoltaik? If so, I can check which live example we can share.",
+      "reason_hr": "Gap 105 dana. OOO je bio do 21.7., a zadnji stvarni razgovor je bio 2.7. o njemačkom AI pozivu. Prirodna reaktivacija, bez lažne isprike, bez izmišljenog napretka. Kratko i pošteno."
+    }
+  ]
+}

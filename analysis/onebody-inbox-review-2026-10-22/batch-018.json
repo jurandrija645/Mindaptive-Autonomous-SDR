@@ -1,0 +1,221 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11354,
+    "completion_tokens": 2628,
+    "total_tokens": 13982,
+    "cost": 0.0017503,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0017503,
+      "upstream_inference_prompt_cost": 0.0005677,
+      "upstream_inference_completions_cost": 0.0011826
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315924",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda, kontaktirajte kolegu.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office, and will respond on my return."
+      ]
+    },
+    {
+      "key": "3876232/4446315756",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 7. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that I am out of the office returning on the 7 September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446315345",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: ograničen pristup e-pošti, povratak 1. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’ll have very limited access to email over the next few days due to travel",
+        "I’ll be fully back online on Tuesday 1st September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446316021",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 7.9.2026.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office on holiday until 7.9.2026."
+      ]
+    },
+    {
+      "key": "3876232/4446316020",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je jasno izjavila da više ne radi u toj tvrtki.",
+      "next_step_hr": "Označite kao 'Wrong Person'; nema potrebe za daljnjim kontaktom.",
+      "last_inbound_summary_hr": "Osoba je izjavila: 'I no longer work for gunnercooke.'",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work for gunnercooke."
+      ]
+    },
+    {
+      "key": "3876232/4446315940",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Tuesday 1st September."
+      ]
+    },
+    {
+      "key": "3876232/4446315353",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o rodiljnom dopustu, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: na rodiljnom dopustu.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m on maternity leave and won’t be keeping up with my inbox as regularly."
+      ]
+    },
+    {
+      "key": "3876232/4446315337",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o prazniku, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: odsutna zbog praznika, povratak 1. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "The department is taking a break for the bank holiday and I will return to work on Tuesday 1 September."
+      ]
+    },
+    {
+      "key": "3876232/4446315418",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovori o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 9. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office, returning Wednesday 9th September."
+      ]
+    },
+    {
+      "key": "3876232/4446315809",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovori o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 10. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Thursday 10th September with limited access to emails"
+      ]
+    },
+    {
+      "key": "3876232/4446315777",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovori o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 8. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka: ponuda uz opciju odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office until Tuesday 8th September."
+      ]
+    },
+    {
+      "key": "3930675/4520616517",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržite postojeću oznaku; nema novih koraka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 21. rujna.",
+      "last_outbound_summary_hr": "Posljednja poslana poruka: početna ponuda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Monday 21st September."
+      ]
+    }
+  ]
+}

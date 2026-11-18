@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7843,
+    "completion_tokens": 1546,
+    "total_tokens": 9389,
+    "cost": 0.0093777,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0093777,
+      "upstream_inference_prompt_cost": 0.0070587,
+      "upstream_inference_completions_cost": 0.002319
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317574",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWXP123MB4456DA911B952925BAF05677F6B52@CWXP123MB4456.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "I would love to take you up on the below offer",
+      "reason_hr": "Satyen je osobno prihvatio ponudu, postavio pitanje o kvaki, poslan kod i link. Nakon toga nema ljudskog odgovora.",
+      "request_hr": "Očekuje se Satyenov odgovor ili booking.",
+      "next_action_hr": "Satyen je prihvatio prije više od mjesec dana. Ako je još zainteresiran, ponovno ga ljudski kontaktiraj s podsjetnikom i kodom. Ako nema odgovora, razmisli o zatvaranju.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317557",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Kateina automatska poruka da više ne radi u Redgraveu i upućivanje na Elliotta. Druga poruka je tuđi OOO. Nema ljudske reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Kate više nije na poziciji. Ne šalji daljnje poruke. Ako Elliot Fisher ima smisla kao meta, može mu se poslati nova ponuda.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317432",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LOEP123MB2701270C1DE253099F280DE4A9AEB52@LOEP123MB270127.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Yes why not, thanks",
+      "reason_hr": "Sarah je prihvatila ponudu, poslan joj je kod. Nije odgovorila na podsjetnike.",
+      "request_hr": "Očekuje se Sarahin odgovor ili booking.",
+      "next_action_hr": "Sarah je izrazila interes prije više od mjesec dana. Pošalji joj osobni podsjetnik s kodom i pitanjem treba li pomoć oko bookinga.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317374",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO3P123MB284383708ED22E5BF6F625718CB52@LO3P123MB2843.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Thanks Rebecca,\nsure!",
+      "reason_hr": "Veena je prihvatila, dobila kod, rezervirala termin (35 min, ne 55 min), platila £4.99, dobila račun od £125. Problem riješen, Kresta je obavijestila da se račun zanemari, Veena zahvalila. Lanac je zaključen, nema otvorenih pitanja.",
+      "request_hr": "none",
+      "next_action_hr": "Sve je riješeno. Veena je zahvalila. Nema potrebe za daljnjim kontaktom osim ako se ne pojavi novo pitanje. Pregledaj je li potrebno ručno provjeriti je li račun stvarno storniran.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317190",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO0P265MB6244D124AD6AD1329DE572D9B6B52@LO0P265MB6244.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "I’d be interested to know how you got my name and email address.",
+      "reason_hr": "Nick ne pokazuje interes za ponudu, već postavlja izazovno pitanje o izvoru podataka. Ovo je odbijanje, a ne prihvaćanje.",
+      "request_hr": "none",
+      "next_action_hr": "Nick nije zainteresiran. Ne šalji daljnje poruke. Ako želiš, možeš odgovoriti na njegovo pitanje o izvoru podataka, ali to nije nužno za prodaju.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317181",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CA+j3Jc4+vGQLJXvKiwV2mJ+PR=+Ex1ii0pw=j1aFS8Dm8JPTrw@mail.gmail.com>",
+      "human_quote": "we've moved to Paddington now, but you've enticed me to reply",
+      "reason_hr": "Mark je odgovorio da su se preselili u Paddington. Rebecca mu je poslala kod za kliniku u Paddingtonu. Nije odgovorio na nijedan podsjetnik.",
+      "request_hr": "Očekuje se Markov odgovor na ponudu za Paddington.",
+      "next_action_hr": "Mark je pokazao interes, ali nije bookirao. Pošalji mu novi osobni podsjetnik s naglaskom na Paddington kliniku i pitaj može li mu se pomoći s odabirom termina.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    }
+  ]
+}

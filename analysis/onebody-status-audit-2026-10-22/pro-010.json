@@ -1,0 +1,184 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7962,
+    "completion_tokens": 2410,
+    "total_tokens": 10372,
+    "cost": 0.0107808,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0107808,
+      "upstream_inference_prompt_cost": 0.0071658,
+      "upstream_inference_completions_cost": 0.003615
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608051030",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Oliver više ne radi u Kernelu; inbox se ne prati. Nema upita ni preporuke.",
+      "last_human_request_hr": "Oliver is no longer with Kernel, and this inbox is not monitored.",
+      "unresolved_hr": "Nema preporuke za drugu osobu. Lead nije za nas.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zadrži trenutni status 'do_not_contact'. Nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000873459065c36e1f4@google.com>",
+          "quote": "Oliver is no longer with Kernel, and this inbox is not monitored. Please contact your usual Kernel contact for assistance."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050846",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena. Adresa sandra.schmidt@kontent.ai ne postoji.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte je nevažeća. Nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostavi bez daljnjih radnji. Bounce je ispravno procesuiran.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<26a48f86-4881-4c8f-85ef-24474e8e0eb2@CW1P123MB8109.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "sandra.schmidt wasn't found at kontent.ai."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050935",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'izvan ureda' do 28. rujna. Spominje kolegu Darrena Sepalu za hitne upite, ali to nije osobni angažman ili prosljeđivanje ponude.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Matt je bio odsutan. Nakon 28.09.2026. je prošlo dovoljno vremena, ali nema naknadnog ljudskog odgovora. Spominjanje Darrena Sepale je standardna OOO poruka, ne aktivna preporuka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostavi trenutni status 'auto_reply'. Nema ljudskog odgovora, nema osnove za follow-up.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAGr3X634hFuCfS5N0FwE1H28qfFh9bwt-JqdcHno85Tb5OgB1g@mail.gmail.com>",
+          "quote": "I now am out office on annual leave until 28th September."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050957",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'izvan ureda' do 28. rujna. Nema ljudskog upita ili prihvaćanja ponude.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Saif je bio odsutan. Nakon 28.09.2026. nema daljnje komunikacije. Nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostavi trenutni status 'auto_reply'. Nema ljudskog odgovora.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAA4vGiLiQHqRDN_Vb+xOYiBBvBGbKV5qsyXc2ZxvD2uomPLzSg@mail.gmail.com>",
+          "quote": "I will be working from our India office from 21 September to 27\nSeptember and will return on 28 September."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050950",
+      "assessment": "manual_review",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba više ne radi u Tradeshiftu, ali je dala ime i e-mail kolege Mikea Cowlesa. Ovo je preporuka i treba ju slijediti, unatoč oznaci 'Wrong Person'.",
+      "last_human_request_hr": "You can email Mike Cowles directly at mike.cowles@tradeshift.com",
+      "unresolved_hr": "Lead je označen kao 'Wrong Person', ali poruka sadrži korisnu preporuku za kolegu. Potrebno je kontaktirati Mikea Cowlesa.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Ručno pregledati i razmotriti slanje poruke Mikeu Cowlesu (mike.cowles@tradeshift.com) s ponudom. Trenutni status 'wrong_person' je pogrešan s obzirom na sadržaj poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0000000000001d1246065c365280@google.com>",
+          "quote": "I have recently left my position with Tradeshift and I have transferred my responsibilities over to one of my colleagues, Mike Cowles."
+        },
+        {
+          "message_id": "<0000000000001d1246065c365280@google.com>",
+          "quote": "You can email Mike Cowles directly at mike.cowles@tradeshift.com who will be happy to respond to your note"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050805",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Kolega Charlie potvrđuje da je Gareth otišao i traži uklanjanje s liste. Zahtjev za odjavu je jasan i treba ga poštovati.",
+      "last_human_request_hr": "if you could please remove us from the list that would be great.",
+      "unresolved_hr": "Eksplicitni zahtjev za odjavu. Lead je ispravno označen kao 'do_not_contact'.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zadrži trenutni status 'do_not_contact'. Zahtjev za odjavom je obrađen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAH=kj8wG4U-jJcZH8AbP_LTZ020KYVD1KB3fAGoD+r=Z2E9FUw@mail.gmail.com>",
+          "quote": "Gareth has left the company so if you could please remove us from the list that would be great."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050788",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena kao spam. Nije isporučena. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena. Nema ljudskog kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostavi bez daljnjih radnji. Problem s isporukom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6ab4d93c.0034f2e1.20ea26.b877.GMR@mx.google.com>",
+          "quote": "Your message to shanil.shah@dws.com has been blocked."
+        },
+        {
+          "message_id": "<6ab4d93c.0034f2e1.20ea26.b877.GMR@mx.google.com>",
+          "quote": "550 5.7.0 This message was classified as spam"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608050790",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena kao spam. Nije isporučena. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Poruka nije isporučena. Nema ljudskog kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostavi bez daljnjih radnji. Problem s isporukom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6ab4d938.8839cee3.2e1753.4638.GMR@mx.google.com>",
+          "quote": "Your message to alice.miles@dws.com has been blocked."
+        },
+        {
+          "message_id": "<6ab4d938.8839cee3.2e1753.4638.GMR@mx.google.com>",
+          "quote": "550 5.7.0 This message was classified as spam"
+        }
+      ]
+    }
+  ]
+}

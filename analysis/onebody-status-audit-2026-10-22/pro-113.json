@@ -1,0 +1,196 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 16788,
+    "completion_tokens": 2807,
+    "total_tokens": 19595,
+    "cost": 0.03494712,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.03494712,
+      "upstream_inference_prompt_cost": 0.02618928,
+      "upstream_inference_completions_cost": 0.00875784
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317300",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor tvrtke: osoba više ne radi u Scoro Software. Nema ljudskog angažmana niti preporuke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema razloga za daljnji kontakt na ovu adresu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebne akcije. Označiti kao zatvoreno (Wrong Person).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000a040ea065a9263f6@google.com>",
+          "quote": "the person you’re trying to reach is no longer employed by Scoro Software."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317374",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Veena je već rezervirala i obavila termin, ali joj je stigao neočekivani račun od £125. Nakon administrativnog odgovora da se račun zanemari, posljednja poruka je Veenina zahvala. Nema neriješenih pitanja o računu, ali status 'booked' je zastario jer je termin prošao. Potrebno je provjeriti uslugu i eventualno poslati kod za ponovni dolazak ili pitati za osiguranje.",
+      "last_human_request_hr": "hi Kresta,\nMany thanks Veena",
+      "unresolved_hr": "Veena je obavila prvi besplatni termin, ali je imala problema s računom. Iako je riješeno, potrebno je ljudski provjeriti njezino iskustvo i ponuditi daljnje korake (osiguranje ili novi termin).",
+      "recommended_bulk_group": "reply_question",
+      "recommended_action_hr": "Provjeriti Veenino korisničko iskustvo nakon riješenog problema s računom. Ponuditi informacije o daljnjem liječenju putem osiguranja ili opcije plaćanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO3P123MB28432B3DC0989F4E8D7F68C38C8A2@LO3P123MB2843.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I paid the £4.99 for a 35 mins appointment yesterday as per your magic link below and free offer.\n\nHowever, I'm now getting an invoice for £125"
+        },
+        {
+          "message_id": "<LO3P123MB28430E6E97B6F6168B88A1E48C8A2@LO3P123MB2843.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "hi Kresta,\nMany thanks Veena"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317167",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email adresa ne postoji (bounce poruka). Osoba nije primila poruku.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ispravnog kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebne akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b77e6c8d-bc97-4cbf-afca-0a33618ed1a9@LO0P265MB5716.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "barry.lewington wasn't found at ptsconsulting.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317190",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Nick je odgovorio na outreach pitanjem 'I’d be interested to know how you got my name and email address.' Ovo je legitimno pitanje zainteresirane osobe, a ne odbijanje. Označeno je kao 'Not Interested', što je pogrešno.",
+      "last_human_request_hr": "I’d be interested to know how you got my name and email address.",
+      "unresolved_hr": "Nije odgovoreno na Nickovo pitanje o izvoru kontakta. Potrebno je odgovoriti i ponuditi kod.",
+      "recommended_bulk_group": "reply_question",
+      "recommended_action_hr": "Odgovoriti na Nickovo pitanje o izvoru podataka (npr. LinkedIn/profesionalne mreže) i iskoristiti priliku za ponudu besplatnog termina s kodom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO0P265MB6244D124AD6AD1329DE572D9B6B52@LO0P265MB6244.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I’d be interested to know how you got my name and email address."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317181",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Mark je entuzijastično odgovorio i dobio kod. Poslan je cijeli follow-up niz (rujan/listopad). Posljednja poruka je naša 'last email' od 23. rujna. Mark se nije vratio, ali nije ni odbio. User je rekao da je stari kod OBLACCESS55 istekao, ali nema dokaza da je Mark to znao ili pokušao nakon 31.10.",
+      "last_human_request_hr": "Rebecca - a fantastic sales email - well done. However we've moved to Paddington now, but you've enticed me to reply, I just wanted to let you know.",
+      "unresolved_hr": "Nema potvrde rezervacije ni odbijanja. Prošlo je mjesec dana od zadnjeg kontakta. Može se probati s novim kodom VIP8401 ako vlasnik odobri novi krug.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati 'bump' poruku s novim kodom VIP8401 (npr. 'još uvijek imamo mjesta u Paddingtonu') i provjeriti je li zainteresiran.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+j3Jc4+vGQLJXvKiwV2mJ+PR=+Ex1ii0pw=j1aFS8Dm8JPTrw@mail.gmail.com>",
+          "quote": "a fantastic sales email - well done. However we've moved to Paddington now, but you've enticed me to reply"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317145",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena jer organizacija ne dozvoljava vanjsko prosljeđivanje (external forwarding blocked). Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema načina za kontakt putem ovog emaila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebne akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<19b1c25a-0de3-4513-9eea-9c158a796a1b@AS1P195MB1520.EURP195.PROD.OUTLOOK.COM>",
+          "quote": "Your organization does not allow external forwarding."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317195",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Sophie Khan je eksplicitno tražila odjavu ('Unsubscribe'). To je jasan zahtjev za prekid komunikacije.",
+      "last_human_request_hr": "Unsubscribe.",
+      "unresolved_hr": "Nema. Zahtjev za odjavu je jasan.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštivati zahtjev za odjavu. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO0P265MB31153FD80EABA2F3D667A78086B62@LO0P265MB3115.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Unsubscribe."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317153",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Beth je pitala kako rezervirati, imala je tehničkih problema, i na kraju pitala za £4.99 naknadu. Nakon našeg odgovora da je to booking fee, nema daljnje komunikacije. Posljednja poruka je naš follow-up. Ne možemo sa sigurnošću tvrditi da je rezervirala, ali je pokušavala. Ako je stvarno rezervirala, status 'booked' je točan. Ako nije, treba provjeriti.",
+      "last_human_request_hr": "Just trying to book now but it’s asking me to pay £4.99 online, is that expected?",
+      "unresolved_hr": "Nije jasno je li Beth uspjela rezervirati nakon što smo potvrdili da je £4.99 očekivano. Zadnji ljudski upit bio je o plaćanju, a ne potvrda bookinga.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti u sustavu je li Beth Denham rezervirala termin. Ako nije, poslati kratku poruku s pitanjem treba li još pomoći i s novim kodom VIP8401.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<PRAP195MB1577DACA99671D522126E8CFF0B62@PRAP195MB1577.EURP195.PROD.OUTLOOK.COM>",
+          "quote": "Hi Rebecca, this sounds great! How do I book?"
+        },
+        {
+          "message_id": "<GV2P195MB2064B85123A467889E9B9674F0B22@GV2P195MB2064.EURP195.PROD.OUTLOOK.COM>",
+          "quote": "Just trying to book now but it’s asking me to pay £4.99 online, is that expected?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

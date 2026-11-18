@@ -1,0 +1,196 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 14954,
+    "completion_tokens": 2666,
+    "total_tokens": 17620,
+    "cost": 0.03742892,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.03742892,
+      "upstream_inference_prompt_cost": 0.02721814,
+      "upstream_inference_completions_cost": 0.01021078
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317455",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska obavijest: Debbie Nolan više ne radi u Exclusive Household Staff. Poštanski sandučić se ne nadzire.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom na ovu adresu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Wrong Person. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f91b6539c9404643bf9854ff2eccc1a8@AM6PR08MB3686.eurprd08.prod.outlook.com>",
+          "quote": "Please note that Debbie Nolan is no longer employed by Exclusive Household Staff, and this mailbox is no longer monitored."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317433",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska obavijest: Anushka Madhukar više ne radi u EMJ od srpnja 2025. Sandučić se ne nadzire. Navedena je nova kontakt osoba, ali nema upita za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema aktivnog razgovora s Anushkom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Wrong Person. Opcionalno, vlasnik može ručno kontaktirati Shauna.Doyle@emjreviews.com na vlastitu odgovornost.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0d03d3514a1f4e998a0b38e6a8447c14@PAXPR01MB8907.eurprd01.prod.exchangelabs.com>",
+          "quote": "I am no longer with EMJ as of 18th July 2025 and unfortunately, I can no longer answer your email."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317452",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska obavijest: Ryanvir Singh više ne radi u Joy. Sandučić se ne nadzire.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema potrebe za daljnjim kontaktom na ovu adresu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Wrong Person. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c1ccba2b291f4b07b33632b0f8e1461e@LO4P265MB3694.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am no longer working at Joy."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317443",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena (DSN 5.7.129). Pošiljatelj nema dopuštenje za slanje na ovu adresu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa prima samo poruke s dopuštene liste.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Bounce. Eventualno pokušati s drugom adresom ako je poznata.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b81458ec-8784-4c69-96a2-a32bb9b9dad5@AS2PR10MB7394.EURPRD10.PROD.OUTLOOK.COM>",
+          "quote": "Remote server returned '550 5.7.129 RESOLVER.RST.RestrictedToRecipientsPermission; not authorized to send to recipient because the sender isn't on the recipient's list of senders to accept mail from'"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317370",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Dostavna obavijest o blokadi poruke i automatski odgovor da Hussain Dohadwala više ne radi u Levinu. Nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa je blokirana pravilom tvrtke. Nema aktivnog razgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Bounce/Wrong Person. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<4ed22584-bd94-4e53-80cc-e87014d10e8b@LOEP123MB655992.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to hussain.dohadwala@grouplevin.com couldn't be delivered."
+        },
+        {
+          "message_id": "<9a8c3f9acfba4a3999975978eb842bbc@CWLP123MB3570.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am no longer working at Levin. Please contact jamie.sheppard@levintalent.com for any enquiries."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317315",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Pravilo tvrtke storm2.com blokiralo je poruku za meredith.hone@levintalent.com. Sandučić nije aktivan.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa nije aktivna. Nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Bounce/Wrong Person. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<97c36149-1235-48f3-87e1-09001d5ce8c9@CW1P123MB956604.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to meredith.hone@levintalent.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317296",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Cassian je prihvatio besplatnu ponudu (\"Sure, if it's free, I will look at it.\"). Poslani su link, kod i više follow-upova. Nema potvrde rezervacije, ali nema ni odbijanja. Posljednja poruka je naša. Čeka se njegov potez.",
+      "last_human_request_hr": "Sure, if it's free, I will look at it.",
+      "unresolved_hr": "Cassian je dobio sve informacije, ali nije rezervirao niti odgovorio na follow-upove. Treba provjeriti je li iskoristio kod ili ga nježno podsjetiti.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Provjeriti u kalendaru je li se ipak rezervirao bez odgovora. Ako nije, poslati kratki osobni follow-up s pitanjem treba li pomoć pri odabiru termina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<PAWPR07MB112103B2A8C0B4942BB22B34CF3B62@PAWPR07MB11210.eurprd07.prod.outlook.com>",
+          "quote": "Sure, if it's free, I will look at it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317376",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Martyn Hill je ljudski odgovorio 5. rujna. Pitao je za izvor netočnih podataka o lokaciji tvrtke i dao preporuku (referral) za svoju bivšu agenciju Firefish i osobu Vanessu. Na ovo pitanje i preporuku nitko nije odgovorio.",
+      "last_human_request_hr": "Hey Rebecca... Sorry to have to say but we have been in Farringdon for a little while now. Where did you see info we were still in the area? Want to make sure I get it all sorted out :) But my old agency, Firefish, is down on Tower Bridge Road, so you could try and hit them up? Address it to Vanessa.",
+      "unresolved_hr": "Martyn čeka odgovor na pitanje o podacima o lokaciji i dao je preporuku za kontaktiranje Vanesse iz Firefish. Treba mu odgovoriti, zahvaliti na informaciji i preporuci, te eventualno potvrditi hoće li se kontaktirati Firefish.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Odgovoriti Martynu: zahvaliti na ispravku podataka, objasniti odakle podaci (iskreno), zahvaliti na preporuci za Firefish/Vanessu i potvrditi da ćemo ih kontaktirati (ako vlasnik to želi). Ne slati mu kod jer nije tražio.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<873CE02E-C9D5-4981-82D6-90C4ECCF106D@themixglobal.com>",
+          "quote": "Sorry to have to say but we have been in Farringdon for a little while now. Where did you see info we were still in the area?"
+        },
+        {
+          "message_id": "<873CE02E-C9D5-4981-82D6-90C4ECCF106D@themixglobal.com>",
+          "quote": "But my old agency, Firefish, is down on Tower Bridge Road, so you could try and hit them up? Address it to Vanessa."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

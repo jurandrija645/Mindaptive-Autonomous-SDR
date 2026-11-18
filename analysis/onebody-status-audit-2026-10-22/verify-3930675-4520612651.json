@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 4334,
+    "completion_tokens": 1286,
+    "total_tokens": 5620,
+    "cost": 0.0058296,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0058296,
+      "upstream_inference_prompt_cost": 0.0039006,
+      "upstream_inference_completions_cost": 0.001929
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520612651",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda s upućivanjem na kolegu, bez osobne reakcije na našu ponudu.",
+      "request_hr": "Automatski OOO, nema zahtjeva.",
+      "next_action_hr": "Prati vraća li se s godišnjeg (povratak je bio 16. rujna 2026. – već prošlo). Zasad nema dokaza da je vidjela poruku. Može se ponovno kontaktirati nakon razumnog odmaka jer je prošlo više od mjesec dana od povratka.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612648",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor s obavijesti o godišnjem odmoru i konferenciji, bez osobne reakcije na našu ponudu.",
+      "request_hr": "Automatski OOO, nema zahtjeva.",
+      "next_action_hr": "Povratak je bio 22. rujna 2026. – davno prošlo. Osoba nije osobno odgovorila. Može se poslati novi pokušaj kontakta jer je stara poruka najvjerojatnije izgubljena u hrpi mailova nakon odmora.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612413",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Osoba je napustila tvrtku (Notion Capital), automatska obavijest s uputom na nove kontakte. Nije reakcija na ponudu fizioterapije.",
+      "request_hr": "Automatska obavijest o odlasku, nema zahtjeva vezanog uz nas.",
+      "next_action_hr": "Lead više nije na toj poziciji. Ne kontaktirati na ovaj mail. Ako postoji novi kontakt u istoj firmi, može se pokušati doći do njega.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612404",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda s upućivanjem na kolegu za hitne stvari, bez osobne reakcije na našu ponudu.",
+      "request_hr": "Automatski OOO, nema zahtjeva.",
+      "next_action_hr": "Povratak je bio 17. rujna 2026. – prošlo je više od mjesec dana. Može se pokušati s novim kontaktom jer osoba vjerojatno nije vidjela originalni mail.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612288",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2027-06-01",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska obavijest o porodiljnom dopustu do ljeta 2027. Nije osobni odgovor na ponudu.",
+      "request_hr": "Automatski odgovor, nema zahtjeva.",
+      "next_action_hr": "Pošiljateljica je na porodiljnom do ljeta 2027. Postaviti podsjetnik za ponovni kontakt nakon 1. lipnja 2027. Nemoj slati daljnje poruke do tada.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612270",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru (povratak 17. rujna 2026.), bez osobne reakcije na našu ponudu.",
+      "request_hr": "Automatski OOO, nema zahtjeva.",
+      "next_action_hr": "Povratak je davno prošao. Osoba nije osobno odgovorila. Može se pokušati s novim, svježim kontaktom.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5609,
+    "completion_tokens": 1173,
+    "total_tokens": 6782,
+    "cost": 0.00830502,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00830502,
+      "upstream_inference_prompt_cost": 0.005855796,
+      "upstream_inference_completions_cost": 0.002449224
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316010",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor je automatska poruka koja preusmjerava upite na Paula Evansa, bez personaliziranog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Automatski odgovor nije ljudski angažman. Ako postoji prava osoba za kontakt (Paul Evans), vlasnik može razmotriti novi doseg, ali trenutni trag 'Andy Mendrys' ne pokazuje interes.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316008",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor je automatska poruka koja preusmjerava upite na Michelle Smith, bez uključenja primatelja u vezi ponude.",
+      "request_hr": "none",
+      "next_action_hr": "Automatski odgovor. Ako postoji relevantna kontakt osoba (Michelle Smith), vlasnik može procijeniti novi doseg, ali ovaj trag nije pokazao ljudski interes.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315967",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka 'nazad 4. rujna', bez ikakvog osvrta na ponudu. Nakon toga nema ljudskog odgovora.",
+      "request_hr": "none",
+      "next_action_hr": "OOO poruka je istekla prije više od mjesec dana. Nema ljudskog angažmana. Zatvoriti kao automatski odgovor bez interesa.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315964",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor 'Sanj Sharma has now left the business' je automatska obavijest o odlasku, nije osobni odgovor na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba više ne radi tu. Automatska poruka. Ako postoji nasljednik (James Seals), vlasnik može razmotriti novi doseg, ali ovaj trag je zatvoren.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315953",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor je automatska OOO poruka o godišnjem odmoru (28.8.-1.9.) s preusmjeravanjem na druge kolege. Nema ljudskog odgovora na ponudu niti nakon isteka OOO.",
+      "request_hr": "none",
+      "next_action_hr": "OOO je davno istekao. Nema naknadnog ljudskog odgovora. Zatvoriti kao automatski odgovor bez interesa.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316013",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AS8PR07MB800677C3C6C65E85ACB1AC6C8FB22@AS8PR07MB8006.eurprd07.prod.outlook.com>",
+      "human_quote": "NO",
+      "reason_hr": "Primatelj je osobno odgovorio 'NO' na ponudu, što je jasno odbijanje.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je izričito odbila. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

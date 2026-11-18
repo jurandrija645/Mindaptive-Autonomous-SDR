@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 16826,
+    "completion_tokens": 1190,
+    "total_tokens": 18016,
+    "cost": 0.0013768,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0013768,
+      "upstream_inference_prompt_cost": 0.0008413,
+      "upstream_inference_completions_cost": 0.0005355
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2515956/2722089198",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Arnav,\n\nIt has been a while since we spoke — well over a year now. I was looking back at our old conversation and realised you asked for the details on how our AI finds new clients for Outsourcing Technologies, I sent over a video and then we lost touch.\n\nA lot has changed on our end since then. The system has improved a lot.\n\nHere's a current overview of how it works: Loom link.\n\nIt finds companies that fit what you do, researches each one, and starts relevant conversations. If that's still something you're working on, I'd be happy to hop on a short call.\n\nLet me know if the timing is better now.",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2538823/2758494751",
+      "ready": true,
+      "language": "es",
+      "body": "Hola Antonio,\n\nHa pasado bastante tiempo desde que hablamos — más de un año. Revisaba nuestra conversación anterior y vi que pediste el video sobre cómo nuestro agente de IA encuentra clientes para Viafirma, te lo envié y luego perdimos el contacto.\n\nNuestro sistema ha mejorado mucho desde entonces.\n\nAquí tienes una visión actual de cómo funciona: Loom link.\n\nLocaliza empresas que encajan con lo que ofrecéis, las investiga e inicia conversaciones relevantes. Si te sigue interesando, podemos hacer una llamada corta.\n\nDime si ahora el momento es mejor.",
+      "english": "Hello Antonio,\n\nIt's been quite a while since we spoke — over a year. I was reviewing our previous conversation and saw you asked for the video on how our AI agent finds clients for Viafirma, I sent it over and then we lost touch.\n\nOur system has improved a lot since then.\n\nHere's a current overview of how it works: Loom link.\n\nIt finds companies that fit what you offer, researches them and starts relevant conversations. If you're still interested, we can do a short call.\n\nLet me know if the timing is better now.",
+      "reason_hr": ""
+    },
+    {
+      "key": "3960583/3822375070",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Sid,\n\nJust checking in on the website I built for East County Solar Cleaner a few weeks ago. You asked how much — I said $750 one time to take it live, with free revisions until you're happy.\n\nDoes the price work for you, or is something else holding this up?\n\nIf it works, just reply GO and I'll send the next steps. If not, no hard feelings either way.",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "3810275/4360210314",
+      "ready": true,
+      "language": "ro",
+      "body": "Salut Paul,\n\nAu trecut câteva luni de la conversația noastără. Mă uitam pe mesaj și văd că ați așteptat detaliile — am trimis linkul cu video, dar probabil s-a pierdut între timp.\n\nSistemul s-a îmbunătățit mult de atunci.\n\nRedau linkul aici:\nLoom link\n\nAcoperă exact workflow-ul pentru oferte de implanturi despre care am vorbit. Dacă ești încă interesat, spune-mi și organizăm o discuție rapidă.",
+      "english": "Hi Paul,\n\nA few months have passed since our conversation. I was looking at our messages and see you were waiting for the details — I sent the video link, but it probably got lost in the meantime.\n\nThe system has improved a lot since then.\n\nHere's the link again:\nLoom link\n\nIt covers exactly the workflow for implant offers we talked about. If you're still interested, let me know and we'll set up a quick chat.",
+      "reason_hr": ""
+    },
+    {
+      "key": "3810275/4360210269",
+      "ready": true,
+      "language": "lt",
+      "body": "Sveiki Julija,\n\nPraejo keli mėnesiai nuo mūsų pokalbio. Peržiūrėjau senesnius laiškus — jūs paprašėte išsamios informacijos, o aš atsiunčiau video nuorodą, bet gal ji pasimetė.\n\nMūsų sistema nuo to laiko labai patobulėjo.\n\nŠtai nuoroda dar kartą:\nLoom link\n\nYpač pažiūrėkite į sekimo sistemos dalį gydymo planams — tai būtent tai, apie ką kalbėjome. Jei vis dar domina, atsakykite ir surengsime trumpą pokalbį.",
+      "english": "Hello Julija,\n\nA few months have passed since our conversation. I reviewed our older messages — you asked for detailed information, and I sent the video link, but it may have gotten lost.\n\nOur system has improved a lot since then.\n\nHere's the link again:\nLoom link\n\nEspecially watch the part about the tracking system for treatment plans — that's exactly what we talked about. If it still interests you, reply and we'll arrange a short call.",
+      "reason_hr": ""
+    }
+  ]
+}

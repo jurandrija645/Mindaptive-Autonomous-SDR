@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7688,
+    "completion_tokens": 2319,
+    "total_tokens": 10007,
+    "cost": 0.00648207594,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6044,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00648207594,
+      "upstream_inference_prompt_cost": 0.00205158006,
+      "upstream_inference_completions_cost": 0.00443049588
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316021",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba se nije javila nakon OOO poruke i tri follow-upa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema ljudskog angažmana. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<56762b387d324a66bcd41f7060f978fe@AM8PR09MB5381.eurprd09.prod.outlook.com>",
+          "quote": "I am out of the office on holiday until 7.9.2026.  I may be able to read my emails, on occasions, but it’s unlikely I will be able to reply until I return to my desk."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316020",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je izričito rekla da više ne radi za GunnerCooke. Nije dala korisnu preporuku za fizioterapiju.",
+      "last_human_request_hr": "I no longer work for gunnercooke.",
+      "unresolved_hr": "Lead nije relevantan. Osoba je napustila tvrtku bez preporuke za našu uslugu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao wrong_person. Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<153dcf1050ae4ababf9cb5b3b91921ca@GV4PR09MB8512.eurprd09.prod.outlook.com>",
+          "quote": "I no longer work for gunnercooke."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316056",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je izričito rekla da je napustila P&P. Dala je samo općenite kontakte tvrtke, a ne preporuku za našu uslugu.",
+      "last_human_request_hr": "I have since left P&P, please use the following email addresses for acccounts and other enquiries.",
+      "unresolved_hr": "Lead nije relevantan. Osoba je napustila tvrtku bez preporuke za fizioterapiju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao wrong_person. Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<dcfec0dd1ede4c71bb6bff492eab7cb0@PAXPR04MB9202.eurprd04.prod.outlook.com>",
+          "quote": "I have since left P&P, please use the following email addresses for acccounts and other enquiries."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316053",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska tvrtkina poruka 'I am no longer with Pilbrow & Partners' s potpisom tvrtke. Flora osobno nije odgovorila.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema osobnog angažmana. Samo automatska obavijest o odlasku.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema ljudskog odgovora. Ne slati dalje na ovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b4313d0c49f24adeafa8d8b6a8d3b4cf@PA4PR04MB7647.eurprd04.prod.outlook.com>",
+          "quote": "Please be advised that I am no longer with Pilbrow & Partners."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316011",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je dala uputu za kontaktiranje James Kaya za sve upite. Ovo je implicitna izjava 'nije moja odgovornost', bez interesa za ponudu.",
+      "last_human_request_hr": "Thank you for your email. For all enquiries, please contact James Kay (jkay@ogbroking.com), who will assist with all matters moving forward.",
+      "unresolved_hr": "Osoba preusmjerava sve upite na kolegu. Nema naznake da je upit relevantan za James Kaya.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao wrong_person. Ne slati dalje Alanu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<258f7bd3ca17455990f3e69b0f67c8cb@LO0P123MB4985.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "For all enquiries, please contact James Kay (jkay@ogbroking.com), who will assist with all matters moving forward."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316010",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je dala uputu za kontaktiranje Paula Evansa za bilo kakve upite. Ovo je preusmjeravanje bez osobnog interesa.",
+      "last_human_request_hr": "Thank you for your email. Please contact Paul Evans (pevans@ogbroking.com) for any queries.",
+      "unresolved_hr": "Osoba preusmjerava upite na kolegu. Nema naznake interesa za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao wrong_person. Ne slati dalje Andyju.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a95ed68772554e5abc70db5cb0ad7da5@LOYP123MB3567.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Please contact Paul Evans (pevans@ogbroking.com) for any queries."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316008",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je dala uputu za kontaktiranje Michelle Smith za sve upite. Ovo je preusmjeravanje bez osobnog interesa za ponudu.",
+      "last_human_request_hr": "Thank you for your email. For all enquires, please contact Michelle Smith (msmith@ogbroking.com), who will assist with directing all matters moving forward.",
+      "unresolved_hr": "Osoba preusmjerava upite na kolegicu. Nema naznake interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao wrong_person. Ne slati dalje Mikeu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c01b4d54a18a4cd1aa49364526bcf58a@LO4P123MB4541.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "For all enquires, please contact Michelle Smith (msmith@ogbroking.com), who will assist with directing all matters moving forward."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315940",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor s preporukom za kontaktiranje kolega. Nema osobnog ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba se nije osobno javila nakon OOO poruke i follow-upova.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema ljudskog odgovora. Ne slati dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a1c62b376d1a4e52aef1bafbd93660aa@CWLP123MB6146.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office until Tuesday 1st September. Please contact shailendra.shah@rlam.co.uk or Libby.Thelwall@rlam.co.uk in the meantime."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

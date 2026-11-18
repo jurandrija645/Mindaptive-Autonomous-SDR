@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6063,
+    "completion_tokens": 1137,
+    "total_tokens": 7200,
+    "cost": 0.007978509,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.007978509,
+      "upstream_inference_prompt_cost": 0.005802291,
+      "upstream_inference_completions_cost": 0.002176218
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315398",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda do 15. rujna; nema ponude specifično za ovu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne kontaktirati do 15. rujna. Nakon isteka odsutnosti može se poslati jedna nova poruka.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315417",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<3CB9DC5F-1CDE-4547-8C38-D7570FD602E5@bespokeconnections.com>",
+      "human_quote": "No",
+      "reason_hr": "Jasno odbijanje.",
+      "request_hr": "No more contact.",
+      "next_action_hr": "Zabilježiti kao odbijeno i ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315336",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<42ce241a5bc64934a254be39fe006a30@AS8PR08MB8062.eurprd08.prod.outlook.com>",
+      "human_quote": "I have left TruRating",
+      "reason_hr": "Osoba više ne radi u tvrtki; automatska obavijest o odlasku.",
+      "request_hr": "contact Marty Schecter",
+      "next_action_hr": "Ne slati ovoj adresi. Po želji kontaktirati navedenu osobu kao novi kontakt.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446318153",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWXP265MB46524B2D488A325A78D6DE7388BF2@CWXP265MB4652.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "I live in Dubai so not for me thanks",
+      "reason_hr": "Odbijanje jer živi u Dubaiju.",
+      "request_hr": "not for me thanks",
+      "next_action_hr": "Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317852",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAOD05BLKrz8tEqwO8rOkWoj289-TqH8R6N-CXeXFTtx00x1vqQ@mail.gmail.com>",
+      "human_quote": "we are not anywhere near Shoreditch, and we have our healthcare sorted",
+      "reason_hr": "Odbijanje; već imaju zdravstveno pokriće.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316573",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO9P123MB78561F3058C565E4907272C29CBA2@LO9P123MB7856.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "If you can book me in, and I will pay when iam in your offices otherwise I am not going to attempt again.",
+      "reason_hr": "Stvarni interes, ali uvjetovan ručnim rezerviranjem zbog problema s plaćanjem.",
+      "request_hr": "Book me in and I will pay at reception.",
+      "next_action_hr": "Provjeriti može li se rezervirati ručno i obavijestiti ga. Ako ne, poslati jasno objašnjenje i alternativu.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    }
+  ]
+}

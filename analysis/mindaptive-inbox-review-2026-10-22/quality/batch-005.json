@@ -1,0 +1,76 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 15425,
+    "completion_tokens": 758,
+    "total_tokens": 16183,
+    "cost": 0.00111235,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00111235,
+      "upstream_inference_prompt_cost": 0.00077125,
+      "upstream_inference_completions_cost": 0.0003411
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2732401/3016172105",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Johnny,\n\nDid the video make it clear how we'd target the right ERP-driven companies for Appficiency?\n\nHappy to answer any questions about how it'd work for your market.\n\nThanks",
+      "english": "",
+      "reason_hr": "Johnny je izričito tražio video i postavio pitanje o geografiji. Odgovoreno. Ovo je blagi follow-up koji pita je li video bio jasan, bez izmišljanja."
+    },
+    {
+      "key": "2515956/2722089937",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Diego,\n\nJust a quick bump on this — curious if the video made the process clearer for Adapsys.\n\nIf anything stood out, happy to talk through the details.\n\nThanks",
+      "english": "",
+      "reason_hr": "Diego je zatražio video, poslan je. Blagi follow-up nakon više od mjesec dana; ne pretvara se da je bilo jučer."
+    },
+    {
+      "key": "2738607/3025135558",
+      "ready": true,
+      "language": "nl",
+      "body": "Hoi Henri,\n\nIk vroeg me af of de video duidelijk genoeg was over hoe dit voor Imagine Digital zou werken.\n\nAls er vragen zijn, hoor ik het graag.\n\nGroet",
+      "english": "Hi Henri,\n\nI was wondering if the video was clear enough about how this would work for Imagine Digital.\n\nIf you have any questions, I'd love to hear them.\n\nCheers",
+      "reason_hr": "Henri je odgovorio 'seintje', video poslan. Blagi follow-up na nizozemskom, u skladu s njegovim jezikom."
+    },
+    {
+      "key": "2732401/3016172998",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Jocelyn,\n\nJust checking if you had a moment to watch the video.\n\nCurious if the approach fits what you're looking for at GAP.\n\nThanks",
+      "english": "",
+      "reason_hr": "Jocelyn je izričito tražila link do videa, poslan je. Ovo je blagi follow-up, 2. poslana poruka u nizu."
+    },
+    {
+      "key": "2738607/3025135360",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Marco,\n\nHai avuto modo di guardare il video?\n\nFammi sapere se hai domande sul funzionamento o sul modello di pricing.\n\nA presto",
+      "english": "Hi Marco,\n\nDid you have a chance to watch the video?\n\nLet me know if you have any questions about how it works or the pricing model.\n\nSee you soon",
+      "reason_hr": "Marco je tražio i video i tarife. Video poslan, objašnjen model plaćanja. Čekamo odgovor; blagi follow-up na talijanskom."
+    },
+    {
+      "key": "2732401/3016172379",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Sali,\n\nDid the video give you a clear picture of how this could work for Ripton?\n\nHappy to answer any questions.\n\nThanks",
+      "english": "",
+      "reason_hr": "Sali je rekao 'yes', video poslan. Blagi follow-up, ne pretvara se da je dogovoreno."
+    }
+  ]
+}

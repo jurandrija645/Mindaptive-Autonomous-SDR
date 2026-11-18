@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9915,
+    "completion_tokens": 2726,
+    "total_tokens": 12641,
+    "cost": 0.0066893,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 9728,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0066893,
+      "upstream_inference_prompt_cost": 0.0026003,
+      "upstream_inference_completions_cost": 0.004089
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621578",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Michelle je odgovorila da je na ročištu i da će odgovoriti čim bude mogla. To nije odbijanje ni automatski OOO, nego ljudska poruka koja najavljuje budući odgovor. Naš zadnji email je bio 22.9., nakon čega je ona poslala tu poruku – na nju nitko nije odgovorio.",
+      "last_human_request_hr": "I am in a hearing today and will respond as soon as I can.",
+      "unresolved_hr": "Obećala je odgovoriti, ali daljnjeg odgovora nema. Treba ju nježno podsjetiti i ponovno ponuditi link/kod.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati follow-up: referenca na njen zadnji mail, pitati je li još zainteresirana, ponovno ponuditi besplatnu sesiju. Ne zatvarati.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<85348cf13b6441029606cc56a7b3a369@LOBP123MB8253.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am in a hearing today and will respond as soon as I can."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621302",
+      "assessment": "manual_review",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Kristian je ljudski odgovorio, zahvalio na ponudi, ali rekao da je samo 1-2 dana tjedno u Londonu, da je aktivan i u dobrom stanju. Nije eksplicitno rekao 'ne'. Ovo je 'meko' odbijanje – nije tražio booking, ali ni ne odbija kategorički. Stored_label je 'not_interested', što je donekle točno, ali poruka nije oštra negativa.",
+      "last_human_request_hr": "Hi Kurt, thanks so much for reaching out and for your very kind offer. I actually only spend 1 or 2 days a week in London... so other than the odd occasion when one of my rotator cuffs is playing up I'm in pretty good shape",
+      "unresolved_hr": "Potencijalno 'contact_later' za budućnost ako želi, ali trenutno nije zainteresiran. Vlasnik treba odlučiti želi li ga ostaviti na listi za kasnije ili zatvoriti kao 'not_interested'.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Owner review: osoba nije potpuno odbila, spominje povremene probleme s rotator cuffom. Može se ostaviti za follow-up za nekoliko mjeseci ili zatvoriti. Ne preporuča se slati novi outreach bez odluke vlasnika.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<286EECC2-251D-4F3F-A3D0-8DD7CFB2DFAF@fixradio.co.uk>",
+          "quote": "I actually only spend 1 or 2 days a week in London, and outside of my job I'm pretty active, so other than the odd occasion when one of my rotator cuffs is playing up I'm in pretty good shape"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621170",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email na millie@ff.co se vratio s greškom dostave - Mimecast policy violation. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa nije valjana/nedostupna. Nema što za follow-up.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti kako je. Nema ljudskog kontakta, bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3ff9b65d-5a2f-41fe-a404-c8ca4558bac0@LO9P123MB7961.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to millie@ff.co couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620362",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Rania je poslala automatski OOO - 'away from my desk today at an all day meeting'. Ovo je čisti auto-reply, nema ljudskog angažmana ni pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Kampanja je poslala dva emaila, oba su naišla na auto-reply. Ako vlasnik želi, može probati ponovo, ali nema naznake interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Može se ostaviti za ponovni pokušaj nakon nekog vremena, ali trenutno nema smisla slati još. Ovo je generički OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAF5rU-2WJaVp3CsFMuGHhBVJEXEqXj3eDfCVcEtUx9svR1krRQ@mail.gmail.com>",
+          "quote": "Thank you for your email.  I'm away from my desk today at an all day meeting."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620399",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "David je eksplicitno odgovorio 'Stop'. Unsubscribed=true, status=blacklisted, provider_label='Do Not Contact'. Ovo je jasan zahtjev za prekid komunikacije.",
+      "last_human_request_hr": "Stop",
+      "unresolved_hr": "Osoba je zatražila prekid. Treba poštovati opt-out.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati ništa. Poštovati unsubscribe/blacklist status.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<DEDFFFC2-77D2-4EA4-89AA-908EC543AEB6@indicium.ai>",
+          "quote": "Stop"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619918",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jo je poslala automatski OOO - 'out of the office today with limited access to emails'. Ovo je čisti auto-reply, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Samo auto-reply.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Može se ostaviti za ponovni pokušaj, ali trenutno nema ljudske interakcije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CALoEV9MSczrOuYtjAX=NhXU+2tgDm=V237kGaoHXT7CNVyn_hw@mail.gmail.com>",
+          "quote": "I'm out of the office today with limited access to emails."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520619895",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Maximilian je poslao automatski OOO - 'in an all-day workshop on Monday with limited access to my inbox'. Ovo je čisti auto-reply, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti, može se pokušati kasnije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAO11eLDOEvgMP3tcELCtqZwKvaar2SOqDwFGtPhjCxXGeBmDAg@mail.gmail.com>",
+          "quote": "Thank you for your message. I'm in an all-day workshop on Monday with\nlimited access to my inbox."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619273",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Leigh je 18.9. odgovorio 'Yes please Rebecca.' na ponudu za besplatnu sesiju. Rebecca mu je poslala link i kod OBLACCESS55. Poslije toga su poslana 3 follow-upa (21.9., 25.9., 28.9.) bez odgovora. Zadnja poruka je naša od 28.9. Osoba je pokazala jasan interes, dobila sve informacije, ali nije bookirala niti odbila.",
+      "last_human_request_hr": "Yes please Rebecca.",
+      "unresolved_hr": "Lead je dobio sve potrebno za booking, ali nije bookirao. Prošlo je više od mjesec dana od zadnjeg kontakta. Može se poslati novi follow-up s pitanjem treba li pomoć ili podsjetnikom na kod/link s obzirom da su prošla 3 tjedna od zadnjeg emaila.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati novi follow-up: referenca na njegov 'Yes please', pitati je li uspio bookirati, ponuditi pomoć. Kod OBLACCESS55 je možda još aktivan (spominjao se 'end of the month' u rujnu, ali vlasnik kaže da je live kroz 31.10.). Provjeriti s vlasnikom status koda prije slanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LOYP123MB2960ACC69EC47C9C9EA0A038B1872@LOYP123MB2960.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Yes please Rebecca."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

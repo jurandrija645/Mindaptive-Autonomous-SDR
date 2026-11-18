@@ -41,6 +41,7 @@ NOT_INTERESTED = "not_interested"
 DO_NOT_CONTACT = "do_not_contact"
 WRONG_PERSON = "wrong_person"
 BOOKED = "booked"
+UNKNOWN = "unknown"
 
 # High-confidence confirmations only. Do not match "all booked up" (which can
 # describe unavailable capacity) or a question such as "can I book?".
@@ -62,6 +63,9 @@ _DO_NOT_CONTACT_RE = re.compile(
     r"\bstop\s+(?:the\s+)?(?:emails?|emailing|contacting|messages?|sending)\b|"
     r"\b(?:do\s+not|don['’]?t)\s+(?:email|contact|message|write\s+to|send(?:\s+(?:me|us))?)\b|"
     r"\b(?:remove|delete)\s+(?:me|us)\s+from\s+(?:your|the|this)\s+(?:email\s+|mailing\s+)?list\b|"
+    r"\b(?:remove|delete)\s+(?:me|us|my\s+(?:email|details|address))\s+from\s+(?:your|the|this)\s+(?:database|contacts|records|system|mailing\s+list|email\s+list)\b|"
+    r"\b(?:do\s+not|don['’]?t|never)\s+(?:ever\s+)?(?:contact|email|message|write\s+to|reach\s+out\s+to)\s+(?:me|us)\b|"
+    r"\b(?:do\s+not|don['’]?t|never)\s+reach\s+out\s+(?:again|anymore|any\s+more)\b|"
     r"\btake\s+(?:me|us)\s+off\s+(?:your|the|this)\s+(?:email\s+|mailing\s+)?list\b|"
     r"\b(?:unsubscribe|opt\s+(?:me|us)\s+out)\b|"
     r"\bno\s+more\s+(?:emails?|messages?)\b|"
@@ -153,13 +157,15 @@ def is_relevant(reply_text: str) -> tuple[bool, str]:
     return label == INTERESTED, reason
 
 
-def classify(reply_text: str) -> tuple[str, str]:
+def classify(reply_text: str, *, fail_closed: bool = False) -> tuple[str, str]:
     """`(label, reason)` where label is INTERESTED / AUTO_REPLY / WRONG_PERSON /
     DO_NOT_CONTACT / NOT_INTERESTED.
 
     Fails open to INTERESTED — see the module docstring."""
     text = to_plain_text(reply_text or "").strip()
     if not text:
+        if fail_closed:
+            return UNKNOWN, "empty message"
         return INTERESTED, "empty message — nothing to classify, treated as interested"
     if _DO_NOT_CONTACT_RE.search(text):
         return DO_NOT_CONTACT, "explicit request to stop future contact"
@@ -183,6 +189,8 @@ def classify(reply_text: str) -> tuple[str, str]:
             max_tokens=2048,
         )
     except Exception as exc:
+        if fail_closed:
+            return UNKNOWN, f"classifier unavailable ({exc.__class__.__name__})"
         log.warning("reply classifier failed (%s) — treating reply as interested", exc)
         return INTERESTED, f"classifier unavailable ({exc.__class__.__name__}) — treated as interested"
 
@@ -192,6 +200,10 @@ def classify(reply_text: str) -> tuple[str, str]:
     # globally block a lead. Prefixes are retained for the four harmless
     # workflow verdicts because reasoning models can return a truncated word.
     normalized = verdict.strip().upper()
+    if fail_closed:
+        exact = {"INTERESTED": INTERESTED, "AUTO_REPLY": AUTO_REPLY,
+                 "NOT_INTERESTED": NOT_INTERESTED, "WRONG_PERSON": WRONG_PERSON}
+        return exact.get(normalized, UNKNOWN), "strict classifier verdict"
     if "NOT_INTER" in normalized:
         return NOT_INTERESTED, "classified NOT_INTERESTED (rejection)"
     if "WRONG_PERSON" in normalized or "WRONG PERSON" in normalized:

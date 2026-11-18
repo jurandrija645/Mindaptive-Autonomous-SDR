@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 14780,
+    "completion_tokens": 778,
+    "total_tokens": 15558,
+    "cost": 0.0010891,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0010891,
+      "upstream_inference_prompt_cost": 0.000739,
+      "upstream_inference_completions_cost": 0.0003501
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2738607/3025135572",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Andrea,\n\nIt's been a while since we last spoke — sorry for the late reply here.\n\nOur system has improved a lot since then. The video I sent walks through how we find suitable companies, research them, and start relevant conversations — not blast templates. **No spamming, no pollution.**\n\nIf that approach sounds right for myMeta, I'd be glad to talk through it properly.\n\nThanks",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2738607/3025135176",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Andy,\n\nIt's been a while since we spoke — and I realise the range I shared was fairly standardised and didn't really answer your question properly.\n\nOur system has improved a lot since then. The video here shows how we find relevant companies, research them and start relevant conversations: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\n**If that approach makes sense for Muso, we can pinpoint exact pricing after a short call** — no range guessing needed.",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2738607/3025133653",
+      "ready": true,
+      "language": "es",
+      "body": "Hola David,\n\nHa pasado un tiempo desde que escribimos. Nuestro sistema ha mejorado bastante desde entonces.\n\nEl video que te envié sigue siendo la mejor forma de ver cómo investigamos empresas y contactamos con los directivos adecuados — **sin plantillas genéricas**.\n\nSi la lógica te encaja, encantada de tener esa charla de 10 min para definir vuestro target y prepararte una propuesta a medida.\n\nGracias",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2738671/3025253592",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Tyrone,\n\nIt's been a while since you asked to connect. Our system has improved a lot since then.\n\nHere's a quick overview of how we find suitable companies and start relevant conversations for clients like Venturiq: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\n**If the approach looks right, I can suggest a couple of times that work** — just let me know.",
+      "english": "",
+      "reason_hr": ""
+    },
+    {
+      "key": "2738671/3025252894",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Marijus,\n\nIt's been a while since you asked about our Lithuanian experience and pricing. Our system has improved a lot since then.\n\nThe video I sent still covers the full process of finding the right companies and starting relevant conversations: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\n**Is the Lithuanian market still something you'd want to pursue together?** If so, we can set up that discovery call to define your target and give you exact pricing.\n\nThanks",
+      "english": "",
+      "reason_hr": ""
+    }
+  ]
+}

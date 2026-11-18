@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7103,
+    "completion_tokens": 1183,
+    "total_tokens": 8286,
+    "cost": 0.0081672,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0081672,
+      "upstream_inference_prompt_cost": 0.0063927,
+      "upstream_inference_completions_cost": 0.0017745
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317666",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<MRWPR05MB129945C5A50CB3882A3E2204B96BA2@MRWPR05MB12994.eurprd05.prod.outlook.com>",
+      "human_quote": "Apologies for the delay in responding. It is relevant.",
+      "reason_hr": "Zoe je osobno potvrdila relevantnost ponude i primila kod s poveznicom, no nema potvrde o rezervaciji.",
+      "request_hr": "Zanima ju fizioterapija, ali brine franšiza; poslani su besplatni termin i kod.",
+      "next_action_hr": "Prati je li rezervirala termin; ako ne, može ju se nježno podsjetiti za tjedan-dva.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317720",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AM7PR02MB634033B39423660C85F721788BBB2@AM7PR02MB6340.eurprd02.prod.outlook.com>",
+      "human_quote": "No thanks – we have physio in-house.",
+      "reason_hr": "Andrew je osobno odbio ponudu jer imaju internog fizioterapeuta.",
+      "request_hr": "none",
+      "next_action_hr": "Zatvoriti; više ne kontaktirati ovu osobu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317714",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CABQJjA-oY+a4RqmnpcW7LZbNsAH0dzC4NkrZD0x50LYYGM-pMg@mail.gmail.com>",
+      "human_quote": "this isn't relevant for us, but thank you for reaching out.",
+      "reason_hr": "Nathan je osobno odgovorio da ponuda nije relevantna jer nemaju ured.",
+      "request_hr": "none",
+      "next_action_hr": "Zatvoriti; prestati slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317524",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska 'out of office' poruka s povratkom 16. kolovoza (prošli datum). Nema ljudskog angažmana.",
+      "request_hr": "none",
+      "next_action_hr": "OOO je zastarjela i nikad nije stigao osobni odgovor; slobodno ponovno kontaktirati ako je kontakt još aktivan.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317612",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da je Laura Knight napustila tvrtku 30. lipnja 2026.; upućuje na drugu osobu, ali to nije osobni angažman.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati više Lauri; ako želite, ciljajte Henriettu Love (hlove@plproperty.com) novim početnim kontaktom.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317495",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska 'out of office' poruka s povratkom 21. rujna, bez ikakvog ljudskog sadržaja.",
+      "request_hr": "none",
+      "next_action_hr": "Prošli OOO, nema osobnog odgovora; pošaljite novu poruku ako smatrate prikladnim (nije zabranjeno).",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    }
+  ]
+}

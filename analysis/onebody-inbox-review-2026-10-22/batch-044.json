@@ -1,0 +1,225 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 7948,
+    "completion_tokens": 2970,
+    "total_tokens": 10918,
+    "cost": 0.00097216,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00097216,
+      "upstream_inference_prompt_cost": 0.00055636,
+      "upstream_inference_completions_cost": 0.0004158
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608051031",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor potvrđuje da je osoba napustila tvrtku i da se sandučić ne prati. Ljudski odgovor nije uslijedio.",
+      "next_step_hr": "Označiti kao Wrong Person, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Automatska poruka o odlasku iz Kernel, inbox se ne prati.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Dele is no longer with Kernel, and this inbox is not monitored."
+      ]
+    },
+    {
+      "key": "4006945/4608051030",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor potvrđuje da je osoba napustila tvrtku - nema ljudskog odgovora koji bi poništio trenutnu oznaku.",
+      "next_step_hr": "Zadržati trenutnu oznaku Do Not Contact, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Automatska poruka o odlasku iz Kernel, inbox se ne prati.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Oliver is no longer with Kernel, and this inbox is not monitored."
+      ]
+    },
+    {
+      "key": "4006945/4608050950",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ljudski odgovor jasno navodi da je osoba napustila Tradeshift i preusmjerava na kolegu - potvrđuje trenutnu oznaku.",
+      "next_step_hr": "Označiti kao Wrong Person, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Osoba je napustila Tradeshift, preusmjerava na Mike Cowlesa.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have recently left my position with Tradeshift",
+        "You can email Mike Cowles directly at mike.cowles@tradeshift.com"
+      ]
+    },
+    {
+      "key": "4006945/4608050760",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ljudski odgovor jasno navodi da je osoba napustila Moove i preusmjerava na drugu osobu - potvrđuje trenutnu oznaku.",
+      "next_step_hr": "Označiti kao Wrong Person, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Osoba je napustila Moove, preusmjerava na Rish Sethiu.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I left Moove on 31 March 2026 after more than five years",
+        "please contact Rish Sethia at rishabh.sethia@moove.io"
+      ]
+    },
+    {
+      "key": "4006945/4608050551",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Ljudski odgovor 'Radim od kuće' nije izričito odbijanje već daje informaciju o lokaciji - moguće je zanimanje uz prilagodbu ponude.",
+      "next_step_hr": "Ručno provjeriti kontekst i odlučiti o daljnjem pristupu budući da rad od kuće ne isključuje nužno interes.",
+      "last_inbound_summary_hr": "Osoba odgovara da radi od kuće.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s napomenom o blizini Whereby ureda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I work from home, Rebecca."
+      ]
+    },
+    {
+      "key": "4006945/4608050170",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor potvrđuje da Andrew Hearn više ne radi u Dechertu - potvrđuje trenutnu oznaku.",
+      "next_step_hr": "Označiti kao Wrong Person, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Automatska poruka o odlasku iz Decherta s kontakt podacima.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Andrew Hearn is no longer working at Dechert.",
+        "Please contact our main office number at +44 (0) 20 7184 7000"
+      ]
+    },
+    {
+      "key": "4006945/4608049917",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor potvrđuje da osoba više nije u Pactumu - nema ljudskog odgovora koji bi poništio trenutnu oznaku.",
+      "next_step_hr": "Zadržati trenutnu oznaku Do Not Contact, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Automatska poruka o odlasku iz Pactuma s preusmjeravanjem na drugu osobu.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that Shitanshu is no longer with Pactum."
+      ]
+    },
+    {
+      "key": "4006945/4608049738",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor tvrtke s preusmjeravanjem na druge - nema ljudskog odgovora koji bi poništio trenutnu oznaku.",
+      "next_step_hr": "Zadržati trenutnu oznaku Do Not Contact, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Automatski odgovor s preusmjeravanjem na Akasha za EU i Jasona za US.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "For queries related to the EU team, please contact Akash Degan"
+      ]
+    },
+    {
+      "key": "4006945/4608049391",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ljudski odgovor 'Unsubscribe' je izričito odbijanje i zahtjev za prekid komunikacije.",
+      "next_step_hr": "Označiti kao Not Interested i poštivati zahtjev za odjavu.",
+      "last_inbound_summary_hr": "Osoba zahtijeva odjavu s 'Unsubscribe'.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Unsubscribe"
+      ]
+    },
+    {
+      "key": "3930675/4520616435",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ljudski odgovor 'Not something I need right now' je izričito odbijanje ponude - nije potrebno daljnje slanje.",
+      "next_step_hr": "Označiti kao Not Interested i prekinuti komunikaciju.",
+      "last_inbound_summary_hr": "Osoba kaže da ne treba uslugu i spominje mnogo hladnih e-poruka dnevno.",
+      "last_outbound_summary_hr": "Zadnja prodajna e-poruka s pitanjem 'still interested?' i opcijom odjave.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Not something I need right now.",
+        "Sorry, I get about 50 cold emails a day."
+      ]
+    },
+    {
+      "key": "4006945/4608048901",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor potvrđuje da je osoba napustila Viber - potvrđuje trenutnu oznaku.",
+      "next_step_hr": "Označiti kao Wrong Person, nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Automatska poruka o odlasku iz Vibera s preusmjeravanjem na drugu osobu.",
+      "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that Ritesh Shah has left Viber"
+      ]
+    },
+    {
+      "key": "3876232/4446317296",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ljudski odgovor 'Sure, if it's free, I will look at it' pokazuje interes; poslan je link i kod, ali nema potvrde o korištenju niti je zadnja poruka primatelja.",
+      "next_step_hr": "Zadržati oznaku Interested jer nema potvrde o bookingu niti je handover kompletan - potrebno pričekati odgovor ili provjeriti status.",
+      "last_inbound_summary_hr": "Osoba pristaje pogledati ponudu jer je besplatna.",
+      "last_outbound_summary_hr": "Zadnja poruka s kodom OBLACCESS55 i linkom za booking, nema odgovora.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Sure, if it's free, I will look at it.",
+        "Code: OBLACCESS55"
+      ]
+    }
+  ]
+}

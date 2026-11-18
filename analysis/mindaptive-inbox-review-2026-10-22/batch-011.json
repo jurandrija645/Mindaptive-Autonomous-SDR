@@ -1,0 +1,257 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23422,
+    "completion_tokens": 3339,
+    "total_tokens": 26761,
+    "cost": 0.00267365,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00267365,
+      "upstream_inference_prompt_cost": 0.0011711,
+      "upstream_inference_completions_cost": 0.00150255
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3750042/4287431244",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski verifikacijski zahtjev (anti-spam). To nije ljudski odgovor — potrebna je ljudska verifikacija prije nego se može nastaviti. Postojeći draft je zastario (pokušava odgovoriti na verifikaciju, ali to je zaseban proces).",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebna je ručna provjera: treba li odgovoriti na verifikacijski zahtjev ili pričekati? Postojeći draft pokušava 'odgovoriti na verifikaciju' umjesto da se stvarno verificira; radije označi da je potrebna ljudska akcija.",
+      "missing_information": [
+        "Status verifikacije pošiljatelja"
+      ],
+      "evidence": [
+        "The message you sent requires that you verify that you are a real live human being and not a spam source.",
+        "To complete this verification, simply reply to this message"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft ne rješava stvarni problem (anti-spam verifikacija). Potrebna je ljudska odluka — ovo nije normalan upit niti prodajna prilika."
+    },
+    {
+      "key": "3751357/4278751792",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovori su automatske poruke (booking info i upute). Nema znakova ljudskog interesa. Postojeći draft je agresivan i neprimjeren za automatski odgovor.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatske poruke, nema stvarnog kontakta. Sačekati na ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thanks for your enquiry. We aim to respond within 24 hours",
+        "For bookings, please visit our website at doctor-naz.com"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft je neprikladan — ignorira da je odgovor čisti auto-reply bez ljudskog elementa. Bolje ne slati ništa dok ne dođe pravi odgovor."
+    },
+    {
+      "key": "3640877/4176336070",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Svi primljeni odgovori su automatske poruke (prvo godišnji odmor, zatim auto-poruka o kašnjenju). Nema ljudskog odgovora. Poslano 3 puta, 3 auto-replya. Stari auto-reply draft je neprimjeren.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nakon 3 pokušaja i samo automatskih odgovora — prekini slati. Nema ljudskog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "Unsere Praxis befindet sich vom 09.07. bis einschließlich 31.07. im Sommerurlaub",
+        "Aufgrund der derzeit hohen Nachfrage nach unseren spezialisierten Behandlungen kann es aktuell zu einer verzögerten, persönlichen Rückmeldung kommen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — sadrži pasivno-agresivni komentar o automatskim odgovorima. Nema osnove za slanje; prekini komunikaciju."
+    },
+    {
+      "key": "3750042/4287400600",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka o odsutnosti (Out of Office do 10.8.). Nema ljudskog odgovora. Postojeći draft je neprimjeren — pretjerano agresivan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-08-10T00:00:00+01:00",
+      "next_step_hr": "Sačekati do 10.8. kad se vrate, zatim poslati kratak follow-up (jedan). Ne koristiti stari draft.",
+      "missing_information": [],
+      "evidence": [
+        "We are currently out of office from August 3rd to August 7th. We will gladly respond to all emails when we return back to office on August 10, 2026."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — sadrži pretjerano direktan prodajni pristup na auto-reply o odsutnosti. Pričekati povratak, zatim poslati kratak follow-up bez pritiska."
+    },
+    {
+      "key": "3750042/4287408819",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska zahvalnica s kontakt informacijama. Nema ljudskog odgovora niti interesa. Postojeći draft je neprimjeren.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Bez ljudskog interesa. Prekini slati.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email! We will respond to your email as soon as possible.",
+        "Please feel free to contact us during work hours by calling our office phone number (972) 910-0003"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — pretjerano agresivan i prodajni za običan auto-reply. Nema osnove za slanje."
+    },
+    {
+      "key": "3750042/4287408652",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka s općim kontakt informacijama. Nema ljudskog odgovora niti interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Bez stvarnog kontakta. Prekini slati.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email -- we look forward to serving you soon.",
+        "An Evergreen Health representative will respond to your inquiry very shortly."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — prodajni pristup na običan auto-reply. Nema osnove za slanje."
+    },
+    {
+      "key": "3750042/4287396682",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor obavještava da adresa ne postoji — 'you sent an email using an @urgentcare.com email address, which does not exist.' Ovo je pogrešna osoba/odskok, ne potencijalni klijent.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Adresa ne postoji. Zatvori lead.",
+      "missing_information": [],
+      "evidence": [
+        "You are receiving this message because you sent an email using an @urgentcare.com email address, which does not exist.",
+        "We would suggest that you contact the precise urgent care location you are trying to reach by phone."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — pokušava nastaviti prodaju na adresu koja ne postoji. Lead je mrtav."
+    },
+    {
+      "key": "3751357/4278755865",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka s uputama za kontakt (2-5 radnih dana). Nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Bez stvarnog kontakta. Prekini slati.",
+      "missing_information": [],
+      "evidence": [
+        "If your email relates to one of our courses we aim to respond to within 2-5 working days.",
+        "For urgent enquiries please contact us on Tel 0330 1333221"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — prodajni pristup na običan auto-reply. Nema osnove za slanje."
+    },
+    {
+      "key": "3751357/4278755816",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka — 'One of our team will be with you very shortly.' Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Pričekati da prođe uobičajeno vrijeme odgovora, ali zasad nema akcije.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting NEU® Cosmetic Clinic. One of our team will be with you very shortly."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — prodajni pristup na običan auto-reply. Nema osnove za slanje."
+    },
+    {
+      "key": "3751357/4278755570",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka o radnom vremenu. Nema ljudskog odgovora niti interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Bez stvarnog kontakta. Prekini slati.",
+      "missing_information": [],
+      "evidence": [
+        "Please note this email address is monitored Monday to Friday 9.00 - 17.00 and we will endeavour to respond as soon as possible."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Stari draft je neprimjeren — prodajni pristup na običan auto-reply. Nema osnove za slanje."
+    }
+  ]
+}

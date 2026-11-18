@@ -30,6 +30,12 @@
         <button id="mobile-menu-close" class="mobile-menu-close" type="button" aria-label="Close navigation">×</button>
       </div>
       {% if dry_run %}<span class="pill pill-dry">DRY RUN</span>{% endif %}
+      {% if onebody_auto_replies %}
+      <label class="auto-reply-toggle" title="Automatically send eligible new replies after review" style="display:flex;align-items:center;gap:8px;white-space:nowrap">
+        <input type="checkbox" id="auto-replies-toggle" disabled>
+        <span id="auto-replies-label">Automatic replies: loading…</span>
+      </label>
+      {% endif %}
       <!-- Outreach = everything that gets a lead to a booked meeting (the tabs
            below). CRM = the pipeline after that, app/crm.py + static/crm.js. -->
       <div class="mode-switch" id="mode-switch" role="tablist" aria-label="Workspace">
@@ -55,6 +61,7 @@
       <span class="subnav-group">Work</span>
       <button id="view-inbox-btn" class="view-tab active" type="button">Inbox</button>
       <button id="view-scheduled-btn" class="view-tab" type="button">Scheduled</button>
+      <button id="view-subsequence-members-btn" class="view-tab" type="button">Subsequences</button>
       <button id="view-sequences-btn" class="view-tab" type="button">Sequences</button>
       <button id="view-archive-btn" class="view-tab" type="button">Archive</button>
       <span class="subnav-sep" aria-hidden="true"></span>

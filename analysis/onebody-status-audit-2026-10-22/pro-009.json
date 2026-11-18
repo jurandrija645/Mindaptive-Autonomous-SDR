@@ -1,0 +1,172 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 11183,
+    "completion_tokens": 2659,
+    "total_tokens": 13842,
+    "cost": 0.00889936137,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7838,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00889936137,
+      "upstream_inference_prompt_cost": 0.00381928869,
+      "upstream_inference_completions_cost": 0.00508007268
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608051278",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski OOO odgovor primljen 2026-09-24. Poruka obavještava o odsutnosti do 25. rujna i ne sadrži nikakav ljudski upit, prihvaćanje ponude niti upućivanje na drugu osobu za ovu ponudu.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Automatski OOO odgovor je istekao prije više od godinu dana. Može se eventualno razmotriti ponovno slanje kampanje na vlastitu odgovornost, ali nema znakova interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema dokaza o ljudskom interesu; odgovor je čisti OOO. Nema potrebe za daljnjim radnjama. Ako vlasnik želi, može ručno pokrenuti novu kampanju.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAD1ywOFOoDufzhGz4EWHXxYQRU872YVW4TTNJLmRM38Y-7RuLg@mail.gmail.com>",
+          "quote": "I am out of office until 25th September. If you need support using Uptick please contact support@uptickhq.com."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051137",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor: Anna više ne radi u Sysdigu i neće odgovoriti na e-mail. Iako upućuje na Guya (guy.martin@sysdig.com), poruka kaže da originalni e-mail neće biti proslijeđen. Ovo je tipičan obavijesni odgovor o odlasku iz tvrtke, a ne ljudski angažman po primljenoj ponudi.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Osoba je napustila tvrtku. Guy Martin nije izravno zainteresiran; prijedlog za kontakt je generički. Slijepo slanje Guyu bez konteksta nosi rizik.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Preporučljivo je ne poduzimati ništa. Ako vlasnik želi, može ručno kontaktirati Guy Martina kao potpuno novi lead.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAPa6J0Yx=NAtm3L6QJmHnNgF1hFLE-rKSJCADBPJO6+Q1ei-fg@mail.gmail.com>",
+          "quote": "I am no longer with Sysdig and unfortunately will be unable to reply to your email.\nPlease direct your inquiries to Guy at guy.martin@sysdig.com."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051197",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Automatski odgovor: Sonia Peterson više ne radi u Liquidity Group. Upute su za kontaktiranje Roba Amata (rob@liquidity.com) za poslovne upite vezane uz staru ulogu. Ne postoji ljudski interes za fizioterapiju.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Osoba je napustila tvrtku. Prosljeđivanje Robu Amatu nije izravno traženo za ovu ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne preporučuje se daljnje postupanje. Ako vlasnik želi, može ručno kontaktirati Rob Amata kao novi lead.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000b624ef065c388b02@google.com>",
+          "quote": "Sonia Perterson is no longer working in Liquidity Group and her responsibilities were re-assigned to\nRob Amato."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051120",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila s greškom 550 5.0.350 'Address rejected'. Email adresa nije valjana ili je odbijena. Nema ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Email adresa je neupotrebljiva. Nema mogućnosti za ljudski kontakt putem ovog kanala.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjih radnji. Contact je mrtav.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3d9f367b-b257-446d-8ea2-13492984b7ca@CWLP123MB3137.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to sandip.wadje@uk.bnpparibas.com couldn't be delivered."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051153",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila s greškom 550 5.7.352. Sustav primatelja (Mimecast) ju je odbio kao spam. Nema ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Email nije isporučen zbog sigurnosnih politika primatelja. Problem je tehničke prirode.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne pokušavati ponovno slati s iste domene. Ako vlasnik želi, može pokušati alternativni kanal komunikacije, ali ne e-mailom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<de62ad09-144f-40bb-9a66-58c66044a6e1@CWXP123MB3320.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to neill.newman@exainfra.net couldn't be delivered."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051152",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila s greškom 550 5.7.352. Sustav primatelja (Mimecast) ju je odbio kao spam. Nema ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Email nije isporučen zbog sigurnosnih politika primatelja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne pokušavati ponovno slati s iste domene. Ako vlasnik želi, može pokušati alternativni kanal komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<fa4a8a63-3f82-46d7-b902-b91a1c9c6b11@LOEP123MB492333.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to kate.hennessy@exainfra.net couldn't be delivered."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051049",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Emma je 2026-09-24 zatražila info: 'Great!! send info'. Poslan je link i kod. Nema daljnjeg odgovora. Interes je jasan, ali booking nije potvrđen u porukama.",
+      "last_human_request_hr": "Great!! send info",
+      "unresolved_hr": "Poslane su upute za booking 2026-09-24. Od tada nema odgovora. Potrebno je provjeriti je li Emma na kraju rezervirala. Ako nije, slijedi follow up jer je pokazala jasan interes.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti status bookinga u kalendaru. Ako nije bukirano, poslati nježan follow-up podsjetnik na ponudu (npr. 'Jeste li uspjeli pronaći termin?').",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAChrQ3q+wpkmXAf_fnjPmHbxJnmEbNdkKrT0ZmWtSvd9b-25Yg@mail.gmail.com>",
+          "quote": "Great!! send info"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051031",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Automatski odgovor s uputama da Dele više ne radi u Kernelu. Marcus Henglein (marcus@kernel.ai) naveden je kao alternativni kontakt. Ovo nije ljudski interes za ponudu, već obavijest o odlasku.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Dele je nedostupan. Marcus Henglein nije samoinicijativno kontaktirao.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne preporučuje se daljnja komunikacija s ovog kontakta. Ako vlasnik želi, može ručno kontaktirati Marcusa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000a069b4065c36e153@google.com>",
+          "quote": "Dele is no longer with Kernel, and this inbox is not monitored. Please contact Marcus Henglein at marcus@kernel.ai for assistance."
+        }
+      ]
+    }
+  ]
+}

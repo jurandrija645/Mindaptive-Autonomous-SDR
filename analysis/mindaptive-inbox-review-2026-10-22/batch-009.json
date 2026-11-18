@@ -1,0 +1,250 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23184,
+    "completion_tokens": 3121,
+    "total_tokens": 26305,
+    "cost": 0.00256365,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00256365,
+      "upstream_inference_prompt_cost": 0.0011592,
+      "upstream_inference_completions_cost": 0.00140445
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3892258/4466863178",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovori Zendesk ticketing sustava (potvrda primitka i dodjela agentu) — nema ljudskog odgovora, interesa ili upita. 0 poslanih poruka nakon automatskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog odgovora niti interesa. Ne raditi ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Your request (630364) has been received and is being reviewed by our support staff.",
+        "Thank you for reaching out to MRCOOL Support."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Samo automatski replies — nema ljudskog odgovora, nema razloga za bilo kakav draft."
+    },
+    {
+      "key": "3899056/4475668361",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini reply je automatski OOO (izvan ureda do utorka, 8. rujna). Nema ljudskog odgovora. 0 poslanih poruka nakon OOO.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo OOO. Pričekati povratak Natalie, zatim poslati follow-up nakon 8.9.",
+      "missing_information": [],
+      "evidence": [
+        "I'm out of the office until Tuesday, 8 September."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft je generic auto-reply nudge koji ne odgovara stvarnom stanju — OOO nije prilika za 'funny timing' poruku. Potrebno pričekati povratak."
+    },
+    {
+      "key": "3899056/4475672765",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini reply je automatski OOO — Conor je na paternity leave do 14. rujna, s uputama za hitne slučajeve. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-14T00:00:00+02:00",
+      "next_step_hr": "Pričekati povratak Conora 14.9., zatim poslati standardni follow-up ako je relevantno.",
+      "missing_information": [],
+      "evidence": [
+        "I'm currently out on paternity leave and away from my inbox, returning September 14th, 2026."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft ne odgovara situaciji (generic auto-reply nudge). Potrebno pričekati povratak."
+    },
+    {
+      "key": "3912149/3734012934",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini reply je automatski odgovor zbog povećanog obujma poziva zbog vrućeg vremena — tipičan seasonal auto-reply. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Pričekati i poslati ponovnu poruku nakon tjedan dana od prvog slanja.",
+      "missing_information": [],
+      "evidence": [
+        "Due to the recent hot weather, we have experienced an exceptionally high volume of calls and emails, which has resulted in longer response times than usual."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft nije primjeren — auto-reply zbog sezone nije ista stvar kao 'funny timing' nudge. Bolje pričekati i poslati normalan follow-up koji pokazuje link na demo."
+    },
+    {
+      "key": "3899056/4475670053",
+      "recommended_label": "Not Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Gmail emoji reakcija (🥱 - dosadno) — to nije auto-reply, ali nije ni pozitivan signal. Vjerojatno označava nezainteresiranost. Potrebna ljudska procjena jer je nejasno.",
+      "priority": "P2",
+      "sales_state": "NEEDS_HUMAN_REVIEW",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Ljudska procjena: je li emoji reakcija '🥱' dovoljno jasan signal nezainteresiranosti ili je moguće poslati kratak follow-up?",
+      "missing_information": [],
+      "evidence": [
+        "Angelique Tober reacted via Gmail: 🥱"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft je generic auto-reply nudge — ne odgovara stvarnoj situaciji (emoji, ne auto-reply). Potrebna ljudska odluka."
+    },
+    {
+      "key": "3899056/4475668509",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini reply je automatski 'za sastanke kontaktirajte drugu osobu' — nema ljudskog odgovora na sadržaj poruke. Zadnja poruka je poslana prije 49 dana.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski redirect za sastanke. Nema interesa niti ljudskog odgovora. Mozda probati drugi kontakt.",
+      "missing_information": [],
+      "evidence": [
+        "For any scheduling matters, please contact cara.littlewood@iproov.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft ne odgovara — auto-reply je redirect za scheduling, a ne OOO. Nema smisla slati 'funny timing' poruku."
+    },
+    {
+      "key": "3825745/4287408819",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini reply je automatski zahvala za email. Nakon toga smo poslali jednu poruku (auto-reply nudge), ali nema ljudskog odgovora. 1 poslana poruka, 0 ljudskih replya.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo auto-reply, nema ljudskog interesa. Previše vremena prošlo (skoro 2 mjeseca od prvog slanja) — vjerojatno zatvoriti.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email! We will respond to your email as soon as possible."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog odgovora nakon 2 poruke. Auto-reply nudge je poslan ali bez efekta. Zatvoriti."
+    },
+    {
+      "key": "3892258/4466861910",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski Zendesk ticketing replies (potvrda primitka #6598 i dodjela agentu John LoBuglio). Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo ticketing auto-replies. Nema ljudskog interesa. Ne raditi ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Your request (6598) has been received and is being reviewed.",
+        "Your Air Equipment Parts request #6598 has been assigned to John LoBuglio."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog odgovora nakon prvog slanja. Postojeći draft nije primjeren (auto-reply nudge na ticket sustav)."
+    },
+    {
+      "key": "3892258/4466860814",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski Zendesk odgovor — potvrda primitka i informacija o webstore pristupu. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Nema interesa. Možda probati drugi kontakt u Johnstone Supply.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for reaching out to Johnstone Supply – Grimme Group. A representative will respond to your request as soon as possible."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Samo automatski reply. Postojeći draft ne odgovara situaciji."
+    },
+    {
+      "key": "3892258/4466860644",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-reply sa zahtjevom za verifikaciju da smo stvarna osoba (anti-spam sustav). Nema ljudskog odgovora na sadržaj.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Anti-spam auto-reply. Nije stiglo do stvarne osobe. Zatvoriti jer zahtijeva verifikaciju koju nismo prošli.",
+      "missing_information": [],
+      "evidence": [
+        "The message you sent requires that you verify that you are a real live human being and not a spam source."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog odgovora niti interesa. Postojeći draft nije primjeren. Spam filter je blokirao poruku."
+    }
+  ]
+}

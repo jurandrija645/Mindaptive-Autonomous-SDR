@@ -1,0 +1,250 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 26133,
+    "completion_tokens": 3596,
+    "total_tokens": 29729,
+    "cost": 0.0046655,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0046655,
+      "upstream_inference_prompt_cost": 0.00365862,
+      "upstream_inference_completions_cost": 0.00100688
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3640877/4176328581",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (Auto-Reply) koji potvrđuje primitak. Nema ljudskog odgovora niti interesa. Postojeći draft je automatski generiran za auto-reply, ali ne pretvara auto-reply u interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Pričekati ljudski odgovor ili nastaviti s pravilnim follow-upom ako ga bude.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für Ihre Nachricht. Wir werden uns umgehend mit Ihnen in Verbindung setzen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti auto-reply za ironičan komentar, što nije dopušteno. Automatski odgovor ne stvara interes. Brišem draft."
+    },
+    {
+      "key": "3640877/4176328598",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (Auto-Reply) koji obavještava o vremenu odgovora. Nema ljudskog odgovora niti interesa. Postojeći draft je neprikladan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Pričekati ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your email. We aim to respond to all enquiries within 2 working days."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti auto-reply za ironičan komentar. Automatski odgovor ne stvara interes. Brišem draft."
+    },
+    {
+      "key": "3640877/4176329101",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (auto-reply) o zatvorenosti prakse zbog ljetnog odmora do 3. kolovoza. Nema ljudskog odgovora. Postojeći draft je neprikladan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-08-03T06:00:00.000Z",
+      "next_step_hr": "Pričekati do 3. kolovoza kada se praksa ponovno otvara. Nakon toga, pratiti ima li ljudskog odgovora.",
+      "missing_information": [],
+      "evidence": [
+        "Onze praktijk is momenteel gesloten in verband met de zomervakantie.",
+        "Vanaf maandag 3 augustus zijn wij weer geopend."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti auto-reply za ironičan komentar. Automatski odgovor je samo obavijest o zatvaranju. Brišem draft."
+    },
+    {
+      "key": "3640877/4176329038",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (Auto-Reply) koji potvrđuje primitak i upućuje na online recepciju. Nema ljudskog odgovora niti interesa. Postojeći draft je neprikladan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Pričekati ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "wir bedanken uns für Ihre Nachricht und werden diese schnellstmöglich bearbeiten."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti auto-reply za ironičan komentar. Brišem draft."
+    },
+    {
+      "key": "3640877/4176328490",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (auto-reply) koji obavještava o primitku upita i daje upute za termin. Nema ljudskog odgovora niti interesa. Postojeći draft je neprikladan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor. Pričekati ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Ihre Nachricht/Terminanfrage ist bei uns eingegangen, herzlichen Dank."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti auto-reply za ironičan komentar. Brišem draft."
+    },
+    {
+      "key": "3599203/4126838234",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "E-mail adresa nije pronađena – poruka se vratila s greškom '550 5.1.10 RESOLVER.ADR.RecipientNotFound'. Nema ljudskog odgovora. Adresa je nevažeća.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Adresa nije isporučena – nema daljnjih radnji. Provjeriti točnu adresu za Pallas Kliniken.",
+      "missing_information": [],
+      "evidence": [
+        "Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup'"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft pokušava nastaviti komunikaciju unatoč nevažećoj adresi. Nema smisla čuvati draft za neisporučenu poruku. Brišem."
+    },
+    {
+      "key": "3599203/4126837782",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (Auto-Reply) koji upućuje na drugu adresu (webinfo@beclinic.com). Nema ljudskog odgovora niti interesa. Postojeći draft je neprikladan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Samo automatski odgovor – nema ljudskog interesa. Preporuča se poslati poruku na webinfo@beclinic.com ako se želi nastaviti.",
+      "missing_information": [],
+      "evidence": [
+        "for all general inquieries, appointments and patient-related questions, you can contact us directly on webinfo@beclinic.com."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti auto-reply za ironičan komentar. Brišem."
+    },
+    {
+      "key": "3599203/4126836213",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor (auto-reply) koji obavještava da e-mail neće biti pročitan do 22.7.2026. Nema ljudskog odgovora. Postojeći draft je neprikladan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-07-22T06:00:00.000Z",
+      "next_step_hr": "Pričekati do 22.7.2026. Nakon toga, pratiti ima li ljudskog odgovora.",
+      "missing_information": [],
+      "evidence": [
+        "Deze mail wordt niet gelezen of beantwoord voor 22/07/26."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti auto-reply za ironičan komentar. Brišem."
+    },
+    {
+      "key": "3562710/4080232619",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Poruke su odbijene od moderatora (moderator rejection) – nema stvarnog ljudskog odgovora. 'ATP' adresa je pod moderacijom. Nema interesa. Postojeći draft je neprikladan.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poruke nisu prošle moderaciju – nema daljnjih radnji na ovoj adresi. Potražiti drugi kontakt za 0800 Repair.",
+      "missing_information": [],
+      "evidence": [
+        "Your message was rejected by a moderator"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je neprimjeren – pokušava iskoristiti moderacijsko odbijanje za komentar. Brišem."
+    },
+    {
+      "key": "3562710/4080236189",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ronny je pitao za video s njemačkim AI pozivom – to je stvaran interes. Nakon što je Andrew poslao link za testiranje, Ronny je otišao na godišnji (auto-reply 9.7.). Ovo je ljudski odgovor s interesom, a zatim OOO, ali OOO ne poništava prethodni interes. Postojeći draft (čekanje) je odličan – treba ga zadržati.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "WAIT",
+      "next_action_at": "2026-07-21T06:00:00.000Z",
+      "next_step_hr": "Ronny se vraća s godišnjeg 21.7. Nakon toga, poslati kratak follow-up: podsjetnik na testnu verziju njemačke AI sekretarice.",
+      "missing_information": [],
+      "evidence": [
+        "Do you have also a video with a german ai call?",
+        "Ich bin in der Zeit vom 6.7.2026 bis 20.7.2026 im Urlaub."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hallo Ronny,\nkein Problem, ich wünsche einen erholsamen Urlaub.\nIch melde mich dann kurz nach dem 21.07. wieder bei Ihnen. Der Vorschlag steht weiterhin: entweder ich schicke Ihnen die Testnummer der deutschen KI-Sekretärin, oder wir bauen im Call direkt eine Demo speziell für Erzvoltaik.\nFalls Sie vorher schon Lust haben, einen Termin zu fixieren, hier der Link -> https://calendly.com/andrew-mindaptive/30min\nBis dann, viele Grüße,\nAndrew",
+      "draft_english": "Hello Ronny, No problem, I hope you have a relaxing holiday. I'll get back to you shortly after 21.07. The offer still stands: either I send you the test number of the German AI secretary, or we build a demo specifically for Erzvoltaik on a call. If you'd like to schedule a time before then, here's the link -> https://calendly.com/andrew-mindaptive/30min. Talk soon, best regards, Andrew",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je valjan, na njemačkom, poštuje OOO i nudi nastavak. Zadržati ga i poslati nakon 21.7."
+    }
+  ]
+}

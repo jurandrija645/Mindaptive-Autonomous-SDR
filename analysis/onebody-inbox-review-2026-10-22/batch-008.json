@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 13541,
+    "completion_tokens": 2440,
+    "total_tokens": 15981,
+    "cost": 0.00177505,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00177505,
+      "upstream_inference_prompt_cost": 0.00067705,
+      "upstream_inference_completions_cost": 0.001098
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616863",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog odgovora.",
+      "next_step_hr": "Pratiti povratak, nema potrebe za promjenom oznake.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor Elaine do 23. rujna.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will return on Wednesday 23rd September."
+      ]
+    },
+    {
+      "key": "3930675/4520618272",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor Clarea do 21. rujna.",
+      "next_step_hr": "Pratiti povratak, nema promjene oznake.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor Clarea do 21. rujna.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office until Monday 21st of September."
+      ]
+    },
+    {
+      "key": "3876232/4446318007",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor Chrisa, nema ljudskog odgovora.",
+      "next_step_hr": "Ostati na Out Of Office, pratiti povratak.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor Chrisa.",
+      "last_outbound_summary_hr": "Zadnja poruka Rebecca s pitanjem za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office so please use your regular contact for enquires"
+      ]
+    },
+    {
+      "key": "3930675/4520615555",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor Nataliye od 14. do 21. rujna.",
+      "next_step_hr": "Pratiti povratak, nema promjene oznake.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor Nataliye do 21. rujna.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be OOO from 14th - 21st September."
+      ]
+    },
+    {
+      "key": "3930675/4520622510",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Orijana nije na lokaciji i preusmjerava na upravljački tim; nema ljudskog interesa.",
+      "next_step_hr": "Ostati na Out Of Office, nema promjene.",
+      "last_inbound_summary_hr": "Orijana nije na lokaciji i preusmjerava na upravljački tim.",
+      "last_outbound_summary_hr": "Prva poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please contact the following management team members to respond to your email"
+      ]
+    },
+    {
+      "key": "3930675/4520622345",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor Hannah do 23. rujna.",
+      "next_step_hr": "Pratiti povratak, nema promjene oznake.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor Hannah do 23. rujna.",
+      "last_outbound_summary_hr": "Prva poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Wednesday 23rd September."
+      ]
+    },
+    {
+      "key": "3930675/4520622390",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ivan šalje automatski odgovor s kontaktom studija, nema ljudskog interesa.",
+      "next_step_hr": "Ostati na Out Of Office, nema promjene.",
+      "last_inbound_summary_hr": "Ivan šalje automatski odgovor s kontaktom studija.",
+      "last_outbound_summary_hr": "Prva poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please call the studio nearest to you and they will be able to help."
+      ]
+    },
+    {
+      "key": "3930675/4520622310",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Lucinda šalje automatski porodiljni OOO odgovor.",
+      "next_step_hr": "Ostati na Out Of Office, nema promjene.",
+      "last_inbound_summary_hr": "Lucinda šalje automatski porodiljni OOO odgovor.",
+      "last_outbound_summary_hr": "Prva poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently on Maternity Leave and will have limited access to email during this time."
+      ]
+    },
+    {
+      "key": "3876232/4446317702",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski porodiljni OOO odgovori Malishe do veljače 2027.",
+      "next_step_hr": "Ostati na Out Of Office, nema promjene.",
+      "last_inbound_summary_hr": "Treći automatski porodiljni OOO odgovor Malishe.",
+      "last_outbound_summary_hr": "Zadnja poruka Rebecca s pitanjem za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now on maternity leave and will be away until February 2027."
+      ]
+    },
+    {
+      "key": "3876232/4446317868",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski porodiljni OOO odgovori Ekaterine.",
+      "next_step_hr": "Ostati na Out Of Office, nema promjene.",
+      "last_inbound_summary_hr": "Treći automatski porodiljni OOO odgovor Ekaterine.",
+      "last_outbound_summary_hr": "Zadnja poruka Rebecca s pitanjem za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave and have limited access to emails."
+      ]
+    },
+    {
+      "key": "3876232/4446317820",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovori Lucy do 14. rujna; nema kasnijeg ljudskog odgovora.",
+      "next_step_hr": "Ostati na Out Of Office, nema promjene.",
+      "last_inbound_summary_hr": "Drugi automatski OOO odgovor Lucy do 14. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka Rebecca s pitanjem za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently out of office until September 14th."
+      ]
+    },
+    {
+      "key": "3876232/4446317429",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski porodiljni OOO odgovori Lee.",
+      "next_step_hr": "Ostati na Out Of Office, nema promjene.",
+      "last_inbound_summary_hr": "Treći automatski porodiljni OOO odgovor Lee.",
+      "last_outbound_summary_hr": "Zadnja poruka Rebecca s pitanjem za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away on Maternity Leave."
+      ]
+    }
+  ]
+}

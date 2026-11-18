@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8738,
+    "completion_tokens": 1605,
+    "total_tokens": 10343,
+    "cost": 0.0102717,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0102717,
+      "upstream_inference_prompt_cost": 0.0078642,
+      "upstream_inference_completions_cost": 0.0024075
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520617893",
+      "genuine_engagement": true,
+      "verdict": "later",
+      "confidence": "high",
+      "return_date": "2026-10-24",
+      "evidence_message_id": "<CAB8FAChbDyPLBq3nWtt3WYJNxjDaVJ75StX0c8JWJk1GPNF28Q@mail.gmail.com>",
+      "human_quote": "I will look into it in the next month",
+      "reason_hr": "Osoba je potvrdila interes i dobila kod/link, ali traži odgodu jer je zauzeta. Najnovija ljudska poruka je 'look into it in the next month' od 24.9. – prozor istječe 24.10.",
+      "request_hr": "Ponovno kontaktirati za mjesec dana (od 24.9.)",
+      "next_action_hr": "Annie je tražila kontakt 'in the next month'. Danas je 22.10.2026., što je unutar tog prozora (istječe 24.10.). Ne šalji ništa do 24.10., a ako do tada ne rezervira, pošalji jedan nježni podsjetnik 24.10. ili 25.10. Nemoj slati ranije.",
+      "bulk_group": "later",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520617890",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<77268F73-CAE1-4C01-964E-32D370850A3A@transficc.com>",
+      "human_quote": "No",
+      "reason_hr": "Odgovor je 'No' – jasno odbijanje ponude. Ostatak poruke je samo potpis s kalendarskim linkom i kontakt podacima.",
+      "request_hr": "none",
+      "next_action_hr": "Steve je odbio ponudu. Ne šalji daljnje poruke. Premjesti u odbijene.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520617802",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<172FD823-6066-44C3-B996-39638FC3A6CF@sifted.eu>",
+      "human_quote": "I think I have already booked it though?",
+      "reason_hr": "Isabel tvrdi da je već rezervirala, iako Kurt kaže da ne vidi rezervaciju. Posljednja ljudska poruka je 'I have already booked it', nema pitanja ni zadataka za nas. Lokalni status je 'booked'.",
+      "request_hr": "none",
+      "next_action_hr": "Isabel tvrdi da je rezervirala, a sustav je označava kao 'booked'. Moguće je da je rezervacija obavljena izvan emaila. Ne šalji daljnje poruke osim ako ne trebaš ručno provjeriti u kalendaru je li rezervacija stvarno prošla. Trenutno nema potrebe za kontaktom.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520617452",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CA+SZmhGkVQFsSV9pOOrx3x594WubDdCk2sFq+Wde66ER6AkwnQ@mail.gmail.com>",
+      "human_quote": "I'm not interested, thank you.",
+      "reason_hr": "Ryan je eksplicitno odbio ponudu: 'I'm not interested, thank you.'",
+      "request_hr": "none",
+      "next_action_hr": "Ryan je odbio. Ne kontaktiraj ga više.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520616840",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CACOE2Z4=Hirebd70vT655wf8vfovRmrwNDmGRVYaobynHPC0EQ@mail.gmail.com>",
+      "human_quote": "I'm interested, but currently tied up. From October I have more time to look into this.",
+      "reason_hr": "Jeremy je potvrdio interes 23.9. i tražio kontakt u listopadu. Link/kod je poslan. Nakon toga smo mi poslali 2 automatska follow-upa (5.10. i 20.10.), na koje nije odgovorio. Posljednja ljudska poruka je i dalje njegov interes, a posljednja ukupna poruka je naša, pa čekamo njega.",
+      "request_hr": "Javiti se u listopadu (od 23.9.)",
+      "next_action_hr": "Jeremy je tražio kontakt u listopadu; već smo poslali follow-up 5.10. i 'zadnji email' 20.10. Na to nije reagirao. Ne šalji ništa novo. Status waiting_on_lead omogućit će daljnje praćenje prema zadanim intervalima, ali pripazi jer je naša zadnja poruka već označena kao 'last email'.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616435",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAJDpT9stD5NYGgCgXSR3cnSAOPgu0_HsqJ_3Paz+grHHN5hBKg@mail.gmail.com>",
+      "human_quote": "Not something I need right now.",
+      "reason_hr": "Colin je odbio ponudu: 'Not something I need right now.' Ostatak poruke je samo komentar o hladnim emailovima i potpis.",
+      "request_hr": "none",
+      "next_action_hr": "Colin je odbio. Ne kontaktiraj ga više.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

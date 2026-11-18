@@ -1,0 +1,228 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8858,
+    "completion_tokens": 3353,
+    "total_tokens": 12211,
+    "cost": 0.000848848,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7795,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000848848,
+      "upstream_inference_prompt_cost": 0.000238602,
+      "upstream_inference_completions_cost": 0.000610246
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316091",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Laura je automatski odgovorila da je na porodiljnom dopustu i da neće čitati poruke, a ljudski odgovor nije uslijedio unatoč tri naša outbounda.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatski odgovor da je Laura na porodiljnom dopustu i da ne provjerava poruke, s kontaktom za Eduarda.",
+      "last_outbound_summary_hr": "Mi smo poslali još dva praćenja (ponuda 55-minutne sesije, zadnji email s opcijom odgovora 'no'), bez ljudskog odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently on maternity leave and won’t be checking messages.",
+        "If it's not relevant, no problem at all, just reply \"no\" and I won't email again."
+      ]
+    },
+    {
+      "key": "3876232/4446316008",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mike je automatski odgovorio s uputom da se kontaktira Michelle Smith, i nije bilo ljudskog odgovora na naša praćenja.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatski odgovor s uputom da se za sve upite kontaktira Michelle Smith (msmith@ogbroking.com).",
+      "last_outbound_summary_hr": "Poslana su dva praćenja s ponudom besplatne sesije, zadnji email traži odgovor 'da' ili 'no'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you for your email. For all enquires, please contact Michelle Smith (msmith@ogbroking.com)",
+        "Yes or no is fine either way."
+      ]
+    },
+    {
+      "key": "3876232/4446315477",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Niki je automatski odgovorila da je izvan ureda i da će odgovoriti najranije, ali ljudski odgovor nije stigao.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Niki izvan ureda, s kontaktima Yasmin i June za hitne stvari.",
+      "last_outbound_summary_hr": "Poslana su dva praćenja s ponudom besplatne sesije, zadnji email traži potvrdu interesa.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of office. I will reply to your email at the earliest opportunity.",
+        "If it is and you've just been busy, the code takes me ten seconds to send."
+      ]
+    },
+    {
+      "key": "3876232/4446315336",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ania je automatski odgovorila da je napustila TruRating i dala kontakt za Martyja, bez ljudskog odgovora na naš outbound.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office) jer je kontakt osoba napustila tvrtku.",
+      "last_inbound_summary_hr": "Automatska poruka da je Ania napustila TruRating, s preporukom da se kontaktira Marty Schecter.",
+      "last_outbound_summary_hr": "Poslana su dva praćenja s ponudom besplatne sesije, zadnji email traži odgovor 'da' ili 'no'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please be advised that I have left TruRating.",
+        "This will be my last email, Ania."
+      ]
+    },
+    {
+      "key": "3930675/4520614610",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Paul je automatski odgovorio da je odsutan i da ima ograničen pristup emailu, bez ljudskog odgovora.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Paul odsutan s ograničenim pristupom emailu.",
+      "last_outbound_summary_hr": "Poslan je jedan outbound s ponudom besplatne 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hi, I am away with limited access to email so apologies for any delay."
+      ]
+    },
+    {
+      "key": "3930675/4520614813",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Danielle je automatski odgovorila da je izvan ureda i uputila na Alexa, bez ljudskog odgovora na naš outbound.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Danielle izvan ureda, s kontaktom za alex.stanton@myriadglobalmedia.com.",
+      "last_outbound_summary_hr": "Poslan je jedan outbound s ponudom besplatne 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office, please contact - alex.stanton@myriadglobalmedia.com."
+      ]
+    },
+    {
+      "key": "3930675/4520614756",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Barnaby je automatski odgovorio da je izvan ureda i uputio na Eda, bez ljudskog odgovora na naš outbound.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Barnaby izvan ureda, s kontaktom za ed.stennett@nomio.com.",
+      "last_outbound_summary_hr": "Poslan je jedan outbound s ponudom besplatne 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently out of office - please contact Ed Stennett (ed.stennett@nomio.com) in the meantime."
+      ]
+    },
+    {
+      "key": "3930675/4520614592",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Paul je automatski odgovorio da je na godišnjem odmoru i da se vraća u ponedjeljak, bez ljudskog odgovora na naš outbound.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Paul na godišnjem odmoru do ponedjeljka, s kontaktom za Phillip Kynaston za hitne upite.",
+      "last_outbound_summary_hr": "Poslan je jedan outbound s ponudom besplatne 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that I am on annual leave today, Friday 11th September, with no email access",
+        "back in the office on Monday."
+      ]
+    },
+    {
+      "key": "3876232/4446316010",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Andy je automatski odgovorio s uputom da se kontaktira Paul Evans, i nije bilo ljudskog odgovora na naša praćenja.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatski odgovor s uputom da se za sve upite kontaktira Paul Evans (pevans@ogbroking.com).",
+      "last_outbound_summary_hr": "Poslana su dva praćenja s ponudom besplatne 55-minutne sesije, zadnji email traži odgovor 'da' ili 'no'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please contact Paul Evans (pevans@ogbroking.com) for any queries.",
+        "This will be my last email, Andy."
+      ]
+    },
+    {
+      "key": "3876232/4446315671",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Collette je automatski odgovorila da je izvan ureda na dulje vrijeme i dala kontakte za Fund.Operations i Bena, bez ljudskog odgovora na naša praćenja.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Collette izvan ureda na dulje, s kontaktima za Fund.Operations@evelyn.com i Ben.Cable@evelyn.com.",
+      "last_outbound_summary_hr": "Poslana su dva praćenja s ponudom besplatne 55-minutne sesije, zadnji email traži odgovor 'da' ili 'no'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office for a protracted period.",
+        "If it's not relevant, no problem at all, just reply \"no\" and I won't email again."
+      ]
+    },
+    {
+      "key": "3930675/4520614587",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Emma je automatski odgovorila da je izvan ureda do 14. rujna, bez ljudskog odgovora na naš outbound.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Emma izvan ureda do 14. rujna, s kontaktom za ops-uk@theodo.com za hitne stvari.",
+      "last_outbound_summary_hr": "Poslan je jedan outbound s ponudom besplatne 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of office until 14th September, for anything urgent please contact ops-uk@theodo.com."
+      ]
+    },
+    {
+      "key": "3930675/4520614638",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mark je automatski odgovorio da je odsutan ovaj tjedan i dao kontakte Toma i Fergusona, bez ljudskog odgovora na naš outbound.",
+      "next_step_hr": "Bez dodatnih radnji; thread ostaje označen kao automatski odgovor (Out Of Office).",
+      "last_inbound_summary_hr": "Automatska poruka da je Mark odsutan ovaj tjedan, s kontaktima Tom.chesterton@tonic-agency.com i Fergus.occonnell@tonic-agency.com.",
+      "last_outbound_summary_hr": "Poslan je jedan outbound s ponudom besplatne 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m away this week.",
+        "You can get them on Tom.chesterton@tonic-agency.com"
+      ]
+    }
+  ]
+}

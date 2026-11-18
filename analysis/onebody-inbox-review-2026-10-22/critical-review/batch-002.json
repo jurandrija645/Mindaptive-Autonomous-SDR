@@ -1,0 +1,196 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 21156,
+    "completion_tokens": 2808,
+    "total_tokens": 23964,
+    "cost": 0.0023214,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0023214,
+      "upstream_inference_prompt_cost": 0.0010578,
+      "upstream_inference_completions_cost": 0.0012636
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520615026",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Lawrence je izrazio interes, dobio link i kod za rezervaciju, a mi smo poslali zadnju poruku; odgovor na njegov zahtjev nije dovršen jer on nije potvrdio rezervaciju niti postavio dodatno pitanje.",
+      "next_step_hr": "Pričekati da Lawrence sam rezervira termin ili se javi; nema potrebe za dodatnim slanjem.",
+      "last_inbound_summary_hr": "Lawrence je potvrdio interes i zatražio informacije za besplatnu fizioterapiju.",
+      "last_outbound_summary_hr": "Poslani su mu booking link i kod OBLACCESS55 s uputama za odabir Mayfair klinike.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "I'd be interested in taking you up on this offer, sounds great!",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520616840",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jeremy je zamolio da ga podsjetimo u listopadu, a mi smo poslali zadnju poruku; nema potvrde da je primio sve tražene informacije jer je samo izrazio interes bez daljnjih upita.",
+      "next_step_hr": "Pričekati da Jeremy sam rezervira ili odgovori; ne slati nove poruke jer je zadnja poruka naša.",
+      "last_inbound_summary_hr": "Jeremy je izrazio interes i zamolio da ga kontaktiramo u listopadu kad bude imao više vremena.",
+      "last_outbound_summary_hr": "Poslan je booking link i kod OBLACCESS55 s napomenom za Camden kliniku.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm interested, but currently tied up. From October I have more time to look into this.",
+        "The code is OBLACCESS55 and the booking link is [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520622245",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Emily je već rezervirala termin (izvorno Meeting Booked), ali je zatrazila pomoć oko otkazivanja/rezervacije; nije potvrdila novi termin niti dobila odgovor na svoj zahtjev.",
+      "next_step_hr": "Odgovoriti na njezin upit o otkazivanju/rezervaciji i pomoći joj s promjenom termina.",
+      "last_inbound_summary_hr": "Emily je pitala može li sama otkazati termin jer ga ne vidi u svom računu.",
+      "last_outbound_summary_hr": "Poslan je booking link i kod OBLACCESS55 s preporukom za Hammersmith kliniku.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hello - is it possible to reschedule appointments on your website please?",
+        "Here's the booking link: [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "4006945/4608052354",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Coralie je izričito napisala 'I just booked my session', što potvrđuje da je rezervirala termin.",
+      "next_step_hr": "Zadržati trenutnu oznaku Meeting Booked; nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Coralie je potvrdila da je rezervirala svoj besplatni termin.",
+      "last_outbound_summary_hr": "Poslan je podsjetnik da ponuda istječe na kraju mjeseca s linkom i kodom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I just booked my session."
+      ]
+    },
+    {
+      "key": "3930675/4520618130",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Joel je potvrdio dolazak i već ima zakazane termine, ali njegova partnerica Ginny ima problem s isteklim kodom; to zahtijeva ručnu provjeru.",
+      "next_step_hr": "Provjeriti zahtjev Ginny za novim kodom i odgovoriti na njezinu molbu.",
+      "last_inbound_summary_hr": "Ginny (partnerica) je napisala da joj ne radi booking link i moli novi kod.",
+      "last_outbound_summary_hr": "Rebecca je poslala informacije za Virginiju s istim kodom OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I had a really positive first visit to the Hampstead clinic yesterday",
+        "the link that you shared no longer works, I guess because it was a one-time promo code."
+      ]
+    },
+    {
+      "key": "3930675/4520614838",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Tania je izrazila interes, dobila kod, ali nije potvrdila novi termin nakon što je propustila prvotni termin; njezin zahtjev za sljedeći tjedan ostaje nepotvrđen.",
+      "next_step_hr": "Odgovoriti na njezin zahtjev za termin idući tjedan (četvrtak) i potvrditi rezervaciju.",
+      "last_inbound_summary_hr": "Tania je propustila današnji termin i pitala za termin idući tjedan (četvrtak).",
+      "last_outbound_summary_hr": "Rebecca je ponudila da Lawrence iskoristi termin ili da Tania zatraži novi termin.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Yes I would love this, when can I get in?",
+        "Can we do next week Thursday?"
+      ]
+    },
+    {
+      "key": "3876232/4446317487",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Alexander je već imao rezervaciju, ali sada ima problema s pristupom računu i moli otkazivanje svih termina; potrebna je ručna pomoć.",
+      "next_step_hr": "Odgovoriti na njegov zahtjev za otkazivanje termina i pomoći mu s pristupom računu.",
+      "last_inbound_summary_hr": "Alexander je napisao da ne može pristupiti svom računu i moli otkazivanje svih termina u Shoreditchu.",
+      "last_outbound_summary_hr": "Poslan je podsjetnik da ponuda istječe na kraju mjeseca s linkom i kodom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I cannot access my account, the magic link doesn't work",
+        "Can you please cancel any and all appointments I have at the Shoreditch site."
+      ]
+    },
+    {
+      "key": "4006945/4608049800",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Danial (Danny) je izričito napisao 'All booked!', što potvrđuje da je rezervirao termin.",
+      "next_step_hr": "Zadržati trenutnu oznaku Meeting Booked; nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Danial je potvrdio da je sve rezervirao.",
+      "last_outbound_summary_hr": "Poslan je podsjetnik s linkom i kodom za rezervaciju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "All booked!"
+      ]
+    },
+    {
+      "key": "3930675/4520617802",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Isabel tvrdi da je već rezervirala, ali mi ne vidimo rezervaciju; poslan je novi link i kod, ali nema potvrde da je uspjelo.",
+      "next_step_hr": "Provjeriti je li Isabel uspjela rezervirati s novim linkom i kodom; ako ne, pomoći joj s rezervacijom.",
+      "last_inbound_summary_hr": "Isabel je napisala 'I think I have already booked it though?' ali bez potvrde rezervacije.",
+      "last_outbound_summary_hr": "Kurt je poslao novi booking link i kod s upitom je li uspjelo.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I think I have already booked it though?",
+        "I don't actually see your booking come through on my end"
+      ]
+    },
+    {
+      "key": "3876232/4446317374",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Veena je već platila i dobila termin, ali je dobila pogrešnu naplatu od £125; to je riješeno od strane administratorke Kresta, ali Veena je potvrdila primitak.",
+      "next_step_hr": "Potvrditi da je problem s naplatom riješen i provjeriti je li Veena zadovoljna; nema potrebe za daljnjim slanjem.",
+      "last_inbound_summary_hr": "Veena je zahvalila Kresti na rješavanju računa.",
+      "last_outbound_summary_hr": "Kresta je potvrdila da je račun poništen.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "I paid the £4.99 for a 35 mins appointment yesterday",
+        "hi Kresta, Many thanks Veena"
+      ]
+    }
+  ]
+}

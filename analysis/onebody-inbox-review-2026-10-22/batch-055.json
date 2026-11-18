@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11256,
+    "completion_tokens": 2421,
+    "total_tokens": 13677,
+    "cost": 0.00165225,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00165225,
+      "upstream_inference_prompt_cost": 0.0005628,
+      "upstream_inference_completions_cost": 0.00108945
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315465",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Raj je izričito napisao 'it's not something I would require', što je jasna nezainteresiranost.",
+      "next_step_hr": "Zadržite trenutnu oznaku Not Interested; nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Raj je zahvalio i odbio ponudu, navodeći da mu ne treba.",
+      "last_outbound_summary_hr": "Poslan je posljednji email s porukom da će to biti zadnji kontakt.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "it's not something I would require."
+      ]
+    },
+    {
+      "key": "3876232/4446317963",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Simen je automatski odgovorio da je napustio tvrtku, što potvrđuje oznaku Wrong Person.",
+      "next_step_hr": "Ostanite na oznaci Wrong Person; preusmjerite na navedeni kontakt ako je potrebno.",
+      "last_inbound_summary_hr": "Automatski odgovor: Simen je napustio Secretsales, preusmjerava na Matta Purta.",
+      "last_outbound_summary_hr": "Poslana početna e-poruka s ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left the business."
+      ]
+    },
+    {
+      "key": "3876232/4446315408",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Joanna je izravno odgovorila da nemaju privatnog zdravstvenog osiguranja, što je odbijanje ponude.",
+      "next_step_hr": "Zadržite trenutnu oznaku Not Interested.",
+      "last_inbound_summary_hr": "Joanna je napisala da nemaju privatno zdravstveno osiguranje i zahvalila.",
+      "last_outbound_summary_hr": "Poslan je posljednji email koji najavljuje kraj komunikacije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks, but sadly we don't have private healthcare."
+      ]
+    },
+    {
+      "key": "3876232/4446316839",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Simon je poslao 'Unsubscribe', što je jasna izjava nezainteresiranosti i zahtjev za prestankom kontakta.",
+      "next_step_hr": "Zadržite oznaku Not Interested; uklonite iz budućih kampanja.",
+      "last_inbound_summary_hr": "Simon je napisao samo 'Unsubscribe'.",
+      "last_outbound_summary_hr": "Poslana druga e-poruka s ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Unsubscribe"
+      ]
+    },
+    {
+      "key": "3876232/4446315417",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ankush je odgovorio samo s 'No', što je izravno odbijanje ponude.",
+      "next_step_hr": "Zadržite trenutnu oznaku Not Interested.",
+      "last_inbound_summary_hr": "Ankush je odgovorio s 'No'.",
+      "last_outbound_summary_hr": "Poslan je posljednji email s porukom da će to biti zadnji kontakt.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446317854",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor obavještava da je primatelj napustio Lickd, što potvrđuje oznaku Wrong Person.",
+      "next_step_hr": "Ostanite na oznaci Wrong Person; uputite upite na hello@lickd.co.",
+      "last_inbound_summary_hr": "Automatski odgovor: osoba je napustila Lickd, preusmjerava na hello@lickd.co.",
+      "last_outbound_summary_hr": "Poslana početna e-poruka s ponudom, upućena pogrešnoj osobi.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Lickd."
+      ]
+    },
+    {
+      "key": "3876232/4446317876",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kimberley je automatski odgovorila da više nije u GlobalReach Technology, što potvrđuje oznaku Wrong Person.",
+      "next_step_hr": "Ostanite na oznaci Wrong Person; preusmjerite na support@globalreachtech.com.",
+      "last_inbound_summary_hr": "Automatski odgovor: Kimberley je napustila GlobalReach Technology.",
+      "last_outbound_summary_hr": "Poslana početna e-poruka s ponudom, upućena pogrešnoj osobi.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with GlobalReach Technology"
+      ]
+    },
+    {
+      "key": "3876232/4446317376",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Martyn je prvo poslao OOO automatski odgovor, ali zatim se javio čovjek, no njegova poruka ukazuje na promjenu lokacije, što sugerira da nije ispravna osoba (stara tvrtka).",
+      "next_step_hr": "Preporučuje se ručni pregled: Martyn je ljudski odgovorio, ali je naveo staru adresu; možda nije pogrešna osoba, nego samo ažuriranje podataka.",
+      "last_inbound_summary_hr": "Martyn je odgovorio da su se preselili u Farringdon i predložio staru agenciju.",
+      "last_outbound_summary_hr": "Poslana početna e-poruka o lokaciji London Bridge.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "we have been in Farringdon for a little while now."
+      ]
+    },
+    {
+      "key": "3876232/4446317433",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Anushka je automatski odgovorila da više nije u EMJ, što potvrđuje oznaku Wrong Person.",
+      "next_step_hr": "Ostanite na oznaci Wrong Person; preusmjerite na Shauna.Doyle@emjreviews.com.",
+      "last_inbound_summary_hr": "Automatski odgovor: Anushka je napustila EMJ od 18. srpnja 2025.",
+      "last_outbound_summary_hr": "Poslana početna e-poruka s ponudom, upućena pogrešnoj osobi.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with EMJ as of 18th July 2025"
+      ]
+    },
+    {
+      "key": "3876232/4446317455",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor obavještava da Debbie Nolan više nije zaposlenica Exclusive Household Staff, što potvrđuje oznaku Wrong Person.",
+      "next_step_hr": "Ostanite na oznaci Wrong Person; kontaktirajte info@exclusivehouseholdstaff.com.",
+      "last_inbound_summary_hr": "Automatski odgovor: Debbie Nolan više nije u tvrtki.",
+      "last_outbound_summary_hr": "Poslana početna e-poruka s ponudom, upućena pogrešnoj osobi.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Debbie Nolan is no longer employed by Exclusive Household Staff"
+      ]
+    },
+    {
+      "key": "3876232/4446315431",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "James je potvrdio primitak veze za rezervaciju i rekao 'All good', što ukazuje da je dogovorena sesija zakazana.",
+      "next_step_hr": "Zadržite oznaku Meeting Booked; nema potrebe za daljnjom pratnjom.",
+      "last_inbound_summary_hr": "James je odgovorio s 'All good, thanks Rebecca.' nakon primitka veze za rezervaciju i potvrde.",
+      "last_outbound_summary_hr": "Poslana veza za rezervaciju i šifra OBLACCESS55, te naknadni upit je li zakazano.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "All good, thanks Rebecca."
+      ]
+    },
+    {
+      "key": "3876232/4446315767",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Posljednja poruka je povratna obavijest da je email odbijen zbog spam filtera, što potvrđuje oznaku Sender Originated Bounce.",
+      "next_step_hr": "Zadržite oznaku Sender Originated Bounce; Simon je prethodno odgovorio automatski da je napustio tvrtku, ali bounce je dominantan.",
+      "last_inbound_summary_hr": "Povratna poruka: email nije mogao biti isporučen jer je označen kao spam.",
+      "last_outbound_summary_hr": "Poslana druga e-poruka koja je rezultirala bounceom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Your message to simon.evans@bmsgroup.com couldn't be delivered."
+      ]
+    }
+  ]
+}

@@ -81,6 +81,22 @@ def _summary_for(lead: dict, thread, category: str, last_msg) -> dict:
 
 
 def draft_attachments(draft) -> list[dict]:
+    from app import client_assets, library
+
+    attachments = _stored_draft_attachments(draft)
+    if client_assets.CLIENT_DIR == client_assets.REPO_ROOT / "clients" / "onebodyldn":
+        slug = "one-body-ldn-partnership-brochure.pdf"
+        entry = next((e for e in library.listing() if e["slug"] == slug), None)
+        if entry is None:
+            raise RuntimeError("Required OneBody partnership brochure is missing")
+        if not any(a.get("slug") == slug or a.get("file_name") == entry["file_name"] for a in attachments):
+            attachments.append({"slug": slug, "file_name": entry["file_name"],
+                                "file_url": entry["url"], "file_type": entry["file_type"],
+                                "file_size": entry["file_size"]})
+    return attachments
+
+
+def _stored_draft_attachments(draft) -> list[dict]:
     """The files this draft ships with, decoded from drafts.attachments.
 
     Fail-soft on purpose: an unreadable column returns "no attachments" rather
@@ -527,6 +543,17 @@ def record_do_not_contact(
         resolved_email = email or ((state["email"] or "") if state else "")
         existing_category = ((state["smartlead_category"] or "") if state else "")
         db.mark_lead_do_not_contact(conn, lead_id, campaign_id, message_id)
+        # The same person can have work in multiple campaigns. Freeze every
+        # matching local record before relying on any Smartlead network call.
+        related = conn.execute(
+            "SELECT lead_id, campaign_id FROM leads_state WHERE lead_id=? OR (? != '' AND lower(trim(email))=lower(trim(?)))",
+            (lead_id, resolved_email, resolved_email),
+        ).fetchall()
+        for row in related:
+            db.mark_lead_do_not_contact(conn, row["lead_id"], row["campaign_id"])
+        db.set_setting(conn, f"dnc_suppression_pending:{lead_id}", json.dumps({
+            "lead_id": lead_id, "campaign_id": campaign_id, "email": resolved_email,
+        }))
 
     already_dnc = norm_category_name(existing_category) == norm_category_name(
         settings.do_not_contact_category_name
@@ -540,21 +567,44 @@ def record_do_not_contact(
             override_lock=True,
         )
 
+    _retry_dnc_suppression(lead_id, campaign_id, resolved_email)
+
+
+def _retry_dnc_suppression(lead_id: int, campaign_id: int, email: str) -> None:
     if settings.dry_run:
         log.info("[DRY_RUN] would globally suppress lead %s/%s", campaign_id, lead_id)
         return
+    succeeded = True
     try:
         smartlead.unsubscribe_lead_globally(lead_id)
     except Exception:
+        succeeded = False
         log.exception("failed to globally unsubscribe lead %s/%s", campaign_id, lead_id)
-    entries = _block_entries_for_email(resolved_email)
+    entries = _block_entries_for_email(email)
     if entries:
         try:
             smartlead.add_to_global_block_list(*entries)
         except Exception:
+            succeeded = False
             log.exception("failed to add lead %s/%s to global block list", campaign_id, lead_id)
     else:
+        succeeded = False
         log.warning("lead %s/%s has no usable email for global block list", campaign_id, lead_id)
+    if succeeded:
+        with db.db_session() as conn:
+            conn.execute("DELETE FROM app_settings WHERE key = ?", (f"dnc_suppression_pending:{lead_id}",))
+
+
+def retry_dnc_suppressions() -> None:
+    if settings.dry_run:
+        return
+    with db.db_session() as conn:
+        pending = conn.execute("SELECT value FROM app_settings WHERE key LIKE 'dnc_suppression_pending:%' LIMIT 50").fetchall()
+    for row in pending:
+        try:
+            _retry_dnc_suppression(**json.loads(row["value"]))
+        except Exception:
+            log.exception("could not retry do-not-contact suppression")
 
 
 def record_explicit_booking(
@@ -950,6 +1000,10 @@ def run_reply_catch_scan() -> None:
                         row["company"] or "", db.now_iso(),
                     )
 
+                    from app import onebody_review
+                    if onebody_review.held(campaign_id, row["lead_id"], last.message_id):
+                        continue
+
                     # How hot is this? Rated here rather than only in the
                     # webhook, so the rating never depends on a webhook that
                     # fires once and isn't retried — and before the has-draft
@@ -987,11 +1041,13 @@ def run_reply_catch_scan() -> None:
                             "reply-catch: drafting missed reply for lead %s",
                             row["lead_id"],
                         )
-                        pipeline.create_draft(conn, lead, "", "reply", thread)
+                        draft_id = pipeline.create_draft(conn, lead, "", "reply", thread)
                         db.upsert_lead_state(
                             conn, row["lead_id"], campaign_id, status="awaiting_reply"
                         )
                         drafted += 1
+                    from app import auto_replies
+                    auto_replies.schedule_reviewed(draft_id, thread)
                 except Exception:
                     log.exception(
                         "reply-catch: drafting failed for lead %s", row["lead_id"]
@@ -1408,12 +1464,17 @@ def _process_lead(
         return False
 
     if decision.action == detector.Action.REPLY:
+        from app import onebody_review
+        if onebody_review.held(lead["campaign_id"], lead["id"], last_msg.message_id):
+            return False
         log.info("drafting reply for lead %s: %s", lead["id"], decision.reason)
         with db.db_session() as conn:
-            pipeline.create_draft(conn, lead, campaign_name, "reply", thread)
+            draft_id = pipeline.create_draft(conn, lead, campaign_name, "reply", thread)
             db.upsert_lead_state(
                 conn, lead["id"], lead["campaign_id"], status="awaiting_reply"
             )
+        from app import auto_replies
+        auto_replies.schedule_reviewed(draft_id, thread)
         return False
 
     if decision.action == detector.Action.FOLLOWUP:
@@ -1471,7 +1532,9 @@ def run_due_send_loop() -> None:
                 current = db.get_draft(conn, draft["id"])
                 if current is None or current["status"] != "sending":
                     continue
-                if current["kind"] == "sequence":
+                if current["kind"] == "auto_response":
+                    db.update_draft(conn, draft["id"], kind="reply", status="pending", scheduled_at=None, send_error="Automatic send stopped; review required: " + str(exc)[:400])
+                elif current["kind"] == "sequence":
                     sequences.on_send_failed(conn, current, str(exc))
                 else:
                     db.update_draft(conn, draft["id"], status="scheduled", send_error=str(exc)[:500])
@@ -1499,8 +1562,27 @@ def _mark_lead_waiting_on_them(
     db.upsert_lead_state(conn, lead_id, campaign_id, **fields)
 
 
-def _send_due_draft(draft: dict) -> str:
+def _send_due_draft(draft: dict, *, manual_click: bool = False) -> str:
     lead_id, campaign_id = draft["lead_id"], draft["campaign_id"]
+    from app import aftercare
+    is_aftercare = draft.get("kind") == "aftercare"
+    # Only the dashboard's immediate send action grants this exception. A
+    # scheduled draft, sequence step or approved aftercare remains guarded.
+    manual_booking_override = manual_click and draft.get("kind") not in ("sequence", "aftercare")
+
+    def stop_suppressed() -> str:
+        with db.db_session() as conn:
+            db.update_draft(conn, draft["id"], status="stale", send_error="Contact is stopped or opted out.")
+        return "stale"
+
+    if booking_guard.is_locally_suppressed(lead_id, draft.get("lead_email") or ""):
+        return stop_suppressed()
+
+    if is_aftercare:
+        with db.db_session() as conn:
+            if aftercare.approval_for(conn, draft, for_send=True) is None:
+                db.update_draft(conn, draft["id"], status="stale", send_error="Aftercare approval missing, edited or outside its time window.")
+                return "stale"
 
     def stop_booked() -> str:
         with db.db_session() as conn:
@@ -1508,12 +1590,23 @@ def _send_due_draft(draft: dict) -> str:
         log.info("draft %s blocked: meeting booked", draft["id"])
         return "stale"
 
-    if booking_guard.is_locally_booked(lead_id, draft.get("lead_email") or ""):
+    if not is_aftercare and not manual_booking_override and booking_guard.is_locally_booked(lead_id, draft.get("lead_email") or ""):
         booking_guard.freeze_local(lead_id, campaign_id, draft.get("lead_email") or "")
         return stop_booked()
 
     thread = pipeline.fetch_normalized_thread(campaign_id, lead_id)
     last = thread[-1] if thread else None
+    if draft["kind"] == "auto_response" and not manual_booking_override:
+        from app import auto_replies
+        if not auto_replies.presend(draft, thread):
+            with db.db_session() as conn:
+                db.update_draft(conn, draft["id"], kind="reply", status="pending", scheduled_at=None,
+                                send_error="Automatic reply stopped: conversation or eligibility changed; review required.")
+            return "pending"
+    if is_aftercare and (not last or last.message_id != draft.get("reply_message_id")):
+        with db.db_session() as conn:
+            db.update_draft(conn, draft["id"], status="stale", send_error="Conversation changed since the approved aftercare message.")
+        return "stale"
     is_sequence = draft["kind"] == "sequence"
 
     if is_sequence:
@@ -1605,10 +1698,19 @@ def _send_due_draft(draft: dict) -> str:
         draft["id"], sender_email, stats_id, len(send_body),
         "<table" in send_body, send_body[-120:],
     )
-    # Applies to replies, follow-ups AND local sequence steps, including the
-    # manual Send now button. An unreadable live status raises before sending.
-    if not booking_guard.allow_send(lead_id, campaign_id, lead_email):
+    # Automated and scheduled sends still fail closed on unreadable status.
+    if is_aftercare:
+        if not aftercare.allow_send(draft, thread):
+            return stop_booked()
+    elif not manual_booking_override and not booking_guard.allow_send(lead_id, campaign_id, lead_email):
         return stop_booked()
+    if booking_guard.is_locally_suppressed(lead_id, lead_email):
+        return stop_suppressed()
+    if draft["kind"] == "auto_response" and not manual_booking_override and not auto_replies.enabled():
+        with db.db_session() as conn:
+            db.update_draft(conn, draft["id"], kind="reply", status="pending", scheduled_at=None,
+                            send_error="Automatic replies are off; review required.")
+        return "pending"
     resp = smartlead.reply_to_thread(
         campaign_id,
         send_body,
@@ -1655,6 +1757,7 @@ def start_scheduler() -> BackgroundScheduler:
         id="daily_scan",
     )
     sched.add_job(run_due_send_loop, "interval", minutes=1, id="due_send_loop")
+    sched.add_job(retry_dnc_suppressions, "interval", minutes=1, id="retry_dnc_suppressions", max_instances=1)
     sched.add_job(
         booking_guard.run_native_booking_guard, "interval", seconds=30,
         id="native_booking_guard", max_instances=1, coalesce=True,

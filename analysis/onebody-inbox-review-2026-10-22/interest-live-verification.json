@@ -1,0 +1,93 @@
+[
+  {
+    "key": "3930675/4520621755",
+    "name": "Harry Ead",
+    "email": "harry@dixonbaxi.com",
+    "current_label": "",
+    "category_id": null,
+    "last_reply_at": "2026-09-25T14:07:13+00:00",
+    "last_sent_at": "2026-09-25T15:06:58.946025+00:00"
+  },
+  {
+    "key": "3876232/4446317501",
+    "name": "Alistair",
+    "email": "alistair.maher@mvs.co.uk",
+    "current_label": "Out Of Office",
+    "category_id": 6,
+    "last_reply_at": "2026-09-07T08:59:15+00:00",
+    "last_sent_at": "2026-09-07T08:59:07.563887+00:00"
+  },
+  {
+    "key": "3930675/4520618811",
+    "name": "Andrew Macharg",
+    "email": "andy.macharg@hellomagazine.com",
+    "current_label": "",
+    "category_id": null,
+    "last_reply_at": "2026-09-22T16:04:27+00:00",
+    "last_sent_at": "2026-09-22T16:19:04.36033+00:00"
+  },
+  {
+    "key": "3930675/4520613376",
+    "name": "Lux Jega",
+    "email": "lux.jega@glas.agency",
+    "current_label": "",
+    "category_id": null,
+    "last_reply_at": "2026-09-21T11:47:50+00:00",
+    "last_sent_at": "2026-09-21T11:52:10.2217+00:00"
+  },
+  {
+    "key": "3876232/4446317432",
+    "name": "Sarah Skelton",
+    "email": "sarah@helloflourish.com",
+    "current_label": "Uncategorizable by Ai",
+    "category_id": 8,
+    "last_reply_at": "2026-09-04T07:24:16+00:00",
+    "last_sent_at": "2026-09-07T08:58:21.377926+00:00"
+  },
+  {
+    "key": "3930675/4520617891",
+    "name": "Joshua DiLorenzo",
+    "email": "joshua.dilorenzo@transficc.com",
+    "current_label": "Not Interested",
+    "category_id": 3,
+    "last_reply_at": "2026-09-17T14:30:08+00:00",
+    "last_sent_at": "2026-09-17T13:24:03.754+00:00"
+  },
+  {
+    "key": "3930675/4520615628",
+    "name": "Digby Lewis",
+    "email": "digbyl@motherlondon.com",
+    "current_label": "",
+    "category_id": null,
+    "last_reply_at": "2026-09-22T11:37:40+00:00",
+    "last_sent_at": "2026-09-22T12:52:15.208216+00:00"
+  },
+  {
+    "key": "3930675/4520613046",
+    "name": "Alex Grieve",
+    "email": "alex.grieve@bartleboglehegarty.com",
+    "current_label": "Wrong Person",
+    "category_id": 7,
+    "last_reply_at": "2026-09-15T11:32:11+00:00",
+    "last_sent_at": "2026-09-15T11:23:51.559+00:00"
+  },
+  {
+    "key": "3876232/4446316582",
+    "name": "Alex Henniker",
+    "email": "a.henniker@frankgroup.com",
+    "current_label": "Do Not Contact",
+    "category_id": 4,
+    "last_reply_at": "2026-09-15T09:37:32+00:00",
+    "last_sent_at": "2026-09-15T09:31:20.756414+00:00",
+    "is_unsubscribed": true
+  },
+  {
+    "key": "3930675/4520622428",
+    "name": "Dag Wirdenius",
+    "email": "dag@siteassist.com",
+    "current_label": "Wrong Person",
+    "category_id": 7,
+    "last_reply_at": "2026-09-18T08:56:36+00:00",
+    "last_sent_at": "2026-09-18T09:34:29.156676+00:00"
+  }
+]

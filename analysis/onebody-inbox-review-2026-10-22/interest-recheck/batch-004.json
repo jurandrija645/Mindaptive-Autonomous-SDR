@@ -1,0 +1,161 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11285,
+    "completion_tokens": 1373,
+    "total_tokens": 12658,
+    "cost": 0.0011821,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 11264,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0011821,
+      "upstream_inference_prompt_cost": 0.00056425,
+      "upstream_inference_completions_cost": 0.00061785
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520618811",
+      "recommended_label": "Interested",
+      "interest_assessment": "clear_interest",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Andrew Macharg je izričito izrazio interes: 'a physio appointment sounds amazing'. Nastavak sa slanjem booking linka i koda potvrđuje interes – nije samo kompliment.",
+      "evidence": [
+        "a physio appointment sounds amazing"
+      ]
+    },
+    {
+      "key": "3930675/4520622276",
+      "recommended_label": "",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Maya Pursey je izričito odgovorila 'I am not interested'. Nema naknadnog povlačenja odbijanja.",
+      "evidence": [
+        "I am not interested"
+      ]
+    },
+    {
+      "key": "3930675/4520615628",
+      "recommended_label": "Interested",
+      "interest_assessment": "engaged_question",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Digby Lewis nije odbio; ponudio je proslijediti HR timu ('pass on to our people team'), što pokazuje angažman i potencijalni interes, iako nije osobno prihvatio.",
+      "evidence": [
+        "I'd need to pass on to our people team"
+      ]
+    },
+    {
+      "key": "3930675/4520618273",
+      "recommended_label": "",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Joy Nazzari je izričito odgovorila 'No thanks Rebecca'. Nema kasnijeg povlačenja odbijanja.",
+      "evidence": [
+        "No thanks Rebecca"
+      ]
+    },
+    {
+      "key": "3930675/4520618267",
+      "recommended_label": "",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Rakhee Ojah-Maharaj je odgovorila 'no'. Izričito odbijanje, nema naknadnog interesa.",
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3930675/4520617452",
+      "recommended_label": "",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ryan Perkins je izričito odgovorio 'I'm not interested, thank you'. Nema kasnijeg povlačenja.",
+      "evidence": [
+        "I'm not interested, thank you"
+      ]
+    },
+    {
+      "key": "3930675/4520616143",
+      "recommended_label": "",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Frances Dickens je odgovorila 'NO'. Izričito odbijanje, nema naknadnog interesa.",
+      "evidence": [
+        "NO"
+      ]
+    },
+    {
+      "key": "3930675/4520617890",
+      "recommended_label": "",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Steve Toland je odgovorio 'No'. Izričito odbijanje, nema naknadnog interesa.",
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3930675/4520621302",
+      "recommended_label": "",
+      "interest_assessment": "ambiguous",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Kristian Tiffany daje detaljno objašnjenje o svojoj situaciji i aktivnosti, ali ne prihvaća ponudu niti je izričito ne odbija – govori o rotator cuff problemima, što je nejasno i nije čisti interes niti odbijanje.",
+      "evidence": [
+        "other than the odd occasion when one of my rotator cuffs is playing up"
+      ]
+    },
+    {
+      "key": "3930675/4520615107",
+      "recommended_label": "",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Drew Naylor je odgovorio 'no.' Izričito odbijanje, nema naknadnog interesa.",
+      "evidence": [
+        "no."
+      ]
+    },
+    {
+      "key": "3930675/4520613376",
+      "recommended_label": "Interested",
+      "interest_assessment": "clear_interest",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Lux Jega je postavio konkretna pitanja o cijeni i web stranici ('how much does it cost? Do you have a website?'), što je jasan znak interesa; odgovor je poslan s linkom i kodom.",
+      "evidence": [
+        "how much does it cost?",
+        "Do you have a website?"
+      ]
+    },
+    {
+      "key": "3930675/4520616107",
+      "recommended_label": "",
+      "interest_assessment": "ambiguous",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Chris Gent kaže 'No thanks. I'll keep you in mind if I need some physio in the future' – to nije izričito odbijanje već uvjetna izjava, ali nije ni prihvaćanje. Ne ulazi u kategoriju jasnog interesa.",
+      "evidence": [
+        "No thanks. I'll keep you in mind if I need some physio in the future"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1438 @@
+[
+  {
+    "key": "3930675/4520621755",
+    "name": "Harry Ead",
+    "email": "harry@dixonbaxi.com",
+    "current": "",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Harry je izrazio interes i najavio termin za tjedan dana, ali još nije rezervirao.",
+    "evidence": [
+      "I am actually interested!",
+      "I'm away this week but maybe the week after would be good?"
+    ]
+  },
+  {
+    "key": "4006945/4608048943",
+    "name": "Pooja",
+    "email": "pooja.rodrigues@airship.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Osoba više ne radi u tvrtki i upućuje na kolege, što je jasan signal krive osobe.",
+    "evidence": [
+      "I am no longer with Airship and this inbox is no longer actively monitored.",
+      "Milad has taken over responsibility for the region"
+    ]
+  },
+  {
+    "key": "3876232/4446317756",
+    "name": "Tanya",
+    "email": "tmannion@vixio.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Primateljica je javila da je napustila tvrtku, a kasnija dostava je odbijena jer je račun neaktivan.",
+    "evidence": [
+      "Hi, I've now left Vixio, so for anything related to product marketing,",
+      "The email account that you tried to reach is inactive."
+    ]
+  },
+  {
+    "key": "3876232/4446317052",
+    "name": "Fraser",
+    "email": "fraser.embleton-smith@lantum.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Osoba je više puta odgovorila da više ne radi u tvrtki.",
+    "evidence": [
+      "I am no longer working at Lantum."
+    ]
+  },
+  {
+    "key": "3876232/4446317772",
+    "name": "Scott",
+    "email": "scott.fautley@rokstoneuw.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Osoba je izjavila da više ne radi u tvrtki, što opravdava oznaku pogrešne osobe.",
+    "evidence": [
+      "I no longer work at Rokstone and my emails will be forwarded to Jack O’Sullivan."
+    ]
+  },
+  {
+    "key": "3876232/4446316020",
+    "name": "Paul",
+    "email": "paul.robertson-marriott@gunnercooke.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Osoba je jasno izjavila da više ne radi u toj tvrtki.",
+    "evidence": [
+      "I no longer work for gunnercooke."
+    ]
+  },
+  {
+    "key": "3876232/4446315546",
+    "name": "Tom",
+    "email": "tom.pygall@acquinex.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Poruka kaže da više ne radi u toj tvrtki, što odgovara oznaci Wrong Person.",
+    "evidence": [
+      "I no longer work for Acquinex - please contact Will.egan@acquinex.com or tax@acquinex.com"
+    ]
+  },
+  {
+    "key": "3876232/4446315792",
+    "name": "Hassan",
+    "email": "hanjum@alpharealcapital.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Kontakt je odgovorio da je napustio tvrtku AlphaReal – više nije prava osoba.",
+    "evidence": [
+      "I have now left AlphaReal: if necessary, please direct any emails over to edpalmer@alpharealcapital.com"
+    ]
+  },
+  {
+    "key": "3876232/4446315521",
+    "name": "Lucy",
+    "email": "lucy.j@wearebulletproof.com",
+    "current": "Out Of Office",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Lucy je javila da više ne radi u Bulletproofu pa se više ne isplati ciljati na nju.",
+    "evidence": [
+      "I am no longer working at Bulletproof. Please contact Carlie.Brown@wearebulletproof.com"
+    ]
+  },
+  {
+    "key": "3876232/4446317501",
+    "name": "Alistair",
+    "email": "alistair.maher@mvs.co.uk",
+    "current": "Out Of Office",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Alistair je ljudski odgovorio s pitanjem o uvjetima, ali je kasnije dobiven automatski OOO bez potvrde knjiženja.",
+    "evidence": [
+      "Sounds ideal. What's the catch",
+      "I am travelling and in client meetings Monday 7th Sept - Wed 9th Sept."
+    ]
+  },
+  {
+    "key": "3930675/4520619928",
+    "name": "Mary Roach",
+    "email": "mary@boost.technology",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Mary je izričito zatražila odjavu s 'unsubscribe' – poštivati njezinu želju.",
+    "evidence": [
+      "unsubscribe"
+    ]
+  },
+  {
+    "key": "3930675/4520621423",
+    "name": "Laura Sinclair",
+    "email": "laura.sinclair@dawbell.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Laura je izravno odgovorila \"No, thank you.\" – status ostaje Not Interested.",
+    "evidence": [
+      "No, thank you."
+    ]
+  },
+  {
+    "key": "3930675/4520619921",
+    "name": "Sam Fowler",
+    "email": "sam@craftmedia.london",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Sam je odgovorio \"no\" nakon automatskog odgovora o godišnjem odmoru – status ostaje Not Interested.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3930675/4520620562",
+    "name": "Edward Chin",
+    "email": "ed@supersolid.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Edward je odgovorio \"no\" – status ostaje Not Interested.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3930675/4520622281",
+    "name": "Harriet Clunie-Wylde",
+    "email": "harriet.clunie-wylde@dealscribe.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Harriet je izričito odgovorila s 'No, sorry.' i time potvrdila nezainteresiranost.",
+    "evidence": [
+      "harriet.clunie-wylde@dealscribe.com: 'No, sorry.'"
+    ]
+  },
+  {
+    "key": "3930675/4520620358",
+    "name": "Patric Fulop",
+    "email": "patric@neurolabs.ai",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Patric je odgovorio da već ima dugoročnog fizioterapeuta, što je jasna naznaka nezainteresiranosti.",
+    "evidence": [
+      "patric@neurolabs.ai: 'I’ve already got a long-term physiotherapist'"
+    ]
+  },
+  {
+    "key": "4006945/4608052070",
+    "name": "Tara Montford",
+    "email": "tara.montford@editshare.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Tara je izričito zatražila uklanjanje iz CRM-a i budućih poruka, što potvrđuje Do Not Contact.",
+    "evidence": [
+      "tara.montford@editshare.com: 'please remove me from your CRM and any future outreach'"
+    ]
+  },
+  {
+    "key": "4006945/4608052309",
+    "name": "Naeha Hirani",
+    "email": "naeha.hirani@northerndata.de",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Naeha je automatskim odgovorom obavijestila da više ne radi za Northern Data Group, što potvrđuje Wrong Person.",
+    "evidence": [
+      "naeha.hirani@northerndata.de: 'I no longer work for Northern Data Group.'"
+    ]
+  },
+  {
+    "key": "4006945/4608052094",
+    "name": "Sandeep Dhillon",
+    "email": "sandeep.dhillon@talmix.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Sandeep je automatskim odgovorom obavijestio da više ne radi za High5, a Dorothy je zatražila uklanjanje s mailing liste.",
+    "evidence": [
+      "sandeep.dhillon@talmix.com: 'I am no longer with High5.'",
+      "dmead@high5hire.com: 'you may want to remove us from your mailing lists.'"
+    ]
+  },
+  {
+    "key": "3930675/4520621239",
+    "name": "Mimi Elvidge",
+    "email": "mimi@perchpeek.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Mimi je izričito rekla da nema ured i da živi u Portugalu te zatražila prestanak slanja poruka, što potvrđuje Do Not Contact.",
+    "evidence": [
+      "mimi@perchpeek.com: 'Please stop spamming me'"
+    ]
+  },
+  {
+    "key": "4006945/4608048859",
+    "name": "Maria Kaae",
+    "email": "maria.kaae@trustmoore.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Maria je automatskim odgovorom obavijestila da više nije zaposlena u Trustmooreu, što potvrđuje Wrong Person.",
+    "evidence": [
+      "maria.kaae@trustmoore.com: 'Maria Kaae is no longer employed here.'"
+    ]
+  },
+  {
+    "key": "4006945/4608048668",
+    "name": "Catrin Harris",
+    "email": "catrinharris@economist.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Catrin je odgovorila da više ne radi za Turo i rekla 'no thanks!', što je jasna naznaka nezainteresiranosti.",
+    "evidence": [
+      "catrinharris@economist.com: 'I don't work for Turo anymore so no thanks!'"
+    ]
+  },
+  {
+    "key": "3930675/4520621301",
+    "name": "Deborah Beardall",
+    "email": "deborah@fixradio.co.uk",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Nakon automatskog out-of-office odgovora, Deborah je ljudski odgovorila 'No thanks' čime je jasno odbila ponudu.",
+    "evidence": [
+      "No thanks"
+    ]
+  },
+  {
+    "key": "4006945/4608051559",
+    "name": "Jamesin Seidel",
+    "email": "jamesin@chapterone.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Jamesin je ljudski zatražio uklanjanje sa svih lista, ostavljam Do Not Contact.",
+    "evidence": [
+      "Please remove me from every list."
+    ]
+  },
+  {
+    "key": "4006945/4608051276",
+    "name": "Matt Witham",
+    "email": "matthew.witham@the-race.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Ljudski odgovor obavještava da Matt više ne radi u The Race Media, ostavljam Wrong Person.",
+    "evidence": [
+      "I no longer work at The Race Media. Please forward your email to tim.scott@the-race.com"
+    ]
+  },
+  {
+    "key": "4006945/4608050805",
+    "name": "Charlie Binder Rios",
+    "email": "c.binderrios@fathom.global",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Ljudski odgovor traži uklanjanje s liste jer Gareth je napustio tvrtku, ostavljam Do Not Contact.",
+    "evidence": [
+      "Gareth has left the company so if you could please remove us from the list that would be great."
+    ]
+  },
+  {
+    "key": "3930675/4520618915",
+    "name": "Mark Mainstone",
+    "email": "markm@foliosociety.com",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Mark je ljudski odgovorio 'Its a No from me' čime je jasno odbio ponudu.",
+    "evidence": [
+      "Its a No from me."
+    ]
+  },
+  {
+    "key": "4006945/4608050950",
+    "name": "stephen.cross@tradeshift.com",
+    "email": "stephen.cross+noreply@tradeshift.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Ljudski odgovor jasno navodi da je osoba napustila Tradeshift i preusmjerava na kolegu - potvrđuje trenutnu oznaku.",
+    "evidence": [
+      "I have recently left my position with Tradeshift",
+      "You can email Mike Cowles directly at mike.cowles@tradeshift.com"
+    ]
+  },
+  {
+    "key": "4006945/4608050760",
+    "name": "Tingting Peng",
+    "email": "tingting.peng@moove.io",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Ljudski odgovor jasno navodi da je osoba napustila Moove i preusmjerava na drugu osobu - potvrđuje trenutnu oznaku.",
+    "evidence": [
+      "I left Moove on 31 March 2026 after more than five years",
+      "please contact Rish Sethia at rishabh.sethia@moove.io"
+    ]
+  },
+  {
+    "key": "4006945/4608050551",
+    "name": "Andreas Bovens",
+    "email": "andreas.bovens@whereby.com",
+    "current": "Wrong Person",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Ljudski odgovor 'Radim od kuće' nije izričito odbijanje već daje informaciju o lokaciji - moguće je zanimanje uz prilagodbu ponude.",
+    "evidence": [
+      "I work from home, Rebecca."
+    ]
+  },
+  {
+    "key": "4006945/4608049391",
+    "name": "Fredrik Gentzel",
+    "email": "fredrik.gentzel@orchardglobal.com",
+    "current": "Do Not Contact",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Ljudski odgovor 'Unsubscribe' je izričito odbijanje i zahtjev za prekid komunikacije.",
+    "evidence": [
+      "Unsubscribe"
+    ]
+  },
+  {
+    "key": "3930675/4520616435",
+    "name": "Colin White",
+    "email": "colin.white@intenthq.com",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Ljudski odgovor 'Not something I need right now' je izričito odbijanje ponude - nije potrebno daljnje slanje.",
+    "evidence": [
+      "Not something I need right now.",
+      "Sorry, I get about 50 cold emails a day."
+    ]
+  },
+  {
+    "key": "3930675/4520618257",
+    "name": "Tuki Isiguzo",
+    "email": "tuki.isiguzo@habito.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Tuki je izričito zatražio uklanjanje s mailing liste, što je u skladu s oznakom 'Do Not Contact'.",
+    "evidence": [
+      "Remove me from your mailing list thank you"
+    ]
+  },
+  {
+    "key": "3930675/4520618811",
+    "name": "Andrew Macharg",
+    "email": "andy.macharg@hellomagazine.com",
+    "current": "",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Andrew je ljudski odgovorio da želi termin i dobio link i kod, ali thread je završio našom posljednjom porukom bez potvrde bookinga.",
+    "evidence": [
+      "Apologies for not replying; having just come back from climbing Ben Nevis, a physio appointment sounds amazing.",
+      "Here's the booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55"
+    ]
+  },
+  {
+    "key": "3930675/4520622276",
+    "name": "Maya Pursey",
+    "email": "maya.pursey@clearviewpublishing.com",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Maya je izravno napisala da nije zainteresirana, što je u skladu s oznakom 'Not Interested'.",
+    "evidence": [
+      "Thank you, but I am not interested."
+    ]
+  },
+  {
+    "key": "3930675/4520615628",
+    "name": "Digby Lewis",
+    "email": "digbyl@motherlondon.com",
+    "current": "",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Digby je ljudski odgovorio i predložio da proslijedi timu, a mi smo poslali link i kod, ali thread je završio našom porukom bez potvrde bookinga.",
+    "evidence": [
+      "I'd need to pass on to our people team.",
+      "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55."
+    ]
+  },
+  {
+    "key": "3930675/4520618273",
+    "name": "Joy Nazzari",
+    "email": "jn@dnco.com",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Joy je izravno odgovorila 'No thanks Rebecca', što je jasan znak nezainteresiranosti.",
+    "evidence": [
+      "No thanks Rebecca"
+    ]
+  },
+  {
+    "key": "3930675/4520618267",
+    "name": "Rakhee Ojah-Maharaj",
+    "email": "rakhee@exate.com",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Rakhee je odgovorila s 'no', što je jasan znak nezainteresiranosti.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3930675/4520617452",
+    "name": "Ryan Perkins",
+    "email": "ryan.perkins@loi.digital",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Ryan je izravno napisao da nije zainteresiran, što je u skladu s oznakom 'Not Interested'.",
+    "evidence": [
+      "I'm not interested, thank you."
+    ]
+  },
+  {
+    "key": "3930675/4520616143",
+    "name": "Frances Dickens",
+    "email": "FDickens@astusgroup.com",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Frances je odgovorila s 'NO', što je jasan znak nezainteresiranosti.",
+    "evidence": [
+      "NO"
+    ]
+  },
+  {
+    "key": "3930675/4520617890",
+    "name": "Steve Toland",
+    "email": "steve.toland@transficc.com",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Korisnik je izričito odgovorio 'No' na ponudu.",
+    "evidence": [
+      "NoSteve Toland"
+    ]
+  },
+  {
+    "key": "3930675/4520621302",
+    "name": "Kristian Tiffany",
+    "email": "kristian@fixradio.co.uk",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Korisnik je ljubazno odbio ponudu, navodeći da je u dobroj formi.",
+    "evidence": [
+      "I’m in pretty good shape, and currently not covered on rock tape ha ha."
+    ]
+  },
+  {
+    "key": "3930675/4520615107",
+    "name": "Drew Naylor",
+    "email": "drew@bacchus.agency",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Korisnik je odgovorio 'no' na posljednju ponudu.",
+    "evidence": [
+      "no.,"
+    ]
+  },
+  {
+    "key": "3930675/4520613376",
+    "name": "Lux Jega",
+    "email": "lux.jega@glas.agency",
+    "current": "",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Korisnik je postavio pitanja o cijeni i web stranici, a mi smo poslali sve informacije, ali nedostaje potvrda o primitku ili akciji.",
+    "evidence": [
+      "Hi Rebecca, how much does it cost?",
+      "Do you have a website?"
+    ]
+  },
+  {
+    "key": "3930675/4520616107",
+    "name": "Chris Gent",
+    "email": "chris.gent@zoopla.co.uk",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Korisnik je ljubazno odbio ponudu uz napomenu da će nas imati na umu za budućnost.",
+    "evidence": [
+      "No thanks. I'll keep you in mind if I need some physio in the future."
+    ]
+  },
+  {
+    "key": "3930675/4520615084",
+    "name": "David Netherton",
+    "email": "david@bacchus.agency",
+    "current": "",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Korisnik je odgovorio 'no thanks' na ponudu.",
+    "evidence": [
+      "no thanks"
+    ]
+  },
+  {
+    "key": "3930675/4520618923",
+    "name": "Paul Owers",
+    "email": "powers@act.is",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Korisnik je zatražio odjavu s email liste.",
+    "evidence": [
+      "Unsubscribe"
+    ]
+  },
+  {
+    "key": "3930675/4520612263",
+    "name": "Kevin Young",
+    "email": "kevinyoung@economist.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Korisnik je izričito izrazio nezainteresiranost.",
+    "evidence": [
+      "I'm not interested but good luck with your business."
+    ]
+  },
+  {
+    "key": "3930675/4520620399",
+    "name": "David Gadd",
+    "email": "david.gadd@indicium.ai",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Korisnik je zatražio prestanak kontakta.",
+    "evidence": [
+      "Stop"
+    ]
+  },
+  {
+    "key": "3930675/4520614849",
+    "name": "Felicia Bengtsson",
+    "email": "felicia@reedsy.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Korisnik je izričito odgovorio 'not interested'.",
+    "evidence": [
+      "not interested"
+    ]
+  },
+  {
+    "key": "3930675/4520622428",
+    "name": "Dag Wirdenius",
+    "email": "dag@siteassist.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Dag je jasno napisao da nije u Londonu te je proslijedio ponudu kolegi Tomu; nema interesa za sebe.",
+    "evidence": [
+      "Unfortunately, I am not based in London. I asked my colleague Tom (added to this email), who is currently struggling with his back",
+      "Here's the booking link for that free 55-minute session"
+    ]
+  },
+  {
+    "key": "3930675/4520617905",
+    "name": "Simon Norris",
+    "email": "simon.norris@trinityllp.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Simon je eksplicitno odbio ponudu s 'No thanks'.",
+    "evidence": [
+      "No thanks"
+    ]
+  },
+  {
+    "key": "3930675/4520616786",
+    "name": "Ron Crean",
+    "email": "ron@wnwd.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Ron je jasno napisao da mu ponuda trenutno nije relevantna.",
+    "evidence": [
+      "Its not something I am looking for at the moment"
+    ]
+  },
+  {
+    "key": "3930675/4520622354",
+    "name": "Rebecca Bunting",
+    "email": "rbunting@audience.co.uk",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Becky je napustila tvrtku Audience te je preusmjerila kontakt na drugu osobu.",
+    "evidence": [
+      "officially moved on from my role at Audience.",
+      "Please redirect your message to hselfe@audience.co.uk"
+    ]
+  },
+  {
+    "key": "3930675/4520622309",
+    "name": "Steve Callery",
+    "email": "steve@lopay.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Steve je zatražio uklanjanje s mailing liste i brisanje podataka.",
+    "evidence": [
+      "PLease remove me from your mailing lists and delete my contact details"
+    ]
+  },
+  {
+    "key": "3930675/4520617493",
+    "name": "Nigel Mapp",
+    "email": "Nigel.Mapp@wearemapp.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Nigel je napustio upravni odbor MAPP-a i preusmjerio na druge kontakte.",
+    "evidence": [
+      "I have stepped back from the MAPP Ltd Board",
+      "you should contact louise.bonham@wearemapp.com"
+    ]
+  },
+  {
+    "key": "3930675/4520621893",
+    "name": "Becca Sawyer",
+    "email": "rs@itsnicethat.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Becca je zatražila uklanjanje s liste.",
+    "evidence": [
+      "take me off this list please"
+    ]
+  },
+  {
+    "key": "3930675/4520617891",
+    "name": "Joshua DiLorenzo",
+    "email": "joshua.dilorenzo@transficc.com",
+    "current": "Not Interested",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Joshua je postavio pitanje o ponudi iako je napomenuo da su remote; to pokazuje interes, ali je potrebno pojašnjenje.",
+    "evidence": [
+      "it's not entirely clear what are you trying to sell - is this for when we need physio after injury or more as a preventative measure?"
+    ]
+  },
+  {
+    "key": "3930675/4520621977",
+    "name": "Linn Frost",
+    "email": "linn.frost@thesocialelement.agency",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Linn je napustila tvrtku Social Element, što je izričito navela.",
+    "evidence": [
+      "After 4 wonderful years I have left the Social Element to start my own business CNT"
+    ]
+  },
+  {
+    "key": "3930675/4520621716",
+    "name": "Carl Jabbour",
+    "email": "carl.jabbour@fiduciam.co.uk",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Carl je napustio Fiduciam i preusmjerio na investitore.",
+    "evidence": [
+      "I am no longer with Fiduciam"
+    ]
+  },
+  {
+    "key": "3930675/4520612678",
+    "name": "Kerr Nimmo",
+    "email": "kerr@rdcontent.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Kerr je odbio ponudu, ali je izrazio mogući budući interes; trenutno nije zainteresiran.",
+    "evidence": [
+      "Quite busy at the moment so not keen but I’m sure I’ll wake up with a back issue at some point. I’ll get in touch then."
+    ]
+  },
+  {
+    "key": "3930675/4520612261",
+    "name": "Caroline Broderick",
+    "email": "carolinebroderick@economist.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Caroline je eksplicitno odbila ponudu.",
+    "evidence": [
+      "No thanks :)"
+    ]
+  },
+  {
+    "key": "3930675/4520619514",
+    "name": "Dave Leaver",
+    "email": "dave.leaver@mention-me.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Dave je potvrdio da je napustio Mention Me i dao kontakt za prosljeđivanje.",
+    "evidence": [
+      "I have now left Mention Me.",
+      "For anything else please email: bhavin.patel@mention-me.com"
+    ]
+  },
+  {
+    "key": "3930675/4520619100",
+    "name": "Gina Hughes-Stanton",
+    "email": "gina.hughes-stanton@captify.co.uk",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Gina je na porodiljnom dopustu i dala kontakt za prosljeđivanje upita.",
+    "evidence": [
+      "I am currently on Maternity leave",
+      "For any campaign related support please reach out to Studio@captify.co.uk"
+    ]
+  },
+  {
+    "key": "3930675/4520613432",
+    "name": "Graham Tester",
+    "email": "tester@lioncapital.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Graham je izričito zatražio uklanjanje iz baze, što je jasan opt-out.",
+    "evidence": [
+      "Please remove my details from you database"
+    ]
+  },
+  {
+    "key": "3876232/4446317977",
+    "name": "Dan Cohen",
+    "email": "dan@residently.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Dan je dva puta zatražio prestanak kontaktiranja, što je jasan opt-out.",
+    "evidence": [
+      "Please stop contacting me now."
+    ]
+  },
+  {
+    "key": "3930675/4520611653",
+    "name": "Marcus Mcgee",
+    "email": "marcus.mcgee@dialecticanet.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Marcus je rekao da mu trenutno ne treba, ali je spomenuo mogućnost javljanja zimi.",
+    "evidence": [
+      "I think I'm good for the moment.",
+      "Might get back to you on this in the Winter if the offer still stands."
+    ]
+  },
+  {
+    "key": "3930675/4520613515",
+    "name": "Lucas Bertrand",
+    "email": "lucas.bertrand@looperinsights.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Lucas je jasno rekao da mu ponuda trenutno ne treba.",
+    "evidence": [
+      "this isn't something we need right now, but appreciate you thinking of us."
+    ]
+  },
+  {
+    "key": "3930675/4520618480",
+    "name": "Tiana Raft",
+    "email": "tiana@shapedbyiris.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Tiana je potvrdila da više ne radi u tvrtki i dala kontakt zamjene.",
+    "evidence": [
+      "I'm no longer working at the business.",
+      "Please contact Tom Darnell at tom@iris.audio"
+    ]
+  },
+  {
+    "key": "3930675/4520618266",
+    "name": "Peter Lancos",
+    "email": "peter@exate.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Peter je izričito i nedvosmisleno odbio ponudu.",
+    "evidence": [
+      "No thanks."
+    ]
+  },
+  {
+    "key": "3930675/4520617637",
+    "name": "Dan Gavan",
+    "email": "dangavan@piercyandco.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Dan je automatski odgovorio da više ne radi u tvrtki i da se na ovu adresu e-pošte više ne odgovara.",
+    "evidence": [
+      "I no longer work with Piercy&Company and this inbox will not be routinely monitored."
+    ]
+  },
+  {
+    "key": "3930675/4520617636",
+    "name": "Mariana Grosu",
+    "email": "marianagrosu@piercyandco.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Mariana je automatski odgovorila da više nije u tvrtki.",
+    "evidence": [
+      "I am no longer with the company"
+    ]
+  },
+  {
+    "key": "3930675/4520617650",
+    "name": "Theodoros Ioakeim",
+    "email": "theodor.ioakim@wearemapp.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Theodoros je automatski odgovorio da više ne radi za MAPP i da se ova adresa e-pošte ne prati.",
+    "evidence": [
+      "Theodoros Ioakeim no longer works for MAPP and this email is not being monitored."
+    ]
+  },
+  {
+    "key": "3930675/4520613046",
+    "name": "Alex Grieve",
+    "email": "alex.grieve@bartleboglehegarty.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Alex je preusmjerio upit odjelu za ljudske resurse, što ukazuje da nije prava kontakt osoba za ovu ponudu.",
+    "evidence": [
+      "I have passed your email to our HR department who organise anything health related at BBH."
+    ]
+  },
+  {
+    "key": "3930675/4520617169",
+    "name": "Freddie Coventry",
+    "email": "fc@edgefolio.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Freddie je automatski odgovorio da više nije u Edgefolio i da se ova adresa e-pošte više ne prati.",
+    "evidence": [
+      "This mailbox is no longer monitored, as Freddie is no longer with Edgefolio."
+    ]
+  },
+  {
+    "key": "3876232/4446316582",
+    "name": "Alex Henniker",
+    "email": "a.henniker@frankgroup.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Alex je pokazao interes i preusmjerio kolegu, ali je posljednja poruka zahvala; status 'Do Not Contact' možda nije prikladan jer je bilo interesa.",
+    "evidence": [
+      "Thank you",
+      "I'm cc'ing my colleague Devlyn who's interested."
+    ]
+  },
+  {
+    "key": "3930675/4520613935",
+    "name": "Declan Jones",
+    "email": "declan.jones@finseta.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Declan je automatski odgovorio da je napustio tvrtku i više nije u mogućnosti odgovoriti.",
+    "evidence": [
+      "I have left Finseta Payment Solutions and am no longer able to respond."
+    ]
+  },
+  {
+    "key": "3876232/4446316455",
+    "name": "Ana-maria",
+    "email": "am@moorwand.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Ana-maria je izričito napisala 'not interested at this time' i navela da nemaju zdravstveno osiguranje.",
+    "evidence": [
+      "Unfortunately we do not get offered private health cover and hence not interested at this time."
+    ]
+  },
+  {
+    "key": "3876232/4446317714",
+    "name": "Nathan",
+    "email": "nathan.swift@swiftstrategies.co.uk",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Nathan je ljubazno odbio, rekavši da ponuda nije relevantna za njih.",
+    "evidence": [
+      "That's actually our registered office - we're all remote.",
+      "Regardless, this isn't relevant for us, but thank you for reaching out."
+    ]
+  },
+  {
+    "key": "3930675/4520612414",
+    "name": "Stephen Chandler",
+    "email": "schandler@notioncapital.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Stephen je izričito zatražio uklanjanje s popisa ('pls remove meS').",
+    "evidence": [
+      "No thanks - pls remove meS"
+    ]
+  },
+  {
+    "key": "3876232/4446317720",
+    "name": "Andrew Gillen",
+    "email": "andrew.gillen@traverssmith.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Andrew je ljubazno odbio navodeći da već imaju fizioterapiju u kući.",
+    "evidence": [
+      "No thanks – we have physio in-house."
+    ]
+  },
+  {
+    "key": "3876232/4446317887",
+    "name": "clarence Maguire-Swartz",
+    "email": "clarence@hub-xchange.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Clarence je odgovorio s 'No', što je jasno odbijanje.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446317493",
+    "name": "Thomas",
+    "email": "thomas.luccock@opengamma.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Thomas je nakon OOO poruka zatražio odjavu ('Unsubscribe please').",
+    "evidence": [
+      "Unsubscribe please"
+    ]
+  },
+  {
+    "key": "3876232/4446316452",
+    "name": "Michelle Davies",
+    "email": "michelle.davies@impact-london.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primateljica je izričito odgovorila 'No thank you' nakon više pratnji.",
+    "evidence": [
+      "No thank you"
+    ]
+  },
+  {
+    "key": "3930675/4520612048",
+    "name": "Daniel Bergmann",
+    "email": "daniel.bergmann@stink.co",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Odgovor 'I am in Los Angeles Sorry' nije izričito odbijanje, ali ukazuje na nezainteresiranost zbog lokacije.",
+    "evidence": [
+      "I am in Los Angeles Sorry"
+    ]
+  },
+  {
+    "key": "3876232/4446316903",
+    "name": "Warren Smith",
+    "email": "warren@boxtoboxfilms.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primatelj je odgovorio da sada živi u LA-u, što je jasan znak nezainteresiranosti.",
+    "evidence": [
+      "I now live in LA - so not walking past."
+    ]
+  },
+  {
+    "key": "3876232/4446318019",
+    "name": "Cathy",
+    "email": "cathy@scriberia.com",
+    "current": "Do Not Contact",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Cathy je izričito zatražila odjavu ('Unsubscribe me please'), što je jednako odbijanju.",
+    "evidence": [
+      "Unsubscribe me please"
+    ]
+  },
+  {
+    "key": "3930675/4520610008",
+    "name": "Bernard Clark",
+    "email": "bernard@clarktv.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Bernard je izričito odgovorio 'No thanks', što je jasno odbijanje.",
+    "evidence": [
+      "we are a 4 min walk from your office No thanks"
+    ]
+  },
+  {
+    "key": "3876232/4446317185",
+    "name": "Josh",
+    "email": "joshua.dernie@nurole.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Josh je rekao da više nisu u Hammersmithu, što implicira da ponuda nije relevantna, što je blago odbijanje.",
+    "evidence": [
+      "Thanks Rebecca, we're no longer in Hammersmith."
+    ]
+  },
+  {
+    "key": "3876232/4446318153",
+    "name": "Graeme Hawinkels",
+    "email": "Graeme.Hawinkels@silvertidefinancial.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Graeme je izričito odbio ponudu jer živi u Dubaiju, stoga zadržavamo postojeću oznaku.",
+    "evidence": [
+      "Hi - I live in Dubai so not for me thanks"
+    ]
+  },
+  {
+    "key": "3876232/4446317852",
+    "name": "Paul Sampson",
+    "email": "paulsampson@lickd.co",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Paul je izričito odbio ponudu, navodeći da nisu blizu Shoreditcha i da imaju vlastito zdravstveno osiguranje.",
+    "evidence": [
+      "we are not anywhere near Shoreditch, and we have our healthcare sorted"
+    ]
+  },
+  {
+    "key": "3876232/4446316101",
+    "name": "Simon Kulas",
+    "email": "simonkulas@sps-ich.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Simon je odgovorio da nitko od navedenih više ne radi u SPS-u, potvrđujući da je osoba pogrešna.",
+    "evidence": [
+      "Oliver, sam, lawrie none of these people work at sps anymore!!"
+    ]
+  },
+  {
+    "key": "3876232/4446317234",
+    "name": "Ben Christie",
+    "email": "ben@magpie-studio.com",
+    "current": "Not Interested",
+    "suggested": "Do Not Contact",
+    "human": true,
+    "reason": "Ben je izričito zatražio uklanjanje s mailing liste, što zahtijeva prestanak slanja poruka.",
+    "evidence": [
+      "please take me off this mailing list"
+    ]
+  },
+  {
+    "key": "3876232/4446317835",
+    "name": "David Porter",
+    "email": "David.Porter@appositecapital.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "David je ljubazno odbio ponudu, navodeći da mu trenutno nije potrebna.",
+    "evidence": [
+      "Thank you but not currently necessary"
+    ]
+  },
+  {
+    "key": "3876232/4446316624",
+    "name": "Neil Owen",
+    "email": "Neil.Owen@templeton-recruitment.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Neil je odgovorio s 'no', što je izričito odbijanje ponude.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3876232/4446316507",
+    "name": "Tereza Knoxova",
+    "email": "t.knoxova@onetag.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Tereza je odgovorila s 'no', što je izričito odbijanje ponude.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3876232/4446316567",
+    "name": "Gene Allmark-Kent",
+    "email": "gene.allmark-kent@wilton-bain.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Gene je odgovorio s 'No', što je izričito odbijanje ponude.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446316219",
+    "name": "Emily Baxter",
+    "email": "emily@scquare.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primateljica je jasno odbila ponudu.",
+    "evidence": [
+      "No thanks Rebecca."
+    ]
+  },
+  {
+    "key": "3876232/4446316013",
+    "name": "Robert Swift",
+    "email": "rswift@pluto-finance.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primatelj je jasno odbio ponudu riječju 'NO'.",
+    "evidence": [
+      "NO"
+    ]
+  },
+  {
+    "key": "3876232/4446315825",
+    "name": "Guillaume Andrieux (London)",
+    "email": "Guillaume.Andrieux@man.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primatelj je jasno odbio ponudu riječju 'no'.",
+    "evidence": [
+      "no"
+    ]
+  },
+  {
+    "key": "3876232/4446316919",
+    "name": "Stuart Campbell",
+    "email": "stu@dealview.net",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primatelj je objasnio da radi od kuće, što znači da ponuda nije relevantna.",
+    "evidence": [
+      "I actually work from home."
+    ]
+  },
+  {
+    "key": "3876232/4446315696",
+    "name": "Darryl Chen",
+    "email": "DarrylChen@hawkinsbrown.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primatelj je jasno odbio ponudu riječju 'No'.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446317489",
+    "name": "Anthony Karibian",
+    "email": "akaribian@bonline.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primatelj je odbio ponudu objašnjavajući da to ne rade za svoje osoblje.",
+    "evidence": [
+      "We don’t do this kind of stuff for our staff"
+    ]
+  },
+  {
+    "key": "3876232/4446317870",
+    "name": "Sara Cooper",
+    "email": "sara@plasticpictures.tv",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Primateljica je zatražila odjavu ('opt out').",
+    "evidence": [
+      "opt out"
+    ]
+  },
+  {
+    "key": "3876232/4446318054",
+    "name": "Shivani Gupta",
+    "email": "shivanigupta@opinium.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Primateljica je izjavila da više ne radi u tvrtki.",
+    "evidence": [
+      "I no longer work for Opinium."
+    ]
+  },
+  {
+    "key": "3876232/4446318062",
+    "name": "David Morgan",
+    "email": "davidmorgan@morgan-law.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Primatelj je izjavio da David Morgan više ne koristi tu adresu.",
+    "evidence": [
+      "David Morgan is no longer on this email address"
+    ]
+  },
+  {
+    "key": "3876232/4446317432",
+    "name": "Sarah Skelton",
+    "email": "sarah@helloflourish.com",
+    "current": "Uncategorizable by Ai",
+    "suggested": "Interested",
+    "human": true,
+    "reason": "Primateljica je pozitivno odgovorila, ali nema dokaza da je dovršila rezervaciju.",
+    "evidence": [
+      "Yes why not, thanks"
+    ]
+  },
+  {
+    "key": "3876232/4446315465",
+    "name": "Raj Dhanapala",
+    "email": "raj.dhanapala@blackswangroup.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Raj je izričito napisao 'it's not something I would require', što je jasna nezainteresiranost.",
+    "evidence": [
+      "it's not something I would require."
+    ]
+  },
+  {
+    "key": "3876232/4446317963",
+    "name": "Simen Plaha",
+    "email": "simen.plaha@secretsales.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Simen je automatski odgovorio da je napustio tvrtku, što potvrđuje oznaku Wrong Person.",
+    "evidence": [
+      "I have now left the business."
+    ]
+  },
+  {
+    "key": "3876232/4446315408",
+    "name": "Joanna Mackeson",
+    "email": "jo@forarthistory.org.uk",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Joanna je izravno odgovorila da nemaju privatnog zdravstvenog osiguranja, što je odbijanje ponude.",
+    "evidence": [
+      "Thanks, but sadly we don't have private healthcare."
+    ]
+  },
+  {
+    "key": "3876232/4446316839",
+    "name": "Simon Batterham",
+    "email": "simon.batterham@remoteli.co.uk",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Simon je poslao 'Unsubscribe', što je jasna izjava nezainteresiranosti i zahtjev za prestankom kontakta.",
+    "evidence": [
+      "Unsubscribe"
+    ]
+  },
+  {
+    "key": "3876232/4446315417",
+    "name": "Ankush Mehta",
+    "email": "Ankush.Mehta@bespokeconnections.com",
+    "current": "Not Interested",
+    "suggested": "Not Interested",
+    "human": true,
+    "reason": "Ankush je odgovorio samo s 'No', što je izravno odbijanje ponude.",
+    "evidence": [
+      "No"
+    ]
+  },
+  {
+    "key": "3876232/4446317854",
+    "name": "Lickd Alumni",
+    "email": "alumni+noreply@lickd.co",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Automatski odgovor obavještava da je primatelj napustio Lickd, što potvrđuje oznaku Wrong Person.",
+    "evidence": [
+      "I have now left Lickd."
+    ]
+  },
+  {
+    "key": "3876232/4446317876",
+    "name": "Kimberley Burgess",
+    "email": "kimberley.burgess@globalreachtech.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Kimberley je automatski odgovorila da više nije u GlobalReach Technology, što potvrđuje oznaku Wrong Person.",
+    "evidence": [
+      "I am no longer with GlobalReach Technology"
+    ]
+  },
+  {
+    "key": "3876232/4446317376",
+    "name": "Martyn Hill",
+    "email": "martyn@themixglobal.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Martyn je prvo poslao OOO automatski odgovor, ali zatim se javio čovjek, no njegova poruka ukazuje na promjenu lokacije, što sugerira da nije ispravna osoba (stara tvrtka).",
+    "evidence": [
+      "we have been in Farringdon for a little while now."
+    ]
+  },
+  {
+    "key": "3876232/4446317433",
+    "name": "Anushka Madhukar",
+    "email": "anushka.madhukar@emjreviews.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Anushka je automatski odgovorila da više nije u EMJ, što potvrđuje oznaku Wrong Person.",
+    "evidence": [
+      "I am no longer with EMJ as of 18th July 2025"
+    ]
+  },
+  {
+    "key": "3876232/4446317455",
+    "name": "Debbie Nolan",
+    "email": "dn@exclusivehouseholdstaff.com",
+    "current": "Wrong Person",
+    "suggested": "Wrong Person",
+    "human": true,
+    "reason": "Automatski odgovor obavještava da Debbie Nolan više nije zaposlenica Exclusive Household Staff, što potvrđuje oznaku Wrong Person.",
+    "evidence": [
+      "Debbie Nolan is no longer employed by Exclusive Household Staff"
+    ]
+  },
+  {
+    "key": "3876232/4446315767",
+    "name": "Simon",
+    "email": "simon.evans@bmsgroup.com",
+    "current": "Sender Originated Bounce",
+    "suggested": "Sender Originated Bounce",
+    "human": true,
+    "reason": "Posljednja poruka je povratna obavijest da je email odbijen zbog spam filtera, što potvrđuje oznaku Sender Originated Bounce.",
+    "evidence": [
+      "Your message to simon.evans@bmsgroup.com couldn't be delivered."
+    ]
+  }
+]

@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7752,
+    "completion_tokens": 2525,
+    "total_tokens": 10277,
+    "cost": 0.0107643,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0107643,
+      "upstream_inference_prompt_cost": 0.0069768,
+      "upstream_inference_completions_cost": 0.0037875
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315550",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka s bank holidaya; nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana; kampanja je završena s tri poruke. Preporučuje se ručni pregled vlasnika treba li ponovno kontaktirati drugom kampanjom.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti vrijedi li ponovno kontaktirati Thomasa novom kampanjom u budućnosti, s obzirom na blizinu ureda Fenchurch Streetu i potencijalnu relevantnost; nema daljnjih automatskih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f25026f4a29a4ea69fb1f2aef8db4860@CW1P123MB7509.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. It is a public holiday in the UK on 31st August. I will be back in the office on 1st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315552",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka koja najavljuje povratak 1. rujna; nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana; kampanja je završena s tri poruke. Preporučuje se ručni pregled vlasnika.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti vrijedi li ponovno kontaktirati Melissu novom kampanjom u budućnosti, s obzirom na blizinu Holborna; nema daljnjih automatskih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<80b504cf5dad4304a829572940187f23@LO0P123MB4140.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your message. I will be out of the office until 1 September.  I am replying to messages but my reply rate is slower than usual."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315609",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Nathanov odgovor je automatska OOO poruka s festivala s uputama za hitne kontakte; ne sadrži nikakav odgovor na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana; kampanja završena. Vlasnik može razmotriti novi kontakt u budućnosti.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti vrijedi li ponovno kontaktirati Nathana novom kampanjom; nema daljnjih automatskih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+RtLhk0L_nh4e0EsA12V31oTE9dGp7HM95+dSBOZtpOuHvBig@mail.gmail.com>",
+          "quote": "Hey,\n\nI'm away at a festival this weekend with very limited signal, please\nbare with me on responses."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315608",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Alexov odgovor je automatska OOO poruka s godišnjeg odmora s upućivanjem na kolegicu; ne sadrži odgovor na ponudu niti preporuku za kliniku.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana; kampanja završena.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti treba li kontaktirati Emily@kodemedia.com kao potencijalnu preporuku (Alex je CEO, uputio je za bilo što). Vlasnik odlučuje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAB3FGbZNx1RO5Hk7KraQpEBL=JkM5VzMm5Yr7UzwJssV5w8-sw@mail.gmail.com>",
+          "quote": "Hey,\n\nI'm OOO on holiday.\n\nIf you need anything please email Emily@kodemedia.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315684",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Robertov jedini odgovor je automatska OOO poruka koja najavljuje povratak 7. rujna; nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana; kampanja završena s tri poruke.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti vrijedi li ponovno kontaktirati Roberta novom kampanjom; nema daljnjih automatskih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<fe659df7500d4272ba7ed1771bf7426d@LO2P265MB1136.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email.\n\nI am out of the office Monday 7 September with limited access to email. I will respond to your message on my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315677",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jaimein jedini odgovor je automatska OOO poruka s godišnjeg odmora do 2. rujna; nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana; kampanja završena.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti vrijedi li ponovno kontaktirati Jaime novom kampanjom; nema daljnjih automatskih radnji.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<d1a319dc431048a19446747c730f8831@FRWPR05MB11688.eurprd05.prod.outlook.com>",
+          "quote": "Thanks for your email. I'm on holiday until Wednesday 2nd September. I will get back to you as soon as I can."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315606",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Marie-alice je izričito napisala da više ne radi u Storm2 i uputila na Bethan Roberts. Ovo nije odbijanje ponude, već obavijest o pogrešnoj osobi s korisnom preporukom za kontakt.",
+      "last_human_request_hr": "Hello, I am no longer working at Storm2. Please contact Bethan Roberts / bethan@storm2.com for any enquiries. Thank-you.",
+      "unresolved_hr": "Marie-alice nije relevantna. Bethan Roberts je dana kao novi kontakt; vlasnik treba odlučiti želi li kontaktirati Bethan.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Zabilježiti Marie-alice kao 'wrong_person'. Proslijediti Bethan Roberts (bethan@storm2.com) vlasniku na razmatranje za novu kampanju; ne slati ništa automatski.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b3fed1aa8506435fbb0b202451c74ce3@CWLP123MB3698.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Hello, I am no longer working at Storm2. Please contact Bethan Roberts / bethan@storm2.com for any enquiries. Thank-you."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315537",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Colinov jedini odgovor je automatska OOO poruka s povratkom 7. rujna; nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana; kampanja završena.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti vrijedi li ponovno kontaktirati Colina novom kampanjom; nema daljnjih automatskih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6f7edca044204176bc6def8bb6b370f8@DU4P190MB2152.EURP190.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office returning on Monday 7th September.\n\nKind regards,\n\nColin."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

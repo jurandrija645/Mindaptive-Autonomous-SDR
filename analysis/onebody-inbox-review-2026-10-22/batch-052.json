@@ -1,0 +1,222 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8225,
+    "completion_tokens": 2467,
+    "total_tokens": 10692,
+    "cost": 0.00092113,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00092113,
+      "upstream_inference_prompt_cost": 0.00057575,
+      "upstream_inference_completions_cost": 0.00034538
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613059",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor obavještava da je Suzy napustila Chip, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Zadržite trenutnu oznaku; nema daljnje radnje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Suzy je napustila Chip.",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Suzy has left Chip. For all queries please reach out to alex@getchip.uk or tom.martin@getchip.uk"
+      ]
+    },
+    {
+      "key": "3930675/4520612413",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da je Maximilian napustio Notion Capital, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Zadržite trenutnu oznaku; nema daljnje radnje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Maximilian je napustio Notion Capital.",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Notion Capital and joined a portfolio company - Isembard."
+      ]
+    },
+    {
+      "key": "3876232/4446317336",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Andy je izričito zatražio, a mi smo poslali link i kod; zadržite oznaku Meeting Booked jer je to potvrđeni interes i slanje detalja.",
+      "next_step_hr": "Provjerite je li Andy stvarno rezervirao termin; ako nije, razmislite o ručnom praćenju.",
+      "last_inbound_summary_hr": "Andy: \"I'd like to take you up on that offer... Please send the booking link over.\"",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'd like to take you up on that offer for the 55-minute physio session.",
+        "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55."
+      ]
+    },
+    {
+      "key": "3930675/4520610124",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sam je pokazao interes i primio booking link i kod; oznaka Meeting Booked je odgovarajuća.",
+      "next_step_hr": "Provjerite je li Sam stvarno rezervirao termin; ako nije, razmislite o ručnom praćenju.",
+      "last_inbound_summary_hr": "Sam: \"Open to hearing more, yes... could do with a session now.\"",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Open to hearing more, yes.",
+        "Here's the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55."
+      ]
+    },
+    {
+      "key": "3930675/4520611927",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da je Tim napustio IFoA, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Zadržite trenutnu oznaku; nema daljnje radnje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Tim je napustio IFoA.",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left the IFoA for pastures new."
+      ]
+    },
+    {
+      "key": "3876232/4446318019",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Cathy je izričito zatražila odjavu ('Unsubscribe me please'), što je jednako odbijanju.",
+      "next_step_hr": "Zadržite oznaku Do Not Contact; ne šaljite više e-mailova.",
+      "last_inbound_summary_hr": "Cathy: \"Unsubscribe me please\".",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Unsubscribe me please"
+      ]
+    },
+    {
+      "key": "3930675/4520611334",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da Neil više ne radi u Thirdfortu, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Zadržite trenutnu oznaku; nema daljnje radnje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Neil je napustio Thirdfort.",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer working at Thirdfort and unfortunately can no longer answer your email."
+      ]
+    },
+    {
+      "key": "3930675/4520610008",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Bernard je izričito odgovorio 'No thanks', što je jasno odbijanje.",
+      "next_step_hr": "Zadržite oznaku Not Interested; nemojte slati dodatne e-mailove.",
+      "last_inbound_summary_hr": "Bernard: \"No thanks\".",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "we are a 4 min walk from your office No thanks"
+      ]
+    },
+    {
+      "key": "3930675/4520610876",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da je Diana napustila GCL, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Zadržite trenutnu oznaku; nema daljnje radnje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Diana je napustila GCL.",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left GCL"
+      ]
+    },
+    {
+      "key": "3876232/4446317185",
+      "recommended_label": "Not Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "Josh je rekao da više nisu u Hammersmithu, što implicira da ponuda nije relevantna, što je blago odbijanje.",
+      "next_step_hr": "Zadržite oznaku Not Interested; možete provjeriti je li druga klinika prikladna, ali zasad nema interesa.",
+      "last_inbound_summary_hr": "Josh: \"we're no longer in Hammersmith.\"",
+      "last_outbound_summary_hr": "Poslan nastavak e-maila s ponudom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks Rebecca, we're no longer in Hammersmith."
+      ]
+    },
+    {
+      "key": "3930675/4520610392",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da je Mark napustio Blueprint, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Zadržite trenutnu oznaku; nema daljnje radnje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Mark je napustio Blueprint.",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "My time at Blueprint has come to an end."
+      ]
+    },
+    {
+      "key": "3930675/4520610174",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da Amber više nije u Seventeen, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Zadržite trenutnu oznaku; nema daljnje radnje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Amber je napustila Seventeen.",
+      "last_outbound_summary_hr": "Poslan početni e-mail s ponudom za fizioterapiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm no longer at Seventeen."
+      ]
+    }
+  ]
+}

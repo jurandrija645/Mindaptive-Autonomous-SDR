@@ -1,0 +1,254 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 31812,
+    "completion_tokens": 4295,
+    "total_tokens": 36107,
+    "cost": 0.00352335,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00352335,
+      "upstream_inference_prompt_cost": 0.0015906,
+      "upstream_inference_completions_cost": 0.00193275
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2538823/2758496826",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Michel je izrazio interes, tražio video i rekao 'Looks interesting, will get back to you later... marked as favorite.' Nismo ga slali od 14.11. i on nije odgovorio. To je timing objection - 'kasnije' bez konkretnog datuma. Međutim, kako je on bio taj koji je rekao da će se javiti, a prošlo je više od 11 mjeseci, priroda interesa je isparila. Ipak, čekamo jer je sam rekao 'later'. Vecina vjerojatno nije više zainteresiran, ali ne smijemo pretpostaviti da je mrtav jer je on inicirao tu pauzu.",
+      "priority": "P3",
+      "sales_state": "TIMING_OBJECTION",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Michel je sam rekao da će se javiti. Nema potrebe za daljnjim slanjem dok se on ne javi. Zatvoriti ovaj thread.",
+      "missing_information": [],
+      "evidence": [
+        "Looks interesting, will get back to you later. For now marked this mail as favorite in my inbox."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo da se Michel sam javi, nema potrebe za novim draftom."
+    },
+    {
+      "key": "2538823/2758495892",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Joseph je jasan: 'could be worth trying in the future... now focused on enterprise deals'. To je odbijanje/nije zainteresiran zasad. Poslali smo 5 poruka bez reply-a nakon tog odgovora. Zadnja poruka (14.11.?) nije dobila reply. Consecutive_sent od zadnjeg reply (12.11.) je 1. NEMA 5 poruka u nizu. Ipak, on je rekao 'maybe in the future' - to nije otvoreno pitanje ili interes. To je polite no. A kako je to jedini reply i on je jasno odbio, te dodatne poruke nisu smisle. Necemo ga zvati Lead Done jer nije 5 'no reply', ali to je mrtva nada.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Joseph je rekao da nije trenutno zainteresiran i fokusiran je na enterprise dealove. Čekati ili zatvoriti. Nema smisla slati više.",
+      "missing_information": [],
+      "evidence": [
+        "This could be worth trying in the future when we want to scale our long-tail reach, rather than hiring an SDR.",
+        "Right now, we are focused on long-term 'enterprise' deals where we already have the relationships."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Joseph je odbio na pristojan način. Daljnje slanje bi bilo neprimjereno."
+    },
+    {
+      "key": "2538823/2758495823",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Jan je pokazao interes i rekao da će podijeliti video s kolegama. To je kolegijalna referala. Poslali smo video (3.11.) i follow-up (12.11.). Nema više reply-ova. Consecutive_sent od zadnjeg reply (23.10.) je 2. NEMO Lead Done. Ali, nejasno je jesu li kolege reagirale. Treba ljudska provjera: je li Jan ikada odgovorio nakon 12.11.? Ako nije, vjerojatno nije bilo interesa kod kolega. Preporučujemo ljudsku provjeru prije daljneg slanja.",
+      "priority": "P2",
+      "sales_state": "DEMO_REPLIED_WARM",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti je li Jan ikada odgovorio ili ima li bilo kakvog signala od kolega. Ako nema signala, zatvoriti kao nezainteresirano. Ako ima, nastaviti razgovor.",
+      "missing_information": [
+        "Povratna informacija od Jana ili njegovih kolega nakon slanja videa 3.11."
+      ],
+      "evidence": [
+        "If you could provide the 3min video, I will share it with my colleagues and come back to you."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo ljudsku odluku o daljnjem postupanju. Nema dovoljno informacija za slanje novog maila."
+    },
+    {
+      "key": "2538823/2758495355",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Damian se ispricao zbog kasnjenja, pitao je li mail bio AI, izrazio zanimanje i rekao: 'At the beginning of the new year I will contact you...'. Poslali smo potvrdu (31.10.) i čekamo. Sada je 10.2026. - proslo je vise od godinu dana od obecanog javljanja. Ovo je timing objection s datumom. Proslo je puno vise vremena nego je rekao. Treba ljudska procjena: je li interes jos uvijek aktualan? Preporucujemo ne slati vise, ali ostaviti otvoreno ako se on javi.",
+      "priority": "P3",
+      "sales_state": "TIMING_OBJECTION",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Damian se nije javio u obecanom roku. Bez nove poruke, jer je on trebao inicirati kontakt. Zatvoriti ili ostaviti u 'Contact later' statusu.",
+      "missing_information": [],
+      "evidence": [
+        "At the beginning of the new year I will contact you again to schedule a meeting and maybe dive deeper."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo da se Damian javi kako je obećao."
+    },
+    {
+      "key": "2538823/2758494740",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Bartosz je pokazao interes i dogovarao call, ali nije odgovorio nakon prvog slanog termina (13.10.). Poslali smo 4 dodatne poruke bez reply-a. Zadnja poruka (30.10.) je bila 'zadnji put da zatvorim thread'. Od tad nema apsolutno nikakvog odgovora. Consecutive_sent od zadnjeg reply (13.10.) je 5 (ukljucujuci i zadnji 'last email'). Ispunjena su pravila za Lead Done. Nema vise potrebe za kontaktom.",
+      "priority": "P3",
+      "sales_state": "LEAD_DONE",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bartosz nije odgovorio na 5 uzastopnih poruka. Thread je zatvoren. Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "piszê ju¿ ostatni raz, ¿eby zamkn¹æ ten w¹tek."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za novim draftom. Thread je zakljucen."
+    },
+    {
+      "key": "2538823/2758495791",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Jari je postavljao pitanja, dobio odgovore, i zatim rekao da nisu spremni sada i 'let us have a chat end of the year'. Obećao je javiti se krajem godine (2025?). Sada je kraj 2026. Bez ikakvog signala od tad. Timing objection s datumom. Proslo je puno vise vremena. Preporucujemo ne slati jer je on trebao inicirati. Ostaviti otvorenim.",
+      "priority": "P3",
+      "sales_state": "TIMING_OBJECTION",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Jari se nije javio. Zatvoriti ili ostaviti u statusu 'Contact later'. Ne slati nove poruke.",
+      "missing_information": [],
+      "evidence": [
+        "let us have a chat end of the year."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo da se Jari javi kako je dogovoreno."
+    },
+    {
+      "key": "2515956/2722093804",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Nancy je postavila pitanja (geografija, kanali) i dobila odgovore (23.10.). Od tad nema odgovora. Samo 1 poruka poslana nakon zadnjeg reply-a. Consecutive_sent=1. I dalje je zainteresirana kupka s pitanjima - nije odbila niti zatvorila. Preporučujemo slanje follow-up pitanja ('da li su kanali koje koristimo dovoljni?' ili slicno) kako bi unaprijedili razgovor.",
+      "priority": "P1",
+      "sales_state": "DEMO_REPLIED_WARM",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Poslati follow-up upit Nancy: zahvaliti na pitanjima, kratko ponoviti da koristimo razlicite platforme ovisno o ciljanoj publici, i pitati je li to odgovara na njezino pitanje ili ima li dodatnih nedoumica. Cilj je vratiti je na razgovor i dogovoriti call.",
+      "missing_information": [],
+      "evidence": [
+        "Okay, thanks for answering that. Are you only using LinkedIn att his point or are you using other social media platforms such as Facebook, instagram and TikTok?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Nancy,\n\nThanks for your questions. Like I mentioned, we use whatever platform fits the target profile best — LinkedIn, Facebook, Instagram, you name it. It really depends on where your ideal clients are active.\n\nDid that answer your question, or is there anything else you'd like to know before we take the next step?\n\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nancy ima otvoreno pitanje o kanalima. Potrebno je follow-up pitanje da vidimo je li odgovor bio dovoljan."
+    },
+    {
+      "key": "2515956/2722089198",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Arnav je izrazio interes i tražio video. Poslali smo video (16.10.) i jedan follow-up (22.10.). Od tad nema odgovora. Consecutive_sent=2. I dalje je potencijalno zainteresiran. Samo 2 poruke bez reply-a, nije dosta za Lead Done. Može se poslati jedan kratak follow-up koji pita za misljenje. To je FOLLOWUP_DUE.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Poslati kratak email: pitati Arnav-a je li imao prilike pogledati video i što misli o pristupu. Kratko i jasno.",
+      "missing_information": [],
+      "evidence": [
+        "I’m open to it. Please send over the details."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Arnav,\n\nJust checking in — did you get a chance to look at the video I sent over? Curious if the approach makes sense for Outsourcing Technologies.\n\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Poslan je video i jedan podsjetnik. Potreban je jos jedan kratak upit."
+    },
+    {
+      "key": "2538823/2758494883",
+      "recommended_label": "Information Request",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Carlos je poslao zahtjev za video da ga podijeli s kolegama (22.10.). Odgovorili smo isti dan da ćemo ga poslati. Od tad nema poruke od nas s videom?? Pregled thread-a: odgovorili smo 22.10. da ćemo pripremiti video 'danas ili sutra'. Nisam nasao da je video ikad poslan. Nema poruke s videom. To je problem: obecanje nije ispunjeno. Treba ljudska provjera: je li video poslan izvan inboxa? Ako nije, hitno poslati video. Ako jest, pitati za povratnu informaciju.",
+      "priority": "P0",
+      "sales_state": "INFORMATION_REQUEST",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti je li video poslan Carlosu. Ako nije, poslati ga odmah s isprikom. Ako jest, pitati Carla za dojmove kolega.",
+      "missing_information": [
+        "Je li video poslan Carlosu nakon 22.10.? Nema dokaza o slanju videa u threadu."
+      ],
+      "evidence": [
+        "me gustaría que pudieras enviarnos el video y así pueda pasárselos a mis compis por si les resulta de interés.",
+        "te prepararé el vídeo hoy mismo o como muy tarde mañana."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Prvo treba ljudska provjera je li video poslan. Tek onda možemo odlučiti o slanju nove poruke."
+    },
+    {
+      "key": "2538823/2758495984",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Justyna je proslijedila mail odjelu prodaje (22.10.). To je 'I forwarded this to HR/sales' - prema pravilima, to je Interested. Poslali smo potvrdu (22.10.). Od tad nema poruke od nas ili od prodaje. Nije njen krivnja sto prodaja nije reagirala. Ona je napravila svoj dio. Ne trebamo nju dalje kontaktirati jer je ona referrer. Ako prodaja ne reagira, to je njihov problem.",
+      "priority": "P3",
+      "sales_state": "REFERRAL",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Justyna je proslijedila mail prodaji. Nju ne trebamo dalje kontaktirati. Ako prodaja ne reagira, to je njihov problem. Možemo eventualno pitati Justynu je li prodaja reagirala, ali i to je opcionalno.",
+      "missing_information": [],
+      "evidence": [
+        "Odnośnie agenta, pozwolę sobie przekazać Twojego maila do naszego działu sprzedaży."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Justyna je napravila svoje - proslijedila je mail prodaji. Ne trebamo joj slati nove poruke."
+    }
+  ]
+}

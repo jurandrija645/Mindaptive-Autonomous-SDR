@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6876,
+    "completion_tokens": 1424,
+    "total_tokens": 8300,
+    "cost": 0.004797713745,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 5129,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.004797713745,
+      "upstream_inference_prompt_cost": 0.002077133265,
+      "upstream_inference_completions_cost": 0.00272058048
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316903",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<62B5176A-86C6-492D-9C21-4F551483850F@boxtoboxfilms.com>",
+      "human_quote": "I now live in LA - so not walking past.",
+      "reason_hr": "Osoba je odgovorila da živi u LA-u, što je jasno odbijanje ponude za londonsku kliniku.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke. Kontakt je trajno irelevantan zbog preseljenja.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316914",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o bolovanju s uputama za kontaktiranje drugih osoba, nema osobne reakcije na našu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke. Ovo je automatska obavijest o odsutnosti.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316913",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO0P123MB551755F948A9785BF02B6751DABF2@LO0P123MB5517.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Where is your clinic, our office is now in Britannia St Kings Cross?",
+      "reason_hr": "Hannah je postavila konkretno pitanje o lokaciji klinike u vezi naše ponude, što pokazuje stvarni interes.",
+      "request_hr": "Poslali smo joj link i kod za booking te više puta pitali je li rezervirala. Posljednja naša poruka bila je 2026-09-25, a ona nije odgovorila.",
+      "next_action_hr": "Pričekati da Hannah reagira na poslane upute i podsjetnike. Ako ne bude reakcije, možda naknadno provjeriti je li zainteresirana.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316752",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAMse7d+S+cf5rVbuzacHdv+1=eFqvMHoE2xp5B3_t9W=6DoOFw@mail.gmail.com>",
+      "human_quote": "i am interested - thanks :-)",
+      "reason_hr": "Yasmin je izrazila interes i rekla da će se javiti kad se vrati u London. Poslali smo kod, ali nema potvrde bookinga niti odbijanja.",
+      "request_hr": "Posljednja naša poruka bila je 2026-09-25 s kodom i linkom. Čekamo njezin sljedeći korak.",
+      "next_action_hr": "Pričekati Yasminin odgovor. Ako se ne javi do kraja godine, može se poslati jedan nježni podsjetnik.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316741",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka da osoba više ne radi u toj tvrtki, uz uputu za kontaktiranje kolegice. Nije osobni odgovor na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke na ovu adresu. Kontakt je napustio tvrtku.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316789",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "medium",
+      "return_date": "2026-09-07",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru s povratkom 07.09.2026. To je prošlo; nakon toga smo poslali zadnji mail 11.09., ali nema ljudskog odgovora.",
+      "request_hr": "Iako je datum povratka prošao, a osoba nije odgovorila na zadnji mail, nema dokaza o aktivnom odbijanju. Zbog originalnog OOO-a, tretiramo kao privremeno odsutnog do povratka.",
+      "next_action_hr": "Kako je povratak bio 07.09., a zadnji naš mail poslan 11.09., prošlo je dovoljno vremena. Kontakt je vjerojatno ignorirao poruke. Preporučam ručnu provjeru vlasnika: poslati kratki osobni follow-up s pitanjem je li ponuda još aktualna.",
+      "bulk_group": "owner_review",
+      "evidence_verified": false
+    }
+  ]
+}

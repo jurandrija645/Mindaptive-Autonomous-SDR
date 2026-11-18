@@ -1,0 +1,229 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9011,
+    "completion_tokens": 2926,
+    "total_tokens": 11937,
+    "cost": 0.0007949578,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7659,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007949578,
+      "upstream_inference_prompt_cost": 0.0002624258,
+      "upstream_inference_completions_cost": 0.000532532
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608050044",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti zbog putovanja, bez ljudske zainteresiranosti.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je zbog poslovnog putovanja u drugoj vremenskoj zoni i da odgovara sporije.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently travelling for work and on a different time zone",
+        "can take longer than usual to reply to emails."
+      ]
+    },
+    {
+      "key": "4006945/4608049834",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 24. rujna, bez ljudske reakcije.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornika.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda do 24. rujna i da će odgovoriti po povratku.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office till 24th September",
+        "will respond upon my return."
+      ]
+    },
+    {
+      "key": "4006945/4608049739",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez ljudskog angažmana.",
+      "next_step_hr": "Bez izmjena; kontaktirati zamjenu ako je potrebno.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na porodiljnom dopustu i upućuje na zamjene.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently on Maternity Leave.",
+        "Please forward your e-mail as follows:"
+      ]
+    },
+    {
+      "key": "4006945/4608049356",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 28. rujna, bez ljudske reakcije.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornika.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda do 28. rujna 2026. i da će povremeno provjeravati e-poštu.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until 28th September 2026.",
+        "I will  be checking e-mails periodically"
+      ]
+    },
+    {
+      "key": "4006945/4608048943",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba više ne radi u tvrtki i upućuje na kolege, što je jasan signal krive osobe.",
+      "next_step_hr": "Bez izmjena; kontaktirati navedene zamjene ako je potrebno.",
+      "last_inbound_summary_hr": "Osoba napominje da više nije u Airshipu i daje kontakte za nasljednike.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with Airship and this inbox is no longer actively monitored.",
+        "Milad has taken over responsibility for the region"
+      ]
+    },
+    {
+      "key": "4006945/4608049053",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudske zainteresiranosti.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornika.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda i da će odgovoriti po povratku.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office and will respond upon my return."
+      ]
+    },
+    {
+      "key": "4006945/4608048917",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 29. rujna, bez ljudske reakcije.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornika.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda do 29. rujna s ograničenim pristupom e-pošti.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office with limited access to my inbox.",
+        "I will be back on the 29th of September."
+      ]
+    },
+    {
+      "key": "4006945/4608048852",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o dopustu do 9. listopada, bez ljudske reakcije.",
+      "next_step_hr": "Bez izmjena; kontaktirati navedeni tim ako je potrebno.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na dopustu do 9. listopada i da neće imati pristup e-pošti.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on compliance leave returning to the office on 9 October.",
+        "I will not have access to emails"
+      ]
+    },
+    {
+      "key": "4006945/4608048719",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 28. rujna, bez ljudske zainteresiranosti.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornika.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda do 28. rujna i da će kasnije odgovoriti.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office until 28th September",
+        "please expect a delay in my response until then."
+      ]
+    },
+    {
+      "key": "4006945/4608048787",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 28. rujna, bez ljudske reakcije.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na godišnjem odmoru do 28. rujna.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently on annual leave and will be returning on September 28th."
+      ]
+    },
+    {
+      "key": "4006945/4608048697",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu do studenog, bez ljudskog angažmana.",
+      "next_step_hr": "Bez izmjena; kontaktirati navedenu zamjenu ako je potrebno.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na porodiljnom dopustu do studenog 2026. i upućuje na zamjenu.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom 55-minutnog fizioterapijskog pregleda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of office on Maternity Leave until November 2026.",
+        "please reach out to Chazz (chazz.oxlade@sigmalabs.co.uk)"
+      ]
+    },
+    {
+      "key": "3930675/4520615061",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti s ograničenim pristupom e-pošti, bez ljudske reakcije.",
+      "next_step_hr": "Bez izmjena; pričekati povratak sugovornice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda s ograničenim pristupom e-pošti.",
+      "last_outbound_summary_hr": "Zadnja poruka bila je posljednji pokušaj s upitom o interesu za ponudu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office with limited access to emails"
+      ]
+    }
+  ]
+}

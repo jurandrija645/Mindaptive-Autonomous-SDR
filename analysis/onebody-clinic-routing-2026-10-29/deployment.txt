@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+RuntimeError: Concurrent remote edit: clients/onebodyldn/knowledge/booking-options.md
+{"verified_asset_count": 6, "priority_clinics": ["Wimbledon", "Aldgate East", "Hendon", "High Street Kensington", "Mill Hill", "Moorgate", "Southfields", "Waterloo", "West Kensington"], "routing_loaded": true, "system_prompt_sha256": "75043125997a478f1d3527cef69156284652b85c26cd43bc3ccd54b8576118ea"}
+
+{"backup": "/root/onebody-clinic-routing-20261029T124221Z", "restarted": "app-onebodyldn"}

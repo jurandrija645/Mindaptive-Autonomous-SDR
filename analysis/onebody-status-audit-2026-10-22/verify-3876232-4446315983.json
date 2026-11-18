@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8121,
+    "completion_tokens": 1573,
+    "total_tokens": 9694,
+    "cost": 0.0096684,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0096684,
+      "upstream_inference_prompt_cost": 0.0073089,
+      "upstream_inference_completions_cost": 0.0023595
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315983",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-09-14",
+      "evidence_message_id": "<67c9036971474296b791afcd4c73b9a3@PA1PR10MB8767.EURPRD10.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru s povratkom 14. rujna 2026.",
+      "request_hr": "Za hitne stvari kontaktirati na +447814 749 324.",
+      "next_action_hr": "Datum povratka 14. rujan 2026. je prošao. Pošaljite novi ručni follow-up e-mail jer je lead sada vjerojatno aktivan, ali ne spominjite OOO poruku.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315909",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAD2dX=czsyXbyWzbX8YsqrotcuCUbdzUn5Ja6R1u4cz6v3AoKg@mail.gmail.com>",
+      "human_quote": "That's great thanks, I've shared internally. There's about 30 in our London office, so I'm sure a few people will be interested.",
+      "reason_hr": "Lead je osobno podijelio ponudu na internom Slacku i potvrdio broj ljudi u uredu.",
+      "request_hr": "Nema otvorenog zahtjeva; posljednja poruka je naša zahvala.",
+      "next_action_hr": "Dovršena interakcija. Označite za pregled vlasnika radi arhiviranja ili potencijalnog praćenja odaziva tima, ali nema potrebe za daljnjim slanjem.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315918",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-10-13",
+      "evidence_message_id": "<509dec702d7a4f83a79163a80d684e69@LO2P123MB5061.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o roditeljskom dopustu s povratkom 13. listopada 2026.",
+      "request_hr": "Kontaktirati navedene kolege za pomoć u odsutnosti.",
+      "next_action_hr": "Lead je još na dopustu do 13. listopada 2026. Nemojte slati dodatne e-mailove do tjedan dana nakon tog datuma. Nakon povratka, pošaljite novi e-mail bez reference na OOO poruku.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315774",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO0P123MB55035046A459E76D9A6A7126E7B22@LO0P123MB5503.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Hi Rebecca\n\nJust seen the below, could you please send a link through?",
+      "reason_hr": "Lead je osobno zatražio link za booking, primio je kod i poveznicu, ali nije potvrđeno da je bukirao. Posljednji ljudski odgovor je prazni potpis 14. rujna.",
+      "request_hr": "Nedostaje potvrda bookinga; posljednja ljudska poruka je potpis bez sadržaja.",
+      "next_action_hr": "Lead nije reagirao sadržajno od primitka koda. Pošaljite posljednji osobni follow-up s pitanjem treba li pomoć pri bookiranju, ne šaljite više automatskih poruka.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315825",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWXP265MB173667651B07E6BE6841D72786B22@CWXP265MB1736.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "no",
+      "reason_hr": "Lead je odgovorio 'no' na ponudu o besplatnoj sesiji fizioterapije.",
+      "request_hr": "Odbijanje daljnje komunikacije.",
+      "next_action_hr": "Lead je jasno odbio. Nemojte više slati e-mailove. Označite kao 'Not Interested' u sustavu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315822",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<5032bb1af29a4250a55dfc8e41c802dc@LO4P265MB6569.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da osoba više ne radi u ITI Capital; nije ljudski odgovor na našu ponudu.",
+      "request_hr": "Za ITI Capital pitanja kontaktirati Andrey.Dabizha@iticapital.com, za sve ostalo Nick@istar.capital.",
+      "next_action_hr": "Lead je napustio tvrtku. Uklonite iz trenutne kampanje i ne šaljite dalje na ovu adresu. Možete razmotriti dodavanje nove kontakt osobe iz ITI Capitala ako je relevantna.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9791,
+    "completion_tokens": 2471,
+    "total_tokens": 12262,
+    "cost": 0.0016015,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0016015,
+      "upstream_inference_prompt_cost": 0.00048955,
+      "upstream_inference_completions_cost": 0.00111195
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613854",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo je automatski odgovor o godišnjem odmoru, nema ljudske interakcije niti interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje ista.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave today taking my son to a farm."
+      ]
+    },
+    {
+      "key": "3930675/4520613853",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor zbog bolovanja, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti zbog bolesti.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office on sick leave."
+      ]
+    },
+    {
+      "key": "3930675/4520613852",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o neradnom danu, nema ljudske reakcije koja pokazuje interes.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Automatska poruka: ne radi petkom.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks for your email, I do not work Fridays."
+      ]
+    },
+    {
+      "key": "3930675/4520613791",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odmoru, nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Automatska poruka o godišnjem odmoru.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now off on holiday, returning on Tuesday 22nd September."
+      ]
+    },
+    {
+      "key": "3876232/4446316452",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primateljica je izričito odgovorila 'No thank you' nakon više pratnji.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; odbijanje je jasno.",
+      "last_inbound_summary_hr": "Izričito odbijanje: 'No thank you'.",
+      "last_outbound_summary_hr": "Posljednja pratnja s pitanjem 'yes or no'.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thank you"
+      ]
+    },
+    {
+      "key": "3930675/4520613429",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je automatski javio da je napustio tvrtku, nema interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Obavijest da je osoba napustila tvrtku.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I've now left Iris."
+      ]
+    },
+    {
+      "key": "3930675/4520613430",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da je osoba napustila tvrtku, nema interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Obavijest da je osoba napustila tvrtku.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have left IRIS and no longer have access to this email account."
+      ]
+    },
+    {
+      "key": "3930675/4520613353",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti do 15. rujna.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am away from the office until Tuesday 15th Sept"
+      ]
+    },
+    {
+      "key": "3930675/4520613347",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da osoba više ne radi u tvrtki, nema interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Obavijest da je osoba napustila tvrtku.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at HTB"
+      ]
+    },
+    {
+      "key": "3930675/4520613340",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da primatelj više ne radi u tvrtki, nema interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Obavijest da osoba više ne radi u tvrtki.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "the intended recipient no longer works at HTB"
+      ]
+    },
+    {
+      "key": "3930675/4520612048",
+      "recommended_label": "Not Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "Odgovor 'I am in Los Angeles Sorry' nije izričito odbijanje, ali ukazuje na nezainteresiranost zbog lokacije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Kratka poruka: 'I am in Los Angeles Sorry'.",
+      "last_outbound_summary_hr": "Poslana prva hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am in Los Angeles Sorry"
+      ]
+    },
+    {
+      "key": "3876232/4446316903",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je odgovorio da sada živi u LA-u, što je jasan znak nezainteresiranosti.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama.",
+      "last_inbound_summary_hr": "Izjava da sada živi u Los Angelesu, nije zainteresiran.",
+      "last_outbound_summary_hr": "Posljednja pratnja s pitanjem 'yes or no'.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I now live in LA - so not walking past."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11800,
+    "completion_tokens": 3333,
+    "total_tokens": 15133,
+    "cost": 0.000993174,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 9440,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000993174,
+      "upstream_inference_prompt_cost": 0.000386568,
+      "upstream_inference_completions_cost": 0.000606606
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315452",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o godišnjem odmoru i naknadne naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Holly je na godišnjem odmoru s kontaktom za hitne slučajeve.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on annual leave.",
+        "This will be my last email, Holly."
+      ]
+    },
+    {
+      "key": "3876232/4446317565",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o odsutnosti i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Angelica je izvan ureda bez pristupa e-pošti.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office without access to emails.",
+        "This will be my last email, Angelica."
+      ]
+    },
+    {
+      "key": "3876232/4446316368",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži automatsku obavijest da adresa više nije aktivna i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: adresa e-pošte se više ne prati i proslijeđena je Jaroslavu Kreceku.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "This email address is no longer being monitored.",
+        "This will be my last email, Daren."
+      ]
+    },
+    {
+      "key": "3876232/4446316861",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor jasno navodi da zaposlenik više ne radi u tvrtki, što odgovara oznaci Wrong Person i ima prednost nad ranijom Out Of Office oznakom.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom jer je kontakt pogrešna osoba.",
+      "last_inbound_summary_hr": "Automatski odgovor: zaposlenik kojeg tražimo više nije u CUBE-u, s kontaktom za pomoć.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "the employee you're after is no longer with CUBE.",
+        "This will be my last email, Annabel."
+      ]
+    },
+    {
+      "key": "3876232/4446316667",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o godišnjem odmoru i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Emma je trenutno na godišnjem odmoru.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on annual leave",
+        "This will be my last email, Emma."
+      ]
+    },
+    {
+      "key": "3876232/4446316266",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor s pravnim napomenama i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor s pravnim napomenama o povjerljivosti i zaštiti podataka, bez osobne poruke.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "The contents of this email may be confidential",
+        "This will be my last email, Brendan."
+      ]
+    },
+    {
+      "key": "3876232/4446317270",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži automatski odgovor o odsutnosti s obećanjem odgovora i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Elliot je izvan tvrtke i odgovorit će po povratku 4. rujna.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the business returning the afternoon of September 4th.",
+        "This will be my last email, Elliot."
+      ]
+    },
+    {
+      "key": "3876232/4446316893",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o godišnjem odmoru i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: James je na godišnjem odmoru do 8. rujna.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave and will return on Tuesday 8th September.",
+        "This will be my last email, James."
+      ]
+    },
+    {
+      "key": "3876232/4446315663",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o odsutnosti i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Peter je izvan ureda do 7. rujna, s kontaktom za hitne slučajeve.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m out of the office at the moment, returning on Monday 7th September",
+        "This will be my last email, Peter."
+      ]
+    },
+    {
+      "key": "3876232/4446316366",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o odsutnosti i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Annabelle je trenutno OOO i odgovorit će po povratku.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently OOO and will respond asap on my return.",
+        "This will be my last email, Annabelle."
+      ]
+    },
+    {
+      "key": "3876232/4446315823",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o odsutnosti i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Neil je izvan ureda do 7. rujna, s kontaktom za hitne slučajeve.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office from Monday 31 August to Friday 4 September",
+        "This will be my last email, Neil."
+      ]
+    },
+    {
+      "key": "3876232/4446316221",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o godišnjem odmoru i naše poruke bez ljudskog odgovora, pa zadržavam postojeću oznaku Out Of Office.",
+      "next_step_hr": "Nema potrebe za dodatnom akcijom; pričekati mogući ljudski odgovor na poslanu ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor: Tim je na godišnjem odmoru do 2. rujna, s kontaktima za projekte.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s ponudom besplatne sesije i upitom za slanje koda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office on annual leave.",
+        "This will be my last email, Tim."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11880,
+    "completion_tokens": 3017,
+    "total_tokens": 14897,
+    "cost": 0.00125398,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00125398,
+      "upstream_inference_prompt_cost": 0.0008316,
+      "upstream_inference_completions_cost": 0.00042238
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616516",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je već označen kao Meeting Booked i nema dokaza da je termin otkazan ili da je došlo do promjene statusa.",
+      "next_step_hr": "Nema potrebe za promjenom; pratite je li termin realiziran.",
+      "last_inbound_summary_hr": "Barry je odgovorio na prvu poruku, ali samo s potpisom bez jasnog interesa.",
+      "last_outbound_summary_hr": "Poslano nekoliko podsjetnika s linkom i kodom, zadnji 28. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "current_label: Meeting Booked",
+        "nema poruke o otkazu ili promjeni statusa"
+      ]
+    },
+    {
+      "key": "3930675/4520620062",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Ed je izrazio želju za rezervacijom duboke masaže, ali nije potvrdio je li uspješno rezervirao; nema znaka da je posao dovršen.",
+      "next_step_hr": "Provjerite je li Ed rezervirao termin; ako nije, pošaljite jedan blagi podsjetnik.",
+      "last_inbound_summary_hr": "Ed je pitao može li dobiti duboku masažu i rekao da je zauzet, ali želi rezervirati.",
+      "last_outbound_summary_hr": "Rebecca je poslala link i kod te ga obavijestila da može odabrati termin.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "ed@flockcover.com: 'i'd love to book in a deep tissue massage if possible'",
+        "rebecca.bossick@onebodydirect.com: 'here's the quickest route: just head to... use code OBLACCESS55'"
+      ]
+    },
+    {
+      "key": "3930675/4520622281",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Harriet je izričito odgovorila s 'No, sorry.' i time potvrdila nezainteresiranost.",
+      "next_step_hr": "Zadržite labelu Not Interested; ne šaljite daljnje poruke.",
+      "last_inbound_summary_hr": "Harriet je odgovorila 'No, sorry.'",
+      "last_outbound_summary_hr": "Rebecca je poslala tri poruke, zadnju 28. rujna s pitanjem 'yes or no'.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "harriet.clunie-wylde@dealscribe.com: 'No, sorry.'"
+      ]
+    },
+    {
+      "key": "4006945/4608052447",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je već označen kao Meeting Booked i nema dokaza da je termin otkazan ili da je došlo do promjene statusa.",
+      "next_step_hr": "Nema potrebe za promjenom; pratite je li termin realiziran.",
+      "last_inbound_summary_hr": "Gareth je tražio booking link i dobio ga.",
+      "last_outbound_summary_hr": "Kurt je poslao link i kod te podsjetnik 28. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "current_label: Meeting Booked",
+        "gareth.kobrin@yondatax.com: 'Please send over the booking link'"
+      ]
+    },
+    {
+      "key": "3930675/4520620358",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Patric je odgovorio da već ima dugoročnog fizioterapeuta, što je jasna naznaka nezainteresiranosti.",
+      "next_step_hr": "Zadržite labelu Not Interested; ne šaljite daljnje poruke.",
+      "last_inbound_summary_hr": "Patric je rekao da već ima fizioterapeuta i pohvalio poslovnu ideju.",
+      "last_outbound_summary_hr": "Kurt je poslao tri poruke, zadnju 25. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "patric@neurolabs.ai: 'I’ve already got a long-term physiotherapist'"
+      ]
+    },
+    {
+      "key": "4006945/4608052070",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tara je izričito zatražila uklanjanje iz CRM-a i budućih poruka, što potvrđuje Do Not Contact.",
+      "next_step_hr": "Zadržite labelu Do Not Contact i obrišite kontakt iz budućih kampanja.",
+      "last_inbound_summary_hr": "Tara je rekla da su zatvorili urede i zatražila uklanjanje iz CRM-a.",
+      "last_outbound_summary_hr": "Kurt je poslao jednu poruku 25. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "tara.montford@editshare.com: 'please remove me from your CRM and any future outreach'"
+      ]
+    },
+    {
+      "key": "4006945/4608052309",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Naeha je automatskim odgovorom obavijestila da više ne radi za Northern Data Group, što potvrđuje Wrong Person.",
+      "next_step_hr": "Zadržite labelu Wrong Person i kontaktirajte navedenu osobu shari.yao@northerndata.de.",
+      "last_inbound_summary_hr": "Naeha je automatski odgovorila da više ne radi za Northern Data Group.",
+      "last_outbound_summary_hr": "Rebecca je poslala jednu poruku 25. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "naeha.hirani@northerndata.de: 'I no longer work for Northern Data Group.'"
+      ]
+    },
+    {
+      "key": "4006945/4608049443",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je već označen kao Meeting Booked i nema dokaza da je termin otkazan ili da je došlo do promjene statusa.",
+      "next_step_hr": "Nema potrebe za promjenom; pratite je li termin realiziran.",
+      "last_inbound_summary_hr": "Lucy je odgovorila 'sounds great' i time prihvatila ponudu.",
+      "last_outbound_summary_hr": "Rebecca je poslala link i kod za rezervaciju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "current_label: Meeting Booked",
+        "Lucy@looptalent.co.uk: 'Thanks Rebecca, sounds great.'"
+      ]
+    },
+    {
+      "key": "4006945/4608052094",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sandeep je automatskim odgovorom obavijestio da više ne radi za High5, a Dorothy je zatražila uklanjanje s mailing liste.",
+      "next_step_hr": "Zadržite labelu Do Not Contact i obrišite kontakt iz budućih kampanja.",
+      "last_inbound_summary_hr": "Sandeep je automatski odgovorio da više ne radi za High5; Dorothy je zatražila uklanjanje s liste.",
+      "last_outbound_summary_hr": "Rebecca je poslala jednu poruku 25. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "sandeep.dhillon@talmix.com: 'I am no longer with High5.'",
+        "dmead@high5hire.com: 'you may want to remove us from your mailing lists.'"
+      ]
+    },
+    {
+      "key": "3930675/4520621239",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mimi je izričito rekla da nema ured i da živi u Portugalu te zatražila prestanak slanja poruka, što potvrđuje Do Not Contact.",
+      "next_step_hr": "Zadržite labelu Do Not Contact i obrišite kontakt iz budućih kampanja.",
+      "last_inbound_summary_hr": "Mimi je rekla da nema ured i živi u Portugalu te zatražila prestanak slanja poruka.",
+      "last_outbound_summary_hr": "Rebecca je poslala tri poruke, zadnju 25. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "mimi@perchpeek.com: 'Please stop spamming me'"
+      ]
+    },
+    {
+      "key": "4006945/4608048859",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Maria je automatskim odgovorom obavijestila da više nije zaposlena u Trustmooreu, što potvrđuje Wrong Person.",
+      "next_step_hr": "Zadržite labelu Wrong Person i kontaktirajte navedenu osobu louis.gray@trustmoore.com.",
+      "last_inbound_summary_hr": "Maria je automatski odgovorila da više nije zaposlena u Trustmooreu.",
+      "last_outbound_summary_hr": "Kurt je poslao dvije poruke, zadnju 25. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "maria.kaae@trustmoore.com: 'Maria Kaae is no longer employed here.'"
+      ]
+    },
+    {
+      "key": "4006945/4608048668",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Catrin je odgovorila da više ne radi za Turo i rekla 'no thanks!', što je jasna naznaka nezainteresiranosti.",
+      "next_step_hr": "Zadržite labelu Not Interested; ne šaljite daljnje poruke.",
+      "last_inbound_summary_hr": "Catrin je rekla da više ne radi za Turo i odbila ponudu.",
+      "last_outbound_summary_hr": "Kurt je poslao dvije poruke, zadnju 25. rujna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "catrinharris@economist.com: 'I don't work for Turo anymore so no thanks!'"
+      ]
+    }
+  ]
+}

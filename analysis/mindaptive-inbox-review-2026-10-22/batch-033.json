@@ -1,0 +1,269 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 26909,
+    "completion_tokens": 3907,
+    "total_tokens": 30816,
+    "cost": 0.0014359618,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 23679,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0014359618,
+      "upstream_inference_prompt_cost": 0.0007248878,
+      "upstream_inference_completions_cost": 0.000711074
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2738671/3025251931",
+      "name": "Kai",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Kai je zatražio video ('Laita vaan') i video je poslan. Čekamo njegov odgovor nakon što ga pogleda. To je stvarni interes.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-11T14:07:02.745Z",
+      "next_step_hr": "Pošaljite kratak follow-up na finskom pitajući ima li pitanja o videu, s jednim jasnim CTA-om za poziv.",
+      "missing_information": [],
+      "evidence": [
+        "Laita vaan.",
+        "If the strategy in the video resonates with your goals, feel free to book a quick discovery call..."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hei Kai,\n\nEhditkö jo katsoa videon? Olisi kiva kuulla ajatuksesi.\n\nJos strategia vaikuttaa, voimme sopia pikaisen puhelun. Sitä varten voit valita ajan täältä: [link]",
+      "draft_english": "Hi Kai,\n\nDid you have a chance to watch the video? I'd love to hear your thoughts.\n\nIf the strategy looks good, we can schedule a quick call. You can pick a time here: [link]",
+      "draft_language": "fi",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je kratak follow-up na finskom nakon slanja videa."
+    },
+    {
+      "key": "2732401/3016172105",
+      "name": "John",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "John je izričito tražio video ('send me a video to review') i postavio konkretno pitanje o geografskoj pokrivenosti. Video je poslan, čekamo njegovu povratnu informaciju.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-10T18:39:59.876Z",
+      "next_step_hr": "Pošaljite kratak follow-up pitajući za mišljenje o videu i je li pristup relevantan za Appficiency.",
+      "missing_information": [],
+      "evidence": [
+        "send me a video to review.",
+        "Where do you operate? (North America only?)",
+        "We operate out of Croatia, Europe..."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Johnny,\n\nJust checking in to see if you had a chance to watch the video.\n\nCurious if the approach seems like a fit for Appficiency. If it does, happy to hop on a quick call to talk specifics.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je kratak follow-up na engleskom nakon slanja videa."
+    },
+    {
+      "key": "2738607/3025134830",
+      "name": "Dan",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Dan je izrazio interes za razgovor u siječnju i jasno rekao da će pogledati video tada ('Will get to it though. Likely in Jan!'). Dat je jasan vremenski okvir, stoga treba pričekati.",
+      "priority": "P3",
+      "sales_state": "TIMING_OBJECTION",
+      "next_action": "WAIT",
+      "next_action_at": "2026-01-01T09:00:00.000Z",
+      "next_step_hr": "Ne šaljite ništa do siječnja. Zabilježite povremeni follow-up početkom siječnja kako bi se nastavio razgovor.",
+      "missing_information": [],
+      "evidence": [
+        "I’d be up for a 10 minute chat in January.",
+        "Will get to it though. Likely in Jan!"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekanje do siječnja prema izričitoj želji. Nema potrebe za slanjem novog nacrta."
+    },
+    {
+      "key": "2515956/2722089937",
+      "name": "Diego",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Diego je zatražio video i on je poslan. Nema odgovora na follow-up, ali 'consecutive_sent' je 2, što je manje od 5. I dalje postoji mogućnost interesa.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-10T16:28:06.141Z",
+      "next_step_hr": "Pošaljite kratak, prijateljski follow-up pitajući je li imao prilike pogledati video i ima li pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "Please go ahead and send the video so I can get a better understanding",
+        "Here is a video breakdown of how our AI Agent could identify and engage the right clients for Adapsys"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Diego,\n\nJust wanted to bump this in case the video got buried in your inbox.\n\nCurious if you had any thoughts or questions after watching it.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je kratki follow-up nakon slanja videa."
+    },
+    {
+      "key": "2538823/2758497658",
+      "name": "Radoslav",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Radoslav je izrazio interes za demo, ali je rekao da je zauzet i da će se javiti. Zadnji poslani mail je bio prije 2 dana. 'consecutive_sent' je 1. Postoji interes, ali i objektivna zaposlenost.",
+      "priority": "P2",
+      "sales_state": "WAIT",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekajte još nekoliko dana prije slanja sljedećeg follow-upa, poštujući njegovu zauzetost. Sljedeći korak bi trebao biti nježan podsjetnik.",
+      "missing_information": [],
+      "evidence": [
+        "Ich bespreche es mit dem Team und melde mich wieder.",
+        "kein Stress, ich weiß, wie chaotisch der Jahresendspurt sein kann."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Preporučeno je čekanje zbog njegove zauzetosti i obećanja da će se javiti. Nema potrebe za slanjem novog nacrta odmah."
+    },
+    {
+      "key": "2738607/3025135558",
+      "name": "Henri",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Henri je rekao 'seintje' (signal), video je poslan. Čekamo njegov odgovor nakon što ga pogleda. 'consecutive_sent' je 2.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-10T16:21:41.138Z",
+      "next_step_hr": "Pošaljite kratak follow-up na nizozemskom pitajući je li imao prilike pogledati video i ima li pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "seintje",
+        "Heb je al tijd gehad om de video te bekijken?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hoi Henri,\n\nIk wilde even checken of je de video al hebt kunnen bekijken.\n\nBen benieuwd of de aanpak aansluit bij wat jullie zoeken voor Imagine Digital.",
+      "draft_english": "Hi Henri,\n\nI wanted to check if you had a chance to watch the video yet.\n\nCurious if the approach fits what you're looking for at Imagine Digital.",
+      "draft_language": "nl",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je kratki follow-up na nizozemskom nakon slanja videa."
+    },
+    {
+      "key": "2732401/3016172998",
+      "name": "Jocelyn",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Jocelyn je tražila video ('please send me a link to your video'), video je poslan. Čekamo njen odgovor. 'consecutive_sent' je 2.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-10T16:20:01.440Z",
+      "next_step_hr": "Pošaljite kratak follow-up pitajući za mišljenje o videu i je li pristup relevantan za GAP.",
+      "missing_information": [],
+      "evidence": [
+        "Sure… please send me a link to your video.",
+        "Just bumping this in case you missed the video link."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Jocelyn,\n\nJust checking in to see if you had a chance to watch the video.\n\nCurious if the approach seems like a fit for what you're looking for at GAP.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je kratki follow-up nakon slanja videa."
+    },
+    {
+      "key": "2738607/3025135360",
+      "name": "Marco",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Marco je zatražio video i tarife ('si inviami pure come potremmo lavorare insieme e le vostre tariffe'). Poslan je video i objašnjen model plaćanja. Čekamo njegov odgovor. 'consecutive_sent' je 2.",
+      "priority": "P2",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-10T16:17:11.881Z",
+      "next_step_hr": "Pošaljite kratak follow-up na talijanskom pitajući je li imao prilike pogledati video i ima li pitanja o tarifama ili procesu.",
+      "missing_information": [],
+      "evidence": [
+        "si inviami pure come potremmo lavorare insieme e le vostre tariffe.",
+        "Per quanto riguarda le tariffe: lavoriamo principalmente con un modello a performance (Pay-per-Meeting) o Pay-per-Lead."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Ciao Marco,\n\nTi rigiro questa email nel caso ti fosse sfuggita.\n\nFammi sapere se hai domande sul video o sul modello di pricing.",
+      "draft_english": "Hi Marco,\n\nJust forwarding this email in case you missed it.\n\nLet me know if you have any questions about the video or the pricing model.",
+      "draft_language": "it",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je kratki follow-up na talijanskom."
+    },
+    {
+      "key": "2732401/3016172379",
+      "name": "Shebaz",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Sali je rekao 'yes', video je poslan. Čekamo njegov odgovor. 'consecutive_sent' je 2.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2025-12-10T16:05:38.828Z",
+      "next_step_hr": "Pošaljite kratak follow-up pitajući za mišljenje o videu i je li pristup relevantan za Ripton.",
+      "missing_information": [],
+      "evidence": [
+        "yes",
+        "What did you think of the video?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Sali,\n\nJust checking in to see if you had a chance to watch the video.\n\nCurious if the approach seems like a good fit for what you're building at Ripton.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je kratki follow-up nakon slanja videa."
+    },
+    {
+      "key": "2738671/3025252775",
+      "name": "Joan",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Joan je preusmjerio na Meritxell, koja je zatim izrazila interes za video ili sastanak. Poslan je link za zakazivanje sastanka. Čekamo potvrdu termina.",
+      "priority": "P1",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekajte da Meritxell zakaže termin putem linka. Ako se ne javi u razumnom roku, pošaljite blagi podsjetnik na španjolskom.",
+      "missing_information": [],
+      "evidence": [
+        "contacteu amb @Meritxell Sánchez Palou",
+        "Si claro! O prefieres mostrármelo durante una reunión¿?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslan je link za zakazivanje. Čekamo akciju. Ako bude potrebno, može se poslati kratki podsjetnik."
+    }
+  ]
+}

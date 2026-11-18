@@ -1,0 +1,76 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 15732,
+    "completion_tokens": 813,
+    "total_tokens": 16545,
+    "cost": 0.0005717348,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 13844,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0005717348,
+      "upstream_inference_prompt_cost": 0.0004237688,
+      "upstream_inference_completions_cost": 0.000147966
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2738671/3025251433",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Jamie,\n\nJust checking in — did you get a chance to pick a time for our call?\n\nIf a specific slot doesn't work, happy to find another option.",
+      "english": "",
+      "reason_hr": "Kratki follow-up na poslani booking link. Jamie je pokazao interes ('happy to have a chat'), pa je mekani podsjetnik prikladan."
+    },
+    {
+      "key": "2738671/3025253783",
+      "ready": true,
+      "language": "pl",
+      "body": "Cześć Jędrzej,\n\nMiałeś okazję obejrzeć film? Daj znać, czy masz jakieś pytania.\n\nJeśli to nie jest teraz priorytet, daj znać, a ja się wycofam.",
+      "english": "",
+      "reason_hr": "Follow-up na poslani video. Jędrzej je odgovorio na poljskom, stoga nastavljamo na poljskom."
+    },
+    {
+      "key": "2738607/3025135572",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Andrea,\n\nJust checking in — did you have a chance to look at the video?\n\nIf the approach makes sense for myMeta, I'd be glad to talk through next steps.",
+      "english": "",
+      "reason_hr": "Follow-up na video nakon izražene sumnje. Kratko i bez pritiska, ostavlja prostor za odgovor."
+    },
+    {
+      "key": "2738607/3025135176",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Andy,\n\nQuick check — does the ballpark range I shared make sense for Muso, or is it off?\n\nIf the numbers work, I'd love to hop on a short call to define your ideal target and give you exact pricing.",
+      "english": "",
+      "reason_hr": "Follow-up na postavljeno pitanje o cijeni. Jasno se referira na poslane okvirne cijene bez dodavanja novih brojki."
+    },
+    {
+      "key": "2738607/3025133653",
+      "ready": true,
+      "language": "es",
+      "body": "Hola David,\n\nSolo quería confirmar si tuviste oportunidad de ver el video que te envié.\n\nSi la lógica te encaja, podemos tener esa charla de 10 min para definir vuestro target y prepararte una propuesta a medida.",
+      "english": "",
+      "reason_hr": "Follow-up na poslani video nakon zahtjeva za prezentacijom. David je pisao na španjolskom, stoga nastavljamo na španjolskom."
+    },
+    {
+      "key": "2738607/3025134886",
+      "ready": false,
+      "language": "en",
+      "body": "",
+      "english": "",
+      "reason_hr": "Nedostaje odgovor na Maxov prijedlog termina. Naš prethodni odgovor nije prihvatio njegov termin i preusmjerio ga na booking link. Nedostaje potvrda je li Max odabrao novi termin. Potrebna ljudska procjena."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 17977,
+    "completion_tokens": 736,
+    "total_tokens": 18713,
+    "cost": 0.001769859,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001769859,
+      "upstream_inference_prompt_cost": 0.001635907,
+      "upstream_inference_completions_cost": 0.000133952
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2538823/2758495592",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Francesco,\n\ncerto, ti preparo una presentazione breve e concreta, senza fronzoli.\n\nPrima di mandartela, una domanda veloce: su quali settori di Mallei vuoi puntare prima, così la taratura sull'AI agent è quella giusta?\n\nSe preferisci, posso anche mostrartelo dal vivo in 10 minuti e vedi subito se ha senso. Tu dimmi.",
+      "english": ""
+    },
+    {
+      "key": "2538823/2758495382",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Diego,\n\necco il video come promesso: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nMostra come l'agente trova e contatta founder e responsabili tech, proprio i vostri clienti. Spoiler: funziona a performance, quindi pagate solo se vi porta risultati.\n\nGuardalo con calma e dimmi cosa ne pensi. Se serve, possiamo fare una call veloce per adattarlo al vostro caso.",
+      "english": ""
+    },
+    {
+      "key": "2538823/2758494599",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Aleardo,\n\ncapito, e ha senso che abbiate già dei tool — è un campo affollato. La differenza col nostro agente è che non si ferma alla ricerca: contatta direttamente founder e scienziati, li qualifica secondo i vostri criteri, e a voi arrivano solo le conversazioni già calde.\n\nTi registro un mini video di 3 minuti in cui ti mostro come lavorerebbe per Innova, lo guardi quando hai tempo. Te lo mando via email.",
+      "english": ""
+    },
+    {
+      "key": "3950427/4542616557",
+      "ready": true,
+      "language": "en",
+      "body": "Quick question -\n\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.",
+      "english": ""
+    },
+    {
+      "key": "3950427/4542616876",
+      "ready": true,
+      "language": "en",
+      "body": "Quick one -\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "english": ""
+    },
+    {
+      "key": "3950427/4542616362",
+      "ready": true,
+      "language": "en",
+      "body": "Quick one -\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "english": ""
+    }
+  ]
+}

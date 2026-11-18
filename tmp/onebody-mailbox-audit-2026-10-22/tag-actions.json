@@ -1,0 +1,2254 @@
+[
+  {
+    "tag": "Old mailboxes",
+    "ids": [
+      21623029,
+      21623020,
+      21623016,
+      21622639,
+      21622575,
+      21622434,
+      21622397,
+      21622368,
+      21622199,
+      21622052,
+      21621963,
+      21621874,
+      21621855,
+      21621836,
+      21621811,
+      21615437,
+      21615113,
+      21615093,
+      21615053,
+      21614884,
+      21614868,
+      21614846,
+      21614780,
+      21614767,
+      21614743
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 21623029,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21623020,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21623016,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21622639,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21622575,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21622434,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21622397,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21622368,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21622199,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21622052,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21621963,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21621874,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21621855,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21621836,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21621811,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21615437,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21615113,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21615093,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21615053,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614884,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614868,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614846,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614780,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614767,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614743,
+            "tag_id": 541554,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "Old mailboxes",
+    "ids": [
+      21614723,
+      21614718,
+      21614694,
+      21614675,
+      21614631,
+      21614622,
+      21614612,
+      21614580,
+      21614561,
+      21614481,
+      21589414,
+      21586866,
+      21586862,
+      21586861,
+      21586860,
+      21586859,
+      21586858,
+      21586857,
+      21586856,
+      21586855,
+      21586854,
+      21586853,
+      21586852,
+      21586851,
+      21586849
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 21614723,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614718,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614694,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614675,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614631,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614622,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614612,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614580,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614561,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21614481,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21589414,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586866,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586862,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586861,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586860,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586859,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586858,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586857,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586856,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586855,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586854,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586853,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586852,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586851,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21586849,
+            "tag_id": 541554,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "Old mailboxes",
+    "ids": [
+      21586848,
+      21399362,
+      21397966,
+      21397938,
+      21397926,
+      21397907,
+      21397854,
+      21397823,
+      21397764,
+      21397760,
+      21397736
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 21586848,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21399362,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397966,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397938,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397926,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397907,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397854,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397823,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397764,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397760,
+            "tag_id": 541554,
+            "action": "added"
+          },
+          {
+            "email_account_id": 21397736,
+            "tag_id": 541554,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 11,
+          "added": 11,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25003565,
+      25003292,
+      25003289,
+      25001696,
+      25001576,
+      25001546,
+      25001514,
+      25001469,
+      25001411,
+      25001364,
+      25001352,
+      25001350,
+      25001349,
+      25001348,
+      25001347,
+      25001346,
+      25001344,
+      25001343,
+      25001341,
+      25001340,
+      25001339,
+      25001338,
+      25001337,
+      25001336,
+      25001335
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25003565,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25003292,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25003289,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001696,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001576,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001546,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001514,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001469,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001411,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001364,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001352,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001350,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001349,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001348,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001347,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001346,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001344,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001343,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001341,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001340,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001339,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001338,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001337,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001336,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001335,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25001327,
+      25001324,
+      25001321,
+      25001320,
+      25001287,
+      25001285,
+      25001277,
+      25001251,
+      25001234,
+      25001218,
+      25001216,
+      25001200,
+      25001171,
+      25001157,
+      25001153,
+      25001148,
+      25001140,
+      25001123,
+      25001120,
+      25001119,
+      25001113,
+      25001112,
+      25001109,
+      25001099,
+      25001097
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25001327,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001324,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001321,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001320,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001287,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001285,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001277,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001251,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001234,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001218,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001216,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001200,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001171,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001157,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001153,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001148,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001140,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001123,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001120,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001119,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001113,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001112,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001109,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001099,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001097,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25001027,
+      25001024,
+      25001023,
+      25001020,
+      25001019,
+      25001014,
+      25001013,
+      25001007,
+      25001005,
+      25001004,
+      25001003,
+      25001002,
+      25001001,
+      25001000,
+      25000973,
+      25000950,
+      25000948,
+      25000944,
+      25000942,
+      25000940,
+      25000939,
+      25000937,
+      25000930,
+      25000927,
+      25000926
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25001027,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001024,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001023,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001020,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001019,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001014,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001013,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001007,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001005,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001004,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001003,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001002,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001001,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25001000,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000973,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000950,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000948,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000944,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000942,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000940,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000939,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000937,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000930,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000927,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000926,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25000923,
+      25000922,
+      25000920,
+      25000914,
+      25000913,
+      25000911,
+      25000909,
+      25000907,
+      25000906,
+      25000901,
+      25000900,
+      25000899,
+      25000898,
+      25000897,
+      25000877,
+      25000869,
+      25000866,
+      25000863,
+      25000650,
+      25000642,
+      25000641,
+      25000631,
+      25000617,
+      25000592,
+      25000590
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25000923,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000922,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000920,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000914,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000913,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000911,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000909,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000907,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000906,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000901,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000900,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000899,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000898,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000897,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000877,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000869,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000866,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000863,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000650,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000642,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000641,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000631,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000617,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000592,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000590,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25000581,
+      25000572,
+      25000569,
+      25000564,
+      25000562,
+      25000560,
+      25000553,
+      25000551,
+      25000546,
+      25000545,
+      25000544,
+      25000543,
+      25000542,
+      25000541,
+      25000540,
+      25000539,
+      25000538,
+      25000537,
+      25000534,
+      25000520,
+      25000519,
+      25000501,
+      25000487,
+      25000486,
+      25000482
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25000581,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000572,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000569,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000564,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000562,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000560,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000553,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000551,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000546,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000545,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000544,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000543,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000542,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000541,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000540,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000539,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000538,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000537,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000534,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000520,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000519,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000501,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000487,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000486,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000482,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25000481,
+      25000478,
+      25000477,
+      25000475,
+      25000473,
+      25000472,
+      25000470,
+      25000467,
+      25000466,
+      25000465,
+      25000464,
+      25000462,
+      25000460,
+      25000458,
+      25000455,
+      25000453,
+      25000452,
+      25000451,
+      25000450,
+      25000449,
+      25000448,
+      25000447,
+      25000446,
+      25000445,
+      25000444
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25000481,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000478,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000477,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000475,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000473,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000472,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000470,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000467,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000466,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000465,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000464,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000462,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000460,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000458,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000455,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000453,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000452,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000451,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000450,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000449,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000448,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000447,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000446,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000445,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000444,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25000443,
+      25000442,
+      25000441,
+      25000440,
+      25000437,
+      25000436,
+      25000435,
+      25000434,
+      25000433,
+      25000431,
+      25000428,
+      25000426,
+      25000425,
+      25000424,
+      25000421,
+      25000419,
+      25000417,
+      25000416,
+      25000415,
+      25000413,
+      25000412,
+      25000408,
+      25000399,
+      25000398,
+      25000385
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25000443,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000442,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000441,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000440,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000437,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000436,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000435,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000434,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000433,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000431,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000428,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000426,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000425,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000424,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000421,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000419,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000417,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000416,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000415,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000413,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000412,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000408,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000399,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000398,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000385,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25000379,
+      25000378,
+      25000375,
+      25000374,
+      25000370,
+      25000369,
+      25000368,
+      25000365,
+      25000362,
+      25000359,
+      25000357,
+      25000355,
+      25000354,
+      25000350,
+      25000349,
+      25000348,
+      25000347,
+      25000346,
+      25000345,
+      25000344,
+      25000343,
+      25000337,
+      25000336,
+      25000332,
+      25000331
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25000379,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000378,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000375,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000374,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000370,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000369,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000368,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000365,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000362,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000359,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000357,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000355,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000354,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000350,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000349,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000348,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000347,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000346,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000345,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000344,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000343,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000337,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000336,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000332,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000331,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      25000330,
+      25000329,
+      25000326,
+      25000321,
+      25000320,
+      25000314,
+      25000312,
+      25000310,
+      25000309,
+      25000304,
+      25000303,
+      25000302,
+      25000296,
+      25000290,
+      25000285,
+      25000282,
+      25000279,
+      25000274,
+      24998135,
+      24998028,
+      24997889,
+      24997855,
+      24997853,
+      24997852,
+      24997848
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 25000330,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000329,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000326,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000321,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000320,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000314,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000312,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000310,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000309,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000304,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000303,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000302,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000296,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000290,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000285,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000282,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000279,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 25000274,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24998135,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24998028,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997889,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997855,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997853,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997852,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997848,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      24997847,
+      24997843,
+      24997841,
+      24997840,
+      24997838,
+      24997802,
+      24997787,
+      24997772,
+      24997766,
+      24997764,
+      24997763,
+      24997762,
+      24997761,
+      24997760,
+      24997759,
+      24997755,
+      24997738,
+      24997725,
+      24997698,
+      24997692,
+      24997689,
+      24997682,
+      24997673,
+      24997672,
+      24997671
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 24997847,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997843,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997841,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997840,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997838,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997802,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997787,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997772,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997766,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997764,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997763,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997762,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997761,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997760,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997759,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997755,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997738,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997725,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997698,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997692,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997689,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997682,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997673,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997672,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997671,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 25,
+          "added": 25,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  },
+  {
+    "tag": "new mailboxes",
+    "ids": [
+      24997669,
+      24997666,
+      24997665,
+      24997664,
+      24997663,
+      24997662,
+      24997661,
+      24997660,
+      24997659,
+      24997658,
+      24997657,
+      24997656,
+      24997655,
+      24997654,
+      24997653,
+      24997651,
+      24997649,
+      24997648,
+      24997647,
+      24997645
+    ],
+    "result": {
+      "success": true,
+      "message": "Tag mapping operation completed",
+      "data": {
+        "results": [
+          {
+            "email_account_id": 24997669,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997666,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997665,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997664,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997663,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997662,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997661,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997660,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997659,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997658,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997657,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997656,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997655,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997654,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997653,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997651,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997649,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997648,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997647,
+            "tag_id": 541555,
+            "action": "added"
+          },
+          {
+            "email_account_id": 24997645,
+            "tag_id": 541555,
+            "action": "added"
+          }
+        ],
+        "summary": {
+          "total_processed": 20,
+          "added": 20,
+          "skipped": 0,
+          "failed": 0
+        }
+      }
+    }
+  }
+]

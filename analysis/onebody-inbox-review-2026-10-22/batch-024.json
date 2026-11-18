@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11921,
+    "completion_tokens": 3029,
+    "total_tokens": 14950,
+    "cost": 0.000872417,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 10490,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000872417,
+      "upstream_inference_prompt_cost": 0.000321139,
+      "upstream_inference_completions_cost": 0.000551278
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316695",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samantha je automatski odgovorila da više ne radi u tvrtki, što je trajna situacija, a ne privremeni izostanak.",
+      "next_step_hr": "Označiti kao pogrešnu osobu jer više nije zaposlenica navedene tvrtke.",
+      "last_inbound_summary_hr": "Automatski odgovor da više ne radi u Volanteu i upućivanje na Roshni Lillies.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with the Company, so please contact Roshni.Lillies@volanteglobal.com"
+      ]
+    },
+    {
+      "key": "3876232/4446316578",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mark je automatski odgovorio da više ne radi u Sucden Financialu, što je trajna situacija, a ne privremeni izostanak.",
+      "next_step_hr": "Označiti kao pogrešnu osobu jer više nije zaposlenik navedene tvrtke.",
+      "last_inbound_summary_hr": "Automatski odgovor da Mark Patterson više ne radi u Sucden Financialu i upućivanje na Bruna Almeidu.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that Mark Patterson is no longer at Sucden Financial Limited."
+      ]
+    },
+    {
+      "key": "3876232/4446316536",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sarah je automatski odgovorila da je izvan ureda do 3. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer nema ljudskog odgovora nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor o izostanku iz ureda do 3. rujna.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Thursday 3rd September and will have limited access"
+      ]
+    },
+    {
+      "key": "3876232/4446317006",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Chris je automatski odgovorio da je izvan ureda do 10. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer nema ljudskog odgovora nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor o izostanku iz ureda do 10. rujna.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Thursday 10th September with no access to emails."
+      ]
+    },
+    {
+      "key": "3876232/4446317291",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Emma je automatski odgovorila da je na porodiljnom dopustu, što je dugotrajna situacija, a ne kratkotrajni izostanak.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer se radi o dugotrajnom dopustu.",
+      "last_inbound_summary_hr": "Automatski odgovor o porodiljnom dopustu i upućivanje na Chrisa Hudsona.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office on maternity leave and will have limited access"
+      ]
+    },
+    {
+      "key": "3876232/4446316320",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mehmud je automatski odgovorio da je na godišnjem odmoru do 7. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer nema ljudskog odgovora nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru do 07/09/26.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away on annual leave and will be returning 07/09/26."
+      ]
+    },
+    {
+      "key": "3930675/4520615223",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Gazala je automatski odgovorila da je na godišnjem odmoru do 15. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer nema ljudskog odgovora nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru do 15. rujna 2026.",
+      "last_outbound_summary_hr": "Početni hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave and will be back on September 15, 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446315438",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "James je automatski odgovorio da je na godišnjem odmoru do 1. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer nema ljudskog odgovora nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru do 1. rujna.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave returning Tuesday 1st September."
+      ]
+    },
+    {
+      "key": "3876232/4446315677",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jaime je automatski odgovorio da je na odmoru do 2. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer nema ljudskog odgovora nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor o odmoru do 2. rujna.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m on holiday until Wednesday 2nd September."
+      ]
+    },
+    {
+      "key": "3876232/4446315918",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Andrew je automatski odgovorio da je na očinskom dopustu do 13. listopada, što je dugotrajna situacija, a ne kratkotrajni izostanak.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer se radi o dugotrajnom dopustu.",
+      "last_inbound_summary_hr": "Automatski odgovor o očinskom dopustu do 13. listopada 2026.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on paternity leave and will return on 13 October 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446317012",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Adam je automatski odgovorio da je izvan ureda do 7. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer nema ljudskog odgovora nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor o izostanku iz ureda do 7. rujna.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office now until Monday 7th September."
+      ]
+    },
+    {
+      "key": "3876232/4446317539",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Paul je automatski odgovorio da će odgovoriti čim bude mogao, ali nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office jer je to bio automatski odgovor bez daljnjeg ljudskog kontakta.",
+      "last_inbound_summary_hr": "Automatski odgovor da će odgovoriti na poruku čim bude u mogućnosti.",
+      "last_outbound_summary_hr": "Završni hladni email s ponudom besplatne sesije i traženjem odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will respond to your message as soon as I am able to."
+      ]
+    }
+  ]
+}

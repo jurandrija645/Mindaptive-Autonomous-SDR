@@ -1,0 +1,51 @@
+{
+  "usage": {
+    "prompt_tokens": 1081,
+    "completion_tokens": 817,
+    "total_tokens": 1898,
+    "cost": 0.000247065,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000247065,
+      "upstream_inference_prompt_cost": 9.8371e-05,
+      "upstream_inference_completions_cost": 0.000148694
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "translations": [
+    {
+      "key": "2738671/3025251931",
+      "english": "Hi Kai,\n\nIt's been a while since I sent you the video for Appmore. I was looking at our old conversation and thought I'd get back in touch.\n\nWe've developed our system quite a lot since then. The basic idea is still the same: find suitable companies, research them, and start relevant conversations.\n\nHere's a video showing how the process works:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIs acquiring new customers still a priority? If it suits you, we can arrange a quick call."
+    },
+    {
+      "key": "2738607/3025135558",
+      "english": "Hi Henri,\n\nIt's been a while since we talked about finding new customers for Imagine Digital. I came across our conversation again while going through my old emails.\n\nWe've improved our system considerably since then. This video shows how we find, research, and approach suitable companies:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nWould a short call be useful to see if this still fits your needs?"
+    },
+    {
+      "key": "2738607/3025135360",
+      "english": "Hi Marco,\n\nIt's been quite some time since we talked about finding new customers for Widata. While re-reading my old emails, it seemed useful to pick up the conversation again.\n\nSince then, we've greatly improved the system. Here you'll find an overview of how we identify suitable companies and start conversations:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf the topic is still relevant, would you be up for a brief call?"
+    },
+    {
+      "key": "2738607/3025134089",
+      "english": "Hey Alina,\n\nIt's been quite a while since we talked about a short exchange. While going through my older emails, I came across our conversation again.\n\nWe've significantly improved our system since then. Here you can see how we find suitable companies and start conversations with them:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf the topic is still of interest, would you be up for a quick call?"
+    },
+    {
+      "key": "2738607/3025135047",
+      "english": "Hey Matthias,\n\nIt's been a while since you wanted to watch the video. In the meantime, we've significantly improved our system again.\n\nHere you'll find an overview of the process:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nYou know, you mentioned you're always interested in new AI agents and sales approaches. If that's still the case, just let me know. Then we'll find a way to discuss whether the approach fits iCompetence today."
+    },
+    {
+      "key": "2738671/3025251911",
+      "english": "Hello Francisco,\n\nA few months have passed since I sent you the video. I was wondering if you ended up watching it.\n\nI remember you were particularly interested in the focus on CFOs. I don't know if the idea of a system that locates and contacts this specific profile fits what you need now at Saima.\n\nHere's an overview of the process:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf you'd like, we can pick it back up with a short call. If not, we'll leave it here."
+    }
+  ]
+}

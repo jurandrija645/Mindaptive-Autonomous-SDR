@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8370,
+    "completion_tokens": 1360,
+    "total_tokens": 9730,
+    "cost": 0.005219938665,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6137,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.005219938665,
+      "upstream_inference_prompt_cost": 0.002621631465,
+      "upstream_inference_completions_cost": 0.0025983072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315434",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWLP123MB505388948E2A7A17AD656B70D4872@CWLP123MB5053.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Seems like a great idea so happy to hear more about the 1st 55min session and start from there.",
+      "reason_hr": "Joao je osobno odgovorio da je zainteresiran za besplatnu sesiju i pitao za lokaciju.",
+      "request_hr": "Where is your exact location?",
+      "next_action_hr": "Poslali smo mu kod i link. Nije se javio niti potvrdio booking. Čekamo njegov sljedeći potez. Ne šaljite nove poruke osim ako on ne odgovori.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315388",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Svi odgovori su automatska poruka o porodiljnom dopustu; nema osobnog angažmana. Trajanje dopusta nije navedeno.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je na porodiljnom. Ne šaljite daljnje poruke dok se ne vrati. Datum povratka nije poznat, pa pratite inbox za promjenu statusa.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315353",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Jedini odgovor je automatska poruka o porodiljnom dopustu; nema osobnog interesa za ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je na porodiljnom. Ne šaljite daljnje poruke. Datum povratka nije naveden, pa čekajte povratak na posao.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317198",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWXP265MB412131E3F48DFB4B2FB13394B8B12@CWXP265MB4121.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "I’d definitely be interested in taking you up on the complimentary session.",
+      "reason_hr": "Layla je izrazila jasan interes, poslan joj je kod i link. Nakon toga nema odgovora.",
+      "request_hr": "none",
+      "next_action_hr": "Kod i link su poslani. Layla nije potvrdila booking. Čekamo njezin odgovor ili booking. Ne šaljite ništa novo.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317241",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWLSPR01MB004283DDF1595CF26DFBAF18FEB12@CWLSPR01MB0042.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "I'd be more than happy to put you in touch with a few contacts who may be interested.",
+      "reason_hr": "Joyce je odbila ponudu za sebe (radi od kuće), ali nudi preporuku kontakata. Kurt je odgovorio zahvalom i ostavio podatke. Nema otvorenih zadataka.",
+      "request_hr": "none",
+      "next_action_hr": "Razgovor je zaključen. Joyce je ponudila preporuku, Kurt je prihvatio. Nema potrebe za daljnjim porukama osim ako se Joyce ne javi s kontaktima. Vlasnik može pregledati.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317221",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO8P265MB75082A9FEC9C669A98C6A4AFA7B12@LO8P265MB7508.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "Happy to do an intro session and check if your are in Aviva's physio list",
+      "reason_hr": "Alfonso je zainteresiran i pristao na uvodnu sesiju. Status je 'booked' prema provider_category.",
+      "request_hr": "none",
+      "next_action_hr": "Sesija je bookingirana. Nema potrebe za daljnjim praćenjem.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

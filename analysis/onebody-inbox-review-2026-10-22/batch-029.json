@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12332,
+    "completion_tokens": 2635,
+    "total_tokens": 14967,
+    "cost": 0.00180235,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00180235,
+      "upstream_inference_prompt_cost": 0.0006166,
+      "upstream_inference_completions_cost": 0.00118575
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316741",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Gloria je automatski odgovorila da više ne radi u Locke Staffing i uputila na drugu osobu.",
+      "next_step_hr": "Ukloniti iz kampanje jer kontakt više ne radi na navedenoj adresi.",
+      "last_inbound_summary_hr": "Automatska obavijest da osoba više ne radi u tvrtki.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hi - I no longer work at Locke Staffing. Please contact Tracey Smith at t.smith@locke-staffing.com for any queries or support."
+      ]
+    },
+    {
+      "key": "3876232/4446315744",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Lisa je automatski odgovorila da je na godišnjem odmoru do 3. rujna, a nakon toga nije bilo ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on annual leave until the 3rd of September."
+      ]
+    },
+    {
+      "key": "3876232/4446316046",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Neil je automatski odgovorio da je izvan ureda do 14. rujna, bez daljnjeg ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office until Monday 14th September."
+      ]
+    },
+    {
+      "key": "3876232/4446315953",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Pervin je automatski odgovorila da je na odmoru od 28.8. do 1.9., bez daljnjeg ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on holiday from 28th Aug to 1st Sept inclusive."
+      ]
+    },
+    {
+      "key": "3876232/4446317251",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Neeraj je automatski odgovorio da više ne radi za gunnercooke i uputio na drugi kontakt.",
+      "next_step_hr": "Ukloniti iz kampanje jer kontakt više ne radi na navedenoj adresi.",
+      "last_inbound_summary_hr": "Automatska obavijest da osoba više ne radi u tvrtki.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that I no longer work for gunnercooke."
+      ]
+    },
+    {
+      "key": "3876232/4446317362",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Adam je automatski odgovorio da je izvan ureda, bez daljnjeg ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office and will be unable to respond."
+      ]
+    },
+    {
+      "key": "3876232/4446316804",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Robin je automatski odgovorio da je izvan ureda, bez daljnjeg ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will not be checking emails."
+      ]
+    },
+    {
+      "key": "3876232/4446315737",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Darren je automatski odgovorio da je na godišnjem odmoru do 8. rujna, bez daljnjeg ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out the office on annual leave, returning on Tuesday 8th September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446316405",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ali (Alexander) je automatski odgovorio da više ne radi u Triple Point i uputio na drugu osobu.",
+      "next_step_hr": "Ukloniti iz kampanje jer kontakt više ne radi na navedenoj adresi.",
+      "last_inbound_summary_hr": "Automatska obavijest da osoba više ne radi u tvrtki.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Ali no longer works at Triple Point."
+      ]
+    },
+    {
+      "key": "3876232/4446316506",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Andrea je automatski odgovorila da više nije povezana s Onetag Limited od 31.7.2026.",
+      "next_step_hr": "Ukloniti iz kampanje jer kontakt više ne radi na navedenoj adresi.",
+      "last_inbound_summary_hr": "Automatska obavijest da osoba više ne radi u tvrtki.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "as of 31 July 2026 I am no longer associated with Onetag Limited."
+      ]
+    },
+    {
+      "key": "3876232/4446315726",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sakeena je automatski odgovorila da je izvan ureda, bez daljnjeg ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office."
+      ]
+    },
+    {
+      "key": "3876232/4446316792",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tarun je automatski odgovorio da je na godišnjem odmoru do 3.9., bez daljnjeg ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku jer nema ljudskog angažmana.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru.",
+      "last_outbound_summary_hr": "Posljednji email s opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave at present with intermittent access to emails."
+      ]
+    }
+  ]
+}

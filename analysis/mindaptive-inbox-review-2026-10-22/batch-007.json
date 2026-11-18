@@ -1,0 +1,248 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 22712,
+    "completion_tokens": 2742,
+    "total_tokens": 25454,
+    "cost": 0.0023695,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0023695,
+      "upstream_inference_prompt_cost": 0.0011356,
+      "upstream_inference_completions_cost": 0.0012339
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3899056/4475670781",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka o odsutnosti (OOO od 9. do 13. rujna). Nema ljudskog odgovora ili interesa. Stari auto-reply draft nije primjenjiv.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-14T00:00:00Z",
+      "next_step_hr": "Pričekati do povratka s godišnjeg (14.9.), zatim poslati novi follow-up ako je potrebno, ali bez starog auto-reply drafta.",
+      "missing_information": [],
+      "evidence": [
+        "I will be out of office Sept 9th - Sept 13th with no access to email."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je neprimjeren - ne odgovara na stvarnu situaciju i koristi zastarjelu taktiku. Potrebno je pričekati povratak kontakta."
+    },
+    {
+      "key": "3899056/4475671751",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka o odsutnosti do 14. rujna s preusmjeravanjem na kolegu. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-14T00:00:00Z",
+      "next_step_hr": "Pričekati do 14.9., zatim pratiti ako već nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of the office returning Tuesday, Sept. 14th."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je zastarjeo i neprimjeren."
+    },
+    {
+      "key": "3912149/3734011404",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska poruka o godišnjem odmoru do 14. rujna. Iako je website_offer=true, ovo je auto-reply bez ljudskog interesa. Stari auto-reply draft je neprimjeren.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-09-14T00:00:00Z",
+      "next_step_hr": "Pričekati do 14.9. kada se vraćaju s godišnjeg, zatim poslati novi kratki follow-up na engleskom s linkom na demo (bez lažnog roka).",
+      "missing_information": [],
+      "evidence": [
+        "We are currently out of office on annual leave from Thursday 10th September and will return to the office on Monday, 14th September 2026."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft nije primjeren za website_offer kampanju. Potreban je novi kratki follow-up na engleskom nakon povratka s godišnjeg."
+    },
+    {
+      "key": "3899056/4475670552",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska poruka o odsutnosti do 17. rujna s preporukom za kontaktiranje kolege. Nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-17T00:00:00Z",
+      "next_step_hr": "Pričekati do 17.9., zatim pratiti ako već nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I am OOO returning on Sept 17."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je zastarjeo i neprimjeren."
+    },
+    {
+      "key": "3899056/4475671828",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska poruka o odsutnosti do 21. rujna s preporukom za kontaktiranje kolegica. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-21T00:00:00Z",
+      "next_step_hr": "Pričekati do 21.9., zatim pratiti ako već nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I'll be OOO until Sept 21, 2026."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je zastarjeo i neprimjeren."
+    },
+    {
+      "key": "3899056/4475671928",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska poruka o odsutnosti do 14. rujna s preporukom za kontaktiranje kolegica. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-14T00:00:00Z",
+      "next_step_hr": "Pričekati do 14.9., zatim pratiti ako već nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I'm out of the office starting September 9th and will be back Monday, September 14th."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je zastarjeo i neprimjeren."
+    },
+    {
+      "key": "3899056/4475669912",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska poruka o odsutnosti do 14. rujna. Iako je poslana tri poruke, zadnja je 'last email' i nema ljudskog odgovora. Status ostaje Auto-Reply.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Već je poslana zadnja poruka. Nema potrebe za daljnjim slanjem.",
+      "missing_information": [],
+      "evidence": [
+        "I am currently out of the office taking advantage of a Congress mandated water release and will return on 9/14."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Slanje je gotovo (poslana 'last email'). Stari auto-reply draft je neprimjeren i ne treba se slati."
+    },
+    {
+      "key": "3899056/4475670098",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska poruka o odsutnosti do 14. rujna. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-14T00:00:00Z",
+      "next_step_hr": "Pričekati do 14.9., zatim pratiti ako već nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I will be out of the office starting Friday, September 4th. I will be returning on Monday, September 14th."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je zastarjeo i neprimjeren."
+    },
+    {
+      "key": "3899056/4475678574",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska poruka o odsutnosti do 14. rujna s preporukom za kontaktiranje kolega za hitne slučajeve. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-14T00:00:00Z",
+      "next_step_hr": "Pričekati do 14.9., zatim pratiti ako već nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I am currently out of the office and will return on Monday, September 14."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je zastarjeo i neprimjeren."
+    },
+    {
+      "key": "3899056/4475668798",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska poruka o odsutnosti do 30. rujna s preporukom za kontaktiranje marketing@middesk.com. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": "2026-09-30T00:00:00Z",
+      "next_step_hr": "Pričekati do 30.9., zatim pratiti ako već nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I'll be on leave until 9/30/26."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-reply draft je zastarjeo i neprimjeren."
+    }
+  ]
+}

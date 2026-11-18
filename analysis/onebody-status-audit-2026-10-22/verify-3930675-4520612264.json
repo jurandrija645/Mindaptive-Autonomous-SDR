@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 4360,
+    "completion_tokens": 1163,
+    "total_tokens": 5523,
+    "cost": 0.0056685,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0056685,
+      "upstream_inference_prompt_cost": 0.003924,
+      "upstream_inference_completions_cost": 0.0017445
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520612264",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-09-14",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda, bez osobnog odgovora na našu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je bila izvan ureda, ali datum povratka (2026-09-14) je prošao. Možete ponovno slati poruku, ali u prošlosti nije bilo stvarnog angažmana.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612048",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<90285E3F-DDA5-4C8A-9477-D0E14D110590@stink.co>",
+      "human_quote": "I am in Los Angeles Sorry",
+      "reason_hr": "Osoba odgovara da je u Los Angelesu. Nije izričito odbijanje, ali u kontekstu ponude za londonsku kliniku to je odbijanje jer ne može doći.",
+      "request_hr": "none",
+      "next_action_hr": "Daniel je u Los Angelesu i ne može doći u londonsku kliniku. Nema smisla slati daljnje poruke za ovu lokaciju.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520611927",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<ebe0a5da738b4a34ae2e1aea7e9ab5d7@CWLP265MB3937.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "I have now left the IFoA for pastures new.",
+      "reason_hr": "Automatska poruka o napuštanju tvrtke. Osoba više ne radi tamo, nije relevantna.",
+      "request_hr": "none",
+      "next_action_hr": "Tim više ne radi na toj adresi. Nema smisla dalje kontaktirati.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520611493",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-09-21",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, bez osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Lucy je bila na godišnjem odmoru do 21.9., datum je prošao. Možete pokušati ponovno, ali do sada nije bilo stvarnog interesa.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520611515",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-12-31",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Adriana je na porodiljnom do kraja godine. Možete poslati poruku nakon 31.12.2026., ali do sada nema stvarnog angažmana.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520611525",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez datuma povratka, bez osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Lizzy je na porodiljnom, nema datuma povratka. Nije prikladno slati daljnje poruke dok se ne vrati.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6336,
+    "completion_tokens": 1225,
+    "total_tokens": 7561,
+    "cost": 0.004341258675,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 4627,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.004341258675,
+      "upstream_inference_prompt_cost": 0.002000871675,
+      "upstream_inference_completions_cost": 0.002340387
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315522",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<DBAPR05MB71112052E3B5664499EC2FC098B22@DBAPR05MB7111.eurprd05.prod.outlook.com>",
+      "human_quote": "Hey Kurt,\n\nWhat information do you need on this?",
+      "reason_hr": "Osoba je osobno odgovorila s konkretnim pitanjem o ponudi.",
+      "request_hr": "Pitao je koje informacije trebamo.",
+      "next_action_hr": "Pratiti je li se naručio. Ako ne odgovori na zadnje poruke, provjeriti status ili poslati podsjetnik.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315530",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAHArGR+ug_yv+sQR+zYc+cOOj+0hfmt=mRKm9VQzVaMGn2i19w@mail.gmail.com>",
+      "human_quote": "Haha- I'm assuming this is your AI agent, aka \"Clinic director\".",
+      "reason_hr": "Osoba odbija ponudu i implicira da je poruka od AI agenta, ne pokazuje stvarni interes.",
+      "request_hr": "none",
+      "next_action_hr": "Ne kontaktirati ponovno. Označiti kao odbijeno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315503",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<VE1PR03MB547064A3DCE89473463C15A2D9B72@VE1PR03MB5470.eurprd03.prod.outlook.com>",
+      "human_quote": "No thank you I am in Oxfordshire",
+      "reason_hr": "Osoba je izravno odbila ponudu jer nije u Londonu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne kontaktirati ponovno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315357",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<LO2P123MB4175B39F8B9A4941C0EDF2648EB72@LO2P123MB4175.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "it is not something we are looking for.",
+      "reason_hr": "Osoba je ljubazno odbila ponudu, iako je odgovor personaliziran, izrazila je odbijanje.",
+      "request_hr": "none",
+      "next_action_hr": "Ne kontaktirati.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318129",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAGyAiWqAq772raQR5bGjTLAKVCYK2gz39aVvPqiNi6f+NK5=GA@mail.gmail.com>",
+      "human_quote": "Sounds great Rebecca - yes please.",
+      "reason_hr": "Osoba je prihvatila ponudu i zatražila kod za booking.",
+      "request_hr": "Prihvatio ponudu i dobio kod za naručivanje.",
+      "next_action_hr": "Pratiti je li iskoristio kod. Ako nema odgovora na zadnje poruke, poslati zadnji podsjetnik prije isteka ponude.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318054",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<0f6ef5dd65dc49d1b17d38d67bce1b44@PR3PR01MB6841.eurprd01.prod.exchangelabs.com>",
+      "human_quote": "I no longer work for Opinium.",
+      "reason_hr": "Automatska poruka o odlasku iz tvrtke. Nema osobnog interesa.",
+      "request_hr": "none",
+      "next_action_hr": "Ne kontaktirati ovu osobu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

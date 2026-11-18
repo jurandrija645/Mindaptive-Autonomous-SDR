@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8959,
+    "completion_tokens": 1353,
+    "total_tokens": 10312,
+    "cost": 0.0181974,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0181974,
+      "upstream_inference_prompt_cost": 0.01397604,
+      "upstream_inference_completions_cost": 0.00422136
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316050",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CWXP265MB30130A3BB23E92C81BF6A633BDB62@CWXP265MB3013.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "I will take you up on your free 55 mins physio session for my leg in due course and discuss a re-hab programme.",
+      "reason_hr": "Ian je osobno odgovorio da će iskoristiti ponudu za fizioterapiju nakon oporavka od slomljenog fibule. Nakon toga smo mu poslali link i kod, a on je odgovorio sa zahvalom i 'Will revert in due course'.",
+      "request_hr": "Zahvalio je i rekao da će se javiti kada bude spreman.",
+      "next_action_hr": "Nema otvorenog zahtjeva. Zadnja ljudska poruka je zahvala. Označi za pregled vlasnika; nije potrebno daljnje slanje osim ako vlasnik ne odluči drugačije.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315982",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO8P123MB77831D53EE9726146152287A89B62@LO8P123MB7783.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Thanks for reaching out Rebecca, but it's not for me.",
+      "reason_hr": "Karin je osobno odbila ponudu, jasno i izravno.",
+      "request_hr": "Odbijanje ponude.",
+      "next_action_hr": "Prestanak outreacha; ovo je jasno odbijanje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315904",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GV2PR08MB119433B299BE9085F0055FF6ABDB92@GV2PR08MB11943.eurprd08.prod.outlook.com>",
+      "human_quote": "apologies I will need to pass on this – I have moved office and not so conveniently located",
+      "reason_hr": "Nakon početnog interesa, Ian je osobno odbio jer se preselio i klinika više nije praktična.",
+      "request_hr": "Odbijanje zbog preseljenja ureda.",
+      "next_action_hr": "Prestanak outreacha; odbio je unatoč ranijem interesu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315767",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Prvi odgovor je automatska poruka 'I have now left BMS'. Drugi odgovor je automatska obavijest o neisporuci (bounce). Nema ljudskog angažmana.",
+      "request_hr": "Automatska obavijest o odlasku i bounce, bez zahtjeva.",
+      "next_action_hr": "Osoba je napustila tvrtku, email više nije aktivan. Prekini outreach.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315614",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Oba odgovora su identična automatska poruka 'I have now left Digital Science, so please resend your email to legal@...'. To je generička automatska preusmjeravanje, a ne osobni angažman na ponudu.",
+      "request_hr": "Automatska preusmjeravanje na generički email odjela.",
+      "next_action_hr": "Osoba je napustila tvrtku. Prekini daljnji outreach.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315586",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<DB9PR01MB7452922DC8E752331AC68743B3B72@DB9PR01MB7452.eurprd01.prod.exchangelabs.com>",
+      "human_quote": "this is not of interest. Please can you take this email off your database as per GDPR",
+      "reason_hr": "Deborah je osobno odbila i zatražila uklanjanje s liste prema GDPR-u.",
+      "request_hr": "Zahtjev za uklanjanje s baze podataka.",
+      "next_action_hr": "Odmah ukloni s liste za outreach; ovo je zahtjev za brisanjem podataka.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

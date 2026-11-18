@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 17042,
+    "completion_tokens": 843,
+    "total_tokens": 17885,
+    "cost": 0.0006372912,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 14656,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0006372912,
+      "upstream_inference_prompt_cost": 0.0004838652,
+      "upstream_inference_completions_cost": 0.000153426
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "3899056/4475672680",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Yevhenii,\n\nIt's been a while since we last spoke, and I was reviewing our older emails. I still haven't received your ICP, so I'm not sure if this is still on your radar.\n\nIf it is, just send over the basics on who you sell to, and I'll take a look. If not, no worries, just let me know and I'll leave it here.",
+      "english": "",
+      "reason_hr": "Prirodan nastavak, traži ICP koji još nije poslan."
+    },
+    {
+      "key": "3950427/4542617388",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Rachel,\n\nI know it's been a bit quiet. Revisiting the website I shared a few weeks ago, and I'd still love your honest take.\n\nA) I'd consider replacing the current site, but with some changes\nB) It's not enough of an improvement\n\nJust reply A or B. If it's a no, that's fine, I'll leave it there.",
+      "english": "",
+      "reason_hr": "Most na web ponudu, jednostavno A/B pitanje."
+    },
+    {
+      "key": "3899056/4475670673",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Ben,\n\nI came back to our earlier thread and realized it's been a while. Just wanted to see if the outbound engine I shared is still something you'd consider for Digica.\n\nIf it's not a priority, just say so and I'll leave it. If it is, a short call would let me show you how we'd find the right engineering leads.",
+      "english": "",
+      "reason_hr": "Reaktivacija nakon 36 dana, pitanje o videu, pozivnica."
+    },
+    {
+      "key": "2738671/3025251433",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Jamie,\n\nIt's been a long time since we last spoke, and I know we never got that call booked. If filling the pipeline for Fundsense is still something you'd like to explore, I'm happy to set up a time.\n\nIf not, no problem, just let me know and I won't take more of your time.",
+      "english": "",
+      "reason_hr": "Reaktivacija nakon 275 dana, podsjetnik na zakazivanje poziva."
+    },
+    {
+      "key": "2738671/3025253783",
+      "ready": true,
+      "language": "pl",
+      "body": "Cześć Jędrzej,\n\nDawno nie rozmawialiśmy i wracam do naszej starej korespondencji. Mam nadzieję, że film, który wysłałem, był dla Ciebie wartościowy.\n\nJeśli temat wciąż Cię interesuje, chętnie umówię krótką rozmowę. Jeśli nie, daj znać, a nie będę pisał więcej.",
+      "english": "Hi Jedrzej,\n\nIt's been a long time since we spoke, and I'm revisiting our old conversation. I hope the video I sent was valuable to you.\n\nIf this is still of interest, I'd be happy to schedule a short call. If not, just let me know and I won't write again.",
+      "reason_hr": "Reaktivacija na poljskom, nakon 308 dana, odgovor na pitanje o tržištima."
+    }
+  ]
+}

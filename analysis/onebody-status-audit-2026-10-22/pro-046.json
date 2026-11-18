@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10721,
+    "completion_tokens": 2674,
+    "total_tokens": 13395,
+    "cost": 0.02937453,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.02937453,
+      "upstream_inference_prompt_cost": 0.01913311,
+      "upstream_inference_completions_cost": 0.01024142
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616415",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Gemmin OOO-poruka upućuje na Shafiat Odunewe. To je preporuka kontaktu, a ne samo OOO. Potrebno je odgovoriti i kontaktirati Shafiat.",
+      "last_human_request_hr": "Please reach out to Shafiat Odunewe (shafiat.odunewu@hadean.com) if urgent.",
+      "unresolved_hr": "Klinika još nije kontaktirala Shafiat Odunewe s ponudom. Nije poznato je li Shafiat zainteresirana.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Odgovoriti Gemmi i kontaktirati Shafiat Odunewe s istom ponudom (55min fizioterapija, klinika Shoreditch).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+21C+GWCjrZ0H=W2usj6bLa772WsePWGNT-LNuw7D+BYGHokA@mail.gmail.com>",
+          "quote": "Please reach out to Shafiat Odunewe (shafiat.odunewu@hadean.com) if urgent."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616429",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Matthew je poslao automatsku OOO poruku s godišnjeg odmora. U poruci nema nikakvog ljudskog angažmana, pitanja ili upućivanja na drugu osobu u vezi s ponudom.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Matthew se vratio s odmora 22. rujna, ali nije bilo naknadnog ljudskog odgovora. Nakon OOO nije poslana nova poruka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke na OOO. Sustav može poslati novu poruku nakon povratka s odmora prema kampanji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAO_icwmotYNiOHyHfzQApYF=5ni4-BigDC30LChygSSzyBxY9A@mail.gmail.com>",
+          "quote": "I'm on holiday until Tuesday 22nd September 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616207",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Zara se zahvalila i potvrdila primitak linka i koda, izričito rekavši 'I appreciate it'. Nema otvorenih pitanja, a u sustavu je označeno kao booked.",
+      "last_human_request_hr": "Thanks very much Rebecca, I appreciate it!",
+      "unresolved_hr": "Sve je riješeno. Zara je dobila link i kod, zahvalila se i nema novih zahtjeva. Status je booked.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja akcija. Razgovor je uspješno završen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOajeQ9UX8yiyU_fh+93rq__ZtSxodRFEXusaKD_iWUO737XuQ@mail.gmail.com>",
+          "quote": "Thanks for your email - sounds interesting. Would be happy to give it a trial run."
+        },
+        {
+          "message_id": "<mu1alf7l.75e29007-7fc2-4de0-a317-014bffac990c@we.are.superhuman.com>",
+          "quote": "Thanks very much Rebecca, I appreciate it!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616157",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "E-poruka se vratila s greškom isporuke (550 5.0.350). Nema ljudskog odgovora, samo automatska obavijest o neisporuci.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adrian Harrow nije primio ponudu. Adresa e-pošte vjerojatno više ne radi.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne pokušavati ponovno slati na ovu adresu. Ako postoji druga adresa, može se pokušati kontaktirati, ali ne na temelju ovog bouncea.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e771867c-3114-4c62-9115-c5da428f9c5c@LO4P265MB6220.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "550 5.0.350 Remote server returned an error -> 550 #5.1.0 Address rejected."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616190",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Paul je napustio tvrtku, ali je uputio na Barryja Vickeryja koji će 'rado pomoći'. Ovo nije odbijanje, već preporuka kontaktu. Potrebno je kontaktirati Barryja.",
+      "last_human_request_hr": "For assistance, please contact Barry Vickery at barry.vickery@dvcorporate.com, who will be happy to help.",
+      "unresolved_hr": "Barry Vickery još nije kontaktiran s ponudom. Nije poznato je li Barry zainteresiran. Stari status 'wrong_person' nije točan s obzirom na preporuku.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Kontaktirati Barryja Vickeryja na barry.vickery@dvcorporate.com s istom ponudom (55min fizioterapija, klinika Farringdon).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0000000000000ff7e1065b70cc1f@google.com>",
+          "quote": "please contact Barry Vickery at barry.vickery@dvcorporate.com, who will be happy to help."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616179",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Naomi je na porodiljnom, ali je dala kontakte cs@dataseat.com i alessandro@dataseat.com za sve upite. Ovo je preporuka drugim osobama u tvrtki, što zahtijeva naš odgovor.",
+      "last_human_request_hr": "Should you need anything during this time, please contact cs@dataseat.com or alessandro@dataseat.com.",
+      "unresolved_hr": "Nitko od navedenih kontakata (cs@dataseat.com, alessandro@dataseat.com) nije kontaktiran s ponudom.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Kontaktirati cs@dataseat.com i/ili alessandro@dataseat.com s istom ponudom (55min fizioterapija, klinika Paddington).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAP=jBBwyFSCJbtpf6by-yE+60eUh1LPGG2EP4CRBjobmWgvwBQ@mail.gmail.com>",
+          "quote": "Should you need anything during this time, please contact\ncs@dataseat.com or alessandro@dataseat.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616253",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Kuljit je poslao automatsku OOO poruku ('I am away from my desk'). U poruci nema ljudskog angažmana, već samo standardna obavijest i upućivanje na službenike.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora na ponudu. Ovo je čista OOO poruka bez ikakvog znaka interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke na OOO. Može se pričekati ponovno slanje prema kampanji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d659a9289eab4829a64f3d459fa92965@LO0P123MB4396.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am away from my desk and will reply to your email as soon as I am able."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616136",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Gowtam je poslao automatsku OOO poruku s godišnjeg odmora. Iako daje kontakte za hitne slučajeve, sam tekst je automatski i ne pokazuje interes za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Gowtam se vratio 28. rujna, ali nije bilo ljudskog odgovora. Ovo je standardna OOO poruka bez osobne reakcije na ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za odgovorom na OOO. Može se pričekati ponovni kontakt prema kampanji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CADXNhfD05179FSekSeyZXCHr3P2TUghjm-qo3J_G4mTSqYd1cw@mail.gmail.com>",
+          "quote": "I am currently out of office returning Monday 28th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

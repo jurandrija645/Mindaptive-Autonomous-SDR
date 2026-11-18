@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 11395,
+    "completion_tokens": 2674,
+    "total_tokens": 14069,
+    "cost": 0.008436139875,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8631,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.008436139875,
+      "upstream_inference_prompt_cost": 0.003327409395,
+      "upstream_inference_completions_cost": 0.00510873048
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317756",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Zadnji poslani email 18.9. se odbio: inbox neaktivan. Osoba je ranije dva puta automatski odgovorila da je napustila tvrtku. Nema ljudskog interesa.",
+      "last_human_request_hr": "Nema ljudskog odgovora, samo automatske poruke o odlasku iz tvrtke i bounce.",
+      "unresolved_hr": "Neaktivna adresa, kontakt nije moguć.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnjeg kontakta. Oznaka 'auto_reply' je bila ispravna, ali bounce poništava sve.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<df57dbb8-1729-474a-9926-f0036e840940@CWLP123MB4017.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "The email account that you tried to reach is inactive."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317666",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Zoe je 15.9. potvrdila interes: 'It is relevant.' Postavila je pitanje o višku osiguranja i izjavila da se nije isplatilo. Poslan je link i kod. Ona je odgovorila 'Thanks Rebecca' 15.9. Nakon toga smo slali follow-up poruke 22.9., 25.9. i 28.9. bez njenog odgovora. Posljednja poruka je naša, ali ona ima neriješeno pitanje: interes postoji, ali nije riješila booking. Treba nastaviti follow-up jer je angažirana.",
+      "last_human_request_hr": "It is relevant. Things are a bit crazy busy at work at the moment. Thinkbox do provide private health care but there is an excess to pay. The last time I needed some physio, I claimed it on BUPA but the excess I had to pay meant that it wasn't worth it.",
+      "unresolved_hr": "Zoe je izrazila interes, ali nije rezervirala. Naše zadnje poruke bile su podsjetnici s rokom. Nema odbijanja ni rezervacije. Treba provjeriti je li još uvijek zainteresirana, možda ponuditi pomoć oko osiguranja ili alternativu.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti je li Zoe rezervirala kroz sustav. Ako nije, poslati kratki osobni upit: 'Zoe, samo da provjerim jeste li uspjeli rezervirati besplatni termin uz kod OBLACCESS55. Ako želite, mogu provjeriti pokriva li BUPA kod nas bez dodatnih troškova za vas. Javite mi.'",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<MRWPR05MB129945C5A50CB3882A3E2204B96BA2@MRWPR05MB12994.eurprd05.prod.outlook.com>",
+          "quote": "It is relevant."
+        },
+        {
+          "message_id": "<MRWPR05MB12994AABA0BF049E1F25C3F0796BA2@MRWPR05MB12994.eurprd05.prod.outlook.com>",
+          "quote": "Thanks Rebecca"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317720",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Andrew je 14.9. eksplicitno odbio: 'No thanks – we have physio in-house.'",
+      "last_human_request_hr": "No thanks – we have physio in-house.",
+      "unresolved_hr": "Jasno odbijanje. Nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'Not Interested' je ispravna. Ostaviti status negativan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<AM7PR02MB634033B39423660C85F721788BBB2@AM7PR02MB6340.eurprd02.prod.outlook.com>",
+          "quote": "No thanks – we have physio in-house."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317682",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo jedan automatski odgovor 'izvan ureda' 4.9. s povratkom 8.9. Nakon toga slali smo 11.9. i 15.9., nema nikakvog ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba se nikad nije javila. Zastarjelo, nema indikacija interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'auto_reply' je ispravna. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAPmPZtV_A=KHi+kjZz3CqYhvyCzGBTu-spL514e0qAJXaJLxxA@mail.gmail.com>",
+          "quote": "I am on annual leave and will get back to you on\nmy return on Tuesday 8th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317730",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo jedan automatski odgovor 'izvan ureda' 4.9. s povratkom 7.9. Nakon toga slali smo 11.9. i 15.9., nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba se nikad nije javila nakon povratka. Zastarjelo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'auto_reply' je ispravna. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3a4d0383725f4d218aadd318d940d621@CWLP123MB2915.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm on annual leave and will be back to work on Monday, 7th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317729",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Dva automatska odgovora 'izvan ureda' 4.9. i 11.9., oba s povratkom 'u ponedjeljak'. Nakon toga naša zadnja poruka 18.9., nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba se nikad nije javila. Zastarjelo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'auto_reply' je ispravna. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<113e14eb711043ae82336408421cec6a@CWLP123MB2836.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm out of the office until Monday but will reply to you ASAP on my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317754",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Nije odgovorila Sarah Maris. Odgovor 8.9. je automatski 'izvan ureda' s Nathan.Hall@sinara.co.uk do 21.9. Naša zadnja poruka 15.9., nikakav ljudski odgovor od Sarah.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Kontaktirana osoba nije odgovorila, samo tuđi OOO. Zastarjelo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'auto_reply' je ispravna. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<bb44cfc09c4c4373a8153797a87f0897@SINEXCHANGE1.sinara.net>",
+          "quote": "I am currently out of office, returning Monday 21st September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317772",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Scott Fautley je u automatskom odgovoru 4.9. naveo: 'I no longer work at Rokstone'. Nema upita, nema preporuke za fizioterapiju, samo prosljeđivanje kolegi za poslovne upite.",
+      "last_human_request_hr": "Nema ljudskog zahtjeva za ponudom.",
+      "unresolved_hr": "Osoba je napustila tvrtku, nema interesa ni preporuke za našu uslugu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'auto_reply' je tehnički točna za vrstu poruke, ali suštinski je 'wrong_person'. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1acbd2b94d7f4556984d44f2ee71650f@PA2PR06MB9638.eurprd06.prod.outlook.com>",
+          "quote": "Please note that I no longer work at Rokstone"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

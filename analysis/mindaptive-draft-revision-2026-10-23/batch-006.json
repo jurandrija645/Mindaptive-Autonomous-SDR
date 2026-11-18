@@ -1,0 +1,63 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 14201,
+    "completion_tokens": 728,
+    "total_tokens": 14929,
+    "cost": 0.0005667662,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 11786,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0005667662,
+      "upstream_inference_prompt_cost": 0.0004342702,
+      "upstream_inference_completions_cost": 0.000132496
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2515956/2722089937",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Diego,\n\nIt's been a while since we spoke, so I wanted to touch base. Back in December I sent you a video on how our AI agent finds and reaches the right clients for Adapsys. No clue if it landed at the time.\n\nOur system has improved a lot since then. Happy to share the latest version of the process if you're still curious about filling your pipeline with qualified leads.\n\nIf it's still on your radar, a short call could help. Let me know.",
+      "english": ""
+    },
+    {
+      "key": "2738607/3025135558",
+      "ready": true,
+      "language": "nl",
+      "body": "Hoi Henri,\n\nHet is even geleden dat we contact hadden. In december stuurde ik je een video over hoe we een AI outreach engine voor Imagine Digital kunnen bouwen. Ik vroeg me af of dat nog steeds interessant voor je is.\n\nOns systeem is sindsdien flink verbeterd. Als je wilt, stuur ik je de nieuwste versie van de video.\n\nLaat maar weten of dit nog op je pad ligt.",
+      "english": ""
+    },
+    {
+      "key": "2732401/3016172998",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Jocelyn,\n\nIt's been a while since we spoke. Back in December I sent you a video about how our AI agent identifies and reaches engineering and product leaders for GAP. I understand it may have gotten lost in the shuffle.\n\nOur system has improved a lot since then, and I'd be happy to share a current overview if you're still exploring ways to fill your pipeline.\n\nWould that be useful?",
+      "english": ""
+    },
+    {
+      "key": "2738607/3025135360",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Marco,\n\nÈ passato un po' di tempo dall'ultima volta che ci siamo sentiti. A dicembre ti avevo inviato un video su come il nostro AI Agent trova e contatta i responsabili della PA e gli urbanisti per Widata. Volevo sapere se fosse ancora di tuo interesse.\n\nIl nostro sistema è migliorato molto da allora. Se vuoi, posso inviarti una versione aggiornata del processo.\n\nFammi sapere. Grazie.",
+      "english": ""
+    },
+    {
+      "key": "2732401/3016172379",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Sali,\n\nHope you're doing well. It's been a while since we last connected. I sent over a video in December about our AI system for finding and engaging IT leaders for Ripton, and I wanted to circle back to see if it sparked any interest.\n\nOur technology has come a long way since then. If you're still open to exploring this, I could share a current walkthrough.\n\nLet me know if that's worth a look.",
+      "english": ""
+    }
+  ]
+}

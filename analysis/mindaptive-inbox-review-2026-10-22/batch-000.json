@@ -1,0 +1,268 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 44947,
+    "completion_tokens": 5324,
+    "total_tokens": 50271,
+    "cost": 0.005059145,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.005059145,
+      "upstream_inference_prompt_cost": 0.004090177,
+      "upstream_inference_completions_cost": 0.000968968
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3562710/4080234417",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ben je izričito tražio da ga kontaktiramo sredinom rujna nakon odmora. Poslano je nekoliko followupa nakon tog datuma (14.9., 22.9.) bez odgovora. Iako ima više od 5 uzastopnih poruka otkako je zadnji put odgovorio, njegov zahtjev za kontakt kasnije je jasan i treba ga poštivati; Lead Done je zabranjen jer postoji 'Contact later' status. Postoji stari nacrt za zatvaranje, ali on nije u skladu s njegovim zahtjevom za ponovni kontakt.",
+      "evidence": [
+        "Try me again mid Sept please.",
+        "I'll hold off and circle back mid-September like you said."
+      ],
+      "priority": "P3",
+      "sales_state": "TIMING_OBJECTION",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Lead je tražio kontakt sredinom rujna. Poslana su dva followupa nakon tog datuma bez odgovora. Budući da je tražio kontakt kasnije, predlažem čekanje do kraja listopada/početka studenog prije slanja još jednog, ako uopće. Postojeći nacrt za zatvaranje nije prikladan; potrebno ga je zamijeniti nacrtom koji poštuje njegov vremenski okvir.",
+      "missing_information": [],
+      "draft_action": "REPLACE",
+      "draft_original": "Hi Ben,\n\nHope the break did its job. The prototype for SogoSolar is still here whenever you're ready to see it. No rush at all.\n\nIf you'd rather I leave it for now, just say so and I'll close the file.\n\nCheers",
+      "draft_english": "Hi Ben,\n\nHope the break did its job. The prototype for SogoSolar is still here whenever you're ready to see it. No rush at all.\n\nIf you'd rather I leave it for now, just say so and I'll close the file.\n\nCheers",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari nacrt zatvara razgovor, što nije u skladu s njegovim zahtjevom za kontakt kasnije. Novi nacrt poštuje njegov vremenski okvir i ostavlja vrata otvorenima."
+    },
+    {
+      "key": "3950427/4542617778",
+      "recommended_label": "Meeting Request",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Remis je izričito zatražio video poziv i postavio konkretna pitanja (lokacija, poslovni podaci, primjeri, cijene, PDV). Poslan je odgovor s poveznicom za kalendar, ali nije potvrđen termin. Visoka razina angažmana: 11 posjeta demo stranici, uključujući posjete nakon zadnjeg followupa. Potrebno je odgovoriti na njegova pitanja i dogovoriti poziv.",
+      "evidence": [
+        "Could we arrange a video call to discuss this?",
+        "I'd also like to know where you're based, your business details, and see examples of websites you've built that are currently live.",
+        "Please also send details of your pricing and payment plans, including whether VAT is included."
+      ],
+      "priority": "P0",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Poslan je odgovor s poveznicom za kalendar, ali nije dobio potvrdu. Visoka angažiranost (11 posjeta). Potrebno je poslati kratki followup koji ponovno nudi termin, ali i podsjeća na njegova pitanja o cijenama i PDV-u koja još nisu u potpunosti odgovorena.",
+      "missing_information": [
+        "Potvrda termina za video poziv",
+        "Detaljne informacije o cijenama i PDV-u (ovisno o opsegu)"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Remis,\n\nJust bumping this up in case the last email got buried. Happy to jump on that call whenever suits you.\n\nAnd to be straight with you: pricing and VAT really do depend on the scope of the subscription site, so the call is the best place to nail that down. I'll also bring live examples of finished work to show you.\n\nHere's the link again: https://calendly.com/andrew-mindaptive/website-redesign",
+      "draft_english": "Hi Remis,\n\nJust bumping this up in case the last email got buried. Happy to jump on that call whenever suits you.\n\nAnd to be straight with you: pricing and VAT really do depend on the scope of the subscription site, so the call is the best place to nail that down. I'll also bring live examples of finished work to show you.\n\nHere's the link again: https://calendly.com/andrew-mindaptive/website-redesign",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg nacrta. Potreban je followup jer je prošlo više od 2 tjedna od zadnjeg kontakta, a korisnik je pokazao visok interes (11 posjeta)."
+    },
+    {
+      "key": "3960357/3928775246",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Todd je zatražio link ('Send it'), što je jasan pozitivan signal. Nakon toga uslijedilo je 4 poruke bez odgovora (posljednja 24.9.). To je više od 5 uzastopnih poruka? Ne, točno 4. Budući da je 'consecutive_sent' = 4, Lead Done nije dopušten. I dalje postoji mogućnost interesa; potrebno je poslati još jedan followup ili označiti za ljudsku provjeru ako se ne javi.",
+      "evidence": [
+        "Send it",
+        "Send it\n\nSent via the Samsung Galaxy S25 Ultra"
+      ],
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 4 poruke nakon što je zatražio link, bez odgovora. Sljedeći korak: poslati kratki followup s linkom, ili predložiti ljudsku provjeru ako se ne javi. Ne može se označiti kao 'Lead Done' jer je 'consecutive_sent' = 4 (<5).",
+      "missing_information": [],
+      "draft_action": "CREATE",
+      "draft_original": "Todd,\n\nOne more time in case this got lost: https://kool-koncepts.vercel.app\n\nIf it's not for you, just say so and I'll leave it there. But if you like it, I can send over the pricing today.\n\nCheers",
+      "draft_english": "Todd,\n\nOne more time in case this got lost: https://kool-koncepts.vercel.app\n\nIf it's not for you, just say so and I'll leave it there. But if you like it, I can send over the pricing today.\n\nCheers",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg nacrta. Poslano je 4 poruke bez odgovora, ali budući da je zatražio link, postoji interes. Potreban je još jedan followup prije nego se odustane."
+    },
+    {
+      "key": "3950427/4542617478",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Mylon je postavio konkretno pitanje o cijeni ('What's the cost?') nakon što je pogledao demo. Poslan je odgovor s cijenom ($850), nakon čega je uslijedilo nekoliko poruka bez odgovora. Iako je posljednja poruka bila 'last email', njegovo pitanje o cijeni je jasan signal interesa. Budući da je 'consecutive_sent' = 4 (nakon zadnjeg odgovora), Lead Done nije dopušten. Potrebno je ljudska provjera jer je poslana cijena i zadnja poruka o ukidanju linka, ali nema odgovora.",
+      "evidence": [
+        "What's the cost?"
+      ],
+      "priority": "P1",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Poslana je cijena ($850) i zadnja poruka o ukidanju linka. Nema odgovora. 'Consecutive_sent' = 4, pa Lead Done nije dopušten. Budući da je postavio pitanje o cijeni i pogledao demo, postoji interes. Ljudska provjera je potrebna da se odluči hoće li ponovno uploadati demo i poslati još jedan followup.",
+      "missing_information": [],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema sigurnog nacrta za slanje. Potrebna je ljudska odluka hoće li se ponovno pokrenuti demo i poslati još jedan followup, jer je zadnja poruka bila 'last email'."
+    },
+    {
+      "key": "3950427/4542616672",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Joe je zatražio link ('Ok where is it?'), što je pozitivan signal. Nakon toga uslijedilo je 6 poruka bez odgovora (posljednja 20.10.). 'Consecutive_sent' = 6, što znači da je Lead Done dopušten prema pravilima, ali postoji rizik da se propusti potencijalni interes. Iako je poslan link više puta, nema potvrde da ga je pogledao. Ljudska provjera je preporučljiva prije nego se odustane.",
+      "evidence": [
+        "Ok where is it?"
+      ],
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 6 poruka bez odgovora. 'Consecutive_sent' = 6, što dopušta Lead Done, ali ljudska provjera je preporučljiva jer je zatražio link, što ukazuje na interes. Ljudska odluka: zatvoriti ili poslati još jedan followup.",
+      "missing_information": [
+        "Potvrda da je pogledao demo"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema sigurnog nacrta za slanje. Potrebna je ljudska odluka o hoće li se nastaviti ili zatvoriti."
+    },
+    {
+      "key": "3950427/4542616635",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "William je pogledao demo, rekao da 'Looks good a first view', i najavio da će se javiti početkom sljedećeg tjedna. Nakon toga javio se s tehničkim problemom ('content not viewable in my region'). Poslan je odgovor s linkom i ponudom poziva, nakon čega je uslijedilo nekoliko poruka bez odgovora. 'Consecutive_sent' = 2 nakon zadnjeg odgovora. Iako je 'consecutive_sent' nizak, čini se da postoji tehnički problem s pristupom stranici. Ljudska provjera je potrebna da se riješi problem s pristupom i potvrdi interes.",
+      "evidence": [
+        "Looks good a first view",
+        "when I went to look again I couldnt get on it.. Its still stating content not viewable.in my region"
+      ],
+      "priority": "P1",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebno je riješiti tehnički problem s pristupom demo stranici. Ljudska provjera je potrebna da se osigura da William može vidjeti stranicu i potvrditi interes. Nakon toga, može se zakazati poziv.",
+      "missing_information": [
+        "Rješenje tehničkog problema s pristupom stranici"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potrebna je ljudska provjera tehničkog problema. Nije sigurno poslati poruku dok se ne riješi problem s pristupom."
+    },
+    {
+      "key": "3950427/4542616222",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Bashkim je zatražio da vidi što je napravljeno ('I just want to see what you did then we can talk'). Poslan je link, nakon čega je uslijedilo 5 poruka bez odgovora (posljednja 5.10.). 'Consecutive_sent' = 5, što dopušta Lead Done, ali postoji rizik. Ljudska provjera je preporučljiva jer je zatražio da vidi, što ukazuje na interes, iako nema potvrde da je pogledao (1 posjet 14.9.).",
+      "evidence": [
+        "I just want to see what you did then we can talk"
+      ],
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 5 poruka bez odgovora. 'Consecutive_sent' = 5, što dopušta Lead Done, ali ljudska provjera je preporučljiva jer je zatražio da vidi, što ukazuje na interes.",
+      "missing_information": [
+        "Potvrda da je pogledao demo i kakav je dojam"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema sigurnog nacrta za slanje. Potrebna je ljudska odluka o hoće li se nastaviti ili zatvoriti."
+    },
+    {
+      "key": "3892258/4466860359",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Tom je izričito pokazao interes ('Well that is the best cold email I've received in a long time', 'I'd be interested in check it out'). Nakon što su emailovi završili u spamu, ponovno je kontaktirao ('can we try this again?'). Poslan je link, nakon čega je uslijedilo nekoliko poruka bez odgovora. 'Consecutive_sent' = 2 nakon zadnjeg odgovora. Visoka angažiranost: 20 posjeta demo stranici. Potreban je followup.",
+      "evidence": [
+        "Well that is the best cold email I've received in a long time",
+        "I'd be interested in check it out",
+        "can we try this again?"
+      ],
+      "priority": "P1",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Visoka angažiranost (20 posjeta). Poslano je 2 poruke nakon zadnjeg odgovora. Potreban je followup s linkom i pitanjem o mišljenju, te ponuda za poziv.",
+      "missing_information": [],
+      "draft_action": "CREATE",
+      "draft_original": "Tom,\n\nJust checking in — did you get a chance to look at the site? https://climate-hvac-solutions.mindaptive.ai\n\nIf you have 15 minutes this week, happy to walk you through it live and answer any questions.\n\nOtherwise, just tell me straight what you think — it's genuinely useful either way.\n\nCheers",
+      "draft_english": "Tom,\n\nJust checking in — did you get a chance to look at the site? https://climate-hvac-solutions.mindaptive.ai\n\nIf you have 15 minutes this week, happy to walk you through it live and answer any questions.\n\nOtherwise, just tell me straight what you think — it's genuinely useful either way.\n\nCheers",
+      "draft_language": "en",
+      "draft_reason_hr": "Nema postojećeg nacrta. Visoka angažiranost i jasan interes. Potreban je followup s pitanjem o mišljenju i ponudom za poziv."
+    },
+    {
+      "key": "3950427/4542616297",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Gary je pokazao interes tražeći da vidi što je napravljeno ('please show me'). Poslan je link, nakon čega je uslijedilo 5 poruka bez odgovora (posljednja 2.10.). 'Consecutive_sent' = 5, što dopušta Lead Done, ali postoji rizik. Ljudska provjera je preporučljiva jer je zatražio da vidi, što ukazuje na interes.",
+      "evidence": [
+        "Not sure how you could possibly have done that please show me."
+      ],
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 5 poruka bez odgovora. 'Consecutive_sent' = 5, što dopušta Lead Done, ali ljudska provjera je preporučljiva jer je zatražio da vidi, što ukazuje na interes.",
+      "missing_information": [
+        "Potvrda da je pogledao demo i kakav je dojam"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema sigurnog nacrta za slanje. Potrebna je ljudska odluka o hoće li se nastaviti ili zatvoriti."
+    },
+    {
+      "key": "3950427/4542617994",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Dr. Band je zatražio link ('Yes send it over thanks'), što je pozitivan signal. Nakon toga uslijedilo je 5 poruka bez odgovora (posljednja 30.9.). 'Consecutive_sent' = 5, što dopušta Lead Done, ali postoji rizik. Ljudska provjera je preporučljiva jer je zatražio link, što ukazuje na interes.",
+      "evidence": [
+        "Yes send it over thanks"
+      ],
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 5 poruka bez odgovora. 'Consecutive_sent' = 5, što dopušta Lead Done, ali ljudska provjera je preporučljiva jer je zatražio link, što ukazuje na interes.",
+      "missing_information": [
+        "Potvrda da je pogledao demo i kakav je dojam"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema sigurnog nacrta za slanje. Potrebna je ljudska odluka o hoće li se nastaviti ili zatvoriti."
+    }
+  ]
+}

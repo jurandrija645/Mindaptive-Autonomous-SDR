@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7962,
+    "completion_tokens": 1634,
+    "total_tokens": 9596,
+    "cost": 0.0096168,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0096168,
+      "upstream_inference_prompt_cost": 0.0071658,
+      "upstream_inference_completions_cost": 0.002451
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613376",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<OSKPR02MB11290E5A65E81D4C8C73049869C842@OSKPR02MB11290.eurprd02.prod.outlook.com>",
+      "human_quote": "how much does it cost?\n\nDo you have a website?",
+      "reason_hr": "Lux je osobno odgovorio na ponudu s pitanjima o cijeni i web stranici, što pokazuje stvarni angažman.",
+      "request_hr": "Pitao je za cijenu i web stranicu; Rebecca je poslala link, kod i odgovorila na pitanja.",
+      "next_action_hr": "Zadnja poruka je naša s linkom/kodom; čekamo da Lux rezervira. Nema novih poruka niti potvrde. Pratiti klikove na link.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612678",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<3F3C0D96-01A4-47CF-BBE9-E30BE05A761F@rdcontent.com>",
+      "human_quote": "Quite busy at the moment so not keen but I’m sure I’ll wake up with a back issue at some point. I’ll get in touch then.",
+      "reason_hr": "Kerr je odbio ponudu (nije zainteresiran), ali je ostavio mogućnost za budući kontakt. Nije opt-out ni zahtjev za kontakt sada.",
+      "request_hr": "Nije zainteresiran trenutno, javit će se ako zatreba.",
+      "next_action_hr": "Ovo je ljubazno odbijanje. Ne slati daljnje poruke. Ako se javi u budućnosti, tretirati kao novi upit. Nema potrebe za odjavom osim ako sam ne zatraži.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612263",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CADV1m+fY8YCGkx3hUjgRANfaB-tXXofxg0K4bjL+k167fYvfwA@mail.gmail.com>",
+      "human_quote": "I'm not interested but good luck with your business.",
+      "reason_hr": "Kevin je izravno odbio ponudu (\"I'm not interested\"). Jasna negativna reakcija.",
+      "request_hr": "Nije zainteresiran.",
+      "next_action_hr": "Poštovati odbijanje. Ne slati daljnje poruke. Provjeriti treba li ga dodati na DNC listu ako postoji eksplicitni zahtjev (nema ga ovdje).",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612261",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CALyoLCKLg+R+zotunwmS5bYx9HqZi0_tgUypAYYn85Q6J7g50A@mail.gmail.com>",
+      "human_quote": "No thanks :)",
+      "reason_hr": "Caroline je odbila ponudu s \"No thanks :)\", jasno i osobno.",
+      "request_hr": "Nije zainteresirana.",
+      "next_action_hr": "Poštovati odbijanje. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520611104",
+      "genuine_engagement": true,
+      "verdict": "temporarily_away",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<LO9P265MB7568399065EE52746A7CD96F8EB82@LO9P265MB7568.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "I would love to take you up on it! How can I book in?",
+      "reason_hr": "James je pokazao snažan interes, dobio kod, ali još nije rezervirao. Zadnje što smo mi poslali je follow-up 21.10., na što je on automatski OOO odgovor. Datum povratka iz OOO poruke je prošao (12.10.), pa ga smatramo opet dostupnim, ali nije odgovorio na našu zadnju poruku.",
+      "request_hr": "Prvotno pitao kako rezervirati; nakon slanja koda nije rezervirao. Naša zadnja poruka traži potvrdu rezervacije, neodgovorena je.",
+      "next_action_hr": "Zadnja ljudska poruka od Jamesa je isprika 25.9. da nije stigao, nakon toga smo mi poslali follow-up 28.9. i 21.10. (na koju je došao auto-OOO). Budući da je datum povratka prošao i nema novog odgovora, poslati jedan finalni, blagi podsjetnik da je kod još uvijek valjan (ako je) i pitati želi li još uvijek sesiju. Ako nema odgovora, staviti na waiting_on_lead.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520611106",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<48D4ECB1-3CCB-5345-87C2-9D5351FAA5DB@hxcore.ol>",
+      "human_quote": "No",
+      "reason_hr": "James Ronen je odgovorio s 'No', što je jasno odbijanje ponude.",
+      "request_hr": "Odbio ponudu.",
+      "next_action_hr": "Poštovati izravno 'No'. Ne slati daljnje poruke. Ako postoje automatski follow-upovi, zaustaviti ih.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

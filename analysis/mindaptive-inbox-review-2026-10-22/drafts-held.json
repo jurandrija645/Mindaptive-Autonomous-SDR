@@ -1,0 +1,42 @@
+[
+  {
+    "key": "3950427/4542617478",
+    "reason": "Četiri odlazne poruke bez odgovora; još ne ispunjava Lead Done kriterij. Zadnjom porukom najavljeno je zatvaranje/uklanjanje dema, pa prije dodatnog kontakta treba odlučiti želimo li nastaviti."
+  },
+  {
+    "key": "3950427/4542617094",
+    "reason": "Četiri odlazne poruke bez odgovora; još ne ispunjava Lead Done kriterij. Zadnjom porukom najavljeno je zatvaranje/uklanjanje dema, pa prije dodatnog kontakta treba odlučiti želimo li nastaviti."
+  },
+  {
+    "key": "3960583/3729675040",
+    "reason": "Stvarna ljudska preporuka na businessdev@evgo.com; treba potvrditi demo asset i recipient prije dovršenog drafta. Ne slati na opći support."
+  },
+  {
+    "key": "2738607/3025134886",
+    "reason": "Nedostaje odgovor na Maxov prijedlog termina. Naš prethodni odgovor nije prihvatio njegov termin i preusmjerio ga na booking link. Nedostaje potvrda je li Max odabrao novi termin. Potrebna ljudska procjena."
+  },
+  {
+    "key": "2538823/2758495441",
+    "reason": "Nedostaje cijena po kvalificiranom sastanku. Elisa je izričito pitala 'How much is that approximately?'. Ne smijemo izmisliti broj. Treba ili dati provjerenu cijenu ili priznati da ne možemo bez poziva."
+  },
+  {
+    "key": "2538823/2758495823",
+    "reason": "Ljudska provjera potrebna. Jan je rekao da će podijeliti video s kolegama. Od tad (23.10.) nema odgovora. Preporučujemo da čovjek pregleda prije slanja."
+  },
+  {
+    "key": "2538823/2758494883",
+    "reason": "Nedostaje video koji je obećan. Treba ljudska provjera je li video poslan izvan inboxa. Ako nije, hitno poslati video. Ako jest, nastaviti s upitom za povratnu informaciju."
+  },
+  {
+    "key": "2538823/2758494711",
+    "reason": "U razgovoru iz 2025. već je ponuđeno 200–400 € po kvalificiranom sastanku. Prije nove ponude potvrditi vrijede li te cijene i uvjeti i danas; ne izmišljati nove."
+  },
+  {
+    "key": "3950427/4542617719",
+    "reason": "Rachel je demo ponovno poslan 20. listopada, prije dva dana. Pričekati povratnu informaciju; prije eventualnog slanja cijene treba potvrditi stvarnu ponudu."
+  },
+  {
+    "key": "3892258/4466861837",
+    "reason": "Poslano 4 uzastopne poruke bez odgovora nakon odgovora na pitanja. Prije nego što se pošalje peti nastavak koji tjera na odluku nakon potpunog odgovora, trebate provjeriti da li postoji dogovoreni nastavak ili novi zahtjev. Prema pravilima, 5 uzastopnih poslanih poruka bez ljudskog odgovora znači LEAD DONE. Trenutno su 4 poslane poruke bez odgovora od zadnjeg ljudskog odgovora (Edov mail s pitanjima od 17. rujna). Potreban je peti 'final' follow-up ili jednostavno prestati. Ne postoji neodgovoreni zahtjev. Siguran mekan nastavak: 'Is this still on your radar?' bez novih obećanja ili pritiska na odluku."
+  }
+]

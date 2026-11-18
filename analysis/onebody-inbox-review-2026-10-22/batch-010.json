@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12066,
+    "completion_tokens": 2595,
+    "total_tokens": 14661,
+    "cost": 0.00120792,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00120792,
+      "upstream_inference_prompt_cost": 0.00084462,
+      "upstream_inference_completions_cost": 0.0003633
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520612653",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I’m on holiday from 17th-18th September'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'This will be my last email...'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m on holiday from 17th-18th September Please contact Emma for all account queries"
+      ]
+    },
+    {
+      "key": "3930675/4520617127",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am away from the office.'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'still happy to send that over if you want it.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am away from the office."
+      ]
+    },
+    {
+      "key": "3930675/4520621237",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm getting married... and so am going to take a couple of days away from the inbox'",
+      "last_outbound_summary_hr": "Posljednja poruka: početni hladni email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm getting married (whoop whoop) and so am going to take a couple of days away from the inbox"
+      ]
+    },
+    {
+      "key": "3930675/4520621129",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I’m now on annual leave and will be back in the office on Monday 21st September'",
+      "last_outbound_summary_hr": "Posljednja poruka: početni hladni email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m now on annual leave and will be back in the office on Monday 21st September"
+      ]
+    },
+    {
+      "key": "3930675/4520620950",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'Unfortunately, I’m out of the office.'",
+      "last_outbound_summary_hr": "Posljednja poruka: početni hladni email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Unfortunately, I’m out of the office"
+      ]
+    },
+    {
+      "key": "3876232/4446316925",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovori o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm out of office until the 21st September.'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'This will be my last email...'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of office until the 21st September."
+      ]
+    },
+    {
+      "key": "3876232/4446317093",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski obavijesti o promjeni posla, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, potrebna je ljudska provjera radi moguće nove adrese.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I have transitioned into a new role at Mishcon de Reya LLP'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'This will be my last email...'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have transitioned into a new role at Mishcon de Reya LLP as GC Relationships Director"
+      ]
+    },
+    {
+      "key": "3876232/4446317052",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je više puta odgovorila da više ne radi u tvrtki.",
+      "next_step_hr": "Nema promjene, zadržati oznaku 'Wrong Person'.",
+      "last_inbound_summary_hr": "Osoba je poručila: 'I am no longer working at Lantum.'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'This will be my last email...'",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer working at Lantum."
+      ]
+    },
+    {
+      "key": "3876232/4446317096",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o rodiljnom dopustu, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am currently on maternity leave'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'This will be my last email...'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave and will be out of the office starting 20th July 2026"
+      ]
+    },
+    {
+      "key": "3876232/4446317284",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o rodiljnom dopustu, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am out of office on maternity leave'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'This will be my last email...'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office on maternity leave and as a result will not respond to emails to this inbox."
+      ]
+    },
+    {
+      "key": "3930675/4520619919",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o neradnom danu, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'Wednesdays are my Non working day.'",
+      "last_outbound_summary_hr": "Posljednja poruka: početni hladni email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Wednesdays are my Non working day."
+      ]
+    },
+    {
+      "key": "3930675/4520614004",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema promjene, zadržati trenutnu oznaku.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am at an offsite for the next few days'",
+      "last_outbound_summary_hr": "Posljednja poruka: 'Still stands, a 55-minute physio session completely on me...'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am at an offsite for the next few days and will reply as soon as practical."
+      ]
+    }
+  ]
+}

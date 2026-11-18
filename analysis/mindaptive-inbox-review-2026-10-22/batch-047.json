@@ -1,0 +1,260 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 30014,
+    "completion_tokens": 3531,
+    "total_tokens": 33545,
+    "cost": 0.00308965,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00308965,
+      "upstream_inference_prompt_cost": 0.0015007,
+      "upstream_inference_completions_cost": 0.00158895
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3562710/4080235841",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Tvrtka prestaje poslovati u solarnoj industriji. Vlasnik je poslao detaljno objašnjenje da zatvaraju tvrtku. Nijedan znak interesa za AI rješenje.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnjih radnji. Vlasnik je eksplicitno rekao da prestaju s radom.",
+      "missing_information": [],
+      "evidence": [
+        "Na lang wikken en wegen hebben we helaas moeten besluiten om na 13 jaar te stoppen in de zonnepanelenbranche.",
+        "Door de huidige ontwikkelingen is er momenteel weinig vraag naar zonnepanelen."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za draftom. Tvrtka se gasi."
+    },
+    {
+      "key": "3562710/4080235778",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor iz Zendesk sustava podržava da tvrtka Sesol/Soltech Home je u stečaju. Ovo nije ljudski odgovor već obavijest o stečaju i preusmjeravanje na drugu tvrtku. Nema stvarne prodajne konverzacije.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Tvrtka u stečaju. Zatvoriti lead.",
+      "missing_information": [],
+      "evidence": [
+        "Sesol AB har försatts i konkurs den 17 mars.",
+        "Detta innebär att det inte längre är möjligt att nå supporten på Sesol.",
+        "Svea Solar kommer därefter att ta vidare integrationen av de förvärvade tillgångarna."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema smisla slati poruke tvrtki u stečaju."
+    },
+    {
+      "key": "3562710/4080235780",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Isti slučaj kao i prethodni. Tvrtka Sesol u stečaju, automatski odgovori iz Zendesk sustava. Nikakav ljudski interes.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Tvrtka u stečaju. Zatvoriti lead.",
+      "missing_information": [],
+      "evidence": [
+        "Sesol AB har försatts i konkurs den 17 mars.",
+        "Detta innebär att det inte längre är möjligt att nå supporten på Sesol."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema smisla slati poruke tvrtki u stečaju."
+    },
+    {
+      "key": "3562710/4080233487",
+      "recommended_label": "Wrong Person",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski redirect / obavijest da stara email adresa više nije u upotrebi i da je tvrtka promijenila ime u StarModul. Nije ljudski odgovor, već admin obavijest. Stari draft pokušava nastaviti prodaju ali ovo je 'wrong person' — kontaktirali smo staru adresu koja više ne postoji.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Tvrtka promijenila ime i email. Potrebno ponovno istraživanje i slanje na novu adresu (info@starmodul.com) ako se želi nastaviti.",
+      "missing_information": [],
+      "evidence": [
+        "El correo info@panelsandwich.org dejará de estar operativo próximamente.",
+        "hemos unificado todos nuestros productos bajo un solo nombre comercial. StarModul",
+        "Rogamos anote nuestra nueva dirección de correo electrónico: info@starmodul.com"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hola,\n\nVeo que habéis unificado todo bajo StarModul. Tiene sentido.\n\n¿Podríais reenviar esto a quien lleve ahora las consultas comerciales en info@starmodul.com? Gracias.\n\nMia",
+      "draft_english": "Hello,\n\nI see you've unified everything under StarModul. Makes sense.\n\nCould you forward this to whoever handles commercial inquiries at info@starmodul.com? Thanks.\n\nMia",
+      "draft_language": "es",
+      "draft_reason_hr": "Stari draft (autoreply kind) bio je neprikladan i pokušavao prodaju na automatski odgovor. Novi draft kratko pita za preusmjeravanje na ispravnu osobu, bez prodajnog pritiska."
+    },
+    {
+      "key": "3562710/4080233440",
+      "recommended_label": "Wrong Person",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da stara email adresa (viventia@viventia.eu) više nije u upotrebi, sa preusmjeravanjem na viventia@viventiaenergia.com. Nije ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Tvrtka promijenila email. Potrebno poslati na novu adresu ako se želi nastaviti.",
+      "missing_information": [],
+      "evidence": [
+        "Te informamos de que esta dirección de correo (viventia@viventia.eu) ya no está en uso.",
+        "Por favor, a partir de ahora envía tu correo a la nueva dirección: viventia@viventiaenergia.com"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Gracias por el aviso. Reenvío el correo a viventia@viventiaenergia.com. Si hay alguien más en el equipo que lleve el tema de consultas/leads, agradecería que se lo reenviéis directamente.\n\nMia",
+      "draft_english": "Thanks for the notice. I'm forwarding the email to viventia@viventiaenergia.com. If there's someone else on the team who handles inquiries/leads, I'd appreciate it if you forward it directly to them.\n\nMia",
+      "draft_language": "es",
+      "draft_reason_hr": "Stari draft je bio za autoreply i pokušavao nastaviti prodaju na automatski odgovor. Novi draft kratko potvrđuje adresu i pita za preusmjeravanje."
+    },
+    {
+      "key": "3562710/4080233178",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Isti slučaj Sesol stečaj. Automatski odgovori iz Zendesk sustava. Nikakav ljudski interes.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Tvrtka u stečaju. Zatvoriti lead.",
+      "missing_information": [],
+      "evidence": [
+        "Sesol AB har försatts i konkurs den 17 mars.",
+        "Detta innebär att det inte längre är möjligt att nå supporten på Sesol."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema smisla slati poruke tvrtki u stečaju."
+    },
+    {
+      "key": "3562710/4080232741",
+      "recommended_label": "Wrong Person",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da stara email adresa (sales@solar-panels-london.uk) više nije u upotrebi, sa preusmjeravanjem na sales@solar-panels-london.co.uk. Nije ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Tvrtka promijenila email. Potrebno poslati na novu adresu ako se želi nastaviti.",
+      "missing_information": [],
+      "evidence": [
+        "Please note that we are transitioning to a new email address: sales@solar-panels-london.co.uk.",
+        "Kindly use this new email address for future correspondence, as our current address will be phased out."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Got it, switching to the new .co.uk address now. I'll resend the original message there.\n\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft je bio autoreply koji nije prikladan. Novi draft kratko potvrđuje promjenu adrese."
+    },
+    {
+      "key": "3347836/3822375885",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Kevin je samostalno zakazao sastanak, a zatim se pojavio na sastanku (odgovor 'dropped some time in for tomorrow at 10:00AM'). Nakon toga smo mu poslali poruku da smo na pozivu i čekamo. Nema odgovora od 18.06.2026. Status ostaje Meeting-Booked.",
+      "priority": "P3",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je održan? Treba ljudska provjera: je li sastanak održan, što je dogovoreno.",
+      "missing_information": [],
+      "evidence": [
+        "I dropped some time in for tomorrow at 10:00AM, talk then.",
+        "I'm in the call. Should I wait for you a little longer?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potrebna ljudska provjera ishoda sastanka prije bilo kakve nove poruke."
+    },
+    {
+      "key": "3435609/3918664444",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Talal je postavio konkretna pitanja o integraciji i tehnologiji, dobio odgovore i sam zakazao sastanak (Thursday at 11:30am). Nakon toga smo mu odgovorili 'Great, talk soon.'. Nema odgovora od 02.06.2026. Ostaje Meeting-Booked.",
+      "priority": "P3",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je održan? Treba ljudska provjera ishoda.",
+      "missing_information": [],
+      "evidence": [
+        "Ok I have booked a call on Thursday at 11:30am I will speak to you then.",
+        "we integrate directly with ServiceTitan to drop tags and live-book jobs.",
+        "It is purely conversational AI voice agents, no human receptionists."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Potrebna ljudska provjera ishoda sastanka prije bilo kakve nove poruke."
+    },
+    {
+      "key": "3187248/3633991107",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Melih je prvobitno pokazao interes i poslao Calendly link za zakazivanje, ali nakon nekoliko follow-upova odgovorio je 'Kein Interesse mehr' (više nema interesa). Eksplicitno odbijanje.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Eksplicitno odbijen. Zatvoriti lead.",
+      "missing_information": [],
+      "evidence": [
+        "Kein Interesse mehr"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitno odbijanje. Nema potrebe za draftom."
+    }
+  ]
+}

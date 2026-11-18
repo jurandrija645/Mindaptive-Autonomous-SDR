@@ -1,0 +1,253 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 51217,
+    "completion_tokens": 5188,
+    "total_tokens": 56405,
+    "cost": 0.00431151,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00431151,
+      "upstream_inference_prompt_cost": 0.00358519,
+      "upstream_inference_completions_cost": 0.00072632
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3899056/4475676666",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Jackson je održao sastanak s Andrewom, dobio prijedlog i aktivno procjenjuje rješenja s ciljem donošenja odluke do kraja godine (EOY). Ovo je stvarni ljudski interes - izrazio je namjeru da će nas obavijestiti. Nema novih poruka od nas nakon njegovog zadnjeg odgovora, a nema ni 5 uzastopnih poslanih poruka bez odgovora (zadnji slani niz bio je prekinut njegovim odgovorom), tako da Lead Done nije dopušten. Postojeći Meeting-Booked status ostaje na snazi.",
+      "priority": "P2",
+      "sales_state": "POST_MEETING",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekajte na Jacksonov odgovor kako je obećao (do kraja godine). Ne šaljite dodatne poruke dok se ne javi jer je izričito rekao da će nas obavijestiti.",
+      "missing_information": [],
+      "evidence": [
+        "we are still actively evaluating solutions. Aiming to make a decision prior to EOY.",
+        "Will keep you posted."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za slanjem poruke - Jackson je obećao da će nas obavijestiti o odluci. Bilo kakva daljnja poruka bila bi nametljiva."
+    },
+    {
+      "key": "3892258/4466858118",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Mike je izrazio izričit interes za razgovor o cijenama ('i would like to discuss pricing options'), ali nikada nije došlo do uspješnog sastanka zbog problema s vremenskom zonom. Iako je poslano 5 uzastopnih poruka bez novog odgovora (zadnji odgovor bio je 2026-09-11), ovo se ne smatra Lead Done jer je prvotni interes bio snažan i stvaran. Nema eksplicitnog odustajanja. Prema pravilima, 5 uzastopnih poruka znači Lead Done, ali bilješka kaže da ne smijemo zaključiti Lead Done samo zbog isporuke informacija/demo-a/cijene. Ovdje je došlo do stvarnog ljudskog interesa i pokušaja zakazivanja, nakon čega je uslijedila tišina. Ipak, 5 uzastopnih poslanih poruka bez odgovora jest prag za NO_ACTION prema pravilu o 5 uzastopnih poslanih. No, budući da postoji stari booked status, ostajemo na njemu i ne mijenjamo u Lead Done.",
+      "priority": "P3",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 5 uzastopnih emailova bez odgovora. Ostavite lead u trenutnom stanju. Ne šaljite nove poruke. Ako se Mike javi, odgovorite odmah.",
+      "missing_information": [],
+      "evidence": [
+        "i like the site... i would like to discuss pricing options...",
+        "i can set this kind of appointment usually any day after 4pm",
+        "Sorry for the delay, what time zone are you in"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Lead je u statusu čekanja nakon 5 uzastopnih poslanih poruka bez odgovora. Daljnji pokušaji bi bili neučinkoviti."
+    },
+    {
+      "key": "3892258/4466858791",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Derien (Diamond Heating & Cooling) je izrazio snažan interes: pitao je za cijene, dobio detaljan prikaz opcija (4 razine), zatim postavio vrlo konkretna tehnička pitanja o integraciji s WEX FSM-om (mapiranje polja, booking). Mia je na sve detaljno odgovorila. Nakon toga, Andrew je poslao jedan kratki upit 'give me your thoughts', na koji nema odgovora. Ovo je stvarni interes i vodi se prema kupnji. Lead je u fazi donošenja odluke. Nema 5 uzastopnih poslanih poruka bez odgovora (zadnja poruka je Andrew, a prije toga Derien). Nema razloga za Lead Done. Ostaje Meeting-Booked.",
+      "priority": "P1",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-23T15:54:00.000Z",
+      "next_step_hr": "Pošaljite kratak nastavak. Derien je postavio konkretna pitanja o WEX integraciji i dobio detaljan odgovor, te je Andrew poslao jedan upit. Potrebno je blago gurnuti prema odluci, ali bez pritiska. Predložiti kratak poziv za rješavanje preostalih pitanja ili izravno pitanje koju opciju preferira.",
+      "missing_information": [],
+      "evidence": [
+        "I like the flow and easy navigating... So what is the cost of website as is",
+        "Will Mindaptive AI map all required fields... directly into WEX FSM? Additionally, will it be able to handle live appointment booking?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Derien,\n\nI wanted to follow up on my last email. Did my answer about the WEX FSM integration and live booking answer your questions?\n\nIf everything is clear, which of the four options feels like the right fit for Diamond? Happy to jump on a quick call if you want to go over anything in more detail.\n\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Derien je postavio pitanja o integraciji, dobio detaljan odgovor. Potrebno je potvrditi je li odgovor bio zadovoljavajući i potaknuti ga na sljedeći korak (odabir opcije)."
+    },
+    {
+      "key": "3960583/3822375070",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Sid je upitao 'how much?' što je jasan signal interesa. Dobio je cijenu od $750 i opcije. Odgovora više nema. Poslane su 3 dodatne poruke nakon cijene (ukupno 3 uzastopne bez odgovora od njegovog 'how much?'). Nema 5 uzastopnih, tako da nije Lead Done. Iako je cijena poslana, interes je bio stvaran pa ne zaključujemo. Potreban je nastavak. Prema pravilima za website-offer, budući da je cijena pitana i dana, a prospekt je 'silent', slijedimo 'PRICE_SENT_WAITING' i šaljemo nastavak.",
+      "priority": "P2",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-23T13:41:00.000Z",
+      "next_step_hr": "Pošaljite kratak nastavak. Sid je pitao za cijenu, dobio je odgovor, ali nije reagirao na naknadne poruke. Pošaljite kratki upit je li cijena u redu ili ima pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "how much?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Sid,\n\nJust checking in — did the pricing I sent make sense for you?\n\nIf $750 works, just reply GO and I'll start the revision process.\n\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Sid je pitao za cijenu, dobio odgovor i zatim je uslijedila tišina. Potrebno je potvrditi je li cijena prihvatljiva."
+    },
+    {
+      "key": "3960583/3729673219",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Clear Efficiency team je pitao za cijenu i dobio detaljan odgovor ($850, opcije). Nakon toga poslano je 5 uzastopnih poruka bez ikakvog odgovora. Prema pravilima, ovo je Lead Done. Posljednja poruka od prospekta je bila 'Thanks Andrew, I'll take a look. how much do you charge for the services you provide?', što je stvarni interes, ali nakon što je cijena dana i poslano 5 follow-upova bez ikakve reakcije, lead je 'mrtav'. Ne smijemo ga označiti kao Lead Done jer nema opt-outa, ali daljnje slanje nema smisla. Status je 'Lead Done' u praksi. Ne mijenjamo oznaku jer nije eksplicitno, ali radnja je NO_ACTION.",
+      "priority": "P3",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 5 uzastopnih emailova nakon što je cijena poslana, bez ikakvog odgovora. Lead je u stanju mirovanja. Daljnje slanje se ne preporučuje.",
+      "missing_information": [],
+      "evidence": [
+        "Thanks Andrew, I'll take a look. how much do you charge for the services you provide?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano je 5 uzastopnih poruka bez odgovora. Lead je iscrpljen."
+    },
+    {
+      "key": "3892258/4466861837",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ed (United Heating and Cooling) je postavio vrlo konkretna i relevantna pitanja o vlasništvu, platformi, SEO-u i troškovima. To je jak signal kupovne namjere. Andrew je detaljno odgovorio na svih 8 pitanja, nudeći dvije opcije. Nakon toga poslane su 3 dodatne poruke bez odgovora (ukupno 4 uzastopne bez odgovora od Edovog zadnjeg maila). Nema 5 uzastopnih, tako da nije Lead Done. Potreban je nastavak. Ovo je faza 'nakon što su sva pitanja odgovorena', potrebno je potaknuti na odluku.",
+      "priority": "P1",
+      "sales_state": "CHANGE_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-23T15:17:00.000Z",
+      "next_step_hr": "Pošaljite kratak nastavak. Ed je postavio sva moguća pitanja i dobio detaljne odgovore. Potrebno je potvrditi je li mu sada sve jasno i koju opciju (A ili B) preferira.",
+      "missing_information": [],
+      "evidence": [
+        "I just had a few questions about the website: 1. What platform/framework... 2. Do I receive full ownership of the source code? 3. Can I edit the website myself... 8. Who owns the domain, website code...?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Ed,\n\nDid my answers about ownership and the two options make sense for you?\n\nIf everything is clear, which option feels like the better fit — Option A (you run it, $950 one-time, no monthly) or Option B (I run it, $950 + $45/month)?\n\nHappy to jump on a quick call to go over it if that's easier.\n\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Ed je postavio sva pitanja i dobio odgovore. Potrebno ga je potaknuti na odabir između dvije ponuđene opcije."
+    },
+    {
+      "key": "3950427/4542616399",
+      "recommended_label": "Interested",
+      "confidence": "low",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Saif je odgovorio sa 'Yes send', što je pokazatelj interesa za pregled demo stranice. Demo je poslan i uslijedile su 4 dodatne poruke bez ikakvog odgovora. Ukupno 5 uzastopnih poslanih poruka bez odgovora od Saifovog 'Yes send'. Prema pravilima, ovo je Lead Done. Nema stvarnog ljudskog interesa nakon početnog pristanka. Lead je 'mrtav'. Ne smijemo ga označiti kao Lead Done jer nema opt-outa, ali daljnje slanje nema smisla.",
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 5 uzastopnih emailova nakon slanja demo linka, bez ikakvog odgovora. Lead je u stanju mirovanja. Daljnje slanje se ne preporučuje.",
+      "missing_information": [],
+      "evidence": [
+        "Yes send"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano je 5 uzastopnih poruka bez odgovora. Lead je iscrpljen."
+    },
+    {
+      "key": "3886379/4458132442",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "John (Volt N Vent) je izrazio interes: pitao za cijenu ('what the cost would be to purchase or implement it?'), što je jak signal. Dobio je odgovor sa $720 i opcijama. Nakon toga poslane su 3 dodatne poruke bez odgovora (ukupno 4 uzastopne bez odgovora od Johnovog zadnjeg maila). Nema 5 uzastopnih, tako da nije Lead Done. Potreban je nastavak. Prema pravilima za website-offer, budući da je cijena pitana i dana, a prospekt je 'silent', slijedimo 'PRICE_SENT_WAITING' i šaljemo nastavak.",
+      "priority": "P2",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-23T08:03:00.000Z",
+      "next_step_hr": "Pošaljite kratak nastavak. John je pitao za cijenu, dobio je odgovor, ali nije reagirao na naknadne poruke. Pošaljite kratki upit je li cijena u redu ili ima pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "I like the design of the new site. Could you let me know what the cost would be to purchase or implement it?"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi John,\n\nJust checking in — did the pricing I sent make sense for you?\n\nIf $720 works, just reply GO and I'll start the revision process.\n\nMia",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "John je pitao za cijenu, dobio odgovor i zatim je uslijedila tišina. Potrebno je potvrditi je li cijena prihvatljiva."
+    },
+    {
+      "key": "3751357/4278751575",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Mariusz (CFMSR) je pokazao jasan interes i pitao za testiranje prototipa. Dobio je link i poziv na poziv. Nakon toga poslano je 7 uzastopnih poruka bez odgovora. Prema pravilima, 5 uzastopnih poslanih poruka bez odgovora znači Lead Done. Posljednja poruka od Mariusza bila je iz kolovoza 2026., a mi smo slali do rujna 2026. Ovo je definitivno 'mrtav' lead. Ne smijemo ga označiti kao Lead Done jer postoji postojeći Meeting-Booked status koji ne smijemo prebrisati na Lead Done. Lead je u stanju mirovanja.",
+      "priority": "P3",
+      "sales_state": "LEAD_DONE",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 7 uzastopnih emailova bez odgovora. Lead je iscrpljen. Ne šaljite nove poruke.",
+      "missing_information": [],
+      "evidence": [
+        "We would be happy to test it out. Please send over the access details and any instructions required to review the prototype."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano je 7 uzastopnih poruka bez odgovora. Lead je iscrpljen."
+    },
+    {
+      "key": "3640877/4176331234",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Jesse (Orthoclear Amsterdam) je pokazao stalan interes kroz više rundi. Pitao je za testiranje, dogovorio poziv, propustio ga zbog prometa, i obećao da će se javiti. Nakon toga, poslano je 7 uzastopnih poruka bez odgovora (zadnji od Jesseja bio je krajem kolovoza 2026., a mi smo slali do kraja rujna). Prema pravilima, 5 uzastopnih poslanih poruka bez odgovora znači Lead Done. Posljednja poruka od Jesseja nije bila automatska ili OOO, već ljudska. Ipak, nakon toliko pokušaja bez odgovora, lead je 'mrtav'. Ne smijemo ga označiti kao Lead Done jer postoji postojeći Meeting-Booked status. Lead je u stanju mirovanja.",
+      "priority": "P3",
+      "sales_state": "LEAD_DONE",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poslano je 7 uzastopnih emailova bez odgovora. Lead je iscrpljen. Ne šaljite nove poruke.",
+      "missing_information": [],
+      "evidence": [
+        "Het klinkt op zich zeker interessant... Is er een manier om dit te testen?",
+        "I am really sorry but I am still in the car. Can we do the call tomorrow or next week?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano je 7 uzastopnih poruka bez odgovora. Lead je iscrpljen."
+    }
+  ]
+}

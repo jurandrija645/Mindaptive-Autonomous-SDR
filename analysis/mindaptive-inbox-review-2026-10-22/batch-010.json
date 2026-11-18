@@ -1,0 +1,253 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 29800,
+    "completion_tokens": 3277,
+    "total_tokens": 33077,
+    "cost": 0.00296465,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00296465,
+      "upstream_inference_prompt_cost": 0.00149,
+      "upstream_inference_completions_cost": 0.00147465
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3892258/4466860068",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski zahtjev za verifikaciju (bounce-check sustav). Nema ljudskog odgovora niti interesa. Stara olovka je neispravna jer šalje sales nudge na bazu.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati novi inbound ili označiti Lead Done nakon 5 poslanih poruka bez odgovora. Ne slati stari autoreply draft.",
+      "missing_information": [],
+      "evidence": [
+        "The message you sent requires that you verify that you are a real live human being and not a spam source."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft je neprimjeren: pokušava prodaju na automatski bounce, a ne na ljudski odgovor. Nema razloga za slanje ikakvog drafta."
+    },
+    {
+      "key": "3892258/4466858281",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski odgovor (out-of-office tipa 'your message was received'). Nema ljudskog odgovora niti interesa. Stari draft nudi sales nudge na auto-reply što je protiv pravila.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati ljudski odgovor ili nakon 5 poslanih poruka označiti Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "Your message was received! Thank you for reaching out to Pride Mechanical, Inc.! This inbox is monitored regularly and usually responds within 1-3 days."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft je neprimjeren: nudi prodajni nudge na auto-odgovor umjesto da poštuje pravilo da se ne šalje na OOO. Nema razloga za draft."
+    },
+    {
+      "key": "3886379/4458132795",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski zahtjev za verifikaciju (bounce-check sustav). Nitko nije odgovorio ljudski. Stari draft je neprimjeren.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati novi inbound ili nakon 5 poslanih poruka označiti Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "The message you sent requires that you verify that you are a real live human being and not a spam source."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft prodaje na bounce zahtjev. Nema ljudskog interesa pa nema razloga za draft."
+    },
+    {
+      "key": "3886379/4458132843",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski zahtjev za verifikaciju. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati ljudski odgovor ili Lead Done nakon 5 poslanih poruka.",
+      "missing_information": [],
+      "evidence": [
+        "The message you sent requires that you verify that you are a real live human being and not a spam source."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft prodaje na bounce. Nema ljudskog interesa."
+    },
+    {
+      "key": "3886379/4458132577",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski ticket receipt od Levelset supporta. Ovo je pogrešna osoba (wrong person) jer email je poslan na mail@levelset.com koji je support sustav, ne vlasnik/upravitelj JR Sparks Electricians. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao Wrong Person. Ne slati dalje na ovaj email. Potražiti drugi kontakt za JR Sparks Electricians.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Levelset! We have received your case.",
+        "email poslan na mail@levelset.com - ovo je support sustav, ne vlasnik JR Sparks-a"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Pogrešna osoba - kontakt je support sustav. Nema smisla slati draft."
+    },
+    {
+      "key": "3886379/4458132610",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski zahtjev za verifikaciju. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati ljudski odgovor ili Lead Done nakon 5 poslanih poruka.",
+      "missing_information": [],
+      "evidence": [
+        "The message you sent requires that you verify that you are a real live human being and not a spam source."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft prodaje na bounce. Nema ljudskog interesa."
+    },
+    {
+      "key": "3825745/4379340343",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je out-of-office obavijest o zatvaranju ureda (1. rujna). Nema ljudskog odgovora. Stari draft prodaje na OOO što je protiv pravila.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati ljudski odgovor. Ured je zatvoren 1.9. pa je moguće da će se javiti nakon povratka.",
+      "missing_information": [],
+      "evidence": [
+        "Our office will be closed on Tuesday, September 1, 2026 and will reopen on Wednesday, September 2, 2026."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft prodaje na OOO. Nema ljudskog interesa - ne slati."
+    },
+    {
+      "key": "3810275/4360209958",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primljena je automatska poruka s uputama o preusmjeravanju (redirect s popisom drugih kontakata u firmi). Ovo je automatski odgovor, ne ljudski. Kev Patel je CEO ali njegov auto-odgovor preusmjerava na druge odjele. Poslana je 1 dodatna poruka (autoreply nudge). Nema pravog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nakon 5 poslanih poruka bez ljudskog odgovora označiti Lead Done. Stari draft prodaje na auto-odgovor što nije dozvoljeno.",
+      "missing_information": [],
+      "evidence": [
+        "Due to a high volume of messages, I am unable to respond to all messages directly. To ensure your query is handled promptly, please contact the relevant team below: Managing Director – Mr Ali Khan... Compliance Manager... Marketing... Clinic-specific enquiries..."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft prodaje na auto-odgovor. Nema ljudskog interesa - ne slati."
+    },
+    {
+      "key": "3751357/4278752840",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primljena je automatska poruka s informacijama o radnom vremenu i online bookingu. Poslane su 3+1 (autoreply nudge) poruke, ali sve su automatske. Nema ljudskog odgovora. 3 poslane originalne poruke + 1 auto-nudge = 4 poslane, nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati ljudski odgovor. Nakon 5 poslanih poruka bez odgovora označiti Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for getting in touch! We will get back to your email as soon as possible within 24 hours (Tuesday- Saturday). You can also book online by clicking this link..."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft prodaje na auto-odgovor. Nema ljudskog interesa - ne slati."
+    },
+    {
+      "key": "3741157/4263805695",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Anthony je originalno pokazao interes ('Send it over I'll take a look'), poslali smo mu video i 2 follow-upa. Zadnja poruka je bounce (550 permanent failure) - email je blokiran. Stari draft pokušava poslati ponovno na isti email što neće raditi.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Pronaći drugi email za Anthonyja ili kontaktirati drugim kanalom. Ne slati na blokirani email. Označiti da je email blokiran i potreban je novi kontakt.",
+      "missing_information": [
+        "alternativni email za Anthonyja",
+        "drugi kanal kontakta (LinkedIn, telefon)"
+      ],
+      "evidence": [
+        "Send it over I'll take a look - originalni interes",
+        "Message blocked. The response from the remote server was: 550 permanent failure"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari draft pokušava poslati na blokirani email. Potreban je ljudski review da se nađe drugi kontakt. Ne slati dok se ne dobije novi validan email."
+    }
+  ]
+}

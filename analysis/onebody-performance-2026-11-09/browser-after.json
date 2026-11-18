@@ -1,0 +1,343 @@
+{
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "leads": 1112,
+  "measurements": [
+    {
+      "name": "list_rebuild",
+      "js_ms": 15.100000023841858,
+      "layout_ms": 22.30000001192093,
+      "paint_ms": 109.40000003576279
+    },
+    {
+      "name": "list_rebuild",
+      "js_ms": 7,
+      "layout_ms": 18.799999952316284,
+      "paint_ms": 23.099999964237213
+    },
+    {
+      "name": "list_rebuild",
+      "js_ms": 7.100000023841858,
+      "layout_ms": 14.300000011920929,
+      "paint_ms": 23.400000035762787
+    },
+    {
+      "name": "unchanged_refresh",
+      "js_ms": 11.699999988079071,
+      "layout_ms": 11.699999988079071,
+      "paint_ms": 18.299999952316284
+    },
+    {
+      "name": "unchanged_refresh",
+      "js_ms": 11.600000023841858,
+      "layout_ms": 11.600000023841858,
+      "paint_ms": 13.900000035762787
+    },
+    {
+      "name": "unchanged_refresh",
+      "js_ms": 11.800000011920929,
+      "layout_ms": 11.899999976158142,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "select_lead",
+      "js_ms": 18.80000001192093,
+      "layout_ms": 29.5,
+      "paint_ms": 36.30000001192093
+    },
+    {
+      "name": "select_lead",
+      "js_ms": 11.399999976158142,
+      "layout_ms": 15.5,
+      "paint_ms": 21.399999976158142
+    },
+    {
+      "name": "select_lead",
+      "js_ms": 9,
+      "layout_ms": 13.100000023841858,
+      "paint_ms": 18.700000047683716
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.699999988079071,
+      "layout_ms": 1.199999988079071,
+      "paint_ms": 20.899999976158142
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.10000002384185791,
+      "layout_ms": 0.3999999761581421,
+      "paint_ms": 12.899999976158142
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.10000002384185791,
+      "layout_ms": 0.6000000238418579,
+      "paint_ms": 13.699999988079071
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.30000001192092896,
+      "layout_ms": 0.699999988079071,
+      "paint_ms": 46.30000001192093
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.09999996423721313,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 9.299999952316284
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.20000004768371582,
+      "layout_ms": 0.6000000238418579,
+      "paint_ms": 13.800000011920929
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5,
+      "paint_ms": 13.900000035762787
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5,
+      "paint_ms": 14
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.6000000238418579,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.10000002384185791,
+      "layout_ms": 0.7000000476837158,
+      "paint_ms": 13.800000011920929
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.6000000238418579,
+      "paint_ms": 14.100000023841858
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5,
+      "paint_ms": 13.699999988079071
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.20000004768371582,
+      "layout_ms": 0.6000000238418579,
+      "paint_ms": 13.800000011920929
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.699999988079071,
+      "paint_ms": 14.100000023841858
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.800000011920929
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.799999952316284
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.20000004768371582,
+      "layout_ms": 0.6000000238418579,
+      "paint_ms": 13.900000035762787
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.699999988079071,
+      "paint_ms": 13.900000035762787
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.09999996423721313,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.699999988079071,
+      "paint_ms": 13.800000011920929
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 14
+    },
+    {
+      "name": "regen_input",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "search_a",
+      "js_ms": 0.30000001192092896,
+      "layout_ms": 5.100000023841858,
+      "paint_ms": 15.800000011920929
+    },
+    {
+      "name": "search_n",
+      "js_ms": 0.19999998807907104,
+      "layout_ms": 7.899999976158142,
+      "paint_ms": 18.69999998807907
+    },
+    {
+      "name": "search_d",
+      "js_ms": 0.09999996423721313,
+      "layout_ms": 8.099999964237213,
+      "paint_ms": 18.399999976158142
+    },
+    {
+      "name": "search_r",
+      "js_ms": 0.10000002384185791,
+      "layout_ms": 7.300000011920929,
+      "paint_ms": 16.80000001192093
+    },
+    {
+      "name": "search_e",
+      "js_ms": 0.10000002384185791,
+      "layout_ms": 6.800000011920929,
+      "paint_ms": 18.100000023841858
+    },
+    {
+      "name": "search_w",
+      "js_ms": 0.09999996423721313,
+      "layout_ms": 5.799999952316284,
+      "paint_ms": 16
+    },
+    {
+      "name": "regen_input_filtered",
+      "js_ms": 0.30000001192092896,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.800000011920929
+    },
+    {
+      "name": "regen_input_filtered",
+      "js_ms": 0.09999996423721313,
+      "layout_ms": 0.5,
+      "paint_ms": 13.899999976158142
+    },
+    {
+      "name": "regen_input_filtered",
+      "js_ms": 0.10000002384185791,
+      "layout_ms": 0.5,
+      "paint_ms": 14.100000023841858
+    },
+    {
+      "name": "regen_input_filtered",
+      "js_ms": 0.2999999523162842,
+      "layout_ms": 0.5999999642372131,
+      "paint_ms": 13.699999988079071
+    }
+  ],
+  "longtasks": [
+    {
+      "start": 108.80000001192093,
+      "duration": 75
+    },
+    {
+      "start": 242.19999998807907,
+      "duration": 59
+    },
+    {
+      "start": 1244.199999988079,
+      "duration": 67
+    },
+    {
+      "start": 1392.5,
+      "duration": 69
+    },
+    {
+      "start": 1538.6000000238419,
+      "duration": 60
+    },
+    {
+      "start": 1631.300000011921,
+      "duration": 63
+    },
+    {
+      "start": 1741.199999988079,
+      "duration": 98
+    },
+    {
+      "start": 1839.4000000357628,
+      "duration": 52
+    },
+    {
+      "start": 2151.100000023842,
+      "duration": 54
+    },
+    {
+      "start": 2238.100000023842,
+      "duration": 60
+    },
+    {
+      "start": 2400.300000011921,
+      "duration": 58
+    },
+    {
+      "start": 2660.300000011921,
+      "duration": 69
+    },
+    {
+      "start": 2731.199999988079,
+      "duration": 71
+    }
+  ],
+  "dom_nodes": 12876,
+  "regen_input_requests": 12,
+  "empty_dom_nodes": 13077,
+  "checks": [
+    "selecting a lead preserves every sidebar row",
+    "unchanged refresh performs no sidebar DOM mutations",
+    "one changed lead replaces only its own row",
+    "background updates preserve unsaved draft, instructions and focus",
+    "filtering never retargets the visible draft actions",
+    "reordered cached rows click their current lead",
+    "overlapping refreshes share one request; a webhook queues one follow-up",
+    "a pending refresh preserves a newer user selection",
+    "late responses and errors cannot overwrite a newer conversation",
+    "changing views cancels a pending conversation",
+    "rapid search typing waits for the final query",
+    "scheduled and archive list controls still render",
+    "row removal keeps a different newly selected conversation open",
+    "offscreen rows use browser layout containment"
+  ]
+}

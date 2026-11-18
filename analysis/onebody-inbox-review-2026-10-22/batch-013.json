@@ -1,0 +1,226 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 10949,
+    "completion_tokens": 2772,
+    "total_tokens": 13721,
+    "cost": 0.0008472646,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8978,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0008472646,
+      "upstream_inference_prompt_cost": 0.0003427606,
+      "upstream_inference_completions_cost": 0.000504504
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520617874",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatizirana poruka o odsutnosti, bez ljudske interakcije ili interesa.",
+      "next_step_hr": "Pokušajte ponovno nakon povratka s dopusta, ako je relevantno.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti, vraća se početkom listopada.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom besplatne sesije, bez odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out for a few weeks to welcome a new little Bailey into the world",
+        "Back around early October all being well."
+      ]
+    },
+    {
+      "key": "3930675/4520613050",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o godišnjem odmoru, bez ljudske interakcije.",
+      "next_step_hr": "Pokušajte ponovno nakon povratka s odmora, ako je relevantno.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti na godišnjem odmoru.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne sesije, bez odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on annual leave with no access to emails or Slack.",
+        "I will revert to your message on my return."
+      ]
+    },
+    {
+      "key": "3930675/4520617786",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o odsutnosti zbog sastanaka, bez ljudske interakcije.",
+      "next_step_hr": "Pokušajte ponovno nakon 16. rujna, ako je relevantno.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti, vraća se 16. rujna.",
+      "last_outbound_summary_hr": "Hladna poruka s ponudom besplatne sesije, bez odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently in planning meetings returning on Wednesday 16 September.",
+        "it will take longer than usual to get a response."
+      ]
+    },
+    {
+      "key": "3930675/4520612770",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o rodiljnom dopustu, bez ljudske interakcije.",
+      "next_step_hr": "Pokušajte ponovno nakon 28. rujna, ako je relevantno.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti, vraća se 28. rujna.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne sesije, bez odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently away on paternity leave.",
+        "returning on September 28th"
+      ]
+    },
+    {
+      "key": "3930675/4520612053",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o odsutnosti, vraća se 22. rujna, bez ljudske interakcije.",
+      "next_step_hr": "Pokušajte ponovno nakon 22. rujna, ako je relevantno.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti, povratak 22. rujna.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne sesije, bez odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently on away from my inbox, returning on 22nd September 2026.",
+        "Hi,"
+      ]
+    },
+    {
+      "key": "3876232/4446316279",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o odsutnosti, bez ljudske interakcije unatoč daljnjim porukama.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama, zadržite oznaku.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti, vraća se 14. rujna.",
+      "last_outbound_summary_hr": "Završna poruka s pozivom na odgovor, bez ljudskog odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be out of the office until Monday 14th September.",
+        "responses may be delayed."
+      ]
+    },
+    {
+      "key": "3876232/4446317222",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o sabbaticalu, bez ljudske interakcije unatoč daljnjim porukama.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama, zadržite oznaku.",
+      "last_inbound_summary_hr": "Automatska poruka o sabbaticalu do 1. prosinca.",
+      "last_outbound_summary_hr": "Završna poruka s pozivom na odgovor, bez ljudskog odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on sabbatical until 1st December."
+      ]
+    },
+    {
+      "key": "3876232/4446317682",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o godišnjem odmoru, bez ljudske interakcije unatoč daljnjim porukama.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama, zadržite oznaku.",
+      "last_inbound_summary_hr": "Automatska poruka o godišnjem odmoru do 8. rujna.",
+      "last_outbound_summary_hr": "Završna poruka s pozivom na odgovor, bez ljudskog odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave and will get back to you on my return on Tuesday 8th September."
+      ]
+    },
+    {
+      "key": "3876232/4446317616",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o odsutnosti, bez ljudske interakcije unatoč daljnjim porukama.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama, zadržite oznaku.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti do 14. rujna.",
+      "last_outbound_summary_hr": "Završna poruka s pozivom na odgovor, bez ljudskog odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will be returning on 14th September."
+      ]
+    },
+    {
+      "key": "3876232/4446317772",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je izjavila da više ne radi u tvrtki, što opravdava oznaku pogrešne osobe.",
+      "next_step_hr": "Prekinite kontakt s ovom osobom.",
+      "last_inbound_summary_hr": "Obavijest da više ne radi u Rokstone, prosljeđivanje na Jacka.",
+      "last_outbound_summary_hr": "Naknadne poruke ignorirale su napomenu o odlasku.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at Rokstone and my emails will be forwarded to Jack O’Sullivan."
+      ]
+    },
+    {
+      "key": "3876232/4446317207",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o odsutnosti, bez ljudske interakcije unatoč daljnjim porukama.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama, zadržite oznaku.",
+      "last_inbound_summary_hr": "Automatska poruka o odsutnosti do 2. rujna.",
+      "last_outbound_summary_hr": "Završna poruka s pozivom na odgovor, bez ljudskog odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m out of the office, returning Wednesday 2nd September."
+      ]
+    },
+    {
+      "key": "3876232/4446317137",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o rodiljnom dopustu, bez ljudske interakcije unatoč daljnjim porukama.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama, zadržite oznaku.",
+      "last_inbound_summary_hr": "Automatska poruka o rodiljnom dopustu.",
+      "last_outbound_summary_hr": "Završna poruka s pozivom na odgovor, bez ljudskog odgovora.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office on maternity leave"
+      ]
+    }
+  ]
+}

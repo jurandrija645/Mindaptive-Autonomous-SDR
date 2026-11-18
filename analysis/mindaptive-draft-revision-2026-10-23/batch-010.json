@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 18760,
+    "completion_tokens": 1413,
+    "total_tokens": 20173,
+    "cost": 0.001095276,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7424,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001095276,
+      "upstream_inference_prompt_cost": 0.000897456,
+      "upstream_inference_completions_cost": 0.00019782
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "3562710/4080234417",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Ben,\n\nIt's been a while since we spoke. You'd asked me to reach back out mid-September, and we did, but I know things get busy.\n\nJust wanted to check in — is the postcode throttling and lead qualification still something you want to solve for SogoSolar? Our system has improved quite a bit since then, so if it's still on the table I can show you what it looks like now.\n\nLet me know either way.",
+      "english": "",
+      "reason_hr": "Dug period od 30 dana otkad smo poslali zadnji mail. Ben je tražio mid-September; sada je kraj listopada. Kratki nastavak, bez izmišljanja, stvarni prototip je spomenut ali ne obećavamo novi."
+    },
+    {
+      "key": "2738607/3025134830",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Dan,\n\nI know it's been a while — we'd left this back in December and you said you'd look at the video in January. That was nearly a year ago, so figured I'd check in rather than let it disappear.\n\nOur system has improved a lot since then. If getting more relevant leads for Extra Brain is still of interest, here's the video that shows how it works: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIt walks through how we find companies that fit, research them properly, and start relevant conversations — only paying when it works.\n\nWorth a 10-minute chat to see if it fits?",
+      "english": "",
+      "reason_hr": "316 dana, reagirao je na prvi email i rekao da će pogledati video u siječnju. User traži priznanje dugačke tišine, točan stari zahtjev (pogledati video), a naš sustav je napredovao. Loom link je provjereni lead-gen VSL. Daje mu jedan jasan CTA za kratki poziv."
+    },
+    {
+      "key": "2538823/2758496826",
+      "ready": true,
+      "language": "nl",
+      "body": "Hi Michel,\n\nHet is alweer een tijdje geleden — je had het filmpje bekeken en zei dat je er later op terug zou komen. Ik realiseer me dat het bijna een jaar is.\n\nOns systeem is sindsdien flink verbeterd. Als het nog relevant is voor Cybermatic, hier is een overzicht van hoe het werkt: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nHet laat zien hoe we bedrijven vinden, ze goed onderzoeken en relevante gesprekken starten — alleen betalen als het werkt.\n\nZin om er een kort gesprek over te hebben?",
+      "english": "Hi Michel,\n\nIt's been a while — you'd watched the video and said you'd get back to me later. I realize it's been nearly a year.\n\nOur system has improved a lot since then. If it's still relevant for Cybermatic, here's an overview of how it works: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIt shows how we find companies, research them properly and start relevant conversations — you only pay when it works.\n\nUp for a short conversation about it?",
+      "reason_hr": "342 dana, Michel je odgovorio na video i rekao da će se javiti. Dutch je stvarni jezik kojim mu se obraćala Mia i on odgovarao. Loom B2B video je točan. Kratko reaktiviranje, bez lažnih obećanja, jedna CTA."
+    },
+    {
+      "key": "2538823/2758495355",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Damian,\n\nIt's been a while — back in October you said you'd revisit after reviewing the studio's plans for the new year. I'm guessing you've had time to think through where that's heading.\n\nIf getting more relevant leads for Intro Kreatik is still on the table, here's an overview of how our process works: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIt covers how we find the right companies and start real conversations — only paying when it works.\n\nWorth a short call to see if it fits now?",
+      "english": "",
+      "reason_hr": "356 dana, Damian je rekao da će se javiti u novoj godini. Ovo je kraj listopada 2026, prošlo je dosta vremena. Loom B2B video točan, kratko reaktiviranje bez izmišljenih isprika, jedan CTA."
+    },
+    {
+      "key": "2538823/2758495791",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Jari,\n\nBelieve it or not it's been nearly a year — you said to chat at the end of the year about In Parallel's ICP and messaging, and I realize we never reconnected.\n\nOur system has improved a lot since then. If getting clear on who you sell to is still something you're working through, here's an overview of how we approach it: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIt shows how we find the right companies and start real conversations — you only pay when it works.\n\nWorth a short call to revisit?",
+      "english": "",
+      "reason_hr": "359 dana, Jari je rekao end of the year. Prirodno priznanje prošlog vremena. Loom B2B video odgovara. Samo jedna svrha reaktiviranja, bez prisiljavanja sastanka na mjesto izravnog odgovora. Jedan CTA."
+    }
+  ]
+}

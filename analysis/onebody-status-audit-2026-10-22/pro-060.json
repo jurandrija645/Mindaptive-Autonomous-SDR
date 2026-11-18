@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7417,
+    "completion_tokens": 2226,
+    "total_tokens": 9643,
+    "cost": 0.01347625,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01347625,
+      "upstream_inference_prompt_cost": 0.00779995,
+      "upstream_inference_completions_cost": 0.0056763
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520610392",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Mark je napustio Blueprint i uputio na opći kontakt hello@blueprintpartners.com bez pitanja o ponudi.",
+      "last_human_request_hr": "My time at Blueprint has come to an end. For any queries please contact hello@blueprintpartners.com",
+      "unresolved_hr": "Nema osobnog interesa niti korisne preporuke. Konverzacija zatvorena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Status wrong_person ostaje ispravan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6b698777fe25429dbb4d682a69f50be7@AS8PR05MB8230.eurprd05.prod.outlook.com>",
+          "quote": "My time at Blueprint has come to an end. For any queries please contact hello@blueprintpartners.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610011",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka Ruth Davis nije isporučena zbog blokade primateljevog email filtera kao sumnjiva pošta.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen, nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta na ovaj email. Eventualno alternativni kanal vlasnik može razmotriti ručno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<311e43de-8a6d-473e-badd-22333626165b@CW1P123MB8151.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to ruth.davis@alcentra.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610060",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Laurie je na porodiljnom dopustu do 30. rujna. Automatska OOO poruka ne pokazuje interes za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudske reakcije na ponudu. Osoba odsutna do 30. rujna 2026.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Status auto_reply ostaje ispravan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAxCgKFTpOhR4hWj=jw1pJXrGR6HwyWC6BvZKAGP+ds0=a8WcQ@mail.gmail.com>",
+          "quote": "I'm currently on paternity leave and will be out of office until Wednesday September 30th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610008",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Bernard je jasno odbio ponudu riječima No thanks.",
+      "last_human_request_hr": "we are a 4 min walk from your office No thanks",
+      "unresolved_hr": "Osoba eksplicitno odbila. Konverzacija zatvorena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Status not_interested ostaje ispravan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CBAE12A3-0AB8-46A6-BBF1-FD92C2D10565@clarktv.com>",
+          "quote": "No thanks"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610124",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Sam je potvrdio interes, poslan mu je link i kod OBLACCESS55. Status booked označava stvarnu rezervaciju.",
+      "last_human_request_hr": "Open to hearing more, yes. I have used physio’s before and could do with a session now so your timing is good.",
+      "unresolved_hr": "Rezervacija već evidentirana. Nema neodgovorenog ljudskog pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zadržati status booked. Ne šaljite dodatne poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO8P302MB2346E6110880B8B50FBC8995FEBF2@LO8P302MB2346.GBRP302.PROD.OUTLOOK.COM>",
+          "quote": "Open to hearing more, yes. I have used physio’s before and could do with a session now so your timing is good."
+        },
+        {
+          "message_id": "<8ec81e01-2a09-slt12-4171-97d7-73e332322d38-ujqi4gy@onebodyldnteam.com>",
+          "quote": "The code is OBLACCESS55. Just pick Shoreditch (you're round the corner) and book your free session."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610174",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Amber više ne radi u Seventeen i uputila je na amelia@seventeenagency.com bez pitanja o ponudi.",
+      "last_human_request_hr": "I'm no longer at Seventeen. Please reach out to amelia@seventeenagency.com with any enquiries.",
+      "unresolved_hr": "Nema osobnog interesa niti korisne preporuke koja bi se mogla kontaktirati bez dodatnog odobrenja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Status wrong_person ostaje ispravan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<00000000000047fa23065b1c1a56@google.com>",
+          "quote": "I'm no longer at Seventeen. Please reach out to amelia@seventeenagency.com with any enquiries."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610173",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "George je automatski obavijestio o promjeni email domene, bez reakcije na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudske reakcije na ponudu. Mail proslijeđen na novu adresu, no nije došlo do odgovora o ponudi.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Status auto_reply ostaje ispravan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000fd81cc065b1c196f@google.com>",
+          "quote": "Please note that we have recently updated our email domain as part of our wider rebrand."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318136",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Matthew je poslao samo OOO poruku do 8. rujna. Nakon toga nema ljudskog odgovora, samo naši follow-upovi.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudske reakcije na ponudu niti nakon tri poslane poruke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Status auto_reply/OOO može ostati, no nema dokaza ljudskog interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CADiJgSAoPBVuif=crRTC8EZ3eOKD0JZkq9tTEA56SoRsrwu-zw@mail.gmail.com>",
+          "quote": "Im currently out of office until September\n8th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

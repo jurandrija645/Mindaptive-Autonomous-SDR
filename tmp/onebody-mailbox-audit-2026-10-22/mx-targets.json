@@ -1,0 +1,250 @@
+[
+  {
+    "domain": "onebodyconnect.com",
+    "mx": "onebodyconnect-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodyconnect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.0"
+      },
+      {
+        "name": "onebodyconnect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.18"
+      },
+      {
+        "name": "onebodyconnect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.2"
+      },
+      {
+        "name": "onebodyconnect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.1"
+      }
+    ]
+  },
+  {
+    "domain": "onebodydirect.com",
+    "mx": "onebodydirect-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodydirect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.0"
+      },
+      {
+        "name": "onebodydirect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.2"
+      },
+      {
+        "name": "onebodydirect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.99.0"
+      },
+      {
+        "name": "onebodydirect-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.1"
+      }
+    ]
+  },
+  {
+    "domain": "onebodyexpansion.com",
+    "mx": "onebodyexpansion-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodyexpansion-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.1"
+      },
+      {
+        "name": "onebodyexpansion-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.2"
+      },
+      {
+        "name": "onebodyexpansion-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.0"
+      },
+      {
+        "name": "onebodyexpansion-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.18"
+      }
+    ]
+  },
+  {
+    "domain": "onebodyldnrehab.com",
+    "mx": "onebodyldnrehab-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodyldnrehab-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.18"
+      },
+      {
+        "name": "onebodyldnrehab-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.0"
+      },
+      {
+        "name": "onebodyldnrehab-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.1"
+      },
+      {
+        "name": "onebodyldnrehab-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.2"
+      }
+    ]
+  },
+  {
+    "domain": "onebodyldnworks.com",
+    "mx": "onebodyldnworks-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodyldnworks-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.0"
+      },
+      {
+        "name": "onebodyldnworks-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.99.0"
+      },
+      {
+        "name": "onebodyldnworks-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.18"
+      },
+      {
+        "name": "onebodyldnworks-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.99.2"
+      }
+    ]
+  },
+  {
+    "domain": "onebodylink.com",
+    "mx": "onebodylink-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodylink-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.2"
+      },
+      {
+        "name": "onebodylink-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.99.0"
+      },
+      {
+        "name": "onebodylink-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.0"
+      },
+      {
+        "name": "onebodylink-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.1"
+      }
+    ]
+  },
+  {
+    "domain": "onebodyoutbound.com",
+    "mx": "onebodyoutbound-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodyoutbound-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.1"
+      },
+      {
+        "name": "onebodyoutbound-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.99.2"
+      },
+      {
+        "name": "onebodyoutbound-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.2"
+      },
+      {
+        "name": "onebodyoutbound-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.18"
+      }
+    ]
+  },
+  {
+    "domain": "onebodyreach.com",
+    "mx": "onebodyreach-com.mail.protection.outlook.com",
+    "target_status": 0,
+    "target_answers": [
+      {
+        "name": "onebodyreach-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.99.2"
+      },
+      {
+        "name": "onebodyreach-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.99.0"
+      },
+      {
+        "name": "onebodyreach-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.0"
+      },
+      {
+        "name": "onebodyreach-com.mail.protection.outlook.com.",
+        "type": 1,
+        "TTL": 10,
+        "data": "52.101.89.1"
+      }
+    ]
+  }
+]

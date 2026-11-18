@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 3768,
+    "completion_tokens": 1196,
+    "total_tokens": 4964,
+    "cost": 0.0051852,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0051852,
+      "upstream_inference_prompt_cost": 0.0033912,
+      "upstream_inference_completions_cost": 0.001794
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608051559",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<BBFA6A74-9063-4BAF-B464-25EDC378135B@chapterone.com>",
+      "human_quote": "Please remove me from every list.",
+      "reason_hr": "Jasno traženje uklanjanja sa svih lista, označeno kao odjava i Do Not Contact.",
+      "request_hr": "Uklanjanje sa svih lista.",
+      "next_action_hr": "Lead je već na crnoj listi i odjavljen. Nije potrebna daljnja radnja.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608051667",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<287f691179b44bc4ac0cd438cb42879e@GVAP278MB0104.CHEP278.PROD.OUTLOOK.COM>",
+      "human_quote": "Mr Martijn Slob has not been employed in our office since 01.January 2026.",
+      "reason_hr": "Automatska obavijest da osoba više ne radi u tvrtki, nije osobni angažman.",
+      "request_hr": "none",
+      "next_action_hr": "Označeno kao Wrong Person. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608051276",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAAr3-pJdvQoERpU0Y3mQ8xGcqC0oZASA4bfGnvTisaUmXPfGZg@mail.gmail.com>",
+      "human_quote": "I no longer work at The Race Media. Please forward your email to tim.scott@the-race.com or to admin@the-race.com",
+      "reason_hr": "Osoba više ne radi u tvrtki, nije osobni interes za ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Označeno kao Wrong Person. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608051049",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAChrQ3q+wpkmXAf_fnjPmHbxJnmEbNdkKrT0ZmWtSvd9b-25Yg@mail.gmail.com>",
+      "human_quote": "Great!! send info",
+      "reason_hr": "Osoba je izrazila jasan interes za ponudu i poslan joj je link za booking.",
+      "request_hr": "Poslati informacije za booking.",
+      "next_action_hr": "Poslan link i kod. Čeka se potvrda bookinga. Ako ne bude odgovora, slijedi follow-up prema automatizaciji.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608051030",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<000000000000873459065c36e1f4@google.com>",
+      "human_quote": "Oliver is no longer with Kernel, and this inbox is not monitored.",
+      "reason_hr": "Automatska obavijest da osoba više ne radi u tvrtki, inbox nije nadziran.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je na crnoj listi. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608050950",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<0000000000001d1246065c365280@google.com>",
+      "human_quote": "I have recently left my position with Tradeshift",
+      "reason_hr": "Osoba je napustila tvrtku, poruka je automatska obavijest, nije osobni angažman.",
+      "request_hr": "none",
+      "next_action_hr": "Označeno kao Wrong Person. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

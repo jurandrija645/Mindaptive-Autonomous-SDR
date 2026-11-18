@@ -1,0 +1,176 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8746,
+    "completion_tokens": 2411,
+    "total_tokens": 11157,
+    "cost": 0.0217088,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0217088,
+      "upstream_inference_prompt_cost": 0.0139936,
+      "upstream_inference_completions_cost": 0.0077152
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616107",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Christopher je jasno odbio ponudu, ali je ostavio mogućnost kontakta u budućnosti ako bude trebao fizioterapiju.",
+      "last_human_request_hr": "No thanks. I'll keep you in mind if I need some physio in the future.",
+      "unresolved_hr": "Nema otvorenih zahtjeva; odbio je trenutnu ponudu, ali nije tražio prestanak komunikacije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; oznaka not_interested je ispravna. Ako vlasnik želi, može ostaviti kontakt za buduće kampanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJkvQjMvBu4o1AUKRdVHaWV-krQGRx7aa8UPd58wBtDJqP1xRA@mail.gmail.com>",
+          "quote": "No thanks. I'll keep you in mind if I need some physio in the future."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520615628",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Digby je odgovorio da to nije za njega osobno, ali je rekao da bi proslijedio people timu. Rebecca mu je poslala link i kod, uključujući mogućnost dijeljenja s timom, ali nema potvrde o rezervaciji ili odbijanju nakon toga.",
+      "last_human_request_hr": "I'd need to pass on to our people team.",
+      "unresolved_hr": "Nema potvrde da je Digby ili netko iz njegovog tima rezervirao, niti da je odbio. Slijediti dalje zbog mogućeg interesa nakon dijeljenja informacija s timom.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati kratki follow-up nakon što je prošlo dovoljno vremena od slanja linka, pitajući je li netko iz tima zainteresiran ili treba pomoć. Datum slanja zadnjeg outbounda: 2026-09-22, pa follow-up može biti nakon nekoliko dana, npr. 2026-09-29 ako nema odgovora.",
+      "defer_until": "2026-09-29",
+      "evidence": [
+        {
+          "message_id": "<CAHqHtLVDxpzMnSgkvV6ZyOvyu3s4tdSKi_mMa4BoEhvVvFkmXw@mail.gmail.com>",
+          "quote": "I'd need to pass on to our people team."
+        },
+        {
+          "message_id": "<959aa65c-a93b-slt49-404f-b2bc-cf24b0ee8885-dmb6647@onebodylink.com>",
+          "quote": "Feel free to share with your team."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520615531",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska poruka o odsutnosti, koja upućuje na drugu osobu (EA Elina de Silva). Nema ljudskog angažmana u vezi ponude.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog interesa; samo automatski odgovor. Može se razmotriti kontaktiranje EA ako vlasnik želi, ali trenutno nema dokaza o interesu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; automatski OOO ne zahtijeva daljnju akciju. Ako se pojavi ljudski odgovor, ponovno procijeniti.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<76a60839476642d586105952c0c893a8@CW1P265MB8362.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office in New York on business all week"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520615129",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska poruka o odsutnosti koja ne sadrži nikakav interes za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog interesa; automatski OOO. Slanje daljnjih poruka nije potrebno osim ako se ne dobije ljudski odgovor.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; oznaka auto_reply je ispravna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<4cead3593ecb4ce6a7871cf013c457e9@LO9P265MB7873.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email, however I am currently Out of Office"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520615107",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Drew je jasno odbio s 'no.'.",
+      "last_human_request_hr": "no.",
+      "unresolved_hr": "Odbio je ponudu; nema daljnjih radnji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; oznaka not_interested je ispravna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAN4s=rvpG4rpPO2bGNLmuiS_bDfuV3-HCqdB7nQS15iYwGfsow@mail.gmail.com>",
+          "quote": "no.,"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520615084",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "David je jasno odbio s 'no thanks'.",
+      "last_human_request_hr": "no thanks",
+      "unresolved_hr": "Odbio je ponudu; nema daljnjih radnji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; oznaka not_interested je ispravna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJSwLNXfU8JKt26CZs4JnL6wKmh4bYXkar71m5_Jtx0242yfbA@mail.gmail.com>",
+          "quote": "no thanks"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520615061",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor je automatska poruka o odsutnosti bez ikakvog interesa.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog interesa; automatski OOO.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; oznaka auto_reply je ispravna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CANi1M=+8b+TUoONXfUnUyejssMXxGWWTPh8zrgMnXUX9R7XNqA@mail.gmail.com>",
+          "quote": "Thank you for your email. I am currently out of office with limited\naccess"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520615035",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Matthew je potvrdio interes i rekao da će rezervirati termin danas. Nema daljnje poruke koja bi opovrgla rezervaciju; status 'booked' je u skladu s njegovom namjerom.",
+      "last_human_request_hr": "I shall make the booking today.",
+      "unresolved_hr": "Nema otvorenih zahtjeva. Rezervacija je očekivana, ali nije potvrđena; prema podacima označeno kao booked, što je prihvatljivo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; rezervacija je vjerojatno izvršena. Ako vlasnik želi, može provjeriti je li termin stvarno rezerviran, ali nema potrebe za daljnjim slanjem.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<B65C3434-E71C-433C-9E43-976AD5AD8A0A@xyi.com>",
+          "quote": "Thank you for your patience. I shall make the booking today."
+        }
+      ]
+    }
+  ]
+}

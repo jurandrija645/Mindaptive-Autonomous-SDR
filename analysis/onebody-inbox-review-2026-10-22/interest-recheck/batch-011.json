@@ -1,0 +1,91 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9850,
+    "completion_tokens": 721,
+    "total_tokens": 10571,
+    "cost": 0.00081695,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00081695,
+      "upstream_inference_prompt_cost": 0.0004925,
+      "upstream_inference_completions_cost": 0.00032445
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317433",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je napustila tvrtku i preusmjerava na drugu kontakt osobu, nema interesa za ponudu.",
+      "evidence": [
+        "I am no longer with EMJ as of 18th July 2025",
+        "Please direct all future inquiries to Shauna.Doyle@emjreviews.com"
+      ]
+    },
+    {
+      "key": "3876232/4446317455",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka da osoba vise ne radi u tvrtki i da se pretinac ne prati. Nema ljudskog odgovora niti interesa.",
+      "evidence": [
+        "Debbie Nolan is no longer employed by Exclusive Household Staff",
+        "this mailbox is no longer monitored"
+      ]
+    },
+    {
+      "key": "3876232/4446315767",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o odlasku iz tvrtke, a zatim bounce (spam blokada). Nema ljudskog odgovora niti interesa.",
+      "evidence": [
+        "I have now left BMS.",
+        "Your message to simon.evans@bmsgroup.com couldn't be delivered.",
+        "bmsgroup.com suspects your message is spam"
+      ]
+    },
+    {
+      "key": "3876232/4446315691",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor, zatim bounce (spam blokada). Nema ljudskog odgovora niti interesa.",
+      "evidence": [
+        "I am out of the office from the Tuesday 1st to Friday 4th September.",
+        "Your message to kiri.kkoshi@healys.com couldn't be delivered.",
+        "healys.com suspects your message is spam"
+      ]
+    },
+    {
+      "key": "3876232/4446315699",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor, zatim bounce (spam blokada). Nema ljudskog odgovora niti interesa.",
+      "evidence": [
+        "I am currently out of the office and will respond when available.",
+        "Your message to arranwright@daleuw.com couldn't be delivered.",
+        "daleuw.com suspects your message is spam"
+      ]
+    }
+  ]
+}

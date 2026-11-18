@@ -26,6 +26,7 @@ from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
 from app import booking_guard, crm, events, lead_touches, pipeline, placement, scheduler, sequences, signatures, smartlead
 from app import prospect_contacts, site_feedback, site_visits, translator, uploads, webhook
+from app import subsequence_overview, onebody_review
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
@@ -171,6 +172,7 @@ def dashboard(request: Request):
             "dry_run": settings.dry_run,
             "auto_send": settings.auto_send_followups,
             "priority_clinics": client_assets.priority_clinics(),
+            "onebody_auto_replies": client_assets.CLIENT_DIR == client_assets.REPO_ROOT / "clients" / "onebodyldn",
         },
     )
 
@@ -582,7 +584,12 @@ def _inbox_payload() -> list[dict]:
 
 def _archive_payload() -> dict:
     with db.db_session() as conn:
-        archived = [dict(r) for r in db.list_archived(conn)]
+        archived = [dict(r) for r in db.list_archived(conn) if not conn.execute(
+            """SELECT 1 FROM sequence_enrollments e JOIN sequences s ON s.id = e.sequence_id
+               WHERE e.lead_id = ? AND e.campaign_id = ? AND e.state IN ('active', 'paused', 'error')
+               AND s.trigger_category = ? COLLATE NOCASE""",
+            (r["lead_id"], r["campaign_id"], r["archive_reason"]),
+        ).fetchone()]
         snoozed = [dict(r) for r in db.list_snoozed(conn)]
         open_set = _open_draft_set(conn)
     return {
@@ -602,6 +609,7 @@ def _draft_payload(draft) -> dict | None:
         "body_translation": draft["body_translation"],
         "signature_html": draft["signature_html"],
         "send_error": draft["send_error"],
+        "review_warning": onebody_review.warning(draft["id"]),
         "scheduled_at": _fmt_time(draft["scheduled_at"]) if draft["scheduled_at"] else None,
         "attachments": scheduler.draft_attachments(draft),
         # "55 min: email 1 of 4" on a subsequence step; the card says it sends itself.
@@ -757,6 +765,7 @@ def _lead_detail_payload(campaign_id: int, lead_id: int) -> dict:
         # Only meaningful when there's no draft to show; the client falls back
         # to its own wording when this is absent.
         "generation_error": candidates_module.last_error(campaign_id, lead_id),
+        "review_hold": onebody_review.held(campaign_id, lead_id),
         "researching_contact": lead_research.is_researching(campaign_id, lead_id),
         "contact_research_error": lead_research.last_error(campaign_id, lead_id),
         "sequence": _lead_sequence_payload(campaign_id, lead_id),
@@ -1067,6 +1076,23 @@ def api_sequences(request: Request):
         return redirect
     with db.db_session() as conn:
         return JSONResponse({"sequences": sequences.list_sequences_payload(conn)})
+
+
+@app.get("/api/subsequence-members")
+def api_subsequence_members(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    return JSONResponse(subsequence_overview.snapshot())
+
+
+@app.post("/api/subsequence-members/refresh")
+def api_subsequence_members_refresh(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    subsequence_overview.start_refresh()
+    return JSONResponse(subsequence_overview.snapshot())
 
 
 @app.post("/api/sequences")
@@ -1479,6 +1505,30 @@ async def api_draft_localize(request: Request, draft_id: int):
 
 
 # ---- lead status actions: category change / archive / snooze ----
+
+@app.get("/api/auto-replies")
+def api_auto_replies(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    from app import auto_replies
+    if not auto_replies.available():
+        return JSONResponse({"error": "Not available."}, status_code=404)
+    return JSONResponse({"enabled": auto_replies.enabled()})
+
+
+@app.post("/api/auto-replies")
+async def api_save_auto_replies(request: Request):
+    redirect = require_auth(request)
+    if redirect:
+        return redirect
+    from app import auto_replies
+    body = await _json_body(request)
+    try:
+        enabled = auto_replies.set_enabled(body.get("enabled"))
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    return JSONResponse({"enabled": enabled})
 
 # Categories where recategorizing should also stop Smartlead's own automated
 # sequence — the lead has told us (or a bounce/opt-out told us) to stop.
@@ -2041,7 +2091,7 @@ async def api_send(request: Request, draft_id: int):
     # event loop: one throttled send used to freeze every dashboard request.
     try:
         status = await run_in_threadpool(
-            scheduler._send_due_draft, dict(_get_draft_dict(draft_id))
+            scheduler._send_due_draft, dict(_get_draft_dict(draft_id)), manual_click=True
         )
     except Exception as exc:
         with db.db_session() as conn:

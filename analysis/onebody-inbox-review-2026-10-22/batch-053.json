@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11568,
+    "completion_tokens": 2657,
+    "total_tokens": 14225,
+    "cost": 0.00118174,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00118174,
+      "upstream_inference_prompt_cost": 0.00080976,
+      "upstream_inference_completions_cost": 0.00037198
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446318153",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Graeme je izričito odbio ponudu jer živi u Dubaiju, stoga zadržavamo postojeću oznaku.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima, kontakt je završen.",
+      "last_inbound_summary_hr": "Graeme je odgovorio da živi u Dubaiju i da mu ponuda ne treba.",
+      "last_outbound_summary_hr": "Poslana je treća poruka s ponovnom ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hi - I live in Dubai so not for me thanks"
+      ]
+    },
+    {
+      "key": "3876232/4446317852",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Paul je izričito odbio ponudu, navodeći da nisu blizu Shoreditcha i da imaju vlastito zdravstveno osiguranje.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima, kontakt je završen.",
+      "last_inbound_summary_hr": "Paul je odgovorio da nisu blizu Shoreditcha i da imaju zdravstveno osiguranje.",
+      "last_outbound_summary_hr": "Poslana je druga poruka s ponovnom ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "we are not anywhere near Shoreditch, and we have our healthcare sorted"
+      ]
+    },
+    {
+      "key": "3876232/4446316101",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Simon je odgovorio da nitko od navedenih više ne radi u SPS-u, potvrđujući da je osoba pogrešna.",
+      "next_step_hr": "Ažurirajte kontakt podatke ili uklonite iz kampanje.",
+      "last_inbound_summary_hr": "Simon je napisao da Oliver, Sam i Lawrie više ne rade u SPS-u.",
+      "last_outbound_summary_hr": "Poslana je treća poruka s upitom za potvrdu interesa.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Oliver, sam, lawrie none of these people work at sps anymore!!"
+      ]
+    },
+    {
+      "key": "3876232/4446315614",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Rhys je dva puta automatski odgovorio da je napustio Digital Science i uputio na drugu adresu, potvrđujući pogrešnu osobu.",
+      "next_step_hr": "Ažurirajte kontakt ili uklonite iz kampanje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Rhys je napustio Digital Science, preusmjerenje na legal@digital-science.com.",
+      "last_outbound_summary_hr": "Poslana je druga poruka s ponovnom ponudom, unatoč prvom automatskom odgovoru.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Digital Science, so please resend your email to legal@digital-science.com"
+      ]
+    },
+    {
+      "key": "3876232/4446316723",
+      "recommended_label": "Wrong Person",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Lasitha je automatski odgovorio da više ne radi u GuarantCo, a kasnija poruka je odbijena; potrebna ručna provjera.",
+      "next_step_hr": "Ručno provjeriti je li adresa ispravna ili ukloniti iz kampanje.",
+      "last_inbound_summary_hr": "Automatski odgovor: Lasitha je napustio GuarantCo, s preusmjerenjem na Emily Bushby.",
+      "last_outbound_summary_hr": "Poslana treća poruka, koja je rezultirala povratnom greškom (blocked).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at GuarantCo Management Company."
+      ]
+    },
+    {
+      "key": "3876232/4446317234",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ben je izričito zatražio uklanjanje s mailing liste, što zahtijeva prestanak slanja poruka.",
+      "next_step_hr": "Obavezno poštovati zahtjev i ne slati više poruka.",
+      "last_inbound_summary_hr": "Ben je napisao 'please take me off this mailing list'.",
+      "last_outbound_summary_hr": "Poslana druga poruka s ponovnom ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "please take me off this mailing list"
+      ]
+    },
+    {
+      "key": "3876232/4446317835",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "David je ljubazno odbio ponudu, navodeći da mu trenutno nije potrebna.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima, kontakt je završen.",
+      "last_inbound_summary_hr": "David je odgovorio: 'Thank you but not currently necessary'.",
+      "last_outbound_summary_hr": "Poslana druga poruka s ponovnom ponudom besplatne sesije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you but not currently necessary"
+      ]
+    },
+    {
+      "key": "3876232/4446316624",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Neil je odgovorio s 'no', što je izričito odbijanje ponude.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima, kontakt je završen.",
+      "last_inbound_summary_hr": "Neil je napisao 'no'.",
+      "last_outbound_summary_hr": "Poslana treća poruka s upitom za potvrdu interesa.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3876232/4446316507",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tereza je odgovorila s 'no', što je izričito odbijanje ponude.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima, kontakt je završen.",
+      "last_inbound_summary_hr": "Tereza je napisala 'no'.",
+      "last_outbound_summary_hr": "Poslana treća poruka s upitom za potvrdu interesa.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3876232/4446316567",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Gene je odgovorio s 'No', što je izričito odbijanje ponude.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima, kontakt je završen.",
+      "last_inbound_summary_hr": "Gene je napisao 'No'.",
+      "last_outbound_summary_hr": "Poslana treća poruka s upitom za potvrdu interesa.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446316492",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Liam je pokazao interes, pitao o AXA osiguranju, a mi smo poslali booking link i kod; zadržavamo postojeću oznaku jer je booking link poslan.",
+      "next_step_hr": "Pratiti je li Liam stvarno zakazao termin; nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Liam je zahvalio na informacijama.",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55 za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Great thanks"
+      ]
+    },
+    {
+      "key": "3876232/4446317221",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alfonso je izrazio interes, objasnio da ima Avivu, a mi smo poslali booking link; zadržavamo postojeću oznaku jer je link poslan.",
+      "next_step_hr": "Pratiti je li Alfonso zakazao termin; nije potrebna daljnja akcija.",
+      "last_inbound_summary_hr": "Alfonso je pitao o Aviva pokriću i želio probnu sesiju.",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55 za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have private health with Aviva and physio is included"
+      ]
+    }
+  ]
+}

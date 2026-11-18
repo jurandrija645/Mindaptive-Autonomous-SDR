@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9670,
+    "completion_tokens": 2601,
+    "total_tokens": 12271,
+    "cost": 0.00165395,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00165395,
+      "upstream_inference_prompt_cost": 0.0004835,
+      "upstream_inference_completions_cost": 0.00117045
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608048620",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak ili zatražiti daljnje upute.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 25. rujna.",
+      "last_outbound_summary_hr": "Podsjetnik: ponuda 55-minutne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office on annual leave until Friday 25th September."
+      ]
+    },
+    {
+      "key": "4006945/4608051867",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti bez ljudskog angažmana.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak 5.10.",
+      "last_inbound_summary_hr": "Automatski odgovor: odsutan do 4. listopada.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije uz zamjenski kontakt.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am away from Wednesday 23 September to Sunday 4 October"
+      ]
+    },
+    {
+      "key": "4006945/4608051278",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak 25.9.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 25. rujna.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office until 25th September."
+      ]
+    },
+    {
+      "key": "4006945/4608051137",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba više ne radi u tvrtci i preusmjerila je upit.",
+      "next_step_hr": "Ukloniti kontakt ili kontaktirati navedenu zamjenu.",
+      "last_inbound_summary_hr": "Obavijest: više nije u Sysdig, upite preusmjeriti na guy.martin@sysdig.com.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with Sysdig"
+      ]
+    },
+    {
+      "key": "4006945/4608050957",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak 28.9.",
+      "last_inbound_summary_hr": "Automatski odgovor: odsutan od 21. do 27. rujna.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be working from our India office from 21 September to 27 September"
+      ]
+    },
+    {
+      "key": "3930675/4520615531",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak iz New Yorka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda u New Yorku cijeli tjedan.",
+      "last_outbound_summary_hr": "Zadnji email: 'posljednji email', ponuda ostaje otvorena.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office in New York on business all week"
+      ]
+    },
+    {
+      "key": "4006945/4608050935",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak 28.9.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 28. rujna.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I now am out office on annual leave until 28th September."
+      ]
+    },
+    {
+      "key": "4006945/4608050686",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba više ne radi u tvrtci i preusmjerila je upit.",
+      "next_step_hr": "Ukloniti kontakt ili kontaktirati navedene zamjene.",
+      "last_inbound_summary_hr": "Obavijest: više ne radi u Equiem, upiti preusmjereni na CEO/COO.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that I no longer work at Equiem."
+      ]
+    },
+    {
+      "key": "4006945/4608050593",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak s putovanja.",
+      "last_inbound_summary_hr": "Automatski odgovor: na putovanju, spor odgovor.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm travelling today and will likely be slow to respond."
+      ]
+    },
+    {
+      "key": "3930675/4520616770",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak 28.9.",
+      "last_inbound_summary_hr": "Automatski odgovor: na poslovnom putovanju do 28. rujna.",
+      "last_outbound_summary_hr": "Zadnji email: 'posljednji email', ponuda ostaje otvorena.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office on business travel, returning on Monday 28th September."
+      ]
+    },
+    {
+      "key": "4006945/4608050322",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za radnjom, pričekati povratak 25.9.",
+      "last_inbound_summary_hr": "Automatski odgovor: na putovanju do 25. rujna, nova email adresa navedena.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'll be travelling for work from 15th to 25th September"
+      ]
+    },
+    {
+      "key": "4006945/4608050118",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba više ne radi u tvrtci i poruka je proslijeđena.",
+      "next_step_hr": "Ukloniti kontakt ili kontaktirati navedenu zamjenu Basha Rubin.",
+      "last_inbound_summary_hr": "Obavijest: Denver Sheridan više nije u Priori, upit proslijeđen Bashi Rubin.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije s uputama za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Denver Sheridan is no longer with Priori"
+      ]
+    }
+  ]
+}

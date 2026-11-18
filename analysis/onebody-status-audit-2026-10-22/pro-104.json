@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12806,
+    "completion_tokens": 2173,
+    "total_tokens": 14979,
+    "cost": 0.024287232,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.024287232,
+      "upstream_inference_prompt_cost": 0.018133296,
+      "upstream_inference_completions_cost": 0.006153936
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315356",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka primatelja je automatska OOO obavijest. Nema ljudskog odgovora niti upita.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema otvorenih pitanja; samo automatizirana odsutnost.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Status 'auto_reply' je točan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CACR7Qu67mXq7_T9BL2oguq02vReTjfbsT-8RMXbptY=dfMcONQ@mail.gmail.com>",
+          "quote": "I’m currently out of the office, returning on Tuesday 1st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315336",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ania Ninh je odgovorila da je napustila tvrtku i dala uputnicu za Martyja Schectera. Ovo nije interes za ponudu, već obavijest o pogrešnoj osobi s korisnom preporukom.",
+      "last_human_request_hr": "I have left TruRating. Please contact Marty Schecter, our Chief Product Officer at marty.schecter@trurating.com who can connect you with the best person for follow up.",
+      "unresolved_hr": "Preporuka za kontaktiranje Martyja Schectera nije iskorištena.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Kontaktirati Martyja Schectera na marty.schecter@trurating.com kao što je preporučeno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<42ce241a5bc64934a254be39fe006a30@AS8PR08MB8062.eurprd08.prod.outlook.com>",
+          "quote": "I have left TruRating.\n\nPlease contact Marty Schecter, our Chief Product Officer at marty.schecter@trurating.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315420",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka primatelja je automatska OOO obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema otvorenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Status 'auto_reply' je točan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c484ed8215ce4c48b7b0b219f19d384c@LO0P123MB8881.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office until 31 August with intermittent access to email."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318153",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Graeme Hawinkels je eksplicitno odbio ponudu jer živi u Dubaiju.",
+      "last_human_request_hr": "Hi - I live in Dubai so not for me thanks",
+      "unresolved_hr": "Ništa. Odbijanje je jasno i konačno.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'Not Interested' je točna. Nije potrebna daljnja radnja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP265MB46524B2D488A325A78D6DE7388BF2@CWXP265MB4652.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I live in Dubai so not for me thanks"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318152",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti. Email poslužitelj primatelja blokira poruku. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Email nije isporučen. Problem s isporukom treba riješiti IT/email admin.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem emaila. Ako je kontakt vrijedan, pokušati alternativni kanal (npr. telefon).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<4a83be67-922e-4d8a-b22c-a4c511c374be@CWXP123MB3782.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to jervis.rhodes@reliancebankltd.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318001",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem emaila. Ako je kontakt vrijedan, pokušati alternativni kanal.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5f04635b-13eb-4fc7-a32e-db8bb123b422@LO6P123MB6872.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to bob.khaira@iprism.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317852",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Paul Sampson je odbio ponudu. Nije u blizini Shoreditcha i već ima riješeno zdravstveno osiguranje.",
+      "last_human_request_hr": "we are not anywhere near Shoreditch, and we have our healthcare sorted",
+      "unresolved_hr": "Ništa. Odbijanje je jasno.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Oznaka 'Not Interested' je točna. Nije potrebna daljnja radnja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOD05BLKrz8tEqwO8rOkWoj289-TqH8R6N-CXeXFTtx00x1vqQ@mail.gmail.com>",
+          "quote": "we are not anywhere near Shoreditch, and we have our healthcare sorted"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317884",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem emaila. Ako je kontakt vrijedan, pokušati alternativni kanal.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<06940901-cf98-4e0c-8eaa-82830e0d85aa@LOYP123MB2861.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to markdavey@ardent-management.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

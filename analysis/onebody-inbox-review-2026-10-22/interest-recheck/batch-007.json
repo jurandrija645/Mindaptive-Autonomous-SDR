@@ -1,0 +1,161 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 10070,
+    "completion_tokens": 1331,
+    "total_tokens": 11401,
+    "cost": 0.001158612,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001158612,
+      "upstream_inference_prompt_cost": 0.00091637,
+      "upstream_inference_completions_cost": 0.000242242
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520618266",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kandidat je jasno odbio ponudu.",
+      "evidence": [
+        "No thanks."
+      ]
+    },
+    {
+      "key": "3930675/4520617637",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka da više ne radi u tvrtki i da se adresa ne prati.",
+      "evidence": [
+        "I no longer work with Piercy&Company and this inbox will not be routinely monitored."
+      ]
+    },
+    {
+      "key": "3930675/4520617636",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka da više nije u tvrtki i da se ne odgovara na ovoj adresi.",
+      "evidence": [
+        "I am no longer with the company, and as such, will not be responding to emails sent to this address."
+      ]
+    },
+    {
+      "key": "3930675/4520617650",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka da zaposlenik više ne radi za tvrtku i da se adresa ne prati.",
+      "evidence": [
+        "Theodoros Ioakeim no longer works for MAPP and this email is not being monitored."
+      ]
+    },
+    {
+      "key": "3930675/4520613046",
+      "recommended_label": "Interested",
+      "interest_assessment": "engaged_question",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Kontakt je proslijedio ponudu HR odjelu, što ukazuje na angažman i potencijalni interes, iako nije osobno prihvatio ponudu.",
+      "evidence": [
+        "I have passed your email to our HR department who organise anything health related at BBH."
+      ]
+    },
+    {
+      "key": "3930675/4520617169",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka da zaposlenik više ne radi za tvrtku i da se adresa ne prati.",
+      "evidence": [
+        "This mailbox is no longer monitored, as Freddie is no longer with Edgefolio."
+      ]
+    },
+    {
+      "key": "3876232/4446316582",
+      "recommended_label": "Interested",
+      "interest_assessment": "clear_interest",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Kontakt je pokazao interes i povezao kolegicu, a nakon slanja poveznice zahvalio se.",
+      "evidence": [
+        "I'm cc'ing my colleague Devlyn who's interested.",
+        "Thank you"
+      ]
+    },
+    {
+      "key": "3930675/4520613935",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka da je zaposlenik napustio tvrtku i da više ne odgovara.",
+      "evidence": [
+        "I have left Finseta Payment Solutions and am no longer able to respond."
+      ]
+    },
+    {
+      "key": "3876232/4446316455",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je jasno odbio ponudu i naveo razlog.",
+      "evidence": [
+        "Unfortunately we do not get offered private health cover and hence not interested at this time."
+      ]
+    },
+    {
+      "key": "3876232/4446317714",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je odbio ponudu, iako je ispravio lokaciju.",
+      "evidence": [
+        "Regardless, this isn't relevant for us, but thank you for reaching out."
+      ]
+    },
+    {
+      "key": "3930675/4520612414",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je izričito zatražio uklanjanje s popisa.",
+      "evidence": [
+        "No thanks - pls remove meS"
+      ]
+    },
+    {
+      "key": "3876232/4446317720",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je odbio ponudu navodeći da već imaju fizioterapeuta.",
+      "evidence": [
+        "No thanks – we have physio in-house."
+      ]
+    }
+  ]
+}

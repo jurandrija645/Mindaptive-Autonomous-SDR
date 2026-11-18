@@ -1,0 +1,161 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 10036,
+    "completion_tokens": 1431,
+    "total_tokens": 11467,
+    "cost": 0.00114575,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00114575,
+      "upstream_inference_prompt_cost": 0.0005018,
+      "upstream_inference_completions_cost": 0.00064395
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317501",
+      "recommended_label": "Interested",
+      "interest_assessment": "clear_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alistair je izričito pokazao interes pitanjem 'Sounds ideal. What's the catch' što predstavlja jasan pozitivan odgovor na ponudu. OOO automatski odgovor ne poništava prethodno iskazani interes.",
+      "evidence": [
+        "Sounds ideal. What's the catch"
+      ]
+    },
+    {
+      "key": "3930675/4520619928",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mary je poslala 'unsubscribe' što je eksplicitni zahtjev za odjavu. Postojeća Do Not Contact oznaka se zadržava.",
+      "evidence": [
+        "unsubscribe"
+      ]
+    },
+    {
+      "key": "3930675/4520621423",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Laura je odgovorila 'No, thank you' što je jasno odbijanje ponude.",
+      "evidence": [
+        "No, thank you."
+      ]
+    },
+    {
+      "key": "3930675/4520619921",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sam je poslao 'no' nakon automatskog odgovora o godišnjem odmoru, što je jasno odbijanje ponude.",
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3930675/4520620562",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Edward je odgovorio 'no' što je eksplicitno odbijanje ponude.",
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3930675/4520622281",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Harriet je odgovorila 'No, sorry' što je jasno odbijanje ponude.",
+      "evidence": [
+        "No, sorry."
+      ]
+    },
+    {
+      "key": "3930675/4520620358",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Patric je izjavio da već ima dugoročnog fizioterapeuta, što je odbijanje ponude i ne pokazuje interes.",
+      "evidence": [
+        "I’ve already got a long-term physiotherapist but it’s a great business idea!"
+      ]
+    },
+    {
+      "key": "4006945/4608052070",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tara je zatražila uklanjanje iz CRM-a i budućeg kontaktiranja, što je ekvivalent odjavi.",
+      "evidence": [
+        "please remove me from your CRM and any future outreach."
+      ]
+    },
+    {
+      "key": "4006945/4608052309",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Naeha je automatski odgovor da više ne radi za tvrtku, s preusmjeravanjem na drugu osobu. Nema ljudskog interesa.",
+      "evidence": [
+        "I no longer work for Northern Data Group. Please email shari.yao@northerndata.de."
+      ]
+    },
+    {
+      "key": "4006945/4608052094",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sandeep je automatski odgovor da više ne radi za High5, a zatim je druga osoba potvrdila da tvrtka više ne posluje. Nema ljudskog interesa ciljane osobe.",
+      "evidence": [
+        "I am no longer with High5.",
+        "Our business closed some time ago, and Sandeep has left, so you may want to remove us from your mailing lists."
+      ]
+    },
+    {
+      "key": "3930675/4520621239",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mimi je izričito zatražila prestanak slanja poruka i izjavila da ne odgovara ciljanoj publici, što je odbijanje.",
+      "evidence": [
+        "We literally don't have an office and I live in Portugal. Please stop spamming me"
+      ]
+    },
+    {
+      "key": "4006945/4608048859",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Maria je automatski odgovor da više nije zaposlena u tvrtki, s preusmjeravanjem na drugu osobu. Nema ljudskog interesa.",
+      "evidence": [
+        "Maria Kaae is no longer employed here. Please direct any future correspondence to Louis Gray at louis.gray@trustmoore.com."
+      ]
+    }
+  ]
+}

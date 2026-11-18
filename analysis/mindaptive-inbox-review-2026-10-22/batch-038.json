@@ -1,0 +1,255 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 40972,
+    "completion_tokens": 3908,
+    "total_tokens": 44880,
+    "cost": 0.0019342232,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 34416,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0019342232,
+      "upstream_inference_prompt_cost": 0.0012229672,
+      "upstream_inference_completions_cost": 0.000711256
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2538823/2758495403",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Korisnik je dao konkretan vremenski rok ('za sljedeću godinu') i obećao javiti se ako bude potrebe. Naš zadnji mail je ljubazno zatvorio razgovor. Treba poštivati taj rok i pričekati.",
+      "priority": "P3",
+      "sales_state": "Timing objection respected - paused until next year",
+      "next_action": "WAIT",
+      "next_action_at": "2027-01-01T00:00:00.000Z",
+      "next_step_hr": "Pauziraj lead do siječnja 2027. Ne šalji dodatne poruke. Ako bude potrebe, može se kontaktirati nakon tog datuma.",
+      "missing_information": [],
+      "evidence": [
+        "he compartido con el responsable de Growth para ver las posibilidades y si añadiría valor a nuestros procesos, para el próximo año",
+        "Te avisaré caso sea posible un trial"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za draftom; razgovor je ljubazno zatvoren s obećanjem za sljedeću godinu."
+    },
+    {
+      "key": "2538823/2758494711",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Korisnik je postavio relevantno pitanje o modelu naplate i pokazao interes, ali nije odgovorio na zadnja 3 naša maila nakon što smo dali okvirne cijene. Nema jasnog odbijanja, ali ni potvrde. Treba nastaviti pratiti jer je pokazao stvarni interes.",
+      "priority": "P2",
+      "sales_state": "Asked pricing, no reply to follow-ups",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-22T08:00:00.000Z",
+      "next_step_hr": "Pošalji kratki follow-up koji nudi konkretne termine za poziv i traži mišljenje o predloženom modelu, s fokusom na rješavanje mogućih nedoumica.",
+      "missing_information": [],
+      "evidence": [
+        "Ok è chiaro. Il vostro corrispettivo su quali parametri lo stabilite?",
+        "Ero curioso di conoscere le tue prime impressioni sul modello pay-per-meeting"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Ciao Andrea,\n\nVolevo solo verificare se hai avuto modo di pensare al nostro modello pay-per-meeting.\n\nSe aiuta, posso proporti due date per un rapido allineamento di 10 minuti, così vediamo se il servizio può adattarsi a JER-3 e rispondo a qualsiasi dubbio sui costi.\n\nHai qualche minuto nei prossimi giorni?",
+      "draft_english": "Hi Andrea,\n\nJust wanted to check if you had a chance to think about our pay-per-meeting model.\n\nIf it helps, I can offer two dates for a quick 10-minute alignment, so we can see if the service fits JER-3 and I can answer any questions about costs.\n\nDo you have a few minutes in the coming days?",
+      "draft_language": "it",
+      "draft_reason_hr": "Potreban je novi draft jer prethodni nije odgovorio na njegovo pitanje o cijenama i treba ga potaknuti na akciju, a da ne ponavlja već rečeno."
+    },
+    {
+      "key": "2538823/2758494751",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Korisnik je tražio video i dobio ga, ali nije odgovorio na zadnja 2 follow-up maila. Pokazao je početni interes (zahtjev za videom), ali trenutno nema angažmana.",
+      "priority": "P2",
+      "sales_state": "Requested video, no response to follow-ups",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-16T08:00:00.000Z",
+      "next_step_hr": "Pošalji kratki follow-up s naglaskom na konkretnu prednost za Viafirmu (npr. HR, Legal, Sales odjeli) i s jasnim pozivom na akciju, uz ponudu termina za poziv.",
+      "missing_information": [],
+      "evidence": [
+        "Mandamelo, por favor"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hola Antonio,\n\nSolo quería saber si el vídeo te resultó útil y si ves potencial en el enfoque para Viafirma, especialmente para tus equipos de RRHH, Legal y Ventas.\n\n¿Te parece bien una llamada rápida de 15 minutos la próxima semana para verlo en detalle?",
+      "draft_english": "Hi Antonio,\n\nJust wanted to know if you found the video useful and if you see potential in the approach for Viafirma, especially for your HR, Legal and Sales teams.\n\nWould a quick 15-minute call next week work to go over it in detail?",
+      "draft_language": "es",
+      "draft_reason_hr": "Potreban je novi draft jer je korisnik pokazao interes, a mi smo već poslali nekoliko poruka bez odgovora. Ovaj draft je konkretniji i nudi sljedeći korak."
+    },
+    {
+      "key": "4194540/4126837043",
+      "recommended_label": "Uncategorizable by Ai",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primljen je samo automatski odgovor (disclaimer) od IVC Evidensia grupe, bez stvarnog ljudskog interesa. Postojeći draft je neprikladan jer pretpostavlja ljudski odgovor i pokušava nastaviti prodaju nakon automatskog odgovora.",
+      "priority": "P3",
+      "sales_state": "Auto-reply only - no human interest",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne šalji ništa. Ovo je generički auto-odgovor. Lead se ne smatra aktivnim. Ne koristiti postojeći draft.",
+      "missing_information": [],
+      "evidence": [
+        "This email and any attachments are confidential...",
+        "Neither the sender or any IVC Evidensia group company accepts responsibility"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft je nevažeći jer je stvoren na temelju auto-odgovora i pokušava nastaviti prodaju bez ljudskog interesa."
+    },
+    {
+      "key": "4194540/4126836505",
+      "recommended_label": "Uncategorizable by Ai",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primljen je prazan odgovor (email bez sadržaja). Nema stvarnog ljudskog odgovora niti signala interesa. Postojeći draft šalje link na demo koji nije potvrđen u threadu.",
+      "priority": "P3",
+      "sales_state": "Empty auto-reply - no human interest",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne šalji ništa. Prazan email nije stvaran interes. Lead treba ostati u kategoriji neklasificiranog.",
+      "missing_information": [],
+      "evidence": [
+        "text: \"\""
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći draft šalje link na demo koji nije potvrđen niti zatražen od strane korisnika. Prazan odgovor nije dovoljan za slanje bilo kakvog materijala."
+    },
+    {
+      "key": "4194540/4126836840",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-odgovor jasno navodi da Diane Robinson više ne radi u tvrtki. To je automatska preusmjeravanje jer je osoba napustila tvrtku, a ne stvarna prodajna preporuka.",
+      "priority": "P3",
+      "sales_state": "Wrong person - no longer at company",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označi kao pogrešnu osobu. Ne šalji nikakve poruke na ovaj kontakt. Eventualno istraži Kerry Passingham kao novi kontakt, ali to zahtijeva ljudsku procjenu.",
+      "missing_information": [],
+      "evidence": [
+        "Diane Robinson is no longer working for Innovate Dental Studio",
+        "Please direct your inquiry to Kerry Passingham, Practice Director"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za draftom jer je kontakt pogrešan."
+    },
+    {
+      "key": "4194540/4126836480",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Korisnica je jasno navela da je prestala raditi u praksi i da više ne čita email na ovoj adresi. Lead je već označen kao 'blacklisted' i treba ga tako i zadržati.",
+      "priority": "P3",
+      "sales_state": "Opted out / no longer at practice",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne kontaktiraj ovu osobu. Lead je označen kao 'Do Not Contact'.",
+      "missing_information": [],
+      "evidence": [
+        "Ik ben inmiddels gestopt met mijn werkzaamheden",
+        "Dit e-mailadres is niet meer in gebruik"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za draftom jer je kontakt nedostupan i ne želi biti kontaktiran."
+    },
+    {
+      "key": "4194540/4126836741",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-odgovor navodi da email adresa više nije u upotrebi i preusmjerava na drugu osobu (Trish). To je automatska preusmjeravanje, a ne stvarna prodajna preporuka.",
+      "priority": "P3",
+      "sales_state": "Wrong person - email no longer in use",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označi kao pogrešnu osobu. Ne šalji poruke na ovu adresu. Eventualno istraži trish@revival-health.co.uk kao novi kontakt, ali to zahtijeva ljudsku procjenu.",
+      "missing_information": [],
+      "evidence": [
+        "this email address is no longer in use",
+        "please contact trish@revival-health.co.uk"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za draftom jer je kontakt pogrešan."
+    },
+    {
+      "key": "3950427/4542617719",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Korisnica je zatražila link na demo (pokazala interes), a demo je poslan. Međutim, nema odgovora na zadnje poruke, a broj uzastopnih poslanih poruka je 4, što je manje od 5. Postoje dokazi o posjetama demo stranici (visok angažman), ali nema povratne informacije.",
+      "priority": "P1",
+      "sales_state": "Demo sent, multiple visits, no reply",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-23T08:00:00.000Z",
+      "next_step_hr": "Korisnica je zainteresirana (tražila je link) i pokazuje angažman (višestruke posjete). Potreban je ljudski pregled prije slanja sljedeće poruke zbog visokog angažmana bez odgovora. Predloženi sljedeći korak: kratka poruka koja nudi rješavanje mogućih nedoumica ili direktno pitanje o cijeni.",
+      "missing_information": [],
+      "evidence": [
+        "Please send over so that I can take a look."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Rachael,\n\nI see you've been on the site. Since you're checking it out, here's the direct question:\n\nWould you like to see the pricing to move forward, or is there a specific part you'd like to change first?\n\nJust reply with `PRICE` or tell me the #1 thing you'd change.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Potreban je novi draft jer je u tijeku faza nakon posjeta demo stranici bez odgovora. Treba potaknuti na odluku (cijena ili promjene)."
+    },
+    {
+      "key": "3562710/4080234707",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Radi se o automatskim newsletter porukama (HubSpot) od tvrtke, a ne o stvarnim odgovorima na naše poruke. Lead je označen kao 'blacklisted' i treba ga tako i zadržati.",
+      "priority": "P3",
+      "sales_state": "No genuine interest - automated marketing emails only",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne kontaktiraj. Ovo su automatske marketinške poruke, a ne odgovori na našu prodajnu kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "Nieuw bij Solar Evolution: Tesla Powerwall",
+        "solarevolution.nl, Vliegdenweg 8, Naarden, Bevestigd 1406 MZ"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema potrebe za draftom jer nema stvarnog interesa."
+    }
+  ]
+}

@@ -260,8 +260,9 @@ assert.deepEqual(state.leads, rows);
         self.assertIn("availability shows in real time", direct)
         for template in (direct, corporate):
             self.assertIn("£4.99", template)
-            self.assertIn("Feel free to share the link and code with colleagues too", template)
-            self.assertIn("each person at {{company_name}} gets one free session", template)
+            self.assertIn("share the attached brochure with your colleagues at {{company_name}}", template)
+            self.assertIn("Each person gets one free session", template)
+            self.assertNotIn("share the link and code with colleagues too", template)
             self.assertNotIn("will result in a charge", template)
 
     def test_thread_fetch_populates_cache(self):
@@ -404,6 +405,8 @@ const confirm = () => true;
             "Remove me from your list",
             "Take me off your mailing list",
             "Do not contact us again.",
+            "Please remove my email from your database.",
+            "Don't reach out again.",
         )
         with patch.object(reply_classifier.llm, "complete_for") as complete:
             for phrase in phrases:
@@ -1125,7 +1128,7 @@ Discount Code: OBLACCESS55
         old_password = settings.app_password
         settings.app_password = "pw"
 
-        def fail_after_claim(draft):
+        def fail_after_claim(draft, **kwargs):
             self.assertEqual(draft["status"], "sending")
             raise RuntimeError("temporary upstream failure")
 
@@ -1162,7 +1165,7 @@ Discount Code: OBLACCESS55
         draft_id = self._draft()
         entered = threading.Event()
 
-        def slow_send(_draft):
+        def slow_send(_draft, **kwargs):
             entered.set()
             time.sleep(0.3)
             return "sent"

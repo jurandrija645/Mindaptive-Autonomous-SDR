@@ -1,0 +1,400 @@
+{
+  "executed": false,
+  "requires_owner_approval_before_drafting_or_sending": true,
+  "groups": {
+    "A_odgovori": [
+      {
+        "key": "3930675/4520613046",
+        "name": "Alex Grieve",
+        "email": "alex.grieve@bartleboglehegarty.com",
+        "recommendation_hr": "Zahvaliti Chloe i ponuditi kratak sažetak za HR. Ne dodavati nove primatelje bez provjere."
+      },
+      {
+        "key": "3876232/4446317501",
+        "name": "Alistair Maher",
+        "email": "alistair.maher@mvs.co.uk",
+        "recommendation_hr": "Ručno obnoviti razgovor nakon starog OOO odgovora i provjeriti treba li pomoć. Pitanje o naknadi već je odgovoreno."
+      },
+      {
+        "key": "3930675/4520616414",
+        "name": "Craig Beddis",
+        "email": "craig@hadean.com",
+        "recommendation_hr": "Vlasnik treba poslati poruku 2026-10-01 ili nakon (10 dana od 21.09.), podsjetiti na ponudu i ponuditi kod za rezervaciju."
+      },
+      {
+        "key": "3930675/4520617891",
+        "name": "Joshua DiLorenzo",
+        "email": "joshua.dilorenzo@transficc.com",
+        "recommendation_hr": "Odgovoriti na Joshuaovo pitanje o svrsi tretmana."
+      },
+      {
+        "key": "3876232/4446317376",
+        "name": "Martyn Hill",
+        "email": "martyn@themixglobal.com",
+        "recommendation_hr": "Iskreno odgovoriti o izvoru lokacijskih podataka i zahvaliti na preporuci. Kontaktiranje Vanesse traži zasebno odobrenje."
+      }
+    ],
+    "B_followup_due": [
+      {
+        "key": "3876232/4446315909",
+        "name": "Alex Timmons",
+        "email": "alexander.timmons@crowdcube.com",
+        "recommendation_hr": "Jednim osobnim follow-upom provjeriti odaziv tima. Ne pitati njega da rezervira osobnu sesiju."
+      },
+      {
+        "key": "3876232/4446316027",
+        "name": "Amanda John",
+        "email": "amanda.john@gunnercooke.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520618811",
+        "name": "Andy Macharg",
+        "email": "andy.macharg@hellomagazine.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446317381",
+        "name": "Chris Thompson",
+        "email": "chris.thompson@datacenterdynamics.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520621199",
+        "name": "Claire O'Brien",
+        "email": "claire.obrien@endersanalysis.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520622428",
+        "name": "Dag Wirdenius",
+        "email": "dag@siteassist.com",
+        "recommendation_hr": "Pratiti Tomovu rezervaciju u postojećem razgovoru uz provjeru To/Cc."
+      },
+      {
+        "key": "3930675/4520621757",
+        "name": "Dan Capstick",
+        "email": "dan@dixonbaxi.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446316729",
+        "name": "Dan Moore",
+        "email": "dan@blackkitestudios.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446315693",
+        "name": "Dean Forbes",
+        "email": "dean.forbes@forterro.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520615628",
+        "name": "Digby Lewis",
+        "email": "digbyl@motherlondon.com",
+        "recommendation_hr": "Pričekati odgovor ili eventualnu rezervaciju. Ako nema reakcije duže vrijeme, može se poslati jedan nježni follow-up."
+      },
+      {
+        "key": "3876232/4446315774",
+        "name": "Dimitri Savva",
+        "email": "dimitri.savva@monexeurope.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520616471",
+        "name": "Dylan W",
+        "email": "dylan@incubeta.com",
+        "recommendation_hr": "Nema novih poruka od leada od zadnjeg našeg follow-upa. Čeka se da lead rezervira ili odgovori."
+      },
+      {
+        "key": "3930675/4520613855",
+        "name": "Garrett Dearey",
+        "email": "garrett.dearey@wearesocial.net",
+        "recommendation_hr": "Posljednja naša poruka bila je 05.10. bez odgovora. Nakon više od dva tjedna šutnje, može se poslati završna poruka s pitanjem je li još uvijek zainteresiran, ali bez pritiska."
+      },
+      {
+        "key": "3930675/4520614771",
+        "name": "German Diez",
+        "email": "german@nexusstudios.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "4006945/4608049691",
+        "name": "Hackman, Lucie",
+        "email": "lucie.hackman@edelman.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446316913",
+        "name": "Hannah Corbett",
+        "email": "h.corbett@thameshudson.co.uk",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520621755",
+        "name": "Harry Ead",
+        "email": "harry@dixonbaxi.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446315434",
+        "name": "Joao Oliveira",
+        "email": "joao@currensea.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520619898",
+        "name": "Jodie Hurn",
+        "email": "jodie.hurn@uncommon.studio",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520613005",
+        "name": "Jonathan Lee",
+        "email": "jonathan.lee@blackwoodgroup.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446317241",
+        "name": "Joyce McCarthy",
+        "email": "joycelai@ec1partners.com",
+        "recommendation_hr": "Jednom se javiti za obećane kontakte; ne slati joj generički podsjetnik za osobnu rezervaciju."
+      },
+      {
+        "key": "3930675/4520616436",
+        "name": "Laura Wilkinson",
+        "email": "laura.wilkinson@intenthq.com",
+        "recommendation_hr": "Lead nije odgovorio nakon što smo mu poslali link i kod. Čeka se njegova daljnja akcija (booking). Naše zadnje poruke su poslane, nema otvorenih pitanja za nas."
+      },
+      {
+        "key": "3876232/4446317198",
+        "name": "Layla Zghari",
+        "email": "layla.zghari@emap.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520619273",
+        "name": "Leigh Middleton-Ross (Mr)",
+        "email": "leigh.middleton-ross@fiskeplc.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520615955",
+        "name": "Leopold van Lynden",
+        "email": "leopold@tomandco.co.uk",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520614839",
+        "name": "Louise Stevenson",
+        "email": "louise.stevenson@unit.tv",
+        "recommendation_hr": "Lead je vjerojatno propustila follow-upove. Treba poslati novi, blagi podsjetnik jer je pokazala jak interes."
+      },
+      {
+        "key": "3930675/4520613376",
+        "name": "Luxman Jegatheeswaran",
+        "email": "lux.jega@glas.agency",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446316648",
+        "name": "Matt Rimmington",
+        "email": "matt@listen-up.biz",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446315522",
+        "name": "Michael Berring",
+        "email": "michael.berring@aptitudesoftware.com",
+        "recommendation_hr": "Pratiti je li se naručio. Ako ne odgovori na zadnje poruke, provjeriti status ili poslati podsjetnik."
+      },
+      {
+        "key": "3930675/4520616252",
+        "name": "Nadia Biles Davies",
+        "email": "ndavies@cornerstonebarristers.com",
+        "recommendation_hr": "Provjeriti je li kolega iskoristio ponudu; ne ponavljati već odgovoreno pitanje."
+      },
+      {
+        "key": "3930675/4520613112",
+        "name": "Nasir Jan",
+        "email": "nasir.jan@ciklum.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520616518",
+        "name": "Rebecca Walsh",
+        "email": "rebecca.walsh@harringtonstarr.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446317331",
+        "name": "Richard Cowen",
+        "email": "richardcowen@jmangroup.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520613836",
+        "name": "Richard Darwin",
+        "email": "richard.darwin@bricklane.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446317384",
+        "name": "Romelia Papalie",
+        "email": "rp@cobyphilips.co.uk",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "4006945/4608052123",
+        "name": "Rory Sale",
+        "email": "rory.sale@fospha.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446317432",
+        "name": "Sarah Skelton",
+        "email": "sarah@helloflourish.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446317574",
+        "name": "Satyen Shingadia",
+        "email": "satyen.shingadia@pnbint.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3930675/4520620397",
+        "name": "Steve Bryen",
+        "email": "steve.bryen@mesh-ai.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446315651",
+        "name": "Tej Patel",
+        "email": "tej.patel@elixirr.com",
+        "recommendation_hr": "Lead je u fazi čekanja. Ako želiš ponovno pokušati, možeš poslati kratku poruku s pitanjem treba li pomoć, ali budući da smo već poslali 'zadnji email', razmisli o ručnom pregledu prije slanja."
+      },
+      {
+        "key": "3876232/4446318129",
+        "name": "Tom Caplan",
+        "email": "tom.caplan@sixteenth.com",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      },
+      {
+        "key": "3876232/4446316752",
+        "name": "Yasmin Nagi",
+        "email": "yasmin@yaspa.com",
+        "recommendation_hr": "Pričekati Yasminin odgovor. Ako se ne javi do kraja godine, može se poslati jedan nježni podsjetnik."
+      },
+      {
+        "key": "3876232/4446317666",
+        "name": "Zoe Harkness",
+        "email": "zoe.harkness@thinkbox.tv",
+        "recommendation_hr": "Pripremiti osobni podsjetnik za booking, prema zadnjem razgovoru. Provjeriti treba li pomoć; aktualne linkove i VIP8401 dati prema potrebi, uz £4.99 za physio i pravilo jedne besplatne ponude po osobi."
+      }
+    ],
+    "C_limit_potreban_odabir": [
+      {
+        "key": "3876232/4446317153",
+        "name": "Beth Denham",
+        "email": "beth.denham@cube.global",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3876232/4446317296",
+        "name": "Cassian Scott",
+        "email": "cassian.scott@instinctdigital.io",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3876232/4446315515",
+        "name": "Charlie Roberson",
+        "email": "charlieroberson@roguefilms.co.uk",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3930675/4520614234",
+        "name": "Edu Sampedro",
+        "email": "eduardo.sampedrodiaz@mccglc.com",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3876232/4446317001",
+        "name": "Fred Shears",
+        "email": "fshears@ctgroup.com",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3876232/4446317181",
+        "name": "Mark Bate",
+        "email": "mark.bate@nurole.com",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3876232/4446316214",
+        "name": "Mav Dhothar",
+        "email": "mav.dhothar@mandg.com",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3876232/4446316731",
+        "name": "Richard Fearon",
+        "email": "richard@blackkitestudios.com",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      },
+      {
+        "key": "3876232/4446315820",
+        "name": "Vania Correia",
+        "email": "caroline.hilton@asr-re.com",
+        "recommendation_hr": "Bez automatskog follow-upa: već su poslana četiri. Odobriti ili odbiti jedan osobni pokušaj ponovnog kontakta; brojanje i limit nisu resetirani."
+      }
+    ],
+    "E_odlozeno": [
+      {
+        "key": "3930675/4520617893",
+        "name": "Annie Barker",
+        "email": "annie.barker@transficc.com",
+        "recommendation_hr": "Odložiti do ponedjeljka 26.10. za pregled nakon traženog mjesečnog prozora. Bez zakazanog slanja."
+      },
+      {
+        "key": "3930675/4520612744",
+        "name": "Ryan Thomas",
+        "email": "ryan@beam.org",
+        "recommendation_hr": "Ne kontaktirati sada. Podsjetnik 16.11. služi samo ručnoj provjeri statusa, nije potvrđen datum povratka."
+      },
+      {
+        "key": "3876232/4446316050",
+        "name": "Ian Timlin",
+        "email": "itimlin@mccarthydenning.com",
+        "recommendation_hr": "Odložiti za ručni pregled 29.10.; ne slati medicinske savjete niti automatski podsjetnik."
+      }
+    ],
+    "rucna_podrska": [
+      {
+        "key": "3930675/4520622245",
+        "name": "Emily Knox",
+        "email": "emily.knox@immediate.co.uk",
+        "recommendation_hr": "Hitno ručno provjeriti zahtjev za pomicanjem termina. Zadržati booked status; ovo je podrška postojećoj rezervaciji."
+      },
+      {
+        "key": "3876232/4446316604",
+        "name": "Franek Buczkowski",
+        "email": "f.buczkowshi@rfblegal.co.uk",
+        "recommendation_hr": "Označiti rezervaciju. Ručno provjeriti i javiti stvarni broj rezervacija tima; bez prodajnog follow-upa za njegovu osobnu sesiju."
+      },
+      {
+        "key": "3876232/4446316573",
+        "name": "Kofil Ali",
+        "email": "kofil.ali@sucfin.com",
+        "recommendation_hr": "Provjeriti može li se rezervirati ručno i obavijestiti ga. Ako ne, poslati jasno objašnjenje i alternativu."
+      },
+      {
+        "key": "4006945/4608049732",
+        "name": "Robert Tynan",
+        "email": "rt@morph.fit",
+        "recommendation_hr": "Ručno odlučiti treba li ponovno kontaktirati. Ne uključivati u bulk zainteresiranih."
+      }
+    ]
+  }
+}

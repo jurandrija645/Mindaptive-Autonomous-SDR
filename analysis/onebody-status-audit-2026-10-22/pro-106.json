@@ -1,0 +1,204 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10876,
+    "completion_tokens": 2858,
+    "total_tokens": 13734,
+    "cost": 0.008255118105,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8673,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.008255118105,
+      "upstream_inference_prompt_cost": 0.002794851945,
+      "upstream_inference_completions_cost": 0.00546026616
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317198",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Layla je prihvatila ponudu, pitala za grupni popust i tražila booking link. Nakon što je Rebecca poslala link i kod OBLACCESS55, nema potvrde o rezervaciji ni odbijanja. Posljednja poruka je naša iz rujna.",
+      "last_human_request_hr": "Thank you for sending this offer through. I’d definitely be interested in taking you up on the complimentary session... If you were able to offer something similar, or potentially a slightly better discount, I’d be happy to look at getting the offer shared across the wider business",
+      "unresolved_hr": "Nije poznato je li Layla rezervirala termin. Nije odgovorila na follow-up poruke. Potrebno je provjeriti je li još zainteresirana.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati ručni follow-up s pitanjem je li uspjela rezervirati i treba li pomoć, uz podsjetnik na link i kod.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP265MB412131E3F48DFB4B2FB13394B8B12@CWXP265MB4121.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for sending this offer through. I’d definitely be interested in taking you up on the complimentary session."
+        },
+        {
+          "message_id": "<CWXP265MB412131E3F48DFB4B2FB13394B8B12@CWXP265MB4121.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "If you were able to offer something similar, or potentially a slightly better discount, I’d be happy to look at getting the offer shared across the wider business"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317241",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Joyce je odbila ponudu za sebe jer radi od kuće, ali je aktivno ponudila povezivanje s kolegama koji bi bili zainteresirani. Kurt je prihvatio i tražio imena, na što Joyce nije odgovorila. Razgovor još nije završen.",
+      "last_human_request_hr": "I'd be more than happy to put you in touch with a few contacts who may be interested.",
+      "unresolved_hr": "Joyce nije poslala kontakte kolega. Potrebno je podsjetiti je na to.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati poruku Joyce s pitanjem ima li imena kolega koje je spominjala i ponoviti vrijednost ponude za njih.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWLSPR01MB004283DDF1595CF26DFBAF18FEB12@CWLSPR01MB0042.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I'd be more than happy to put you in touch with a few contacts who may be interested."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317221",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Sustav označava lead kao 'Meeting Booked' i 'booked'. Alfonso je pitao za Aviva listu i pristao na uvodnu sesiju. Rebecca mu je poslala link i kod. Daljnja komunikacija nije vidljiva, ali status sugerira da je rezervacija obavljena.",
+      "last_human_request_hr": "Happy to do an intro session and check if your are in Aviva's physio list",
+      "unresolved_hr": "Status je 'booked', nema potrebe za daljnjim radnjama osim ako vlasnik ne smatra drugačije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije, osim ako vlasnik ne zatraži ponovni kontakt.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO8P265MB75082A9FEC9C669A98C6A4AFA7B12@LO8P265MB7508.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Happy to do an intro session and check if your are in Aviva's physio list"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316839",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Simon Batterham je eksplicitno odgovorio 'Unsubscribe'.",
+      "last_human_request_hr": "Unsubscribe",
+      "unresolved_hr": "Lead je odjavljen, nema daljnjih radnji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje komunikacije. Lead je odjavljen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CALkkisHUdcNiTG0gNVu52MpFk_Z=MucjESAbqKyogYxN+GzmiA@mail.gmail.com>",
+          "quote": "Unsubscribe"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316894",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Paul Mosley je postavio automatski OOO odgovor s uputom da se pošalje na production@rascalpost.com. Nema ljudskog angažmana u vezi ponude.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "OOO poruka ne sadrži interes za ponudu. Potrebno je poslati e-mail na navedenu adresu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Proslijediti ponudu na production@rascalpost.com kako je navedeno u OOO poruci.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAZM-XThnyhVT9rLmDUfp0vdd6SfvO_XUqcEhfaN7-qH5Y82mQ@mail.gmail.com>",
+          "quote": "Thank you for your message, I am OOO."
+        },
+        {
+          "message_id": "<CAAZM-XThnyhVT9rLmDUfp0vdd6SfvO_XUqcEhfaN7-qH5Y82mQ@mail.gmail.com>",
+          "quote": "Please forward your email to production@rascalpost.com who will ensure\nit reaches the right person."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316648",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Matt Rimmington je nakon OOO poruke odgovorio 'happy to look into booking this. Let me know how!'. Rebecca mu je poslala link i kod. Matt nije potvrdio rezervaciju ni odbio ponudu, a posljednja poruka je naša.",
+      "last_human_request_hr": "happy to look into booking this. Let me know how!",
+      "unresolved_hr": "Nije poznato je li Matt rezervirao termin. Nije odgovorio na follow-up poruke. Potrebno je provjeriti je li još zainteresiran.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati ručni follow-up s pitanjem je li uspio rezervirati i treba li pomoć, uz podsjetnik na link i kod.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<06C0D995-E16B-4887-979C-00FFBE16E08F@listen-up.biz>",
+          "quote": "happy to look into booking this. Let me know how!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316731",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Richard Samuels je pristao na ponudu, pitao može li 'pop by the studio', na što je Kurt odgovorio da je bolje rezervirati online. Richard nije potvrdio rezervaciju ni odbio ponudu. Posljednja poruka je naša.",
+      "last_human_request_hr": "Is it possible for me to pop by the studio next time I pass? Probably tomorrow?",
+      "unresolved_hr": "Nije poznato je li Richard rezervirao termin online. Potrebna je provjera.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati ručni follow-up s pitanjem je li uspio rezervirati online i ponovno naglasiti važnost prethodne rezervacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWLP123MB45964CCBF4FCD7D2D5C7D3D5FAB52@CWLP123MB4596.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "As you insist I will take you up on your offer."
+        },
+        {
+          "message_id": "<CWLP123MB4596160B9D55760BA4A75859FAB22@CWLP123MB4596.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Is it possible for me to pop by the studio next time I pass? Probably tomorrow?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316492",
+      "assessment": "closed_ack",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Liam Bateman je pitao za AXA osiguranje i prihvatio ponudu. Rebecca je odgovorila s linkom i kodom, a Liam je odgovorio 'Great thanks'. Ovo je potvrda primitka detalja bez daljnjih pitanja.",
+      "last_human_request_hr": "Great thanks",
+      "unresolved_hr": "Liam je zahvalio na informacijama. Nema otvorenih pitanja. Preporuka je da vlasnik ručno odluči o eventualnom follow-upu.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti je li Liam rezervirao i po želji poslati kratki follow-up s ponudom pomoći pri rezervaciji za njega ili njegov tim.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000601dd3f73$c8b9ed80$5a2dc880$@thinktank.org.uk>",
+          "quote": "Thanks for the offer of a first session - I do need some work on my neck and shoulder so it would be great to give you guys a try."
+        },
+        {
+          "message_id": "<001c01dd3f74$bdc3e0b0$394ba210$@thinktank.org.uk>",
+          "quote": "Great thanks"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

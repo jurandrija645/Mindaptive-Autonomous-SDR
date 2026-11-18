@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12043,
+    "completion_tokens": 1976,
+    "total_tokens": 14019,
+    "cost": 0.0138027,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0138027,
+      "upstream_inference_prompt_cost": 0.0108387,
+      "upstream_inference_completions_cost": 0.002964
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520619428",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena; primatelj nije pronađen na domeni.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte je nevažeća. Nema daljnjeg praćenja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead je označen kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<406cf8fa-bc8f-4b3e-a880-4f95bc67ea91@LO2P265MB5013.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "josh.harris wasn't found at inciper.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619398",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu do ljeta 2027. Nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna do ljeta 2027. Nije pokazala interes za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead ostaje kao auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAPEtH7DO23EFpVjzSRVPLyPkSnoaoCUC2ya+mLRzUh++Lia9cw@mail.gmail.com>",
+          "quote": "I am currently on maternity leave and will be back in summer 2027."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619124",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska potvrda primitka od domene tvrtke. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Samo potvrda primitka, bez naznake interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead ostaje kao auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAERrT=S83TNP8i61H6_kXnTg77+QG-O4ia=tui-xPn-fVo=z3g@mail.gmail.com>",
+          "quote": "Thank you for your email it has been received."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619118",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka je blokirana; pristup odbijen od strane poslužitelja primatelja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "E-pošta nije isporučena. Nema daljnjeg praćenja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead je označen kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aaa64b8.9f5687fb.54c4c.aabf.GMR@mx.google.com>",
+          "quote": "Your message to cbae@caxton.com has been blocked."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619100",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je na porodiljnom i upućuje na opći studio kontakt za kampanje. Nema osobnog interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna i nije pokazala interes za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead ostaje kao auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAncpx-viR_hgj1+pm7QjkwK6A1ikA2ESQSZQ7hJm0XD9KZ_-A@mail.gmail.com>",
+          "quote": "I am currently on Maternity leave"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619140",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena jer je označena kao spam/virus od strane Mimecast filtra primatelja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "E-pošta nije isporučena. Nema daljnjeg praćenja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead je označen kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7da44031-971e-4b45-ae22-defa4272fc1d@LO7P123MB969828.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "c5capital.com suspects your message is spam, or contains a virus, and rejected it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618815",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor s informacijom o radnim danima. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Samo informacija o radnom vremenu. Nema izraženog interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead ostaje kao auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b0ad5d6a23594d5cabc55112d48cda68@CWXP123MB3734.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "My workings days are Monday, Tuesday and Thursday."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618726",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 28. rujna. Nema ljudskog angažmana za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je odsutna do 28. rujna. Nije pokazala interes, ali odsutnost je prošla, iako nema ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema radnje. Lead ostaje kao auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAGNFxAR5L0Pg9HdU2sie3d-Jih3pEb+C0axAq+DU-6hJprWYjQ@mail.gmail.com>",
+          "quote": "I am OOO on holiday until Monday 28th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

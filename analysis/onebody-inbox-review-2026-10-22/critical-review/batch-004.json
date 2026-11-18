@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 13673,
+    "completion_tokens": 2422,
+    "total_tokens": 16095,
+    "cost": 0.00177355,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00177355,
+      "upstream_inference_prompt_cost": 0.00068365,
+      "upstream_inference_completions_cost": 0.0010899
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316214",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mav je izrazio interes, poslani su link i kod, a naše poruke su posljednje; nema neodgovorenih pitanja niti obećanih radnji.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom; predaja je dovršena.",
+      "last_inbound_summary_hr": "Mav je rekao 'Keen to explore further'.",
+      "last_outbound_summary_hr": "Poslan je posljednji podsjetnik s linkom i kodom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "Keen to explore further.",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520618811",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Andy je izrazio interes, poslani su link i kod, naše poruke su posljednje; nema neodgovorenih pitanja.",
+      "next_step_hr": "Predaja je dovršena; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Andy je rekao 'a physio appointment sounds amazing'.",
+      "last_outbound_summary_hr": "Poslan je link i kod s napomenom o £4.99 naknadi.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "a physio appointment sounds amazing.",
+        "Here's the booking link: [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520615628",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Digby je tražio prijenos timu, poslani su link i kod s dopuštenjem dijeljenja; naše poruke su posljednje.",
+      "next_step_hr": "Predaja je dovršena; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Digby je predložio prosljeđivanje HR timu.",
+      "last_outbound_summary_hr": "Poslan je link, kod i dopuštenje dijeljenja s timom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "I'd need to pass on to our people team.",
+        "Feel free to share with your team."
+      ]
+    },
+    {
+      "key": "3930675/4520613376",
+      "recommended_label": "Lead Done",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Lux je pitao o cijeni i web stranici, dobio je odgovor, link i kod; naše poruke su posljednje bez neodgovorenih pitanja.",
+      "next_step_hr": "Predaja je dovršena; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Lux je pitao 'how much does it cost?' i 'Do you have a website?'.",
+      "last_outbound_summary_hr": "Poslan je odgovor s objašnjenjem, linkom i kodom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "how much does it cost? Do you have a website?",
+        "Here it is: [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520615035",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "Matt je obećao 'I shall make the booking today', ali nemamo potvrdu o stvarnoj rezervaciji; ostajemo na postojećoj oznaci.",
+      "next_step_hr": "Pratiti je li izvršena rezervacija; nema potrebe za slanjem poruke.",
+      "last_inbound_summary_hr": "Matt je rekao 'I shall make the booking today'.",
+      "last_outbound_summary_hr": "Poslan je link i kod s objašnjenjem.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I shall make the booking today."
+      ]
+    },
+    {
+      "key": "3930675/4520612049",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "Blake je poslao palac gore i pitao o preporuci, ali nema potvrde o stvarnoj rezervaciji; ostajemo na postojećoj oznaci.",
+      "next_step_hr": "Pratiti je li izvršena rezervacija; nema potrebe za slanjem poruke.",
+      "last_inbound_summary_hr": "Blake je poslao '👍🏻'.",
+      "last_outbound_summary_hr": "Poslan je odgovor s preporukom za Clerkenwell.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "👍🏻"
+      ]
+    },
+    {
+      "key": "3930675/4520622428",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dag je rekao da nije u Londonu i preusmjerio na kolegu; oznaka Wrong Person je točna.",
+      "next_step_hr": "Nema potrebe za daljnjom radnjom prema Dagu; kontaktiran je Tom.",
+      "last_inbound_summary_hr": "Dag je rekao 'I am not based in London' i dodao kolegu Toma.",
+      "last_outbound_summary_hr": "Poslan je link i kod Tomu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am not based in London."
+      ]
+    },
+    {
+      "key": "3930675/4520611365",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "David je izrazio interes i dobio link i kod, ali nema potvrde o stvarnoj rezervaciji; ostajemo na postojećoj oznaci.",
+      "next_step_hr": "Pratiti je li izvršena rezervacija; nema potrebe za slanjem poruke.",
+      "last_inbound_summary_hr": "David je rekao 'so yes please' i pitao o ugovoru.",
+      "last_outbound_summary_hr": "Poslan je odgovor s linkom i kodom, bez ugovora.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "so yes please. As long as I don't get tied into a never-ending contract or something!"
+      ]
+    },
+    {
+      "key": "3930675/4520612386",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "Arjun je pitao o dijeljenju s kolegama i dobio dopuštenje, ali nema potvrde o stvarnoj rezervaciji; ostajemo na postojećoj oznaci.",
+      "next_step_hr": "Pratiti je li izvršena rezervacija; nema potrebe za slanjem poruke.",
+      "last_inbound_summary_hr": "Arjun je pitao 'Can I also share this with my coworkers?'.",
+      "last_outbound_summary_hr": "Poslano je dopuštenje dijeljenja s kodom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "Can I also share this with my coworkers?"
+      ]
+    },
+    {
+      "key": "3876232/4446316824",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alexis je pitao o dostupnosti i Bupa, dobio odgovor, ali ne znamo je li rezervirao; ostajemo na postojećoj oznaci Interested.",
+      "next_step_hr": "Pratiti je li izvršena rezervacija; nema potrebe za slanjem poruke.",
+      "last_inbound_summary_hr": "Alexis je pitao 'do you have availability this week? Also I see that you accept Bupa?'.",
+      "last_outbound_summary_hr": "Poslan je odgovor s potvrdom Bupa, linkom i kodom.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "do you have availability this week? Also I see that you accept Bupa?"
+      ]
+    }
+  ]
+}

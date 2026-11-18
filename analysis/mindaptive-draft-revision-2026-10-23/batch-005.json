@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 15434,
+    "completion_tokens": 1414,
+    "total_tokens": 16848,
+    "cost": 0.001408,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 15360,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001408,
+      "upstream_inference_prompt_cost": 0.0007717,
+      "upstream_inference_completions_cost": 0.0006363
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2515956/2722088662",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Ali,\n\nIt's been a while since we spoke about the AI outreach engine for Ephlux. I'm revisiting our old conversation and wanted to check back in.\n\nSince then, we've improved the system quite a bit. The core idea is still the same — finding the right companies, researching them, and starting relevant conversations, only when it makes sense.\n\nI've linked the process overview again in case it's useful:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIs filling the pipeline something Ephlux is thinking about right now? If so, I'd love a quick 10-minute call to see if it fits.",
+      "english": "",
+      "reason_hr": "Stara konverzacija (314 dana), Ali je tražio video koji je poslan. Kratko priznanje dugog vremena, podsjećanje na AI outbound proces, davanje linka za video i poziv na kratki poziv. Nema lažnih izgovora, nema obećanja novih stvari."
+    },
+    {
+      "key": "2738671/3025253762",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Albert,\n\nIt's been a while since we spoke about finding a time to chat for Laurel. Looking back at our conversation, I wanted to check in.\n\nWe've improved our system quite a bit since then. The core idea is still the same — finding suitable companies and starting relevant conversations at scale.\n\nIs getting more pipeline still something on your radar? If the timing is right, let me know what day works for a short call.",
+      "english": "",
+      "reason_hr": "Albert je odgovorio 'How fast we can talk?', poslan je kalendarski link. 314 dana kasnije, prirodno vraćanje na razgovor bez lažnog izgovora. Nema kalendarskog URL-a u draftu jer se ne forsira poziv u svakoj poruci."
+    },
+    {
+      "key": "2738607/3025136155",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Roberto,\n\nÈ passato un po' di tempo dalla nostra conversazione tecnica. Riguardando i tuoi messaggi, volevo chiederti se le risposte che ti ho mandato allora hanno fatto chiarezza.\n\nDa allora il sistema è migliorato parecchio. Il principio è sempre lo stesso: trovare le aziende giuste, studiarle e avviare conversazioni pertinenti.\n\nSe vuoi approfondire un punto specifico, fammi sapere. Altrimenti, se ti va, possiamo fare una call veloce per vedere come gira ora.",
+      "english": "Hey Roberto,\nIt's been a while since our technical conversation. Looking back at your messages, I wanted to ask if the answers I sent back then were clear enough.\nSince then, the system has improved quite a bit. The principle is still the same: finding the right companies, researching them, and starting relevant conversations.\nIf you want to dive deeper into any specific point, let me know. Or, if you'd like, we can jump on a quick call to see how it runs now.",
+      "reason_hr": "Roberto je postavio detaljna tehnička pitanja na koja je Mia odgovorila. 314 dana kasnije, prirodno vraćanje na temu. Napisano na talijanskom jer je Roberto pisao na talijanskom. Nema novih obećanja cijena ili garancija."
+    },
+    {
+      "key": "2738671/3025251931",
+      "ready": true,
+      "language": "fi",
+      "body": "Hei Kai,\n\nOn kulunut jonkin aikaa siitä, kun lähetin sinulle videon Appmorelle. Katselin vanhaa keskusteluamme ja ajattelin palata asiaan.\n\nOlemme kehittäneet järjestelmäämme aika paljon siitä lähtien. Perusidea on edelleen sama — löytää sopivat yritykset, tutkia niitä ja aloittaa relevantteja keskusteluja.\n\nOnko uusien asiakkaiden hankinta edelleen ajankohtaista? Jos sopii, voimme sopia pikaisen puhelun.",
+      "english": "Hey Kai,\nIt's been a while since I sent you the video for Appmore. I was looking back at our old conversation and thought I'd check in.\nWe've developed our system quite a lot since then. The basic idea is still the same — finding the right companies, researching them, and starting relevant conversations.\nIs finding new customers still on your mind? If it fits, we can set up a quick call.",
+      "reason_hr": "Kai je tražio video (laita vaan), poslan je video i kalendarski link. 315 dana kasnije, kratak reactivation bez izgovora. Finski jezik jer je Kai odgovorio na finskom. Nema URL-a za kalendar jer se ne forsira."
+    },
+    {
+      "key": "2732401/3016172105",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Johnny,\n\nIt's been a while since I sent over the video and answered your question about where we operate. I was reviewing our conversation and wanted to check back in.\n\nWe've improved our system quite a bit since then. The approach is still the same — finding the right ERP-driven companies, researching them, and starting relevant conversations.\n\nIs generating more pipeline for Appficiency still something you're looking at? Happy to hop on a quick call if the timing works.",
+      "english": "",
+      "reason_hr": "Johnny je tražio video i pitao o operativnim regijama, dobio je odgovor i video. 316 dana kasnije, prirodno vraćanje na staru konverzaciju. Priznanje vremenskog jaza, link za video nije ponovno poslan jer je već poslan u prošloj poruci."
+    }
+  ]
+}

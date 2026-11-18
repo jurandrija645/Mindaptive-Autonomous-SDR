@@ -1,0 +1,254 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 29628,
+    "completion_tokens": 3134,
+    "total_tokens": 32762,
+    "cost": 0.0013900432,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 25776,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0013900432,
+      "upstream_inference_prompt_cost": 0.0008196552,
+      "upstream_inference_completions_cost": 0.000570388
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3825745/4379340433",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor da se inbox više ne prati i preusmjerava na frontdesk. Isključivo administrativno preusmjeravanje, ne izražava interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjih radnji, lead je preusmjeren na drugu adresu. Označiti kao Wrong Person.",
+      "missing_information": [],
+      "evidence": [
+        "This inbox is no longer being monitored. Please email frontdesk@mydentists.org for assistance."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog interesa niti upita; automatski odgovor o promjeni adrese."
+    },
+    {
+      "key": "3810275/4360211277",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Izričito odbijanje: 'I am not interested at this time'. Iako je postojao OOO draft, kasniji stvarni ljudski odgovor je odbijanje.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poštivati odluku, bez daljnjih prodajnih poruka. Postojeći OOO draft je zastario i ne treba ga slati.",
+      "missing_information": [],
+      "evidence": [
+        "I am not interested at this time."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Izričito odbijanje, ne slati draft iako je postojeći OOO draft još pending."
+    },
+    {
+      "key": "3810275/4360211114",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Generički automatski odgovor da se mailbox gasi i preusmjerenje na drugu adresu. Nema stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao Wrong Person, ne slati daljnje poruke na ovu adresu.",
+      "missing_information": [],
+      "evidence": [
+        "questa casella mail verrà disattivata a breve. Per tutte le richieste potete inviare una mail a: milanocinquegiornate@centromedicolombardo.it"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudske reakcije, samo auto-odgovor o novoj adresi."
+    },
+    {
+      "key": "3810275/4360209685",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Održan je kontakt (WhatsApp) i meeting je bio zakazan, ali ishod nije poznat. Zadržati Meeting-Booked status, ali treba ljudska provjera ishoda.",
+      "priority": "P1",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti s operaterom što se dogodilo na sastanku i je li interes još aktualan.",
+      "missing_information": [
+        "Ishod održanog sastanka"
+      ],
+      "evidence": [
+        "I hear you but I can’t join the meeting",
+        "Please contact me on WhatsApp +33603131277"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "fr",
+      "draft_reason_hr": "Ishod sastanka nepoznat, potrebna ljudska provjera prije bilo kakvog slanja."
+    },
+    {
+      "key": "3810275/4360210045",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Izričito odbijanje uz objašnjenje da su pokriveni na drugi način i da će se sami javiti ako zatreba.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ne slati postojeći draft, poštivati odbijenicu.",
+      "missing_information": [],
+      "evidence": [
+        "Αυτήν τη χρονική περίοδο δεν είναι κάτι που μας ενδιαφέρει, έχουμε καλυφθεί με διαφορετικό τρόπο",
+        "Αν όμως προκύψει κάποια διαφορετική ανάγκη θα επικοινωνήσουμε εμείς"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "el",
+      "draft_reason_hr": "Izričito odbijanje, ne slati postojeći draft."
+    },
+    {
+      "key": "3810275/4360210314",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Kratak pozitivan odgovor 'čekam' i poslan mu je video. Nema odgovora na video, slijedi follow-up.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-08-22T16:04:08.961Z",
+      "next_step_hr": "Poslan demo, nema odgovora. Poslati kratak follow-up s linkom jer je prošlo više od 24h.",
+      "missing_information": [],
+      "evidence": [
+        "Bună ziua aștept"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Salut Paul,\n\ntrimit din nou linkul în caz că s-a pierdut prin mesaje:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nUită-te la partea cu workflow-ul pentru ofertele de implanturi.\n\nAndrew",
+      "draft_english": "Hi Paul,\n\nsending the link again in case it got buried:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nLook at the part with the workflow for implant offers.\n\nAndrew",
+      "draft_language": "ro",
+      "draft_reason_hr": "Follow-up nakon poslanog demoa bez odgovora, kratak i konkreten."
+    },
+    {
+      "key": "3810275/4360210269",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Zatražila je info i dobila video. Nema odgovora na video, slijedi follow-up.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-08-20T13:32:59.347Z",
+      "next_step_hr": "Poslan video, nema odgovora. Poslati kratak follow-up s linkom.",
+      "missing_information": [],
+      "evidence": [
+        "Galite atsiųsti susipažinti."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Sveiki Julija,\n\nsiunčiu nuorodą dar kartą, jei pasimeta:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nYpač pažiūrėkite į dalį apie sekimo sistemą gydymo planams.\n\nAndrew",
+      "draft_english": "Hi Julija,\n\nsending the link again in case it got buried:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nEspecially look at the part about the follow-up system for treatment plans.\n\nAndrew",
+      "draft_language": "lt",
+      "draft_reason_hr": "Follow-up nakon poslanog videa bez odgovora."
+    },
+    {
+      "key": "3750042/4287420053",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Izričit zahtjev za prestanak kontakta: 'Please stop contacting us. We are not interested.'",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poštivati zahtjev, označiti Do Not Contact, ne slati nikakve poruke.",
+      "missing_information": [],
+      "evidence": [
+        "Please stop contacting us. We are not interested."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Opt-out, ne slati ništa."
+    },
+    {
+      "key": "3750042/4287425359",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Izričito odbijanje: 'Not interested'.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poštivati odbijenicu, ne slati daljnje poruke.",
+      "missing_information": [],
+      "evidence": [
+        "Not interested"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Izričito odbijanje."
+    },
+    {
+      "key": "3599203/4126835157",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Meeting je zakazan i održan, ali je ishod nepoznat i nema potvrde o novom terminu. Zadržati Meeting-Booked status, treba ljudska provjera.",
+      "priority": "P1",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti s operaterom hoće li se meeting održati i kakav je interes nakon toga.",
+      "missing_information": [
+        "Ishod zakazanog sastanka"
+      ],
+      "evidence": [
+        "ospravedlňujem sa. Nakoľko mám v najbližších dňoch viac práce naplánujme stretnutie na budúci týždeň."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "sk",
+      "draft_reason_hr": "Ishod sastanka nepoznat, potrebna ljudska provjera prije bilo kakvog slanja."
+    }
+  ]
+}

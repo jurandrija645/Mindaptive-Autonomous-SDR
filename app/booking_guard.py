@@ -46,6 +46,13 @@ def is_locally_booked(lead_id: int, email: str = "") -> bool:
         return any(r["status"] == "booked" for r in rows)
 
 
+def is_locally_suppressed(lead_id: int, email: str = "") -> bool:
+    """Explicit opt-outs and stopped leads must never pass any send path."""
+    with db.db_session() as conn:
+        _, rows = _identity(conn, lead_id, email)
+        return any(r["status"] in ("blacklisted", "stopped") for r in rows)
+
+
 def freeze_local(lead_id: int, campaign_id: int, email: str = "") -> None:
     """Persist the booking and invalidate every local campaign's open work."""
     with db.db_session() as conn:

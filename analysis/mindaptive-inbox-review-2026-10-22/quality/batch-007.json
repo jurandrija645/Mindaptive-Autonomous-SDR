@@ -1,0 +1,76 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 17911,
+    "completion_tokens": 930,
+    "total_tokens": 18841,
+    "cost": 0.00131405,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00131405,
+      "upstream_inference_prompt_cost": 0.00089555,
+      "upstream_inference_completions_cost": 0.0004185
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2515956/2722095330",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Sharjeel,\n\nQuick check — did you get a chance to watch the video I sent over?\n\nIf the approach looks like it could work for Agile Falcon, I'm happy to answer any questions or hop on a short call to go into the details.\n\nLet me know what you think.",
+      "english": "",
+      "reason_hr": "Video poslan, 1 follow-up nakon toga. Kratak provjera je li pogledao video. Bez lažnih tvrdnji."
+    },
+    {
+      "key": "2515956/2722089398",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Brian,\n\nChecking back in — did you get a chance to watch the video?\n\nIf it looks like it might fit for VentureOut, I'd be happy to **jump on a 15-minute call** to answer any questions and see if this makes sense.\n\nLet me know.",
+      "english": "",
+      "reason_hr": "Brian je izričito tražio poziv nakon videa. 2 follow-upa poslana, ali interes je stvaran. Kratak follow-up s pozivom na poziv."
+    },
+    {
+      "key": "2538823/2758495835",
+      "ready": true,
+      "language": "fr",
+      "body": "Bonjour Jean-Pierre,\n\nJe n'ai pas eu de retour suite à mes derniers messages. Le sujet de trouver les bons experts pour vos projets de recherche est-il toujours d'actualité ?\n\nSi oui, je suis dispo la semaine prochaine — mercredi ou jeudi après-midi. Vous pouvez aussi choisir un créneau ici :\nhttps://calendar.app.google/PL5DzwyjyC88oX167\n\nSinon, dites-moi si je dois mettre ce dossier en attente.",
+      "english": "",
+      "reason_hr": "Jean-Pierre je tražio sastanak (21.10.). Poslana 3 follow-upa nakon linka. Još uvijek aktivan interes. Predlažemo konkretne termine bez novih obećanja."
+    },
+    {
+      "key": "2538823/2758495441",
+      "ready": false,
+      "language": "en",
+      "body": "",
+      "english": "",
+      "reason_hr": "Nedostaje cijena po kvalificiranom sastanku. Elisa je izričito pitala 'How much is that approximately?'. Ne smijemo izmisliti broj. Treba ili dati provjerenu cijenu ili priznati da ne možemo bez poziva."
+    },
+    {
+      "key": "2538823/2758495823",
+      "ready": false,
+      "language": "",
+      "body": "",
+      "english": "",
+      "reason_hr": "Ljudska provjera potrebna. Jan je rekao da će podijeliti video s kolegama. Od tad (23.10.) nema odgovora. Preporučujemo da čovjek pregleda prije slanja."
+    },
+    {
+      "key": "2515956/2722093804",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Nancy,\n\nFollowing up — did my last answer about the platforms make sense for what you need?\n\nHappy to go into more detail on which channels would work best for reaching your target clients in Kenya or elsewhere.\n\nLet me know if you'd like to set up a quick call.",
+      "english": "",
+      "reason_hr": "Nancy je postavila pitanja (geografija, kanali) i dobila odgovore. Samo 1 poruka nakon zadnjeg replyja. Follow-up pita je li odgovor bio dovoljan, bez novih tvrdnji."
+    }
+  ]
+}

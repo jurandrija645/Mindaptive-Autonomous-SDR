@@ -1,0 +1,329 @@
+{
+  "dry_run": false,
+  "leads": [
+    {
+      "key": "3950427/4542617778",
+      "timezone": "Europe/Zagreb",
+      "email": "info@leaking-roof.com",
+      "status": "active"
+    },
+    {
+      "key": "3960357/3928775246",
+      "timezone": "America/New_York",
+      "email": "info@koolkoncepts.com",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3892258/4466860359",
+      "timezone": "America/New_York",
+      "email": "tom@climatehvacsolutions.com",
+      "status": "active"
+    },
+    {
+      "key": "3562710/4080236189",
+      "timezone": "Europe/Zagreb",
+      "email": "info@erzvoltaik.de",
+      "status": "active"
+    },
+    {
+      "key": "2732401/3016173350",
+      "timezone": "Europe/Zagreb",
+      "email": "anna.ustymenko@appliedolap.com",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "2538823/2758495592",
+      "timezone": "Europe/Zagreb",
+      "email": "francesco.caruso@mallei.it",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "2538823/2758495382",
+      "timezone": "Europe/Zagreb",
+      "email": "diego.dambrosi@commandstudio.it",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "2538823/2758494599",
+      "timezone": "Europe/Zagreb",
+      "email": "a.furlani@innova-eu.net",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3950427/4542616557",
+      "timezone": "Europe/Zagreb",
+      "email": "info@cuparoofing.co.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3950427/4542616876",
+      "timezone": "Europe/Zagreb",
+      "email": "info@stronghold-roofing.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3950427/4542616362",
+      "timezone": "Europe/Zagreb",
+      "email": "enquiries@goldenoakalltrades.co.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3950427/4542617705",
+      "timezone": "Europe/Zagreb",
+      "email": "rebecca@thesknnurse.co.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3950427/4542615656",
+      "timezone": "Europe/Zagreb",
+      "email": "info@a1bespoke.co.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3950427/4542617773",
+      "timezone": "Europe/Zagreb",
+      "email": "info@horan.co.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3899056/4475672680",
+      "timezone": "Europe/Zagreb",
+      "email": "y.nesterenko@cosupport.ai",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3950427/4542617388",
+      "timezone": "Europe/Zagreb",
+      "email": "info@sky-house.co.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3899056/4475670673",
+      "timezone": "Europe/Zagreb",
+      "email": "ben@digica.com",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "2738671/3025251433",
+      "timezone": "Europe/Zagreb",
+      "email": "jamie@fundsense.io",
+      "status": "active"
+    },
+    {
+      "key": "2738671/3025253783",
+      "timezone": "Europe/Zagreb",
+      "email": "jedrzej.traczykowski@algomine.pl",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025135572",
+      "timezone": "Europe/Zagreb",
+      "email": "andrea.rubei@mymetasoftware.com",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025135176",
+      "timezone": "Europe/Zagreb",
+      "email": "andy.chatterley@muso.com",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025133653",
+      "timezone": "Europe/Zagreb",
+      "email": "david@multiplica.com",
+      "status": "active"
+    },
+    {
+      "key": "2738671/3025253592",
+      "timezone": "Europe/Zagreb",
+      "email": "t.greenshields@venturiq.com",
+      "status": "active"
+    },
+    {
+      "key": "2738671/3025252894",
+      "timezone": "Europe/Zagreb",
+      "email": "marijus.stroncikas@alantic.lt",
+      "status": "active"
+    },
+    {
+      "key": "2515956/2722088662",
+      "timezone": "Europe/Zagreb",
+      "email": "ali.nasim@ephlux.com",
+      "status": "active"
+    },
+    {
+      "key": "2738671/3025253762",
+      "timezone": "Europe/Zagreb",
+      "email": "ibessenyei@laurel.hu",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025136155",
+      "timezone": "Europe/Zagreb",
+      "email": "roberto.villa@divinea.com",
+      "status": "active"
+    },
+    {
+      "key": "2738671/3025251931",
+      "timezone": "Europe/Zagreb",
+      "email": "kai.lempinen@lempinenpartners.com",
+      "status": "active"
+    },
+    {
+      "key": "2732401/3016172105",
+      "timezone": "Europe/Zagreb",
+      "email": "jthan@appficiencyinc.com",
+      "status": "active"
+    },
+    {
+      "key": "2515956/2722089937",
+      "timezone": "Europe/Zagreb",
+      "email": "diego.barroilhet@adapsysgroup.com",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025135558",
+      "timezone": "Europe/Zagreb",
+      "email": "henri@imaginedigital.com",
+      "status": "active"
+    },
+    {
+      "key": "2732401/3016172998",
+      "timezone": "Europe/Zagreb",
+      "email": "jsexton@growthaccelerationpartners.com",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025135360",
+      "timezone": "Europe/Zagreb",
+      "email": "marco.uras@widata.cloud",
+      "status": "active"
+    },
+    {
+      "key": "2732401/3016172379",
+      "timezone": "Europe/Zagreb",
+      "email": "sali@riptonsolutions.com",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025134089",
+      "timezone": "Europe/Zagreb",
+      "email": "alina@unicornsandlions.com",
+      "status": "active"
+    },
+    {
+      "key": "2738607/3025135047",
+      "timezone": "Europe/Zagreb",
+      "email": "m.postel@icompetence.de",
+      "status": "active"
+    },
+    {
+      "key": "2738671/3025251911",
+      "timezone": "Europe/Zagreb",
+      "email": "fprats@saimasolutions.com",
+      "status": "active"
+    },
+    {
+      "key": "2738671/3025253676",
+      "timezone": "Europe/Zagreb",
+      "email": "job.nouwen@12guide.com",
+      "status": "active"
+    },
+    {
+      "key": "2732401/3016173185",
+      "timezone": "Europe/Zagreb",
+      "email": "jon@cloudblazer.us",
+      "status": "active"
+    },
+    {
+      "key": "2538823/2758496613",
+      "timezone": "Europe/Zagreb",
+      "email": "svihla@oneclick.sk",
+      "status": "active"
+    },
+    {
+      "key": "2515956/2722095330",
+      "timezone": "Europe/Zagreb",
+      "email": "sharjeel@agilefalconsg.com",
+      "status": "active"
+    },
+    {
+      "key": "2515956/2722089398",
+      "timezone": "Europe/Zagreb",
+      "email": "brian@ventureoutny.com",
+      "status": "active"
+    },
+    {
+      "key": "2515956/2722093804",
+      "timezone": "Europe/Zagreb",
+      "email": "nancy.welsh@ibuild.global",
+      "status": "active"
+    },
+    {
+      "key": "2515956/2722089198",
+      "timezone": "Europe/Zagreb",
+      "email": "arnav@outsourcingtechnologies.com",
+      "status": "active"
+    },
+    {
+      "key": "2538823/2758494751",
+      "timezone": "Europe/Zagreb",
+      "email": "antonio.cabrera@viafirma.com",
+      "status": "active"
+    },
+    {
+      "key": "3960583/3822375070",
+      "timezone": "America/New_York",
+      "email": "sid@eastcountysolarcleaner.com",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "3810275/4360210314",
+      "timezone": "Europe/Zagreb",
+      "email": "paul.corpadean@medicalcor.ro",
+      "status": "active"
+    },
+    {
+      "key": "3810275/4360210269",
+      "timezone": "Europe/Zagreb",
+      "email": "julija.ivanova@inmedica.lt",
+      "status": "active"
+    },
+    {
+      "key": "3562710/4080234417",
+      "timezone": "Europe/Zagreb",
+      "email": "info@sogosolar.co.uk",
+      "status": "awaiting_reply"
+    },
+    {
+      "key": "2738607/3025134830",
+      "timezone": "Europe/Zagreb",
+      "email": "dan@extrabrainltd.co.uk",
+      "status": "active"
+    },
+    {
+      "key": "2538823/2758496826",
+      "timezone": "Europe/Zagreb",
+      "email": "michel@cybermatic.nl",
+      "status": "active"
+    },
+    {
+      "key": "2538823/2758495355",
+      "timezone": "Europe/Zagreb",
+      "email": "damian@introkreatik.eu",
+      "status": "active"
+    },
+    {
+      "key": "2538823/2758495791",
+      "timezone": "Europe/Zagreb",
+      "email": "jari@in-parallel.com",
+      "status": "active"
+    },
+    {
+      "key": "2538823/2758495403",
+      "timezone": "Europe/Zagreb",
+      "email": "denis@mormedi.com",
+      "status": "active"
+    }
+  ]
+}

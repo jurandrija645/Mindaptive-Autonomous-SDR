@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9999,
+    "completion_tokens": 2372,
+    "total_tokens": 12371,
+    "cost": 0.0007301658,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8399,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007301658,
+      "upstream_inference_prompt_cost": 0.0002984618,
+      "upstream_inference_completions_cost": 0.000431704
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316219",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primateljica je jasno odbila ponudu.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Emily Baxter je izričito odgovorila 'No thanks Rebecca.'",
+      "last_outbound_summary_hr": "Poslan zadnji follow-up s ponudom za slanje koda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks Rebecca."
+      ]
+    },
+    {
+      "key": "3876232/4446316571",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je potvrdio da je rezervirao termin.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Chris je odgovorio: 'Many thanks - all booked.'",
+      "last_outbound_summary_hr": "Poslan je follow-up s upitom je li zakazao termin.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Many thanks - all booked."
+      ]
+    },
+    {
+      "key": "3876232/4446316013",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je jasno odbio ponudu riječju 'NO'.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Robert Swift je odgovorio 'NO'.",
+      "last_outbound_summary_hr": "Poslan zadnji follow-up s ponudom za slanje koda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "NO"
+      ]
+    },
+    {
+      "key": "3876232/4446315825",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je jasno odbio ponudu riječju 'no'.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Guillaume Andrieux je odgovorio 'no'.",
+      "last_outbound_summary_hr": "Poslan zadnji follow-up s ponudom za slanje koda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3876232/4446316919",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je objasnio da radi od kuće, što znači da ponuda nije relevantna.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Stuart Campbell je rekao da zapravo radi od kuće.",
+      "last_outbound_summary_hr": "Poslan zadnji follow-up s ponudom za slanje koda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I actually work from home."
+      ]
+    },
+    {
+      "key": "3876232/4446315696",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je jasno odbio ponudu riječju 'No'.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Darryl Chen je odgovorio 'No'.",
+      "last_outbound_summary_hr": "Poslan zadnji follow-up s ponudom za slanje koda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446317489",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je odbio ponudu objašnjavajući da to ne rade za svoje osoblje.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Anthony Karibian je rekao da ne rade takve stvari za svoje osoblje.",
+      "last_outbound_summary_hr": "Poslan follow-up s ponudom za slanje koda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "We don’t do this kind of stuff for our staff"
+      ]
+    },
+    {
+      "key": "3876232/4446317870",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primateljica je zatražila odjavu ('opt out').",
+      "next_step_hr": "Bez daljnjeg djelovanja; poštivati zahtjev za odjavu.",
+      "last_inbound_summary_hr": "Sara Cooper je napisala 'opt out'.",
+      "last_outbound_summary_hr": "Poslan prvi email s ponudom za slanje booking linka.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "opt out"
+      ]
+    },
+    {
+      "key": "3876232/4446317889",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je potvrdio da je rezervirao termin.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Ben je odgovorio: 'all booked - thanks Rebecca.'",
+      "last_outbound_summary_hr": "Poslan kratak odgovor 'Great, thank you.'",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "all booked - thanks Rebecca."
+      ]
+    },
+    {
+      "key": "3876232/4446318054",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primateljica je izjavila da više ne radi u tvrtki.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Shivani Gupta je napisala da više ne radi za Opinium.",
+      "last_outbound_summary_hr": "Poslan prvi email s ponudom za slanje booking linka.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work for Opinium."
+      ]
+    },
+    {
+      "key": "3876232/4446318062",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primatelj je izjavio da David Morgan više ne koristi tu adresu.",
+      "next_step_hr": "Bez daljnjeg djelovanja; zadržati postojeću oznaku.",
+      "last_inbound_summary_hr": "Poruka kaže da David Morgan više nije na ovoj email adresi.",
+      "last_outbound_summary_hr": "Poslan prvi email s ponudom za slanje booking koda.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "David Morgan is no longer on this email address"
+      ]
+    },
+    {
+      "key": "3876232/4446317432",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Primateljica je pozitivno odgovorila, ali nema dokaza da je dovršila rezervaciju.",
+      "next_step_hr": "Provjeriti postoji li potvrda o rezervaciji; bez daljnjeg slanja poruka.",
+      "last_inbound_summary_hr": "Sarah Skelton je odgovorila 'Yes why not, thanks'.",
+      "last_outbound_summary_hr": "Poslan je follow-up s upitom je li zakazala termin.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Yes why not, thanks"
+      ]
+    }
+  ]
+}

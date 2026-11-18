@@ -1,0 +1,14 @@
+{
+  "audited_threads": 942,
+  "all_campaign_records": 11160,
+  "cold_records": 10218,
+  "followups_due": 43,
+  "awaiting_reply": 5,
+  "restored_from_archive": 32,
+  "provider_changes": 34,
+  "capped": 9,
+  "snoozed": 3,
+  "processed_leads": 70,
+  "model_reported_cost_usd": 2.597305991505,
+  "completed_at": "2026-10-22T13:24:21.508515+00:00"
+}

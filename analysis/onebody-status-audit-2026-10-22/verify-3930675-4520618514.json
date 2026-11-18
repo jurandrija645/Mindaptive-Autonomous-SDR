@@ -1,0 +1,118 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5504,
+    "completion_tokens": 1273,
+    "total_tokens": 6777,
+    "cost": 0.0068631,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0068631,
+      "upstream_inference_prompt_cost": 0.0049536,
+      "upstream_inference_completions_cost": 0.0019095
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520618514",
+      "name": "Ian Brennan",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-10-05",
+      "evidence_message_id": "<CAAAUsh3OvXNhePkCbPk+Fqpy+u7ENGtBSBPa7EEhEdLfzPZqeg@mail.gmail.com>",
+      "human_quote": "",
+      "reason_hr": "Automatska poruka godišnjeg odmora, nema osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je trebao biti natrag 5.10., danas je 22.10. – OOO je istekao. Ponovno ga kontaktiraj s novom ponudom, ne čekaj dalje.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618480",
+      "name": "Tiana Raftopoulou",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka da osoba više ne radi u firmi, uz preusmjeravanje na kolegu - nije osobni odgovor na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Prekini daljnji kontakt s Tianom. Kontaktiraj Toma Darnella na tom@iris.audio kao novog leada.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618256",
+      "name": "Will Rhind",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-09-22",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka, povratak 22.9. - datum davno prošao, nema osobnog odgovora.",
+      "request_hr": "none",
+      "next_action_hr": "Ponovno ga kontaktiraj, OOO je istekao prije mjesec dana.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520618266",
+      "name": "Peter Lancos",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CA+6pnho+cMyVdjCSMgtFsejux47zHW-4rwXnQw-YSLvz8c1u-A@mail.gmail.com>",
+      "human_quote": "No thanks.",
+      "reason_hr": "Osoba je izričito odbila ponudu s 'No thanks.'",
+      "request_hr": "none",
+      "next_action_hr": "Prekini kontakt, jasno odbijanje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520618130",
+      "name": "Joel Holmes",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CABqgNvzwWsavrF1=soKwxyZAJsGExNzVieEjqxn_P=+b5PYtDw@mail.gmail.com>",
+      "human_quote": "I would certainly be interested in learning more",
+      "reason_hr": "Stvarni angažman: Joel je bio na tretmanu, rezervirao dalje, tražio kod za partnericu. Virginia se javila s problemom rebookinga. Zadnje poruke su Virginiino pitanje i Joelov zahtjev za novi kod - oboje zahtijeva odgovor.",
+      "request_hr": "Reissue new code for Virginia and help with rebooking.",
+      "next_action_hr": "Pošalji Virginiji novi promo kod i upute za ponovno rezerviranje. Provjeri s Hampstead klinikom može li se ručno prebaciti stari termin. Joel i Virginia su oboje angažirani, riješi problem brzo.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520617874",
+      "name": "Joel Bailey",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-10-01",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka ('out for a few weeks to welcome a new little Bailey'), bez osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ponovno kontaktiraj, OOO je trebao završiti početkom listopada.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    }
+  ]
+}

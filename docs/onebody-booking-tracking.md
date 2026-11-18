@@ -27,7 +27,8 @@ massage bookings with the code follow the same path.
 
 The notification's actual `Location` is stored in Bookings column G (`location`).
 Column M (`priority_location`) contains `Yes`, `No`, or `Unknown`, based on the
-current ten priority clinics in `knowledge/booking-options.md`. The One Body LDN
+current nine priority clinics in `knowledge/booking-options.md` (Twickenham
+removed 2026-10-29). The One Body LDN
 prefix and punctuation/case differences are normalized. Missing or unrecognized
 clinic names stay `Unknown`; the campaign or nearest-clinic field is never used
 to guess where someone booked. Booking Summary includes totals for all three.

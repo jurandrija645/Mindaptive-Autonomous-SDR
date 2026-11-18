@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8045,
+    "completion_tokens": 2183,
+    "total_tokens": 10228,
+    "cost": 0.0069065298,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 5652,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0069065298,
+      "upstream_inference_prompt_cost": 0.00273586464,
+      "upstream_inference_completions_cost": 0.00417066516
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317963",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba dala uputu za novi kontakt (matt.purt@secretsales.com) za partnerstva; ovo je preporuka, a ne odbijanje ponude.",
+      "last_human_request_hr": "Please email matt.purt@secretsales.com for any new partnership enquiries or to progress any current discussions.",
+      "unresolved_hr": "Nismo kontaktirali Matt Purta s ponudom.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati ponudu za besplatnu fizioterapiju na matt.purt@secretsales.com, referencirajući preporuku Simen Plaha.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAKxdW=aohuzApogEsNw306ayFZd7Atg9ic46GEEEDU=B=gYvig@mail.gmail.com>",
+          "quote": "I have now left the business.\nPlease email matt.purt@secretsales.com for any new partnership enquiries or to progress any current discussions."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446318019",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Primateljica je eksplicitno zatražila odjavu s liste (\"Unsubscribe me please\"). To je jasan zahtjev za prekid komunikacije.",
+      "last_human_request_hr": "Unsubscribe me please",
+      "unresolved_hr": "Ništa. Zahtjev za odjavu je jasan i treba ga poštovati.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Osigurati da je kontakt trajno odjavljen i ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAL+ChTq+nB6b3PetM3K8YDrk74c50jbvXTfms6sMzo8BsSs=sA@mail.gmail.com>",
+          "quote": "Unsubscribe me please"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317948",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor (Out of Office) sadrži ljudsku uputu za kontaktiranje kolege (john@designbystructure.com). Ovo je aktivna preporuka.",
+      "last_human_request_hr": "please direct your enquiry to john@designbystructure.com",
+      "unresolved_hr": "Nismo kontaktirali preporučenu osobu s ponudom.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Proslijediti ponudu za besplatnu fizioterapiju na john@designbystructure.com, navodeći da nas je uputila Nicole Clemens.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAH04dZW0RJ85B_cadJtB31xFkY_-fzBFokbXh3kWgQdJ+mrCFw@mail.gmail.com>",
+          "quote": "please direct your enquiry to john@designbystructure.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317889",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je potvrdila da je rezervirala termin (\"all booked - thanks Rebecca\"). Slučaj je uspješno zaključen.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Ništa. Termin je rezerviran.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao zaključeno s rezervacijom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO4P265MB35040FE4C1ED55C60CF79F42B5B22@LO4P265MB3504.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "all booked - thanks Rebecca."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317874",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Server je vratio grešku 550 zbog URL-a na listi blokiranih (SURBL).",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Problem s reputacijom domene/URL-a koji uzrokuje blokadu. Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Istražiti zašto je domena onebodydirect.com na SURBL listi i riješiti problem prije ponovnog pokušaja slanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e0cb44ba-2e46-45fe-808a-04a28d7860a8@CWXP123MB3126.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "550 A URL in this email (onebodydirect . com) is listed on https://www.surbl.org/lists"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317870",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je odgovorila s \"opt out\", što je eksplicitni zahtjev za prekid komunikacije.",
+      "last_human_request_hr": "opt out",
+      "unresolved_hr": "Ništa. Zahtjev za odjavu je jasan.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Osigurati da je kontakt odjavljen i ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAA7cFOPFrZVoTJg0Vd6BbdPXhZYMrrjigxr2EW=N9iE-9wyrtg@mail.gmail.com>",
+          "quote": "opt out"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317854",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor s bivšeg radnog mjesta. Osoba je napustila tvrtku i poruka je generička, bez preporuke za kontakt osobu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa više nije aktivna. Kontakt nije relevantan.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao krivu osobu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0000000000003f90c9065adf83bc@google.com>",
+          "quote": "I have now left Lickd. Please can you send all queries to hello@lickd.co"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317876",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku. Dala je uputu za općeniti kontakt podrške (support@...), a ne specifičnu osobu za ponudu. Ne postoji korisna preporuka.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa više nije aktivna za ovu osobu. Generička uputa nije obradiva preporuka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao krivu osobu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CANXGUhdFjt6TxrY2kVY3TM413WCcn+Zn=KzNE84KULS_PS_4Pw@mail.gmail.com>",
+          "quote": "kindly reach out to support@globalreachtech.com who\nwill be happy to help."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

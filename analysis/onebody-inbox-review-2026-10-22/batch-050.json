@@ -1,0 +1,221 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12201,
+    "completion_tokens": 2570,
+    "total_tokens": 14771,
+    "cost": 0.00176655,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00176655,
+      "upstream_inference_prompt_cost": 0.00061005,
+      "upstream_inference_completions_cost": 0.0011565
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316455",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ana-maria je izričito napisala 'not interested at this time' i navela da nemaju zdravstveno osiguranje.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nije potrebna daljnja radnja.",
+      "last_inbound_summary_hr": "Ana-maria kaže da nemaju privatno zdravstveno osiguranje i nije zainteresirana.",
+      "last_outbound_summary_hr": "Poslan je posljednji email s upitom za potvrdu neželjenog kontakta.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "Unfortunately we do not get offered private health cover and hence not interested at this time."
+      ]
+    },
+    {
+      "key": "3876232/4446317714",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nathan je ljubazno odbio, rekavši da ponuda nije relevantna za njih.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za promjenom.",
+      "last_inbound_summary_hr": "Nathan obavještava da su u potpunosti remote i da ponuda nije relevantna.",
+      "last_outbound_summary_hr": "Posljednji email s upitom za potvrdu neželjenog kontakta.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "That's actually our registered office - we're all remote.",
+        "Regardless, this isn't relevant for us, but thank you for reaching out."
+      ]
+    },
+    {
+      "key": "3930675/4520612414",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Stephen je izričito zatražio uklanjanje s popisa ('pls remove meS').",
+      "next_step_hr": "Zadržati oznaku Do Not Contact; ne slati daljnje emailove.",
+      "last_inbound_summary_hr": "Stephen odbija i traži uklanjanje s popisa.",
+      "last_outbound_summary_hr": "Podsjetnik o besplatnoj sesiji poslan prije odbijanja.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks - pls remove meS"
+      ]
+    },
+    {
+      "key": "3876232/4446317720",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Andrew je ljubazno odbio navodeći da već imaju fizioterapiju u kući.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nije potrebna promjena.",
+      "last_inbound_summary_hr": "Andrew odbija jer imaju vlastitu fizioterapiju.",
+      "last_outbound_summary_hr": "Posljednji email s upitom za potvrdu neželjenog kontakta.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks – we have physio in-house."
+      ]
+    },
+    {
+      "key": "3930675/4520616207",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Zara je pokazala interes, dobila booking link i kod te zahvalila; booking se smatra dogovorenim.",
+      "next_step_hr": "Zadržati oznaku Meeting Booked; pratiti je li booking ostvaren u sustavu.",
+      "last_inbound_summary_hr": "Zara zahvaljuje na linku i kodu.",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55 za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": true,
+      "evidence": [
+        "Thanks very much Rebecca, I appreciate it!"
+      ]
+    },
+    {
+      "key": "3930675/4520616190",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Paul je napustio tvrtku i poruka je automatska obavijest o odlasku.",
+      "next_step_hr": "Zadržati oznaku Wrong Person; kontaktirati novu osobu ako je potrebno.",
+      "last_inbound_summary_hr": "Automatska obavijest da Paul više ne radi u Digital Ventures Services.",
+      "last_outbound_summary_hr": "Poslana početna email ponuda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with Digital Ventures Services and will be unable to reply."
+      ]
+    },
+    {
+      "key": "3876232/4446316379",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Jason je pokazao interes, dobio kod i link, ali na zadnji bump nije odgovoreno; nema potvrde bookinga.",
+      "next_step_hr": "Ručno provjeriti je li Jason ostvario booking; ako nije, razmotriti povratak na Interested.",
+      "last_inbound_summary_hr": "Jason pita vrijedi li ponuda za ostale zaposlenike.",
+      "last_outbound_summary_hr": "Poslan podsjetnik s upitom je li uspio zakazati termin.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks Rebecca, does this apply to other members of staff at our company or just to me?"
+      ]
+    },
+    {
+      "key": "3876232/4446317887",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Clarence je odgovorio s 'No', što je jasno odbijanje.",
+      "next_step_hr": "Zadržati oznaku Not Interested; ne slati daljnje poruke.",
+      "last_inbound_summary_hr": "Clarence odgovara s 'No'.",
+      "last_outbound_summary_hr": "Posljednji email s upitom za potvrdu neželjenog kontakta.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446317493",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thomas je nakon OOO poruka zatražio odjavu ('Unsubscribe please').",
+      "next_step_hr": "Zadržati oznaku Do Not Contact; ne slati daljnje emailove.",
+      "last_inbound_summary_hr": "Thomas traži odjavu pretplate.",
+      "last_outbound_summary_hr": "Poslan podsjetnik o besplatnoj sesiji.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "Unsubscribe please"
+      ]
+    },
+    {
+      "key": "3930675/4520614705",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Caroline je napustila MHFA England, što je potvrđeno automatskom obavijesti.",
+      "next_step_hr": "Zadržati oznaku Wrong Person; kontaktirati navedenu nasljednicu ako je potrebno.",
+      "last_inbound_summary_hr": "Automatska obavijest da Caroline više ne radi u MHFA England.",
+      "last_outbound_summary_hr": "Poslana početna email ponuda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at MHFA England, please forward all messages to leonie.mcilroy@mhfaengland.org."
+      ]
+    },
+    {
+      "key": "3930675/4520614181",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Colin je napustio Monterosu, što je potvrđeno automatskom obavijesti.",
+      "next_step_hr": "Zadržati oznaku Wrong Person; kontaktirati navedenog nasljednika ako je potrebno.",
+      "last_inbound_summary_hr": "Automatska obavijest da Colin više ne radi za Monterosa.",
+      "last_outbound_summary_hr": "Poslana početna email ponuda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks for your message, I no longer work for Monterosa."
+      ]
+    },
+    {
+      "key": "3930675/4520613939",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Rafaela je napustila Eames Group, što je potvrđeno automatskom obavijesti.",
+      "next_step_hr": "Zadržati oznaku Wrong Person; kontaktirati navedenog nasljednika ako je potrebno.",
+      "last_inbound_summary_hr": "Automatska obavijest da Rafaela više ne radi u Eames Group.",
+      "last_outbound_summary_hr": "Poslana početna email ponuda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at Eames Group."
+      ]
+    }
+  ]
+}

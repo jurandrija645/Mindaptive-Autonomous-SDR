@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8920,
+    "completion_tokens": 2693,
+    "total_tokens": 11613,
+    "cost": 0.00200284,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00200284,
+      "upstream_inference_prompt_cost": 0.0012488,
+      "upstream_inference_completions_cost": 0.00075404
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520612288",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu do ljeta 2027. – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je izvan ureda do ljeta 2027.",
+      "last_inbound_summary_hr": "Automatska poruka o rodiljnom dopustu do ljeta 2027.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave until Summer 2027."
+      ]
+    },
+    {
+      "key": "3930675/4520612264",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o izvanuredu do 14.9. – nema ljudskog odgovora.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je izvan ureda do 14.9. (prošli datum).",
+      "last_inbound_summary_hr": "Automatska poruka o izvanuredu do 14. rujna.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Monday 14th September"
+      ]
+    },
+    {
+      "key": "3930675/4520612270",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 17.9. – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je bio na godišnjem odmoru.",
+      "last_inbound_summary_hr": "Automatska poruka o godišnjem odmoru do 17. rujna.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m now on annual leave until Thursday 17 Sept."
+      ]
+    },
+    {
+      "key": "3876232/4446317436",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o izvanuredu – nema ljudskog odgovora nakon više poruka.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je izvan ureda bez ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatska poruka o izvanuredu.",
+      "last_outbound_summary_hr": "Treća hladna e-poruka s upitom za potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away from work and will respond to your message as soon as I can."
+      ]
+    },
+    {
+      "key": "3876232/4446317283",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o izvanuredu do 14.9. – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je izvan ureda.",
+      "last_inbound_summary_hr": "Automatska poruka o izvanuredu do 14. rujna.",
+      "last_outbound_summary_hr": "Treća hladna e-poruka s upitom za potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of office (back on Monday, 14/09)"
+      ]
+    },
+    {
+      "key": "3930675/4520611493",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 21.9. – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je na godišnjem odmoru.",
+      "last_inbound_summary_hr": "Automatska poruka o godišnjem odmoru do 21. rujna.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on AL until Monday 21st Sept so will be slow to respond."
+      ]
+    },
+    {
+      "key": "3930675/4520611515",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu do kraja godine – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je na rodiljnom dopustu.",
+      "last_inbound_summary_hr": "Automatska poruka o rodiljnom dopustu do kraja godine.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently on maternity leave until the end of the year."
+      ]
+    },
+    {
+      "key": "3930675/4520611525",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu od 15.7.2026. – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je na rodiljnom dopustu.",
+      "last_inbound_summary_hr": "Automatska poruka o rodiljnom dopustu od 15.7.2026.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently OOO on maternity leave starting 15/07/2026."
+      ]
+    },
+    {
+      "key": "3930675/4520611316",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je na rodiljnom dopustu.",
+      "last_inbound_summary_hr": "Automatska poruka o rodiljnom dopustu.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of the office enjoying maternity leave"
+      ]
+    },
+    {
+      "key": "3930675/4520611291",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o izvanuredu – nema ljudskog interesa.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je izvan ureda.",
+      "last_inbound_summary_hr": "Automatska poruka o izvanuredu.",
+      "last_outbound_summary_hr": "Početna hladna e-poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office today."
+      ]
+    },
+    {
+      "key": "3876232/4446315672",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o izvanuredu – nema ljudskog interesa nakon više poruka.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt je izvan ureda bez ljudskog odgovora.",
+      "last_inbound_summary_hr": "Automatska poruka o izvanuredu.",
+      "last_outbound_summary_hr": "Treća hladna e-poruka s upitom za potvrdu.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office."
+      ]
+    },
+    {
+      "key": "3876232/4446315792",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kontakt je odgovorio da je napustio tvrtku AlphaReal – više nije prava osoba.",
+      "next_step_hr": "Nema potrebe za daljnjim koracima; kontakt više ne radi u ciljanoj tvrtki.",
+      "last_inbound_summary_hr": "Obavijest da je kontakt napustio tvrtku AlphaReal.",
+      "last_outbound_summary_hr": "Treća hladna e-poruka s upitom za potvrdu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left AlphaReal: if necessary, please direct any emails over to edpalmer@alpharealcapital.com"
+      ]
+    }
+  ]
+}

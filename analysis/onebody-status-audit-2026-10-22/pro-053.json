@@ -1,0 +1,196 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12501,
+    "completion_tokens": 2228,
+    "total_tokens": 14729,
+    "cost": 0.007572266415,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 9851,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.007572266415,
+      "upstream_inference_prompt_cost": 0.003315627855,
+      "upstream_inference_completions_cost": 0.00425663856
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613965",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0e71aa5842274ef78697a33f827ff1c6@LO7P265MB952933.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613997",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAP5JgfhRPFQBGeaFtdZGqVsDLhwe1g3LSb1nWZF1143=AcG=mg@mail.gmail.com>",
+          "quote": "Hi, I'm out of office and back Monday 14th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613896",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se ne može isporučiti, trajni kvar isporuke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte nije valjana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem e-pošte.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<50efb352-c84c-418e-9909-f22945ba71bf@PR3PR05MB7034.eurprd05.prod.outlook.com>",
+          "quote": "Delivery has failed to these recipients or groups"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613939",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba više ne radi tamo, ali je uputila na kolegu Jamesa Rydona. To je korisna preporuka koju treba slijediti.",
+      "last_human_request_hr": "Thank you for your email. I no longer work at Eames Group. For assistance, please contact James Rydon (james.rydon@eamesconsulting.com), who will be able to assist you.",
+      "unresolved_hr": "Postoji jasna preporuka za kontaktiranje druge osobe unutar tvrtke.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Pratiti preporuku i kontaktirati Jamesa Rydona na james.rydon@eamesconsulting.com s ponudom. Ne slati poruke na Rafaelinu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<015f5b421ee547eea4fcd6e8c47fdafd@AS8PR08MB6584.eurprd08.prod.outlook.com>",
+          "quote": "I no longer work at Eames Group."
+        },
+        {
+          "message_id": "<015f5b421ee547eea4fcd6e8c47fdafd@AS8PR08MB6584.eurprd08.prod.outlook.com>",
+          "quote": "please contact James Rydon (james.rydon@eamesconsulting.com)"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613938",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena, trajni kvar isporuke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte nije valjana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem e-pošte.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<519bd3d3-c5ed-499a-a740-8bb6604f290b@LOYP123MB3037.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to elliot.golds@eamesconsulting.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613937",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena, trajni kvar isporuke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte nije valjana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem e-pošte.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<8906aa03-ec4e-4713-bedb-039cc7638e40@CW1P123MB7968.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to kar.yau@eamesconsulting.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613822",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana, trajni kvar isporuke.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Adresa e-pošte nije valjana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja putem e-pošte.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aa3c078.edbacb72.1a1e9.40af.GMR@mx.google.com>",
+          "quote": "Your message to george@myclientshare.com has been blocked"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613836",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Richard je 11. rujna rekao 'If you share the link I'll come and visit' i poslan mu je link s kodom OBLACCESS55. Slijedilo je nekoliko praćenja s naše strane na koja on nije odgovorio, ali nije ni odbio ponudu. Nema dokaza o rezervaciji. Status 'Lead Done' je netočan; ovo je angažirani potencijalni klijent koji čeka.",
+      "last_human_request_hr": "Good timing as I'm thinking about physio at the moment. If you share the link I'll come and visit.",
+      "unresolved_hr": "Nije odgovorio na praćenja, nema rezervacije ni odbijanja. Potrebno je odrediti daljnje korake.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Nastaviti s praćenjem. Kod OBLACCESS55 je predan, ali nema potvrde o rezervaciji. Poslati osobnu poruku s pitanjem treba li pomoć pri bookiranju ili ima li pitanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJ3Vsv_iCWuLaXVbhrUxOtTJ7CutF5+fc=BbtVDF-xaZY86MXw@mail.gmail.com>",
+          "quote": "If you share the link I'll come and visit."
+        },
+        {
+          "message_id": "<7ea0139a-238e-slt26-4e5d-b18f-f9ae596be526-ndfcns8@onebodyldnpro.com>",
+          "quote": "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

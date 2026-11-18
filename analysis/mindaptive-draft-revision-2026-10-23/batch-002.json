@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 19201,
+    "completion_tokens": 775,
+    "total_tokens": 19976,
+    "cost": 0.001888341,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001888341,
+      "upstream_inference_prompt_cost": 0.001747291,
+      "upstream_inference_completions_cost": 0.00014105
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "3950427/4542616876",
+      "ready": true,
+      "language": "en",
+      "body": "It's been a few weeks since I sent the link to your new site. It's still up at https://stronghold-roofing.vercel.app.\n\nI built it for you, so your honest take is all I'm after.\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\nB) It's not enough of an improvement\n\nJust reply A or B. That's it.",
+      "english": "",
+      "reason_hr": "Reaktivacija nakon 22 dana, jednostavno A/B pitanje bez lažnog roka."
+    },
+    {
+      "key": "3950427/4542616362",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Stephen,\n\nIt's been a few weeks since I sent the link to your new site. It's still up at https://goldenoakalltrades.vercel.app.\n\nI built it for you, so your honest take is all I'm after.\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\nB) It's not enough of an improvement\n\nJust reply A or B. That's it.",
+      "english": "",
+      "reason_hr": "Reaktivacija nakon 22 dana, A/B pitanje, ime Stephen iz potpisa."
+    },
+    {
+      "key": "3950427/4542617705",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Rebecca,\n\nIt's been a few weeks since I sent the link to your new site. It's still up at https://thesknnurse.vercel.app.\n\nI built it for you, so your honest take is all I'm after.\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\nB) It's not enough of an improvement\n\nJust reply A or B. That's it.",
+      "english": "",
+      "reason_hr": "Reaktivacija nakon 22 dana, A/B pitanje, ime Rebecca iz korespondencije."
+    },
+    {
+      "key": "3950427/4542615656",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Michael,\n\nIt's been a few weeks since I sent the link to your new site. It's still up at https://a1-bespoke.vercel.app.\n\nI built it for you, so your honest take is all I'm after.\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\nB) It's not enough of an improvement\n\nJust reply A or B. That's it.",
+      "english": "",
+      "reason_hr": "Reaktivacija nakon 22 dana, A/B pitanje, ime Michael iz korespondencije."
+    },
+    {
+      "key": "3950427/4542617773",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Tim,\n\nIt's been a few weeks since I sent the link to your new site. It's still up at https://horan-construction-eta.vercel.app.\n\nI built it for you, so your honest take is all I'm after.\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\nB) It's not enough of an improvement\n\nJust reply A or B. That's it.",
+      "english": "",
+      "reason_hr": "Reaktivacija nakon 22 dana, A/B pitanje, ime Tim iz korespondencije."
+    }
+  ]
+}

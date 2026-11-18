@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7475,
+    "completion_tokens": 2476,
+    "total_tokens": 9951,
+    "cost": 0.017596632,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.017596632,
+      "upstream_inference_prompt_cost": 0.0105846,
+      "upstream_inference_completions_cost": 0.007012032
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315646",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini ljudski odgovor je automatska OOO poruka s uputom da se hitne stvari pošalju CFO-u. Osoba nije pokazala interes za ponudu niti odgovorila na naknadne poruke. CFO referenca je dio OOO, ne zasebna preporuka.",
+      "last_human_request_hr": "Automatska poruka izvan ureda: 'I am out of the office on vacation. Please contact CFO Kevin Withington for anything urgent in my absence.'",
+      "unresolved_hr": "Nije potrebna daljnja radnja. Nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<285c9c57744d47fcbc932dccdfd129f3@LO0P123MB8675.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office on vacation. Please contact CFO Kevin Withington for anything urgent in my absence."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315506",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka (odsutan do 1. rujna). Nakon toga nema ljudskog odgovora na poslane follow-up poruke.",
+      "last_human_request_hr": "Automatska poruka izvan ureda: 'I am out of the office until Tueday, September 1st with little access to email. I'll get back to you on my return.'",
+      "unresolved_hr": "Osoba se nije javila po povratku. Nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a73885958de2442ca68a55d719652b7a@CWXP123MB2711.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thanks for your email. I am out of the office until Tueday, September 1st with little access to email.\n\nI'll get back to you on my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315555",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Odgovor je automatska poruka o porodiljnom dopustu s uputom na drugu osobu (neil@creamuk.com). Charlotte nije pokazala interes, a uputa je dio OOO, ne osobna preporuka.",
+      "last_human_request_hr": "Automatska poruka: 'I’m currently on maternity leave so will be slower to respond to messages. Please get in touch with neil@creamuk.com.'",
+      "unresolved_hr": "Nema ljudskog angažmana Charlotteinog. Neil referenca je OOO.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<10a08c38501642dcbf7c3a98d095d852@LO8P123MB8436.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’m currently on maternity leave so will be slower to respond to messages. Please get in touch with neil@creamuk.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315534",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka (bank holiday). Nema ljudskog angažmana na ponudu.",
+      "last_human_request_hr": "Automatska poruka: 'Please note that Monday 31 August is a public holiday in the UK and the office is closed. My response will be delayed.'",
+      "unresolved_hr": "Nema ljudskog odgovora. Zatvoriti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3a08f8bb42bc45359862d57eef44f894@CWXP265MB1048.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Please note that Monday 31 August is a public holiday in the UK and the office is closed.  My response will be delayed."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315532",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka (odsutan do 1. rujna). Nakon toga nema ljudskog odgovora.",
+      "last_human_request_hr": "Automatska poruka: 'I am out of the office with limited access to emails until Tuesday 1 September.'",
+      "unresolved_hr": "Nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7ac6a416b09f46ec930e8512da4d93f1@LO9P265MB7567.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office with limited access to emails until Tuesday 1 September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315521",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Lucy je osobno odgovorila da više ne radi u Bulletproofu i dala kontakte za zamjene. Ovo je ljudski odgovor s informacijom o napuštanju firme, bez interesa za ponudu.",
+      "last_human_request_hr": "Osoba je napisala: 'I am no longer working at Bulletproof. Please contact Carlie.Brown@wearebulletproof.com with any requests for Nick Rees. Any requests for David Beare should go to Hollie.Croix@wearebulletproof.com'",
+      "unresolved_hr": "Osnovni kontakt više nije zaposlenik. Preporuke za kontaktiranje kolega su dane, ali nisu direktan zahtjev za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti. Preporuke za kolege zabilježiti kao potencijalne nove kontakte, ali ne nastavljati komunikaciju s Lucy.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<546cb95d37f94c18812b143aff8be738@PAXPR10MB5381.EURPRD10.PROD.OUTLOOK.COM>",
+          "quote": "I am no longer working at Bulletproof. Please contact Carlie.Brown@wearebulletproof.com with any requests for Nick Rees."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315605",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka (odsutan do 21. rujna). Poslan je prije nego što je osoba mogla vidjeti poslane follow-up poruke.",
+      "last_human_request_hr": "Automatska poruka: 'I am currently out of the office and will not be available until 21st Sept. I will have limited access to email and may not be able to respond promptly.'",
+      "unresolved_hr": "Nema ljudskog odgovora nakon povratka. Zatvoriti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<77ca77ab2d314ba5892e67272d855c23@LO2P123MB5095.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office and will not be available until21st Sept. I will have limited access to email"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315644",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Odgovor je automatska poruka o porodiljnom dopustu. Nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "Automatska poruka: 'I am currently on maternity leave and will be away from the business until further notice. I will have limited access to email and may not be able to respond.'",
+      "unresolved_hr": "Zatvoriti; nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti bez daljnje komunikacije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<12c2fb4794ac4df4ab7576fb5592d2ec@GV1PR01MB8786.eurprd01.prod.exchangelabs.com>",
+          "quote": "I am currently on maternity leave and will be away from the business until further notice."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

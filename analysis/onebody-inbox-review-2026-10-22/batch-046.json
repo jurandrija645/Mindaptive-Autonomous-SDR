@@ -1,0 +1,221 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11549,
+    "completion_tokens": 2431,
+    "total_tokens": 13980,
+    "cost": 0.0007703514,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 9932,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007703514,
+      "upstream_inference_prompt_cost": 0.0003279094,
+      "upstream_inference_completions_cost": 0.000442442
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520617890",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je izričito odgovorio 'No' na ponudu.",
+      "next_step_hr": "Zatvoriti konverzaciju i označiti kao nezainteresiranog.",
+      "last_inbound_summary_hr": "Korisnik je odgovorio 'No' na posljednji email.",
+      "last_outbound_summary_hr": "Poslan posljednji email s pitanjem je li zainteresiran.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "NoSteve Toland"
+      ]
+    },
+    {
+      "key": "3930675/4520621302",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je ljubazno odbio ponudu, navodeći da je u dobroj formi.",
+      "next_step_hr": "Zatvoriti konverzaciju i označiti kao nezainteresiranog.",
+      "last_inbound_summary_hr": "Korisnik zahvaljuje, ali odbija ponudu uz obrazloženje da je u dobroj formi.",
+      "last_outbound_summary_hr": "Poslan podsjetnik na ponudu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m in pretty good shape, and currently not covered on rock tape ha ha."
+      ]
+    },
+    {
+      "key": "3930675/4520615107",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je odgovorio 'no' na posljednju ponudu.",
+      "next_step_hr": "Zatvoriti konverzaciju i označiti kao nezainteresiranog.",
+      "last_inbound_summary_hr": "Korisnik je odgovorio 'no'.",
+      "last_outbound_summary_hr": "Poslan posljednji email s pitanjem je li zainteresiran.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "no.,"
+      ]
+    },
+    {
+      "key": "3930675/4520613376",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je postavio pitanja o cijeni i web stranici, a mi smo poslali sve informacije, ali nedostaje potvrda o primitku ili akciji.",
+      "next_step_hr": "Pratiti je li korisnik izvršio rezervaciju; ako ne, poslati kratki podsjetnik.",
+      "last_inbound_summary_hr": "Korisnik pita o cijeni i traži web stranicu.",
+      "last_outbound_summary_hr": "Poslan booking link, kod i detalji o cijeni.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hi Rebecca, how much does it cost?",
+        "Do you have a website?"
+      ]
+    },
+    {
+      "key": "3930675/4520616107",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je ljubazno odbio ponudu uz napomenu da će nas imati na umu za budućnost.",
+      "next_step_hr": "Zatvoriti konverzaciju i označiti kao nezainteresiranog.",
+      "last_inbound_summary_hr": "Korisnik odbija ponudu, ali ostavlja mogućnost za budući kontakt.",
+      "last_outbound_summary_hr": "Poslan posljednji email s pitanjem je li zainteresiran.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks. I'll keep you in mind if I need some physio in the future."
+      ]
+    },
+    {
+      "key": "3930675/4520615084",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je odgovorio 'no thanks' na ponudu.",
+      "next_step_hr": "Zatvoriti konverzaciju i označiti kao nezainteresiranog.",
+      "last_inbound_summary_hr": "Korisnik je odgovorio 'no thanks'.",
+      "last_outbound_summary_hr": "Poslan posljednji email s pitanjem je li zainteresiran.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "no thanks"
+      ]
+    },
+    {
+      "key": "3930675/4520615035",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je potvrdio da će izvršiti rezervaciju danas, što ukazuje na zakazivanje termina.",
+      "next_step_hr": "Pričekati potvrdu o rezervaciji i pratiti status.",
+      "last_inbound_summary_hr": "Korisnik kaže da će rezervirati termin danas.",
+      "last_outbound_summary_hr": "Poslan booking link i kod za besplatnu sesiju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I shall make the booking today."
+      ]
+    },
+    {
+      "key": "3930675/4520618923",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je zatražio odjavu s email liste.",
+      "next_step_hr": "Ukloniti kontakt s mailing liste i označiti kao 'Do Not Contact'.",
+      "last_inbound_summary_hr": "Korisnik je poslao 'Unsubscribe'.",
+      "last_outbound_summary_hr": "Poslan podsjetnik na ponudu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Unsubscribe"
+      ]
+    },
+    {
+      "key": "3930675/4520612263",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je izričito izrazio nezainteresiranost.",
+      "next_step_hr": "Zatvoriti konverzaciju i označiti kao nezainteresiranog.",
+      "last_inbound_summary_hr": "Korisnik kaže da nije zainteresiran, ali želi sreću u poslovanju.",
+      "last_outbound_summary_hr": "Poslan posljednji email s pitanjem je li zainteresiran.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm not interested but good luck with your business."
+      ]
+    },
+    {
+      "key": "3930675/4520620399",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je zatražio prestanak kontakta.",
+      "next_step_hr": "Ukloniti kontakt s mailing liste i označiti kao 'Do Not Contact'.",
+      "last_inbound_summary_hr": "Korisnik je poslao 'Stop'.",
+      "last_outbound_summary_hr": "Poslan podsjetnik na ponudu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Stop"
+      ]
+    },
+    {
+      "key": "3930675/4520614849",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je izričito odgovorio 'not interested'.",
+      "next_step_hr": "Zatvoriti konverzaciju i označiti kao nezainteresiranog.",
+      "last_inbound_summary_hr": "Korisnik je odgovorio 'not interested'.",
+      "last_outbound_summary_hr": "Poslan posljednji email s pitanjem je li zainteresiran.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "not interested"
+      ]
+    },
+    {
+      "key": "3930675/4520612049",
+      "recommended_label": "Meeting Booked",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "Korisnik je iskazao interes i imao aktivnu interakciju, ali rezervacija nije potvrđena.",
+      "next_step_hr": "Pratiti je li korisnik izvršio rezervaciju; ako ne, poslati kratki podsjetnik.",
+      "last_inbound_summary_hr": "Korisnik je poslao palac gore na posljednji email.",
+      "last_outbound_summary_hr": "Poslan podsjetnik na booking link.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "👍🏻"
+      ]
+    }
+  ]
+}

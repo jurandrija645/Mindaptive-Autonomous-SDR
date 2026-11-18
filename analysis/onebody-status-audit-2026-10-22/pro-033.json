@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6671,
+    "completion_tokens": 2411,
+    "total_tokens": 9082,
+    "cost": 0.005294,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6656,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.005294,
+      "upstream_inference_prompt_cost": 0.0016775,
+      "upstream_inference_completions_cost": 0.0036165
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520611107",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka blokirana, server vratio gresku 550 Envelope blocked.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa ne prima poruke. Domena blokirala.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje radnje. Provjeriti postoji li alternativna adresa iz drugih izvora.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6aa7a56c.9871b802.3d9ef1.4761.GMR@mx.google.com>",
+          "quote": "Your message to ceris.gardner@mtgllp.com has been blocked."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520610873",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'Out of Office' do 21. rujna. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba nije osobno odgovorila. Postoji referral na HR direktora koji je van djelokruga fizioterapijske ponude.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dalje. Oznaka 'Do Not Contact' i unsubscribe su vec postavljeni, vjerojatno zbog ranijeg odgovora. Ne mijenjati zastitu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMMyQW7gY+_GbyekczheZ4Ca2wKTk8u_=brEYSXEE35q0ZfaSg@mail.gmail.com>",
+          "quote": "I am currently out of the office. If your query is urgent, please\nreach out to our HR Director Rebecca Taylor"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622428",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Dag osobno odgovorio, odbio jer nije u Londonu, ali dao referral za kolegu Toma s bolovima u ledima. Nas je poslao link i kod Tomu. Nema potvrde bookinga ili odbijanja.",
+      "last_human_request_hr": "I asked my colleague Tom (added to this email), who is currently struggling with his back and he might want to book a session with you.",
+      "unresolved_hr": "Nije poznato je li Tom iskoristio ponudu. Potrebno je njezno provjeriti s Dagom/Tomom je li potrebna daljnja pomoc.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati follow-up mail Dagu i Tomu s pitanjem je li sve u redu s linkom i treba li pomoc oko bookinga.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CADtR=S48Y+zRk+t5OZ7bS+UfF=HPzxms9z+FtVukW7m_H-q9cw@mail.gmail.com>",
+          "quote": "I asked my colleague Tom (added to this email), who is currently struggling with his back and he might want to book a session with you."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622510",
+      "assessment": "auto_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Oriana odgovorila automatskom porukom koja sadrzi referral na dvoje kolega (del@ i mori@). To je ljudska akcija (postavljen je auto-odgovor s uputama), i daje kontakte za nastavak razgovora.",
+      "last_human_request_hr": "Please contact the following management team members to respond to your email: Metallic - del@metallicinc.com, Homecoming - mori@ourhomecoming.com",
+      "unresolved_hr": "Ponuda nije odbijena. Kontaktirani su samo Oriana, ne i preporuceni kontakti. Treba proslijediti ponudu navedenim osobama.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati inicijalni outreach email na del@metallicinc.com i mori@ourhomecoming.com s referencom na Orianu i ponudom.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CAG9UFW1iiU4JYD4fQx=gGqjwOjjG6+7OJFPLnQad=NfiPT2Mrw@mail.gmail.com>",
+          "quote": "Please contact the following management team members to respond to your email : Metallic - del@metallicinc.com, Homecoming - mori@ourhomecoming.com"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520622354",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Rebecca Bunting je osobno odgovorila da je napustila firmu i dala referral na hselfe@audience.co.uk. To je korisna akcija, ali nema iskazanog interesa za ponudu.",
+      "last_human_request_hr": "I've officially moved on from my role at Audience. Please redirect your message to hselfe@audience.co.uk in my absence.",
+      "unresolved_hr": "Osoba vise nije na toj poziciji. Ponuda nije odbijena od strane firme, ali nema iskazanog interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne nastavljati s osobom. Ako postoji poslovni interes, moze se poslati inicijalni outreach na hselfe@audience.co.uk (novi lead).",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CAEA3C=1SqF9hW9FQE=_XvaGJdgVb+Hry5e2yEdLRhwvb=N6p4A@mail.gmail.com>",
+          "quote": "I've officially moved on from my role at Audience. Please redirect your message to hselfe@audience.co.uk"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520622345",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'Out of Office' do 23. rujna bez osobne interakcije s ponudom.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba nije vidjela niti odgovorila na ponudu. Datum povratka (23.9.) je prosao, ali nema dokaza o povratku.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati nista. Ako je kampanja zavrsena, nema smisla slati novu poruku bez naznake interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOLNuCgaVZCV+oJsCDk1voGznowbEZYXLwk4trYvC7KQxzhAJQ@mail.gmail.com>",
+          "quote": "I am out of the office until Wednesday 23rd September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622390",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor s uputama da se nazove studio. Nema osobne reakcije na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angazmana. Ovo je standardni potpis/auto-odgovor, ne odbijanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dalje. Nema osnove za nastavak razgovora.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMak+bDNqWRGxM6zeju4Kjc8sFt__pn4hMx7HNp_y4VHUpoJzw@mail.gmail.com>",
+          "quote": "Please call the studio nearest to you and they will be able to help."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520622310",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'Maternity Leave', nema osobne reakcije na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je na porodiljnom, nije odbila ponudu, ali nema smisla slati dalje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati nista.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CAC_xwAdex6Y2XEbQijGjj8aRy0vpShFL7hJtfUyXvBuZBrTG=w@mail.gmail.com>",
+          "quote": "I'm currently on Maternity Leave"
+        }
+      ],
+      "evidence_verified": false
+    }
+  ]
+}

@@ -258,6 +258,14 @@ def get_lead_campaign_overview(lead_id: int, api_key: str | None = None) -> dict
     return data
 
 
+def get_lead_sequence_details(mapping_id: int, campaign_id: int) -> list[dict]:
+    result = _request("GET", f"/leads/{mapping_id}/sequence-details", params={"campaignId": campaign_id})
+    data = result.get("data") if isinstance(result, dict) else None
+    if not isinstance(data, list) or any(not isinstance(row, dict) for row in data):
+        raise SmartleadError("Could not read sequence details.")
+    return data
+
+
 def pause_campaign_lead(campaign_id: int, lead_id: int, api_key: str | None = None) -> None:
     result = _request("POST", f"/campaigns/{campaign_id}/leads/{lead_id}/pause", api_key=api_key)
     if not isinstance(result, dict) or not (result.get("ok") is True or result.get("success") is True):

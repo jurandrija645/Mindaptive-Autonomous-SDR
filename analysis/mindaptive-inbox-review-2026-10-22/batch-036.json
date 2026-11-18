@@ -1,0 +1,252 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 32774,
+    "completion_tokens": 4259,
+    "total_tokens": 37033,
+    "cost": 0.00578088,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00578088,
+      "upstream_inference_prompt_cost": 0.00458836,
+      "upstream_inference_completions_cost": 0.00119252
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2538823/2758494620",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Albert je odgovorio na početni email i zatražio video. Poslano je 4 uzastopnih poruka bez odgovora nakon toga. Zadnja poruka je zatvaranje hladnog slučaja. Unatoč 4 uzastopne poruke, pravilo zahtijeva 5 prije Lead Done. Nema novog ljudskog interesa nakon zatvaranja.",
+      "priority": "P3",
+      "sales_state": "COLD - no reply after close",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati da se javi ili obrisati nakon 5. poslane poruke. Trenutno stanje: 4 poslane, nema Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "Pues estaría bien ver ese vídeo.Gracias.",
+        "Como no he tenido noticias, asumo que esto no es una prioridad... Cierro este hilo aquí"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Zadnja poruka je zatvaranje. Nema novog upita. Nema potrebe za draftom."
+    },
+    {
+      "key": "2538823/2758495527",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Fabiano je zatražio video, poslan je. Nakon toga 4 uzastopne poslane poruke bez odgovora. Posljednja poruka je ponovno zatvaranje. Iako 4, pravilo zahtijeva 5 za Lead Done. Nema novog interesa nakon zatvaranja.",
+      "priority": "P3",
+      "sales_state": "COLD - no reply after close",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati da se javi ili obrisati nakon 5. poslane poruke. Trenutno stanje: 4 poslane.",
+      "missing_information": [],
+      "evidence": [
+        "vediamo il tuo video.",
+        "Non avendo ricevuto risposta, immagino tu sia molto impegnato."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Zadnja poruka je zatvaranje. Nema novog upita. Nema potrebe za draftom."
+    },
+    {
+      "key": "2515956/2722089398",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Brian je pokazao stvarni ljudski interes: pohvalio je email, pitao je li AI generiran, zatim zatražio video i izričito rekao 'Let's have a call'. Poslana 2 follow-upa nakon videa, ukupno 4 poslane poruke od zadnjeg replyja. Nema 5 uzastopnih. I dalje je zainteresiran, samo treba follow-up. Ne smijemo ga označiti Lead Done.",
+      "priority": "P2",
+      "sales_state": "FOLLOW_UP_AFTER_DEMO_NO_REPLY",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-23T15:00:00Z",
+      "next_step_hr": "Poslati kratki follow-up s pitanjem je li pogledao video ili ima pitanja. Ponuditi brzi poziv. Ne ponavljati cijeli pitch.",
+      "missing_information": [],
+      "evidence": [
+        "That would be great. Always looking to optimize our approach... If it seems like a fit let's have a call."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Brian,\n\nQuick check-in — did you get a chance to watch the video I sent?\n\nIf it looks interesting, happy to jump on a **15-minute call** to answer any questions and see if this fits for VentureOut.\n\nLet me know.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Brian je izričito tražio poziv. Poslana su 2 follow-upa bez odgovora. Potreban je kratki, direktan follow-up s niskim frictionom."
+    },
+    {
+      "key": "2515956/2722089461",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Brian iz Ensoa je odgovorio 'That would be great. Thanks.' što je pozitivan signal. Poslano je 4 follow-up poruka nakon toga bez odgovora (video poslan, zatim 3 follow-upa). Pravilo: 5 uzastopnih za Lead Done, trenutno 4. I dalje postoji interes, ali nema odgovora nakon videa.",
+      "priority": "P3",
+      "sales_state": "FOLLOW_UP_AFTER_DEMO_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati da se javi. Ako ne bude odgovora, nakon 5. poslane poruke označiti Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "That would be great. Thanks."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano 4 follow-upa bez odgovora. Sljedeća poruka bi bila 5. i dovela do Lead Done. Nema novog upita koji bi zahtijevao odgovor. Bolje pričekati nego poslati 5. poruku."
+    },
+    {
+      "key": "2538823/2758495835",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Jean-Pierre je odgovorio s konkretnim interesom: traži sastanak (iako za drugi problem - pronalazak stručnjaka, ne klijenata). Poslano je 3 follow-up poruke nakon slanja kalendarskog linka. Nema 5 uzastopnih. Interes je još uvijek aktivan, ali nema odgovora na ponuđeni termin.",
+      "priority": "P2",
+      "sales_state": "MEETING_REQUESTED_BUT_NO_BOOKING",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": "2026-10-23T08:00:00Z",
+      "next_step_hr": "Poslati kratki follow-up s konkretnim prijedlogom termina (npr. 'Je suis disponible jeudi prochain à 10h ou 14h. Est-ce que l'un de ces créneaux vous conviendrait?') umjesto samo linka.",
+      "missing_information": [],
+      "evidence": [
+        "Avant de vous recommander en interne on pourrait en effet se caler un rendez-vous.",
+        "Vous pouvez m'envoyer une invitation pour ce jeudi."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Bonjour Jean-Pierre,\n\nDésolé de n'avoir pas pu caler le rendez-vous plus tôt. Je suis disponible **jeudi prochain à 10h ou 14h** — est-ce que l'un de ces créneaux vous conviendrait ? Si non, dites-moi ce qui vous arrange.\n\nCordialement,\nLuka",
+      "draft_english": "Hello Jean-Pierre,\n\nSorry I couldn't schedule the meeting earlier. I'm available **next Thursday at 10 AM or 2 PM** — would either of those work for you? If not, let me know what suits you.\n\nBest,\nLuka",
+      "draft_language": "fr",
+      "draft_reason_hr": "Jean-Pierre je tražio sastanak za četvrtak, ali nije rezervirao. Poslana su 3 generička follow-upa s linkom. Potreban je konkretniji prijedlog termina."
+    },
+    {
+      "key": "2538823/2758495441",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Elisa je odgovorila s konkretnim pitanjima: Pipedrive integracija i cijena po sastanku. Naš odgovor je pozvao na poziv umjesto odgovora na pitanje o cijeni. Poslana je samo 1 poruka nakon njenog upita. Ovo je PRIORITETAN odgovor (P0 zbog izravnog pitanja o cijeni).",
+      "priority": "P0",
+      "sales_state": "PRICE_REQUESTED",
+      "next_action": "REPLY_NOW",
+      "next_action_at": null,
+      "next_step_hr": "Odgovoriti izravno na pitanje o Pipedrive integraciji (da, moguće) i dati okvirni raspon cijene po sastanku bez izmišljanja točnog iznosa. Može se reći 'naš model je performance-based, a cijena po kvalificiranom sastanku kreće se od X do Y, ovisno o targetu'. Ili reći 'točnu cijenu mogu dati nakon kratkog poziva da razumijemo vaš ICP'. Ne skrivati se iza poziva.",
+      "missing_information": [],
+      "evidence": [
+        "Is there a Pipedrive intergration?",
+        "How much is that approximately? I'm trying to establish monthly costs"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hi Elisa,\n\nThanks for the questions.\n\n1) **Pipedrive integration** — yes, absolutely. We push all meeting data and prospect info directly into your CRM.\n\n2) **Cost** — since it's performance-based, the exact price per qualified meeting depends on your target audience (seniority, company size, industry). I can give you a precise number after a **quick 15-min call** to understand your ICP. But to give you a rough idea, our clients typically pay between €X and €Y per booked meeting.\n\nWhen would you have time for that quick call?\n\nBest,\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Elisa je postavila konkretna pitanja na koja nije dobila izravan odgovor. Potrebno je odgovoriti prvo na pitanja, pa onda predložiti poziv. Stari draft je preskočio cijenu i odmah pozvao na poziv."
+    },
+    {
+      "key": "2538823/2758496117",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Luis je napustio tvrtku, ali Jesus (novi kontakt) je odgovorio 'querría ver ese video' i dodao kolegu u CC. Ovo je pozitivan signal - preusmjeravanje i interes. Poslano 3 follow-upa nakon videa bez odgovora. Nema 5 uzastopnih. I dalje potencijalni interes.",
+      "priority": "P3",
+      "sales_state": "FOLLOW_UP_AFTER_DEMO_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati. Poslano je 3 follow-upa bez odgovora. Sljedeća poruka bi bila 4. od 5. Bolje pauzirati i pričekati da se jave.",
+      "missing_information": [],
+      "evidence": [
+        "Luis ya no está con nosotros pero querría ver ese video."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano 3 follow-upa bez odgovora. Nema novog upita. Nema potrebe za novim draftom."
+    },
+    {
+      "key": "2538823/2758496297",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Marcin je odgovorio i zatražio video uz jasne uvjete. Video je poslan. Nakon toga 4 follow-up poruke bez odgovora. Pravilo: 5 za Lead Done, trenutno 4. I dalje postoji interes, ali nema odgovora.",
+      "priority": "P3",
+      "sales_state": "FOLLOW_UP_AFTER_DEMO_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati da se javi. Ako ne bude odgovora, nakon 5. poslane poruke označiti Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "You can send me your promo movie if it is (1) not a binding offer, (2) does not contain any unwanted spam/viruses etc."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano 4 follow-upa bez odgovora. Sljedeća poruka bi bila 5. i dovela do Lead Done. Bolje pričekati."
+    },
+    {
+      "key": "2538823/2758496707",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Melvin je odgovorio s izravnim interesom i partnerstvom 'Wir arbeiten immer gerne mit Partnern zusammen. Schick mir gerne mehr Infos!'. Video je poslan. Nakon toga 3-4 follow-upa bez odgovora. Posljednja poruka je bila zatvaranje. Nema 5 uzastopnih (trenutno 4). I dalje postoji interes.",
+      "priority": "P3",
+      "sales_state": "FOLLOW_UP_AFTER_DEMO_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati. Poslano je 4 follow-upa bez odgovora, zadnji je bio zatvaranje. Sljedeća poruka bi bila 5. i dovela do Lead Done.",
+      "missing_information": [],
+      "evidence": [
+        "Wir arbeiten immer gerne mit Partnern zusammen. Schick mir gerne mehr Infos!"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano 4 follow-upa bez odgovora, zadnji je zatvaranje. Nema novog upita. Nema potrebe za draftom."
+    },
+    {
+      "key": "2538823/2758495419",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Dimitar je odgovorio, pogledao video, ali je rekao da već koriste sličan workflow (Clay) i da će se javiti ako njihov pristup ne uspije. Ovo nije odbijanje, ali nije ni aktivan interes. Poslana je samo 1 poruka nakon toga (zatvaranje). Nema novog upita. Nije za daljnje slanje.",
+      "priority": "P3",
+      "sales_state": "NOT_NOW / USING_COMPETITOR",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao 'Contact later' (ako postoji labela) ili ostaviti kao Interested. Ne slati dalje poruke. Ako se javi, odgovoriti.",
+      "missing_information": [],
+      "evidence": [
+        "I watched the movie. We’re already using a similar workflow for a very comparable task, leveraging Clay... I’ll keep your contact details, and if our current approach doesn’t work out, I’ll be sure to reach out to you."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Dimitar je jasno rekao da ima rješenje i da će se javiti ako zatreba. Daljnje slanje bi bilo nepoželjno. Nema potrebe za draftom."
+    }
+  ]
+}

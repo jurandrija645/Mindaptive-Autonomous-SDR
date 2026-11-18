@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 14490,
+    "completion_tokens": 2676,
+    "total_tokens": 17166,
+    "cost": 0.017055,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.017055,
+      "upstream_inference_prompt_cost": 0.013041,
+      "upstream_inference_completions_cost": 0.004014
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616141",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je imala automatski OOO odgovor (odsutan do 21. rujna). Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "OOO je istekao, ali nema dokaza da je osoba vidjela poruku ili pokazala interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; prošli OOO ne mijenja status. Ako vlasnik želi ponovno ciljati, može dodati u novu kampanju.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEJtnEOF+of81b061h2i4aEBrDhriWFL3Le8oHFzcqwZOVeWAg@mail.gmail.com>",
+          "quote": "I’m out of the office until 21 September, checking emails periodically\nbut mostly attempting to switch off."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616108",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je na porodiljnom dopustu do srpnja 2027. Automatski odgovor s uputom za kolege, nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Kontakt je nedostupan do 2027. Nema smisla slati daljnje poruke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao automatski odgovor. Ne slati ništa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAO6d_uZHzhXcw4ORX+hgDe3gXA_Eks2VAzNy7yP2nB1kuYkuLw@mail.gmail.com>",
+          "quote": "I am currently on maternity leave and will have limited access to\nemail during this time. I am due to return in July 2027."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615955",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Poldy je pokazao interes, dobio link i kod, imao problem s plaćanjem, zatim rekao da će pokušati kasnije. Posljednja naša poruka 20.10. bila je završna; nema potvrde rezervacije. Još uvijek potencijalni klijent koji može rezervirati.",
+      "last_human_request_hr": "Sorry I haven't been able to because I've got a really unpredictable couple of weeks coming up so I'm not sure what availability I have to do so - I should know by nearer the end of the week and will try the booking form again.",
+      "unresolved_hr": "Poldy nikada nije potvrdio rezervaciju niti odbio ponudu. Posljednja poruka je naša završna poruka, ali bez jasnog odbijanja.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba ručno odlučiti: zatvoriti (closed_ack) ili poslati još jednu blagu provjeru s obzirom da je prošlo 2 dana od posljednje poruke. Nema hitnog zahtjeva za odgovorom od strane primatelja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEU7O8YEHnN1Er1i8vXQjRwHNVHB87JVQWerJs3qnnAKu7rZzQ@mail.gmail.com>",
+          "quote": "I could be interested in that, I'm only in London once a week so either Tuesdays or Thursdays."
+        },
+        {
+          "message_id": "<CAEU7O8Yc6XJc623+jUtkDX2XKSwUf57Z8M5bL_47f3wFi0nF2A@mail.gmail.com>",
+          "quote": "I should know by nearer the end of the week and will try the booking form again."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616015",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru (vraća se 14. rujna). Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "OOO je davno istekao, ali nema dokaza o interesu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Ako vlasnik želi, može pokušati ponovno u sklopu nove kampanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c392503a566a4aa58fc59ba8bd01e13d@LO8P265MB7829.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am now on annual leave, returning to the office Tuesday 14th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616014",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. E-pošta odbijena od strane Mimecast sigurnosne politike. Nema ljudske interakcije.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Problem s isporukom. Nije došlo do kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Riješiti tehnički problem s domene stewartslaw.com (dodavanje na allow listu) prije ponovnog pokušaja. Ne slati s trenutne domene.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d9e86636-679e-4615-a81d-4a4d9d5974da@CW1P123MB8377.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to mhumphries@stewartslaw.com couldn't be delivered.\n\nstewartslaw.com suspects your message is spam, or contains a virus, and rejected it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616013",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. E-pošta odbijena od strane Mimecast sigurnosne politike. Nema ljudske interakcije.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Problem s isporukom. Nije došlo do kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Riješiti tehnički problem s domene stewartslaw.com (dodavanje na allow listu) prije ponovnog pokušaja. Ne slati s trenutne domene.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9757e243-1ee2-4ff0-ab66-3a9eed04f100@LOBP123MB8202.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to agarcia@stewartslaw.com couldn't be delivered.\n\nstewartslaw.com suspects your message is spam, or contains a virus, and rejected it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616012",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. E-pošta odbijena od strane Mimecast sigurnosne politike. Nema ljudske interakcije.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Problem s isporukom. Nije došlo do kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Riješiti tehnički problem s domene stewartslaw.com (dodavanje na allow listu) prije ponovnog pokušaja. Ne slati s trenutne domene.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<eb665787-1111-4df1-bb5c-fd9200b0fef9@LO7P123MB8548.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to pstudd@stewartslaw.com couldn't be delivered.\n\nstewartslaw.com suspects your message is spam, or contains a virus, and rejected it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615614",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. E-pošta odbijena od strane Mimecast sigurnosne politike. Nema ljudske interakcije.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Problem s isporukom. Nije došlo do kontakta.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Riješiti tehnički problem s domene milltechfx.com (dodavanje na allow listu) prije ponovnog pokušaja. Ne slati s trenutne domene.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b69873a9-d28d-443c-ad51-90bb50eaa708@LO0P123MB8691.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to gthomas@milltechfx.com couldn't be delivered.\n\nmilltechfx.com suspects your message is spam, or contains a virus, and rejected it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23987,
+    "completion_tokens": 3028,
+    "total_tokens": 27015,
+    "cost": 0.00256195,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00256195,
+      "upstream_inference_prompt_cost": 0.00119935,
+      "upstream_inference_completions_cost": 0.0013626
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3899056/4475678288",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti (OOO do 14.9.) s preusmjeravanjem na Paigec. Nema ljudskog interesa ili stvarnog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati povratak s godišnjeg (14.9.) ili ponovno kontaktirati Paigec; zasadno bez radnje.",
+      "missing_information": [],
+      "evidence": [
+        "I will return to the office on September 14th, 2026",
+        "Please contact our marketing coordinator Paige (paigec@orchidhealth.org) for help."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica (autoreply nudge 'funny timing') je neprikladna jer je to bio automatski OOO, a ne stvarni razgovor. Treba ukloniti dok se ne vrati s godišnjeg ili ne dobijemo ljudski odgovor."
+    },
+    {
+      "key": "3899056/4475671523",
+      "recommended_label": "Lead Opted Out",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Mark je izričito rekao 'done this. It wasn't effective for us' – to je odbijanje i opt-out. Postojeća oznaka 'Lead Opted Out' je točna i ne smije se poništiti.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez daljnjeg kontakta. Označeno kao Lead Opted Out.",
+      "missing_information": [],
+      "evidence": [
+        "done this. It wasn't effective for us"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica (pokušaj preokreta) je neprimjerena jer je Mark eksplicitno odbio. Opt-out ne smije biti pregažen."
+    },
+    {
+      "key": "3899056/4475670370",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 10.9. s preusmjeravanjem na Tiffany. Nema stvarnog ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati povratak (10.9.) pa pratiti ako bude potrebno; zasadno bez radnje jer nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I will be out of the office until Thursday September 10th."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica ('funny timing') je neprikladna jer je ovo automatski OOO bez ljudskog odgovora. Treba ukloniti."
+    },
+    {
+      "key": "3899056/4475676664",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "E-pošta nije dostavljena jer adresa nije pronađena (bounce). Nema interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Provjeriti točnost adrese i/ili ukloniti iz kampanje.",
+      "missing_information": [],
+      "evidence": [
+        "Не удалось выполнить доставку следующим получателям или группам: i.proshkina@ctrl2go.solutions",
+        "550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Bounce – nema smisla slati dalje dok adresa nije validna."
+    },
+    {
+      "key": "3892258/4466864122",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor s linkovima i pozdravom tvrtke – nema ljudskog interesa. Nije stvarni odgovor na ponudu.",
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati stvarni ljudski odgovor. Automatski odgovor nije interes. Ne nuditi ponovno dok se ne javi netko stvaran.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Engelsma Heating. For all information please see links below!!"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica ('funny timing') je neprikladna jer je ovo automatski odgovor, a ne stvarni razgovor."
+    },
+    {
+      "key": "3899056/4475668950",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o odsutnosti (OOO do 9.9.). Nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati povratak (9.9.) pa pratiti ako bude potrebno; zasadno bez radnje.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of the office and will return on Wednesday, September 9."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica ('funny timing') je neprikladna jer je ovo automatski OOO."
+    },
+    {
+      "key": "3899056/4475675214",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski OOO do 9.9. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati povratak (9.9.) pa pratiti ako bude potrebno; zasadno bez radnje.",
+      "missing_information": [],
+      "evidence": [
+        "I am currently out of the office. I will respond to your email upon my return on Wednesday, September 9th."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica ('funny timing') je neprikladna jer je ovo automatski OOO."
+    },
+    {
+      "key": "3899056/4475674713",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska potvrda primitka Zendesk ticketa, ne ljudski odgovor. Nema interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez radnje – ovo je automatski ticket sustav, a ne stvarni odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Your request (366702) has been received and is being reviewed by our support staff."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica ('funny timing') je neprikladna jer je ovo Zendesk automatski odgovor, a ne stvarni razgovor."
+    },
+    {
+      "key": "3892258/4466860653",
+      "recommended_label": "",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Jeffrey je odgovorio s linkom i potpisom, ali sadržaj je nejasan ('Let me deejeffrey yeck') – moguća tipfeler ili automatski potpis. Nije jasno je li to stvarni interes ili automatski odgovor. Potrebna ljudska procjena.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Ljudska provjera: je li 'Let me deejeffrey yeck' namjerna poruka ili auto-odgovor? Ako je nejasno, ne nuditi prodaju dok se ne razjasni.",
+      "missing_information": [
+        "Jasan ljudski odgovor ili interes"
+      ],
+      "evidence": [
+        "Let me deejeffrey yeck",
+        "poslao link do vlastite stranice"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica (prebacivanje na AI agent umjesto web stranice) je neprimjerena jer nije jasan interes. Potrebna ljudska revizija prije bilo kakve skice."
+    },
+    {
+      "key": "3899056/4475669100",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski OOO s preusmjeravanjem na shana@withpersona.com. Nema ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati povratak ili kontaktirati shanu; zasadno bez radnje jer nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I'm currently out of the office. If you need an immediate response, please contact shana@withpersona.com."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeća skica ('funny timing') je neprikladna jer je ovo automatski OOO."
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7836,
+    "completion_tokens": 2051,
+    "total_tokens": 9887,
+    "cost": 0.0191008,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0191008,
+      "upstream_inference_prompt_cost": 0.0125376,
+      "upstream_inference_completions_cost": 0.0065632
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315548",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina ljudska poruka je automatska OOO poruka izvan ureda; nema odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenog zahtjeva; primatelj nije pokazao interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati dodatne radnje; zadržati status auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3d107b556a934b3a922677d9fa84629c@GVXPR04MB9849.eurprd04.prod.outlook.com>",
+          "quote": "I am on annual leave returning Tuesday 1st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315575",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina ljudska poruka je automatska OOO poruka; nema odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenog zahtjeva; primatelj nije pokazao interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati dodatne radnje; zadržati status auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3c10db3cee6c46af8de537d9594f7323@LOAP123MB8157.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently OOO."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315511",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina ljudska poruka je automatska OOO poruka s povratkom 15. rujna; nema odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenog zahtjeva; primatelj nije pokazao interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati dodatne radnje; zadržati status auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<28e3a0a52ff74a668b70d22be8458033@LOBP123MB8975.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm on holiday, returning 15 September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315507",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina ljudska poruka je automatska OOO poruka s povratkom 7. rujna; nema odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenog zahtjeva; primatelj nije pokazao interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati dodatne radnje; zadržati status auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEzs1cU-0A0+Zd_zVQJdK288FT4YFeGn1gc2QmTf0yvsEtwE6g@mail.gmail.com>",
+          "quote": "I'm on holiday this week."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315599",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina ljudska poruka je automatska poruka o osobnoj odsutnosti; nema odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenog zahtjeva; primatelj nije pokazao interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati dodatne radnje; zadržati status auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<4dab9c927141422ab64352c15582db5e@YT2PR01MB4623.CANPRD01.PROD.OUTLOOK.COM>",
+          "quote": "Please note that I am on currently on personal leave and may be delayed responding to your email."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315451",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina ljudska poruka je automatska OOO poruka za godišnji odmor; nema odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenog zahtjeva; primatelj nije pokazao interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati dodatne radnje; zadržati status auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1a056d823b7.4c1c31683380.4262039658984626000@joffebooks.com>",
+          "quote": "I'm on annual leave from Friday 28th till Monday 31st."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315467",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina ljudska poruka je automatska OOO poruka s povratkom 1. rujna; nema odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenog zahtjeva; primatelj nije pokazao interes.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati dodatne radnje; zadržati status auto_reply.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAy8URiYQMJ_XF9pQVwTL7_XrZ1hAjjx1UkmP_kv-Y3FTjx1tA@mail.gmail.com>",
+          "quote": "I am out of the office until the 1st of September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315462",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku i dala kontakt za drugu osobu (amy.crawford@cvdgroup.com), ali nema upita o ponudi.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Potencijalni kontakt za drugu osobu; po vlasnikovim pravilima, preporuka je korisna jer je naveden drugi kontakt.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Razmotriti kontaktiranje amy.crawford@cvdgroup.com kao novog leada; ne šaljite poruke bez odobrenja vlasnika.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3c3deb2ea8094c759cf565e6d12abfe7@LO6P265MB6221.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Reiss Barthram no longer works for Charterhouse Group.\nPlease resend your email to amy.crawford@cvdgroup.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

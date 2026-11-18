@@ -1,0 +1,228 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 27445,
+    "completion_tokens": 13944,
+    "total_tokens": 41389,
+    "cost": 0.00764705,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00764705,
+      "upstream_inference_prompt_cost": 0.00137225,
+      "upstream_inference_completions_cost": 0.0062748
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 10709,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317381",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je izrazio interes i planira zakazati, ali nije dovršio postupak.",
+      "next_step_hr": "Pričekati povratnu informaciju klijenta ili nastaviti nježno pratiti.",
+      "last_inbound_summary_hr": "Klijent kaže da će pogledati termine kad mu se raspored razbistri.",
+      "last_outbound_summary_hr": "Poslan je kratki podsjetnik bez novog upita.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "This sounds good to me. what are the next steps and timeslots you have available?",
+        "Im planning on looking at it its just my office days are a buit skewed for the next cvouple of weeks"
+      ]
+    },
+    {
+      "key": "3930675/4520614839",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je izrazio interes i dao detalje, ali nije izvršio rezervaciju.",
+      "next_step_hr": "Pričekati odgovor na zadnji upit o mišljenju.",
+      "last_inbound_summary_hr": "Klijent je zainteresiran, ali je odsutan i ima specifično stanje (fraktura tibije).",
+      "last_outbound_summary_hr": "Poslan je upit 'please give me your thoughts on this'.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am interested in this but am away for a few weeks so could maybe schedule something when I’m back in early Oct."
+      ]
+    },
+    {
+      "key": "4006945/4608050916",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je upravo odgovorio i izrazio želju za rezervacijom.",
+      "next_step_hr": "Odgovoriti na pitanje o dostupnosti i poslati kod za rezervaciju.",
+      "last_inbound_summary_hr": "Klijent pita 'What is availability for this?' i želi rezervirati.",
+      "last_outbound_summary_hr": "Poslana je kratka pratnja s ponudom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Yes please, would like to book this.",
+        "What is availability for this?"
+      ]
+    },
+    {
+      "key": "3930675/4520615955",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je imao problem s plaćanjem i obećao ponovno pokušati, ali problem nije riješen.",
+      "next_step_hr": "Pričekati da klijent sam pokuša ponovo ili se javi s pitanjem.",
+      "last_inbound_summary_hr": "Klijent objašnjava da nije mogao rezervirati zbog neredovitog rasporeda i kaže da će pokušati opet.",
+      "last_outbound_summary_hr": "Poslana je zadnja poruka s napomenom da kod i link čekaju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I tried to book but the payment page is weird and it declined by card:"
+      ]
+    },
+    {
+      "key": "4006945/4608052123",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je pitao 'No - how do I book', što ukazuje na neriješen problem; nakon ponovnog slanja nema potvrde.",
+      "next_step_hr": "Pričekati odgovor na zadnji podsjetnik ili ponovno ponuditi pomoć ako se ne javi.",
+      "last_inbound_summary_hr": "Klijent je rekao da ne zna rezervirati usprkos poslanom linku.",
+      "last_outbound_summary_hr": "Poslan je još jedan podsjetnik s linkom.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Yes please. Thanks.",
+        "No - how do I book"
+      ]
+    },
+    {
+      "key": "3930675/4520621199",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je u više navrata izrazio interes, primio kod, ali još nije zakazao zbog posla.",
+      "next_step_hr": "Pričekati da se klijent javi kad bude imao vremena za rezervaciju.",
+      "last_inbound_summary_hr": "Klijent se ispričava što nije stigla zakazati i nada se da će uskoro.",
+      "last_outbound_summary_hr": "Poslana je potvrda razumijevanja s napomenom da se javi kad bude spremna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Yes I am happyt to come visit, thank you!",
+        "Sorry I have been tied up with work. I hope to have more time next week or the week after to book."
+      ]
+    },
+    {
+      "key": "3876232/4446316604",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je izričito potvrdio da je rezervirao termin ('I’ve just booked myself in').",
+      "next_step_hr": "Dostaviti obećane podatke o broju prijava putem linka.",
+      "last_inbound_summary_hr": "Klijent je postao ambasador, pita o broju prijavljenih putem linka.",
+      "last_outbound_summary_hr": "Obećano je da će se provjeriti brojke i javiti sutradan.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’ve just booked myself in, so will go ahead and share the link with others.",
+        "I’ll double-check the final numbers with the team and get back to you tomorrow..."
+      ]
+    },
+    {
+      "key": "3930675/4520616556",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent se vratio s puta, pitao za detalje rezervacije i primio nove podatke.",
+      "next_step_hr": "Pričekati da klijent sam izvrši rezervaciju ili se javi s dodatnim pitanjima.",
+      "last_inbound_summary_hr": "Klijent pita kako rezervirati besplatnu sesiju jer link vodi na općenite lokacije.",
+      "last_outbound_summary_hr": "Poslan je novi link i kod (VIP8401) uz upute za rezervaciju.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "How can I book a free session? The link below takes me to different locations etc."
+      ]
+    },
+    {
+      "key": "3930675/4520611104",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je više puta ispričavao što nije zakazao, ali je i dalje zainteresiran.",
+      "next_step_hr": "Pričekati da klijent sam zakazuje ili se javi.",
+      "last_inbound_summary_hr": "Automatski odgovor: klijent je van ureda do 12. listopada.",
+      "last_outbound_summary_hr": "Poslana je kratka poruka s upitom je li uspio rezervirati termin.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "I would love to take you up on it! How can I book in?",
+        "I’m so sorry I’ve not had a chance to do this – a chaotic time with work"
+      ]
+    },
+    {
+      "key": "3930675/4520613664",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je upravo zatražio podatke za rezervaciju, koje smo poslali; očekuje se zakazivanje.",
+      "next_step_hr": "Pričekati da klijent sam izvrši rezervaciju ili se javi.",
+      "last_inbound_summary_hr": "Klijent pita može li dobiti booking link.",
+      "last_outbound_summary_hr": "Poslan je booking link i kod uz napomenu da podijeli s kolegama.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Yes would be interested in this if you can send the booking link?"
+      ]
+    },
+    {
+      "key": "3876232/4446315820",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "PA pita o naknadi od £4.99, dobio je odgovor; klijentica je i dalje u interesnoj fazi.",
+      "next_step_hr": "Pričekati da PA ili klijentica izvrše rezervaciju.",
+      "last_inbound_summary_hr": "PA ponovno pita je li naknada od £4.99 očekivana prilikom rezervacije.",
+      "last_outbound_summary_hr": "Potvrđeno da je £4.99 stvarna naknada koja drži termin.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I just wanted to check whether this charge is expected or if there is a booking code that needs to be applied.",
+        "Good catch, that £4.99 is real and expected."
+      ]
+    },
+    {
+      "key": "3876232/4446315515",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Klijent je izrazio interes i spomenuo datum (29.), ali nije potvrdio rezervaciju.",
+      "next_step_hr": "Pričekati da klijent sam izvrši rezervaciju; ponuda je poslana više puta.",
+      "last_inbound_summary_hr": "Klijent zahvaljuje i kaže da ima datum 29. u kalendaru.",
+      "last_outbound_summary_hr": "Poslana je posljednja poruka s napomenom da kod i link čekaju.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "Sounds amazing. Can’t argue with that offer.",
+        "Thanks Rebecca. I have next week 29th in my diary…"
+      ]
+    }
+  ]
+}

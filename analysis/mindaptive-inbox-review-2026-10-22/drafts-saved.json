@@ -1,0 +1,394 @@
+[
+  {
+    "key": "3950427/4542617778",
+    "name": "Remis",
+    "draft_id": 1060,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3960357/3928775246",
+    "name": null,
+    "draft_id": 1061,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3892258/4466860359",
+    "name": null,
+    "draft_id": 1062,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3950427/4542616635",
+    "name": null,
+    "draft_id": 1063,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3562710/4080236189",
+    "name": "Erzvoltaik team",
+    "draft_id": 1064,
+    "status": "pending",
+    "replaced_draft_id": 7
+  },
+  {
+    "key": "2732401/3016173350",
+    "name": "Anna",
+    "draft_id": 1065,
+    "status": "pending",
+    "replaced_draft_id": 14
+  },
+  {
+    "key": "2538823/2758495592",
+    "name": "Francesco",
+    "draft_id": 1066,
+    "status": "pending",
+    "replaced_draft_id": 20
+  },
+  {
+    "key": "2538823/2758495382",
+    "name": "Diego",
+    "draft_id": 1067,
+    "status": "pending",
+    "replaced_draft_id": 19
+  },
+  {
+    "key": "2538823/2758494599",
+    "name": "Aleardo",
+    "draft_id": 1068,
+    "status": "pending",
+    "replaced_draft_id": 15
+  },
+  {
+    "key": "3950427/4542616557",
+    "name": null,
+    "draft_id": 1069,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3950427/4542616876",
+    "name": null,
+    "draft_id": 1070,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3950427/4542616362",
+    "name": "Stephen",
+    "draft_id": 1071,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3950427/4542617705",
+    "name": null,
+    "draft_id": 1072,
+    "status": "pending",
+    "replaced_draft_id": 1030
+  },
+  {
+    "key": "3950427/4542615656",
+    "name": "Michael Hall",
+    "draft_id": 1073,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3950427/4542617773",
+    "name": "Tim",
+    "draft_id": 1074,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3899056/4475672680",
+    "name": "Yevhenii",
+    "draft_id": 1075,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3950427/4542617388",
+    "name": "Rachel",
+    "draft_id": 1076,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3899056/4475670673",
+    "name": "Ben",
+    "draft_id": 1077,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025251433",
+    "name": "Jamie",
+    "draft_id": 1078,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025253783",
+    "name": "Jedrzej",
+    "draft_id": 1079,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025135572",
+    "name": "Andrea",
+    "draft_id": 1080,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025135176",
+    "name": "Andy",
+    "draft_id": 1081,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025133653",
+    "name": "David",
+    "draft_id": 1082,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025253592",
+    "name": "Tyrone",
+    "draft_id": 1083,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025252894",
+    "name": "Marijus",
+    "draft_id": 1084,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2515956/2722088662",
+    "name": "Ali",
+    "draft_id": 1085,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025253762",
+    "name": "Istvan",
+    "draft_id": 1086,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025136155",
+    "name": "Roberto",
+    "draft_id": 1087,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025251931",
+    "name": "Kai",
+    "draft_id": 1088,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2732401/3016172105",
+    "name": "John",
+    "draft_id": 1089,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2515956/2722089937",
+    "name": "Diego",
+    "draft_id": 1090,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025135558",
+    "name": "Henri",
+    "draft_id": 1091,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2732401/3016172998",
+    "name": "Jocelyn",
+    "draft_id": 1092,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025135360",
+    "name": "Marco",
+    "draft_id": 1093,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2732401/3016172379",
+    "name": "Shebaz",
+    "draft_id": 1094,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025134089",
+    "name": "Alina",
+    "draft_id": 1095,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738607/3025135047",
+    "name": "Matthias",
+    "draft_id": 1096,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025251911",
+    "name": "Francisco",
+    "draft_id": 1097,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2738671/3025253676",
+    "name": "Job",
+    "draft_id": 1098,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2732401/3016173185",
+    "name": "Jonathan",
+    "draft_id": 1099,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2538823/2758496613",
+    "name": "Maros",
+    "draft_id": 1100,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2515956/2722095330",
+    "name": "Sharjeel",
+    "draft_id": 1101,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2515956/2722089398",
+    "name": "Brian",
+    "draft_id": 1102,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2538823/2758495835",
+    "name": "Jean-Pierre",
+    "draft_id": 1103,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2515956/2722093804",
+    "name": "Nancy",
+    "draft_id": 1104,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2515956/2722089198",
+    "name": "Arnav",
+    "draft_id": 1105,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2538823/2758494751",
+    "name": "Antonio",
+    "draft_id": 1106,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3960583/3822375070",
+    "name": "Sid",
+    "draft_id": 1107,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3810275/4360210314",
+    "name": "Paul Corpadean",
+    "draft_id": 1108,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3810275/4360210269",
+    "name": "Julija Ivanova",
+    "draft_id": 1109,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "3562710/4080234417",
+    "name": "SogoSolar team",
+    "draft_id": 1110,
+    "status": "pending",
+    "replaced_draft_id": 999
+  },
+  {
+    "key": "2738607/3025134830",
+    "name": "Dan",
+    "draft_id": 1111,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2538823/2758496826",
+    "name": "Michel",
+    "draft_id": 1112,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2538823/2758495355",
+    "name": "Damian",
+    "draft_id": 1113,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2538823/2758495791",
+    "name": "Jari",
+    "draft_id": 1114,
+    "status": "pending",
+    "replaced_draft_id": null
+  },
+  {
+    "key": "2538823/2758495403",
+    "name": "Denis",
+    "draft_id": 1115,
+    "status": "pending",
+    "replaced_draft_id": null
+  }
+]

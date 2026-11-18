@@ -1,0 +1,256 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 19243,
+    "completion_tokens": 3146,
+    "total_tokens": 22389,
+    "cost": 0.00237785,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00237785,
+      "upstream_inference_prompt_cost": 0.00096215,
+      "upstream_inference_completions_cost": 0.0014157
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3912149/3734010607",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-odgovor potvrđuje da Clare više ne radi u tvrtki i preusmjerava na opći enquiries@. Nema stvarnog ljudskog odgovora, samo automatska obavijest o odlasku.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao krivu osobu. Ne slati daljnje poruke na ovu adresu. Ako postoji mogućnost, kontaktirati na enquiries@smartgroup.uk.com za drugu kampanju.",
+      "missing_information": [],
+      "evidence": [
+        "Clare is no longer with the business",
+        "Please note the updated email address which is: enquiries@smartgroup.uk.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Kriva osoba - automatska obavijest o odlasku, nema ljudskog interesa. Postojeći draft (auto-reply nudge) je neprikladan i ne smije se koristiti."
+    },
+    {
+      "key": "3912149/3734012538",
+      "recommended_label": "Not Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Primalac je odgovorio s 'I guess you havent seen mine Andrew 😅' - što je blagi prigovor/ismijavanje (već imaju svoju web stranicu). To nije ozbiljan interes ili pitanje za demo. Postojeći draft je potpuno neprimjeren - nudi AI voice agent umjesto web stranice i krivo tumači ton.",
+      "priority": "P3",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebna je ljudska procjena: je li ovo odbijanje ili otvaranje za šalu? Odgovor 'I guess you havent seen mine' sugerira da imaju vlastitu web stranicu. Moguće je ponuditi website redesign (popravak/redizajn postojeće stranice) umjesto potpuno nove. Ne slati postojeći draft.",
+      "missing_information": [
+        "Trenutna web stranica JJK Gas Services (domena jjkgasservices.co.uk) nije istražena",
+        "Stvarna pozicija/pristup kontakta nije poznata"
+      ],
+      "evidence": [
+        "I guess you havent seen mine Andrew 😅"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft nudi AI voice agent umjesto web stranice, pogrešno tumači ton i nije prikladan za ovaj razgovor."
+    },
+    {
+      "key": "3899056/4475672199",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-odgovor potvrđuje da Todd je u mirovini iz tvrtke i da više ne prati ovaj inbox. Preusmjerava na Kathy Bateman ili UnYoung Botelho.",
+      "priority": "P4",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao krivu osobu. Ako se želi nastaviti, kontaktirati Kathy Bateman (kbateman@assurity.com) ili UnYoung Botelho (ubotelho@assurity.com) putem nove kampanje.",
+      "missing_information": [],
+      "evidence": [
+        "I have retired from Assurity, and this inbox is no longer being monitored",
+        "Please connect with Kathy Bateman my Executive Assistant at kbateman@assurity.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Kriva osoba - kontakt je u mirovini, nema ljudskog odgovora."
+    },
+    {
+      "key": "3899056/4475671940",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-odgovor potvrđuje da TJ više ne radi u Asset-Map i preusmjerava na Ali McCarthy (ali.mccarthy@asset-map.com). Generički redirect bez stvarnog ljudskog odgovora.",
+      "priority": "P4",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao krivu osobu. Ako se želi nastaviti, kontaktirati Ali McCarthy (ali.mccarthy@asset-map.com) putem nove kampanje.",
+      "missing_information": [],
+      "evidence": [
+        "TJ is no longer with Asset-Map",
+        "Please reach out to Ali McCarthy at ali.mccarthy@asset-map.com with your inquiry"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Kriva osoba - automatska obavijest o odlasku, nema ljudskog interesa."
+    },
+    {
+      "key": "3899056/4475671649",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-odgovor potvrđuje da Tawney više ne radi u Boulder Imaging i preusmjerava na jana.peck@boulderimaging.com. Generički redirect, nema stvarnog ljudskog odgovora.",
+      "priority": "P4",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao krivu osobu. Ako se želi nastaviti, kontaktirati jana.peck@boulderimaging.com putem nove kampanje.",
+      "missing_information": [],
+      "evidence": [
+        "I am no longer with Boulder Imaging / IdentiFlight",
+        "Please direct all future communications to jana.peck@boulderimaging.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Kriva osoba - automatska obavijest o odlasku, nema ljudskog interesa."
+    },
+    {
+      "key": "3899056/4475669126",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Auto-odgovor potvrđuje da Kelsey više ne radi u DomainTools (od 1/19/2025) i preusmjerava na Thuy Nguyen. Generički redirect, nema stvarnog ljudskog odgovora.",
+      "priority": "P4",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao krivu osobu. Ako se želi nastaviti, kontaktirati tnguyen@domaintools.com putem nove kampanje.",
+      "missing_information": [],
+      "evidence": [
+        "Kelsey LaBelle is no longer with DomainTools (as of 1/19/2025)",
+        "If this is urgent, please reach out to Thuy Nguyen (tnguyen@domaintools.com)"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Kriva osoba - automatska obavijest o odlasku, nema ljudskog interesa."
+    },
+    {
+      "key": "3899056/4475669213",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Rick je izričito zatražio uklanjanje s mailing liste: 'Please remove me from your mailing list.' Ovo je eksplicitno odbijanje/opt-out. Nema mjesta za daljnje poruke.",
+      "priority": "P4",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao Do Not Contact/Lead Opted Out. Ne slati više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "Please remove me from your mailing list"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitno odbijanje sa zahtjevom za uklanjanje s liste."
+    },
+    {
+      "key": "3825745/4379335352",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primalac je odgovorio samo sa 'stop' nakon tri poslane poruke. Ovo je eksplicitni opt-out. 'stop' je jasan zahtjev za prestanak kontakta.",
+      "priority": "P4",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao Do Not Contact. Ne slati više poruka na ovaj kontakt.",
+      "missing_information": [],
+      "evidence": [
+        "stop"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitni opt-out s 'stop', ne smije se više kontaktirati."
+    },
+    {
+      "key": "3825745/4287404584",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primalac (Dr. Vejay K. Ravindran) je odgovorio samo sa 'Stop' nakon dvije poslane poruke. Ovo je eksplicitni opt-out.",
+      "priority": "P4",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao Do Not Contact. Ne slati više poruka na ovaj kontakt.",
+      "missing_information": [],
+      "evidence": [
+        "Stop"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitni opt-out s 'Stop', ne smije se više kontaktirati."
+    },
+    {
+      "key": "3825745/4287401038",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Primalac je odgovorio s 'Not interested.' nakon dvije poslane poruke. Ovo je jasno i izričito odbijanje bez ikakvog pitanja ili otvaranja za daljnji razgovor.",
+      "priority": "P4",
+      "sales_state": "NOT_INTERESTED",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao Not Interested. Ne slati više poruka.",
+      "missing_information": [],
+      "evidence": [
+        "Not interested."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Jasno i izričito odbijanje bez ikakvog interesa za daljnji kontakt."
+    }
+  ]
+}

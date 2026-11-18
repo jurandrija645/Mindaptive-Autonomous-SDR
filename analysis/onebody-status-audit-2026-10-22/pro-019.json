@@ -1,0 +1,176 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8830,
+    "completion_tokens": 2414,
+    "total_tokens": 11244,
+    "cost": 0.011568,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.011568,
+      "upstream_inference_prompt_cost": 0.007947,
+      "upstream_inference_completions_cost": 0.003621
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621772",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Bart je rekao da su se preselili, što je odbijanje ponude temeljene na blizini ureda.",
+      "last_human_request_hr": "Thanks for offer RebeccaBut we’ve moved\nBest\nBart",
+      "unresolved_hr": "Nema neriješenih pitanja. Osoba je odbila jer više nisu na lokaciji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao odbijeno. Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<B58E4F26-F5FB-4B85-8E5A-3C9269E4FADC@breakthroughglobal.com>",
+          "quote": "Thanks for offer RebeccaBut we’ve moved"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520621423",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Laura je eksplicitno rekla 'No, thank you.' na posljednju email kampanju, što je jasno odbijanje.",
+      "last_human_request_hr": "No, thank you.\n\nAll the best",
+      "unresolved_hr": "Nema ništa za riješiti. Osoba je jasno odbila ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti kao odbijeno. Ne kontaktirati ponovno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAK0bRZdirjZeyyTuoL-FLzuuhw3byOgZX920-4uw2WzHAON96Q@mail.gmail.com>",
+          "quote": "No, thank you."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520621301",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Deborah je prvo poslala OOO poruku, a 6 minuta kasnije eksplicitno odbila ponudu s 'No thanks'.",
+      "last_human_request_hr": "No thanks",
+      "unresolved_hr": "Nema ništa za riješiti. Osoba je odbila ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti kao odbijeno. Ne kontaktirati ponovno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAPhGahoNiv=sMLPfrxoYMkNt38wt5cyhEieLBqc5yM+XQhNd7A@mail.gmail.com>",
+          "quote": "No thanks"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520621239",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Mimi je eksplicitno zatražila da prestanemo slati poruke ('Please stop spamming me') i navela da nema ured u Londonu.",
+      "last_human_request_hr": "We literally don't have an office and I live in Portugal. Please stop spamming me",
+      "unresolved_hr": "Osoba je zatražila prekid kontakta. Status 'Do Not Contact' i odjava su ispravni.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti na 'Do Not Contact' listi. Ne kontaktirati.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAJk4xL_DwSU4aXUDzsEuLKQ24jdVtfhdB=4Onr14_9K_D62Ceg@mail.gmail.com>",
+          "quote": "Please stop spamming me"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520621199",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Claire je 13.10. rekla da će imati više vremena 'next week or the week after', a 20.10. smo joj odgovorili da se javi kad bude spremna. S obzirom na današnji datum (22.10.), prošlo je malo vremena, ali je osoba iskazala jasnu namjeru bukiranja u bliskoj budućnosti.",
+      "last_human_request_hr": "Hi Rebecca\n\nSorry I have been tied up with work. I hope to have more time next week or the week after to book.\n\nThanks\nClaire",
+      "unresolved_hr": "Osoba je rekla da će bukirati 'next week or the week after' (od 13.10.), što je otprilike sada ili sljedeći tjedan. Nije potvrđeno da je bukirala.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati nježan follow-up s obzirom da je vrijeme koje je spomenula za bukiranje ('next week or the week after') došlo. Provjeriti je li uspjela bukirati ili treba pomoć.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAP0G1Vj7Zvw5VOHgP2J3Zf+gYCCayO7b+GxT3f0mKSt6fK+Lgg@mail.gmail.com>",
+          "quote": "I hope to have more time next week or the week after to book."
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520620562",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Edward je odgovorio samo 'no', što je eksplicitno odbijanje traženo u zadnjem emailu kampanje.",
+      "last_human_request_hr": "no",
+      "unresolved_hr": "Nema ništa za riješiti. Osoba je odbila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao odbijeno. Ne kontaktirati ponovno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAzxZO7S5d4gUKLAjnyXHQCCc9nH0iH_Vx_LHgg5dd1wxHu6LQ@mail.gmail.com>",
+          "quote": "no"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520620358",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Patric je odbio ponudu jer već ima dugoročnog fizioterapeuta iako je pohvalio poslovnu ideju.",
+      "last_human_request_hr": "Hi Kurt - thanks I’ve already got a long-term physiotherapist but it’s a great business idea!",
+      "unresolved_hr": "Nema ništa za riješiti. Osoba nije zainteresirana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti kao odbijeno. Ne kontaktirati ponovno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<4465156B-C085-4D78-81E4-9841AED2B531@neurolabs.ai>",
+          "quote": "I’ve already got a long-term physiotherapist"
+        }
+      ]
+    },
+    {
+      "key": "3930675/4520620397",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Steve je 28.9. pokazao interes za ponudu i pitao za specifičan problem s Ahilovom tetivom. Poslan mu je link i kod, ali nema potvrde o bukiranju. Prošlo je skoro mjesec dana od zadnjeg kontakta.",
+      "last_human_request_hr": "I might be open to taking you up on that offer. Which of your locations were you thinking would be best? I don't have a back issue, but an Achilles/lateral foot problem that's been bothering me for months.",
+      "unresolved_hr": "Osobi je poslan link i kod za bukiranje, ali nema odgovora niti potvrde o bukiranju. Nije odbijeno.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati follow-up poruku s pitanjem je li uspio bukirati ili treba pomoć. Od zadnjeg kontakta je prošlo dovoljno vremena za jedan nježan podsjetnik.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAA6Kf1VMoaBrNark-=EGX-KEwHgwJthG8x43rUtbh7OcEagb5A@mail.gmail.com>",
+          "quote": "I might be open to taking you up on that offer."
+        },
+        {
+          "message_id": "<CAA6Kf1VMoaBrNark-=EGX-KEwHgwJthG8x43rUtbh7OcEagb5A@mail.gmail.com>",
+          "quote": "Achilles/lateral foot problem that's been bothering me for months."
+        }
+      ]
+    }
+  ]
+}

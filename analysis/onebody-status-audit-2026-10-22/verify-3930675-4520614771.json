@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7309,
+    "completion_tokens": 1324,
+    "total_tokens": 8633,
+    "cost": 0.0085641,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0085641,
+      "upstream_inference_prompt_cost": 0.0065781,
+      "upstream_inference_completions_cost": 0.001986
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520614771",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CABC5BWH3ekD-OArpgphsa9VbOUWj315=9CJ9mRdp1tW=nMBLGw@mail.gmail.com>",
+      "human_quote": "I think it would be lovely to book a session. Let me know how the booking process works.",
+      "reason_hr": "German je osobno prihvatio ponudu i tražio upute za booking.",
+      "request_hr": "German želi znati kako funkcionira booking proces.",
+      "next_action_hr": "Germanu je poslan link i kod, ali nije potvrdio booking. Slijedi standardni follow-up cadence jer je prošlo više od mjesec dana. Provjeri je li u međuvremenu možda bookirao izvan emaila.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614181",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da osoba više ne radi u toj firmi; poruka je generička i nije personalizirani odgovor na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ovo je napuštanje posla (auto-reply), nije ljudski angažman. Makni iz aktivnih leadova.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520614234",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAHra=S56tqFkSS1s1BqHPToUsK6HDw0phNSnV=fxK3ig9P7QgA@mail.gmail.com>",
+      "human_quote": "Thanks for reaching out. Your email comes at the right time, as I have been dealing with a very stiff neck for a while now and am looking for treatment.",
+      "reason_hr": "Edu je osobno odgovorio s detaljnim interesom i pitanjem o cijeni follow-up sesija.",
+      "request_hr": "Edu je pitao za cijenu follow-up sesija i planira bookirati krajem tjedna.",
+      "next_action_hr": "Edu je zadnji put rekao da će bookirati 'sljedeći tjedan' (2026-09-18), ali još nije potvrdio booking. Naš zadnji follow-up bio je 2026-09-23. Pričekaj do 2026-10-24 pa pošalji nježni podsjetnik.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613939",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da osoba više ne radi u toj firmi; nema ljudskog angažmana oko ponude.",
+      "request_hr": "none",
+      "next_action_hr": "Ovo je napuštanje posla (auto-reply), nije ljudski odgovor. Makni iz aktivnih leadova.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613836",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAJ3Vsv_iCWuLaXVbhrUxOtTJ7CutF5+fc=BbtVDF-xaZY86MXw@mail.gmail.com>",
+      "human_quote": "Good timing as I'm thinking about physio at the moment. If you share the link I'll come and visit.",
+      "reason_hr": "Richard je osobno prihvatio ponudu i tražio link za booking.",
+      "request_hr": "Richard je tražio link za booking.",
+      "next_action_hr": "Richardu je poslan link i kod, ali nije potvrdio booking. Slijedi standardni follow-up cadence jer je prošlo više od mjesec dana. Provjeri je li bookirao izvan emaila.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613801",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu (maternity leave); nije personalizirani odgovor na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Automatski OOO, nije ljudski angažman. Makni iz aktivnih leadova.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

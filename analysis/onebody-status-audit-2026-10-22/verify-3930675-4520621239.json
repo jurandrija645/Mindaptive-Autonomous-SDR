@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6792,
+    "completion_tokens": 1461,
+    "total_tokens": 8253,
+    "cost": 0.00456662043,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 5382,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00456662043,
+      "upstream_inference_prompt_cost": 0.00177535071,
+      "upstream_inference_completions_cost": 0.00279126972
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621239",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAJk4xL_DwSU4aXUDzsEuLKQ24jdVtfhdB=4Onr14_9K_D62Ceg@mail.gmail.com>",
+      "human_quote": "We literally don't have an office and I live in Portugal. Please stop spamming me",
+      "reason_hr": "Kontakt odbija ponudu, ne živi u Londonu, traži prestanak slanja.",
+      "request_hr": "prestanak kontakta",
+      "next_action_hr": "Osoba je na DNC listi i eksplicitno je zatražila prestanak poruka. Ne poduzimati daljnje radnje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621199",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAP0G1Vj7Zvw5VOHgP2J3Zf+gYCCayO7b+GxT3f0mKSt6fK+Lgg@mail.gmail.com>",
+      "human_quote": "I hope to have more time next week or the week after to book.",
+      "reason_hr": "Claire je prihvatila ponudu, dobila link i kod, ali još nije rezervirala termin. Zadnja ljudska poruka je namjera rezervacije u narednim tjednima.",
+      "request_hr": "namjera rezervacije termina u sljedećih tjedan-dva",
+      "next_action_hr": "Claire je zainteresirana i planira rezervirati. Naš zadnji odgovor je prijateljski 'čekam da se javiš'. Pričekati da se ona javi ili da prođe dovoljno vremena za automatski follow-up prema cadence pravilima.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620562",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAAzxZO7S5d4gUKLAjnyXHQCCc9nH0iH_Vx_LHgg5dd1wxHu6LQ@mail.gmail.com>",
+      "human_quote": "no",
+      "reason_hr": "Edward je eksplicitno odgovorio 'no', odbija ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je jasno odbila. Ne slati daljnje poruke. Status 'Not Interested' je ispravan.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520620358",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<4465156B-C085-4D78-81E4-9841AED2B531@neurolabs.ai>",
+      "human_quote": "I’ve already got a long-term physiotherapist",
+      "reason_hr": "Patric već ima dugogodišnjeg fizioterapeuta, odbija ponudu uz kompliment.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba nije zainteresirana jer već ima pružatelja usluge. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520620397",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<CAA6Kf1VMoaBrNark-=EGX-KEwHgwJthG8x43rUtbh7OcEagb5A@mail.gmail.com>",
+      "human_quote": "I might be open to taking you up on that offer. Which of your locations were you thinking would be best?",
+      "reason_hr": "Steve je pokazao interes, dobio prilagođeni odgovor s linkom i kodom za rezervaciju. Nema daljnje ljudske reakcije, nije potvrđena rezervacija niti odbijanje.",
+      "request_hr": "pitanje o lokaciji i specifičnom problemu (riješeno)",
+      "next_action_hr": "Steve je dobio sve potrebne informacije za rezervaciju. Naš zadnji odgovor je poslan. Pričekati da rezervira. Ako ne odgovori, može se poslati nježni follow-up nakon što istekne cadence period.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619921",
+      "genuine_engagement": false,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CA+nXq-2x0KaRxUsTSh194ZUQ2hUttPbEgLFd-06h79k-8do=Yw@mail.gmail.com>",
+      "human_quote": "no",
+      "reason_hr": "Sam je nakon godišnjeg odmora odgovorio 'no', odbija ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je odbila. Početni OOO je bio privremen, ali je nakon povratka poslana jasna 'no' poruka. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

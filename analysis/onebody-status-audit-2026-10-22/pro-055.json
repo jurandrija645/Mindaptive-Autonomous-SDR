@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12437,
+    "completion_tokens": 2023,
+    "total_tokens": 14460,
+    "cost": 0.007932081015,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8923,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.007932081015,
+      "upstream_inference_prompt_cost": 0.004067099055,
+      "upstream_inference_completions_cost": 0.00386498196
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613636",
+      "assessment": "auto_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor 'odsutan iz ureda' 11. rujna. Stvarna osoba je odsutna do 14. rujna; nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nije poznato je li osoba vidjela poruku nakon povratka. Preporučuje se ponovno slanje nakon 14.09.2026.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Sačekajte ručnu odluku vlasnika. Osoba se vratila 14.09., no nema naknadnog ljudskog odgovora. Eventualno poslati ponovnu poruku.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<50b8ac4528cb447cb486f98d4c82c4d8@CWLP123MB5085.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office until Monday 14th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613575",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Sustav primatelja odbio zbog pravila o spamu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa nedostupna ovim putem.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije e-poštom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<88ed329f-8dd4-43b3-adcd-90df6ade5b06@LO2P123MB4175.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to anthony.mckay@pembertonam.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613574",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Sustav primatelja odbio zbog pravila o spamu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa nedostupna ovim putem.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije e-poštom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<74250236-c107-4d4c-aca3-88df8778277e@CWXP123MB5786.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to sachin.anandikar@pembertonam.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613470",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Sustav primatelja odbio zbog pravila o spamu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa nedostupna ovim putem.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije e-poštom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<60f99948-af38-4be3-a7e1-b8490ef36b39@LO2P123MB5669.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to rachael.skaarbrevik@paconsulting.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613471",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena. Sustav primatelja odbio zbog pravila o spamu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa nedostupna ovim putem.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije e-poštom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<4da24c95-f0b4-47e7-82f9-1fc68f151505@CW1P123MB8776.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to bill.cameron@paconsulting.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613505",
+      "assessment": "auto_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor: 'odsutan na roditeljskom dopustu, vraćam se 30. studenog 2026.' Osoba nije vidjela poruku.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Datum povratka 30.11.2026. je u budućnosti.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Kontaktirati nakon 30.11.2026.",
+      "defer_until": "2026-11-30",
+      "evidence": [
+        {
+          "message_id": "<18bbcc192b1a48cfa87f779776016fec@LO4P265MB7126.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I'm out of office on parental leave returning on 30 November\n2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613515",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Lucas je odgovorio da usluga trenutno nije potrebna.",
+      "last_human_request_hr": "this isn't something we need right now",
+      "unresolved_hr": "Jasno odbijanje. Nema potrebe za daljnjim kontaktom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+iAz5FXNefJjvUqf0d6r2vy9VOCYwfJMp-87HOzERVTuB1_qw@mail.gmail.com>",
+          "quote": "this isn't something we need right now"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613430",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Leon je napustio tvrtku. Ne može koristiti ponudu, ali je dao kontakte kolega za druge upite. Ovo nije preporuka za fizioterapiju.",
+      "last_human_request_hr": "I have left IRIS and no longer have access to this email account.",
+      "unresolved_hr": "Nema daljnje akcije prema Leonu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema daljnje akcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<50a64bc68e2f4732a15080ae809583d5@GVXPR04MB12060.eurprd04.prod.outlook.com>",
+          "quote": "I have left IRIS and no longer have access to this email account."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

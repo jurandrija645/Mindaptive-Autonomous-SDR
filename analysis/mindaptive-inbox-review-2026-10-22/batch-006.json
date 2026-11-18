@@ -1,0 +1,249 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23833,
+    "completion_tokens": 2618,
+    "total_tokens": 26451,
+    "cost": 0.0018252598,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 11264,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0018252598,
+      "upstream_inference_prompt_cost": 0.0013487838,
+      "upstream_inference_completions_cost": 0.000476476
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3950427/4542616027",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor o 48h čekanju na odgovor; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; zadržati postojeći automatski odgovor kao kontekst.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for your valued enquiry, we aim to respond to enquiries within 48 hours."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo OOO/automatski odgovor, nema ljudskog interesa; ne stvarati prodajni nudge."
+    },
+    {
+      "key": "3950427/4542615643",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor o radnom vremenu; nema stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; zadržati postojeći automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "We have received your email and will reply during office hours."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo automatski odgovor, nema ljudskog interesa."
+    },
+    {
+      "key": "3912149/3734010686",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo OOO odgovori, čak i nakon trećeg slanja; vlasnici su 'away from business'.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Poštovati OOO status; ne slati nove nudges dok ne stigne ljudski odgovor. Označiti za ljudski pregled nakon povratka.",
+      "missing_information": [],
+      "evidence": [
+        "We are currently away from the business and have limited access to emails."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Višestruki OOO odgovori, nema ljudskog interesa; postojeći draft je istekao (lažni scarcity)."
+    },
+    {
+      "key": "3950427/4542615674",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor o primitku upita; nema stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; zadržati postojeći automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "We have received your enquiry and appreciate you getting in touch."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo automatski odgovor, nema ljudskog interesa."
+    },
+    {
+      "key": "3912149/3734012535",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Višestruki OOO odgovori od različitih zaposlenika; nema stvarnog ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; svi odgovori su OOO, nema interesa.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of the office until 15th September.",
+        "I am away from the office until 21st September."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo OOO odgovori, nema ljudskog interesa."
+    },
+    {
+      "key": "3912149/3734009970",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor o sporijem odgovaranju; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; zadržati postojeći automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "We just wanted to let you know that our response times are currently a little slower than usual."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo automatski odgovor, nema ljudskog interesa."
+    },
+    {
+      "key": "3912149/3734012266",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo OOO odgovori; direktor je na godišnjem odmoru do 28. rujna. Nema stvarnog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-09-28T00:00:00Z",
+      "next_step_hr": "Poštovati OOO; ne slati nove nudges. Mogući nastavak nakon 28. rujna ako postoji ljudski interes.",
+      "missing_information": [],
+      "evidence": [
+        "I am currently out of the office on annual leave and will return on Monday 28th September."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo OOO odgovori, nema ljudskog interesa."
+    },
+    {
+      "key": "3899056/4475672914",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo OOO automatski odgovor od asistentice; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; zadržati postojeći automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "I am currently out of the office, returning next week."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo OOO odgovor, nema ljudskog interesa."
+    },
+    {
+      "key": "3899056/4475669955",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo OOO automatski odgovor; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; zadržati postojeći automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of the office on PTO. I will be returning on Mon, Sept 14."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo OOO odgovor, nema ljudskog interesa."
+    },
+    {
+      "key": "3899056/4475669576",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo OOO automatski odgovor; nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez akcije; zadržati postojeći automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of the office and will return on September 21st."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Isključivo OOO odgovor, nema ljudskog interesa."
+    }
+  ]
+}

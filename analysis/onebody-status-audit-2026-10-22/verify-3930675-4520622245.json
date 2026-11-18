@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5174,
+    "completion_tokens": 1487,
+    "total_tokens": 6661,
+    "cost": 0.004309735095,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 3967,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.004309735095,
+      "upstream_inference_prompt_cost": 0.001468791855,
+      "upstream_inference_completions_cost": 0.00284094324
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520622245",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AM9P190MB15372AD168473181787F053AD1872@AM9P190MB1537.EURP190.PROD.OUTLOOK.COM>",
+      "human_quote": "I'd love to get my ankle seen to with a view to preventing painful flare ups",
+      "reason_hr": "Emily je odgovorila na ponudu, poslan joj je link za booking. Nakon toga pitala za rescheduling termina, što ukazuje da je termin već rezerviran (Provider kategorija je 'Meeting Booked', local_status 'booked').",
+      "request_hr": "pomoć oko reschedulinga postojećeg termina",
+      "next_action_hr": "Provjeriti u sustavu Emilyin termin i ručno ga pomaknuti prema njenom zahtjevu. Odgovoriti joj s uputama ili novim terminom.",
+      "bulk_group": "owner_review",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621893",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAHqO0RAHEhAKajdAq15J+dgof+CL2UYAghrDU-edt98MAWN1_Q@mail.gmail.com>",
+      "human_quote": "take me off this list please",
+      "reason_hr": "Rebecca je eksplicitno zatražila uklanjanje s liste. Status 'Do Not Contact', 'blacklisted' i 'unsubscribed' to potvrđuju.",
+      "request_hr": "uklanjanje s popisa",
+      "next_action_hr": "Nikakav daljnji kontakt. Provjeriti je li potpuno uklonjena iz svih budućih kampanja.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621716",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<fb750b2e63104a2fbb47a8d6a121a0bd@PR3PR05MB7196.eurprd05.prod.outlook.com>",
+      "human_quote": "I am no longer with Fiduciam",
+      "reason_hr": "Carl je odgovorio da više ne radi u toj firmi. Poruka je automatski boilerplate odgovor 'no longer with the company', a ne ljudski angažman na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Prekinuti kontakt. Email adresa više nije validna za ovu osobu/poziciju.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621425",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CANATa6ho0QYrVjBkVHrqGmFrApHXHj3xENPjBmeKjD8fG1WgwA@mail.gmail.com>",
+      "human_quote": "Thanks for reaching out! This sounds wonderful.\n\nI suffer a lot from upper back and neck pain",
+      "reason_hr": "Faye je osobno prihvatila ponudu, poslan joj je link za booking. Nakon našeg follow-upa nije odgovorila. Posljednja poruka je naša, čeka se njen potez.",
+      "request_hr": "none",
+      "next_action_hr": "Pričekati njen odgovor. Ako ne bude reakcije do kraja mjeseca kad kod ističe, poslati zadnji podsjetnik.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621237",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAOD6=0WR8dTUQasjsZ4NBwHV5mKnM=KMadpi+ep=o+hPOu5F_g@mail.gmail.com>",
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor - vjenčanje, vraća se 22.09.2026. (prošli datum). Nema ljudskog osvrta na ponudu. Datum povratka je davno prošao, bez naknadnog odgovora, tretira se kao neangažiran.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je potpuno neaktivan i nije odgovorio na inicijalni outreach. Može se poslati novi email kao prvi kontakt, ignorirajući stari OOO.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520620950",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<e1a8ad1ee9a74e80ae4e5712cfc8878f@CWLP265MB6119.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor s prosljeđivanjem na generičke adrese. Nema ljudskog odgovora na ponudu niti osobnog osvrta.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je neaktivan. Može se pokušati ponovni outreach za nekoliko mjeseci ili kontaktirati navedene zamjenske adrese ako je prikladno.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9568,
+    "completion_tokens": 2413,
+    "total_tokens": 11981,
+    "cost": 0.00741552417,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7234,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00741552417,
+      "upstream_inference_prompt_cost": 0.00280543941,
+      "upstream_inference_completions_cost": 0.00461008476
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520617786",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je poslala automatski OOO odgovor. Nema ljudskog odgovora niti interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Automatski odgovor, osoba se nije uključila. Nema otvorenih pitanja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebne akcije. Ovo je čist automatski odgovor bez ljudske interakcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d2973d56b5a24a30a15ec32123755344@AS5PR07MB10545.eurprd07.prod.outlook.com>",
+          "quote": "Thank you for your email. I am currently in planning meetings returning on Wednesday 16 September. During this time I will be checking emails however\nit will take longer than usual to get a response."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520617637",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Dan Gavan više ne radi u tvrtki, ali je dao jasnu preporuku za kolegicu: 'please forward to charmaineroberts@piercyandco.com'. Ovo je korisna preporuka, nije odbijanje.",
+      "last_human_request_hr": "please forward to charmaineroberts@piercyandco.com",
+      "unresolved_hr": "Potrebno je kontaktirati preporučenu osobu (Charmaine Roberts) na navedeni email.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati poruku na charmaineroberts@piercyandco.com s ponudom, uz spominjanje da je Dan preporučio kontakt.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAPLdhbdnATYFuE2w29UhB9k_51XOiHcMk-CsFs=QTaCvDbnRPA@mail.gmail.com>",
+          "quote": "I no longer work with Piercy&Company and\nthis inbox will not be routinely monitored.\n\nIn order for your message to be dealt with promptly, please forward to\ncharmaineroberts@piercyandco.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520617636",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Mariana Grosu više ne radi u tvrtki, ali je dala jasnu preporuku za kolegicu: 'please contact Giulia Spigno' s punim kontakt podacima. Ovo je korisna preporuka.",
+      "last_human_request_hr": "please contact Giulia Spigno at: giuliaspigno@piercyandco.com",
+      "unresolved_hr": "Potrebno je kontaktirati preporučenu osobu (Giulia Spigno) na navedeni email ili telefon.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati ponudu na giuliaspigno@piercyandco.com, uz napomenu da je Mariana preporučila kontakt.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CALq2MmQs2d562FovjvPXWqhzP8f1mYLG81hresK6cumC_cut6Q@mail.gmail.com>",
+          "quote": "I am no longer with the company... For any business-related inquiries, please contact Giulia Spigno at: giuliaspigno@piercyandco.com"
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520617650",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Theodoros Ioakeim više ne radi u MAPP-u, ali poruka daje preporuku: 'please email Costas Koureas'. Ovo je korisna preporuka, nije odbijanje.",
+      "last_human_request_hr": "please email Costas Koureas on costas.koureas@wearemapp.com",
+      "unresolved_hr": "Potrebno je kontaktirati preporučenu osobu (Costas Koureas) na navedeni email.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati ponudu na costas.koureas@wearemapp.com, uz napomenu da je bivši kolega preporučio kontakt.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<19a655818249469eb2f97f16ac2db437@LO2P123MB4176.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Theodoros Ioakeim no longer works for MAPP... please email Costas Koureas on costas.koureas@wearemapp.com, or call our switchboard on 0207 908 5000."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520617169",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Freddie Coventry više ne radi u Edgefolio. Poruka je automatska obavijest s kontaktima za podršku i prodaju, bez korisne preporuke za fizioterapiju (support@ i tb@ su općeniti poslovni kontakti).",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Osoba je otišla iz tvrtke, nema relevantne preporuke za našu ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti. Nema korisnog kontakta za fizioterapiju.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CANQb3SDfb8q1ZEPALwouCtqzYVqSA5GYqFVxghN4R+3V=YJ4DQ@mail.gmail.com>",
+          "quote": "This mailbox is no longer monitored, as Freddie is no longer with Edgefolio. For commercial or sales inquiries, please reach out to tb@edgefolio.com."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520617132",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila: 'Your message to stephen.moore@cge-partners.com couldn't be delivered'. Email nije isporučen.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je neaktivna ili blokirana. Nema kontakta s osobom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema akcije. Email nije isporučen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2bd82709-2048-4abe-a1f1-b34c9d8e87d7@CWLP123MB3299.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to stephen.moore@cge-partners.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520617077",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila: 'Your message to tony.goddard@acturis.com couldn't be delivered'. Email nije isporučen.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je neaktivna ili blokirana. Nema kontakta s osobom.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema akcije. Email nije isporučen.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<da4668b9-64a4-488e-ac14-1ae45de3c017@LO6P123MB7394.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to tony.goddard@acturis.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616874",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Odgovor sadrži samo potpis Marka Saundersa bez ikakvog teksta poruke. Vjerojatno automatski odgovor (out of office) koji je poslao samo potpis.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudske interakcije. Samo automatski potpis.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema akcije. Ovo je automatski odgovor bez sadržaja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMCQPq69=PkMpTcuV47-u3Qc04rTynOdPGXVG5KyMTOtqWzDgA@mail.gmail.com>",
+          "quote": "MARK SAUNDERS"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

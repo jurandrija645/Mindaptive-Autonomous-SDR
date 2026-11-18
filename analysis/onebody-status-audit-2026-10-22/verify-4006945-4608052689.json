@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5630,
+    "completion_tokens": 1228,
+    "total_tokens": 6858,
+    "cost": 0.004103398935,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 4135,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.004103398935,
+      "upstream_inference_prompt_cost": 0.001757280375,
+      "upstream_inference_completions_cost": 0.00234611856
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608052689",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da je sandučić neaktivan s prijedlogom druge adrese. Nema osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati ponovno na ovu adresu; automatski odgovor. Ako želite, pokušajte na matt@fyxer.com kao novi lead.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608052538",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-10-30",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka o oporavku od operacije do 30.10. Nema ljudskog angažmana, samo univerzalni odgovor.",
+      "request_hr": "none",
+      "next_action_hr": "Sačekati do 31.10., zatim poslati follow-up. Ne koristiti navedene alternativne kontakte jer su dio generičke poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608052354",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAL-430T-Vqe_Je=fy9LbEWR61mAE-OXNYiVK6E8ZynkjmQCwVg@mail.gmail.com>",
+      "human_quote": "I just booked my session.",
+      "reason_hr": "Coralie je osobno potvrdila da je upravo rezervirala svoj termin.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je već bookiran. Nije potrebna daljnja akcija. Provjeriti u sustavu je li termin potvrđen.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "4006945/4608052444",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-10-28",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka o godišnjem odmoru s povratkom 28.10. Nema osobnog odgovora na našu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Sačekati do 29.10., zatim poslati follow-up. Ne koristiti navedeni kontakt PA jer je dio automatske poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608052512",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka s povratkom 'Wednesday, 21 October'. Danas je 22.10.2026. (petak), pa je 21.10. već prošao. Ne možemo sa sigurnošću znati je li se vratila; moguća greška u datumu.",
+      "request_hr": "none",
+      "next_action_hr": "Datum povratka je već prošao. Poslati jedan probni follow-up sada da se vidi je li osoba dostupna.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "4006945/4608052447",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO3P123MB3355FECAE83ACE4F0C4881A695802@LO3P123MB3355.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Absolutely brilliant email.\n\nPlease send over the booking link",
+      "reason_hr": "Gareth je pokazao stvarni interes, tražio link za booking. Link je poslan, ali nema potvrde o rezervaciji.",
+      "request_hr": "please send over the booking link",
+      "next_action_hr": "Poslali smo link, ali nema odgovora na follow-up. Sustav će izračunati treba li novi slijediti prema ritmu; čekamo odgovor leada.",
+      "bulk_group": "waiting_on_lead",
+      "evidence_verified": true
+    }
+  ]
+}

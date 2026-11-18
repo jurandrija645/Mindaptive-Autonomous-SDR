@@ -1,0 +1,28 @@
+{
+  "static_versions": {
+    "app.js": "1794230747",
+    "crm.js": "1794230747",
+    "style.css": "1794230747"
+  },
+  "served_assets_match": true,
+  "checks": [
+    {
+      "route": "/api/inbox",
+      "status": 200,
+      "ms": 140.42,
+      "lead_count": 1149
+    },
+    {
+      "route": "/api/leads/4235278/4816227199",
+      "status": 200,
+      "ms": 59.26,
+      "messages": 5
+    },
+    {
+      "route": "/api/auto-replies",
+      "status": 200,
+      "ms": 41.39,
+      "enabled": false
+    }
+  ]
+}

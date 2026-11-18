@@ -1,0 +1,255 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 23923,
+    "completion_tokens": 2664,
+    "total_tokens": 26587,
+    "cost": 0.00239495,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00239495,
+      "upstream_inference_prompt_cost": 0.00119615,
+      "upstream_inference_completions_cost": 0.0011988
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3278845/3734011178",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor korisničke podrške Octopus Energyja koji traži podatke o korisničkom računu. Bez znakova stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog interesa.",
+      "missing_information": [],
+      "evidence": [
+        "We've not been able to find an account linked to your email address.",
+        "If you're not an Octopus customer could you reply and let us know?"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3278845/3734011177",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor korisničke podrške, isti obrazac kao i za drugu adresu. Bez stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "We've not been able to find an account linked to your email address.",
+        "If you're not an Octopus customer could you reply and let us know?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema postojećeg drafta, niti potrebe za novim."
+    },
+    {
+      "key": "3278845/3734011175",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor korisničke podrške, traži podatke o računu. Bez stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "We've not been able to find an account linked to your email address.",
+        "If you're not an Octopus customer could you reply and let us know?"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3278845/3734011176",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor korisničke podrške, isti obrazac. Bez stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "We've not been able to find an account linked to your email address.",
+        "If you're not an Octopus customer could you reply and let us know?"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3274841/3729674472",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska potvrda zaprimanja Zendesk ticketa. Nije ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatska potvrda.",
+      "missing_information": [],
+      "evidence": [
+        "Your request (129027) has been received and is being reviewed by our support staff.",
+        "This email is a service from Electrum. Delivered by Zendesk"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3278845/3734010591",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Opsežan automatski odgovor sa cjenikom i uputama, nije personaliziran. Bez znakova stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Automatski odgovor s cjenikom.",
+      "missing_information": [],
+      "evidence": [
+        "Thanks for your email enquiry, the following message covers most of the enquiries we receive.",
+        "To respond to you as quick as possible we have collated this reply"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3278845/3734010228",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor zbog velike zauzetosti (hohe Auslastung). Bez stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Aufgrund der aktuell sehr hohen Auslastung können wir Anfragen leider nicht immer sofort beantworten."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3278845/3734009962",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor s informacijom o odgovoru u roku 2 radna dana. Nije personaliziran.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thankyou for your email. We aim to respond to your email within 2 working days."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3278845/3734009868",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor s potvrdom primitka. Bez znakova stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Your message has been successfully received. Our team will review your inquiry and respond at the earliest opportunity."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    },
+    {
+      "key": "3278845/3734009839",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor Checkatrade platforme (noreply). Poruka nije od Elite Gas Coventryja. Potpuno automatski, bez ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Automatski odgovor treće strane.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Checkatrade",
+        "This email is from noreply@checkatrade.com, not from Elite Gas Coventry"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je stara autoresponse nudge poruka koja nije primjerena jer nema stvarnog ljudskog interesa. Postaviti prazan draft."
+    }
+  ]
+}

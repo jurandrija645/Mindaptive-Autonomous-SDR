@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11181,
+    "completion_tokens": 2599,
+    "total_tokens": 13780,
+    "cost": 0.0007742098,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 9839,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007742098,
+      "upstream_inference_prompt_cost": 0.0003011918,
+      "upstream_inference_completions_cost": 0.000473018
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317367",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Harry je automatski odgovorio da više ne radi u Tuckers Solicitors, što ga čini pogrešnom osobom.",
+      "next_step_hr": "Provjeriti je li nova kontakt osoba Barry Tucker već u sustavu; ako nije, razmotriti dodavanje.",
+      "last_inbound_summary_hr": "Automatski odgovor da Harry više ne radi u Tuckers Solicitors i upućivanje na Barryja Tuckera.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer working for Tuckers Solicitors"
+      ]
+    },
+    {
+      "key": "3876232/4446316105",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sharna je automatski odgovorila da više nije u Leadenhall Law Group, što je čini pogrešnom osobom.",
+      "next_step_hr": "Provjeriti novu kontakt osobu Uzmu Hussain ili drugu relevantnu osobu za novi posao.",
+      "last_inbound_summary_hr": "Automatski odgovor da Sharna više nije u tvrtki i upućivanje na druge kontakte.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer at Leadenhall Law Group"
+      ]
+    },
+    {
+      "key": "3876232/4446317325",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dave je automatski odgovorio da više nije zaposlen u Fincoreu, što ga čini pogrešnom osobom.",
+      "next_step_hr": "Provjeriti recepciju Fincorea kao novi kontakt ako želimo nastaviti.",
+      "last_inbound_summary_hr": "Automatski odgovor da David Watkins više nije zaposlen u Fincoreu.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "David Watkins is no longer employed here"
+      ]
+    },
+    {
+      "key": "3876232/4446317268",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jason je automatski odgovorio da je na godišnjem odmoru do 8. rujna, a nakon toga nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Jasona s odmora i ponovno kontaktirati nakon tog datuma.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti zbog godišnjeg odmora do 8. rujna.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am working on Tuesday, September 1st, then on vacation"
+      ]
+    },
+    {
+      "key": "3876232/4446316401",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nicola je automatski odgovorila da je napustila Triple Point, što je čini pogrešnom osobom.",
+      "next_step_hr": "Provjeriti clientops.leadership@triplepoint.co.uk kao novi kontakt ako želimo nastaviti.",
+      "last_inbound_summary_hr": "Automatski odgovor da Nicola više ne radi u Triple Pointu.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Triple Point"
+      ]
+    },
+    {
+      "key": "3876232/4446316686",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Patrick je automatski odgovorio da je odsutan do 7. rujna, a nakon toga nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Patricka i ponovno kontaktirati nakon 7. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 7. rujna.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am away until 7th September"
+      ]
+    },
+    {
+      "key": "3876232/4446316914",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Clare je automatski odgovorila da je na bolovanju, a nakon toga nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Clare s bolovanja ili kontaktirati navedene zamjene ako je hitno.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti zbog bolovanja.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on sick leave"
+      ]
+    },
+    {
+      "key": "3876232/4446316129",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Pieter je automatski odgovorio da je odsutan do 3. rujna, a nakon toga nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Pietera s odmora i ponovno kontaktirati nakon tog datuma.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 3. rujna.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until 3 September 2026"
+      ]
+    },
+    {
+      "key": "3876232/4446316829",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Radha je automatski odgovorila da je na godišnjem odmoru i da će odgovoriti kad stigne, a nakon toga nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Radhe s godišnjeg odmora i ponovno kontaktirati kasnije.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti zbog godišnjeg odmora.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave"
+      ]
+    },
+    {
+      "key": "3876232/4446316698",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alexander je automatski odgovorio da više ne radi u Volante Globalu, što ga čini pogrešnom osobom.",
+      "next_step_hr": "Provjeriti Daniela Sardarizadeha kao novi kontakt ako želimo nastaviti.",
+      "last_inbound_summary_hr": "Automatski odgovor da Alexander više nije u tvrtki i upućivanje na drugu osobu.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer with the Company"
+      ]
+    },
+    {
+      "key": "3876232/4446316942",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Agata je automatski odgovorila da je odsutna do 3. rujna, a nakon toga nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Agate s odmora i ponovno kontaktirati nakon tog datuma.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 3. rujna.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently OOO and will be back Thursday 3rd of September"
+      ]
+    },
+    {
+      "key": "3876232/4446316057",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jane je automatski odgovorila da je napustila Insight222, što je čini pogrešnom osobom.",
+      "next_step_hr": "Provjeriti Oceane ili Jamesa kao nove kontakte ako želimo nastaviti.",
+      "last_inbound_summary_hr": "Automatski odgovor da Jane više ne radi u Insight222.",
+      "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Insight222"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9657,
+    "completion_tokens": 912,
+    "total_tokens": 10569,
+    "cost": 0.00089325,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00089325,
+      "upstream_inference_prompt_cost": 0.00048285,
+      "upstream_inference_completions_cost": 0.0004104
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316101",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Odgovor 'No' uz napomenu da osobe ne rade više u tvrtki potvrđuje da je kontakt nevažeći; nema izraženog interesa.",
+      "evidence": [
+        "No\n\nOliver, sam, lawrie none of these people work at sps anymore!!"
+      ]
+    },
+    {
+      "key": "3876232/4446317234",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti zahtjev za uklanjanjem s mailing liste.",
+      "evidence": [
+        "please take me off this mailing list"
+      ]
+    },
+    {
+      "key": "3876232/4446317835",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jasan odgovor da usluga trenutno nije potrebna.",
+      "evidence": [
+        "Thank you but not currently necessary"
+      ]
+    },
+    {
+      "key": "3876232/4446316624",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti odgovor 'no' na ponudu.",
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3876232/4446316507",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti odgovor 'no' na ponudu.",
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3876232/4446316567",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti odgovor 'No' na ponudu.",
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446316219",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti odgovor 'No thanks' na ponudu.",
+      "evidence": [
+        "No thanks Rebecca."
+      ]
+    },
+    {
+      "key": "3876232/4446316013",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti odgovor 'NO' na ponudu.",
+      "evidence": [
+        "NO"
+      ]
+    },
+    {
+      "key": "3876232/4446315825",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti odgovor 'no' na ponudu.",
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3876232/4446316919",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "ambiguous",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Odgovor da radi od kuće nije jasan pokazatelj interesa ili dezinteresa; ne sadrži izričito odbijanje ni prihvaćanje ponude.",
+      "evidence": [
+        "Hi Rebecca,\n\nThanks for reaching out but I actually work from home.\n\ncheers\n\nStu"
+      ]
+    },
+    {
+      "key": "3876232/4446315696",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Izričiti odgovor 'No' na ponudu.",
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446317489",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Odgovor implicira da ponuda nije relevantna jer većina zaposlenika radi na daljinu i ne nude takve benefite; nema interesa.",
+      "evidence": [
+        "We don’t do this kind of stuff for our staff and most work remotely anyways."
+      ]
+    }
+  ]
+}

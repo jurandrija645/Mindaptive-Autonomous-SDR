@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8706,
+    "completion_tokens": 1510,
+    "total_tokens": 10216,
+    "cost": 0.0101004,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0101004,
+      "upstream_inference_prompt_cost": 0.0078354,
+      "upstream_inference_completions_cost": 0.002265
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616471",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAM59J0qSG0wqMdYRQc0Uaa9SCN1tpd-vEKrnRzP9cNFbpNDwKg@mail.gmail.com>",
+      "human_quote": "Why not....\n\nSounds like a plan",
+      "reason_hr": "Dylan je osobno odgovorio 'Why not.... Sounds like a plan' na ponudu za besplatnu fizioterapiju. Prvi automatski OOO odgovor je zanemaren jer je pravi ljudski odgovor stigao isti dan.",
+      "request_hr": "Dogovoriti besplatnu sesiju (kod i link poslani).",
+      "next_action_hr": "Nema novih poruka od leada od zadnjeg našeg follow-upa. Čeka se da lead rezervira ili odgovori.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616252",
+      "genuine_engagement": true,
+      "verdict": "awaiting_us",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO7P123MB8215AA418C1979581E380A13BA802@LO7P123MB8215.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "I have a colleague who has a bit of an uncomfortable back. As much as I would love to take up the offer, I would love to offer it to him and then get\nsome feedback.\n\nWould that be ok?",
+      "reason_hr": "Lead je zainteresiran za ponudu, ali pita smije li kod prvo iskoristiti njen kolega. To je osobni upit u kontekstu ponude koji zahtijeva naš odgovor, iako smo već odgovorili da može. Nakon našeg potvrdnog odgovora nema daljnjih poruka, ali zadnja ljudska poruka je pitanje 'Would that be ok?' pa je to otvoreno pitanje.",
+      "request_hr": "Pitanje smije li kod i sesiju dati kolegi i dobiti povratne informacije.",
+      "next_action_hr": "Naš posljednji odgovor potvrđuje da može podijeliti kod. Ako se smatra da je to riješeno, treba pričekati odgovor leada. No, postavili smo novo pitanje u follow-upovima, pa je lead trenutno na čekanju.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615555",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-09-21",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska OOO poruka: 'I will be OOO from 14th - 21st September'. Nema nikakvog ljudskog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je bio OOO do 21.09.2026. Datum je prošao, no nije bilo ljudskog angažmana. Treba poslati novi follow-up sada kad je lead vjerojatno aktivan.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520614839",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<F40E9CB7-AE3B-0B4C-88EC-68323433A2C6@hxcore.ol>",
+      "human_quote": "I am interested in this but am away for a few weeks so could maybe schedule something when I’m back in early Oct.",
+      "reason_hr": "Lead je osobno zainteresirana, objasnila je svoj zdravstveni problem i rekla da će rezervirati po povratku. Nakon naših follow-upova u listopadu nije odgovorila. Zadnja poruka je naša, pa se čeka lead.",
+      "request_hr": "Rezervirati termin 'early Oct'.",
+      "next_action_hr": "Lead je vjerojatno propustila follow-upove. Treba poslati novi, blagi podsjetnik jer je pokazala jak interes.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613935",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor 'I have left Finseta Payment Solutions'. Nema ljudskog odgovora, lead više ne radi tamo.",
+      "request_hr": "none",
+      "next_action_hr": "Ne slati daljnje poruke. Provjeriti postoji li nova tvrtka ili kontakt u bazi, inače arhivirati.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613864",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor: 'I am currently on medical leave'. Nema datuma povratka, nema ljudskog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je na medicinskom dopustu, nepoznatog trajanja. Pokušati poslati novi follow-up, ali s oprezom zbog zdravstvenih razloga.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    }
+  ]
+}

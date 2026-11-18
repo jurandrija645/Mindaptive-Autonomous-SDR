@@ -1,0 +1,254 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 26890,
+    "completion_tokens": 3347,
+    "total_tokens": 30237,
+    "cost": 0.00285065,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00285065,
+      "upstream_inference_prompt_cost": 0.0013445,
+      "upstream_inference_completions_cost": 0.00150615
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3960583/3822372509",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor za vrijeme audita. Nema ljudskog interesa, niti pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "I am in the office, however, hosting an audit. I will respond to email as I am able",
+        "should you require immediate assistance, please contact one of my colleagues below"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Samo automatski OOO odgovor, nema pravog interesa za odgovor."
+    },
+    {
+      "key": "3599203/4126837800",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Habbo je pokazao interes: tražio info, demo, reference. Zadnji odgovor je ljudski ('laat het jullie weten zodra we een beslissing hebben genomen'). To je mekano 'ne sada', nije odbijanje. Postoji pending draft za zatvaranje, ali to bi bilo prerano - treba pričekati ili poslati zadnji follow-up.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "WAIT",
+      "next_action_at": "2026-10-29T08:00:00+02:00",
+      "next_step_hr": "Pričekati još tjedan dana (zadnji odgovor je 16.9., danas 22.10. - prošlo je 5 tjedana). Ako nema odgovora, poslati kratki follow-up za zatvaranje ili ponuditi novi ugao.",
+      "missing_information": [],
+      "evidence": [
+        "Ik neem het mee en laat het jullie weten zodra we een beslissing hebben genomen",
+        "Dank voor de demo, ziet er interessant uit. We gaan het bekijken en komen erop terug"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hoi Habbo,\nIk sluit dit even af. Zo te zien is nu niet het juiste moment, en dat is helemaal prima. Als je er later toch nog naar wilt kijken of het prototype wilt zien, staat alles in mijn vorige mail. Succes met Qualevita.\nAndrew",
+      "draft_english": "Hi Habbo, I'll close this out. Seems like now isn't the right time, and that's totally fine. If you want to revisit or see the prototype later, everything's in my previous email. Good luck with Qualevita. Andrew",
+      "draft_language": "nl",
+      "draft_reason_hr": "Postojeći draft na nizozemskom je još uvijek valjan za zatvaranje, ali preporučam pričekati još tjedan dana prije slanja."
+    },
+    {
+      "key": "3912149/3734012398",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski generički odgovor (ticket receipt) - nema ljudskog interesa. Poslano 3 poruke (consecutive_sent=2, zadnji je 'last email'). Nema pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor na upit, bez ljudskog kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "Thankyou for contacting us, we are always happy to help. We will get back to you as soon as possible",
+        "don't hesitate to get in touch by phone too"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-draft (Mia) je neprimjeren jer sugerira da je OOO dokaz za prodaju - pravila zabranjuju korištenje automatskog odgovora za prodajni nudge."
+    },
+    {
+      "key": "3912149/3734012287",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski generički odgovor. Nema ljudskog interesa. Poslano 3 poruke (zadnja 'last email'). Nema pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Solitaire. We aim to respond to your email within 24hrs (during working hours)."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-draft je neprimjeren - pravila zabranjuju korištenje automatskog odgovora za prodajni nudge."
+    },
+    {
+      "key": "3950427/4542615189",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "OOO automatski odgovor (annual leave). Nema ljudskog interesa. Poslano 3 poruke, uključujući 'last email'. Nema pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo OOO automatski odgovor, bez ljudskog kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "I am on annual leave from 4pm on Monday 7th September, returning to the office on Wednesday 16th September"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Samo OOO automatski odgovor, nema ljudskog interesa za odgovor."
+    },
+    {
+      "key": "3912149/3734012258",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski generički odgovor o velikom broju upita. Nema ljudskog interesa. Poslano 3 poruke (zadnja 'last email'). Nema pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting us! Your message is important to us. Our team is currently experiencing a high volume of enquiries",
+        "We aim to get back to you within 2-3 working days"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-draft je neprimjeren - pravila zabranjuju korištenje automatskog odgovora za prodajni nudge."
+    },
+    {
+      "key": "3912149/3734011839",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo OOO automatski odgovor (annual leave). Nema ljudskog interesa. Poslano 3 poruke (zadnja 'last email'). Nema pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo OOO automatski odgovor, bez ljudskog kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "We are currently out of the office on annual leave and will return on Tuesday 8th September",
+        "We will respond to your email as soon as possible upon our return"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-draft je neprimjeren - pravila zabranjuju korištenje automatskog odgovora za prodajni nudge."
+    },
+    {
+      "key": "3912149/3734012336",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski generički odgovor (potvrda primitka). Nema ljudskog interesa. Poslano 3 poruke (zadnja 'last email'). Nema pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski odgovor, bez ljudskog kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "Thank You - We have received your email! Your enquiry is important to us and one of our team will be in touch as soon as possible"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-draft je neprimjeren - pravila zabranjuju korištenje automatskog odgovora za prodajni nudge."
+    },
+    {
+      "key": "3960583/3729673586",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor jasno kaže da Chloe više ne radi u Turnkey Energy - 'Chloe Fradue is no longer with TurnKey Energy'. To je Wrong Person (osoba je otišla iz tvrtke). Nije ljudski interes.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao Wrong Person. Ne slati više poruka na ovaj email. Preusmjeriti na support@turnkeyenergy.com ako se želi nastaviti.",
+      "missing_information": [],
+      "evidence": [
+        "Please note that Chloe Fradue is no longer with TurnKey Energy. Your message is being routed to our Support team",
+        "For all future communications, please contact us directly at support@turnkeyenergy.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Chloe je otišla iz tvrtke - Wrong Person. Postojeći auto-draft je neprimjeren."
+    },
+    {
+      "key": "3960583/3822374830",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s uputama za service request formu. Nema ljudskog interesa, nema pravog odgovora.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje. Samo automatski service request odgovor, bez ljudskog kontakta.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Axia by Qcells Customer Support. To help us review, prioritize, and route your request, please complete the service request form below"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći auto-draft je neprimjeren - pravila zabranjuju korištenje automatskog odgovora za prodajni nudge."
+    }
+  ]
+}

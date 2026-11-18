@@ -1,0 +1,116 @@
+[
+  {
+    "id": 1,
+    "created_at": "2022-08-30T12:32:48.645Z",
+    "name": "Interested",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 2,
+    "created_at": "2022-08-30T12:32:55.159Z",
+    "name": "Meeting Request",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 3,
+    "created_at": "2022-08-30T12:33:02.286Z",
+    "name": "Not Interested",
+    "sentiment_type": "negative"
+  },
+  {
+    "id": 4,
+    "created_at": "2022-08-30T12:33:09.895Z",
+    "name": "Do Not Contact",
+    "sentiment_type": "negative"
+  },
+  {
+    "id": 5,
+    "created_at": "2022-08-30T12:33:16.204Z",
+    "name": "Information Request",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 6,
+    "created_at": "2022-08-30T12:33:22.323Z",
+    "name": "Out Of Office",
+    "sentiment_type": null
+  },
+  {
+    "id": 7,
+    "created_at": "2022-08-30T12:33:28.519Z",
+    "name": "Wrong Person",
+    "sentiment_type": null
+  },
+  {
+    "id": 8,
+    "created_at": "2024-10-25T17:38:36.931Z",
+    "name": "Uncategorizable by Ai",
+    "sentiment_type": null
+  },
+  {
+    "id": 9,
+    "created_at": "2025-03-20T22:07:34.290Z",
+    "name": "Sender Originated Bounce",
+    "sentiment_type": null
+  },
+  {
+    "id": 73534,
+    "created_at": "2025-09-03T16:27:41.618Z",
+    "name": "We opted Out",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 74260,
+    "created_at": "2025-09-06T16:22:58.855Z",
+    "name": "Lead Opted Out",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 79837,
+    "created_at": "2025-09-26T10:38:26.553Z",
+    "name": "Meeting-Booked",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 91981,
+    "created_at": "2025-11-12T13:15:48.976Z",
+    "name": "Interested for Video",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 129073,
+    "created_at": "2026-04-09T12:58:46.844Z",
+    "name": "Contact later",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 136696,
+    "created_at": "2026-05-03T18:37:56.494Z",
+    "name": "Auto-Reply",
+    "sentiment_type": null
+  },
+  {
+    "id": 136697,
+    "created_at": "2026-05-03T18:38:17.629Z",
+    "name": "Redirect",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 139072,
+    "created_at": "2026-05-11T16:06:13.697Z",
+    "name": "Lead Done",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 140755,
+    "created_at": "2026-05-17T19:25:18.113Z",
+    "name": "Interested for Toolkit",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 140756,
+    "created_at": "2026-05-17T19:25:34.740Z",
+    "name": "Interested for Calculator",
+    "sentiment_type": "positive"
+  }
+]

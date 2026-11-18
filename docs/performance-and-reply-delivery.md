@@ -1,5 +1,41 @@
 # Performance and immediate reply delivery
 
+## Dashboard rendering update (2026-11-09)
+
+OneBody's larger inbox exposed a separate browser bottleneck. On the same
+1,112-lead fixture, a full sidebar layout took a median 250.6 ms, an unchanged
+refresh 273.2 ms, and selecting a lead 388.8 ms even with an immediate API
+response. This blocked typing in the plain regeneration-instructions field.
+Production requests measured from Andrew's workstation were much shorter:
+140–185 ms for the inbox and 58–73 ms for the sampled cached conversation.
+
+The inbox now reuses rows by campaign/lead identity, updates selection without
+rebuilding the list, and skips filtering/rendering when server data is unchanged.
+Native `content-visibility: auto` skips offscreen row layout while retaining
+variable row heights and the complete accessible list. This is browser layout
+containment, not a fixed-height JavaScript virtual list. Search waits 120 ms
+after the last keystroke. Polls/focus events share an in-flight inbox request;
+an inbound webhook during that request queues one further refresh.
+
+Conversation requests are aborted when superseded or when leaving the view,
+with a version check to reject responses even when cancellation is ignored.
+Refreshes preserve the latest selected identity. Editor actions use the visible
+conversation's identity, including when filtering hides its sidebar row.
+Deferred row removal also resolves identity again instead of deleting a stale
+array index after a background update or a new selection.
+
+After the change, the same browser fixture measured medians of 18.8 ms for
+sidebar reconciliation, 11.7 ms for an unchanged refresh, and 15.5 ms for lead
+selection. These are browser-side fixture measurements, not end-to-end API
+or AI-generation latency guarantees.
+
+`tests/dashboard_browser_checks.js` covers row reuse, unchanged refreshes,
+single-row updates, unsaved editor text/instructions/focus, filters, reordered
+row clicks, request sharing, webhook follow-up refreshes, newer user selection,
+late responses/errors, view changes, debounced search, archive/scheduled controls,
+deferred row removal and browser layout containment. The local fixture
+`tmp/onebody_perf_server_20261109.py` loads it with all API writes blocked.
+
 ## Why the dashboard became slow
 
 The responder was not slow in SQLite or browser rendering. Production probes

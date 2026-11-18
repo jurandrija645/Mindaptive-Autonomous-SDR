@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8683,
+    "completion_tokens": 2585,
+    "total_tokens": 11268,
+    "cost": 0.0158476,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0158476,
+      "upstream_inference_prompt_cost": 0.00925585,
+      "upstream_inference_completions_cost": 0.00659175
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315522",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Michael je stvarno odgovorio i pitao koje informacije trebamo. Dobio je link i kod OBLACCESS55, ali nema potvrde rezervacije ni odbijanja. Stari problem bio je da je ruka predaja označena kao kraj, a zapravo je trebalo nastaviti pratiti.",
+      "last_human_request_hr": "Hey Kurt, What information do you need on this?",
+      "unresolved_hr": "Nije poznato je li Michael rezervirao termin kodom OBLACCESS55. Posljednje poruke su naše, on nije više odgovorio.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Ručno provjeriti ima li Michael rezervaciju. Ako nema, vlasnik treba odobriti jedan kratki follow-up s linkom i kodom OBLACCESS55, bez slanja sada.",
+      "defer_until": "2026-10-29",
+      "evidence": [
+        {
+          "message_id": "<DBAPR05MB71112052E3B5664499EC2FC098B22@DBAPR05MB7111.eurprd05.prod.outlook.com>",
+          "quote": "Hey Kurt,\n\nWhat information do you need on this?"
+        },
+        {
+          "message_id": "<b2cf38ba-e7cd-slt42-406f-971b-439adf8e4dbf-fpcm660@onebodygrowth.com>",
+          "quote": "The code is OBLACCESS55"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315504",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Stuartov jedini odgovor je automatska poruka da je izvan ureda do 1. rujna. Nema ljudskog pitanja, prihvaćanja ni traženja koda. Naše naknadne poruke ostale su bez ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Ne treba slati ništa osim ako vlasnik ne odluči drukčije.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti bez daljnjeg slanja. Status Out Of Office točno odražava samo automatski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b835dc95c1714990892e20173c384f82@AS8P192MB1800.EURP192.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your mail. I am out of the office returning on Tuesday 1st September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315481",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jeremyjev jedini odgovor je automatska poruka da je izvan ureda do 1. rujna. Nema ljudskog pitanja ni zanimanja. Naše naknadne poruke ostale su bez ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Ne treba slati ništa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti bez daljnjeg slanja. Status Out Of Office točno odražava samo automatski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<61fa0c71aab84a6196124321ae05031c@DU6PR04MB11207.eurprd04.prod.outlook.com>",
+          "quote": "I am out of the office until 1 September. Please excuse my delay in responding."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315500",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Chloe je osobno napisala da je na porodiljnom i uputila na marketing@allica.bank. To nije razgovor o ponudi, nije traženje koda ni pitanje o cijeni. Nema ljudskog angažmana u vezi s ponudom.",
+      "last_human_request_hr": "I'm on maternity leave, you can contact - marketing@allica.bank.",
+      "unresolved_hr": "Nema ljudskog angažmana u vezi s ponudom. Ne treba slati Chloe.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti bez daljnjeg slanja. Ne tretirati generic uputu na marketing kao interes za ponudu.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<7b1b122685fc4eab83e99dd614924f18@LO7P123MB8263.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I'm on maternity leave, you can contact - marketing@allica.bank."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315546",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Tom je napisao da više ne radi za Acquinex i uputio na Will.egan@acquinex.com te tax@acquinex.com. To nije interes za ponudu, a nema ni korisnog imena zainteresirane osobe za našu uslugu.",
+      "last_human_request_hr": "I no longer work for Acquinex - please contact Will.egan@acquinex.com or tax@acquinex.com",
+      "unresolved_hr": "Nema korisnog razgovora s Tomom. Ne treba slati njemu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti bez daljnjeg slanja Tomu. Ne preporučujemo pretvaranje upute na porezni tim u ciljani outreach.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c5d5f4c4e55748a0ba5fa1c67e5ca7fa@LO2P265MB3102.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I no longer work for Acquinex - please contact Will.egan@acquinex.com or tax@acquinex.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315579",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Brettov jedini odgovor je automatska poruka da je izvan ureda 4. rujna. Nema ljudskog pitanja ni zanimanja. Naše naknadne poruke ostale su bez ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Ne treba slati ništa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti bez daljnjeg slanja. Status Out Of Office točno odražava samo automatski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<af066c5c58b846088c0fbccc7164dea4@LO9P123MB7807.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office on Friday, September 4th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315596",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Laurin jedini odgovor je automatska poruka da je izvan ureda do 2. rujna. Nema ljudskog pitanja ni zanimanja. Naše naknadne poruke ostale su bez ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Ne treba slati ništa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti bez daljnjeg slanja. Status Out Of Office točno odražava samo automatski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<91b598547b974b18a683119ec1bfd5ba@CWLP265MB3825.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I'm out of the office with limited access to messages until Wednesday 2nd September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315590",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Eoinov jedini odgovor je automatska poruka da je izvan ureda do 1. rujna. Nema ljudskog pitanja ni zanimanja. Naše naknadne poruke ostale su bez ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog angažmana. Ne treba slati ništa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ostaviti bez daljnjeg slanja. Status Out Of Office točno odražava samo automatski odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d9c315802f9c4f5abe5c9339848b6916@LO9P265MB7489.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office until Tuesday, September 1st."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

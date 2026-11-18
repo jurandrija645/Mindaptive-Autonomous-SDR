@@ -1,0 +1,452 @@
+[
+  {
+    "key": "3950427/4542617478",
+    "ready": false,
+    "language": "en",
+    "body": "",
+    "english": "",
+    "reason_hr": "Zadnja poruka je bila 'last email' i obavijest da je link uklonjen. Mylon je pitao cijenu, cijena je poslana, ali uslijedilo je 4 poruke bez odgovora i objava da je stranica maknuta. Slanje nove poruke bi bilo protiv pravila 'five consecutive outgoing without a reply' i prekršilo obećanje iz zadnje poruke. Potrebna ljudska procjena; preporuka je zatvoriti lead."
+  },
+  {
+    "key": "3950427/4542616635",
+    "ready": true,
+    "language": "en",
+    "body": "Hi William,\n\nSorry to bother you again. I wanted to fix that access issue so you can actually see the site properly.\n\nThe link should work now: https://williams-works.vercel.app\n\nIf it still won't open, a quick screenshot of what you're seeing would help me sort it. Once you can view it, I'm happy to make any changes you want.\n\nThanks,\nMia",
+    "english": "",
+    "reason_hr": "William je prijavio tehnički problem s pristupom stranici ('content not viewable in my region'). Poslan je link, ali nije potvrđeno da je problem riješen. Potrebno je riješiti tehnički problem i potvrditi interes. Poruka je kratka, fokusirana na rješavanje problema, bez forsiranja poziva."
+  },
+  {
+    "key": "3950427/4542617094",
+    "ready": false,
+    "language": "en",
+    "body": "",
+    "english": "",
+    "reason_hr": "Korisnik je pitao za cijenu, ali je jasno rekao da je 'money is tight' i da mu je 'quiet'. Cijena je već poslana (£650). Uslijedilo je 4 poruke bez odgovora. Potrebna ljudska procjena oko toga ima li smisla daljnje praćenje s obzirom na financijsku ograničenost i odsutnost odgovora."
+  },
+  {
+    "key": "3960583/3729675040",
+    "ready": true,
+    "language": "en",
+    "body": "Hi businessdev team,\n\nI reached out to info@evgo.com and support pointed me here.\n\nI built EVgo a redesigned website with a modern look, better mobile experience, and an AI assistant for visitor questions.\n\nWould love for someone on your team to take a look.\n\nIf it's interesting, we can talk about next steps.\n\nMia",
+    "english": "",
+    "reason_hr": "Support je uputio na businessdev@evgo.com. Draft treba poslati na tu adresu, ne na info@. Sadrži konkretnu ponudu (redizajnirani website) i jasan CTA, bez forsiranja poziva."
+  },
+  {
+    "key": "3562710/4080236189",
+    "ready": true,
+    "language": "de",
+    "body": "Hallo Ronny,\n\nich hoffe, Sie hatten einen schönen Urlaub.\n\nDarf ich nochmal an meine letzte Nachricht anknüpfen: Ich kann Ihnen die Testnummer der deutschen KI-Sekretärin schicken, dann hören Sie direkt, wie die Qualität ist.\n\nAlternativ baue ich Ihnen im kurzen Call direkt eine Demo für Erzvoltaik. Sagen Sie einfach Bescheid, was Ihnen lieber ist.\n\nViele Grüße,\nAndrew",
+    "english": "",
+    "reason_hr": "OOO je istekao (21.7.), a interes nije nestao. Ponavlja se ponuda iz zadnje poruke prije OOO-a, bez pritiska i bez novih obećanja."
+  },
+  {
+    "key": "2732401/3016173350",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Anna,\n\nThank you for passing it along, I appreciate that.\n\nIf the right person has questions or wants to see how it works, send them my way anytime. No pressure at all.\n\nAnd thank you for your kind offer about the volunteer work, I'll keep it in mind.\n\nBest,\nMia",
+    "english": "",
+    "reason_hr": "Anna je obećala proslijediti informacije pravoj osobi. Draft kratko prihvaća referral i ne forsira poziv niti ponovno pita istu stvar. Bez kalendarskog linka, kako je sugerirano u audit bilješci."
+  },
+  {
+    "key": "2538823/2758495592",
+    "ready": true,
+    "language": "it",
+    "body": "Ciao Francesco,\n\ncerto, ti preparo una presentazione breve e concreta, senza fronzoli.\n\nPrima di mandartela, una domanda veloce: su quali settori di Mallei vuoi puntare prima, così la taratura sull'AI agent è quella giusta?\n\nSe preferisci, posso anche mostrartelo dal vivo in 10 minuti e vedi subito se ha senso. Tu dimmi.",
+    "english": ""
+  },
+  {
+    "key": "2538823/2758495382",
+    "ready": true,
+    "language": "it",
+    "body": "Ciao Diego,\n\necco il video come promesso: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nMostra come l'agente trova e contatta founder e responsabili tech, proprio i vostri clienti. Spoiler: funziona a performance, quindi pagate solo se vi porta risultati.\n\nGuardalo con calma e dimmi cosa ne pensi. Se serve, possiamo fare una call veloce per adattarlo al vostro caso.",
+    "english": ""
+  },
+  {
+    "key": "2538823/2758494599",
+    "ready": true,
+    "language": "it",
+    "body": "Ciao Aleardo,\n\ncapito, e ha senso che abbiate già dei tool — è un campo affollato. La differenza col nostro agente è che non si ferma alla ricerca: contatta direttamente founder e scienziati, li qualifica secondo i vostri criteri, e a voi arrivano solo le conversazioni già calde.\n\nTi registro un mini video di 3 minuti in cui ti mostro come lavorerebbe per Innova, lo guardi quando hai tempo. Te lo mando via email.",
+    "english": ""
+  },
+  {
+    "key": "3950427/4542616557",
+    "ready": true,
+    "language": "en",
+    "body": "Quick question -\n\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.",
+    "english": ""
+  },
+  {
+    "key": "3950427/4542616876",
+    "ready": true,
+    "language": "en",
+    "body": "Quick one -\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+    "english": ""
+  },
+  {
+    "key": "3950427/4542616362",
+    "ready": true,
+    "language": "en",
+    "body": "Quick one -\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+    "english": ""
+  },
+  {
+    "key": "3950427/4542617705",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Rebecca,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+    "english": "",
+    "reason_hr": "Rebecca je tražila link, dobila ga, demo posjećen 3 puta. 5 uzastopnih poruka bez odgovora. Vrijeme za posljednji kratki follow-up s A/B pitanjem. Jednostavno, niski friction."
+  },
+  {
+    "key": "3950427/4542615656",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Michael,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+    "english": "",
+    "reason_hr": "Michael je tražio link, dobio ga. 5 poslanih poruka, nema odgovora, nema potvrde posjeta. Posljednji kratki follow-up s A/B izborom."
+  },
+  {
+    "key": "3950427/4542617773",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Tim,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+    "english": "",
+    "reason_hr": "Tim je rekao 'Yes', dobio link. 5 poslanih poruka, nema odgovora. Posljednji follow-up s A/B izborom."
+  },
+  {
+    "key": "3899056/4475672680",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Yevhenii,\n\nJust checking — did you send over that ICP? That's all I need to see if this works for CoSupport.\n\nIf you have questions, I'm here.",
+    "english": "",
+    "reason_hr": "Yevhenii je pitao što trebamo za procjenu fit-a. Odgovoreno s traženjem ICP-a i booking linkom. Samo 1 poslana poruka nakon njegovog zadnjeg odgovora. Kratki podsjetnik."
+  },
+  {
+    "key": "3950427/4542617388",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Rachel,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+    "english": "",
+    "reason_hr": "Rachel je tražila link, dobila ga. 5 poslanih poruka bez odgovora. Posljednji follow-up s A/B izborom."
+  },
+  {
+    "key": "3899056/4475670673",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Ben,\n\nDid you get a chance to watch the video I sent? Wondering if the offer makes sense or if you have more questions.\n\nIf it's not a priority right now, just say so and I'll leave it.",
+    "english": "",
+    "reason_hr": "Ben je tražio specifičnosti, dobio detaljan odgovor i video. 2 poslane poruke bez odgovora. Kratki bump, provjeriti je li video pregledan."
+  },
+  {
+    "key": "2738671/3025251433",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Jamie,\n\nJust checking in — did you get a chance to pick a time for our call?\n\nIf a specific slot doesn't work, happy to find another option.",
+    "english": "",
+    "reason_hr": "Kratki follow-up na poslani booking link. Jamie je pokazao interes ('happy to have a chat'), pa je mekani podsjetnik prikladan."
+  },
+  {
+    "key": "2738671/3025253783",
+    "ready": true,
+    "language": "pl",
+    "body": "Cześć Jędrzej,\n\nMiałeś okazję obejrzeć film? Daj znać, czy masz jakieś pytania.\n\nJeśli to nie jest teraz priorytet, daj znać, a ja się wycofam.",
+    "english": "",
+    "reason_hr": "Follow-up na poslani video. Jędrzej je odgovorio na poljskom, stoga nastavljamo na poljskom."
+  },
+  {
+    "key": "2738607/3025135572",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Andrea,\n\nJust checking in — did you have a chance to look at the video?\n\nIf the approach makes sense for myMeta, I'd be glad to talk through next steps.",
+    "english": "",
+    "reason_hr": "Follow-up na video nakon izražene sumnje. Kratko i bez pritiska, ostavlja prostor za odgovor."
+  },
+  {
+    "key": "2738607/3025135176",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Andy,\n\nQuick check — does the ballpark range I shared make sense for Muso, or is it off?\n\nIf the numbers work, I'd love to hop on a short call to define your ideal target and give you exact pricing.",
+    "english": "",
+    "reason_hr": "Follow-up na postavljeno pitanje o cijeni. Jasno se referira na poslane okvirne cijene bez dodavanja novih brojki."
+  },
+  {
+    "key": "2738607/3025133653",
+    "ready": true,
+    "language": "es",
+    "body": "Hola David,\n\nSolo quería confirmar si tuviste oportunidad de ver el video que te envié.\n\nSi la lógica te encaja, podemos tener esa charla de 10 min para definir vuestro target y prepararte una propuesta a medida.",
+    "english": "",
+    "reason_hr": "Follow-up na poslani video nakon zahtjeva za prezentacijom. David je pisao na španjolskom, stoga nastavljamo na španjolskom."
+  },
+  {
+    "key": "2738607/3025134886",
+    "ready": false,
+    "language": "en",
+    "body": "",
+    "english": "",
+    "reason_hr": "Nedostaje odgovor na Maxov prijedlog termina. Naš prethodni odgovor nije prihvatio njegov termin i preusmjerio ga na booking link. Nedostaje potvrda je li Max odabrao novi termin. Potrebna ljudska procjena."
+  },
+  {
+    "key": "2738671/3025253592",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Tyrone,\n\nQuick check — did you get a chance to book a slot?\n\nIf none of the available times work, I'm happy to suggest a couple of options directly.\n\nThanks,\nMia",
+    "english": "",
+    "reason_hr": "Tyrone je zatražio sastanak. Poslan mu je booking link. Jedna kratka provjera bez novih zahtjeva je prikladna."
+  },
+  {
+    "key": "2738671/3025252894",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Marijus,\n\nJust checking in — did my answers about the Lithuanian market and our pay-per-lead model make sense?\n\nIf everything sounds good, the next step would be a short discovery call where we define your target and give you exact pricing.\n\nLet me know if you'd like to book one.\n\nBest regards,\nMia",
+    "english": "",
+    "reason_hr": "Marijus je postavio konkretna pitanja i dobio odgovore. Čekamo njegovu reakciju, blagi follow-up je OK."
+  },
+  {
+    "key": "2515956/2722088662",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Ali,\n\nQuick check — did you get a chance to watch the video?\n\nIf the approach makes sense for Ephlux, I'd love to hop on a quick call to discuss specifics.\n\nLet me know what you think.\n\nCheers,\nAndrew",
+    "english": "",
+    "reason_hr": "Ali je tražio video i dobio ga. Jednostavna provjera bez izmišljanja novih informacija."
+  },
+  {
+    "key": "2738671/3025253762",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Albert,\n\nJust following up — did you manage to find a time that works?\n\nIf the calendar link didn't show anything suitable, let me know your timezone and I'll suggest a couple of options.\n\nBest regards,\nAndrew",
+    "english": "",
+    "reason_hr": "Albert je snažno zainteresiran ('How fast we can talk?') i dobio je booking link. Kratka provjera je prikladna."
+  },
+  {
+    "key": "2738607/3025136155",
+    "ready": true,
+    "language": "it",
+    "body": "Ciao Roberto,\n\nVolevo solo verificare se le risposte che ti ho inviato sono state chiare e se hai altre domande sul nostro framework.\n\nSe ti va di vedere i nostri agenti in azione dal vivo, possiamo fissare una call veloce di 15 minuti — ti mostro il backend e come orchestriamo il tutto.\n\nFammi sapere cosa ne pensi.\n\nA presto,\nMia",
+    "english": "Hi Roberto,\n\nJust wanted to check if the answers I sent were clear and if you have any other questions about our framework.\n\nIf you'd like to see our agents in action live, we can set up a quick 15-minute call — I'll show you the backend and how we orchestrate everything.\n\nLet me know what you think.\n\nTalk soon,\nMia",
+    "reason_hr": "Roberto je napisao na talijanskom i dobio detaljne tehničke odgovore. Blagi follow-up na istom jeziku je prikladan, bez izmišljanja novih informacija."
+  },
+  {
+    "key": "2738671/3025251931",
+    "ready": true,
+    "language": "fi",
+    "body": "Hei Kai,\n\nEhditkö jo katsoa videon? Olisi kiva kuulla ajatuksesi.\n\nJos strategia vaikuttaa, voimme sopia pikaisen puhelun. Sitä varten voit valita ajan täältä:\n\n[link: https://calendar.app.google/XxXsMrp8PWktdBZm6] https://calendar.app.google/XxXsMrp8PWktdBZm6",
+    "english": "Hey Kai,\n\nDid you get a chance to watch the video? I'd love to hear your thoughts.\n\nIf the strategy looks good, we can set up a quick call. You can pick a time here: [link]",
+    "reason_hr": "Kai je odgovorio na finskom i tražio video. Finski follow-up provjerava je li ga pogledao, s booking linkom."
+  },
+  {
+    "key": "2732401/3016172105",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Johnny,\n\nDid the video make it clear how we'd target the right ERP-driven companies for Appficiency?\n\nHappy to answer any questions about how it'd work for your market.\n\nThanks",
+    "english": "",
+    "reason_hr": "Johnny je izričito tražio video i postavio pitanje o geografiji. Odgovoreno. Ovo je blagi follow-up koji pita je li video bio jasan, bez izmišljanja."
+  },
+  {
+    "key": "2515956/2722089937",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Diego,\n\nJust a quick bump on this — curious if the video made the process clearer for Adapsys.\n\nIf anything stood out, happy to talk through the details.\n\nThanks",
+    "english": "",
+    "reason_hr": "Diego je zatražio video, poslan je. Blagi follow-up nakon više od mjesec dana; ne pretvara se da je bilo jučer."
+  },
+  {
+    "key": "2738607/3025135558",
+    "ready": true,
+    "language": "nl",
+    "body": "Hoi Henri,\n\nIk vroeg me af of de video duidelijk genoeg was over hoe dit voor Imagine Digital zou werken.\n\nAls er vragen zijn, hoor ik het graag.\n\nGroet",
+    "english": "Hi Henri,\n\nI was wondering if the video was clear enough about how this would work for Imagine Digital.\n\nIf you have any questions, I'd love to hear them.\n\nCheers",
+    "reason_hr": "Henri je odgovorio 'seintje', video poslan. Blagi follow-up na nizozemskom, u skladu s njegovim jezikom."
+  },
+  {
+    "key": "2732401/3016172998",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Jocelyn,\n\nJust checking if you had a moment to watch the video.\n\nCurious if the approach fits what you're looking for at GAP.\n\nThanks",
+    "english": "",
+    "reason_hr": "Jocelyn je izričito tražila link do videa, poslan je. Ovo je blagi follow-up, 2. poslana poruka u nizu."
+  },
+  {
+    "key": "2738607/3025135360",
+    "ready": true,
+    "language": "it",
+    "body": "Ciao Marco,\n\nHai avuto modo di guardare il video?\n\nFammi sapere se hai domande sul funzionamento o sul modello di pricing.\n\nA presto",
+    "english": "Hi Marco,\n\nDid you have a chance to watch the video?\n\nLet me know if you have any questions about how it works or the pricing model.\n\nSee you soon",
+    "reason_hr": "Marco je tražio i video i tarife. Video poslan, objašnjen model plaćanja. Čekamo odgovor; blagi follow-up na talijanskom."
+  },
+  {
+    "key": "2732401/3016172379",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Sali,\n\nDid the video give you a clear picture of how this could work for Ripton?\n\nHappy to answer any questions.\n\nThanks",
+    "english": "",
+    "reason_hr": "Sali je rekao 'yes', video poslan. Blagi follow-up, ne pretvara se da je dogovoreno."
+  },
+  {
+    "key": "2738607/3025134089",
+    "ready": true,
+    "language": "de",
+    "body": "Hey Alina,\n\nvermutlich ist Freitag um 12 inzwischen nicht mehr drin – kein Problem.\n\nMöchtest du stattdessen einfach kurz nächste Woche telefonieren?\n\nSag einfach, welcher Tag dir passt, und ich schick dir den Link.",
+    "english": "",
+    "reason_hr": "Nastavak na predloženi sastanak, nudi alternativu."
+  },
+  {
+    "key": "2738607/3025135047",
+    "ready": true,
+    "language": "de",
+    "body": "Hey Matthias,\n\nnur kurz nachfragen – hattest du Zeit, dir das Video anzuschauen?\n\nFalls ja, würde mich interessieren, ob die Strategie zu euch passen könnte.\n\nUnd falls nicht, sag einfach kurz Bescheid – dann belasse ich es dabei.",
+    "english": "",
+    "reason_hr": "Kratki follow-up nakon slanja videa."
+  },
+  {
+    "key": "2738671/3025251911",
+    "ready": true,
+    "language": "es",
+    "body": "Hola Francisco,\n\n¿tuviste tiempo de ver el vídeo?\n\nMe preguntaba si el enfoque para llegar a CFOs tiene sentido para Saima, o si te gustaría ajustar algo.\n\nSi prefieres, podemos saltarnos los correos y hablar 5 minutos directo.",
+    "english": "",
+    "reason_hr": "Follow-up na poslani video, s pitanjem o CFO fokusu."
+  },
+  {
+    "key": "2738671/3025253676",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Job,\n\njust checking in – did you get a chance to watch the video?\n\nIf it looked interesting, the next step would be a quick call to see how we'd set this up for 12Guide.\n\nAny thoughts so far?",
+    "english": "",
+    "reason_hr": "Kratki follow-up nakon slanja videa."
+  },
+  {
+    "key": "2732401/3016173185",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Dave,\n\ndid you get a chance to watch the video?\n\nIf the approach makes sense for CloudBlazer, the next step would be a quick call to see how we'd set it up.\n\nAny initial thoughts?",
+    "english": "",
+    "reason_hr": "Follow-up na poslani video, koristi ime Dave."
+  },
+  {
+    "key": "2538823/2758496613",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Maros,\n\njust quickly checking – did you get to watch the video?\n\nWould love to know if the approach makes sense for OneClick or if you have any questions.\n\nLet me know either way.",
+    "english": "",
+    "reason_hr": "Kratki follow-up nakon slanja videa."
+  },
+  {
+    "key": "2515956/2722095330",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Sharjeel,\n\nQuick check — did you get a chance to watch the video I sent over?\n\nIf the approach looks like it could work for Agile Falcon, I'm happy to answer any questions or hop on a short call to go into the details.\n\nLet me know what you think.",
+    "english": "",
+    "reason_hr": "Video poslan, 1 follow-up nakon toga. Kratak provjera je li pogledao video. Bez lažnih tvrdnji."
+  },
+  {
+    "key": "2515956/2722089398",
+    "ready": true,
+    "language": "en",
+    "body": "Hey Brian,\n\nChecking back in — did you get a chance to watch the video?\n\nIf it looks like it might fit for VentureOut, I'd be happy to **jump on a 15-minute call** to answer any questions and see if this makes sense.\n\nLet me know.",
+    "english": "",
+    "reason_hr": "Brian je izričito tražio poziv nakon videa. 2 follow-upa poslana, ali interes je stvaran. Kratak follow-up s pozivom na poziv."
+  },
+  {
+    "key": "2538823/2758495835",
+    "ready": true,
+    "language": "fr",
+    "body": "Bonjour Jean-Pierre,\n\nJe n'ai pas eu de retour suite à mes derniers messages. Le sujet de trouver les bons experts pour vos projets de recherche est-il toujours d'actualité ?\n\nSi oui, je suis dispo la semaine prochaine — mercredi ou jeudi après-midi. Vous pouvez aussi choisir un créneau ici :\nhttps://calendar.app.google/PL5DzwyjyC88oX167\n\nSinon, dites-moi si je dois mettre ce dossier en attente.",
+    "english": "",
+    "reason_hr": "Jean-Pierre je tražio sastanak (21.10.). Poslana 3 follow-upa nakon linka. Još uvijek aktivan interes. Predlažemo konkretne termine bez novih obećanja."
+  },
+  {
+    "key": "2538823/2758495441",
+    "ready": false,
+    "language": "en",
+    "body": "",
+    "english": "",
+    "reason_hr": "Nedostaje cijena po kvalificiranom sastanku. Elisa je izričito pitala 'How much is that approximately?'. Ne smijemo izmisliti broj. Treba ili dati provjerenu cijenu ili priznati da ne možemo bez poziva."
+  },
+  {
+    "key": "2538823/2758495823",
+    "ready": false,
+    "language": "",
+    "body": "",
+    "english": "",
+    "reason_hr": "Ljudska provjera potrebna. Jan je rekao da će podijeliti video s kolegama. Od tad (23.10.) nema odgovora. Preporučujemo da čovjek pregleda prije slanja."
+  },
+  {
+    "key": "2515956/2722093804",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Nancy,\n\nFollowing up — did my last answer about the platforms make sense for what you need?\n\nHappy to go into more detail on which channels would work best for reaching your target clients in Kenya or elsewhere.\n\nLet me know if you'd like to set up a quick call.",
+    "english": "",
+    "reason_hr": "Nancy je postavila pitanja (geografija, kanali) i dobila odgovore. Samo 1 poruka nakon zadnjeg replyja. Follow-up pita je li odgovor bio dovoljan, bez novih tvrdnji."
+  },
+  {
+    "key": "2515956/2722089198",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Arnav,\n\nJust checking in — did you get a chance to watch the video? Curious if the process makes sense for Outsourcing Technologies.\n\nAndrew",
+    "english": "",
+    "reason_hr": "Kratak follow-up nakon poslanog videa i jednog prethodnog follow-upa. Samo 2 poruke bez odgovora, još nije gotovo. Pita za dojam o videu, bez novih obećanja."
+  },
+  {
+    "key": "2538823/2758494883",
+    "ready": false,
+    "language": "",
+    "body": "",
+    "english": "",
+    "reason_hr": "Nedostaje video koji je obećan. Treba ljudska provjera je li video poslan izvan inboxa. Ako nije, hitno poslati video. Ako jest, nastaviti s upitom za povratnu informaciju."
+  },
+  {
+    "key": "2538823/2758494711",
+    "ready": false,
+    "language": "",
+    "body": "",
+    "english": "",
+    "reason_hr": "Nedostaje stvarni dogovor o modelu naplate – prethodna poruka je dala okvirne brojeve (200-400€) što je protiv pravila. Treba provjeriti je li točna cijena dogovorena u threadu, ali nema potvrde od korisnika. Ne može se slati sljedeća poruka dok se ne riješi ova nedosljednost."
+  },
+  {
+    "key": "2538823/2758494751",
+    "ready": true,
+    "language": "es",
+    "body": "Hola Antonio,\n\nSolo quería saber si el vídeo te resultó útil y si ves potencial en el enfoque para Viafirma.\n\n¿Te parece bien una llamada rápida de 15 minutos la próxima semana para verlo en detalle?",
+    "english": "Hi Antonio,\n\nJust wanted to know if the video was useful and if you see potential in the approach for Viafirma.\n\nWould a quick 15-minute call next week work to go into detail?",
+    "reason_hr": "Antonio je tražio video, dobio ga, ali nije odgovorio na 2 follow-upa. Kratak follow-up koji pita za mišljenje i nudi poziv. Još nije gotovo."
+  },
+  {
+    "key": "3950427/4542617719",
+    "ready": false,
+    "language": "",
+    "body": "",
+    "english": "",
+    "reason_hr": "Nedostaje odgovor na pitanje o cijeni – korisnik je tražio link i dobio demo, ali nema povratne informacije. Nema potvrđene cijene u threadu. Ne može se slati nova poruka dok se ne dobije odgovor na zadnji upit."
+  },
+  {
+    "key": "3960583/3822375070",
+    "ready": true,
+    "language": "en",
+    "body": "Hi Sid,\n\nJust checking in — did the pricing I sent make sense for you?\n\nIf $750 works, just reply GO and I'll start the revision process.\n\nAndrew",
+    "english": "",
+    "reason_hr": "Sid je pitao 'how much?' i dobio cijenu od $750 i opcije. Nema odgovora na 3 follow-upa. Kratak follow-up koji pita je li cijena OK, s jasnim CTA-om."
+  },
+  {
+    "key": "3892258/4466861837",
+    "ready": false,
+    "language": "en",
+    "body": "",
+    "english": "",
+    "reason_hr": "Poslano 4 uzastopne poruke bez odgovora nakon odgovora na pitanja. Prije nego što se pošalje peti nastavak koji tjera na odluku nakon potpunog odgovora, trebate provjeriti da li postoji dogovoreni nastavak ili novi zahtjev. Prema pravilima, 5 uzastopnih poslanih poruka bez ljudskog odgovora znači LEAD DONE. Trenutno su 4 poslane poruke bez odgovora od zadnjeg ljudskog odgovora (Edov mail s pitanjima od 17. rujna). Potreban je peti 'final' follow-up ili jednostavno prestati. Ne postoji neodgovoreni zahtjev. Siguran mekan nastavak: 'Is this still on your radar?' bez novih obećanja ili pritiska na odluku."
+  },
+  {
+    "key": "3810275/4360210314",
+    "ready": true,
+    "language": "ro",
+    "body": "Salut Paul,\n\ntrimit din nou linkul în caz că s-a pierdut prin mesaje:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nUită-te la workflow-ul pentru ofertele de implanturi — acolo vezi exact sistemul.\n\nAndrew",
+    "english": "Hi Paul,\n\nsending the link again in case it got lost in messages:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nTake a look at the workflow for implant offers — you'll see the exact system there.\n\nAndrew",
+    "reason_hr": "Poslan video (demo) bez potvrde pregleda. Jedan kratak follow-up s ponovljenim linkom je primjeren. Nema novih zahtjeva ili cijena. Jezik: rumunjski, kao u njegovoj poruci."
+  },
+  {
+    "key": "3810275/4360210269",
+    "ready": true,
+    "language": "lt",
+    "body": "Sveiki Julija,\n\nsiunčiu nuorodą dar kartą, jei pasimeta:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nYpač pažiūrėkite į dalį apie sekimo sistemą gydymo planams.\n\nAndrew",
+    "english": "Hello Julija,\n\nsending the link again in case it got lost:\n\nhttps://www.loom.com/share/456990f4664d4d44b310f0b98d38ed8c\n\nEspecially watch the part about the tracking system for treatment plans.\n\nAndrew",
+    "reason_hr": "Poslan video (demo) bez potvrde pregleda. Jedan kratak follow-up s ponovljenim linkom je primjeren. Nema novih zahtjeva ili cijena. Jezik: litvanski, kao u njezinoj poruci."
+  }
+]

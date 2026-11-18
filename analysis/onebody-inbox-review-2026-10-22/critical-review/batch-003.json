@@ -1,0 +1,198 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 14892,
+    "completion_tokens": 2235,
+    "total_tokens": 17127,
+    "cost": 0.00175035,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 14848,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00175035,
+      "upstream_inference_prompt_cost": 0.0007446,
+      "upstream_inference_completions_cost": 0.00100575
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608049382",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je već označen kao 'Meeting Booked' i nema novih poruka koje bi promijenile status.",
+      "next_step_hr": "Nema potrebe za promjenom, pratiti postojeći status.",
+      "last_inbound_summary_hr": "Devesh je upitao kako da nastavi s besplatnom sesijom.",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link i kod OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Mike forwarded me this email and i would be keen to try the physio out",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520616516",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je označen kao 'Meeting Booked' i nema ljudskog odgovora nakon prvog, samo naši follow-upovi.",
+      "next_step_hr": "Zadržati postojeći status, nema promjene.",
+      "last_inbound_summary_hr": "Barry je odgovorio s 'Replying' i potpisom.",
+      "last_outbound_summary_hr": "Kurt je poslao booking link i kod OBLACCESS55, zatim nekoliko podsjetnika.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Replying",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520620062",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je već označen kao 'Meeting Booked' i Ed je pokazao interes, ali nema potvrde bookinga.",
+      "next_step_hr": "Zadržati postojeći status, pratiti daljnje poruke.",
+      "last_inbound_summary_hr": "Ed je pitao za deep tissue massage i rekao da je zauzet.",
+      "last_outbound_summary_hr": "Rebecca je odgovorila s booking linkom i kodom OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "can i get e.g. a deep tissue massage or something like that?",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "4006945/4608052447",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je označen kao 'Meeting Booked' i Gareth je zatražio booking link, ali nema potvrde bookinga.",
+      "next_step_hr": "Zadržati postojeći status, pratiti daljnje poruke.",
+      "last_inbound_summary_hr": "Gareth je rekao 'Absolutely brilliant email. Please send over the booking link'.",
+      "last_outbound_summary_hr": "Kurt je poslao booking link i kod OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Absolutely brilliant email. Please send over the booking link",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "4006945/4608049443",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je označen kao 'Meeting Booked' i Lucy je odgovorila s 'sounds great', ali nema potvrde bookinga.",
+      "next_step_hr": "Zadržati postojeći status, pratiti daljnje poruke.",
+      "last_inbound_summary_hr": "Lucy je rekla 'Thanks Rebecca, sounds great'.",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link i kod OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks Rebecca, sounds great.",
+        "Here's the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3930675/4520620575",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je označen kao 'Meeting Booked' i Gabby je pokazala interes, ali nema potvrde bookinga.",
+      "next_step_hr": "Zadržati postojeći status, pratiti daljnje poruke.",
+      "last_inbound_summary_hr": "Gabby je pitala ima li obveze nakon probnog termina.",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link i kod OBLACCESS55, objasnila nema obveze.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’d be happy to take a trial if there is no ongoing commitment required",
+        "Here's the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "4006945/4608051049",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread je označen kao 'Meeting Booked' i Emma je zatražila info, ali nema potvrde bookinga.",
+      "next_step_hr": "Zadržati postojeći status, pratiti daljnje poruke.",
+      "last_inbound_summary_hr": "Emma je rekla 'Great!! send info'.",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link i kod OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Great!! send info",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3876232/4446317296",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Cassian je pokazao interes i dobio booking link, ali nema potvrde bookinga niti odgovora na naše follow-upove.",
+      "next_step_hr": "Zadržati label 'Interested', pratiti ako se javi.",
+      "last_inbound_summary_hr": "Cassian je rekao 'Sure, if it's free, I will look at it.'",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link i kod OBLACCESS55, zatim nekoliko podsjetnika.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Sure, if it's free, I will look at it.",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3876232/4446317181",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mark je odgovorio s komplimentom i obavijesti o novoj lokaciji, dobio booking link, ali nema potvrde bookinga.",
+      "next_step_hr": "Zadržati label 'Interested', pratiti ako se javi.",
+      "last_inbound_summary_hr": "Mark je rekao 'fantastic sales email' i obavijestio o selidbi u Paddington.",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link, kod OBLACCESS55 i preporučila Paddington.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Rebecca - a fantastic sales email - well done. However we've moved to Paddington now",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    },
+    {
+      "key": "3876232/4446317001",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Fred je pokazao interes i postavio pitanje o pripremi za Hyrox, dobio odgovor i booking link, ali nema potvrde bookinga.",
+      "next_step_hr": "Zadržati label 'Interested', pratiti ako se javi.",
+      "last_inbound_summary_hr": "Fred je pitao rade li pripremne radove za Hyrox i ultra maraton.",
+      "last_outbound_summary_hr": "Rebecca je odgovorila da ne rade coaching, objasnila prednosti i poslala booking link s kodom OBLACCESS55.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Do happen to do prep work too? I have a hyrox and ultra marathon coming up this month",
+        "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+      ]
+    }
+  ]
+}

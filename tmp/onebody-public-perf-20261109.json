@@ -1,0 +1,41 @@
+[
+  {
+    "route": "login+dashboard",
+    "ms": 174.88
+  },
+  {
+    "route": "/api/inbox",
+    "ms": 185.04,
+    "decoded_bytes": 817708,
+    "encoding": "gzip",
+    "wire_content_length": null
+  },
+  {
+    "route": "/api/inbox",
+    "ms": 143.85,
+    "decoded_bytes": 817708,
+    "encoding": "gzip",
+    "wire_content_length": null
+  },
+  {
+    "route": "/api/inbox",
+    "ms": 140.68,
+    "decoded_bytes": 817708,
+    "encoding": "gzip",
+    "wire_content_length": null
+  },
+  {
+    "route": "/api/leads/4414344/4907435002",
+    "ms": 57.53,
+    "decoded_bytes": 7423,
+    "encoding": "gzip",
+    "wire_content_length": null
+  },
+  {
+    "route": "/api/leads/4414344/4907435002",
+    "ms": 73.28,
+    "decoded_bytes": 7423,
+    "encoding": "gzip",
+    "wire_content_length": null
+  }
+]

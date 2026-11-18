@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6167,
+    "completion_tokens": 1525,
+    "total_tokens": 7692,
+    "cost": 0.004604114385,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 4797,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.004604114385,
+      "upstream_inference_prompt_cost": 0.001690571385,
+      "upstream_inference_completions_cost": 0.002913543
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613432",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<AM6PR07MB46790C81EEE072C3C9FAABCCD2B92@AM6PR07MB4679.eurprd07.prod.outlook.com>",
+      "human_quote": "Please remove my details from you database",
+      "reason_hr": "Kontakt je izričito zatražio brisanje podataka i uklanjanje s popisa.",
+      "request_hr": "Brisanje iz baze podataka.",
+      "next_action_hr": "Nema daljnjih radnji. Osoba je trajno isključena iz kampanje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520613112",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAFGke=Jroe47w=vX-1GP2KzF_2iKp-d=buCod07GbVcaq9T5tQ@mail.gmail.com>",
+      "human_quote": "Yes I would be interested in this.\n\nI'm particularly interested in stretching exercises.",
+      "reason_hr": "Potencijalni klijent je izrazio jasan interes za ponudu i konkretnu potrebu. Poslan je link s kodom, ali nema potvrde o bukiranju niti odbijanja.",
+      "request_hr": "Zatražena pomoć oko termina i vježbi istezanja.",
+      "next_action_hr": "Proslijediti na ljudski pregled. Posljednja poruka je naša, a prethodni interes još nije rezultirao bukiranjem. Vlasnik treba provjeriti treba li dodatno pitanje ili je ciklus gotov.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613046",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor dolazi od osobe (Chloe) koja nije originalni primatelj (Alex). Poruka je generička i prosljeđuje upit u HR bez ikakvog osobnog angažmana primatelja u vezi s ponudom.",
+      "request_hr": "none",
+      "next_action_hr": "Nema potrebe za daljnjim kontaktom s ovog emaila. Ovo nije ljudski angažman oko ponude.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612744",
+      "genuine_engagement": true,
+      "verdict": "later",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<CAOZdZhJzA2doy--zk3MYH1dNA6OMdOm9d9ffjervQG9TL_QRyQ@mail.gmail.com>",
+      "human_quote": "I'd love to reach out when I return and see if there are any affordable options to offer our team access to treatments during the working day.",
+      "reason_hr": "Potencijalni klijent je iskazao interes, ali je trenutno nedostupan na neodređeno vrijeme ('nekoliko mjeseci') i želi se sam javiti. Vlasnik je odgovorio pozitivno. Ovo je zahtjev za odgodom i budući kontakt.",
+      "request_hr": "Javiti se nakon povratka s rodiljnog dopusta radi ponude za tim.",
+      "next_action_hr": "Ostaviti kako jest. Klijent će se sam javiti. Nije potrebno slati dodatne poruke sada.",
+      "bulk_group": "later",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612414",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAFMVChFDikuQbOHncWJnjp2ifJ_sCMe6j+dtYNqb7NEYWv4F_w@mail.gmail.com>",
+      "human_quote": "No thanks - pls remove me",
+      "reason_hr": "Kontakt je eksplicitno odbio ponudu i zatražio uklanjanje s popisa.",
+      "request_hr": "Odbijanje ponude i zahtjev za uklanjanjem.",
+      "next_action_hr": "Nema daljnjih radnji. Osoba je trajno isključena iz kampanje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612386",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAB7P56-QSezHGPDhfi4xkNzRnGcYWsoX2DVGr5FW5pE2hQSUtw@mail.gmail.com>",
+      "human_quote": "Thanks! Can I also share this with my coworkers?",
+      "reason_hr": "Klijent je izrazio interes, dobio kod, postavljao pitanja i u posljednjoj ljudskoj poruci pitao smije li podijeliti kod. Nema potvrde o bukiranju niti odbijanja. Posljednja poruka u lancu je naša.",
+      "request_hr": "Dozvola za dijeljenje koda s kolegama.",
+      "next_action_hr": "Proslijediti na ljudski pregled. Vlasnik treba provjeriti je li naše posljednje objašnjenje bilo dovoljno ili treba dodatno pitati za bukiranje.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8441,
+    "completion_tokens": 2425,
+    "total_tokens": 10866,
+    "cost": 0.0015133,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0015133,
+      "upstream_inference_prompt_cost": 0.00042205,
+      "upstream_inference_completions_cost": 0.00109125
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608048873",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o paternitiju, nema naznake interesa.",
+      "next_step_hr": "Pričekati povratak 2. studenog, zatim ponovno poslati.",
+      "last_inbound_summary_hr": "Automatski odgovor: na paternitiju do 2. studenog.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on paternity leave and will return on Monday 2 November."
+      ]
+    },
+    {
+      "key": "4006945/4608052444",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o godišnjem odmoru do 28.10., nema interesa.",
+      "next_step_hr": "Pričekati povratak 28. listopada.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 28. listopada.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave with no access to emails until Wednesday 28th October"
+      ]
+    },
+    {
+      "key": "4006945/4608052512",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o odsutnosti, nema interesa.",
+      "next_step_hr": "Pričekati povratak 21. listopada, zatim ponovno poslati.",
+      "last_inbound_summary_hr": "Automatski odgovor: OOO do 21. listopada.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently OOO on leave with limited access to email, returning Wednesday, 21 October."
+      ]
+    },
+    {
+      "key": "4006945/4608048613",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o putovanju, nema interesa.",
+      "next_step_hr": "Pričekati povratak, zatim ponovno poslati.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda i na putovanju.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that I am offsite and travelling this week"
+      ]
+    },
+    {
+      "key": "3930675/4520616472",
+      "recommended_label": "Out Of Office",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o godišnjem odmoru, ali prethodne poruke su slane bez odgovora.",
+      "next_step_hr": "Ručno provjeriti je li povratak 12.10. prošao i ima li interesa.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 12.10.",
+      "last_outbound_summary_hr": "Zadnja poruka: upit zanima li ga ponuda.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office on annual leave returning on Monday 12th October."
+      ]
+    },
+    {
+      "key": "4006945/4608052389",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o porodiljnom dopustu, nema interesa.",
+      "next_step_hr": "Ne slati dok se ne vrati, ili kontaktirati navedene zamjene.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom dopustu bez pristupa e-pošti.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of office on maternity leave, with no access to emails."
+      ]
+    },
+    {
+      "key": "4006945/4608052346",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da je osoba napustila tvrtku.",
+      "next_step_hr": "Ukloniti iz kampanje, kontaktirati navedenu osobu ili broj.",
+      "last_inbound_summary_hr": "Automatski odgovor: Anwar je napustio Regency, kontaktirati drugog člana.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Anwar has now left Regency and email will be dealt with by another member"
+      ]
+    },
+    {
+      "key": "4006945/4608052399",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o odsutnosti do 5.10., nema interesa.",
+      "next_step_hr": "Pričekati povratak 5. listopada.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 5.10., hitno kontaktirati navedene osobe.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office returning Monday 5th October."
+      ]
+    },
+    {
+      "key": "4006945/4608052345",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da je osoba napustila tvrtku.",
+      "next_step_hr": "Ukloniti iz kampanje, kontaktirati nasljednika.",
+      "last_inbound_summary_hr": "Automatski odgovor: Lauren je napustila Regency Real Estate, kontaktirati nasljednika.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Regency Real Estate, please contact my sucessor Noel Hennelly"
+      ]
+    },
+    {
+      "key": "4006945/4608052198",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor navodi da je osoba napustila tvrtku.",
+      "next_step_hr": "Ukloniti iz kampanje, kontaktirati navedene osobe.",
+      "last_inbound_summary_hr": "Automatski odgovor: Sara je napustila BritBox, kontaktirati druge osobe.",
+      "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left BritBox and will no longer have access to this inbox."
+      ]
+    },
+    {
+      "key": "4006945/4608049412",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o godišnjem odmoru do 5.10., nema interesa.",
+      "next_step_hr": "Pričekati povratak 5. listopada.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 5.10., hitno na clientsupport.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on annual leave returning Monday 5th October."
+      ]
+    },
+    {
+      "key": "4006945/4608049408",
+      "recommended_label": "Out Of Office",
+      "confidence": "medium",
+      "manual_review": true,
+      "reason_hr": "Automatski odgovor o odsutnosti na jedan dan, nema daljnjeg kontakta.",
+      "next_step_hr": "Ručno provjeriti je li odsutnost prošla i ima li interesa.",
+      "last_inbound_summary_hr": "Automatski odgovor: odsutna na cjelodnevnom strateškom sastanku, kontaktirati EA.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne fizioterapije od 55 minuta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be away from my emails today at an all-day strategy session."
+      ]
+    }
+  ]
+}

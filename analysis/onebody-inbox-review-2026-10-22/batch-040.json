@@ -1,0 +1,221 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12321,
+    "completion_tokens": 2718,
+    "total_tokens": 15039,
+    "cost": 0.00183915,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00183915,
+      "upstream_inference_prompt_cost": 0.00061605,
+      "upstream_inference_completions_cost": 0.0012231
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315605",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudske interakcije.",
+      "next_step_hr": "Nakon povratka osobe možemo ponovno poslati poruku ako bude potrebno.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 21. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka: traženje potvrde prije prekida kontakta.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will not be available until21st Sept."
+      ]
+    },
+    {
+      "key": "3876232/4446317948",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor s preusmjeravanjem, bez ljudskog odgovora.",
+      "next_step_hr": "Nakon povratka osobe možemo ponovno kontaktirati.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor s uputom da se javi drugoj osobi.",
+      "last_outbound_summary_hr": "Poslana početna poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently taking some time away from the office and have limited access to emails."
+      ]
+    },
+    {
+      "key": "3876232/4446315398",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor s preusmjeravanjem, nema ljudske interakcije.",
+      "next_step_hr": "Nakon povratka 15. rujna moguće ponovno kontaktiranje.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor do 15. rujna s preporukom druge osobe.",
+      "last_outbound_summary_hr": "Zadnja poruka: ponuda koda za besplatnu sesiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office till 15th September . Please contact Jordan Rosenfeld"
+      ]
+    },
+    {
+      "key": "3876232/4446316894",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor s preusmjeravanjem, nema ljudske interakcije.",
+      "next_step_hr": "Nakon povratka moguće ponovno kontaktiranje.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor s uputom da se javi na drugu adresu.",
+      "last_outbound_summary_hr": "Poslana druga poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you for your message, I am OOO. Please forward your email to production@rascalpost.com"
+      ]
+    },
+    {
+      "key": "3930675/4520616252",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nadia je zatražila kod i informacije, zatim predložila da sesiju dobije kolega – sve ljudski angažman.",
+      "next_step_hr": "Pričekati povratnu informaciju kolege ili Nadijin sljedeći korak.",
+      "last_inbound_summary_hr": "Nadia je pitala može li sesiju prenijeti kolegi s bolovima u leđima.",
+      "last_outbound_summary_hr": "Poslan odgovor da može podijeliti kod i da njezina sesija ostaje.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have a colleague who has a bit of an uncomfortable back. As much as I would love to take up the offer, I would love to offer it to him",
+        "Absolutely, share it with him. He can use the same code (OBLACCESS55)"
+      ]
+    },
+    {
+      "key": "3930675/4520621425",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Faye se vratila s godišnjeg i izrazila interes za sesiju zbog bolova u vratu.",
+      "next_step_hr": "Pričekati odgovor na zadnju poruku ili daljnji potez.",
+      "last_inbound_summary_hr": "Faye se javila nakon godišnjeg, opisala bolove u gornjem dijelu leđa i vratu.",
+      "last_outbound_summary_hr": "Poslan podsjetnik da kod OBLACCESS55 vrijedi do kraja mjeseca.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks for reaching out! This sounds wonderful. I suffer a lot from upper back and neck pain"
+      ]
+    },
+    {
+      "key": "4006945/4608052689",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da sandučić nije aktivan, treba kontaktirati drugu adresu.",
+      "next_step_hr": "Kontaktirati ispravljenu adresu ako je poznata.",
+      "last_inbound_summary_hr": "Automatska poruka da sandučić nije aktivan, preusmjerava na drugu adresu.",
+      "last_outbound_summary_hr": "Poslana početna poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "This mailbox is inactive. Did you mean to email matt@fyxer.com?"
+      ]
+    },
+    {
+      "key": "4006945/4608052464",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da osoba više ne radi u tvrtki, treba ukloniti iz baze.",
+      "next_step_hr": "Ukloniti kontakt iz kampanje jer više nije zaposlenik.",
+      "last_inbound_summary_hr": "Automatska poruka da više nije zaposlen u Acousticu.",
+      "last_outbound_summary_hr": "Poslana početna poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I regret to inform you that I am no longer employed with Acoustic."
+      ]
+    },
+    {
+      "key": "4006945/4608048632",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da osoba više ne radi u tvrtki, preusmjerava na drugu osobu.",
+      "next_step_hr": "Ukloniti kontakt ili kontaktirati navedenu zamjenu.",
+      "last_inbound_summary_hr": "Automatska poruka da više ne radi u Acumetisu, preporučena druga osoba.",
+      "last_outbound_summary_hr": "Poslan podsjetnik s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work at Acumetis. Please direct your email to karl.halteman@acumetisglobal.com."
+      ]
+    },
+    {
+      "key": "3930675/4520615026",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Lawrence se nakon godišnjeg javio i izrazio interes za ponudu.",
+      "next_step_hr": "Pričekati odgovor na poslani link i kod.",
+      "last_inbound_summary_hr": "Nakon godišnjeg odgovorio da je zainteresiran za ponudu.",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55 za Mayfair.",
+      "human_replied": true,
+      "ooo_then_human": true,
+      "handover_complete": false,
+      "evidence": [
+        "I'd be interested in taking you up on this offer, sounds great!"
+      ]
+    },
+    {
+      "key": "3930675/4520616840",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jeremy je izrazio interes i zatražio slanje detalja u listopadu – ljudski angažman.",
+      "next_step_hr": "Pričekati da se Jeremy javi ili reagira na zadnju poruku.",
+      "last_inbound_summary_hr": "Jeremy je zatražio slanje detalja u listopadu jer je trenutno zauzet.",
+      "last_outbound_summary_hr": "Zadnja poruka: kod i link su dostupni bez dodatnog pritiska.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm interested, but currently tied up. From October I have more time to look into this. Please drop me a note then"
+      ]
+    },
+    {
+      "key": "3930675/4520619928",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mary je izričito zatražila odjavu s 'unsubscribe' – poštivati njezinu želju.",
+      "next_step_hr": "Ukloniti iz svih budućih kampanja.",
+      "last_inbound_summary_hr": "Primljena poruka 'unsubscribe'.",
+      "last_outbound_summary_hr": "Poslana treća poruka s upozorenjem da je zadnja.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "unsubscribe"
+      ]
+    }
+  ]
+}

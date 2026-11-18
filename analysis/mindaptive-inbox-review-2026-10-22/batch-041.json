@@ -1,0 +1,255 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 22312,
+    "completion_tokens": 2743,
+    "total_tokens": 25055,
+    "cost": 0.001487108,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001487108,
+      "upstream_inference_prompt_cost": 0.001103088,
+      "upstream_inference_completions_cost": 0.00038402
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3950427/4542616827",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitni opt-out: 'stop plese'. Oznaka Do Not Contact je već postavljena i ispravna je.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Opt-out je zatražen i poštuje se.",
+      "missing_information": [],
+      "evidence": [
+        "stop plese"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Prospekt je eksplicitno zatražio prestanak kontakta."
+    },
+    {
+      "key": "3892258/4466858253",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Prospekt je dogovorio sastanak (9. rujna), zakazao novi termin za ponedjeljak, poslao potvrdu primitka (14. rujna) i nastavio posjećivati demo (zadnji put 19. listopada). Status Meeting-Booked ostaje jer sastanak nije potvrđeno održan niti je ishod poznat.",
+      "priority": "P1",
+      "sales_state": "POST_MEETING",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebna ljudska provjera: je li sastanak od 14. rujna održan? Ako nije, ponuditi novi termin. Ako jest, provjeriti ishod i sljedeće korake. Prospekt i dalje pokazuje interes (višestruki posjeti demu).",
+      "missing_information": [
+        "ishod sastanka zakazanog za 14. rujna 2026."
+      ],
+      "evidence": [
+        "You when looks great, but can you develop something that works with my CRM which is field edge. And do you guys have a partner int the states. I love it.",
+        "Ive already scheduled a call talk soon.",
+        "Mia I am so sorry I had an emergency come up and I couldn't get to you guys.",
+        "Received"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Čekamo ljudsku provjeru ishoda sastanka prije bilo kakve nove poruke."
+    },
+    {
+      "key": "3950427/4542616794",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatska obavijest da se e-mail adresa više ne prati (auto-redirect jer je osoba napustila tvrtku). Ovo je 'Wrong person', a ne stvarna prodajna preporuka.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Kontakt je netočan.",
+      "missing_information": [],
+      "evidence": [
+        "This email address is no longer monitored, and your message has not reached our support team."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Automatski odgovor koji ukazuje da je adresa neživa."
+    },
+    {
+      "key": "3912149/3734010205",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitno odbijanje: 'No thanks. Stop embarrassing yourself.' Ovo je jasan 'Not interested', a ne relevantno pitanje ili objektivno odbijanje.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Prospekt je eksplicitno odbio.",
+      "missing_information": [],
+      "evidence": [
+        "No thanks",
+        "Stop embarrassing yourself"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitno odbijanje bez ikakvog otvorenog pitanja ili interesa."
+    },
+    {
+      "key": "3912149/3734012935",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Prospekt kaže da je ugovorom vezan za drugu tvrtku ('I am contracted to another company'). Ovo nije preporuka kolegi, već izjava o postojećoj obvezi koja ga čini nezainteresiranim kupcem.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Prospekt je vezan ugovorom i nije potencijalni kupac.",
+      "missing_information": [],
+      "evidence": [
+        "Apologies if I have missed your emails but I am contracted to another company."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Izjava o postojećoj ugovornoj obvezi koja onemogućuje prodaju."
+    },
+    {
+      "key": "3899056/4475670096",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitni opt-out: 'Please remove me from your email list :)'. Oznaka Do Not Contact je već postavljena i ispravna je.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Opt-out je zatražen i poštuje se.",
+      "missing_information": [],
+      "evidence": [
+        "Please remove me from your email list :)"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitno uklanjanje s popisa."
+    },
+    {
+      "key": "3899056/4475672081",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitno odbijanje: 'no thank you.' Ovo je jasan 'Not interested'.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Prospekt je eksplicitno odbio.",
+      "missing_information": [],
+      "evidence": [
+        "no thank you."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitno odbijanje."
+    },
+    {
+      "key": "3899056/4475678112",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitni opt-out s pravnim upozorenjem: 'STOP. Remove... from all of your contact and mailing lists immediately.' Ovo je jasan 'Do Not Contact' i zahtijeva potpuni prestanak komunikacije.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Opt-out je zatražen uz pravno upozorenje.",
+      "missing_information": [],
+      "evidence": [
+        "STOP.",
+        "Remove hello@contractorplus.app and every Contractor Plus, Inc. address from all of your contact and mailing lists immediately, and do not contact this company again."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitni i pravno formulirani opt-out."
+    },
+    {
+      "key": "3899056/4475677898",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatsko preusmjeravanje: osoba više nije u tvrtki ('I am no longer with Zone and Co.'). Ovo je 'Wrong Person', a ne stvarna prodajna preporuka.",
+      "priority": "P3",
+      "sales_state": "LOST",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Kontakt je netočan.",
+      "missing_information": [],
+      "evidence": [
+        "Please note that I am no longer with Zone and Co."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Automatsko preusmjeravanje jer je osoba napustila tvrtku."
+    },
+    {
+      "key": "3899056/4475668969",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Eksplicitni opt-out: 'Take me off your list. Thank you.' Oznaka Do Not Contact je već postavljena i ispravna je.",
+      "priority": "P3",
+      "sales_state": "DO_NOT_CONTACT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnje akcije. Opt-out je zatražen i poštuje se.",
+      "missing_information": [],
+      "evidence": [
+        "Take me off your list. Thank you."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Eksplicitno uklanjanje s popisa."
+    }
+  ]
+}

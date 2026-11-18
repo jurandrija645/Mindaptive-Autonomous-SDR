@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7946,
+    "completion_tokens": 2342,
+    "total_tokens": 10288,
+    "cost": 0.006848656965,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 5957,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.006848656965,
+      "upstream_inference_prompt_cost": 0.002374219125,
+      "upstream_inference_completions_cost": 0.00447443784
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316105",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor izvan ureda: osoba je napustila tvrtku Leadenhall Law Group; poruka navodi kontakte za nasljednike, ali Sharna Doyle nije više zaposlena i ne postoji ljudski odgovor.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Lead nije aktualan za ovu osobu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvori lead kao wrong_person jer je primatelj napustio tvrtku.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1886fdcab0a54eab8ce01e374297a448@CWLP265MB4802.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am no longer at Leadenhall Law Group and this email is not monitored."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316104",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor izvan ureda: Nabil Shah je napustio Leadenhall Law Group; poruka daje upute za kontakte nasljednike, ali ne sadrži ljudski angažman.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Lead nije aktualan za ovu osobu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvori lead kao wrong_person jer je primatelj napustio tvrtku.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<cf7ae81a245243ccbb0ca13e4e99cb8e@LO2P265MB1136.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I have now left Leadenhall Law Group and this inbox will not be monitored"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316046",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska OOO poruka: Neil Valentine je izvan ureda do 14.09.2026. Nema ljudskog odgovora prije toga; nakon toga nema odgovora na follow-up poruke.",
+      "last_human_request_hr": "I am currently out of office until Monday 14th September.",
+      "unresolved_hr": "Nema ljudskog angažmana; lead se može ostaviti aktivan za potencijalni budući doseg.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne šalji sad; oznaka auto_reply je točna. Lead može ostati za buduće kampanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3478e458c4734ff1bdc62267ffd031dc@CWXP123MB3781.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of office until Monday 14th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316065",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska OOO poruka primljena 08.09.2026: Christopher Malla je na godišnjem odmoru do 11.09.2026. Nema ljudskog odgovora prije toga; follow-up poruke su ignorirane ili nisu pročitane.",
+      "last_human_request_hr": "I am on annual leave from 04.09.26 to 11.09.26 inclusive and will not have access to my emails.",
+      "unresolved_hr": "Nema ljudskog angažmana; lead se može ostaviti aktivan za potencijalni budući doseg.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne šalji sad; oznaka auto_reply je točna. Lead može ostati za buduće kampanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2437ac1d92554f8891ca2342525f6c50@LO7P265MB8811.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am on annual leave from 04.09.26 to 11.09.26 inclusive and will not have access to my emails."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316091",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska OOO poruka: Laura Kelly je na porodiljnom dopustu. Nema ljudskog odgovora. Navedena je zamjena (Eduardo Zamorano), ali nije bilo upita niti prihvaćanja.",
+      "last_human_request_hr": "I’m currently on maternity leave and won’t be checking messages.",
+      "unresolved_hr": "Nema ljudskog angažmana; lead se može ostaviti aktivan za potencijalni budući doseg.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne šalji sad; oznaka auto_reply je točna. Lead može ostati za buduće kampanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<eb353039e30e4376a7bf822b54a66db6@LO2P123MB7129.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’m currently on maternity leave and won’t be checking messages."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316057",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor izvan ureda: Jane Bloomfield je napustila Insight222. Poruka navodi kontakte za nasljednike, ali ne sadrži ljudski angažman.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Lead nije aktualan za ovu osobu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvori lead kao wrong_person jer je primatelj napustio tvrtku.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<757a9ba235a04e058bca015e1e399092@CWXP265MB1813.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I have now left Insight222."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316061",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska OOO poruka: Daniel Williams je izvan ureda. Nema ljudskog odgovora. Naveden je kontakt za hitne stvari, ali nema interesa.",
+      "last_human_request_hr": "I am currently out of office and unable to respond.",
+      "unresolved_hr": "Nema ljudskog angažmana; lead se može ostaviti aktivan za potencijalni budući doseg.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne šalji sad; oznaka auto_reply je točna. Lead može ostati za buduće kampanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<82a36efb741c47bf89ef90dc1cfd955b@PAWPR03MB9129.eurprd03.prod.outlook.com>",
+          "quote": "I am currently out of office and unable to respond."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316023",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska OOO poruka primljena 01.09.2026: Elle Berrett je izvan ureda do 07.09.2026. Nema ljudskog odgovora nakon toga; follow-up poruke su ignorirane.",
+      "last_human_request_hr": "I am out of the office until 7th September.",
+      "unresolved_hr": "Nema ljudskog angažmana; lead se može ostaviti aktivan za potencijalni budući doseg.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne šalji sad; oznaka auto_reply je točna. Lead može ostati za buduće kampanje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<95904126b76d4d4b85dd036a9e9c5318@VE1PR09MB3072.eurprd09.prod.outlook.com>",
+          "quote": "I am out of the office until 7th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

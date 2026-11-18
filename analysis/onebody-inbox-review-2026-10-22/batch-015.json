@@ -1,0 +1,222 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 10264,
+    "completion_tokens": 2992,
+    "total_tokens": 13256,
+    "cost": 0.0008808072,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8211,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0008808072,
+      "upstream_inference_prompt_cost": 0.0003362632,
+      "upstream_inference_completions_cost": 0.000544544
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316372",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o odsutnosti do 14. rujna te naše naknadne poruke bez ljudskog odgovora; nema interesa ni zahtjeva.",
+      "next_step_hr": "Pratiti hoće li Jerel nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je odsutan do 14. rujna i da se kontaktira Russell Soley.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump s pitanjem je li ponuda relevantna.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm away till Monday 14th September.",
+        "If it is and you've just been busy, the code takes me ten seconds to send."
+      ]
+    },
+    {
+      "key": "3930675/4520616874",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen je samo automatski potpis/odgovor bez teksta o odsutnosti, što nije ljudska reakcija; zadržava se oznaka Out Of Office.",
+      "next_step_hr": "Ručno provjeriti je li poruka stvarno automatska ili je ljudski odgovor bez teksta.",
+      "last_inbound_summary_hr": "Automatski generirani potpis Marka Saundersa bez ikakvog sadržaja poruke.",
+      "last_outbound_summary_hr": "Poslana hladna email poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "MARK SAUNDERS",
+        "CHIEF OPERATING OFFICER"
+      ]
+    },
+    {
+      "key": "3930675/4520616839",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti na odmoru bez ljudskog angažmana; nema razloga za promjenu oznake.",
+      "next_step_hr": "Pratiti hoće li Geoff nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Geoff na odmoru i da se za hitno kontaktira Steve Holloway.",
+      "last_outbound_summary_hr": "Poslana hladna email poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away on leave for any urgent matters please contact steve.holloway@arcsystems.co.uk"
+      ]
+    },
+    {
+      "key": "3876232/4446316476",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o napuštanju tvrtke, a naknadne poruke nisu dobile ljudski odgovor; zadržava se Out Of Office.",
+      "next_step_hr": "Nema daljnjeg djelovanja jer je kontakt napustio tvrtku.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Nikki napustila Price Forbes Re i da se mailbox više ne prati.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump s pitanjem je li ponuda relevantna.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have left Price Forbes Re and this mailbox will no longer be monitored."
+      ]
+    },
+    {
+      "key": "3876232/4446315590",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 1. rujna, nakon čega slijede samo naši bumpovi bez ljudskog odgovora.",
+      "next_step_hr": "Pratiti hoće li Eoin nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Eoin izvan ureda do 1. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump uz napomenu da je to zadnji email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Tuesday, September 1st."
+      ]
+    },
+    {
+      "key": "3876232/4446315894",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 5. rujna, nakon čega slijede samo naši bumpovi bez ljudskog odgovora.",
+      "next_step_hr": "Pratiti hoće li Rupert nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Rupert izvan ureda od 27. kolovoza do 5. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump uz napomenu da je to zadnji email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be out of the office from Aug 27, 2026 to Sep 05, 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446317045",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti s ograničenim pristupom emailu, nakon čega slijede samo naši bumpovi bez ljudskog odgovora.",
+      "next_step_hr": "Pratiti hoće li Shradha nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Shradha izvan ureda do 9:30 s ograničenim pristupom emailu.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump uz napomenu da je to zadnji email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office until approximately 9.30am with limited access to email"
+      ]
+    },
+    {
+      "key": "3876232/4446317467",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 7. rujna, nakon čega slijede samo naši bumpovi bez ljudskog odgovora.",
+      "next_step_hr": "Pratiti hoće li Armon nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Armon trenutno OOO i da će odgovoriti po povratku 7. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump uz napomenu da je to zadnji email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm OOO currently and will get back to you upon my return on September 7th."
+      ]
+    },
+    {
+      "key": "3876232/4446315678",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da je Vorberg napustio DigiTech i više ne prati mailbox; naknadne poruke nisu dobile ljudski odgovor.",
+      "next_step_hr": "Preusmjeriti kontakt na Lukea kako je navedeno u automatskom odgovoru.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Vorberg napustio DigiTech i upućuje na Lukea kao kontakt.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump uz napomenu da je to zadnji email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’ve now moved on from DigiTech and will no longer be monitoring this inbox."
+      ]
+    },
+    {
+      "key": "3876232/4446315665",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 2. rujna, nakon čega slijede samo naši bumpovi bez ljudskog odgovora.",
+      "next_step_hr": "Pratiti hoće li Rachel nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Rachel na PTO do 2. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump uz napomenu da je to zadnji email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office on PTO and will be back on Wednesday 2nd September."
+      ]
+    },
+    {
+      "key": "3876232/4446317754",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor od Nathan.Hall@sinara.co.uk o odsutnosti do 21. rujna, a ne od Sarah; naknadne poruke nisu dobile ljudski odgovor.",
+      "next_step_hr": "Pratiti hoće li Sarah nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor s Nathan.Hall@sinara.co.uk da je osoba izvan ureda do 21. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka je finalni bump uz napomenu da je to zadnji email.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office, returning Monday 21st September"
+      ]
+    },
+    {
+      "key": "3930675/4520616712",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 21. rujna bez ljudskog angažmana; zadržava se Out Of Office.",
+      "next_step_hr": "Pratiti hoće li Steve nakon povratka odgovoriti na ponudu.",
+      "last_inbound_summary_hr": "Automatski odgovor da je Steve na odmoru do 21. rujna.",
+      "last_outbound_summary_hr": "Poslana hladna email poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on leave until the 21st of September."
+      ]
+    }
+  ]
+}

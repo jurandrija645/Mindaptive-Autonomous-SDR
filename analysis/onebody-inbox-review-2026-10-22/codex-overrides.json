@@ -1,0 +1,1052 @@
+{
+  "3930675/4520615628": {
+    "key": "3930675/4520615628",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Na prijedlog prosljeđivanja people timu poslani su uvjeti, link, kod i dopuštenje dijeljenja; zadnji mail je naš.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Digby je predložio prosljeđivanje HR timu.",
+    "last_outbound_summary_hr": "Poslan je link, kod i dopuštenje dijeljenja s timom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "y_55min_1\nThe code is OBLACCESS55. Just select the clinic you want and book your free session. Let me know if you need any he"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520613664": {
+    "key": "3930675/4520613664",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Zatražen booking link je poslan zajedno s kodom, naknadom i uputom za kolege; zadnji mail je naš.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Jody je napisala: 'Yes would be interested in this if you can send the booking link?'",
+    "last_outbound_summary_hr": "Poslan je link i kod 2026-10-21.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "y_55min_1\nThe code is OBLACCESS55. Just select Mayfair and book your free session. There's a small £4.99 booking fee, which h"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317296": {
+    "key": "3876232/4446317296",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon prihvaćanja poslani su link i kod te završni follow-up; nema otvorenog pitanja ni obećane radnje.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Cassian je rekao 'Sure, if it's free, I will look at it.'",
+    "last_outbound_summary_hr": "Rebecca je poslala booking link i kod OBLACCESS55, zatim nekoliko podsjetnika.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      " you need them.\nCode: OBLACCESS55\nLink -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/ph"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520621425": {
+    "key": "3930675/4520621425",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon stvarnog interesa poslani su link, kod i objašnjenje £4.99, zatim naš zadnji podsjetnik; nema pitanja na čekanju.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Faye potvrđuje interes i opisuje bolove u gornjem dijelu leđa i vratu.",
+    "last_outbound_summary_hr": "Rebecca podsjeća da je kod OBLACCESS55 važeći do kraja mjeseca i da može podijeliti s kolegama.",
+    "human_replied": true,
+    "ooo_then_human": true,
+    "handover_complete": true,
+    "evidence": [
+      "chtime slot. The code OBLACCESS55 is valid until the end of the month, so worth grabbing soon. Feel free to share the code wi"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520616556": {
+    "key": "3930675/4520616556",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Na pitanje o ispravnom linku poslani su aktualni partnership link, VIP8401 i detalji 45-minutne ponude; zadnji mail je naš.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Ashil je pitao kako rezervirati i je li link ispravan.",
+    "last_outbound_summary_hr": "Kurt je poslao novi link i kod VIP8401 2026-10-22.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "_treatment_45_min\nUse VIP8401 and just pick Victoria when you book (7 min from your office). The session is 45 minutes, there"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520621755": {
+    "key": "3930675/4520621755",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Na stvarni interes nakon ozljede poslani su link, kod i upute za rezervaciju po povratku; zadnji mail je naš.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Harry kaže da je zainteresiran i da bi mogao sljedeći tjedan nakon povratka s puta.",
+    "last_outbound_summary_hr": "Kurt šalje link, kod OBLACCESS55 i objašnjava naknadu od £4.99.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "y_55min_1\nThe code is OBLACCESS55. Clerkenwell is closest to you, so book in for whenever you're back the week after. There's"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446315820": {
+    "key": "3876232/4446315820",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Link i kod su poslani, a na zadnje Vanijino pitanje o £4.99 izričito je odgovoreno; nema novog pitanja nakon našeg odgovora.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Vania pita je li £4.99 očekivana naplata prilikom rezervacije za Caroline.",
+    "last_outbound_summary_hr": "Rebecca objašnjava da je £4.99 stvarna naknada za rezervaciju termina.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "_55min_1\n\nThe code is OBLACCESS55. Just select the clinic you want (probably Fenchurch Street for you) and book your free ses"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520613376": {
+    "key": "3930675/4520613376",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Odgovoreno je na pitanja o cijeni i webu te poslani link i kod; zadnji mail je naš.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Lux je pitao 'how much does it cost?' i 'Do you have a website?'.",
+    "last_outbound_summary_hr": "Poslan je odgovor s objašnjenjem, linkom i kodom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "_55min_1\nYour code is OBLACCESS55. Just pick Blackfriars (you're round the corner from us) and book your free session.\nRebecc"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317001": {
+    "key": "3876232/4446317001",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Odgovoreno je što nudimo u odnosu na sportsku pripremu; poslani su link i kod te završni follow-up.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Fred je pitao rade li pripremne radove za Hyrox i ultra maraton.",
+    "last_outbound_summary_hr": "Rebecca je odgovorila da ne rade coaching, objasnila prednosti i poslala booking link s kodom OBLACCESS55.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      " you need them.\nCode: OBLACCESS55\nLink -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/ph"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520616252": {
+    "key": "3930675/4520616252",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Odgovoreno je o Bupi i dijeljenju ponude kolegi; link i kod su ranije poslani, a zadnji mail je naš odgovor.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Nadia pita može li besplatnu sesiju dati kolegi s bolnim leđima.",
+    "last_outbound_summary_hr": "Rebecca odobrava dijeljenje koda s kolegom i kaže da je Nadijina sesija i dalje dostupna.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "an use the same code (OBLACCESS55) and book at any clinic and whenever suits. Your free session is still there for you whenev"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520615026": {
+    "key": "3930675/4520615026",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon OOO-a osobno je prihvatio ponudu; poslani su link, kod i naknada, a zadnji mail je naš.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Lawrence je potvrdio interes i zatražio informacije za besplatnu fizioterapiju.",
+    "last_outbound_summary_hr": "Poslani su mu booking link i kod OBLACCESS55 s uputama za odabir Mayfair klinike.",
+    "human_replied": true,
+    "ooo_then_human": true,
+    "handover_complete": true,
+    "evidence": [
+      "y_55min_1\nThe code is OBLACCESS55. Just pick Mayfair since you're just round the corner, and book your free session. There's "
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316214": {
+    "key": "3876232/4446316214",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon interesa poslani su link, kod i završni follow-up; nema novog pitanja ili obećane radnje.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Mav je rekao 'Keen to explore further'.",
+    "last_outbound_summary_hr": "Poslan je posljednji podsjetnik s linkom i kodom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      " you need them.\nCode: OBLACCESS55\nLink -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/ph"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608052123": {
+    "key": "4006945/4608052123",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Na ponovljeni upit kako rezervirati poslani su link, kod, klinika i objašnjenje £4.99; zadnji mail je naš.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Rory je pitao 'No - how do I book', a mi smo poslali link.",
+    "last_outbound_summary_hr": "Poslana je bump poruka 2026-10-20 s linkom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "erapy_55min_1\nCode is OBLACCESS55. Select Hammersmith and you're good to go. There's a small £4.99 booking fee that holds you"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317153": {
+    "key": "3876232/4446317153",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon ranijeg problema s magic linkom stigla je do naplate; na zadnje pitanje o £4.99 odgovoreno je, a link i kod ponovljeni.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Beth pita je li naplata od £4.99 očekivana.",
+    "last_outbound_summary_hr": "Rebecca potvrđuje da je £4.99 naknada za rezervaciju termina.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "ure to enter the code OBLACCESS55 when booking.\nLet me know if you need any help!\nBest,\nRebecca\n\nRebecca Bossick\nOne Body LDN"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520618811": {
+    "key": "3930675/4520618811",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon prihvaćanja ponude poslani su link, kod i objašnjenje £4.99; zadnji mail je naš, bez otvorenog pitanja.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Andy je rekao 'a physio appointment sounds amazing'.",
+    "last_outbound_summary_hr": "Poslan je link i kod s napomenom o £4.99 naknadi.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "y_55min_1\nThe code is OBLACCESS55. Blackfriars is right there for you (or any other clinic on the list). There's a small £4.9"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317432": {
+    "key": "3876232/4446317432",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Pozitivno je odgovorila, a zatim dobila booking link i kod; zadnji mail je naš, bez preostalog pitanja.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Ljudski odgovor: 'Yes why not, thanks' (interes, bez upita).",
+    "last_outbound_summary_hr": "Poslan bump 2026-09-07 s pitanjem 'were you able to schedule?'.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "y_55min_1\nThe code is OBLACCESS55. Just select the clinic you want (probably Victoria) and book your free session. Let me kno"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446315515": {
+    "key": "3876232/4446315515",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poslani su link, kod i uputa kako odabrati željeni datum, zatim završni follow-up; nema otvorenog pitanja.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Charlie kaže da ima sljedeći tjedan u kalendaru.",
+    "last_outbound_summary_hr": "Rebecca šalje zadnji email s linkom i kodom, bez obećanja daljnje akcije.",
+    "human_replied": true,
+    "ooo_then_human": true,
+    "handover_complete": true,
+    "evidence": [
+      " you need them.\nCode: OBLACCESS55\nLink -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/ph"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520611104": {
+    "key": "3930675/4520611104",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Booking link i kod poslani su više puta; nakon odgode i kasnijeg OOO-a zadnji podsjetnik je naš, bez otvorenog zadatka.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "James je poslao out-of-office automatski odgovor 2026-10-05.",
+    "last_outbound_summary_hr": "Poslana je poruka 2026-10-21 s upitom je li rezervirao.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "ure to enter the code OBLACCESS55 when booking.\nLet me know if you need any help!\nBest,\nRebecca\n\nin\n\nf\n\nig\n\nRebecca Bossick\n\n"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520614234": {
+    "key": "3930675/4520614234",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Nakon najave da će rezervirati poslani su link, kod i naknada te naš zadnji podsjetnik; nema obećane preostale radnje.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Edu obećava rezervirati za petak ili sljedeći tjedan, ali nije rezervirao.",
+    "last_outbound_summary_hr": "Rebecca pita je li Edu uspio rezervirati i nudi pomoć.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "erapy_55min_1\nCode is OBLACCESS55, and there's a small £4.99 booking fee that holds your time. Pick Shoreditch since you're r"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520616840": {
+    "key": "3930675/4520616840",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poslani su link i kod te ispunjen traženi follow-up u listopadu; zadnji mail 20. listopada zatvara praćenje.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Jeremy je izrazio interes i zamolio da ga kontaktiramo u listopadu kad bude imao više vremena.",
+    "last_outbound_summary_hr": "Poslan je booking link i kod OBLACCESS55 s napomenom za Camden kliniku.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      " you need them.\nCode: OBLACCESS55\nLink -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/ph"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520614839": {
+    "key": "3930675/4520614839",
+    "recommended_label": "Lead Done",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poslani su link, kod i odgovor o fokusu tretmana za nogu i leđa; zadnji je mail naš, bez preostalog pitanja.",
+    "next_step_hr": "Nakon odobrenja označiti Lead Done; ne slati novu poruku.",
+    "last_inbound_summary_hr": "Louise je napisala da je zainteresirana i da će se javiti početkom listopada.",
+    "last_outbound_summary_hr": "Poslan je podsjetnik 2026-10-20 s linkom i kodom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "ure to enter the code OBLACCESS55 when booking.\nLet me know if you need any help!\nBest,\n\nin\n\nf\n\nig\n\nRebecca Bossick\n\nCo-Found"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316604": {
+    "key": "3876232/4446316604",
+    "recommended_label": "Meeting Booked",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Franek je izričito potvrdio rezervaciju; uz to smo obećali provjeriti broj rezervacija kolega i javiti se sutra.",
+    "next_step_hr": "Potvrditi Meeting Booked i zasebno provjeriti obećani izvještaj o rezervacijama kolega.",
+    "last_inbound_summary_hr": "Franek je pitao koliko ljudi je rezerviralo, a mi smo odgovorili.",
+    "last_outbound_summary_hr": "Rebecca je odgovorila da je 6-7 ljudi rezerviralo i zahvalila.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "I’ve just booked myself in, so will go ahead and share the link with others.",
+      "We’ve had around 6 or 7 people book through your link so far, which is fantastic."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608050916": {
+    "key": "4006945/4608050916",
+    "recommended_label": "Interested",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Sam želi rezervirati i pita za dostupne termine; u presjeku razgovora još nema našeg odgovora.",
+    "next_step_hr": "Odgovoriti na upit o terminima i poslati aktualne upute za booking, nakon zasebnog pregleda odgovora.",
+    "last_inbound_summary_hr": "Sam je pitao: 'Yes please, would like to book this. What is availability for this?'",
+    "last_outbound_summary_hr": "Poslan je drugi cold email 2026-10-22 s ponudom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Yes please, would like to book this.\n\nWhat is availability for this?"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317501": {
+    "key": "3876232/4446317501",
+    "recommended_label": "Interested",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Alistair je stvarno odgovorio s interesom i pitanjem o uvjetima; kasniji automatski OOO ne poništava taj interes.",
+    "next_step_hr": "Nakon odobrenja zamijeniti Out Of Office s Interested; bez slanja poruke.",
+    "last_inbound_summary_hr": "Automatska poruka: Alistair je na putu i na sastancima od 7. do 9. rujna.",
+    "last_outbound_summary_hr": "Kurt pita je li Alistair uspio rezervirati sesiju.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I am travelling and in client meetings Monday 7th Sept - Wed 9th Sept.",
+      "I will get back to you as soon as I can."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608050551": {
+    "key": "4006945/4608050551",
+    "recommended_label": "Wrong Person",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Odgovor samo kaže da radi od kuće; to ne dokazuje ni pogrešnu osobu ni jasan interes.",
+    "next_step_hr": "Ručno odlučiti treba li pojasniti lokaciju i individualnu ponudu; zasad ne mijenjati label.",
+    "last_inbound_summary_hr": "Osoba odgovara da radi od kuće.",
+    "last_outbound_summary_hr": "Početna prodajna e-poruka s napomenom o blizini Whereby ureda.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I work from home, Rebecca."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520617891": {
+    "key": "3930675/4520617891",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Joshua pita je li ponuda za oporavak od ozljede ili prevenciju; to je otvoreno pitanje, iako je tvrtka remote.",
+    "next_step_hr": "Ručno potvrditi promjenu Not Interested u Interested i pregledati odgovor na njegovo pitanje.",
+    "last_inbound_summary_hr": "Joshua je napisao da su remote i pitao je li ponuda za ozljede ili prevenciju.",
+    "last_outbound_summary_hr": "Poslan je follow-up s ponudom besplatne sesije.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "it's not entirely clear what are you trying to sell - is this for when we need physio after injury or more as a preventative measure?"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520621302": {
+    "key": "3930675/4520621302",
+    "recommended_label": "",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Kristian zahvaljuje i opisuje da je aktivan te rijetko u Londonu; nema izričitog odbijanja ni jasnog prihvaćanja.",
+    "next_step_hr": "Odluka operatera: neutralan odgovor ili Not Interested; ne mijenjati automatski.",
+    "last_inbound_summary_hr": "Korisnik zahvaljuje, ali odbija ponudu uz obrazloženje da je u dobroj formi.",
+    "last_outbound_summary_hr": "Poslan podsjetnik na ponudu.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I’m in pretty good shape, and currently not covered on rock tape ha ha."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317381": {
+    "key": "3876232/4446317381",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Chris je dobio link i kod, ali je odgodio zbog rasporeda; za završavanje tog razgovora tražim ručnu odluku.",
+    "next_step_hr": "Odlučiti završavamo li nakon handovera ili ostavljamo kontakt zbog odgode.",
+    "last_inbound_summary_hr": "Chris je poručio '👍' i ranije rekao da će provjeriti.",
+    "last_outbound_summary_hr": "Poslan je bump 2026-10-20 s linkom i kodom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Im planning on looking at it its just my office days are a buit skewed for the next cvouple of weeks",
+      "Cheers Chris. Just let me know when your schedule opens up and I'll get you sorted."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520621199": {
+    "key": "3930675/4520621199",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Claire je dobila upute, ali je zadnjim stvarnim odgovorom odgodila rezervaciju zbog posla.",
+    "next_step_hr": "Ručno odlučiti je li handover dovoljan za Lead Done ili ostaje Interested.",
+    "last_inbound_summary_hr": "Claire je napisala da će rezervirati sljedeći tjedan.",
+    "last_outbound_summary_hr": "Poslana je poruka 2026-10-20 s razumijevanjem.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I hope to have more time next week or the week after to book.",
+      "No problem at all, work gets in the way. Just give me a shout whenever you're ready and I'll make sure you're all set."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520615955": {
+    "key": "3930675/4520615955",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Poldy je prijavio odbijeno plaćanje; nema jasne potvrde da je problem s checkoutom otklonjen.",
+    "next_step_hr": "Provjeriti radi li booking/plaćanje prije završavanja razgovora.",
+    "last_inbound_summary_hr": "Poldy je rekao da će pokušati rezervirati kad bude znao raspored.",
+    "last_outbound_summary_hr": "Poslana je zadnja poruka s kodom i linkom 2026-10-20.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I tried to book but the payment page is weird and it declined by card:",
+      "I should know by nearer the end of the week and will try the booking form again."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316731": {
+    "key": "3876232/4446316731",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Richard je dobio ispravne upute, ali jedan kasniji poslani mail sadrži doslovne placeholdere [Insert Link] i [Insert Code].",
+    "next_step_hr": "Pregledati razgovor i odlučiti treba li ispravak; ne slati niti završavati automatski.",
+    "last_inbound_summary_hr": "Richard pita može li uskočiti sutradan u studio.",
+    "last_outbound_summary_hr": "Kurt objašnjava da je potrebno rezervirati unaprijed putem linka i koda OBLACCESS55.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Is it possible for me to pop by the studio next time I pass? Probably tomorrow?",
+      "you can, but it is best if you schedule your free physio session in advance on this link"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316050": {
+    "key": "3876232/4446316050",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Ian je zadnji pisao i najavio da će se javiti; ranije je tražio i savjet o vježbama koji nije konkretno odgovoren.",
+    "next_step_hr": "Ostaviti otvoreno za tim klinike; ne nuditi medicinske savjete automatski.",
+    "last_inbound_summary_hr": "Ian zahvaljuje i kaže da će se javiti u dogledno vrijeme.",
+    "last_outbound_summary_hr": "Kurt šalje link i kod OBLACCESS55 za besplatnu sesiju kad Ian bude spreman.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "If I may, I will take you up on your free 55 mins physio session for my leg in due course",
+      "Will revert in due course."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317181": {
+    "key": "3876232/4446317181",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Mark je pohvalio email i javio da su u Paddingtonu, ali nije jasno prihvatio ponudu; link i kod su poslani.",
+    "next_step_hr": "Ručno odlučiti između Lead Done i zadržavanja postojećeg statusa.",
+    "last_inbound_summary_hr": "Mark je rekao 'fantastic sales email' i obavijestio o selidbi u Paddington.",
+    "last_outbound_summary_hr": "Rebecca je poslala booking link, kod OBLACCESS55 i preporučila Paddington.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Rebecca - a fantastic sales email - well done. However we've moved to Paddington now",
+      "Here is the booking link -> [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316996": {
+    "key": "3876232/4446316996",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor: Louisa Freestone-Smith više nije zaposlena u BeZero.",
+    "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Thank you for contacting ‎BeZero Carbon Ltd‎. We regret to inform you that ‎Louisa Freestone-Smith‎ is no longer employed here. Please direct any future corresp"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317073": {
+    "key": "3876232/4446317073",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor: Harry Hills je napustio Helix International Group.",
+    "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Dear Sender,\n\nThank you for your email. Please note that I have now left Helix International Group. Please direct your enquiry to Jenny Lester via JLester@helix"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446315631": {
+    "key": "3876232/4446315631",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatska poruka o napuštanju Arcadie i preusmjeravanju na kolege.",
+    "last_outbound_summary_hr": "Posljednja poruka (11.9.) generički bump s pitanjem je li još uvijek zainteresirana.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "﻿﻿Thanks for your email.\n\nI have now left Arcadia so please contact Jennifer Hall on jennifer.hall@arcadiaconsulting.co.uk or Nuala Fisher on nuala.fisher@arcad"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317612": {
+    "key": "3876232/4446317612",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatska poruka: Laura Knight je napustila PLP.",
+    "last_outbound_summary_hr": "Posljednja poruka: 'This will be my last email'.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Thank you for your email. Please note that Laura Knight left PLP on 30th June 2026.\n\nFor all Marketing-related enquiries, please get in touch with Henrietta Lov"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446315896": {
+    "key": "3876232/4446315896",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor da je Josh napustio Brooks Macdonald.",
+    "last_outbound_summary_hr": "Poslana posljednja prodajna e-poruka s upitom o interesu i ponudom koda.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Dear Sender,\n\nThank you for your email. I have now left Brooks Macdonald.\n\nKind Regards,\n\nJosh Bradley\n\nJosh Bradley\n\njosh.bradley@brooksmacdonald.com\n\n40 Leade"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446315792": {
+    "key": "3876232/4446315792",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Obavijest da je kontakt napustio tvrtku AlphaReal.",
+    "last_outbound_summary_hr": "Treća hladna e-poruka s upitom za potvrdu.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Thank you for your email. I have now left AlphaReal: if necessary, please direct any emails over to edpalmer@alpharealcapital.com"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316056": {
+    "key": "3876232/4446316056",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor da je napustio P&P.",
+    "last_outbound_summary_hr": "Posljednja poruka je 'last email' s ponudom koda.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Good morning,  I have since left P&P, please use the following email addresses for acccounts and other enquiries.  Accounts: accounts@pilbrowandpartners.com Oth"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608052346": {
+    "key": "4006945/4608052346",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor: Anwar je napustio Regency, kontaktirati drugog člana.",
+    "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Anwar has now left Regency and email will be dealt with by another member of the Facilities Management team. You can call the office on 020 7871 1223"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446315895": {
+    "key": "3876232/4446315895",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor: 'I have now left Brooks Macdonald'.",
+    "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Dear Sender,\n\nThank you for your email. I have now left Brooks Macdonald.\n\nKind Regards,\n\nSamantha Hamilton-Smith\n\nSamantha Hamilton-Smith\n\nsam.hamilton-smith@b"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316401": {
+    "key": "3876232/4446316401",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor da Nicola više ne radi u Triple Pointu.",
+    "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Please note I have now left Triple Point. Please forward your query to clientops.leadership@triplepoint.co.uk and someone will be able to assist you."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317756": {
+    "key": "3876232/4446317756",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Obavijest da je osoba napustila Vixio i upućivanje na drugi kontakt.",
+    "last_outbound_summary_hr": "Zadnja poruka nije dostavljena jer je mail račun neaktivan.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Hi, I've now left Vixio, so for anything related to product marketing,\nplease contact lheavens@vixio.com going forward. Thank you and all the\nbest!"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446315339": {
+    "key": "3876232/4446315339",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Obavijest da je napustio Acrisure i uputio na drugu osobu.",
+    "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I have now left Acrisure. For any recruitment enquires please get in touch with Louis O'Sullivan (louisosullivan@acrisure.com)\nCONFIDENTIALITY NOTICE This e-mai"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316057": {
+    "key": "3876232/4446316057",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor da Jane više ne radi u Insight222.",
+    "last_outbound_summary_hr": "Poslan posljednji email s ponudom besplatne sesije i upitom za odgovor.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I have now left Insight222. Please contact Oceane for any marketing queries (oceane.dfrugier@insight222.com), James for any new business help (james.garrett@ins"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317231": {
+    "key": "3876232/4446317231",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor: Ben Gunnee je napustio Gresham House.",
+    "last_outbound_summary_hr": "Posljednji odlazni email: zadnji email, pitanje jesu li zainteresirani.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Please note that Ben Gunnee has now left Gresham House and your email has not been forwarded. Please reach out to your Gresham House contact, alternatively for "
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608052345": {
+    "key": "4006945/4608052345",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor: Lauren je napustila Regency Real Estate, kontaktirati nasljednika.",
+    "last_outbound_summary_hr": "Ponuda besplatne fizioterapije od 55 minuta.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Thank you for your email.I have now left Regency Real Estate, please contact my sucessor Noel Hennelly on nhennelly@regencyre.co.uk or 07701337161.\n\nIf you have"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316723": {
+    "key": "3876232/4446316723",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatski odgovor: Lasitha je napustio GuarantCo, s preusmjerenjem na Emily Bushby.",
+    "last_outbound_summary_hr": "Poslana treća poruka, koja je rezultirala povratnom greškom (blocked).",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "﻿Thank you for your e-mail.\n\nPlease note that I no longer work at GuarantCo Management Company.\n\nPlease contact Emily Bushby at\nemily.bushby@guarantco.com for a"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316104": {
+    "key": "3876232/4446316104",
+    "recommended_label": "Wrong Person",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Poruka izričito navodi da je osoba napustila tvrtku ili više ne radi ondje; ovo nije privremeni OOO.",
+    "next_step_hr": "Nakon odobrenja postaviti Wrong Person; ne kontaktirati predložene zamjenske osobe bez zasebne odluke.",
+    "last_inbound_summary_hr": "Automatska obavijest da Nabil više ne radi u Leadenhall Law Group.",
+    "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I have now left Leadenhall Law Group and this inbox will not be monitored\n\nIf your query concerns a complaint or a post-completion matter, please contact Ed Per"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520616472": {
+    "key": "3930675/4520616472",
+    "recommended_label": "Out Of Office",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Jedini odgovor je automatska obavijest o godišnjem odmoru, bez kasnijeg stvarnog odgovora.",
+    "next_step_hr": "Nakon odobrenja dodati Out Of Office; bez poruke ili drugih promjena.",
+    "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 12.10.",
+    "last_outbound_summary_hr": "Zadnja poruka: upit zanima li ga ponuda.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I am out of office on annual leave returning on Monday 12th October."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608049408": {
+    "key": "4006945/4608049408",
+    "recommended_label": "Out Of Office",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Jedini odgovor kaže da je odsutna zbog cjelodnevnog sastanka; nema stvarnog odgovora na ponudu.",
+    "next_step_hr": "Zadržati postojeći Out Of Office.",
+    "last_inbound_summary_hr": "Automatski odgovor: odsutna na cjelodnevnom strateškom sastanku, kontaktirati EA.",
+    "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne fizioterapije od 55 minuta.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I will be away from my emails today at an all-day strategy session."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317374": {
+    "key": "3876232/4446317374",
+    "recommended_label": "Meeting Booked",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Problem s računom od £125 riješila je administracija klinike, a Veena je zahvalila; zadržati postojeću rezervaciju.",
+    "next_step_hr": "Bez promjene labela; iz razgovora nema novog otvorenog pitanja.",
+    "last_inbound_summary_hr": "Veena je zahvalila Kresti na rješavanju računa.",
+    "last_outbound_summary_hr": "Kresta je potvrdila da je račun poništen.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": true,
+    "evidence": [
+      "I paid the £4.99 for a 35 mins appointment yesterday",
+      "hi Kresta, Many thanks Veena"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446316824": {
+    "key": "3876232/4446316824",
+    "recommended_label": "Meeting Booked",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Postojeći status je Meeting Booked; na pitanja o Bupi i rezervaciji već smo odgovorili.",
+    "next_step_hr": "Zadržati postojeći Meeting Booked; ne poništavati rezervaciju samo zato što potvrda nije u ovom threadu.",
+    "last_inbound_summary_hr": "Alexis je pitao 'do you have availability this week? Also I see that you accept Bupa?'.",
+    "last_outbound_summary_hr": "Poslan je odgovor s potvrdom Bupa, linkom i kodom.",
+    "human_replied": true,
+    "ooo_then_human": true,
+    "handover_complete": false,
+    "evidence": [
+      "do you have availability this week? Also I see that you accept Bupa?"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317376": {
+    "key": "3876232/4446317376",
+    "recommended_label": "Interested",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Martyn je nakon OOO-a osobno odgovorio da su preselili u Farringdon i pita odakle nam stara adresa; to nije dokaz pogrešne osobe.",
+    "next_step_hr": "Ručno potvrditi promjenu Wrong Person u Interested i odlučiti kako odgovoriti na pitanje o staroj adresi.",
+    "last_inbound_summary_hr": "Martyn je odgovorio da su se preselili u Farringdon i predložio staru agenciju.",
+    "last_outbound_summary_hr": "Poslana početna e-poruka o lokaciji London Bridge.",
+    "human_replied": true,
+    "ooo_then_human": true,
+    "handover_complete": false,
+    "evidence": [
+      "we have been in Farringdon for a little while now."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608052464": {
+    "key": "4006945/4608052464",
+    "recommended_label": "Do Not Contact",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Zadržati postojeću zabranu kontakta; sadržaj poruke ne daje dopuštenje za ponovno aktiviranje.",
+    "next_step_hr": "Bez promjene i bez daljnjeg kontakta.",
+    "last_inbound_summary_hr": "Automatska poruka da više nije zaposlen u Acousticu.",
+    "last_outbound_summary_hr": "Poslana početna poruka s ponudom besplatne sesije.",
+    "human_replied": false,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I regret to inform you that I am no longer employed with Acoustic."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520622245": {
+    "key": "3930675/4520622245",
+    "recommended_label": "Meeting Booked",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Zadržati postojeći Meeting Booked; zasebno provjeriti otvoreno pitanje. Emily je već rezervirala termin (izvorno Meeting Booked), ali je zatrazila pomoć oko otkazivanja/rezervacije; nije potvrdila novi termin niti dobila odgovor na svoj zahtjev.",
+    "next_step_hr": "Riješiti otvoreni booking/support upit bez poništavanja postojeće oznake rezervacije.",
+    "last_inbound_summary_hr": "Emily je pitala može li sama otkazati termin jer ga ne vidi u svom računu.",
+    "last_outbound_summary_hr": "Poslan je booking link i kod OBLACCESS55 s preporukom za Hammersmith kliniku.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Hello - is it possible to reschedule appointments on your website please?",
+      "Here's the booking link: [booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1]"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520614838": {
+    "key": "3930675/4520614838",
+    "recommended_label": "Meeting Booked",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Zadržati postojeći Meeting Booked; zasebno provjeriti otvoreno pitanje. Tania je izrazila interes, dobila kod, ali nije potvrdila novi termin nakon što je propustila prvotni termin; njezin zahtjev za sljedeći tjedan ostaje nepotvrđen.",
+    "next_step_hr": "Riješiti otvoreni booking/support upit bez poništavanja postojeće oznake rezervacije.",
+    "last_inbound_summary_hr": "Tania je propustila današnji termin i pitala za termin idući tjedan (četvrtak).",
+    "last_outbound_summary_hr": "Rebecca je ponudila da Lawrence iskoristi termin ili da Tania zatraži novi termin.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Yes I would love this, when can I get in?",
+      "Can we do next week Thursday?"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3876232/4446317487": {
+    "key": "3876232/4446317487",
+    "recommended_label": "Meeting Booked",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Zadržati postojeći Meeting Booked; zasebno provjeriti otvoreno pitanje. Alexander je već imao rezervaciju, ali sada ima problema s pristupom računu i moli otkazivanje svih termina; potrebna je ručna pomoć.",
+    "next_step_hr": "Riješiti otvoreni booking/support upit bez poništavanja postojeće oznake rezervacije.",
+    "last_inbound_summary_hr": "Alexander je napisao da ne može pristupiti svom računu i moli otkazivanje svih termina u Shoreditchu.",
+    "last_outbound_summary_hr": "Poslan je podsjetnik da ponuda istječe na kraju mjeseca s linkom i kodom.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I cannot access my account, the magic link doesn't work",
+      "Can you please cancel any and all appointments I have at the Shoreditch site."
+    ],
+    "reviewed_by": "Codex"
+  },
+  "3930675/4520617802": {
+    "key": "3930675/4520617802",
+    "recommended_label": "Meeting Booked",
+    "confidence": "medium",
+    "manual_review": true,
+    "reason_hr": "Zadržati postojeći Meeting Booked; zasebno provjeriti otvoreno pitanje. Isabel tvrdi da je već rezervirala, ali mi ne vidimo rezervaciju; poslan je novi link i kod, ali nema potvrde da je uspjelo.",
+    "next_step_hr": "Riješiti otvoreni booking/support upit bez poništavanja postojeće oznake rezervacije.",
+    "last_inbound_summary_hr": "Isabel je napisala 'I think I have already booked it though?' ali bez potvrde rezervacije.",
+    "last_outbound_summary_hr": "Kurt je poslao novi booking link i kod s upitom je li uspjelo.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "I think I have already booked it though?",
+      "I don't actually see your booking come through on my end"
+    ],
+    "reviewed_by": "Codex"
+  },
+  "4006945/4608049391": {
+    "key": "4006945/4608049391",
+    "recommended_label": "Do Not Contact",
+    "confidence": "high",
+    "manual_review": false,
+    "reason_hr": "Zadržati postojeću zabranu kontakta; sadržaj poruke ne daje dopuštenje za ponovno aktiviranje.",
+    "next_step_hr": "Bez promjene i bez daljnjeg kontakta.",
+    "last_inbound_summary_hr": "Osoba zahtijeva odjavu s 'Unsubscribe'.",
+    "last_outbound_summary_hr": "Početna prodajna e-poruka s ponudom besplatne fizioterapije.",
+    "human_replied": true,
+    "ooo_then_human": false,
+    "handover_complete": false,
+    "evidence": [
+      "Unsubscribe"
+    ],
+    "reviewed_by": "Codex"
+  }
+}

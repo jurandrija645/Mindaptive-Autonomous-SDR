@@ -1,0 +1,30 @@
+[
+  {
+    "key": "3876232/4446317296",
+    "name": "Cassian",
+    "email": "cassian.scott@instinctdigital.io",
+    "current": "Interested",
+    "consecutive_sent": 5
+  },
+  {
+    "key": "3876232/4446317181",
+    "name": "Mark",
+    "email": "mark.bate@nurole.com",
+    "current": "Interested",
+    "consecutive_sent": 5
+  },
+  {
+    "key": "3876232/4446317001",
+    "name": "Fred",
+    "email": "fshears@ctgroup.com",
+    "current": "Interested",
+    "consecutive_sent": 5
+  },
+  {
+    "key": "3876232/4446316214",
+    "name": "Mav",
+    "email": "mav.dhothar@mandg.com",
+    "current": "Interested",
+    "consecutive_sent": 5
+  }
+]

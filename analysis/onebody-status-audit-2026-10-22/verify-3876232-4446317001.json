@@ -1,0 +1,84 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 3593,
+    "completion_tokens": 843,
+    "total_tokens": 4436,
+    "cost": 0.005511276,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.005511276,
+      "upstream_inference_prompt_cost": 0.003751092,
+      "upstream_inference_completions_cost": 0.001760184
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317001",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO2P265MB27033872B4386AF8C37C8DC2A5B62@LO2P265MB2703.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "That sounds great.\n\nDo happen to do prep work too?",
+      "reason_hr": "Fred je pokazao interes, pitao dodatno o pripremi za utrke. Poslan kod i link. Nema daljnjeg odgovora.",
+      "request_hr": "pitanje o pripremi za hyrox i ultra maraton",
+      "next_action_hr": "Fred je dobio link i kod, ali nije potvrdio booking. Sljedeći korak je provjera je li iskoristio kod ili slanje nježnog follow-upa ako je prošlo dovoljno vremena.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316998",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<PAVPR08MB97696080380359F4451FEE03E3B62@PAVPR08MB9769.eurprd08.prod.outlook.com>",
+      "human_quote": "Not interested thanks.",
+      "reason_hr": "Temi je eksplicitno odbila ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je odbila. Nema daljnje akcije.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316758",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<PR3PR10MB40480D08DCA4A0CFA17B4F6FB3B72@PR3PR10MB4048.EURPRD10.PROD.OUTLOOK.COM>",
+      "human_quote": "I recently had back surgery and so I am in an ongoing program for Physio already.",
+      "reason_hr": "Liam je odbio jer već ima fizioterapiju nakon operacije leđa.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je odbila. Nema daljnje akcije.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316495",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAOKs2Yyp56tnRo+V_wPFHPtp2UQJvmNJB8VBGb7oZeyWCUdNSA@mail.gmail.com>",
+      "human_quote": "I personally am already using Excellence Physiotherapy and will pass this time.",
+      "reason_hr": "Tatia je odbila jer već koristi drugu fizioterapiju.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je odbila. Nema daljnje akcije.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    }
+  ]
+}

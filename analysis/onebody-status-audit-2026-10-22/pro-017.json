@@ -1,0 +1,172 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6001,
+    "completion_tokens": 1871,
+    "total_tokens": 7872,
+    "cost": 0.0155888,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0155888,
+      "upstream_inference_prompt_cost": 0.0096016,
+      "upstream_inference_completions_cost": 0.0059872
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608049356",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor izvan ureda, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema neriješenog ljudskog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; samo automatski OOO odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<34c0d9a1f9d04ec9a3a882046c6658c5@GV0P278MB0385.CHEP278.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office until 28th September 2026."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608049391",
+      "assessment": "opted_out",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primatelj je poslao eksplicitnu poruku 'Unsubscribe'.",
+      "last_human_request_hr": "Unsubscribe",
+      "unresolved_hr": "Ništa; primatelj je tražio odjavu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne kontaktirati; poštovati zahtjev za odjavu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<SJ2SPRMB0011D7BA6D8D07775CBC93A2FF822@SJ2SPRMB0011.namprd17.prod.outlook.com>",
+          "quote": "Unsubscribe"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608048943",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba više ne radi u tvrtki, nema korisne preporuke za kontakt.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog zahtjeva; adresa nije aktivna za primatelja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAG=Vpas1+U_VFMJ=KER=951ZVaQjTttBxSkayYw_OAViM8LwgA@mail.gmail.com>",
+          "quote": "I am no longer with Airship and this inbox is no longer actively monitored."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608049053",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor izvan ureda, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema neriješenog ljudskog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; samo automatski OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<84e76825baac4730825c6ecdc9438619@PA4PR03MB7216.eurprd03.prod.outlook.com>",
+          "quote": "I'm out of the office and will respond upon my return."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608048901",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku, nema korisne preporuke za kontakt.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog zahtjeva; račun više nije aktivan za primatelja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<000000000000fad332065c227ade@google.com>",
+          "quote": "Ritesh Shah has left Viber, and this email account is no longer monitored."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608048917",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor izvan ureda, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema neriješenog ljudskog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; samo automatski OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+xSus_=87UXis4FMt3ksEPWfnF81wc4y2neFcaLHx7PdZ=xBA@mail.gmail.com>",
+          "quote": "I am currently out of the office with limited access to my inbox. I\nwill be back on the 29th of September."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608048852",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor izvan ureda, nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema neriješenog ljudskog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; samo automatski OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6d47a6683d4949f68e87c46fb4c889a4@TYWP301MB0404.JPNP301.PROD.OUTLOOK.COM>",
+          "quote": "I am on compliance leave returning to the office on 9 October."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608048697",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor izvan ureda zbog porodiljnog dopusta; nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema neriješenog ljudskog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; samo automatski OOO.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHBmGA_tTGc3vYnoq8xquskj7N5Giyqx2u7NC_NXpJra-2W2aQ@mail.gmail.com>",
+          "quote": "I’m currently out of office on Maternity Leave until November 2026."
+        }
+      ]
+    }
+  ]
+}

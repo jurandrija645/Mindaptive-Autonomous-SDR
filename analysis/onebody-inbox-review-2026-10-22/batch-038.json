@@ -1,0 +1,221 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 14062,
+    "completion_tokens": 2520,
+    "total_tokens": 16582,
+    "cost": 0.0018371,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0018371,
+      "upstream_inference_prompt_cost": 0.0007031,
+      "upstream_inference_completions_cost": 0.001134
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316204",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti s radnog mjesta do 14.09.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away from the office (06/09/26-14/09/26)"
+      ]
+    },
+    {
+      "key": "3876232/4446315335",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 7. rujna.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office until Monday 7th September"
+      ]
+    },
+    {
+      "key": "3876232/4446315500",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o rodiljnom dopustu, bez ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovor: na rodiljnom dopustu, upućuje na marketing@allica.bank.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m on maternity leave"
+      ]
+    },
+    {
+      "key": "3876232/4446315339",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je napustila tvrtku, što znači da nije pravi kontakt.",
+      "next_step_hr": "Označiti kao 'Wrong Person' i ukloniti iz daljnjeg kontakta.",
+      "last_inbound_summary_hr": "Obavijest da je napustio Acrisure i uputio na drugu osobu.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Acrisure"
+      ]
+    },
+    {
+      "key": "3876232/4446315331",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 7. rujna bez pristupa e-pošti.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until 7 September 2026 with no access to emails"
+      ]
+    },
+    {
+      "key": "3876232/4446315341",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je napustila tvrtku, što znači da nije pravi kontakt.",
+      "next_step_hr": "Označiti kao 'Wrong Person' i ukloniti iz daljnjeg kontakta.",
+      "last_inbound_summary_hr": "Obavijest da više ne radi u Acrisure Re, s kontaktom za zamjenu.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "As of 31st May, I am no longer with the company"
+      ]
+    },
+    {
+      "key": "3876232/4446315684",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda 7. rujna s ograničenim pristupom e-pošti.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office Monday 7 September with limited access to email"
+      ]
+    },
+    {
+      "key": "3876232/4446316112",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o godišnjem odmoru, bez ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 21. rujna, upućuje na zamjenu.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on annual leave and I will return on Monday 21st September"
+      ]
+    },
+    {
+      "key": "3876232/4446315606",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba je napustila tvrtku, što znači da nije pravi kontakt.",
+      "next_step_hr": "Označiti kao 'Wrong Person' i ukloniti iz daljnjeg kontakta.",
+      "last_inbound_summary_hr": "Obavijest da više ne radi u Storm2, s kontaktom za zamjenu.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer working at Storm2"
+      ]
+    },
+    {
+      "key": "3876232/4446315511",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odmoru, bez ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovor: na odmoru do 15. rujna, upućuje na WhatsApp.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on holiday, returning 15 September"
+      ]
+    },
+    {
+      "key": "3876232/4446315462",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Osoba više ne radi u navedenoj tvrtki, nije pravi kontakt.",
+      "next_step_hr": "Označiti kao 'Wrong Person' i ukloniti iz daljnjeg kontakta.",
+      "last_inbound_summary_hr": "Obavijest da više ne radi za Charterhouse Group, s kontaktom za zamjenu.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Reiss Barthram no longer works for Charterhouse Group"
+      ]
+    },
+    {
+      "key": "3876232/4446315393",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovori o slobodnim danima, bez stvarne ljudske interakcije.",
+      "next_step_hr": "Nema potrebe za daljnjim radnjama; oznaka ostaje nepromijenjena.",
+      "last_inbound_summary_hr": "Automatski odgovori: kratki izvan ureda, prati e-poštu.",
+      "last_outbound_summary_hr": "Završni email s upitom za odgovor 'ne' ili zahtjev za kod.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Just taking a few days off",
+        "I'm off to uni today... back tomorrow"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 7693,
+    "completion_tokens": 2863,
+    "total_tokens": 10556,
+    "cost": 0.0007450898,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6539,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007450898,
+      "upstream_inference_prompt_cost": 0.0002240238,
+      "upstream_inference_completions_cost": 0.000521066
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608049480",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thread sadrži samo automatski odgovor o odsutnosti, bez ljudske reakcije.",
+      "next_step_hr": "Nakon povratka 28. rujna, ponovno kontaktirati ako je potrebno.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do ponedjeljka 28. rujna 2026.",
+      "last_outbound_summary_hr": "Poslan hladni email i jedan nastavak s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office until Monday 28th September, 2026.",
+        "During this period, I will only have limited access to my email account."
+      ]
+    },
+    {
+      "key": "4006945/4608052003",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dostupan je samo automatski generički odgovor bez ljudske reakcije.",
+      "next_step_hr": "Pričekati ljudski odgovor ili ponovno kontaktirati kasnije.",
+      "last_inbound_summary_hr": "Automatski odgovor koji najavljuje odgovor čim bude slobodan.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you for your email. I will reply as soon as I am free",
+        "but if your query is support related please always email support@staffwise.io"
+      ]
+    },
+    {
+      "key": "4006945/4608049070",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o roditeljskom dopustu, bez ljudske reakcije.",
+      "next_step_hr": "Kontaktirati navedene kolege Jamesa Boushera ili Laurie Franquesu, ili pričekati povratak.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti zbog roditeljskog dopusta do ožujka 2027.",
+      "last_outbound_summary_hr": "Poslan hladni email i nastavak s ponudom.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on paternity leave and will be out of office until March 2027",
+        "please contact me on my phone, or contact James Bousher"
+      ]
+    },
+    {
+      "key": "4006945/4608048718",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primljen samo automatski odgovor o smanjenoj dostupnosti, bez ljudske reakcije.",
+      "next_step_hr": "Pričekati odgovor nakon 27. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor o smanjenoj dostupnosti od 24. do 27. rujna.",
+      "last_outbound_summary_hr": "Poslan hladni email i nastavak s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'll be harder to reach from 24/9 - 27/9 so please expect a slight",
+        "delay in my response. Will get back to you as soon as I can!"
+      ]
+    },
+    {
+      "key": "4006945/4608051975",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 28. rujna, bez ljudske reakcije.",
+      "next_step_hr": "Ponovno kontaktirati nakon povratka 28. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do ponedjeljka 28. rujna.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije i kodom.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of the office and will return on Monday 28th September.",
+        "Thank you for your patience."
+      ]
+    },
+    {
+      "key": "4006945/4608048695",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o dopustu do 8. listopada, bez ljudske reakcije.",
+      "next_step_hr": "Kontaktirati ben.hayes@sigmalabs.co.uk ili pričekati povratak 8. listopada.",
+      "last_inbound_summary_hr": "Automatski odgovor o dopustu bez pristupa emailu do 8. listopada 2026.",
+      "last_outbound_summary_hr": "Poslan hladni email i nastavak s ponudom.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently on leave with no access to email and will be returning",
+        "on October 8th 2026."
+      ]
+    },
+    {
+      "key": "4006945/4608051804",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da je osoba napustila tvrtku, bez ljudske reakcije.",
+      "next_step_hr": "Kontaktirati natalie.clare@abion.com umjesto navedene osobe.",
+      "last_inbound_summary_hr": "Automatski odgovor da je osoba napustila Abion i mailbox se ne prati.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Abion and this mailbox is not being monitored",
+        "please direct your email to natalie.clare@abion.com"
+      ]
+    },
+    {
+      "key": "4006945/4608051803",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da je osoba napustila tvrtku, bez ljudske reakcije.",
+      "next_step_hr": "Kontaktirati natalie.clare@abion.com umjesto navedene osobe.",
+      "last_inbound_summary_hr": "Automatski odgovor da je osoba napustila Abion i mailbox se ne prati.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Abion and this mailbox is not being monitored",
+        "please direct your email to natalie.clare@abion.com"
+      ]
+    },
+    {
+      "key": "4006945/4608051967",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o rodiljnom dopustu, bez ljudske reakcije.",
+      "next_step_hr": "Kontaktirati kolegicu Samantha Kerner navedenu u odgovoru.",
+      "last_inbound_summary_hr": "Automatski odgovor o rodiljnom dopustu bez prosljeđivanja emaila.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office on maternity leave.",
+        "Please contact my colleague Samantha Kerner"
+      ]
+    },
+    {
+      "key": "4006945/4608051779",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 25. rujna, bez ljudske reakcije.",
+      "next_step_hr": "Ponovno kontaktirati nakon 25. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 25. rujna 2026.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away from the office, returning 25 September 2026.",
+        "Thanks Tim"
+      ]
+    },
+    {
+      "key": "4006945/4608051826",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da je osoba napustila tvrtku, bez ljudske reakcije.",
+      "next_step_hr": "Kontaktirati dgandhi@stratt.co ili nlevinson@stratt.co, ovisno o temi.",
+      "last_inbound_summary_hr": "Automatski odgovor o odlasku iz tvrtke i prosljeđivanju.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "After three fantastic years with Stratt, I’ve moved on to the next adventure.",
+        "For Customer Experience Strategy, it’s dgandhi@stratt.co"
+      ]
+    },
+    {
+      "key": "4006945/4608051869",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 29. rujna, bez ljudske reakcije.",
+      "next_step_hr": "Ponovno kontaktirati nakon povratka 29. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti na odmoru do 29. rujna.",
+      "last_outbound_summary_hr": "Poslan hladni email s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm away on holiday, returning on Tuesday 29th September.",
+        "otherwise I will reply to you upon my return."
+      ]
+    }
+  ]
+}

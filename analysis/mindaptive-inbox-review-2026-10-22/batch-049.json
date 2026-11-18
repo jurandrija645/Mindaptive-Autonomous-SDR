@@ -1,0 +1,291 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 46149,
+    "completion_tokens": 4176,
+    "total_tokens": 50325,
+    "cost": 0.00418665,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 46080,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00418665,
+      "upstream_inference_prompt_cost": 0.00230745,
+      "upstream_inference_completions_cost": 0.0018792
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "2515956/2722090617",
+      "name": "Haris",
+      "company": "The Accrue Agency",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Dugo i aktivno dopisivanje. Haris je postavio pitanja, tražio pojašnjenja i na kraju se složio s pilot projektom. Označen je kao 'Meeting-Booked' i nema razloga mijenjati.",
+      "priority": "P1",
+      "sales_state": "post-meeting",
+      "next_action": "POST_MEETING_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je dogovoren ili se vodi dalje. Potrebna je ljudska provjera statusa projekta. Ako je pilot započeo, pratiti isporuku leadova.",
+      "missing_information": [
+        "Ishod sastanka/pilota nije evidentiran u mailu."
+      ],
+      "evidence": [
+        "Yes, I'm open to doing some testing.",
+        "Following up on this please. We are looking to make a decision on this by next week.",
+        "It does but we are hoping to move a bit faster. We are looking to start getting leads as soon as possible."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Zadnja poruka je Harisova potvrda interesa i zahtjev za brzinu. Status je 'Meeting-Booked', potrebna je ljudska provjera ishoda, a ne novi draft."
+    },
+    {
+      "key": "2515956/2722095603",
+      "name": "Sven",
+      "company": "Innoloft",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Izrazio je interes i tražio je vremena da pregleda prijedlog. Nakon nekoliko podsjetnika, rekao je da će se javiti. Posljednji mail (6.1.) je bio završni. lead_stanje: čekanje da se on javi.",
+      "priority": "P3",
+      "sales_state": "waiting",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati da se Sven sam javi. Poslana je poruka da se odustaje od daljnjeg praćenja. Više ne slati nove poruke dok se on ne javi.",
+      "missing_information": [],
+      "evidence": [
+        "I wasn’t able yet to process it. Sorry! I will come back to you soon.",
+        "I’m going to stop following up on this. If you decide you want to move forward with the lead flow strategy later this year, just let me know."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Posljednja poruka (od nas) je završna. Čekamo da se Sven javi. Nema potrebe za novim draftom."
+    },
+    {
+      "key": "2538823/2758495474",
+      "name": "Elke",
+      "company": "Contractify",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Marketing direktorica je pokazala ozbiljan interes, postavila pitanja o probnom roku i podacima. Poslan je detaljan odgovor. Označena je kao 'Meeting-Booked'. Potrebno je pričekati njen sljedeći korak.",
+      "priority": "P2",
+      "sales_state": "waiting",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Pričekati da se Elke javi s odlukom o budžetu. Posljednji podsjetnik je poslan početkom siječnja. Ponovno kontaktirati tek za 2-3 tjedna ako se ne javi.",
+      "missing_information": [
+        "Status budžetske odluke."
+      ],
+      "evidence": [
+        "I've taken you proposal into account for the budget exercise we're working on for 2026. Keep you posted when I have the budget confirmed, but I think there's a big chance of starting up.",
+        "What would the next steps be when I give a go? And can we start off with a 2 to max 3 month trial?"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Posljednja poruka od nas je podsjetnik. Elke čeka odluku o budžetu. Nema novog upita koji zahtijeva odgovor. Pričekati."
+    },
+    {
+      "key": "2538823/2758498055",
+      "name": "Sasha",
+      "company": "CO/PLUS",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Pokazao je interes, pogledao video, rezervirao termin i dobio prijedlog. Nakon toga više nije odgovarao na nekoliko podsjetnika. Status je 'Meeting-Booked', ali budući da je poslano 6 uzastopnih poruka bez odgovora, potrebno je procijeniti je li interes zamro. Nema jasnog 'ne'.",
+      "priority": "P2",
+      "sales_state": "waiting",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebna je ljudska procjena. Poslano je 6 poruka bez odgovora, ali je ranije pokazao jak interes. Moguće je da je odluka odgođena ili da više nije zainteresiran. Predlažemo jedan završni mail bez pritiska, ili označiti 'Lead Done' ako se čini da više nema šanse.",
+      "missing_information": [
+        "Je li Sasha uopće primio/pročitao prijedlog?",
+        "Je li bilo kakvog kontakta izvan maila (npr. putem kalendara)?"
+      ],
+      "evidence": [
+        "Jeg har kigget videoen igennem og det kunne måske godt være interessant...",
+        "I can see the time difference can be a problem. You don’t have any time slots earlier than 4.00 pm?"
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "da",
+      "draft_reason_hr": "Postoji postojeći draft (ako ga je sustav kreirao) koji treba provjeriti. Ako nema drafta, nema potrebe za novim dok čovjek ne odluči o sljedećem koraku."
+    },
+    {
+      "key": "2538823/2758496586",
+      "name": "Martin",
+      "company": "Alta Via Consulting",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Izrazio je snažan interes i dogovorio termin koji je vjerojatno i održan. Nakon toga, poslano je nekoliko poruka bez odgovora, a jedan mail je odbijen (bounce). Posljednja poruka (5.1.) vjerojatno nije stigla do njega. Potrebna je ljudska provjera je li email adresa i dalje ispravna.",
+      "priority": "P2",
+      "sales_state": "waiting",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Potrebno je ljudski provjeriti je li email adresa (mkalkuhl@altavia.de) i dalje aktivna i je li Martin još uvijek u tvrtki. Ako da, provjeriti je li sastanak održan i koji je ishod. Ako adresa nije aktivna, označiti 'Wrong Person' ili 'Bounce'.",
+      "missing_information": [
+        "Je li email adresa i dalje ispravna? (bounce 19.12.)",
+        "Je li sastanak ikad održan?",
+        "Koji je ishod sastanka?"
+      ],
+      "evidence": [
+        "klingt ja zu schön um wahr zhu sein. Such Dir bitte einen Termin in meinem Kalender - Freitag z.B.",
+        "jap, gilt noch. Aber bitte buch Dich erst ab nächsten Donnerstag ein.",
+        "Delivery has failed to these recipients or groups: mkalkuhl@altavia.de"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Potrebna je ljudska provjera prije bilo kakvog slanja. Adresa je odbijena."
+    },
+    {
+      "key": "2738607/3025135872",
+      "name": "Matthew",
+      "company": "Airnauts",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Model plaćanja nije odgovarao njihovom modelu (željeli su plaćanje samo za zatvorene poslove). Nakon objašnjenja, Matthew je ljubazno odbio. Jasno 'ne'.",
+      "priority": "P3",
+      "sales_state": "rejected",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema daljnjih radnji. Označeno je kao 'Not Interested' i ne slati više poruke.",
+      "missing_information": [],
+      "evidence": [
+        "We on the other hand were able to find out that only compnies that accepted the offer were able to provide us with real results, so that’s the only model we’ll continue to work with."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Odbijen je. Nema potrebe za draftom."
+    },
+    {
+      "key": "2732401/3016172180",
+      "name": "Javier",
+      "company": "Coderio",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ovo je vrlo vruć lead. Mihael (Michael) je dao usmenu potvrdu i tražio dokumentaciju za postavljanje. Jasno je da su u fazi implementacije. Status 'Meeting-Booked' je točan i odražava stvarno stanje.",
+      "priority": "P0",
+      "sales_state": "won",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Čekati da Michael ili Javier dostave domene ili pošalju daljnje upute. Ako je sve dogovoreno i čeka se na njih, potrebno je blago podsjetiti nakon tjedan dana ako nema odgovora. Ako su poslali upute, potrebno je krenuti s implementacijom.",
+      "missing_information": [
+        "Jesu li domene i sandučići nabavljeni?",
+        "Treba li poslati setup dokument?"
+      ],
+      "evidence": [
+        "we'll give formal approval on this thread.",
+        "Mia, Andrew - we're ok with what's outlined. Andrew, please share the set-up doc you mentioned in the slack channel."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hi Michael,\n\nThanks for the green light. I'm sharing the setup doc here as discussed.\n\n[link to setup doc]\n\nOnce you have the domains and inboxes ready, let me know and we can kick off the warming period.\n\nBest,\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Michael je izričito tražio setup dokument. Potrebno je poslati traženi dokument i potvrditi sljedeće korake."
+    },
+    {
+      "key": "2738671/3025251044",
+      "name": "Mario",
+      "company": "SM-IT",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Izrazio je interes, dogovorio termin. Posljednja poruka od Marija sadrži dostupnost. Status 'Meeting-Booked' je točan.",
+      "priority": "P0",
+      "sales_state": "meeting-to-be-scheduled",
+      "next_action": "REPLY_NOW",
+      "next_action_at": null,
+      "next_step_hr": "Mario je dao dostupnost za ponedjeljak iza 12h ili utorak do 15h. Potrebno je odabrati termin i poslati pozivnicu.",
+      "missing_information": [],
+      "evidence": [
+        "Ponedjeljak iza 12 sati, utorak do 15 sati."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Bok Mario,\n\nonda idemo s ponedjeljkom u 12:30.\n\nŠaljem pozivnicu za Google Meet.\n\nLijepi pozdrav,\nAndrija",
+      "draft_english": "Hi Mario,\n\nlet's go with Monday at 12:30.\n\nI'll send a Google Meet invitation.\n\nBest regards,\nAndrija",
+      "draft_language": "hr",
+      "draft_reason_hr": "Mario je dao dostupnost. Potrebno je potvrditi jedan od termina i poslati pozivnicu."
+    },
+    {
+      "key": "2515956/2722095162",
+      "name": "Seth",
+      "company": "Ezofis",
+      "recommended_label": "Contact later",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Seth je izrazio interes, ali je izričito zamolio da se javimo tek nakon ožujka zbog gužve. Poslana je poruka da ćemo se javiti nakon ožujka. Potrebno je poštovati taj rok.",
+      "priority": "P3",
+      "sales_state": "timing_objection",
+      "next_action": "WAIT",
+      "next_action_at": "2026-03-01T09:00:00+00:00",
+      "next_step_hr": "Pričekati do ožujka. Postaviti remindere da se javimo početkom ožujka.",
+      "missing_information": [],
+      "evidence": [
+        "I think i can come back to you only after March, as things are piled up till March.",
+        "thanks for letting me know. I'll check back after March."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Čekamo do ožujka. Nema potrebe za draftom sada."
+    },
+    {
+      "key": "2738671/3025253241",
+      "name": "Kadir",
+      "company": "ins-pi",
+      "recommended_label": "Meeting-Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Vrlo zainteresiran, postavio je niz detaljnih pitanja i na kraju dogovorio termin za ponedjeljak. Status 'Meeting-Booked' je točan.",
+      "priority": "P0",
+      "sales_state": "meeting-booked",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Sastanak je dogovoren za ponedjeljak. Pričekati do sastanka.",
+      "missing_information": [],
+      "evidence": [
+        "Invitation sent for Monday."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Sastanak je zakazan. Nema potrebe za slanjem novog maila prije sastanka."
+    }
+  ]
+}

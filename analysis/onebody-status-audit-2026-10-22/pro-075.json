@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 11149,
+    "completion_tokens": 2162,
+    "total_tokens": 13311,
+    "cost": 0.02344416,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 896,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.02344416,
+      "upstream_inference_prompt_cost": 0.01652576,
+      "upstream_inference_completions_cost": 0.0069184
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316752",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Yasmin je izrazila interes i rekla da će se javiti kad bude u Londonu; nakon toga smo poslali kod i link, ali nema potvrde rezervacije ni odbijanja.",
+      "last_human_request_hr": "Im not in London right now, but will reach out when I am back, i am interested - thanks :-)",
+      "unresolved_hr": "Yasmin treba rezervirati termin s kodom OBLACCESS55; provjeriti je li se vratila i planira li rezervaciju.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati kratki follow-up s pitanjem je li rezervirala termin ili joj treba pomoć s kodom OBLACCESS55.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMse7d+S+cf5rVbuzacHdv+1=eFqvMHoE2xp5B3_t9W=6DoOFw@mail.gmail.com>",
+          "quote": "Im not in London right now, but will reach out when I am back, i am interested - thanks :-)"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316817",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jodi je samo poslala automatsku out-of-office poruku s radnim danima i kontaktima kolega; nema ljudskog interesa niti pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih zadataka; automatski odgovor ne zahtijeva daljnju akciju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; čekati eventualni pravi odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1849db88716f4522816e72eeb177410c@CWLP265MB6594.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Please note my working days are Monday to Thursday."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316783",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Paul je samo poslao automatsku out-of-office poruku; nema ljudskog interesa niti pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih zadataka; automatski odgovor ne zahtijeva daljnju akciju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; čekati eventualni pravi odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CANKsnu5zJRxSUmB+HdOV0bHiOoPzWX9GseiLpPtdwnpSfe0QHg@mail.gmail.com>",
+          "quote": "I'm out of the office"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316690",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Nadia je samo poslala automatsku out-of-office poruku; nema ljudskog interesa niti pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih zadataka; automatski odgovor ne zahtijeva daljnju akciju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; čekati eventualni pravi odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f2ae72e5dd784bb3a68e8039844c3830@LO2P265MB3008.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I’m currently away and replies may take a little longer than usual."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316735",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Marc je samo poslao automatsku out-of-office poruku; nema ljudskog interesa niti pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih zadataka; automatski odgovor ne zahtijeva daljnju akciju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; čekati eventualni pravi odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CABQQnztSS=m9NaV5OjC+7O0MOUQ=k390kaQJG_aJ5HAF1_WzdQ@mail.gmail.com>",
+          "quote": "I'm on annual leave and returning on Sep 6th 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316784",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Paul je samo poslao automatsku out-of-office poruku; nema ljudskog interesa niti pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih zadataka; automatski odgovor ne zahtijeva daljnju akciju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; čekati eventualni pravi odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<aa50a5b7c7fb4de7a23914d70ab06615@LO2P302MB0369.GBRP302.PROD.OUTLOOK.COM>",
+          "quote": "Thanks for your email, I'm on annual leave, back on Monday 7th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316631",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Katie je samo poslala automatsku out-of-office poruku; nema ljudskog interesa niti pitanja.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih zadataka; automatski odgovor ne zahtijeva daljnju akciju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa; čekati eventualni pravi odgovor.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f058c6fbe6e34fe4bdbe5b4cefe43625@AS8PR08MB7221.eurprd08.prod.outlook.com>",
+          "quote": "I am on annual leave returning on Thursday 3rd Sept."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316630",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila s greškom isporuke (spam/virus); nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen; potrebno je riješiti problem s dostavom ili koristiti drugi kanal.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dalje na ovu adresu dok se ne riješi problem isporuke; razmotriti alternativni kontakt.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<1161e9b4-5089-4378-a0ff-0d0025d97798@LO0P123MB6588.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to louis.patel@orionbooks.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

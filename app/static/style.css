@@ -389,6 +389,13 @@ button:disabled { opacity: .55; cursor: default; }
 .dot-bounced { background: var(--bounced); }
 
 .lead-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1; }
+/* Let the browser skip layout/painting for offscreen inbox rows. Once a row
+   has been seen, auto remembers its measured height (including wrapped chips
+   on phones), so this does not require fixed-height rows or spacer math. */
+.inbox-list > .lead-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 112px;
+}
 .inbox-empty { padding: 24px 16px; color: var(--muted); font-size: 14px; }
 
 .lead-row {
@@ -1828,3 +1835,14 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 .site-feedback-row.change { border-left: 3px solid #d97706; padding-left: 8px; }
 .site-feedback-row.no { border-left: 3px solid #9ca3af; padding-left: 8px; }
 .site-feedback-urgent { margin-left: 8px; color: #fff; background: #dc2626; border-radius: 4px; padding: 1px 6px; font-size: 12px; }
+
+/* Keep outgoing files readable beside the send controls. */
+.attachments { padding: 16px; border: 1px solid var(--border); border-radius: 10px; }
+.attachments .attachment-row { align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+.attachments .attachment-heading { padding-top: 10px; }
+.attachments .attachment-chips { flex-direction: column; }
+.attachments .attachment-chip { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px; border-radius: 8px; }
+.attachments .attachment-chip > a:first-of-type { font-weight: 600; overflow-wrap: anywhere; }
+.attachment-file-icon { font-size: 11px; font-weight: 700; padding: 3px 6px; border: 1px solid currentColor; border-radius: 4px; }
+.attachment-detail { width: 100%; font-size: 12px; opacity: .8; }
+.attachments .attachment-open { text-decoration: underline; font-size: 13px; }

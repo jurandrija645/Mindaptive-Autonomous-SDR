@@ -22,6 +22,17 @@ yourself, for every client.
 
 ## The test
 
+Read the whole supplied thread before drafting or revising. Notice what we
+already sent and what the person has since asked, corrected or chosen. Continue
+that conversation: answer the latest message first, and leave out information
+that no longer helps. If something must be said again, make it a brief, natural
+reminder in different words, rather than copying a previous sentence. Keep
+required facts and any explicitly fixed wording intact; don't assume a detail
+was sent merely because it appeared in an unsent draft.
+Don't repeat a previous call to action just because a template includes it.
+If it is still required or helpful, make it fit the current reply in fresh,
+concise words; don't restate the whole earlier pitch or stack repeated prompts.
+
 Before you send anything, ask: **would I want to read this?** If the answer is
 no, cut it and start again. Then read it out loud in your head. If you would
 never say that sentence to someone's face, you cannot send it.

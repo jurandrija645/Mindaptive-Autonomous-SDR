@@ -1,0 +1,56 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 2679,
+    "completion_tokens": 465,
+    "total_tokens": 3144,
+    "cost": 0.0031086,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0031086,
+      "upstream_inference_prompt_cost": 0.0024111,
+      "upstream_inference_completions_cost": 0.0006975
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316214",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO9P302MB08739D2BF228EA7471778D48ECA82@LO9P302MB0873.GBRP302.PROD.OUTLOOK.COM>",
+      "human_quote": "Keen to explore further.",
+      "reason_hr": "Odgovor je osobni, izravno na našu ponudu i nije automatska poruka.",
+      "request_hr": "Poslan je link i kod za booking. Čeka se da Mav rezervira termin.",
+      "next_action_hr": "Pratiti dalje kroz automatski cadence; trenutno nema potrebe za ručnom intervencijom. Posljednja naša poruka bila je 23.9., treba dati vremena.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315978",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CA+pJefwS_qUBz0t0zXzq_5bJ=53iawLkAAbimWqfer-JqD-KPQ@mail.gmail.com>",
+      "human_quote": "unsubscribe",
+      "reason_hr": "Lotti je eksplicitno odgovorila 'unsubscribe', što je zahtjev za odjavu s naše liste.",
+      "request_hr": "Odjava s mailing liste.",
+      "next_action_hr": "Odmah ukloniti kontakt iz svih kampanja i označiti ga kao Do Not Contact (DNC).",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

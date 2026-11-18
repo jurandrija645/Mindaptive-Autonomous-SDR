@@ -1,0 +1,161 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8275,
+    "completion_tokens": 1291,
+    "total_tokens": 9566,
+    "cost": 0.0009947,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0009947,
+      "upstream_inference_prompt_cost": 0.00041375,
+      "upstream_inference_completions_cost": 0.00058095
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520615084",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je odgovorio s 'no thanks', što je jasno odbijanje ponude.",
+      "evidence": [
+        "no thanks"
+      ]
+    },
+    {
+      "key": "3930675/4520618923",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je izričito zatražio 'Unsubscribe', što je zahtjev za uklanjanje s popisa.",
+      "evidence": [
+        "Unsubscribe"
+      ]
+    },
+    {
+      "key": "3930675/4520612263",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je izričito napisao 'I'm not interested', što je jasno odbijanje.",
+      "evidence": [
+        "I'm not interested but good luck with your business."
+      ]
+    },
+    {
+      "key": "3930675/4520620399",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je napisao 'Stop', što se smatra zahtjevom za prestanak slanja poruka.",
+      "evidence": [
+        "Stop"
+      ]
+    },
+    {
+      "key": "3930675/4520614849",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je odgovorio s 'not interested', što je izričito odbijanje.",
+      "evidence": [
+        "not interested"
+      ]
+    },
+    {
+      "key": "3930675/4520622428",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "ambiguous",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je rekao da nije u Londonu, ali je uputio kolegu Toma; nije osobni interes, ali je proslijedio kontakt – nije promjena oznake.",
+      "evidence": [
+        "I am not based in London. I asked my colleague Tom"
+      ]
+    },
+    {
+      "key": "3930675/4520617905",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je odgovorio s 'No thanks', što je jasno odbijanje.",
+      "evidence": [
+        "No thanks"
+      ]
+    },
+    {
+      "key": "3930675/4520616786",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je rekao 'not something I am looking for at the moment', što je odbijanje ponude.",
+      "evidence": [
+        "Its not something I am looking for at the moment"
+      ]
+    },
+    {
+      "key": "3930675/4520622354",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odlasku iz tvrtke s preusmjeravanjem – nije ljudski odgovor o interesu.",
+      "evidence": [
+        "I’ve officially moved on from my role at Audience. Please redirect your message to hselfe@audience.co.uk"
+      ]
+    },
+    {
+      "key": "3930675/4520622309",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je izričito zatražio uklanjanje s popisa i brisanje podataka.",
+      "evidence": [
+        "Please remove me from your mailing lists and delete my contact details"
+      ]
+    },
+    {
+      "key": "3930675/4520617493",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "ambiguous",
+      "confidence": "medium",
+      "manual_review": false,
+      "reason_hr": "Korisnik je obavijestio da je napustio tvrtku i uputio na druge kontakte – nije izrazio interes niti odbio ponudu.",
+      "evidence": [
+        "I have stepped back from the MAPP Ltd Board",
+        "contact louise.bonham@wearemapp.com or julie.smith@wearemapp.com"
+      ]
+    },
+    {
+      "key": "3930675/4520621893",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Korisnik je zatražio 'take me off this list', što je zahtjev za prestanak slanja poruka.",
+      "evidence": [
+        "take me off this list please"
+      ]
+    }
+  ]
+}

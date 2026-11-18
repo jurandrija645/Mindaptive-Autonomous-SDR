@@ -1,0 +1,76 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 21518,
+    "completion_tokens": 824,
+    "total_tokens": 22342,
+    "cost": 0.00324324,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00324324,
+      "upstream_inference_prompt_cost": 0.00301252,
+      "upstream_inference_completions_cost": 0.00023072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "3950427/4542617705",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Rebecca,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "english": "",
+      "reason_hr": "Rebecca je tražila link, dobila ga, demo posjećen 3 puta. 5 uzastopnih poruka bez odgovora. Vrijeme za posljednji kratki follow-up s A/B pitanjem. Jednostavno, niski friction."
+    },
+    {
+      "key": "3950427/4542615656",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Michael,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "english": "",
+      "reason_hr": "Michael je tražio link, dobio ga. 5 poslanih poruka, nema odgovora, nema potvrde posjeta. Posljednji kratki follow-up s A/B izborom."
+    },
+    {
+      "key": "3950427/4542617773",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Tim,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "english": "",
+      "reason_hr": "Tim je rekao 'Yes', dobio link. 5 poslanih poruka, nema odgovora. Posljednji follow-up s A/B izborom."
+    },
+    {
+      "key": "3899056/4475672680",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Yevhenii,\n\nJust checking — did you send over that ICP? That's all I need to see if this works for CoSupport.\n\nIf you have questions, I'm here.",
+      "english": "",
+      "reason_hr": "Yevhenii je pitao što trebamo za procjenu fit-a. Odgovoreno s traženjem ICP-a i booking linkom. Samo 1 poslana poruka nakon njegovog zadnjeg odgovora. Kratki podsjetnik."
+    },
+    {
+      "key": "3950427/4542617388",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Rachel,\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement\n\nJust reply A or B.",
+      "english": "",
+      "reason_hr": "Rachel je tražila link, dobila ga. 5 poslanih poruka bez odgovora. Posljednji follow-up s A/B izborom."
+    },
+    {
+      "key": "3899056/4475670673",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Ben,\n\nDid you get a chance to watch the video I sent? Wondering if the offer makes sense or if you have more questions.\n\nIf it's not a priority right now, just say so and I'll leave it.",
+      "english": "",
+      "reason_hr": "Ben je tražio specifičnosti, dobio detaljan odgovor i video. 2 poslane poruke bez odgovora. Kratki bump, provjeriti je li video pregledan."
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12987,
+    "completion_tokens": 2368,
+    "total_tokens": 15355,
+    "cost": 0.0069203,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 12800,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0069203,
+      "upstream_inference_prompt_cost": 0.0033683,
+      "upstream_inference_completions_cost": 0.003552
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520614838",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je zaboravila na termin i pita za rescheduling za sljedeći četvrtak. Posljednja ljudska poruka je neodgovoreno pitanje.",
+      "last_human_request_hr": "Can we do next week Thursday?",
+      "unresolved_hr": "Nije potvrđeno je li termin za četvrtak dogovoren ili rezerviran.",
+      "recommended_bulk_group": "reply_booking",
+      "recommended_action_hr": "Odgovoriti Tanii i potvrditi dostupnost termina u četvrtak te ponuditi konkretne opcije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAEuP90-bioBDRPxRdn_LaEJuGsMBBqYQdySmt37sAER9RcZumw@mail.gmail.com>",
+          "quote": "Can we do next week Thursday?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614849",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je eksplicitno odgovorila 'not interested'.",
+      "last_human_request_hr": "not interested",
+      "unresolved_hr": "Nema otvorenih pitanja, osoba je odbila ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštovati odbijenicu. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CADtTdpcYyywx1m_Zxb+J2sPv-D1XT_JYNV9D4vZgtNDN-JF-BA@mail.gmail.com>",
+          "quote": "not interested"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614329",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Posljednja poruka je OOO (godišnji odmor) koja kaže da će odgovoriti 28. rujna. Osoba nije odbila ponudu. Iako je prošlo neko vrijeme, postoji osnova za nježnu provjeru jer je inicijalno pokazala potencijalni interes putem OOO poruke koja sugerira namjeru odgovora.",
+      "last_human_request_hr": "I will endeavour to respond to your email on Monday September 28th.",
+      "unresolved_hr": "Nije poznato je li osoba bila zainteresirana za ponudu nakon povratka s godišnjeg.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati jednu nježnu follow-up poruku s pitanjem je li još uvijek zainteresirana, uz link i kod (OBLACCESS55).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAFXAizi36iGDKMgoh9MGgFwprf3=auWiVA2POQt3vFer6Dnf9A@mail.gmail.com>",
+          "quote": "I am on annual leave from Sept 21-25 inclusive. I will endeavour to respond to your email on Monday September 28th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613855",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je prihvatila ponudu i tražila sljedeće korake. Naši follow-upovi su poslani, ali nije zabilježeno bukiranje niti odbijanje. Posljednja poruka je naša, stoga je kandidat za follow-up.",
+      "last_human_request_hr": "In answer yes please! Would be very keen on an assessment. Let me know next steps.",
+      "unresolved_hr": "Nije poznato je li osoba iskoristila kod/link i bukirala termin.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti status bukiranja u sustavu. Ako nije bukirano, poslati follow-up s pitanjem treba li pomoć pri bukiranju ili ima li pitanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAE48e4xGrSqeVx1pOfdC8NQRsys8gYMnOs22a-og-C7bCP=F8w@mail.gmail.com>",
+          "quote": "In answer yes please! Would be very keen on an assessment."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613664",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je izrazila interes i tražila booking link. Link i kod su poslani. Posljednja poruka je naša, stoga je kandidat za follow-up provjeru je li bukirala.",
+      "last_human_request_hr": "Yes would be interested in this if you can send the booking link?",
+      "unresolved_hr": "Nije poznato je li osoba iskoristila link/kod za bukiranje.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti status bukiranja u sustavu. Ako nije bukirano, poslati follow-up s pitanjem treba li pomoć pri bukiranju ili ima li pitanja.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LODP265MB1599122D8CA455F62C86263B2EED662@LODP265MB159912.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Yes would be interested in this if you can send the booking link?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613376",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je pitala za cijenu i website, što je jasan interes. Dali smo detaljan odgovor, link i kod. Posljednja poruka je naša, kandidat za follow-up provjeru.",
+      "last_human_request_hr": "how much does it cost? Do you have a website?",
+      "unresolved_hr": "Nije poznato je li osoba iskoristila informacije i bukirala termin.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti status bukiranja u sustavu. Ako nije bukirano, poslati nježni follow-up (npr. ‘jesam li vam pomogao s informacijama, trebate li još što’).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<OSKPR02MB11290E5A65E81D4C8C73049869C842@OSKPR02MB11290.eurprd02.prod.outlook.com>",
+          "quote": "Hi Rebecca, how much does it cost?\n\nDo you have a website?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520613184",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska 'out of office' poruka. Nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nije poznat ljudski stav prema ponudi.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Ovo je hladni lead s OOO odgovorom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6d8b4c68ae0e4119ac77a2dbce876af7@CWXP265MB2887.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I will be out of the office until Tuesday 22 September 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612667",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila s greškom isporuke (bounce).",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je neispravna ili blokirana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati dalje. Provjeriti ispravnost adrese iz drugih izvora ili označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ff7a6f47-5207-4675-a340-7f4ce86e90e2@CWLP123MB5868.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to rhiannon_harries@uip.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

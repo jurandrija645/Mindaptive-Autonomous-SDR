@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 12983,
+    "completion_tokens": 2495,
+    "total_tokens": 15478,
+    "cost": 0.0154272,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0154272,
+      "upstream_inference_prompt_cost": 0.0116847,
+      "upstream_inference_completions_cost": 0.0037425
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315833",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka je automatska obavijest da John Cancio više ne radi u Greshamu; nema ljudskog angažmana.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Lead je nevažeći jer osoba više ne radi tamo, a poruka ne sadrži korisnu preporuku.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Wrong Person. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7f4f53519cc54408840d64084b6a372f@SA1PR18MB4534.namprd18.prod.outlook.com>",
+          "quote": "This user is no longer working at Gresham and this mailbox is not being actively monitored."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315769",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email adresa nije pronađena na poslužitelju primatelja.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Adresa e-pošte je nevažeća.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Bounce. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<8f7c4c2b-b15e-462c-ab58-167adced7b29@LO7P123MB8609.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to hannahlise.barlow@icpnet.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315820",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Vania Correia je 19. listopada poslala follow-up s pitanjem o naplati £4.99. Naš zadnji odgovor je poslan 20. listopada, ali Vania je ostavila otvoreno pitanje koje zahtijeva potvrdu ili daljnju pomoć.",
+      "last_human_request_hr": "I just wanted to follow up on my email below regarding Caroline's booking. I'm still seeing a £4.99 charge during the booking process and wanted to check whether this is expected or not.",
+      "unresolved_hr": "Vania je pitala za naknadu £4.99. Mi smo objasnili 20. listopada, ali nema potvrde da je prihvatila ili da je Caroline rezervirala. Treba provjeriti je li sada sve jasno i ponuditi dodatnu pomoć pri rezervaciji.",
+      "recommended_bulk_group": "reply_booking",
+      "recommended_action_hr": "Poslati kratku poruku Vania i Caroline: pitati jesu li uspjele rezervirati nakon pojašnjenja o £4.99 i ponuditi pomoć ako još uvijek imaju problema.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWLP123MB413272E02E70C5CC8B9ED987D1982@CWLP123MB4132.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I just wanted to follow up on my email below regarding Caroline's booking. I'm still seeing a £4.99 charge during the booking process and wanted to check whether this is expected\nor not."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315651",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Tej Patel je izrazio interes, pitao za naknadu, a mi smo mu objasnili £4.99. Nakon toga smo poslali nekoliko follow-upova. Posljednja poruka je naša iz rujna. Tej nikada nije eksplicitno odbio, samo je prestao odgovarati.",
+      "last_human_request_hr": "I’ve just looked at booking and it’s coming up with a charge (albeit nominal) but I thought this was a free 55 minute session?",
+      "unresolved_hr": "Tej nije rezervirao niti odgovorio nakon pojašnjenja o £4.99. Potencijalno još uvijek zainteresiran, ali može biti da je odustao.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati zadnji follow-up s pitanjem želi li još uvijek iskoristiti ponudu ili ima dodatnih pitanja. Ako ne odgovori, konverzacija se može smatrati završenom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<MIWP194MB3037067F9ECAF98537AD723787FDB22@MIWP194MB303706.EURP194.PROD.OUTLOOK.COM>",
+          "quote": "I’ve just looked at booking and it’s coming up with a charge (albeit nominal) but I thought this was a free 55 minute session?"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315694",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email adresa nije pronađena na poslužitelju primatelja.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Adresa e-pošte je nevažeća.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Bounce. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6a967898.be92e44d.1576fd.c54e.GMR@mx.google.com>",
+          "quote": "550 5.4.1 Recipient address rejected: Access denied."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315734",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska obavijest da je stari inbox ugašen i da se koristi nova adresa. Nema ljudske interakcije s ponudom.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba je samo preusmjerila komunikaciju na novu adresu, ali nije pokazala interes za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Wrong Person. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<322076907-1788246309319@uk-mta-68.uk.mimecast.lan>",
+          "quote": "My previous Numis inbox is no longer in operation. Please direct all email communication to j.taylor@dbnumis.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315515",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Charlie Roberson je pokazao jasan interes, rekao da planira termin 29. rujna. Posljednja poruka je naša s detaljima za rezervaciju. Od tada nema odgovora, ali Charlie nije odbio.",
+      "last_human_request_hr": "Thanks Rebecca. I have next week 29th in my diary…",
+      "unresolved_hr": "Charlie je planirao rezervirati za 29. rujna, ali nemamo potvrdu da je to i učinio. Prošlo je dosta vremena, pa je upitno je li još uvijek zainteresiran.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati kratki follow-up s pitanjem je li uspio rezervirati termin ili mu treba pomoć. Ponuda je još uvijek aktualna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<EAC4ADD5-FA34-41AE-96B8-E0E4626D19B3@roguefilms.co.uk>",
+          "quote": "Thanks Rebecca. I have next week 29th in my diary…"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315656",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska obavijest da je Serena Cooper napustila tvrtku i preusmjerava na kolegu. Nema ljudskog interesa za ponudu.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba više nije na toj poziciji. Poruka ne sadrži upit o ponudi.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti kao Wrong Person. Ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<f9de873203014f01aa972fb03c924108@LO4P123MB4559.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I have now left the company. Please forward all emails to james.doris@sourcegroupinternational.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

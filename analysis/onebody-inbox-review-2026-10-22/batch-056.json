@@ -1,0 +1,62 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 6325,
+    "completion_tokens": 532,
+    "total_tokens": 6857,
+    "cost": 0.00051723,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00051723,
+      "upstream_inference_prompt_cost": 0.00044275,
+      "upstream_inference_completions_cost": 7.448e-05
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315691",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nitko od ljudi nije odgovorio; automatski 'out of office' i kasnija trajna povratna poruka o blokadi spama opravdavaju zadržavanje postojeće oznake.",
+      "next_step_hr": "Razmotriti provjeru valjanosti adrese ili kontakt putem drugog kanala.",
+      "last_inbound_summary_hr": "Automatska povratna poruka: poruka odbijena kao spam/virus.",
+      "last_outbound_summary_hr": "Poslan nastavak s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "healys.com suspects your message is spam, or contains a virus, and rejected it.",
+        "I am out of the office from the Tuesday 1st to Friday 4th September."
+      ]
+    },
+    {
+      "key": "3876232/4446315699",
+      "recommended_label": "Sender Originated Bounce",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nema ljudskog odgovora; samo automatski 'out of office' i trajna Mimecast blokada potvrđuju ispravnost postojeće oznake.",
+      "next_step_hr": "Provjeriti ispravnost e-adrese ili kontaktirati drugim putem.",
+      "last_inbound_summary_hr": "Automatska povratna poruka: poruka proglašena spamom.",
+      "last_outbound_summary_hr": "Poslan podsjetnik s ponovljenom ponudom.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "daleuw.com suspects your message is spam, or contains a virus, and rejected it.",
+        "I am currently out of the office and will respond when available."
+      ]
+    }
+  ]
+}

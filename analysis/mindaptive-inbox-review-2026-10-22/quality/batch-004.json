@@ -1,0 +1,76 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 16834,
+    "completion_tokens": 1098,
+    "total_tokens": 17932,
+    "cost": 0.0013358,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0013358,
+      "upstream_inference_prompt_cost": 0.0008417,
+      "upstream_inference_completions_cost": 0.0004941
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2738671/3025253592",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Tyrone,\n\nQuick check — did you get a chance to book a slot?\n\nIf none of the available times work, I'm happy to suggest a couple of options directly.\n\nThanks,\nMia",
+      "english": "",
+      "reason_hr": "Tyrone je zatražio sastanak. Poslan mu je booking link. Jedna kratka provjera bez novih zahtjeva je prikladna."
+    },
+    {
+      "key": "2738671/3025252894",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Marijus,\n\nJust checking in — did my answers about the Lithuanian market and our pay-per-lead model make sense?\n\nIf everything sounds good, the next step would be a short discovery call where we define your target and give you exact pricing.\n\nLet me know if you'd like to book one.\n\nBest regards,\nMia",
+      "english": "",
+      "reason_hr": "Marijus je postavio konkretna pitanja i dobio odgovore. Čekamo njegovu reakciju, blagi follow-up je OK."
+    },
+    {
+      "key": "2515956/2722088662",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Ali,\n\nQuick check — did you get a chance to watch the video?\n\nIf the approach makes sense for Ephlux, I'd love to hop on a quick call to discuss specifics.\n\nLet me know what you think.\n\nCheers,\nAndrew",
+      "english": "",
+      "reason_hr": "Ali je tražio video i dobio ga. Jednostavna provjera bez izmišljanja novih informacija."
+    },
+    {
+      "key": "2738671/3025253762",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Albert,\n\nJust following up — did you manage to find a time that works?\n\nIf the calendar link didn't show anything suitable, let me know your timezone and I'll suggest a couple of options.\n\nBest regards,\nAndrew",
+      "english": "",
+      "reason_hr": "Albert je snažno zainteresiran ('How fast we can talk?') i dobio je booking link. Kratka provjera je prikladna."
+    },
+    {
+      "key": "2738607/3025136155",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Roberto,\n\nVolevo solo verificare se le risposte che ti ho inviato sono state chiare e se hai altre domande sul nostro framework.\n\nSe ti va di vedere i nostri agenti in azione dal vivo, possiamo fissare una call veloce di 15 minuti — ti mostro il backend e come orchestriamo il tutto.\n\nFammi sapere cosa ne pensi.\n\nA presto,\nMia",
+      "english": "Hi Roberto,\n\nJust wanted to check if the answers I sent were clear and if you have any other questions about our framework.\n\nIf you'd like to see our agents in action live, we can set up a quick 15-minute call — I'll show you the backend and how we orchestrate everything.\n\nLet me know what you think.\n\nTalk soon,\nMia",
+      "reason_hr": "Roberto je napisao na talijanskom i dobio detaljne tehničke odgovore. Blagi follow-up na istom jeziku je prikladan, bez izmišljanja novih informacija."
+    },
+    {
+      "key": "2738671/3025251931",
+      "ready": true,
+      "language": "fi",
+      "body": "Hei Kai,\n\nEhditkö jo katsoa videon? Olisi kiva kuulla ajatuksesi.\n\nJos strategia vaikuttaa, voimme sopia pikaisen puhelun. Sitä varten voit valita ajan täältä:\n\n[link: https://calendar.app.google/XxXsMrp8PWktdBZm6] https://calendar.app.google/XxXsMrp8PWktdBZm6",
+      "english": "Hey Kai,\n\nDid you get a chance to watch the video? I'd love to hear your thoughts.\n\nIf the strategy looks good, we can set up a quick call. You can pick a time here: [link]",
+      "reason_hr": "Kai je odgovorio na finskom i tražio video. Finski follow-up provjerava je li ga pogledao, s booking linkom."
+    }
+  ]
+}

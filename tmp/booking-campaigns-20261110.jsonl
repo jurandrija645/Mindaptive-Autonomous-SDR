@@ -1,0 +1,10 @@
+{"id": 4235673, "name": "Interested in 45 Sports (Priority Nearest)", "status": "ACTIVE", "parent_campaign_id": 4235286}
+{"id": 4235670, "name": "Interested in 45 Sports (Priority Walk)", "status": "ACTIVE", "parent_campaign_id": 4235278}
+{"id": 4235352, "name": "Interested in 45 Physio (Priority Nearest)", "status": "COMPLETED", "parent_campaign_id": 4235286}
+{"id": 4235340, "name": "Interested in 45 Physio (Priority Walk)", "status": "ACTIVE", "parent_campaign_id": 4235278}
+{"id": 4235286, "name": "Priority Clinics - Nearest clinic, no walk time - Physio vs Massage", "status": "ACTIVE", "parent_campaign_id": null}
+{"id": 4235278, "name": "Priority Clinics - Walk 15min or less - Physio vs Massage", "status": "ACTIVE", "parent_campaign_id": null}
+{"id": 4006946, "name": "InterestedIn55", "status": "DRAFTED", "parent_campaign_id": 4006945}
+{"id": 4006945, "name": "Direct Clients - Round 3 - No proximity", "status": "PAUSED", "parent_campaign_id": null}
+{"id": 3967420, "name": "InterestedIn55", "status": "DRAFTED", "parent_campaign_id": 3930675}
+{"id": 3930675, "name": "Direct Clients - Round 2 - 5-10min proximity", "status": "COMPLETED", "parent_campaign_id": null}

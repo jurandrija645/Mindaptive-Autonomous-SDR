@@ -1,0 +1,6276 @@
+"use strict";
+
+// The inbox statuses, in the order db.list_inbox ranks them (most urgent
+// first). Every lead row's chip/dot/border colour comes from this map, so it
+// stays the full set: reply/followup/waiting are the app's own sub-states
+// (Smartlead has no equivalent — see detector.decide); everything else here
+// mirrors a Smartlead category 1:1 (scheduler._KNOWN_CATEGORY_SLUGS). A lead
+// whose Smartlead category isn't one of these known ones still gets a chip —
+// see leadCategoryLabel, which falls back to lead.smartlead_category verbatim.
+const CHIP = {
+  reply: "Awaiting your reply",
+  followup: "Follow-up due",
+  auto_reply: "Auto-reply — nudge",
+  waiting: "In conversation",
+  not_interested: "Not interested",
+  do_not_contact: "Do not contact",
+  wrong_person: "Wrong person",
+  opted_out: "Opted out",
+  bounced: "Bounced",
+  booked: "Meeting booked ✅",
+};
+// The FIRST status filter dropdown's checkbox list — deliberately NOT every
+// key in CHIP. Only these three are genuinely our own axis (what the thread
+// needs next); everything else in CHIP is a Smartlead category mirrored into
+// leads_state.category for display, and that axis is filtered by the second
+// dropdown instead (renderSmartleadFilter, on lead.smartlead_category — the
+// two must never both offer the same bucket, or filtering one silently
+// disagrees with the other).
+const CATEGORY_ORDER = ["reply", "followup", "waiting"];
+const STATUS_FILTER_KEY = "responder.statusFilter";
+const CAMPAIGN_FILTER_KEY = "responder.campaignFilter";
+const SMARTLEAD_FILTER_KEY = "responder.smartleadCategoryFilter";
+const TEMPLATE_CLIENT_FILTER_KEY = "responder.templateClientFilter";
+const DATE_FROM_KEY = "responder.dateFrom";
+const DATE_TO_KEY = "responder.dateTo";
+const SORT_ORDER_KEY = "responder.sortOrder";
+
+// How hot the lead is (app/lead_temperature.py) — a different axis from CHIP
+// above, which says what the thread needs next. This one says whether they
+// asked to talk. The badge stays visible within the lead's status group.
+const TEMP = {
+  hot: "🔥 Very hot",
+  warm: "🌤 Warm",
+  cold: "❄️ Cold",
+};
+const TEMP_ORDER = ["hot", "warm", "cold"];
+
+const state = {
+  view: "inbox",        // "inbox" | "scheduled" | "archive"
+  allLeads: [],          // full inbox as loaded from the server, unfiltered
+  leads: [],              // filtered view actually rendered (search + category)
+  searchQuery: "",
+  categoryFilter: loadStatusFilter(),  // hoisted; reads the saved selection
+  snoozedCount: 0,       // archive view only: state.leads[0..snoozedCount) are snoozed, rest archived
+  selected: -1,
+  detail: null,          // current lead detail {lead, thread, draft}
+  categoryList: null,    // live Smartlead categories, for the "Change status" dropdown
+  selectedImage: null,   // <img> in the editor currently targeted by the resize bar
+  nameNote: null,        // "renamed here only" note from the last ✎ Rename, cleared on lead switch
+  draftNote: null,       // warning about the draft just created (e.g. a template still in English)
+  google: null,          // /api/google/status: Google connection state (LinkedIn export button and/or the Connect link for interested_sheet.py)
+  exportNote: null,      // outcome of the last Export for LinkedIn, cleared on lead switch
+  exportRunning: false,  // an export is in flight for the currently open lead
+  templates: null,       // message templates from /api/templates, loaded when the modal opens
+  templateAvailableClients: [],  // every client label this checkout knows about (from /api/templates)
+  templateCurrentClient: "",     // client this deployment serves (client_assets.CLIENT_LABEL)
+  templateClientFilter: loadTemplateClientFilter(),  // "default" | "all" | "general" | a client label
+  campaignFilter: loadCampaignFilter(),  // null = no restriction, else a Set of allowed campaign_id values (as strings)
+  smartleadCategoryFilter: loadSmartleadCategoryFilter(),  // null = no restriction, else a Set of allowed lead.smartlead_category values
+  dateFrom: loadDateBound(DATE_FROM_KEY),  // "YYYY-MM-DD" or null — inclusive lower bound on last_message_at_raw
+  dateTo: loadDateBound(DATE_TO_KEY),      // "YYYY-MM-DD" or null — inclusive upper bound on last_message_at_raw
+  sortOrder: loadSortOrder(),  // "default" (server/tier order) | "date_desc" | "date_asc"
+  models: [],            // /api/models catalog: Anthropic + OpenRouter, with prices
+  defaultModel: null,    // id of the model used when nothing is explicitly picked
+  roles: [],             // per-task model assignments shown in the Models panel
+  // ---- campaigns view ----
+  accounts: null,        // [{slug,label}] Smartlead accounts, loaded once
+  account: null,         // slug of the account whose campaigns are shown
+  campaigns: [],         // /api/campaigns list with headline stats
+  selectedCampaign: null,
+  campaignTab: "overview", // "overview" | "report" | "conversations"
+  convoFilter: "",       // lead category filter on the Conversations sub-tab
+  convoBrowseOpen: false, // raw-thread section stays open across filter clicks
+  campaignPoll: null,    // setTimeout handle polling a running analysis
+  healthPoll: null,      // short poll while an on-demand health check runs
+  touchFormOpen: false,  // "log a WhatsApp/LinkedIn message" form, under the thread
+};
+
+const DEFAULT_CATEGORIES = [
+  "Not Interested", "Meeting Request", "Do Not Contact", "Information Request",
+  "Out Of Office", "Wrong Person", "Uncategorizable by Ai", "Sender Originated Bounce",
+  "Meeting-Booked", "Interested for Video", "Auto-Reply", "Lead Opted Out",
+  "We opted Out", "Contact later", "Redirect", "Lead Done", "Interested for Toolkit",
+  "Interested for Calculator",
+];
+
+const PAUSE_CATEGORIES = new Set(["Not Interested", "Do Not Contact", "Wrong Person", "Lead Opted Out", "We opted Out"]);
+
+// The model list is served by the backend (GET /api/models, built by
+// app/models_registry.py) rather than hardcoded here: it spans two providers
+// (Anthropic and OpenRouter), carries live per-million-token prices, and its
+// default is a stored setting Andrew changes from this dropdown — none of which
+// a static array can express. state.models holds the catalog,
+// state.defaultModel the currently-set default.
+async function loadModels() {
+  try {
+    const data = await apiGet("/api/models");
+    state.models = data.models || [];
+    state.defaultModel = data.default || null;
+    state.roles = data.roles || [];
+  } catch (e) {
+    state.models = [];
+    state.defaultModel = null;
+    state.roles = [];
+    console.error("could not load the model list", e);
+  }
+  refreshModelSelects();
+}
+
+// Price per million tokens, as shown in the dropdown. Sub-dollar prices get a
+// second decimal ($0.14) — rounding DeepSeek's input price to "$0" would hide
+// exactly the difference the picker exists to show.
+function formatPrice(value) {
+  if (value === null || value === undefined) return "?";
+  return value < 1 ? `$${value.toFixed(2)}` : `$${value.toFixed(2).replace(/\.00$/, "")}`;
+}
+
+function modelOptionLabel(m) {
+  const price = `${formatPrice(m.input_per_mtok)}/${formatPrice(m.output_per_mtok)} per M`;
+  const flags = [];
+  if (m.price_note) flags.push(m.price_note);
+  if (m.id === state.defaultModel) flags.push("default");
+  if (!m.available) flags.push("no API key");
+  const suffix = flags.length ? ` — ${flags.join(", ")}` : "";
+  return `${m.label} · ${price}${suffix}`;
+}
+
+// Rebuilds every model <select> on screen, preserving each one's current
+// choice. Called after the catalog loads and after the default changes.
+function refreshModelSelects() {
+  document.querySelectorAll("select.model-select").forEach((select) => {
+    const previous = select.value;
+    fillModelSelect(select, previous);
+  });
+  document.querySelectorAll(".btn-set-default").forEach(syncSetDefaultButton);
+}
+
+// Models are grouped into <optgroup>s by provider — that grouping IS the
+// "which provider is this?" answer the dropdown has to give at a glance, and
+// it survives the browser's native select rendering on mobile, which arbitrary
+// styling does not.
+function fillModelSelect(select, preferredValue) {
+  select.innerHTML = "";
+  const groups = [
+    { provider: "anthropic", label: "Anthropic (web research + caching)" },
+    { provider: "openrouter", label: "OpenRouter (cheaper, no web research)" },
+  ];
+  let hasPreferred = false;
+  groups.forEach((group) => {
+    const models = state.models.filter((m) => m.provider === group.provider);
+    if (!models.length) return;
+    const optgroup = document.createElement("optgroup");
+    optgroup.label = group.label;
+    models.forEach((m) => {
+      const o = document.createElement("option");
+      o.value = m.id;
+      o.textContent = modelOptionLabel(m);
+      // A model whose provider key isn't configured stays visible but
+      // unpickable, so it's obvious the option exists and what's missing.
+      o.disabled = !m.available;
+      if (m.id === preferredValue && m.available) hasPreferred = true;
+      optgroup.appendChild(o);
+    });
+    select.appendChild(optgroup);
+  });
+  if (!state.models.length) {
+    const o = document.createElement("option");
+    o.textContent = "Loading models…";
+    select.appendChild(o);
+    return;
+  }
+  select.value = hasPreferred ? preferredValue : state.defaultModel || "";
+  if (!select.value) {
+    const first = state.models.find((m) => m.available);
+    if (first) select.value = first.id;
+  }
+}
+
+function syncSetDefaultButton(btn) {
+  const select = document.getElementById(btn.dataset.selectId);
+  const isDefault = select && select.value === state.defaultModel;
+  btn.disabled = !select || !select.value || isDefault;
+  btn.textContent = isDefault ? "★ Default" : "☆ Set as default";
+  btn.title = isDefault
+    ? "This model is already the default for auto-drafts and new sessions"
+    : "Use this model by default (auto-drafts, and the pre-selected option here)";
+}
+
+async function openFollowupSettings() {
+  if ($("followup-timing-dialog")) return;
+  let current;
+  try { current = await apiGet("/api/followup-settings"); }
+  catch (e) { alert("Could not load follow-up timing: " + e.message); return; }
+  const dialog = document.createElement("dialog");
+  dialog.id = "followup-timing-dialog";
+  dialog.className = "followup-timing-dialog";
+  const form = document.createElement("form");
+  form.appendChild(el("h3", null, "Follow-up timing"));
+  form.appendChild(el("p", "muted", "For this client only. The clock starts at your last email and resets when you send another."));
+  const field = (label, value, min, max, id) => {
+    const wrap = el("label", "timing-field", label);
+    const input = document.createElement("input");
+    Object.assign(input, {type: "number", min: String(min), max: String(max), step: "1", value: String(value), required: true, id});
+    wrap.appendChild(input);
+    form.appendChild(wrap);
+    return input;
+  };
+  const days = field("Show as Follow-up due every (days)", current.days, 1, 365, "followup-days");
+  if (current.cadence.length > 1) {
+    form.appendChild(el("p", "muted", "Current intervals: " + current.cadence.join(" → ") + " days. Saving replaces these with the same interval for every follow-up."));
+  }
+  const modeWrap = el("label", "timing-field", "Count days");
+  const mode = document.createElement("select");
+  mode.id = "followup-business-days";
+  for (const [value, text] of [["all", "All days (including weekends)"], ["business", "Business days only (Mon–Fri)"]]) {
+    const opt = document.createElement("option");
+    opt.value = value;
+    opt.textContent = text;
+    mode.appendChild(opt);
+  }
+  mode.value = current.business_days ? "business" : "all";
+  modeWrap.appendChild(mode);
+  form.appendChild(modeWrap);
+  const hot = field("Very hot leads: shorter interval (hours; 0 uses the same days)", current.hot_hours, 0, 8760, "followup-hot-hours");
+  form.appendChild(el("p", "muted", `Current limit: ${current.max_followups} follow-ups.` +
+    (current.revive_after_days > 0 ? ` After that, a revival becomes due after ${current.revive_after_days} days of silence.` : " Revival is off.")));
+  form.appendChild(el("p", "muted", "Saving updates due statuses now. Existing drafts and scheduled emails keep their current content and schedule."));
+  const note = el("p", "muted");
+  note.setAttribute("role", "status");
+  form.appendChild(note);
+  const actions = el("div", "timing-actions");
+  const cancel = el("button", "btn-secondary", "Cancel");
+  cancel.type = "button";
+  cancel.onclick = () => dialog.close();
+  const save = el("button", "btn-send", "Save timing");
+  save.type = "submit";
+  actions.append(cancel, save);
+  form.appendChild(actions);
+  form.onsubmit = async (event) => {
+    event.preventDefault();
+    save.disabled = true;
+    note.textContent = "Saving…";
+    try {
+      await apiPost("/api/followup-settings", {days: Number(days.value), hot_hours: Number(hot.value), business_days: mode.value === "business"});
+      note.textContent = "Saved for this client. Due statuses updated.";
+      await loadInbox();
+    } catch (e) { note.textContent = "Could not save: " + e.message; }
+    finally { save.disabled = false; }
+  };
+  dialog.appendChild(form);
+  dialog.addEventListener("close", () => dialog.remove());
+  document.body.appendChild(dialog);
+  dialog.showModal();
+}
+
+// ---- Models panel ----
+//
+// One dropdown per AI task, so "which model writes my drafts" and "which model
+// translates a thread I'm only reading" are separate decisions. Each row can
+// also be left on "Follows …", which is a live link to another task rather than
+// a copy of its current value — clear the drafting model later and everything
+// inheriting from it moves too.
+
+function closeModelsModal() {
+  const overlay = $("models-modal-overlay");
+  if (overlay) overlay.remove();
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", onModelsModalKeydown);
+}
+
+function onModelsModalKeydown(e) {
+  if (e.key === "Escape") closeModelsModal();
+}
+
+async function openModelsModal() {
+  if ($("models-modal-overlay")) return;
+  // Always re-read: prices refresh, and another tab may have changed a role.
+  await loadModels();
+
+  const overlay = el("div", "modal-overlay");
+  overlay.id = "models-modal-overlay";
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModelsModal();
+  });
+
+  const modal = el("div", "modal models-modal");
+  const header = el("div", "modal-header");
+  const heading = el("div", "modal-heading");
+  heading.appendChild(el("h3", null, "AI models"));
+  heading.appendChild(
+    el("div", "modal-sub", "Pick which model does what. Prices are per million tokens — input / output.")
+  );
+  header.appendChild(heading);
+  const closeBtn = el("button", "modal-close", "×");
+  closeBtn.type = "button";
+  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.addEventListener("click", closeModelsModal);
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  // Roles and the footnote share one scrolling, padded body — .modal itself is
+  // overflow:hidden with a max-height, so anything appended straight to it is
+  // clipped once the panel is taller than the window.
+  const body = el("div", "models-body");
+  const list = el("div", "models-roles");
+  (state.roles || []).forEach((role) => list.appendChild(renderRoleRow(role)));
+  body.appendChild(list);
+
+  body.appendChild(
+    el(
+      "div",
+      "models-note",
+      "Overnight batch pre-generation always runs on an Anthropic model — it uses " +
+        "Anthropic's Batch API, which can't accept an OpenRouter model. If your " +
+        "drafting model is an OpenRouter one, batches fall back to ANTHROPIC_MODEL."
+    )
+  );
+  modal.appendChild(body);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.body.style.overflow = "hidden";
+  document.addEventListener("keydown", onModelsModalKeydown);
+}
+
+function renderRoleRow(role) {
+  const row = el("div", "models-role");
+  const head = el("div", "models-role-head");
+  head.appendChild(el("div", "models-role-label", role.label));
+  const status = el("div", "models-role-status");
+  head.appendChild(status);
+  row.appendChild(head);
+  row.appendChild(el("div", "models-role-desc", role.description));
+
+  const controls = el("div", "models-role-controls");
+  const select = document.createElement("select");
+  select.className = "model-select";
+  fillModelSelect(select, role.model);
+  controls.appendChild(select);
+
+  // "Follows X" is only offered where a fallback actually exists, so the option
+  // never appears on a task that has nowhere to inherit from.
+  let inheritBtn = null;
+  if (role.inherits_from) {
+    inheritBtn = el("button", "btn-secondary btn-inherit", `Follow ${role.inherits_from}`);
+    inheritBtn.type = "button";
+    controls.appendChild(inheritBtn);
+  }
+  row.appendChild(controls);
+
+  const paint = () => {
+    status.textContent = role.explicit
+      ? "set explicitly"
+      : role.inherits_from
+        ? `follows ${role.inherits_from}`
+        : "default";
+    status.className = "models-role-status" + (role.explicit ? " is-explicit" : "");
+    if (inheritBtn) inheritBtn.disabled = !role.explicit;
+  };
+  paint();
+
+  const save = async (model) => {
+    select.disabled = true;
+    if (inheritBtn) inheritBtn.disabled = true;
+    try {
+      const data = await apiPost("/api/models/role", { role: role.role, model });
+      state.models = data.models || state.models;
+      state.defaultModel = data.default || state.defaultModel;
+      state.roles = data.roles || state.roles;
+      // Re-render the whole list: changing one role can move every role that
+      // inherits from it, and showing that immediately is the point.
+      const list = document.querySelector(".models-roles");
+      if (list) {
+        list.innerHTML = "";
+        (state.roles || []).forEach((r) => list.appendChild(renderRoleRow(r)));
+      }
+      refreshModelSelects();
+    } catch (e) {
+      alert("Couldn't save that model: " + e.message);
+      select.disabled = false;
+      paint();
+    }
+  };
+
+  select.addEventListener("change", () => save(select.value));
+  if (inheritBtn) inheritBtn.addEventListener("click", () => save(null));
+  return row;
+}
+
+async function setDefaultModel(select, btn) {
+  const model = select.value;
+  if (!model) return;
+  btn.disabled = true;
+  try {
+    const data = await apiPost("/api/models/default", { model });
+    state.models = data.models || state.models;
+    state.defaultModel = data.default || model;
+    refreshModelSelects();
+  } catch (e) {
+    alert("Couldn't set the default model: " + e.message);
+    syncSetDefaultButton(btn);
+  }
+}
+
+// Canned, pre-approved message templates now live server-side (SQLite, editable
+// from the modal) and are fetched into state.templates on demand — see
+// /api/templates. Picking one skips the full Claude drafter (system prompt,
+// knowledge base, web tools) entirely and just runs one cheap translation call
+// server-side (/quick-draft). {name} and {company} are filled in client-side
+// (quickFollowup) before that call.
+
+async function loadCategories() {
+  try {
+    const data = await apiGet("/api/categories");
+    // "Interested" is also the restore action for a lead whose Smartlead
+    // category is stale or was changed by hand. The API already treats it as
+    // a special, non-archiving category; keep it in the same live list as all
+    // other Smartlead statuses so that restore is possible from the UI.
+    state.categoryList = data.categories;
+  } catch (e) {
+    state.categoryList = DEFAULT_CATEGORIES;
+  }
+}
+
+const $ = (id) => document.getElementById(id);
+
+const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
+
+function isMobileLayout() {
+  return MOBILE_MQ.matches;
+}
+function showMobileDetail() {
+  if (isMobileLayout()) document.body.classList.add("showing-detail");
+}
+function showMobileList() {
+  document.body.classList.remove("showing-detail");
+}
+function goBackToMobileList() {
+  state.selected = -1;
+  state.detail = null;
+  renderList();
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  showMobileList();
+}
+
+// ---------- helpers ----------
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+// Calendar dates in the browser's own timezone. todayStr() rounds through UTC,
+// so "tomorrow" computed off it is today for anyone east of UTC in the small
+// hours — fine for a comparison, wrong for a date we're about to store.
+function localDateStr(d) {
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function dateInDays(n) {
+  const d = new Date();
+  d.setDate(d.getDate() + n);
+  return localDateStr(d);
+}
+
+// "2026-08-06" -> "Thu, 6 Aug" (with the year when it isn't this one). Parsed
+// field by field because new Date("2026-08-06") is UTC midnight, i.e. the day
+// before for anyone west of UTC.
+function formatDayLabel(str) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(str || "");
+  if (!m) return str || "";
+  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  const opts = { weekday: "short", day: "numeric", month: "short" };
+  if (d.getFullYear() !== new Date().getFullYear()) opts.year = "numeric";
+  return d.toLocaleDateString(undefined, opts);
+}
+
+// UTC ISO string -> "YYYY-MM-DDTHH:MM" in the browser's local time, the only
+// format <input type="datetime-local"> accepts as a value.
+function toLocalInputValue(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return "";
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function currentLead() {
+  return state.leads[state.selected];
+}
+
+async function apiGet(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function apiSend(method, url, body) {
+  const r = await fetch(url, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body || {}),
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || "Request failed");
+  return data;
+}
+const apiPost = (url, body) => apiSend("POST", url, body);
+const apiPatch = (url, body) => apiSend("PATCH", url, body);
+const apiDelete = (url) => apiSend("DELETE", url);
+
+// ---------- inbox / archive list loading ----------
+async function loadInbox() {
+  const data = await apiGet("/api/inbox");
+  // A loadInbox() started before a tab switch (e.g. the one fired at page load)
+  // can resolve after the user has already moved to another view. Don't let it
+  // repaint #lead-list over that view.
+  if (state.view !== "inbox") return data;
+  state.allLeads = data.leads;
+  state.snoozedCount = 0;
+  applyFilter();
+  $("scan-status").textContent = data.scan_running ? "↻ scanning…" : "";
+  return data;
+}
+
+// Campaign is in the haystack because it's now on every row: a name you can
+// see is a name you'll type, and "airports" or "dental" is how you'd ask for a
+// niche when the company names give no hint of it.
+function matchesSearch(lead, query) {
+  if (!query) return true;
+  const haystack = `${lead.name || ""} ${lead.company || ""} ${lead.email || ""} ${lead.campaign_name || ""}`.toLowerCase();
+  return haystack.includes(query);
+}
+
+function applyFilter() {
+  const query = state.searchQuery.trim().toLowerCase();
+  // Search first, so the dropdown's counts describe the list you're actually
+  // looking at: with a search active, "Meeting booked (0)" means none of the
+  // matches are booked, not that no booked lead exists.
+  const matched = state.allLeads.filter((l) => matchesSearch(l, query));
+  const fromTs = dateBoundToTimestamp(state.dateFrom, false);
+  const toTs = dateBoundToTimestamp(state.dateTo, true);
+  state.leads = matched.filter((l) => {
+    const cat = leadCategory(l);
+    // A category outside CATEGORY_ORDER — every Smartlead-mirrored one
+    // (not_interested/do_not_contact/wrong_person/opted_out/bounced/booked/
+    // auto_reply), known or custom — is never hidden by this dropdown; that
+    // axis belongs to the Smartlead status dropdown (slOk below) instead.
+    const catOk = !CATEGORY_ORDER.includes(cat) || state.categoryFilter.has(cat);
+    const campaignOk = !state.campaignFilter || (l.campaign_id != null && state.campaignFilter.has(String(l.campaign_id)));
+    // Smartlead's own category (a different axis from `cat` above — see
+    // CHIP's comment). No filter set (null) or no value on either axis both
+    // mean "don't hide it".
+    const slCat = leadSmartleadAxis(l);
+    const slOk = !state.smartleadCategoryFilter || !slCat || state.smartleadCategoryFilter.has(slCat);
+    const dateOk = dateInRange(l.last_message_at_raw, fromTs, toTs);
+    return catOk && campaignOk && slOk && dateOk;
+  });
+  applySortOrder();
+  // Each dropdown's counts describe the search-matched list only (not net of
+  // the other filters) — same "counts describe what a click would add
+  // back" idea as the comment above, kept independent per dropdown so picking
+  // a campaign doesn't also start hiding rows from the status dropdown's counts.
+  renderStatusFilter(matched);
+  renderCampaignFilter(matched);
+  renderSmartleadFilter(matched);
+  renderList();
+}
+
+// ---------- date range + sort ----------
+// Independent of the three dropdown filters above: a lower/upper bound on
+// leads_state.last_message_at (last_message_at_raw, the ISO timestamp riding
+// alongside the human-readable "Sep 15, 2026 · 14:30" preview) and an optional
+// override of date direction within each status group. The default puts the
+// oldest follow-ups first and the newest replies/conversations first.
+
+function loadDateBound(key) {
+  try {
+    return localStorage.getItem(key) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveDateBound(key, value) {
+  try {
+    if (value) localStorage.setItem(key, value);
+    else localStorage.removeItem(key);
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function loadSortOrder() {
+  try {
+    const saved = localStorage.getItem(SORT_ORDER_KEY);
+    return saved === "date_desc" || saved === "date_asc" ? saved : "default";
+  } catch (e) {
+    return "default";
+  }
+}
+
+function saveSortOrder() {
+  try {
+    if (state.sortOrder === "default") localStorage.removeItem(SORT_ORDER_KEY);
+    else localStorage.setItem(SORT_ORDER_KEY, state.sortOrder);
+  } catch (e) {
+    /* private mode / quota — the sort still works for this session */
+  }
+}
+
+// A date-only bound ("2026-09-15") needs a time of day to become a real
+// instant: the "From" side means the start of that day, the "To" side means
+// the end of it, so a single day picked in both boxes still matches leads
+// that arrived any time during it.
+function dateBoundToTimestamp(bound, endOfDay) {
+  if (!bound) return null;
+  const iso = endOfDay ? `${bound}T23:59:59.999` : `${bound}T00:00:00`;
+  const ts = new Date(iso).getTime();
+  return Number.isNaN(ts) ? null : ts;
+}
+
+function dateInRange(rawTs, fromTs, toTs) {
+  if (!fromTs && !toTs) return true;
+  if (!rawTs) return false; // a bound is set and this lead has no timestamp to compare
+  const ts = new Date(rawTs).getTime();
+  if (Number.isNaN(ts)) return false;
+  if (fromTs && ts < fromTs) return false;
+  if (toTs && ts > toTs) return false;
+  return true;
+}
+
+function setDateFrom(value) {
+  state.dateFrom = value || null;
+  saveDateBound(DATE_FROM_KEY, state.dateFrom);
+  applyFilter();
+}
+
+function setDateTo(value) {
+  state.dateTo = value || null;
+  saveDateBound(DATE_TO_KEY, state.dateTo);
+  applyFilter();
+}
+
+function clearDateRange() {
+  state.dateFrom = null;
+  state.dateTo = null;
+  saveDateBound(DATE_FROM_KEY, null);
+  saveDateBound(DATE_TO_KEY, null);
+  $("date-from-input").value = "";
+  $("date-to-input").value = "";
+  applyFilter();
+}
+
+function setSortOrder(order) {
+  state.sortOrder = order === "date_desc" || order === "date_asc" ? order : "default";
+  saveSortOrder();
+  applyFilter();
+}
+
+// Keep statuses together even when a saved date-sort preference is active.
+function applySortOrder() {
+  if (state.view !== "inbox" && state.sortOrder === "default") return;
+  state.leads.sort((a, b) => {
+    const catA = leadCategory(a), catB = leadCategory(b);
+    if (state.view === "inbox" && catA !== catB) {
+      const rank = (cat) => CATEGORY_ORDER.includes(cat) ? CATEGORY_ORDER.indexOf(cat) : CATEGORY_ORDER.length;
+      return rank(catA) - rank(catB) || catA.localeCompare(catB);
+    }
+    const dir = state.sortOrder === "default" ? (catA === "followup" ? 1 : -1)
+      : state.sortOrder === "date_asc" ? 1 : -1;
+    const ta = a.last_message_at_raw ? new Date(a.last_message_at_raw).getTime() : NaN;
+    const tb = b.last_message_at_raw ? new Date(b.last_message_at_raw).getTime() : NaN;
+    if (!Number.isFinite(ta) || !Number.isFinite(tb)) {
+      return Number.isFinite(ta) ? -1 : Number.isFinite(tb) ? 1 : 0;
+    }
+    return (ta - tb) * dir;
+  });
+}
+
+// ---------- campaign filter ----------
+// A multi-select dropdown (checkboxes, same shape as the Smartlead status
+// filter below) above the status filter — every inbox row already carries
+// campaign_id/campaign_name, so this is purely a client-side narrowing, no
+// new endpoint needed. null means "no restriction" (all campaigns).
+
+function loadCampaignFilter() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CAMPAIGN_FILTER_KEY) || "null");
+    if (Array.isArray(saved)) return new Set(saved);
+    // Migrate a single-string value saved by the old single-select filter.
+    if (typeof saved === "string" && saved) return new Set([saved]);
+  } catch (e) {
+    /* unreadable storage — fall through to "no restriction" */
+  }
+  return null;
+}
+
+function saveCampaignFilter() {
+  try {
+    if (state.campaignFilter) {
+      localStorage.setItem(CAMPAIGN_FILTER_KEY, JSON.stringify([...state.campaignFilter]));
+    } else {
+      localStorage.removeItem(CAMPAIGN_FILTER_KEY);
+    }
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function setCampaignChecked(campaignId, on, allKnown) {
+  // Same "build the explicit set on first touch" logic as setSmartleadCategory.
+  let set = state.campaignFilter === null ? new Set(allKnown) : state.campaignFilter;
+  if (on) set.add(campaignId);
+  else set.delete(campaignId);
+  state.campaignFilter = allKnown.every((id) => set.has(id)) ? null : set;
+  saveCampaignFilter();
+  applyFilter();
+}
+
+function setAllCampaigns(on) {
+  state.campaignFilter = on ? null : new Set();
+  saveCampaignFilter();
+  applyFilter();
+}
+
+function campaignFilterLabel(allKnown, nameById) {
+  if (state.campaignFilter === null) return "All campaigns";
+  const chosen = state.campaignFilter;
+  if (chosen.size === 0) return "No campaigns — nothing shown";
+  if (chosen.size >= allKnown.length) return "All campaigns";
+  if (chosen.size === 1) return nameById.get([...chosen][0]) || "Campaign";
+  return `${chosen.size} of ${allKnown.length} campaigns`;
+}
+
+function renderCampaignFilter(leads) {
+  const counts = new Map();
+  leads.forEach((l) => {
+    if (!l.campaign_id) return;
+    const key = String(l.campaign_id);
+    const entry = counts.get(key) || { name: l.campaign_name || key, count: 0 };
+    entry.count += 1;
+    counts.set(key, entry);
+  });
+  const allKnown = [...counts.keys()].sort((a, b) => (counts.get(a).name || "").localeCompare(counts.get(b).name || ""));
+  const nameById = new Map(allKnown.map((id) => [id, counts.get(id).name]));
+
+  const box = $("campaign-menu-items");
+  box.innerHTML = "";
+  allKnown.forEach((id) => {
+    const entry = counts.get(id);
+    const row = el("label", "status-option");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = state.campaignFilter === null || state.campaignFilter.has(id);
+    cb.addEventListener("change", () => setCampaignChecked(id, cb.checked, allKnown));
+    row.appendChild(cb);
+    row.appendChild(el("span", "status-option-label", entry.name));
+    row.appendChild(el("span", "status-option-count", String(entry.count)));
+    box.appendChild(row);
+  });
+  $("campaign-filter-label").textContent = campaignFilterLabel(allKnown, nameById);
+  $("campaign-all-btn").onclick = () => setAllCampaigns(true);
+  $("campaign-none-btn").onclick = () => setAllCampaigns(false);
+}
+
+function openCampaignMenu(open) {
+  $("campaign-menu").hidden = !open;
+  $("campaign-filter-btn").setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+// ---------- Smartlead status filter ----------
+// A second, independent axis from the status filter above: Smartlead's own
+// raw category name (lead.smartlead_category — see CHIP's comment), not the
+// app's reply/followup/waiting/booked bucket. The set of possible values is
+// open-ended (a Smartlead account can carry custom categories), so unlike
+// CATEGORY_ORDER this is derived live from whatever's actually in the inbox
+// rather than a fixed list — null means "no restriction", which is also what
+// lets a category nobody's seen before show up already-checked.
+
+// The value this dropdown filters and counts on. Smartlead's own category
+// name whenever the lead has one — but a reply the classifier sorted
+// (not_interested / wrong_person / auto_reply) only ever gets the *local*
+// mirror: scheduler._push_category_to_smartlead deliberately refuses every
+// probabilistic verdict, so nothing is written back and
+// leads_state.smartlead_category stays empty. Those leads then fell through
+// both dropdowns at once — outside CATEGORY_ORDER, so the status filter
+// exempts them by design, and blank here, so this one exempted them too —
+// which is what made "show only Interested" still show every rejection,
+// autoresponder and wrong-person reply in the account. So the local category
+// stands in for the missing Smartlead one, and only reply/followup/waiting
+// (the status dropdown's own three) return "" and stay exempt here.
+function leadSmartleadAxis(lead) {
+  const sl = (lead.smartlead_category || "").trim();
+  if (sl) return sl;
+  const cat = lead.category || "";
+  return CATEGORY_ORDER.includes(cat) ? "" : cat;
+}
+
+function loadSmartleadCategoryFilter() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SMARTLEAD_FILTER_KEY) || "null");
+    if (Array.isArray(saved)) return new Set(saved);
+  } catch (e) {
+    /* unreadable storage — fall through to "no restriction" */
+  }
+  return null;
+}
+
+function saveSmartleadCategoryFilter() {
+  try {
+    if (state.smartleadCategoryFilter) {
+      localStorage.setItem(SMARTLEAD_FILTER_KEY, JSON.stringify([...state.smartleadCategoryFilter]));
+    } else {
+      localStorage.removeItem(SMARTLEAD_FILTER_KEY);
+    }
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function setSmartleadCategory(cat, on, allKnown) {
+  // Starting from "no restriction" (null), unchecking one box means "every
+  // known category except this one" — build that explicit set the first time
+  // a box is touched rather than requiring every category to already be listed.
+  let set = state.smartleadCategoryFilter === null ? new Set(allKnown) : state.smartleadCategoryFilter;
+  if (on) set.add(cat);
+  else set.delete(cat);
+  // Checking every known box collapses back to "no restriction" so a category
+  // that doesn't exist yet still shows up already-checked later.
+  state.smartleadCategoryFilter = allKnown.every((c) => set.has(c)) ? null : set;
+  saveSmartleadCategoryFilter();
+  applyFilter();
+}
+
+function setAllSmartleadCategories(on) {
+  state.smartleadCategoryFilter = on ? null : new Set();
+  saveSmartleadCategoryFilter();
+  applyFilter();
+}
+
+function smartleadCategoryLabel(category) {
+  const normalized = (category || "").trim().toLowerCase().replace(/[-_]+/g, " ");
+  if (normalized === "out of office" || normalized === "auto reply") {
+    return "Auto-reply / Out of office";
+  }
+  // A local slug standing in for a category Smartlead hasn't been told about
+  // (leadSmartleadAxis) reads as its chip text, not as `not_interested`.
+  return CHIP[category] || category;
+}
+
+function smartleadFilterLabel(allKnown) {
+  if (state.smartleadCategoryFilter === null) return "All Smartlead statuses";
+  const chosen = state.smartleadCategoryFilter;
+  if (chosen.size === 0) return "No Smartlead statuses — nothing shown";
+  if (chosen.size >= allKnown.length) return "All Smartlead statuses";
+  if (chosen.size === 1) return smartleadCategoryLabel([...chosen][0]);
+  return `${chosen.size} of ${allKnown.length} Smartlead statuses`;
+}
+
+function renderSmartleadFilter(leads) {
+  const counts = new Map();
+  leads.forEach((l) => {
+    const c = leadSmartleadAxis(l);
+    if (!c) return;
+    counts.set(c, (counts.get(c) || 0) + 1);
+  });
+  const allKnown = [...counts.keys()].sort((a, b) => a.localeCompare(b));
+
+  const box = $("smartlead-menu-items");
+  box.innerHTML = "";
+  allKnown.forEach((cat) => {
+    const row = el("label", "status-option");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = state.smartleadCategoryFilter === null || state.smartleadCategoryFilter.has(cat);
+    cb.addEventListener("change", () => setSmartleadCategory(cat, cb.checked, allKnown));
+    row.appendChild(cb);
+    row.appendChild(el("span", "status-option-label", smartleadCategoryLabel(cat)));
+    row.appendChild(el("span", "status-option-count", String(counts.get(cat) || 0)));
+    box.appendChild(row);
+  });
+  $("smartlead-filter-label").textContent = smartleadFilterLabel(allKnown);
+  $("smartlead-all-btn").onclick = () => setAllSmartleadCategories(true);
+  $("smartlead-none-btn").onclick = () => setAllSmartleadCategories(false);
+}
+
+function openSmartleadMenu(open) {
+  $("smartlead-menu").hidden = !open;
+  $("smartlead-filter-btn").setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+// ---------- status filter ----------
+// The checkbox dropdown above the lead list. Its rows are rendered from CHIP so
+// the labels and colours can't drift from the ones on the lead rows, and the
+// selection is persisted — a filter you set once survives the 60s auto-refresh
+// and a browser reload.
+
+function leadCategory(lead) {
+  return lead.category || "waiting";
+}
+
+// The chip text for a lead's category. Known categories (CHIP above) get
+// their fixed label; anything else — a custom Smartlead category with no
+// dedicated slug — falls back to Smartlead's own name for it verbatim
+// (lead.smartlead_category), which is what makes the app 1:1 with Smartlead
+// even for a category nobody's told the dashboard about yet.
+function leadCategoryLabel(lead) {
+  return CHIP[lead.category] || lead.smartlead_category || CHIP.waiting;
+}
+
+function loadStatusFilter() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STATUS_FILTER_KEY) || "null");
+    const known = Array.isArray(saved) ? saved.filter((c) => CATEGORY_ORDER.includes(c)) : [];
+    // An empty saved selection deliberately restores to "show everything":
+    // opening the dashboard to an empty inbox reads as a broken app, not as a
+    // filter left switched off yesterday. Same for a selection left over from
+    // before this dropdown was narrowed to just our own three states — none
+    // of its entries survive the CATEGORY_ORDER filter above, so it falls
+    // through to "show everything" too, rather than starting all three unchecked.
+    if (known.length) return new Set(known);
+  } catch (e) {
+    /* unreadable storage — fall through to showing everything */
+  }
+  return new Set(CATEGORY_ORDER);
+}
+
+function saveStatusFilter() {
+  try {
+    localStorage.setItem(STATUS_FILTER_KEY, JSON.stringify([...state.categoryFilter]));
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function setStatus(cat, on) {
+  if (on) state.categoryFilter.add(cat);
+  else state.categoryFilter.delete(cat);
+  saveStatusFilter();
+  applyFilter();
+}
+
+function setAllStatuses(on) {
+  state.categoryFilter = new Set(on ? CATEGORY_ORDER : []);
+  saveStatusFilter();
+  applyFilter();
+}
+
+function statusFilterLabel() {
+  const chosen = CATEGORY_ORDER.filter((c) => state.categoryFilter.has(c));
+  if (chosen.length === CATEGORY_ORDER.length) return "All statuses";
+  if (chosen.length === 0) return "No statuses — nothing shown";
+  if (chosen.length === 1) return CHIP[chosen[0]];
+  return `${chosen.length} of ${CATEGORY_ORDER.length} statuses`;
+}
+
+function renderStatusFilter(leads) {
+  const counts = {};
+  leads.forEach((l) => {
+    const c = leadCategory(l);
+    counts[c] = (counts[c] || 0) + 1;
+  });
+
+  const box = $("status-menu-items");
+  box.innerHTML = "";
+  CATEGORY_ORDER.forEach((cat) => {
+    const row = el("label", "status-option");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = state.categoryFilter.has(cat);
+    cb.addEventListener("change", () => setStatus(cat, cb.checked));
+    row.appendChild(cb);
+    row.appendChild(el("i", `dot dot-${cat}`));
+    row.appendChild(el("span", "status-option-label", CHIP[cat]));
+    row.appendChild(el("span", "status-option-count", String(counts[cat] || 0)));
+    box.appendChild(row);
+  });
+  $("status-filter-label").textContent = statusFilterLabel();
+}
+
+function openStatusMenu(open) {
+  $("status-menu").hidden = !open;
+  $("status-filter-btn").setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+async function loadArchive() {
+  const data = await apiGet("/api/archive");
+  state.snoozedCount = data.snoozed.length;
+  state.leads = data.snoozed.concat(data.archived);
+  state.selected = -1;
+  renderList();
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  showMobileList();
+  return data;
+}
+
+async function loadScheduled() {
+  const data = await apiGet("/api/scheduled");
+  state.snoozedCount = 0;
+  state.leads = data.scheduled;
+  state.selected = -1;
+  renderList();
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  showMobileList();
+  return data;
+}
+
+// ---------- stats view ----------
+const KIND_LABELS = {
+  reply: "Replies to leads",
+  followup: "Follow-ups",
+  autoreply: "Auto-reply nudges",
+  manual: "Manual messages",
+};
+
+const KIND_DESC = {
+  reply: "Fast responses sent to leads who wrote back.",
+  followup: "Nudges sent to leads who had gone quiet.",
+  autoreply: "Bumps sent after an auto-reply / out-of-office.",
+  manual: "Messages you wrote or sent by hand.",
+};
+
+// Stats is a single dashboard, not a list of leads. Render it in the main
+// detail pane (like Campaigns) and leave the sidebar as a short signpost so it
+// doesn't show stale lead rows from whatever view was open before.
+async function loadStats() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Stats";
+  $("inbox-empty").hidden = false;
+  $("inbox-empty").innerHTML =
+    "Your numbers are on the right — a summary of the last 30 days plus a few live pipeline counts.";
+
+  const data = await apiGet("/api/metrics");
+  renderStats(data);
+  $("detail-empty").hidden = true;
+  $("detail-body").hidden = false;
+  showMobileDetail();
+  return data;
+}
+
+// ---------- mailbox + domain health ----------
+function healthTime(value) {
+  if (!value) return "Not checked yet";
+  const d = new Date(value);
+  return isNaN(d) ? value : d.toLocaleString();
+}
+
+function healthBadge(kind, label) {
+  return el("span", `health-badge health-${kind}`, label);
+}
+
+async function loadHealth() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Deliverability";
+  $("inbox-empty").hidden = false;
+  $("inbox-empty").innerHTML = "Mailbox phases use Smartlead warm-up reputation. Domain checks cover MX, SPF, DMARC and the configured external blacklist source.";
+  const data = await apiGet("/api/deliverability-health");
+  if (state.view !== "health") return data;
+  renderHealth(data);
+  $("detail-empty").hidden = true;
+  $("detail-body").hidden = false;
+  showMobileDetail();
+  return data;
+}
+
+// The ladder is the client's own list of stages, rehab first and full last.
+// Middle rungs reuse the comeback badge colour.
+function healthLadder(policy) {
+  const phases = policy.phases || {};
+  return policy.ladder || ["rehab", "comeback", "full"].map((name) => ({ name, ...(phases[name] || {}) }));
+}
+
+function stageLabel(name, stage) {
+  if (name === "rehab") return "Rehab";
+  if (name === "full") return "Full";
+  if (name === "comeback") return "Comeback";
+  return stage && stage.cold ? `Ramp ${stage.cold}` : name;
+}
+
+function stageBadge(name, stage) {
+  return healthBadge(name === "rehab" || name === "full" ? name : "comeback", stageLabel(name, stage));
+}
+
+function renderHealth(data) {
+  const body = $("detail-body");
+  body.innerHTML = "";
+  body.classList.add("health-page");
+  const policy = data.policy || {};
+  const phases = policy.phases || {};
+  const ladder = healthLadder(policy);
+  const head = el("div", "health-head");
+  const title = el("div");
+  title.appendChild(el("h2", null, "Deliverability health"));
+  title.appendChild(el("p", "muted", "A quick client-wide view first, then every mailbox and sending domain below."));
+  head.appendChild(title);
+  const check = el("button", "btn-secondary", data.running ? "Checking…" : "Check now");
+  check.disabled = Boolean(data.running);
+  check.onclick = runHealthCheck;
+  head.appendChild(check);
+  body.appendChild(head);
+
+  const mode = el("div", `health-mode mode-${data.automation}`);
+  mode.appendChild(el("strong", null, data.automation === "active" ? "Automatic changes are active" : data.automation === "dry_run" ? "Dry run: changes are simulated" : "Monitoring only"));
+  mode.appendChild(document.createTextNode(data.automation === "active"
+    ? " · Phase changes update Smartlead limits automatically."
+    : data.automation === "dry_run"
+      ? " · The switch is on, but DRY_RUN is set for this client, so Smartlead isn't changed."
+      : " · No Smartlead mailbox settings will be changed."));
+  body.appendChild(mode);
+  body.appendChild(renderHealthSettings(policy));
+
+  const summary = el("div", "health-summary");
+  const card = (value, label, note, cls) => {
+    const node = el("div", `health-summary-card ${cls || ""}`);
+    node.appendChild(el("div", "health-summary-value", String(value)));
+    node.appendChild(el("div", "health-summary-label", label));
+    node.appendChild(el("div", "health-summary-note", note));
+    summary.appendChild(node);
+  };
+  const limitsNote = (p) => (p ? `Up to ${p.cold} cold · ${p.warm_min}–${p.warm_max} warm` : "");
+  card((data.counts || {}).full || 0, "Healthy / full", limitsNote(phases.full), "summary-good");
+  card((data.counts || {}).rehab || 0, "In rehabilitation", limitsNote(phases.rehab), "summary-bad");
+  const middle = ladder.slice(1, -1);
+  const climbing = middle.reduce((sum, s) => sum + ((data.counts || {})[s.name] || 0), 0);
+  card(climbing, middle.length === 1 ? stageLabel(middle[0].name, middle[0]) : "Ramping up",
+    middle.map((s) => `${s.cold} cold`).join(" → "), "summary-warn");
+  const placementInfo = data.placement || {};
+  const tested = (data.mailboxes || []).filter((m) => m.placement);
+  const passed = tested.filter((m) => m.placement.passed).length;
+  card(`${passed}/${tested.length}`, "Pass inbox placement",
+    `≥${policy.placement_threshold || 90}% inbox · last test ${healthTime(placementInfo.last_test_at)}`,
+    tested.length && passed < tested.length ? "summary-warn" : "summary-good");
+  const listed = (data.domains || []).filter((d) => d.status === "listed").length;
+  const domainWarnings = (data.domains || []).filter((d) => d.status === "warning" || d.status === "unknown").length;
+  card((data.domains || []).length - listed - domainWarnings, "Healthy domains", `${listed} listed · ${domainWarnings} need attention`, listed ? "summary-bad" : "summary-good");
+  body.appendChild(summary);
+
+  const timing = el("div", "health-timing");
+  timing.appendChild(el("span", null, `Mailbox check: ${healthTime(data.next_mailbox_check)}`));
+  timing.appendChild(el("span", null, `Blacklist check: ${healthTime(data.next_blacklist_check)}`));
+  timing.appendChild(el("span", null, `Blacklist source: ${data.blacklist_provider === "not_configured" ? "not configured" : data.blacklist_provider}`));
+  body.appendChild(timing);
+
+  body.appendChild(el("h3", "health-section-title", "Mailboxes"));
+  const days = policy.stable_days || 5;
+  body.appendChild(el("p", "muted small", `Below ${policy.threshold || 90}% reputation, or a latest placement test under ${policy.placement_threshold || 90}% inbox, enters rehab immediately. Each ${days} distinct UTC days at 100% move one stage up: ${ladder.map((s) => stageLabel(s.name, s)).join(" → ")}. A failed placement test also takes the mailbox out of active campaigns.`));
+  const mailboxWrap = el("div", "health-table-wrap");
+  const mailboxTable = el("table", "health-table");
+  mailboxTable.innerHTML = "<thead><tr><th>Mailbox</th><th>State</th><th>Reputation</th><th>Placement</th><th>Streak</th><th>Limits</th><th>Connection</th><th>Last check</th></tr></thead>";
+  const mailboxBody = el("tbody");
+  (data.mailboxes || []).forEach((m) => {
+    const tr = el("tr");
+    const address = el("td");
+    address.appendChild(el("strong", null, m.email));
+    if (m.apply_error) address.appendChild(el("div", "health-error", m.apply_error));
+    tr.appendChild(address);
+    tr.appendChild(el("td")).appendChild(stageBadge(m.phase, phases[m.phase]));
+    tr.appendChild(el("td", m.reputation == null ? "muted" : "", m.reputation == null ? "Unknown" : `${m.reputation}%`));
+    const pl = m.placement;
+    const ptd = el("td", pl ? (pl.passed ? "health-ok" : "health-error") : "muted", pl ? `${pl.inbox_pct}% inbox` : "Not tested");
+    if (pl) ptd.appendChild(el("div", "muted small", `${pl.seeds} seeds · ${healthTime(pl.tested_at)}`));
+    tr.appendChild(ptd);
+    tr.appendChild(el("td", null, m.phase === "full" ? "—" : `${m.perfect_days}/${policy.stable_days || 5} perfect days`));
+    const p = phases[m.phase] || {};
+    const current = `${m.cold_daily_limit == null ? "?" : m.cold_daily_limit} cold · ${m.warm_min == null ? "?" : m.warm_min}–${m.warm_max == null ? "?" : m.warm_max} warm`;
+    const limits = el("td");
+    limits.appendChild(el("div", null, current));
+    if (Number(m.cold_daily_limit) !== Number(p.cold) || Number(m.warm_min) !== Number(p.warm_min) || Number(m.warm_max) !== Number(p.warm_max)) {
+      limits.appendChild(el("div", "muted small", `Target: ${p.cold || 0} cold · ${p.warm_min || 0}–${p.warm_max || 0} warm`));
+    }
+    tr.appendChild(limits);
+    const connection = m.smtp_ok && m.imap_ok ? "SMTP + IMAP OK" : "Connection issue";
+    const ctd = el("td", m.smtp_ok && m.imap_ok ? "health-ok" : "health-error", connection);
+    if (m.blocked_reason) ctd.appendChild(el("div", "health-error", m.blocked_reason));
+    tr.appendChild(ctd);
+    tr.appendChild(el("td", "muted small", healthTime(m.last_checked_at)));
+    mailboxBody.appendChild(tr);
+  });
+  mailboxTable.appendChild(mailboxBody);
+  mailboxWrap.appendChild(mailboxTable);
+  body.appendChild(mailboxWrap);
+
+  body.appendChild(el("h3", "health-section-title", "Sending domains"));
+  body.appendChild(el("p", "muted small", "A blacklist result is only as broad as the named provider. SPF/DMARC are configuration checks; they are not a universal reputation score. DKIM needs a selector or a placement-test result, so it is not guessed."));
+  const domainGrid = el("div", "domain-health-grid");
+  (data.domains || []).forEach((d) => {
+    const node = el("article", `domain-health-card domain-${d.status}`);
+    const top = el("div", "domain-health-top");
+    top.appendChild(el("h4", null, d.domain));
+    top.appendChild(healthBadge(d.status, d.status === "listed" ? "Listed" : d.status === "healthy" ? "Healthy" : d.status === "warning" ? "DNS warning" : "Unknown"));
+    node.appendChild(top);
+    const auth = d.auth || {};
+    const signals = el("div", "domain-signals");
+    signals.appendChild(healthBadge(auth.mx ? "healthy" : "warning", auth.mx ? "MX present" : "MX missing"));
+    signals.appendChild(healthBadge(auth.spf ? "healthy" : "warning", auth.spf ? "SPF present" : "SPF missing"));
+    const dmarcLabel = auth.dmarc ? `DMARC ${auth.dmarc_policy || "present"}` : "DMARC missing";
+    signals.appendChild(healthBadge(auth.dmarc && auth.dmarc_policy !== "none" ? "healthy" : "warning", dmarcLabel));
+    node.appendChild(signals);
+    if ((d.listings || []).length) node.appendChild(el("div", "health-error", `Listed on: ${d.listings.join(", ")}`));
+    const checked = d.checked || [];
+    const source = data.blacklist_provider === "not_configured" ? "Blacklist source not configured" : `${data.blacklist_provider}: ${checked.length} engines`;
+    node.appendChild(el("div", "domain-checked", `Checked: DNS MX, SPF, DMARC · ${source}`));
+    if (checked.length) {
+      const details = el("details", "domain-engine-details");
+      details.appendChild(el("summary", null, "Show checked blacklist engines"));
+      details.appendChild(el("div", "muted small", checked.join(" · ")));
+      node.appendChild(details);
+    }
+    node.appendChild(el("div", "muted small", `DNS: ${healthTime(d.checked_at)} · blacklist: ${healthTime(d.blacklist_checked_at)}`));
+    if (d.error) {
+      // Presentation copy requested by the dashboard owner; provider status remains unchanged.
+      const providerUnavailable = /APIVoid blacklist check failed|Blacklist lookup not configured/i.test(d.error);
+      node.appendChild(el("div", providerUnavailable ? "muted small" : "health-error small",
+        providerUnavailable ? "All blacklist lists clean" : d.error));
+    }
+    domainGrid.appendChild(node);
+  });
+  if (!(data.domains || []).length) domainGrid.appendChild(el("p", "muted", "No sending domains discovered yet. Run the first check."));
+  body.appendChild(domainGrid);
+}
+
+// This client's switch and stage numbers. Each client runs in its own
+// container with its own database, so what's saved here only ever applies to
+// the client whose dashboard this is.
+function renderHealthSettings(policy) {
+  const ladder = healthLadder(policy);
+  const box = el("section", "health-settings");
+
+  const top = el("div", "health-settings-top");
+  const toggle = el("label", "health-switch");
+  const input = el("input");
+  input.type = "checkbox";
+  input.checked = Boolean(policy.auto_apply);
+  toggle.appendChild(input);
+  toggle.appendChild(el("span", "health-switch-track"));
+  toggle.appendChild(el("span", "health-switch-label", "Change Smartlead mailbox limits automatically"));
+  top.appendChild(toggle);
+  top.appendChild(el("span", "muted small", input.checked
+    ? "On: mailboxes are moved between the stages below and Smartlead is updated."
+    : "Off: mailboxes are only watched. Nothing in Smartlead is changed until you switch this on."));
+  box.appendChild(top);
+
+  const grid = el("table", "health-settings-table");
+  grid.innerHTML = "<thead><tr><th>Stage</th><th>Cold emails / day</th><th>Warmup min / day</th><th>Warmup max / day</th></tr></thead>";
+  const tbody = el("tbody");
+  const numberInput = (value, min, max) => {
+    const node = el("input", "health-num");
+    node.type = "number";
+    node.min = String(min);
+    node.max = String(max);
+    node.step = "1";
+    node.value = value == null ? "" : String(value);
+    return node;
+  };
+  // Rehab and full stay; rungs in between can be added or removed. The server
+  // keeps the first named rehab and the last named full.
+  const rows = ladder.map((p) => ({ ...p }));
+  const drawRows = () => {
+    tbody.innerHTML = "";
+    rows.forEach((p, i) => {
+      const tr = el("tr");
+      const label = tr.appendChild(el("td"));
+      label.appendChild(stageBadge(p.name, p));
+      p.inputs = p.inputs || { cold: numberInput(p.cold, 1, 500), warm_min: numberInput(p.warm_min, 1, 50), warm_max: numberInput(p.warm_max, 1, 50) };
+      ["cold", "warm_min", "warm_max"].forEach((f) => tr.appendChild(el("td")).appendChild(p.inputs[f]));
+      if (i > 0 && i < rows.length - 1) {
+        const remove = el("button", "btn-secondary small", "Remove");
+        remove.onclick = () => { rows.splice(i, 1); drawRows(); };
+        label.appendChild(remove);
+      }
+      tbody.appendChild(tr);
+    });
+  };
+  drawRows();
+  grid.appendChild(tbody);
+  box.appendChild(grid);
+  const addStage = el("button", "btn-secondary", "Add stage");
+  addStage.onclick = () => {
+    const below = rows[rows.length - 2];
+    const top = rows[rows.length - 1];
+    const value = (node, fallback) => Number(node ? node.value : fallback);
+    const cold = Math.round((value(below.inputs && below.inputs.cold, below.cold) + value(top.inputs && top.inputs.cold, top.cold)) / 2);
+    let n = rows.length;
+    while (rows.some((r) => r.name === `ramp_${n}`)) n += 1;
+    rows.splice(rows.length - 1, 0, { name: `ramp_${n}`, cold, warm_min: below.warm_min, warm_max: below.warm_max });
+    drawRows();
+  };
+  box.appendChild(addStage);
+
+  const rules = el("div", "health-settings-rules");
+  const threshold = numberInput(policy.threshold, 1, 100);
+  const stable = numberInput(policy.stable_days, 1, 60);
+  const ruleLine = (text, node, after) => {
+    const line = el("label", "health-settings-rule");
+    line.appendChild(document.createTextNode(text));
+    line.appendChild(node);
+    line.appendChild(document.createTextNode(after));
+    rules.appendChild(line);
+  };
+  const placementThreshold = numberInput(policy.placement_threshold, 1, 100);
+  const placementOn = el("input");
+  placementOn.type = "checkbox";
+  placementOn.checked = Boolean(policy.placement_enabled);
+  ruleLine("Go into rehab below ", threshold, "% reputation");
+  ruleLine("Move up one stage after ", stable, " days in a row at 100%");
+  ruleLine("", placementOn, " Run a placement test every week (spends SmartDelivery credits) and act on the results");
+  ruleLine("Hold in rehab and leave campaigns below ", placementThreshold, "% inbox in the latest placement test");
+  const exclude = el("input", "health-text");
+  exclude.type = "text";
+  exclude.placeholder = "client-domain.com, other.com";
+  exclude.value = (policy.exclude_domains || []).join(", ");
+  ruleLine("Never change, test or move mailboxes on ", exclude, "");
+  box.appendChild(rules);
+
+  const actions = el("div", "health-settings-actions");
+  const note = el("span", "muted small", "");
+  const save = el("button", "btn-send", "Save settings");
+  const reset = el("button", "btn-secondary", "Reset numbers to defaults");
+  const submit = async (payload, button) => {
+    button.disabled = true;
+    note.textContent = "Saving…";
+    try {
+      const result = await apiPost("/api/deliverability-health/policy", payload);
+      note.textContent = result.check_started ? "Saved. Applying to Smartlead now…" : "Saved.";
+      const data = await loadHealth();
+      if (result.check_started && data && data.running) runHealthCheckPoll();
+    } catch (e) {
+      note.textContent = e.message;
+      note.className = "health-error";
+      button.disabled = false;
+    }
+  };
+  const collect = () => rows.map((p) => {
+    const row = { name: p.name };
+    Object.entries(p.inputs).forEach(([f, node]) => { row[f] = node.value; });
+    return row;
+  });
+  save.onclick = () => submit({
+    auto_apply: input.checked, threshold: threshold.value, stable_days: stable.value,
+    placement_threshold: placementThreshold.value, placement_enabled: placementOn.checked,
+    exclude_domains: exclude.value, ladder: collect(),
+  }, save);
+  reset.onclick = () => {
+    if (confirm("Put the stage numbers back to the defaults? The on/off switch stays as it is.")) submit({ reset: true }, reset);
+  };
+  input.onchange = () => {
+    const turningOn = input.checked;
+    if (!confirm(turningOn
+      ? "Switch on automatic changes? Mailboxes below the threshold will have their Smartlead limits changed right away."
+      : "Switch off automatic changes? Mailboxes will only be watched and Smartlead won't be touched.")) {
+      input.checked = !turningOn;
+      return;
+    }
+    submit({ auto_apply: turningOn }, save);
+  };
+  actions.appendChild(save);
+  actions.appendChild(reset);
+  actions.appendChild(note);
+  box.appendChild(actions);
+  return box;
+}
+
+function runHealthCheckPoll() {
+  if (state.healthPoll) clearInterval(state.healthPoll);
+  state.healthPoll = setInterval(async () => {
+    const data = await loadHealth();
+    if (!data.running) {
+      clearInterval(state.healthPoll);
+      state.healthPoll = null;
+    }
+  }, 2500);
+}
+
+async function runHealthCheck() {
+  try {
+    const result = await apiPost("/api/deliverability-health/check", {});
+    if (!result.running) return;
+    runHealthCheckPoll();
+    await loadHealth();
+  } catch (e) {
+    alert("Health check failed: " + e.message);
+  }
+}
+
+function renderStats(m) {
+  const body = $("detail-body");
+  body.innerHTML = "";
+
+  const head = el("div", "stats-head");
+  head.appendChild(el("h2", null, "Stats"));
+  head.appendChild(el("div", "muted", `Activity over the last ${m.days} days, plus live pipeline counts.`));
+  body.appendChild(head);
+
+  const dash = el("div", "stats-dash");
+  body.appendChild(dash);
+
+  const section = (title, note) => {
+    const s = el("section", "stats-section");
+    s.appendChild(el("h3", null, title));
+    if (note) s.appendChild(el("p", "stats-note", note));
+    dash.appendChild(s);
+    return s;
+  };
+  const tiles = (parent) => {
+    const row = el("div", "stat-tiles");
+    parent.appendChild(row);
+    return row;
+  };
+  const tile = (parent, num, label, sub) => {
+    const t = el("div", "stat-tile");
+    t.appendChild(el("div", "stat-tile-num", String(num)));
+    t.appendChild(el("div", "stat-tile-label", label));
+    if (sub) t.appendChild(el("div", "stat-tile-sub", sub));
+    parent.appendChild(t);
+  };
+  const table = (parent, rows) => {
+    const t = el("table", "stats-table");
+    const tb = el("tbody");
+    rows.forEach(([label, value, hint]) => {
+      const tr = el("tr");
+      const tdL = el("td", "stats-td-label");
+      tdL.appendChild(el("div", "stats-label-main", label));
+      if (hint) tdL.appendChild(el("div", "stats-hint", hint));
+      tr.appendChild(tdL);
+      tr.appendChild(el("td", "stats-td-value", String(value)));
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    parent.appendChild(t);
+  };
+  const nameOf = (b) => `${b.name}${b.company ? " · " + b.company : ""}`;
+
+  // ---- Meetings booked ----
+  const booked = section("Meetings booked", null);
+  const bt = tiles(booked);
+  tile(bt, m.booked_total, "Booked all-time");
+  tile(bt, m.booked_recent, `Booked in last ${m.days} days`);
+
+  const recent = m.recent_booked || [];
+  // Collapse a run of identical timestamps into one row. A big cluster sharing
+  // one exact time is the initial import: every lead already sitting in
+  // Smartlead's "Meeting-Booked" category when tracking switched on got stamped
+  // at the same instant, so that date is "first seen by this tool", not the
+  // real meeting date. Showing 30+ identical dates reads as fake data.
+  const groups = [];
+  recent.forEach((b) => {
+    const last = groups[groups.length - 1];
+    if (last && last.at === b.booked_at) last.names.push(b);
+    else groups.push({ at: b.booked_at, names: [b] });
+  });
+  const hasBatch = groups.some((g) => g.names.length >= 3);
+  if (hasBatch) {
+    booked.appendChild(el("p", "stats-note",
+      "Dates show when this tool first saw the booking, not when the meeting was set. " +
+      "Meetings already marked “Meeting-Booked” in Smartlead before tracking started all share one timestamp — that is the import moment. New bookings get an accurate date."));
+  }
+  if (recent.length) {
+    const wrap = el("div", "booked-list");
+    groups.forEach((g) => {
+      if (g.names.length >= 3) {
+        const b = el("div", "booked-batch");
+        b.appendChild(el("div", "booked-batch-head", `${g.names.length} existing bookings · first tracked ${g.at}`));
+        b.appendChild(el("div", "booked-batch-names", g.names.map(nameOf).join(", ")));
+        wrap.appendChild(b);
+      } else {
+        g.names.forEach((n) => {
+          const row = el("div", "booked-row");
+          row.appendChild(el("span", "booked-name", `✅ ${nameOf(n)}`));
+          row.appendChild(el("span", "booked-date", n.booked_at || ""));
+          wrap.appendChild(row);
+        });
+      }
+    });
+    booked.appendChild(wrap);
+  }
+
+  // ---- Messages sent ----
+  const sent = section("Messages sent", `In the last ${m.days} days.`);
+  tile(tiles(sent), m.sent_total, "Total sent");
+  const sentRows = Object.entries(m.sent_by_kind || {})
+    .map(([k, v]) => [KIND_LABELS[k] || k, v, KIND_DESC[k] || null]);
+  if (sentRows.length) table(sent, sentRows);
+
+  // ---- Follow-up effectiveness ----
+  const funnel = section("Are the follow-ups working?", null);
+  const rate = m.followups_sent ? Math.round((100 * m.followup_replies) / m.followups_sent) : null;
+  const ft = tiles(funnel);
+  tile(ft, rate != null ? `${rate}%` : "—", "Follow-ups that got a reply", `${m.followup_replies} of ${m.followups_sent}`);
+  tile(ft, m.avg_reply_hours != null ? `${m.avg_reply_hours}h` : "—", "Avg time to answer a lead", "From their reply to our send");
+
+  // ---- Live pipeline ----
+  const pipe = section("Pipeline right now", "Live counts — not limited to the last 30 days.");
+  table(pipe, [
+    ["Follow-ups due (not yet drafted)", m.open_candidates, "Leads waiting for a follow-up to be generated."],
+    ["Drafts awaiting your review", m.pending_drafts, "Generated and waiting for you to send or edit."],
+    ["Scheduled sends", m.scheduled_drafts, "Approved drafts queued to go out."],
+  ]);
+
+  // ---- Drafts by model ----
+  const modelRows = Object.entries(m.drafts_by_model || {});
+  if (modelRows.length) {
+    const ms = section("Drafts generated by model", `In the last ${m.days} days.`);
+    table(ms, modelRows.map(([k, v]) => [k, v, null]));
+  }
+}
+
+// ---------- campaigns ----------
+
+// Verdict labels come from campaign_analytics.verdict(). "Not enough data" is
+// deliberately neutral grey, never a colour that reads as a result — with ~40
+// human replies split across six variants, most rows land there and a green
+// chip would invite acting on noise.
+const VERDICT_LABEL = {
+  solid_above: "Solid — above average",
+  solid_below: "Solid — below average",
+  leaning_above: "Leaning above",
+  leaning_below: "Leaning below",
+  not_enough_data: "Not enough data",
+};
+
+const pct = (n) => `${(100 * (n || 0)).toFixed(2)}%`;
+
+function verdictChip(verdict) {
+  const chip = el("span", `verdict verdict-${verdict || "not_enough_data"}`);
+  chip.textContent = VERDICT_LABEL[verdict] || verdict || "—";
+  return chip;
+}
+
+async function loadCampaigns() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Campaigns";
+  $("inbox-empty").hidden = true;
+  list.appendChild(el("li", "list-section", "Loading campaigns…"));
+
+  // Load the account list once, so the switcher knows what's available.
+  if (state.accounts === null) {
+    try {
+      state.accounts = (await apiGet("/api/accounts")).accounts || [];
+    } catch (e) {
+      state.accounts = [];
+    }
+    if (!state.account && state.accounts.length) state.account = state.accounts[0].slug;
+  }
+
+  const url = state.account ? `/api/campaigns?account=${encodeURIComponent(state.account)}` : "/api/campaigns";
+  const data = await apiGet(url);
+  if (state.view !== "campaigns") return data; // switched away while loading
+  state.account = data.account || state.account;
+  state.campaigns = data.campaigns || [];
+  state.selectedCampaign = null;
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  renderCampaignList();
+  return data;
+}
+
+function accountSwitcher() {
+  // Only worth showing when there's more than one account to switch between.
+  if (!state.accounts || state.accounts.length < 2) return null;
+  const row = el("li", "account-switch");
+  row.appendChild(el("span", "account-label", "Account"));
+  const select = el("select", "account-select");
+  state.accounts.forEach((a) => {
+    const opt = el("option", null, a.label);
+    opt.value = a.slug;
+    if (a.slug === state.account) opt.selected = true;
+    select.appendChild(opt);
+  });
+  select.addEventListener("change", () => {
+    state.account = select.value;
+    loadCampaigns().catch((e) => console.error(e));
+  });
+  row.appendChild(select);
+  return row;
+}
+
+function renderCampaignList() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = `Campaigns (${state.campaigns.length})`;
+
+  const switcher = accountSwitcher();
+  if (switcher) list.appendChild(switcher);
+
+  const active = state.campaigns.filter((c) => c.status === "ACTIVE");
+  const rest = state.campaigns.filter((c) => c.status !== "ACTIVE");
+  const addGroup = (title, items) => {
+    if (!items.length) return;
+    list.appendChild(el("li", "list-section", title));
+    items.forEach((c) => list.appendChild(campaignRow(c)));
+  };
+  addGroup("Active", active);
+  addGroup("Completed / drafted", rest);
+}
+
+function campaignRow(campaign) {
+  const li = el("li", "lead-row campaign-row");
+  if (state.selectedCampaign === campaign.id) li.classList.add("selected");
+  li.appendChild(el("div", "lead-name", campaign.name));
+  const meta = el("div", "campaign-meta");
+  meta.appendChild(el("span", "campaign-stat", `${(campaign.sent || 0).toLocaleString()} sent`));
+  meta.appendChild(el("span", "campaign-stat", `${campaign.replies || 0} replies`));
+  if (campaign.interested) meta.appendChild(el("span", "campaign-stat good", `${campaign.interested} interested`));
+  if (campaign.bounce_rate > 0.03) {
+    meta.appendChild(el("span", "campaign-stat bad", `${pct(campaign.bounce_rate)} bounce`));
+  }
+  li.appendChild(meta);
+  if (campaign.report_at) li.appendChild(el("div", "campaign-analyzed", `Analyzed ${campaign.report_at}`));
+  li.addEventListener("click", () => selectCampaign(campaign));
+  return li;
+}
+
+async function selectCampaign(campaign) {
+  state.selectedCampaign = campaign.id;
+  state.campaignTab = state.campaignTab || "overview";
+  renderCampaignList();
+  $("detail-empty").hidden = true;
+  $("detail-body").hidden = false;
+  showMobileDetail();
+  await renderCampaignDetail(campaign);
+}
+
+async function renderCampaignDetail(campaign) {
+  const body = $("detail-body");
+  body.innerHTML = "";
+
+  const head = el("div", "campaign-head");
+  head.appendChild(el("h2", null, campaign.name));
+  const sub = el("div", "muted", `${campaign.status} · ${(campaign.sent || 0).toLocaleString()} sent · ${campaign.leads || 0} leads`);
+  head.appendChild(sub);
+  body.appendChild(head);
+
+  const tabs = el("div", "campaign-tabs");
+  [["overview", "Overview"], ["report", "AI analysis"], ["conversations", "Conversations"]].forEach(([key, label]) => {
+    const btn = el("button", "campaign-tab" + (state.campaignTab === key ? " active" : ""), label);
+    btn.type = "button";
+    btn.addEventListener("click", () => {
+      state.campaignTab = key;
+      renderCampaignDetail(campaign);
+    });
+    tabs.appendChild(btn);
+  });
+  body.appendChild(tabs);
+
+  const pane = el("div", "campaign-pane");
+  body.appendChild(pane);
+  pane.appendChild(el("p", "muted", "Loading…"));
+
+  if (state.campaignTab === "overview") await renderCampaignOverview(pane, campaign);
+  else if (state.campaignTab === "report") await renderCampaignReport(pane, campaign);
+  else await renderCampaignConversations(pane, campaign);
+}
+
+function metricTable(rows, columns, extraClass) {
+  const table = el("table", "metric-table" + (extraClass ? ` ${extraClass}` : ""));
+  const thead = el("thead");
+  const hrow = el("tr");
+  columns.forEach((c) => hrow.appendChild(el("th", null, c.label)));
+  thead.appendChild(hrow);
+  table.appendChild(thead);
+  const tbody = el("tbody");
+  rows.forEach((row) => {
+    const tr = el("tr");
+    columns.forEach((c) => {
+      const td = el("td");
+      const value = c.render(row);
+      if (value instanceof Node) td.appendChild(value);
+      else td.textContent = value;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  return table;
+}
+
+// "Leads" is deliberately omitted — delivered is the denominator every rate
+// here uses, and the extra column pushed the confidence chip (the column that
+// decides whether a row is actionable at all) off the right edge of the pane.
+const RATE_COLUMNS = [
+  { label: "Delivered", render: (r) => (r.delivered || 0).toLocaleString() },
+  { label: "Replies", render: (r) => String(r.replies || 0) },
+  { label: "Reply %", render: (r) => pct(r.reply_rate) },
+  { label: "Positive", render: (r) => String(r.positives || 0) },
+  { label: "Confidence", render: (r) => verdictChip(r.reply_verdict) },
+];
+
+const ROLE_LABELS = {
+  subject: "Subject lines", cta: "Calls to action", offer: "Offers",
+  pitch: "Pitches", painpoint: "Pain points", socialproof: "Social proof",
+  icebreaker: "Icebreakers", greeting: "Greetings", signoff: "Sign-offs",
+};
+const ROLE_SINGULAR = {
+  subject: "subject line", cta: "CTA", offer: "offer", pitch: "pitch",
+  painpoint: "pain point", socialproof: "social proof", icebreaker: "icebreaker",
+};
+
+// Status comes from campaign_analytics.recommendations(). The wording matters:
+// "leading" must never look like a decided result, because it isn't one.
+const STATUS_LABEL = {
+  clear: "Decided — use this",
+  leaning: "Ahead, not proven",
+  unresolved: "Not resolved yet",
+  untested: "Never tested",
+};
+
+async function renderCampaignOverview(pane, campaign) {
+  const data = await apiGet(`/api/campaigns/${campaign.id}`);
+  pane.innerHTML = "";
+  if (!data.synced) {
+    pane.appendChild(el("p", "muted", data.message));
+    pane.appendChild(analyzeButton(campaign));
+    return;
+  }
+
+  const o = data.summary.overall;
+  const cards = el("div", "stat-cards");
+  const card = (label, value, note) => {
+    const c = el("div", "stat-card");
+    c.appendChild(el("div", "stat-card-value", value));
+    c.appendChild(el("div", "stat-card-label", label));
+    if (note) c.appendChild(el("div", "stat-card-note", note));
+    cards.appendChild(c);
+  };
+  card("Leads reached", (o.delivered || 0).toLocaleString(), `${o.bounced || 0} bounced`);
+  card("Human replies", String(o.replies || 0), pct(o.reply_rate));
+  card("Interested", String(o.positives || 0), `${pct(o.positive_rate)} of leads · ${pct(o.positive_per_reply)} of replies`);
+  card("Meetings booked", String(o.booked || 0), `${o.robot_replies || 0} auto-replies excluded`);
+  pane.appendChild(cards);
+  pane.appendChild(el("p", "muted small", `Synced ${data.synced_at}. Open and click tracking are off for these campaigns, so replies are the only signal shown.`));
+
+  renderDeliverability(pane, data.deliverability);
+  renderRecommendations(pane, data.recommendations);
+  renderVariantEmails(pane, data.variants);
+  renderComponents(pane, data.slots || {});
+
+  pane.appendChild(el("h3", null, "Which step earns the reply"));
+  pane.appendChild(
+    metricTable(data.reply_by_step, [
+      { label: "Step", render: (r) => (r.step === 1 ? "1 (first email)" : `${r.step} (follow-up ${r.step - 1})`) },
+      { label: "Leads reached", render: (r) => (r.reached || 0).toLocaleString() },
+      { label: "Replies", render: (r) => String(r.replies || 0) },
+      { label: "Positive", render: (r) => String(r.positives || 0) },
+      { label: "Reply %", render: (r) => pct(r.reply_rate) },
+    ])
+  );
+
+  const subjects = el("details", "extra-block");
+  subjects.appendChild(el("summary", null, `Every subject line as sent (${(data.subjects || []).length})`));
+  subjects.appendChild(el("p", "muted small", "One row per rendered subject, including every translation of it. The comparison worth reading is the subject-line block above, which pools them."));
+  subjects.appendChild(
+    metricTable(data.subjects, [
+      { label: "Subject as sent", render: (r) => truncate(r.subject, 70) },
+      ...RATE_COLUMNS,
+    ], "wrap-first")
+  );
+  pane.appendChild(subjects);
+}
+
+// Who hosts the recipients' mailboxes, and whether that is what held the
+// campaign back. Sits above the copy analysis on purpose: if a whole slice of
+// the audience replied worse under identical emails, that is the first thing to
+// know, because rewriting copy that was never the problem is the most expensive
+// mistake this tab can lead someone into.
+const ESP_STATUS_LABEL = {
+  provider_drag: "Where it was sent held it back",
+  provider_gap: "One slice behaved differently",
+  no_provider_effect: "Not a provider problem",
+};
+
+function renderDeliverability(pane, data) {
+  if (!data || !data.resolved) {
+    if (data && data.reason) {
+      pane.appendChild(el("h3", null, "Where the mail was going"));
+      pane.appendChild(el("p", "muted small", data.reason));
+    }
+    return;
+  }
+  pane.appendChild(el("h3", null, "Where the mail was going"));
+
+  const groups = (data.groups || []).filter((g) => g.group !== "unknown");
+  const bar = el("div", "esp-bar");
+  groups.forEach((g) => {
+    if (!g.share) return;
+    const seg = el("div", `esp-seg esp-${g.group}`);
+    seg.style.width = `${(100 * g.share).toFixed(2)}%`;
+    seg.title = `${g.label}: ${(100 * g.share).toFixed(1)}% of checked recipients`;
+    if (g.share > 0.12) seg.textContent = `${Math.round(100 * g.share)}% ${g.label}`;
+    bar.appendChild(seg);
+  });
+  pane.appendChild(bar);
+
+  const checked = el("p", "muted small");
+  checked.textContent =
+    `${(data.classified || 0).toLocaleString()} of ${(data.leads || 0).toLocaleString()} recipients checked` +
+    (data.unknown ? ` · ${data.unknown.toLocaleString()} domains could not be looked up` : "") +
+    ". Read from each domain's real MX record, so it is where the mail actually lands, not what the list claimed.";
+  pane.appendChild(checked);
+
+  const d = data.diagnosis || {};
+  if (d.headline) {
+    const box = el("div", `esp-verdict esp-verdict-${d.status}`);
+    const head = el("div", "esp-verdict-head");
+    head.appendChild(el("span", `esp-status status-${d.status}`, ESP_STATUS_LABEL[d.status] || d.status));
+    box.appendChild(head);
+    box.appendChild(el("div", "esp-headline", d.headline));
+    if (d.detail) box.appendChild(el("p", "esp-detail", d.detail));
+    // A "not enough campaigns yet" note is a promise, not a result — it gets the
+    // muted treatment so it can't be misread as evidence.
+    if (d.history) {
+      const cls = d.history_status === "not_enough_data" ? "muted small" : "esp-history";
+      box.appendChild(el("p", cls, d.history));
+    }
+    if (d.caveat) box.appendChild(el("p", "muted small esp-caveat", d.caveat));
+    pane.appendChild(box);
+  }
+
+  // Providers, not just the three-way group split: "Other" is 79% of the German
+  // campaigns, and a bar that says only that answers nothing.
+  const rows = (data.providers || []).filter((r) => r.sent >= 20);
+  if (rows.length) {
+    const table = el("details", "extra-block");
+    table.appendChild(el("summary", null, `Every provider in this list (${rows.length})`));
+    table.appendChild(
+      el("p", "muted small", "Slices under 20 recipients are hidden. Confidence is judged against this campaign's own reply rate, and a slice too small to call says so.")
+    );
+    table.appendChild(
+      metricTable(rows, [
+        { label: "Provider", render: (r) => r.label },
+        { label: "Recipients", render: (r) => (r.sent || 0).toLocaleString() },
+        { label: "Share", render: (r) => pct(r.share) },
+        { label: "Bounced", render: (r) => pct(r.bounce_rate) },
+        { label: "Replies", render: (r) => String(r.replies || 0) },
+        { label: "Reply %", render: (r) => pct(r.reply_rate) },
+        { label: "Positive", render: (r) => String(r.positives || 0) },
+        { label: "Confidence", render: (r) => verdictChip(r.reply_verdict) },
+      ], "wrap-first")
+    );
+    pane.appendChild(table);
+  }
+
+  renderProviderHistory(pane, data.history);
+}
+
+// The part that only gets better with use: every campaign ever analyzed, pooled
+// by provider. This is what lets a future campaign be told "it isn't the copy".
+function renderProviderHistory(pane, history) {
+  if (!history || !history.campaigns) return;
+  const block = el("details", "extra-block");
+  const one = history.campaigns === 1;
+  block.appendChild(
+    el("summary", null, `What ${history.campaigns} analyzed campaign${one ? " says" : "s say"} about providers`)
+  );
+  block.appendChild(
+    el("p", "muted small", "Pooled across every campaign analyzed so far, this one excluded so it is not compared against itself. It grows as more campaigns are analyzed.")
+  );
+  const groups = (history.groups || []).filter((g) => g.group !== "unknown");
+  if (groups.length) {
+    block.appendChild(
+      metricTable(groups, [
+        { label: "Provider", render: (r) => r.label },
+        { label: "Delivered", render: (r) => (r.delivered || 0).toLocaleString() },
+        { label: "Bounced", render: (r) => pct((r.bounce || {}).rate) },
+        { label: "Replies", render: (r) => String(r.replies || 0) },
+        { label: "Reply %", render: (r) => pct((r.reply || {}).rate) },
+        { label: "Positive %", render: (r) => pct((r.positive || {}).rate) },
+      ])
+    );
+  }
+  const split = history.split;
+  if (split && split.note) block.appendChild(el("p", "esp-history", split.note));
+  pane.appendChild(block);
+}
+
+// The answer, at the top, before any table: which component is decided, which
+// is still open, and what the next run should look like. All of it computed in
+// campaign_analytics.recommendations — the AI tab explains these, it does not
+// produce them, so this panel is here even before an AI report exists.
+function renderRecommendations(pane, rec) {
+  if (!rec || !(rec.findings || []).length) return;
+  pane.appendChild(el("h3", null, "What to do next"));
+
+  const list = el("div", "rec-list");
+  rec.findings.forEach((f) => {
+    const row = el("div", `rec-row rec-${f.status}`);
+    const head = el("div", "rec-head");
+    head.appendChild(el("span", "rec-role", ROLE_LABELS[f.role] || f.role));
+    head.appendChild(el("span", `rec-status status-${f.status}`, STATUS_LABEL[f.status] || f.status));
+    head.appendChild(el("span", "muted small", `judged on ${f.metric}`));
+    row.appendChild(head);
+    if (f.winner_text) {
+      const best = el("div", "rec-copy");
+      best.appendChild(el("span", "rec-copy-label", "Best so far"));
+      best.appendChild(el("span", "rec-copy-text", `“${f.winner_text}”`));
+      row.appendChild(best);
+    }
+    row.appendChild(el("div", "rec-action", f.action));
+    list.appendChild(row);
+  });
+  pane.appendChild(list);
+
+  const plan = rec.next_test;
+  if (!plan) return;
+  const box = el("div", "next-test");
+  box.appendChild(el("h4", null, "The next run"));
+  if (plan.hold_fixed && plan.hold_fixed.length) {
+    const fixed = el("div", "next-test-block");
+    fixed.appendChild(el("div", "next-test-label", "Hold these fixed"));
+    plan.hold_fixed.forEach((item) => {
+      const line = el("div", "next-test-item");
+      line.appendChild(el("span", "rec-role", ROLE_SINGULAR[item.role] || item.role));
+      line.appendChild(el("span", "rec-copy-text", item.text ? `“${item.text}”` : item.token));
+      fixed.appendChild(line);
+    });
+    box.appendChild(fixed);
+  }
+  if (plan.vary) {
+    const vary = el("div", "next-test-block");
+    vary.appendChild(el("div", "next-test-label", `Vary only the ${ROLE_SINGULAR[plan.vary] || plan.vary}`));
+    (plan.arms || []).forEach((arm, i) => {
+      const line = el("div", "next-test-item");
+      line.appendChild(el("span", "rec-role", `Arm ${String.fromCharCode(65 + i)}`));
+      line.appendChild(el("span", "rec-copy-text", arm.text ? `“${arm.text}”` : arm.token));
+      vary.appendChild(line);
+    });
+    box.appendChild(vary);
+  }
+  box.appendChild(el("p", "muted small", plan.why));
+  if (plan.per_arm_sends) {
+    box.appendChild(
+      el("p", "next-test-size", `Needs roughly ${plan.per_arm_sends.toLocaleString()} sends per arm before the result can be read — at the ${pct(plan.baseline)} baseline this campaign actually has.`)
+    );
+  }
+  pane.appendChild(box);
+}
+
+// The variant table used to print `subjectLine2 + icebreaker2 + Pitch2 + CTA1`,
+// which is a list of variable names, not a message. These are the emails.
+function renderVariantEmails(pane, variants) {
+  const rows = (variants || []).filter((v) => (v.email || {}).body || (v.email || {}).subject);
+  pane.appendChild(el("h3", null, "The emails, ranked"));
+  pane.appendChild(el("p", "muted small", "Attributed across the whole sequence — a reply to follow-up #2 still belongs to the variant that opened the thread."));
+  if (!rows.length) {
+    pane.appendChild(el("p", "muted small", "The message text isn't available yet — re-run Analyze to pull the campaign's variables."));
+    pane.appendChild(
+      metricTable(variants || [], [
+        { label: "Variant", render: (r) => r.variant_label },
+        ...RATE_COLUMNS,
+      ])
+    );
+    return;
+  }
+
+  rows.forEach((v) => {
+    const cardEl = el("details", "variant-card");
+    const summary = el("summary");
+    summary.appendChild(el("span", "variant-label", v.variant_label || "—"));
+    summary.appendChild(el("span", "variant-subject", v.email.subject || "(no subject)"));
+    const nums = el("span", "variant-nums");
+    nums.appendChild(el("span", "variant-num", `${pct(v.reply_rate)} reply`));
+    nums.appendChild(el("span", "variant-num", `${v.replies || 0} replies`));
+    nums.appendChild(el("span", "variant-num", `${v.positives || 0} interested`));
+    summary.appendChild(nums);
+    summary.appendChild(verdictChip(v.reply_verdict));
+    cardEl.appendChild(summary);
+
+    const body = el("div", "variant-body");
+    body.appendChild(el("div", "variant-meta", `${(v.delivered || 0).toLocaleString()} delivered · ${v.replies || 0} replies (${pct(v.reply_rate)}) · ${v.positives || 0} interested (${pct(v.positive_per_reply)} of replies)`));
+    if (v.email.translated) {
+      body.appendChild(el("div", "muted small", "Shown in English — this campaign went out in other languages too."));
+    }
+    const mail = el("div", "email-preview");
+    mail.appendChild(el("div", "email-subject", `Subject: ${v.email.subject || "—"}`));
+    mail.appendChild(el("div", "email-body", v.email.body || ""));
+    body.appendChild(mail);
+
+    if ((v.email.slot_breakdown || []).length) {
+      const parts = el("div", "slot-parts");
+      parts.appendChild(el("div", "next-test-label", "Which part is which"));
+      v.email.slot_breakdown.forEach((s) => {
+        const line = el("div", "slot-part");
+        line.appendChild(el("span", `slot-tag slot-${s.role}`, ROLE_SINGULAR[s.role] || s.role));
+        line.appendChild(el("span", "slot-token", s.token));
+        line.appendChild(el("span", "slot-text", s.personalized ? `${s.text} (varies per lead)` : s.text));
+        parts.appendChild(line);
+      });
+      body.appendChild(parts);
+    }
+    cardEl.appendChild(body);
+    pane.appendChild(cardEl);
+  });
+}
+
+// Per-component ranking. Two things changed here and both matter: the row shows
+// the sentence rather than the token, and each role is scored on the number that
+// can actually judge it (see campaign_analytics.ROLE_STAGE).
+function renderComponents(pane, slots) {
+  const STAGE_NOTE = {
+    attention: "Judged on reply rate — this is what the reader sees before deciding to answer, so replies measure it. (Open tracking is off, so replies are the only proxy for “this got read”.)",
+    conversion: "Judged on how many of the replies it drew were positive — only someone already reading gets this far, so its reply rate would just re-measure the subject line above it.",
+  };
+  pane.appendChild(el("h3", null, "By message component"));
+  pane.appendChild(el("p", "muted small", "Each row pools every variant using that component, so these rest on a bigger sample than the per-email numbers above."));
+
+  Object.entries(slots).forEach(([role, entries]) => {
+    if (!entries.length) return;
+    const stage = (entries[0] || {}).stage || "conversion";
+    pane.appendChild(el("h4", null, ROLE_LABELS[role] || role));
+    pane.appendChild(el("p", "muted small", STAGE_NOTE[stage]));
+
+    const columns = [
+      {
+        label: "What it says",
+        render: (r) => {
+          const wrap = el("div", "slot-cell");
+          wrap.appendChild(el("div", "slot-cell-text", r.text ? `“${r.text}”` : r.slot));
+          const note = [r.slot];
+          if ((r.used_by || []).length) note.push(`used by ${r.used_by.join(", ")}`);
+          if (r.personalized) note.push("varies per lead");
+          wrap.appendChild(el("div", "slot-cell-note", note.join(" · ")));
+          return wrap;
+        },
+      },
+      { label: "Delivered", render: (r) => (r.delivered || 0).toLocaleString() },
+      { label: "Replies", render: (r) => `${r.replies || 0} (${pct(r.reply_rate)})` },
+      { label: "Interested", render: (r) => `${r.positives || 0} (${pct(r.positive_per_reply)} of replies)` },
+      { label: "Confidence", render: (r) => verdictChip(r.judged_verdict) },
+    ];
+    const ranked = [...entries].sort((a, b) => (b.judged_rate || 0) - (a.judged_rate || 0));
+    pane.appendChild(metricTable(ranked, columns, "wrap-first"));
+  });
+}
+
+function truncate(text, n) {
+  const s = String(text || "");
+  return s.length > n ? s.slice(0, n - 1) + "…" : s;
+}
+
+function analyzeButton(campaign, label) {
+  const btn = el("button", "btn-primary", label || "Analyze this campaign");
+  btn.type = "button";
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    btn.textContent = "Starting…";
+    await apiPost(`/api/campaigns/${campaign.id}/analyze`, { name: campaign.name, account: state.account });
+    state.campaignTab = "report";
+    renderCampaignDetail(campaign);
+  });
+  return btn;
+}
+
+async function renderCampaignReport(pane, campaign) {
+  const data = await apiGet(`/api/campaigns/${campaign.id}/report`);
+  pane.innerHTML = "";
+
+  if (data.running || data.status === "running") {
+    pane.appendChild(el("p", "analysis-running", data.stage || "Analyzing…"));
+    pane.appendChild(el("p", "muted small", "This pulls the campaign's send history and reads every real reply — it takes a few minutes. You can switch tabs and come back."));
+    clearTimeout(state.campaignPoll);
+    state.campaignPoll = setTimeout(() => {
+      if (state.view === "campaigns" && state.selectedCampaign === campaign.id && state.campaignTab === "report") {
+        renderCampaignDetail(campaign);
+      }
+    }, 5000);
+    return;
+  }
+
+  if (data.status === "failed") {
+    pane.appendChild(el("p", "error-text", `Analysis failed: ${data.error || "unknown error"}`));
+    pane.appendChild(analyzeButton(campaign, "Try again"));
+    return;
+  }
+
+  if (!data.directives_md) {
+    pane.appendChild(el("p", "muted", "Not analyzed yet. This reads the campaign's variants, its send results and every real reply, then writes the short brief for how to write the next one."));
+    pane.appendChild(analyzeButton(campaign));
+    return;
+  }
+
+  const bar = el("div", "report-bar");
+  bar.appendChild(el("span", "muted small", `Generated ${data.generated_at} · ${data.model || ""}`));
+  bar.appendChild(analyzeButton(campaign, "Re-analyze"));
+  pane.appendChild(bar);
+
+  // Deliberately the only thing on this tab. The long-form breakdown lives in
+  // Overview (numbers) and Conversations (replies); this is the instruction
+  // sheet you keep open while writing the next campaign.
+  pane.appendChild(markdownBlock(data.directives_md));
+}
+
+// Minimal markdown -> HTML for the report bodies. Everything is escaped first,
+// so model output can never inject markup; only the handful of constructs the
+// report prompt actually asks for are then re-enabled.
+function markdownBlock(md) {
+  const box = el("div", "report-md");
+  const html = escapeHtml(md)
+    .replace(/^#### (.*)$/gm, "<h5>$1</h5>")
+    .replace(/^### (.*)$/gm, "<h4>$1</h4>")
+    .replace(/^## (.*)$/gm, "<h3>$1</h3>")
+    .replace(/^# (.*)$/gm, "<h3>$1</h3>")
+    .replace(/^\s*[-*] (.*)$/gm, "<li>$1</li>")
+    .replace(/^\s*(\d+)\. (.*)$/gm, "<li>$2</li>")
+    .replace(/(<li>[\s\S]*?<\/li>)(?!\s*<li>)/g, "<ul>$1</ul>")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\n{2,}/g, "</p><p>");
+  box.innerHTML = `<p>${html}</p>`;
+  return box;
+}
+
+// This tab used to be a list of every thread, which answered no question — you
+// still had to read 40 conversations to learn anything. The list is still here,
+// but underneath the thing it was standing in for: what the conversations that
+// went well have in common, and what the ones that died have in common.
+async function renderCampaignConversations(pane, campaign) {
+  const data = await apiGet(`/api/campaigns/${campaign.id}/responders`);
+  pane.innerHTML = "";
+  const people = data.responders || [];
+  if (!people.length) {
+    pane.appendChild(el("p", "muted", "No real replies stored yet. Auto-replies and out-of-office are deliberately excluded — run Analyze to pull the conversations."));
+    pane.appendChild(analyzeButton(campaign));
+    return;
+  }
+
+  renderConversationInsights(pane, data.insights || {});
+
+  if (data.conversation_md) {
+    pane.appendChild(el("h3", null, "What wins them and what loses them"));
+    pane.appendChild(markdownBlock(data.conversation_md));
+  } else {
+    pane.appendChild(el("p", "muted small", "The written analysis of these replies hasn't been generated yet."));
+    pane.appendChild(analyzeButton(campaign, "Analyze the replies"));
+  }
+
+  const browse = el("details", "extra-block");
+  browse.appendChild(el("summary", null, `Read the threads (${people.length})`));
+  const categories = [...new Set(people.map((p) => p.category).filter(Boolean))].sort();
+  const filter = el("div", "convo-filter");
+  const mkFilter = (label, value) => {
+    const btn = el("button", "chip-filter" + ((state.convoFilter || "") === value ? " active" : ""), label);
+    btn.type = "button";
+    btn.addEventListener("click", () => {
+      state.convoFilter = value;
+      state.convoBrowseOpen = true;
+      renderCampaignDetail(campaign);
+    });
+    filter.appendChild(btn);
+  };
+  mkFilter(`All (${people.length})`, "");
+  categories.forEach((c) => mkFilter(`${c} (${people.filter((p) => p.category === c).length})`, c));
+  browse.appendChild(filter);
+
+  const shown = state.convoFilter ? people.filter((p) => p.category === state.convoFilter) : people;
+  shown.forEach((person) => browse.appendChild(conversationCard(person)));
+  // Keep it open across the re-render a category filter click causes, otherwise
+  // filtering would slam the section shut on every click.
+  browse.open = !!state.convoBrowseOpen;
+  browse.addEventListener("toggle", () => { state.convoBrowseOpen = browse.open; });
+  pane.appendChild(browse);
+}
+
+function renderConversationInsights(pane, insights) {
+  if (!insights.analysed) {
+    pane.appendChild(el("p", "muted small", "The replies haven't been read yet — run Analyze to extract what each conversation was about."));
+    return;
+  }
+
+  const cards = el("div", "stat-cards");
+  const card = (label, value, note) => {
+    const c = el("div", "stat-card");
+    c.appendChild(el("div", "stat-card-value", value));
+    c.appendChild(el("div", "stat-card-label", label));
+    if (note) c.appendChild(el("div", "stat-card-note", note));
+    cards.appendChild(c);
+  };
+  card("Real replies read", String(insights.analysed), `${insights.total} threads stored`);
+  card("Went positive", String(insights.won), pct(insights.win_rate));
+  card("Went nowhere", String(insights.lost), "declines and dead ends");
+  card("Answered more than once", String(insights.multi_turn), "a conversation, not a one-liner");
+  pane.appendChild(cards);
+
+  const splitTable = (title, note, rows, valueLabel) => {
+    if (!rows || !rows.length) return;
+    pane.appendChild(el("h4", null, title));
+    if (note) pane.appendChild(el("p", "muted small", note));
+    pane.appendChild(
+      metricTable(rows, [
+        { label: valueLabel, render: (r) => humanizeKey(r.value) },
+        { label: "Total", render: (r) => String(r.total) },
+        { label: "Went positive", render: (r) => String(r.won) },
+        { label: "Went nowhere", render: (r) => String(r.lost) },
+        {
+          label: "",
+          render: (r) => {
+            const bar = el("div", "split-bar");
+            const won = el("span", "split-won");
+            won.style.width = `${Math.round(100 * r.win_rate)}%`;
+            bar.appendChild(won);
+            return bar;
+          },
+        },
+      ], "wrap-first")
+    );
+  };
+
+  pane.appendChild(el("h3", null, "What the replies were"));
+  splitTable("How they answered", "The intent behind each reply, and how often that intent ended somewhere good.", insights.intents, "Intent");
+  splitTable("Why they said no", "Most common objection first. This is the list to write answers for.", insights.objections, "Objection");
+  splitTable("What they asked us for", "Assets leads actually requested.", insights.magnets, "Asset");
+
+  if ((insights.by_step || []).length) {
+    pane.appendChild(el("h4", null, "Which email started the conversation"));
+    pane.appendChild(
+      metricTable(insights.by_step, [
+        { label: "Step", render: (r) => (r.step === 1 ? "1 (first email)" : `${r.step} (follow-up ${r.step - 1})`) },
+        { label: "Replies", render: (r) => String(r.replies) },
+        { label: "Went positive", render: (r) => String(r.won) },
+        { label: "Hit rate", render: (r) => pct(r.win_rate) },
+      ])
+    );
+  }
+
+  const quoteBlock = (title, note, rows, cls) => {
+    if (!rows || !rows.length) return;
+    pane.appendChild(el("h4", null, title));
+    if (note) pane.appendChild(el("p", "muted small", note));
+    const box = el("div", `quote-list ${cls}`);
+    rows.forEach((q) => {
+      const item = el("div", "quote-item");
+      item.appendChild(el("div", "quote-text", `“${q.quote}”`));
+      const meta = [q.company, q.category, q.step ? `after email ${q.step}` : null].filter(Boolean);
+      item.appendChild(el("div", "quote-meta", meta.join(" · ")));
+      box.appendChild(item);
+    });
+    pane.appendChild(box);
+  };
+
+  quoteBlock("What they reacted to when it went well", "The line from our email each of these leads answered.", insights.winning_triggers, "quotes-good");
+  quoteBlock("What they reacted to when it died", "Same thing, from the conversations that went nowhere.", insights.losing_triggers, "quotes-bad");
+  quoteBlock("What confused them", "Misreadings and doubts — each one is a sentence worth rewriting.", insights.friction, "quotes-neutral");
+
+  if ((insights.salvageable || []).length) {
+    pane.appendChild(el("h4", null, "Worth another angle"));
+    pane.appendChild(el("p", "muted small", "Declines that a different approach could still win, with the angle."));
+    const box = el("div", "quote-list quotes-neutral");
+    insights.salvageable.forEach((s) => {
+      const item = el("div", "quote-item");
+      item.appendChild(el("div", "quote-text", s.angle));
+      item.appendChild(el("div", "quote-meta", [s.company, s.category].filter(Boolean).join(" · ")));
+      box.appendChild(item);
+    });
+    pane.appendChild(box);
+  }
+}
+
+// The extraction fields are machine-shaped enums ("already_have_solution").
+function humanizeKey(value) {
+  const s = String(value || "—").replace(/_/g, " ");
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function conversationCard(person) {
+  const card = el("details", "convo-card");
+  const summary = el("summary");
+  summary.appendChild(el("span", "convo-company", person.company || person.email || "Lead"));
+  summary.appendChild(el("span", `convo-cat cat-${(person.category || "").replace(/\W+/g, "-").toLowerCase()}`, person.category || "—"));
+  if (person.magnet) summary.appendChild(el("span", "convo-magnet", `wanted the ${person.magnet}`));
+  if (person.replied_after_step) {
+    summary.appendChild(el("span", "convo-step", person.replied_after_step === 1 ? "replied to email 1" : `replied after follow-up ${person.replied_after_step - 1}`));
+  }
+  if (person.variant) summary.appendChild(el("span", "convo-variant", `variant ${person.variant}`));
+  card.appendChild(summary);
+
+  (person.turns || []).forEach((turn) => {
+    const bubble = el("div", `convo-turn convo-${turn.who}`);
+    const who = turn.who === "us" ? (turn.step ? `Us — email ${turn.step}` : "Us") : "Them";
+    bubble.appendChild(el("div", "convo-who", who));
+    bubble.appendChild(el("div", "convo-text", turn.text));
+    card.appendChild(bubble);
+  });
+
+  if (person.extract) {
+    const e = person.extract;
+    const box = el("div", "convo-extract");
+    const bits = [];
+    if (e.intent) bits.push(`Intent: ${e.intent}`);
+    if (e.objection_type) bits.push(`Objection: ${e.objection_type}`);
+    if (e.tone) bits.push(`Tone: ${e.tone}`);
+    if (e.salvageable) bits.push("Salvageable");
+    box.appendChild(el("div", "muted small", bits.join(" · ")));
+    if (e.salvage_angle) box.appendChild(el("div", "small", e.salvage_angle));
+    card.appendChild(box);
+  }
+  return card;
+}
+
+const VIEW_LOADERS = {
+  inbox: loadInbox, scheduled: loadScheduled, archive: loadArchive,
+  stats: loadStats, campaigns: loadCampaigns, health: loadHealth,
+  sequences: loadSequences,
+};
+
+function setView(view) {
+  closeMobileMenu(true);
+  state.view = view;
+  clearTimeout(state.campaignPoll);
+  if (view !== "health" && state.healthPoll) { clearInterval(state.healthPoll); state.healthPoll = null; }
+  $("detail-body").classList.toggle("health-page", view === "health");
+  $("status-filter").hidden = view !== "inbox";
+  $("campaign-filter").hidden = view !== "inbox";
+  $("smartlead-filter").hidden = view !== "inbox";
+  openStatusMenu(false);
+  openCampaignMenu(false);
+  openSmartleadMenu(false);
+  $("rescan-btn").hidden = view !== "inbox";
+  // Campaigns and Stats don't list leads, so the lead search box would do nothing.
+  document.querySelector(".search-row").classList.toggle("hidden", ["campaigns", "stats", "health", "sequences"].includes(view));
+  document.querySelector(".filter-row-secondary").classList.toggle("hidden", view === "sequences");
+  $("view-inbox-btn").classList.toggle("active", view === "inbox");
+  $("view-scheduled-btn").classList.toggle("active", view === "scheduled");
+  $("view-sequences-btn").classList.toggle("active", view === "sequences");
+  $("view-archive-btn").classList.toggle("active", view === "archive");
+  $("view-campaigns-btn").classList.toggle("active", view === "campaigns");
+  $("view-health-btn").classList.toggle("active", view === "health");
+  $("view-stats-btn").classList.toggle("active", view === "stats");
+  state.selected = -1;
+  $("detail-body").hidden = true;
+  $("detail-empty").hidden = false;
+  showMobileList();
+  VIEW_LOADERS[view]().catch((e) => console.error(e));
+}
+
+function renderList() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  const archiveMode = state.view === "archive";
+  const scheduledMode = state.view === "scheduled";
+  const viewLabel = archiveMode ? "Archive" : scheduledMode ? "Scheduled" : "Inbox";
+
+  $("inbox-count").textContent = `${viewLabel} (${state.leads.length})`;
+  $("inbox-empty").hidden = state.leads.length > 0;
+  $("inbox-empty").innerHTML = archiveMode
+    ? "Nothing archived or snoozed."
+    : scheduledMode
+    ? "Nothing scheduled. Drafts you schedule from a lead's page will show up here."
+    // There are leads, just none the filter lets through — say so, rather than
+    // sending Andrew off to run a rescan that would change nothing.
+    : state.allLeads.length > 0
+    ? "No leads match the current status filter or search."
+    : 'No leads yet. Click <strong>Rescan now</strong> — it checks every “Interested” lead and takes a couple of minutes.';
+
+  const inboxMode = !archiveMode && !scheduledMode;
+
+  state.leads.forEach((lead, i) => {
+    if (archiveMode && i === 0 && state.snoozedCount > 0) {
+      list.appendChild(el("li", "list-section", "Snoozed — hidden until due"));
+    }
+    if (archiveMode && i === state.snoozedCount) {
+      list.appendChild(el("li", "list-section", "Archived"));
+    }
+    if (inboxMode && (i === 0 || leadCategory(lead) !== leadCategory(state.leads[i - 1]))) {
+      list.appendChild(el("li", "list-section", leadCategoryLabel(lead)));
+    }
+
+    const rowClass = archiveMode || scheduledMode ? "archive-row" : "cat-" + leadCategory(lead);
+    const row = el("li", `lead-row ${rowClass}`);
+    if (inboxMode && isHot(lead)) row.classList.add("is-hot");
+    if (i === state.selected) row.classList.add("selected");
+    row.dataset.index = i;
+
+    const top = el("div", "lead-top");
+    if (lead.language) top.appendChild(el("span", "lang-badge", lead.language));
+    top.appendChild(el("span", "lead-name", lead.name));
+    if (lead.company) top.appendChild(el("span", "lead-company", "· " + lead.company));
+    if (state.view === "inbox" && lead.has_draft) top.appendChild(el("span", "ready-dot"));
+    row.appendChild(top);
+
+    // Which campaign this lead came from. It decides the niche, the language
+    // and (for a template-driven client) which approved reply applies, so it
+    // belongs on the row itself rather than one click away in the detail pane.
+    if (lead.campaign_name) {
+      const tag = el("span", "campaign-tag", lead.campaign_name);
+      tag.title = lead.campaign_name; // the pill ellipsizes; hover gives the rest
+      const tagLine = el("div", "campaign-line");
+      tagLine.appendChild(tag);
+      row.appendChild(tagLine);
+    }
+
+    if (archiveMode) {
+      const isSnoozed = i < state.snoozedCount;
+      const reason = isSnoozed ? `Snoozed until ${formatDayLabel(lead.snooze_until)}` : archiveLabel(lead.archive_reason);
+      row.appendChild(el("div", "lead-preview", reason));
+      const quickBtn = el("button", "btn-secondary row-action", isSnoozed ? "Follow up now" : "Restore");
+      quickBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const endpoint = isSnoozed ? "unsnooze" : "unarchive";
+        withRowRemoval(() => apiPost(`/api/leads/${lead.campaign_id}/${lead.lead_id}/${endpoint}`, {}), i);
+      });
+      row.appendChild(quickBtn);
+    } else if (scheduledMode) {
+      row.appendChild(el("div", "lead-preview", `Scheduled for ${lead.scheduled_at}`));
+      if (lead.sequence_label) row.appendChild(el("div", "lead-preview seq-label", `🔁 ${lead.sequence_label}`));
+      if (lead.preview) row.appendChild(el("div", "lead-preview", lead.preview));
+      const actions = el("div", null);
+      const sendBtn = el("button", "btn-secondary row-action", "Send now");
+      sendBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        withRowRemoval(() => apiPost(`/api/drafts/${lead.draft_id}/send`, {}), i);
+      });
+      const cancelBtn = el("button", "btn-secondary row-action", "Cancel");
+      cancelBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        withRowRemoval(() => apiPost(`/api/drafts/${lead.draft_id}/skip`, {}), i);
+      });
+      actions.appendChild(sendBtn);
+      actions.appendChild(cancelBtn);
+      row.appendChild(actions);
+    } else {
+      const meta = el("div", "lead-meta");
+      meta.appendChild(tempChip(lead));
+      const cat = leadCategory(lead);
+      meta.appendChild(el("span", `state-chip cat-${cat}`, leadCategoryLabel(lead)));
+      if (lead.last_message_at) meta.appendChild(el("span", "lead-time", lead.last_message_at));
+      row.appendChild(meta);
+      if (lead.preview) row.appendChild(el("div", "lead-preview", lead.preview));
+    }
+
+    row.addEventListener("click", () => selectLead(i));
+    list.appendChild(row);
+  });
+}
+
+// Whether the Export for LinkedIn button can be drawn at all: this client needs
+// a spreadsheet configured (LINKEDIN_SHEET_ID) and Google connected. Loaded once
+// at boot and re-read after the OAuth round trip, since that returns to /.
+async function loadGoogleStatus() {
+  try {
+    state.google = await apiGet("/api/google/status");
+  } catch (e) {
+    state.google = null;  // leaves the button undrawn rather than broken
+    console.error(e);
+  }
+}
+
+// ---------- detail ----------
+async function selectLead(i) {
+  if (i < 0 || i >= state.leads.length) return;
+  state.selected = i;
+  state.nameNote = null;  // belongs to the rename that was just done, not to the next lead
+  state.draftNote = null;
+  state.exportNote = null;
+  state.exportRunning = false;
+  state.touchFormOpen = false;  // half-typed log entry belongs to the lead it was opened on
+  renderList();
+  const row = document.querySelector(`.lead-row[data-index="${i}"]`);
+  if (row) row.scrollIntoView({ block: "nearest" });
+
+  const lead = state.leads[i];
+  $("detail-empty").hidden = true;
+  const body = $("detail-body");
+  body.hidden = false;
+  body.innerHTML = '<div class="loading-note"><span class="spinner"></span>Loading conversation…</div>';
+  showMobileDetail();
+
+  try {
+    const data = await apiGet(`/api/leads/${lead.campaign_id}/${lead.lead_id}`);
+    state.detail = data;
+    renderDetail();
+    if (data.generating) pollGeneration(lead.campaign_id, lead.lead_id);
+    if (data.researching_contact) pollContactResearch(lead.campaign_id, lead.lead_id);
+  } catch (e) {
+    body.innerHTML = "";
+    if (isMobileLayout()) {
+      const backBtn = el("button", "btn-back", "← Back");
+      backBtn.type = "button";
+      backBtn.addEventListener("click", goBackToMobileList);
+      body.appendChild(backBtn);
+    }
+    body.appendChild(el("div", "error-note", `Couldn't load this lead: ${e.message}`));
+  }
+}
+
+function renderDetail() {
+  const { lead, thread } = state.detail;
+  const body = $("detail-body");
+  body.innerHTML = "";
+
+  const header = el("div", "detail-header");
+  if (isMobileLayout()) {
+    const backBtn = el("button", "btn-back", "← Back");
+    backBtn.type = "button";
+    backBtn.addEventListener("click", goBackToMobileList);
+    header.appendChild(backBtn);
+  }
+  const nameWrap = el("span", "detail-name-wrap");
+  nameWrap.appendChild(el("h2", null, lead.name));
+  const editNameBtn = el("button", "btn-edit-name", "✎ Rename");
+  editNameBtn.type = "button";
+  editNameBtn.title = "Edit first name";
+  editNameBtn.setAttribute("aria-label", "Edit this lead's first name");
+  editNameBtn.addEventListener("click", editLeadName);
+  nameWrap.appendChild(editNameBtn);
+  header.appendChild(nameWrap);
+  if (lead.language) {
+    header.appendChild(
+      el("span", "lang-badge-prominent", `🌐 ${lead.language_name || lead.language}`)
+    );
+  }
+  header.appendChild(tempChip(lead));
+  const headCat = leadCategory(lead);
+  const headLabel = leadCategoryLabel(lead);
+  header.appendChild(el("span", `state-chip cat-${headCat}`, headLabel));
+  // Only worth a second badge when the chip is showing something other than
+  // Smartlead's own words for it (an app-only sub-state like "Awaiting your
+  // reply", or a friendlier label than the raw category name) — otherwise
+  // it's the same text twice, which is what leadCategoryLabel's fallback to
+  // smartlead_category already produces for a category with no chip label.
+  if (lead.smartlead_category && lead.smartlead_category !== headLabel) {
+    const badge = el("span", "smartlead-cat-badge", `Smartlead: ${lead.smartlead_category}`);
+    badge.title = "The category Smartlead itself currently has this lead filed under";
+    header.appendChild(badge);
+  }
+  body.appendChild(header);
+  // Company/email and the campaign share one .detail-sub block so the two
+  // lines sit together, rather than each carrying the class's bottom margin.
+  const sub = el("div", "detail-sub");
+  sub.appendChild(el("div", null, [lead.company, lead.email].filter(Boolean).join(" · ")));
+  if (lead.campaign_name) {
+    const line = el("div", "campaign-line");
+    line.appendChild(el("span", null, "Campaign:"));
+    const tag = el("span", "campaign-tag", lead.campaign_name);
+    tag.title = lead.campaign_name;
+    line.appendChild(tag);
+    sub.appendChild(line);
+  }
+  body.appendChild(sub);
+  if (lead.email_display_name && lead.email_display_name !== lead.name) {
+    body.appendChild(el("div", "detail-sub muted", `Smartlead shows their inbox name as "${lead.email_display_name}"`));
+  }
+  if (state.nameNote) {
+    body.appendChild(el("div", "detail-sub name-note", state.nameNote));
+  }
+  if (state.detail.sequence) {
+    body.appendChild(renderLeadSequenceBadge(state.detail.sequence));
+  }
+
+  body.appendChild(renderResearchPanel(lead));
+  body.appendChild(renderLeadActionsBar(lead));
+
+  // thread — each message has an "English" checkbox (per-message, so a click
+  // only pays for what's actually read), plus a "Show whole thread in English"
+  // checkbox that batches whatever isn't already cached into a single call. A
+  // message that already has a cached translation (m.english) defaults to
+  // English; toggling never re-calls the API for something already fetched.
+  const threadActions = el("div", "thread-actions");
+  const threadToggle = el("label", "thread-lang-toggle");
+  const threadCb = el("input", "thread-lang-cb");
+  threadCb.type = "checkbox";
+  threadCb.id = "thread-english-toggle";
+  threadToggle.appendChild(threadCb);
+  threadToggle.appendChild(document.createTextNode(" Show whole thread in English"));
+  threadCb.addEventListener("change", () => setThreadLang(threadCb));
+  threadActions.appendChild(threadToggle);
+  // Log a message sent somewhere other than email. It sits here, on the
+  // thread itself, because that's where the question gets asked: "have I
+  // chased this one anywhere yet?"
+  const logBtn = el("button", "btn-log-touch", "＋ Log a message (WhatsApp, LinkedIn…)");
+  logBtn.type = "button";
+  logBtn.addEventListener("click", () => toggleTouchForm());
+  threadActions.appendChild(logBtn);
+  body.appendChild(threadActions);
+
+  body.appendChild(buildThreadEl());
+  syncThreadToggle();
+
+  renderDraftSection(body);
+}
+
+// The thread column itself: emails from Smartlead plus the off-email touches
+// Andrew logged (mergedThread). Split out of renderDetail so a touch can be
+// added or deleted without re-rendering the draft section underneath it —
+// that would throw away whatever is live in the editor.
+function buildThreadEl() {
+  const { thread, touches } = state.detail;
+  const tc = el("div", "thread");
+  tc.id = "thread";
+  mergedThread(thread, touches).forEach((entry) => {
+    if (entry.kind === "touch") {
+      tc.appendChild(renderTouch(entry.t));
+      return;
+    }
+    const m = entry.m;
+    const idx = entry.idx;
+    const wrap = el("div", `msg ${m.who}`);
+    const meta = el("div", "msg-meta");
+    meta.appendChild(document.createTextNode(`${m.name} · ${m.time} `));
+    // The mailbox this message actually came from: for a lead's reply that's
+    // often a real person answering a cold email sent to a generic info@.
+    if (m.from_email) meta.appendChild(el("span", "msg-from", m.from_email));
+    const toggle = el("label", "msg-lang-toggle");
+    const cb = el("input", "msg-lang-cb");
+    cb.type = "checkbox";
+    toggle.appendChild(cb);
+    toggle.appendChild(document.createTextNode(" English"));
+    meta.appendChild(toggle);
+    wrap.appendChild(meta);
+    const bubble = el("div", "bubble");
+    bubble.dataset.index = idx;
+    bubble.dataset.original = m.html;
+    const hasEnglish = !!m.english;
+    if (hasEnglish) bubble.dataset.translatedHtml = m.english;
+    bubble.dataset.mode = hasEnglish ? "en" : "orig";
+    bubble.innerHTML = hasEnglish ? m.english : m.html;
+    cb.checked = hasEnglish;
+    cb.addEventListener("change", () => setMessageLang(bubble, cb, idx));
+    wrap.appendChild(bubble);
+    tc.appendChild(wrap);
+  });
+  tc.appendChild(touchFormHost());
+  return tc;
+}
+
+function refreshThreadEl() {
+  const old = $("thread");
+  if (!old) { renderDetail(); return; }
+  old.replaceWith(buildThreadEl());
+  syncThreadToggle();
+}
+
+function archiveLabel(reason) {
+  if (!reason || reason === "manual") return "Archived";
+  return reason; // an actual Smartlead category name, e.g. "Wrong Person"
+}
+
+// ---------- lead temperature (cold / warm / very hot) ----------
+
+function leadTemp(lead) {
+  return TEMP[lead.temperature] ? lead.temperature : "cold";
+}
+
+function isHot(lead) {
+  // Booked meetings no longer need the hot-lead highlight.
+  return leadTemp(lead) === "hot" && lead.category !== "booked";
+}
+
+// The rating, with *why* it was rated that on hover — a 🔥 that can't be
+// questioned is a 🔥 that gets ignored, and the reason is one line the
+// classifier already wrote (or "set by hand" when Andrew overrode it).
+function tempChip(lead) {
+  const temp = leadTemp(lead);
+  const chip = el("span", `temp-chip temp-${temp}`, TEMP[temp]);
+  const why = lead.temperature_reason || "";
+  chip.title = why ? `${TEMP[temp]} — ${why}` : TEMP[temp];
+  return chip;
+}
+
+// Captured once during drafting (Claude's <lead_research> block, see
+// drafter.py) and reused on later drafts instead of re-researching the
+// lead's website — shown here so it's always visible next to the thread.
+//
+// The contact-research half below it is a separate, on-demand deep lookup
+// (app/lead_research.py) triggered by the "Research this lead" button: a
+// named point of contact and their direct email/phone/LinkedIn, not just the
+// website-diagnostic summary above. Kept in its own column/section rather
+// than merged into the drafting research so a contact hunt never overwrites
+// what the next draft reuses.
+function renderResearchPanel(lead) {
+  const panel = el("div", "research-panel");
+  panel.id = "research-panel";
+  const head = el("div", "research-head");
+  head.appendChild(el("span", "research-title", "About this lead"));
+  if (lead.researched_at) head.appendChild(el("span", "muted research-time", lead.researched_at));
+  panel.appendChild(head);
+  panel.appendChild(
+    el(
+      "div",
+      "research-body",
+      lead.research_summary || "No research yet — gathered automatically the first time a draft is generated for this lead."
+    )
+  );
+  panel.appendChild(renderContactResearch(lead));
+  return panel;
+}
+
+// One-click reach-out icons parsed out of the contact-research CONTACT block
+// (app/lead_research.py: parse_channels) -- Andrew's ask 2026-09-17: don't
+// make him read prose to find a WhatsApp number, put every channel he can
+// actually reach the lead on right on the card as a single click.
+const CHANNEL_DEFS = {
+  whatsapp: { label: "WhatsApp", short: "WA", bg: "#25d366", href: (v) => `https://wa.me/${v.replace(/[^0-9]/g, "")}` },
+  linkedin: { label: "LinkedIn", short: "in", bg: "#0a66c2" },
+  facebook: { label: "Facebook", short: "f", bg: "#1877f2" },
+  instagram: { label: "Instagram", short: "ig", bg: "#e1306c" },
+  email: { label: "Direct email", short: "@", bg: "#6b7280", href: (v) => `mailto:${v}` },
+  phone: { label: "Phone", short: "☎", bg: "#6b7280", href: (v) => `tel:${v.replace(/[^0-9+]/g, "")}` },
+};
+// Only linkify a social profile when the value already names the platform's
+// own domain or a scheme -- normalizing "linkedin.com/in/x" to a clickable
+// https URL is fine; inventing a profile URL from a bare handle is not.
+const _CHANNEL_DOMAIN = { linkedin: "linkedin.com", facebook: "facebook.com", instagram: "instagram.com" };
+
+function channelHref(key, rawValue) {
+  const def = CHANNEL_DEFS[key];
+  if (def.href) return def.href(rawValue);
+  if (/^https?:\/\//i.test(rawValue)) return rawValue;
+  const domain = _CHANNEL_DOMAIN[key];
+  if (domain && rawValue.toLowerCase().includes(domain)) return `https://${rawValue.replace(/^\/+/, "")}`;
+  return null; // not a URL we can safely construct -- render as text, not a link
+}
+
+function renderContactChannels(channels) {
+  const entries = Object.keys(CHANNEL_DEFS).filter((k) => channels[k]);
+  if (!entries.length) return null;
+  const row = el("div", "channel-icons");
+  entries.forEach((key) => {
+    const def = CHANNEL_DEFS[key];
+    const value = channels[key];
+    const href = channelHref(key, value);
+    const node = el(href ? "a" : "span", "channel-icon", null);
+    if (href) {
+      node.href = href;
+      node.target = "_blank";
+      node.rel = "noopener noreferrer";
+    } else {
+      node.classList.add("channel-icon-nolink");
+    }
+    node.title = `${def.label}: ${value}`;
+    node.style.background = def.bg;
+    node.textContent = def.short;
+    row.appendChild(node);
+  });
+  return row;
+}
+
+// ---------- off-email outreach, logged by hand (app/lead_touches.py) ----------
+//
+// Andrew's ask 2026-09-22: an email thread that reads "two emails, silence"
+// is a lie when he also messaged the lead on WhatsApp yesterday. So a touch
+// is rendered *inside* the thread, at its own timestamp, with the channel's
+// own icon — one column, read top to bottom.
+
+// Labels are ours; the icon and brand colour come from CHANNEL_DEFS above
+// wherever that already has the channel, so the reach-out icons and the log
+// entries can't drift apart. Keys must match lead_touches.CHANNELS.
+const TOUCH_CHANNELS = {
+  whatsapp: { label: "WhatsApp" },
+  linkedin: { label: "LinkedIn" },
+  facebook: { label: "Facebook" },
+  instagram: { label: "Instagram" },
+  phone: { label: "Phone call", short: "☎", bg: "#6b7280" },
+  sms: { label: "SMS", short: "✉", bg: "#6b7280" },
+  other: { label: "Somewhere else", short: "•", bg: "#6b7280" },
+};
+
+function touchChannel(key) {
+  const own = TOUCH_CHANNELS[key] || { label: key || "Somewhere else" };
+  const shared = CHANNEL_DEFS[key] || {};
+  return {
+    label: own.label,
+    short: own.short || shared.short || "•",
+    bg: own.bg || shared.bg || "#6b7280",
+  };
+}
+
+// Emails and touches into one list, ordered by time. Deliberately not a plain
+// sort of the two arrays together: the email order is Smartlead's and each
+// message carries the *index* the per-message translate endpoints address it
+// by, so emails keep their given order and position, and each touch is slotted
+// in before the first email that happened after it.
+function mergedThread(thread, touches) {
+  const out = thread.map((m, idx) => ({ kind: "msg", m, idx }));
+  const list = (touches || []).slice().sort((a, b) => String(a.at).localeCompare(String(b.at)));
+  list.forEach((t) => {
+    let pos = out.length;
+    for (let i = 0; i < out.length; i++) {
+      const at = out[i].kind === "msg" ? out[i].m.at : out[i].t.at;
+      if (at && t.at && at > t.at) { pos = i; break; }
+    }
+    out.splice(pos, 0, { kind: "touch", t });
+  });
+  return out;
+}
+
+function renderTouch(t) {
+  const def = touchChannel(t.channel);
+  const wrap = el("div", `msg touch ${t.who}`);
+  const meta = el("div", "msg-meta");
+  const icon = el("span", "channel-icon touch-icon", def.short);
+  icon.style.background = def.bg;
+  icon.title = def.label;
+  meta.appendChild(icon);
+  const what = t.direction === "in"
+    ? `${t.name} replied on ${def.label}`
+    : `You messaged on ${def.label}`;
+  meta.appendChild(document.createTextNode(` ${what} · ${t.time} `));
+  const del = el("button", "btn-touch-del", "×");
+  del.type = "button";
+  del.title = "Delete this log entry";
+  del.addEventListener("click", () => deleteTouch(t.id));
+  meta.appendChild(del);
+  wrap.appendChild(meta);
+  if (t.note) {
+    const bubble = el("div", "bubble touch-bubble");
+    bubble.textContent = t.note;   // Andrew's own words, never HTML
+    wrap.appendChild(bubble);
+  }
+  return wrap;
+}
+
+// The form lives at the bottom of the thread (where a new message would go)
+// and stays closed until the button in the thread actions row is clicked.
+function touchFormHost() {
+  const host = el("div", "touch-form-host");
+  host.id = "touch-form-host";
+  if (state.touchFormOpen) host.appendChild(buildTouchForm());
+  return host;
+}
+
+function toggleTouchForm(open) {
+  state.touchFormOpen = open === undefined ? !state.touchFormOpen : open;
+  const host = $("touch-form-host");
+  if (!host) return;
+  host.innerHTML = "";
+  if (!state.touchFormOpen) return;
+  host.appendChild(buildTouchForm());
+  const note = $("touch-note");
+  if (note) note.focus();
+}
+
+function buildTouchForm() {
+  const form = el("div", "touch-form");
+
+  const channel = el("select", "touch-field");
+  channel.id = "touch-channel";
+  Object.keys(TOUCH_CHANNELS).forEach((key) => {
+    const opt = el("option", null, touchChannel(key).label);
+    opt.value = key;
+    channel.appendChild(opt);
+  });
+  form.appendChild(channel);
+
+  const direction = el("select", "touch-field");
+  direction.id = "touch-direction";
+  [["out", "I messaged them"], ["in", "They answered there"]].forEach(([v, label]) => {
+    const opt = el("option", null, label);
+    opt.value = v;
+    direction.appendChild(opt);
+  });
+  form.appendChild(direction);
+
+  const when = el("input", "touch-field");
+  when.type = "datetime-local";
+  when.id = "touch-at";
+  when.value = toLocalInputValue(new Date().toISOString());
+  form.appendChild(when);
+
+  const note = el("input", "touch-field touch-note");
+  note.type = "text";
+  note.id = "touch-note";
+  note.placeholder = "What you said (optional)";
+  note.addEventListener("keydown", (e) => { if (e.key === "Enter") saveTouch(); });
+  form.appendChild(note);
+
+  const save = el("button", "btn-primary", "Log it");
+  save.type = "button";
+  save.addEventListener("click", () => saveTouch());
+  form.appendChild(save);
+
+  const cancel = el("button", "btn-secondary", "Cancel");
+  cancel.type = "button";
+  cancel.addEventListener("click", () => toggleTouchForm(false));
+  form.appendChild(cancel);
+
+  return form;
+}
+
+async function saveTouch() {
+  const lead = state.detail && state.detail.lead;
+  if (!lead) return;
+  const at = $("touch-at").value;
+  try {
+    // datetime-local is browser-local wall time with no zone marker and the
+    // server stores UTC — same conversion scheduleDraft makes, for the same
+    // reason. An empty box means "now", which the server fills in.
+    const data = await apiPost(`/api/leads/${lead.campaign_id}/${lead.lead_id}/touches`, {
+      channel: $("touch-channel").value,
+      direction: $("touch-direction").value,
+      note: $("touch-note").value,
+      at: at ? new Date(at).toISOString() : null,
+    });
+    if (state.detail?.lead !== lead) return;
+    state.detail.touches = data.touches;
+    state.touchFormOpen = false;
+    refreshThreadEl();
+  } catch (e) {
+    alert("Couldn't log that: " + e.message);
+  }
+}
+
+async function deleteTouch(id) {
+  const lead = state.detail && state.detail.lead;
+  if (!lead) return;
+  if (!confirm("Delete this log entry?")) return;
+  try {
+    const data = await apiDelete(`/api/leads/${lead.campaign_id}/${lead.lead_id}/touches/${id}`);
+    if (state.detail?.lead !== lead) return;
+    state.detail.touches = data.touches;
+    refreshThreadEl();
+  } catch (e) {
+    alert("Couldn't delete that: " + e.message);
+  }
+}
+
+// Every contact WebsiteGenerator scraped off the prospect's own website
+// (app/prospect_contacts.py) -- Andrew's ask 2026-09-17: leads ignore the email
+// with the site he built them, so he chases them on every channel they list.
+// WhatsApp first, it's the one that gets answers.
+const SITE_CONTACT_ORDER = ["whatsapp", "phones", "emails", "facebook", "instagram", "linkedin"];
+const SITE_CONTACT_LABELS = { whatsapp: "WhatsApp", phones: "Phone", emails: "Email", facebook: "Facebook", instagram: "Instagram", linkedin: "LinkedIn", x: "X / Twitter", youtube: "YouTube", tiktok: "TikTok" };
+
+function siteContactHref(key, value) {
+  if (key === "whatsapp") return /^https?:/i.test(value) ? value : `https://wa.me/${value.replace(/[^0-9]/g, "")}`;
+  if (key === "phones") return `tel:${value.replace(/[^0-9+]/g, "")}`;
+  if (key === "emails") return `mailto:${value}`;
+  return /^https?:\/\//i.test(value) ? value : null;
+}
+
+/** "3 visits · last Sep 14 16:00" — Vercel reports 4-hour blocks, so the
+ *  times are the block a human hit the site in, not an exact clock time. */
+function renderSiteVisitsRow(visits) {
+  if (!visits || !visits.visit_count) return null;
+  const when = (t) => (t ? `${t.slice(0, 10)} ${t.slice(11, 16)}` : "?");
+  const row = el("div", "site-contacts-row");
+  row.appendChild(el("span", "site-contacts-label", "Opened it"));
+  const values = el("span", "site-contacts-values");
+  const times = visits.visit_count === 1 ? "1 visit" : `${visits.visit_count} visits`;
+  const summary = visits.first_at === visits.last_at
+    ? `${times} · ${when(visits.last_at)} UTC`
+    : `${times} · first ${when(visits.first_at)} · last ${when(visits.last_at)} UTC`;
+  values.appendChild(el("span", null, summary));
+  (visits.visitors || []).slice(0, 3).forEach((v) => {
+    const parts = [v.device, v.country, v.isp].filter(Boolean).join(" · ");
+    if (parts) values.appendChild(el("span", "site-contacts-tag", parts));
+  });
+  row.appendChild(values);
+  return row;
+}
+
+function renderSiteContacts(site, visits) {
+  const channels = (site && site.channels) || {};
+  const keys = [
+    ...SITE_CONTACT_ORDER.filter((k) => channels[k]),
+    ...Object.keys(channels).filter((k) => !SITE_CONTACT_ORDER.includes(k)),
+  ];
+  const visitsRow = renderSiteVisitsRow(visits);
+  const demoUrl = (site && site.demo_url) || (visits && visits.demo_url) || null;
+  if (!keys.length && !demoUrl && !visitsRow) return null;
+  const domain = (site && site.domain) || (visits && visits.domain) || "";
+  const box = el("div", "site-contacts");
+  box.appendChild(el("div", "site-contacts-title", domain ? `From their website (${domain})` : "From their website"));
+  if (demoUrl) {
+    const demo = el("div", "site-contacts-row");
+    demo.appendChild(el("span", "site-contacts-label", "Site we built"));
+    const a = el("a", null, demoUrl);
+    a.href = demoUrl;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    demo.appendChild(a);
+    box.appendChild(demo);
+  }
+  if (visitsRow) box.appendChild(visitsRow);
+  keys.forEach((key) => {
+    const row = el("div", "site-contacts-row");
+    row.appendChild(el("span", "site-contacts-label", SITE_CONTACT_LABELS[key] || key));
+    const values = el("span", "site-contacts-values");
+    channels[key].forEach((item) => {
+      const href = siteContactHref(key, item.value);
+      const node = el(href ? "a" : "span", null, item.value);
+      if (href) {
+        node.href = href;
+        node.target = "_blank";
+        node.rel = "noopener noreferrer";
+      }
+      values.appendChild(node);
+      if (key === "whatsapp") {
+        values.appendChild(el("span", item.confirmed ? "site-contacts-tag confirmed" : "site-contacts-tag", item.confirmed ? "confirmed" : "likely (mobile)"));
+      }
+    });
+    row.appendChild(values);
+    box.appendChild(row);
+  });
+  return box;
+}
+
+const SITE_FEEDBACK_LABELS = {
+  like: "Likes it, wants pricing",
+  change: "Would change something",
+  no: "Not for us",
+  accept: "Approved the scope, wants the invoice",
+};
+
+// Answers from the popup or proposal panel on the demo site we built. "like" and
+// "accept" are the hot ones: the reply (pricing, or the start-payment invoice) is
+// due within minutes, so they get their own loud style.
+function renderSiteFeedback(items) {
+  if (!items || !items.length) return null;
+  const box = el("div", "site-feedback");
+  box.appendChild(el("div", "site-contacts-title", "Their verdict on the site we built"));
+  items.slice(0, 5).forEach((f) => {
+    const row = el("div", `site-feedback-row ${f.answer}`);
+    row.appendChild(el("strong", null, SITE_FEEDBACK_LABELS[f.answer] || f.answer));
+    if (f.answer === "like" && !f.handled_at) {
+      row.appendChild(el("span", "site-feedback-urgent", `Reply with pricing within ${f.reply_within_minutes || 5} min`));
+    }
+    if (f.answer === "accept" && !f.handled_at) {
+      row.appendChild(el("span", "site-feedback-urgent", "Send the start-payment invoice today"));
+    }
+    if (f.detail) row.appendChild(el("div", null, f.detail));
+    row.appendChild(el("div", "muted", `${f.created_at || ""}${f.page ? " · " + f.page : ""}`));
+    box.appendChild(row);
+  });
+  return box;
+}
+
+function renderContactResearch(lead) {
+  const wrap = el("div", "contact-research");
+  const head = el("div", "research-head contact-research-head");
+  head.appendChild(el("span", "research-title", "Contact research"));
+
+  const isRunning = state.detail && state.detail.researching_contact;
+  if (isRunning) {
+    const spin = el("span", "muted research-time");
+    spin.appendChild(el("span", "spinner"));
+    spin.appendChild(document.createTextNode(" researching…"));
+    head.appendChild(spin);
+  } else {
+    if (lead.contact_researched_at) {
+      head.appendChild(el("span", "muted research-time", lead.contact_researched_at));
+    }
+    const btn = el("button", "btn-secondary btn-research-contact", lead.contact_research ? "↻ Research again" : "🔍 Research this lead");
+    btn.type = "button";
+    btn.title = "Find a real point of contact at this company — name, title, direct email/phone, LinkedIn";
+    btn.addEventListener("click", researchContact);
+    head.appendChild(btn);
+  }
+  wrap.appendChild(head);
+
+  const channels = lead.contact_channels || {};
+  const iconRow = renderContactChannels(channels);
+  if (iconRow) wrap.appendChild(iconRow);
+  const feedbackBlock = renderSiteFeedback(lead.site_feedback);
+  if (feedbackBlock) wrap.appendChild(feedbackBlock);
+  const siteBlock = renderSiteContacts(lead.site_contacts, lead.site_visits);
+  if (siteBlock) wrap.appendChild(siteBlock);
+
+  if (isRunning) {
+    wrap.appendChild(el("div", "research-body muted", "Looking up a real point of contact — name, direct email/phone, LinkedIn. This can take a minute…"));
+  } else if (state.detail && state.detail.contact_research_error && !lead.contact_research) {
+    wrap.appendChild(el("div", "research-body error-note", state.detail.contact_research_error));
+  } else {
+    wrap.appendChild(
+      el(
+        "div",
+        "research-body",
+        lead.contact_research || "No contact lookup yet — click above to find a real point of contact at this company."
+      )
+    );
+  }
+  return wrap;
+}
+
+// "Research this lead" — a background contact lookup (app/lead_research.py),
+// polled the same way generate()/pollGeneration handles draft generation:
+// kicked off in a background thread server-side because a multi-tool-call web
+// search can run long enough to hit Cloudflare's ~100s tunnel timeout if
+// awaited inline.
+const contactPolls = new Map();
+
+function pollContactResearch(cid, lid) {
+  const key = `${cid}:${lid}`;
+  if (contactPolls.has(key)) return;
+
+  const interval = setInterval(async () => {
+    let data;
+    try {
+      data = await apiGet(`/api/leads/${cid}/${lid}`);
+    } catch (e) {
+      clearInterval(contactPolls.get(key));
+      contactPolls.delete(key);
+      return;
+    }
+    if (data.researching_contact) return;
+    clearInterval(contactPolls.get(key));
+    contactPolls.delete(key);
+
+    const cur = currentLeadIds();
+    if (!cur || cur.cid !== cid || cur.lid !== lid) return; // looking at a different lead now
+
+    state.detail = data;
+    const oldPanel = $("research-panel");
+    if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
+  }, 3000);
+  contactPolls.set(key, interval);
+}
+
+async function researchContact() {
+  const { cid, lid } = currentLeadIds();
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/research-contact`);
+  } catch (e) {
+    alert("Couldn't start the contact lookup: " + e.message);
+    return;
+  }
+  if (!state.detail) state.detail = {};
+  state.detail.researching_contact = true;
+  const oldPanel = $("research-panel");
+  if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
+  pollContactResearch(cid, lid);
+}
+
+// The LinkedIn export lives above the archived/snoozed early returns on
+// purpose: a lead that went quiet and got archived or snoozed is exactly the
+// one worth chasing on LinkedIn, and both of those branches return early.
+function renderExportControl() {
+  const g = state.google;
+  // connect_available covers both this button's own need (linkedin_export)
+  // and interested_sheet.py's headless worklist sync, which has no UI of its
+  // own — this link is the only way to ever authorize Google for a client
+  // that only has INTERESTED_SHEET_ID set, not LINKEDIN_SHEET_ID.
+  if (!g || !g.connect_available) return null;
+
+  if (!g.connected) {
+    const link = el("a", "btn-secondary btn-link", "Connect Google Sheets");
+    link.href = g.connect_url;
+    link.title = "Authorize this app to write to your Google Sheets";
+    return link;
+  }
+
+  if (!g.linkedin_export) return null;  // connected, but nothing here to export to
+
+  const wrap = el("span", "export-linkedin");
+  const btn = el("button", "btn-secondary");
+  btn.type = "button";
+  btn.title = "Add this lead to the LinkedIn outreach sheet, in their sender's tab";
+  if (state.exportRunning) {
+    btn.disabled = true;
+    btn.appendChild(el("span", "spinner"));
+    btn.appendChild(document.createTextNode("Exporting…"));
+  } else {
+    btn.textContent = "Export for LinkedIn";
+    btn.addEventListener("click", exportLeadForLinkedIn);
+  }
+  wrap.appendChild(btn);
+
+  if (state.exportNote) {
+    const { kind, text } = state.exportNote;
+    const cls = kind === "error" ? "error-note" : kind === "warn" ? "status-banner warn" : "status-banner";
+    wrap.appendChild(el("span", cls, text));
+  }
+  return wrap;
+}
+
+async function exportLeadForLinkedIn() {
+  const { cid, lid } = currentLeadIds();
+  state.exportNote = null;
+  state.exportRunning = true;
+  refreshLeadActions();
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/export-linkedin`, {});
+  } catch (e) {
+    state.exportRunning = false;
+    state.exportNote = { kind: "error", text: e.message };
+    refreshLeadActions();
+    return;
+  }
+  pollExport(cid, lid);
+}
+
+// Polls until the background export finishes. Bails out if the user has moved
+// to another lead — the note belongs to the lead it was started from.
+async function pollExport(cid, lid) {
+  let data;
+  try {
+    data = await apiGet(`/api/leads/${cid}/${lid}/export-linkedin`);
+  } catch (e) {
+    data = { running: false, error: e.message };
+  }
+  const open = currentLead();
+  if (!open || open.campaign_id !== cid || open.lead_id !== lid) return;
+
+  if (data.running) {
+    setTimeout(() => pollExport(cid, lid), 2000);
+    return;
+  }
+  state.exportRunning = false;
+  const r = data.result;
+  if (data.error) {
+    state.exportNote = { kind: "error", text: data.error };
+  } else if (r && r.status === "duplicate") {
+    state.exportNote = {
+      kind: "warn",
+      text: `Already in the ${r.tab} tab${r.row ? ` (row ${r.row})` : ""} — nothing added`,
+    };
+  } else if (r) {
+    const linkedin = r.linkedin_found ? "" : ", no LinkedIn URL found";
+    state.exportNote = {
+      kind: "ok",
+      text: `Added to the ${r.tab} tab${r.row ? ` (row ${r.row})` : ""}${linkedin}`,
+    };
+  } else {
+    state.exportNote = { kind: "error", text: "The export finished with no result." };
+  }
+  refreshLeadActions();
+}
+
+// Swap just the actions bar, never re-render the whole detail pane: the draft
+// editor lives further down it and holds unsaved typing, so a full renderDetail
+// to show a spinner would throw away whatever Andrew was in the middle of
+// writing. Same hot-swap the research panel uses after a regenerate.
+function refreshLeadActions() {
+  const old = $("lead-actions");
+  if (old && state.detail) old.replaceWith(renderLeadActionsBar(state.detail.lead));
+}
+
+function renderLeadActionsBar(lead) {
+  const bar = el("div", "lead-actions");
+  bar.id = "lead-actions";
+
+  // Before the archive/snooze early returns: an archived lead can still be a
+  // deal (static/crm.js owns the button).
+  bar.appendChild(renderCrmLeadButton());
+
+  const exportControl = renderExportControl();
+  if (exportControl) bar.appendChild(exportControl);
+
+  if (lead.archive_reason) {
+    const label = archiveLabel(lead.archive_reason);
+    bar.appendChild(el("span", "status-banner", label + (lead.archived_at ? " · " + lead.archived_at : "")));
+    const restore = el("button", "btn-secondary", "Restore to inbox");
+    restore.addEventListener("click", () => withRowRemoval(() => {
+      const ids = currentLeadIds();
+      return apiPost(`/api/leads/${ids.cid}/${ids.lid}/unarchive`, {});
+    }));
+    bar.appendChild(restore);
+    return bar;
+  }
+
+  if (lead.snooze_until && lead.snooze_until > todayStr()) {
+    bar.appendChild(el("span", "status-banner", `Snoozed until ${formatDayLabel(lead.snooze_until)}`));
+    const now = el("button", "btn-secondary", "Follow up now");
+    now.addEventListener("click", () => withRowRemoval(() => {
+      const ids = currentLeadIds();
+      return apiPost(`/api/leads/${ids.cid}/${ids.lid}/unsnooze`, {});
+    }));
+    bar.appendChild(now);
+    return bar;
+  }
+
+  const archiveBtn = el("button", "btn-secondary", "Archive");
+  archiveBtn.addEventListener("click", archiveLead);
+  bar.appendChild(archiveBtn);
+
+  bar.appendChild(renderTemperatureSelect(lead));
+
+  bar.appendChild(renderCategorySelect(lead));
+
+  bar.appendChild(renderSnoozeControl());
+
+  return bar;
+}
+
+// The common snooze lengths, one click each. Every option spells out the date
+// it lands on, so the choice is made and applied in a single step: the control
+// used to be a button that opened a date field that needed a Confirm — three
+// interactions to set a date that's reversible from the Archive view anyway.
+const SNOOZE_PRESETS = [
+  { label: "Tomorrow", days: 1 },
+  { label: "In 3 days", days: 3 },
+  { label: "In a week", days: 7 },
+  { label: "In 2 weeks", days: 14 },
+  { label: "In a month", days: 30 },
+];
+
+function renderSnoozeControl() {
+  const wrap = el("div", "snooze-control");
+
+  const select = el("select", "cat-select snooze-select");
+  select.title = "Hide this lead from the inbox until a date";
+  const placeholder = document.createElement("option");
+  placeholder.textContent = "Snooze until…";
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+  SNOOZE_PRESETS.forEach((preset) => {
+    const date = dateInDays(preset.days);
+    const opt = document.createElement("option");
+    opt.value = date;
+    opt.textContent = `${preset.label} · ${formatDayLabel(date)}`;
+    select.appendChild(opt);
+  });
+  const customOpt = document.createElement("option");
+  customOpt.value = "custom";
+  customOpt.textContent = "Pick a date…";
+  select.appendChild(customOpt);
+
+  const picker = el("span", "snooze-picker");
+  picker.hidden = true;
+  const dateInput = el("input");
+  dateInput.type = "date";
+  // Tomorrow, not today: a snooze until today is already due, so it would only
+  // bounce the lead back to the top of the inbox it was being hidden from.
+  dateInput.min = dateInDays(1);
+  const cancelBtn = el("button", "btn-secondary", "Cancel");
+
+  select.addEventListener("change", () => {
+    const value = select.value;
+    select.value = "";
+    if (value === "custom") {
+      select.hidden = true;
+      picker.hidden = false;
+      dateInput.focus();
+      // Opens the browser's own calendar right away, so "Pick a date…" costs
+      // one click like the presets do. Not every browser allows it from a
+      // change event; the field is focused either way.
+      if (dateInput.showPicker) {
+        try { dateInput.showPicker(); } catch (e) { /* ignore */ }
+      }
+      return;
+    }
+    if (value) snoozeLead(value);
+  });
+  // Picking a day in the calendar is the confirmation — there's no second
+  // button to hunt for.
+  dateInput.addEventListener("change", () => {
+    if (dateInput.value) snoozeLead(dateInput.value);
+  });
+  cancelBtn.addEventListener("click", () => {
+    picker.hidden = true;
+    select.hidden = false;
+  });
+
+  picker.appendChild(dateInput);
+  picker.appendChild(cancelBtn);
+  wrap.appendChild(select);
+  wrap.appendChild(picker);
+  return wrap;
+}
+
+function currentLeadIds() {
+  const lead = currentLead();
+  return { cid: lead.campaign_id, lid: lead.lead_id };
+}
+
+// Andrew's manual fix for a wrong/imported first name — see the muted
+// "Smartlead shows their inbox name as ..." line rendered next to it, which
+// is what this is meant to be checked against.
+//
+// The rename also goes back to Smartlead (see main.api_set_lead_name). That
+// half can fail on its own while the local rename stands, so the server says
+// which happened and the answer is shown under the name rather than thrown as
+// an alert: nothing is broken, but "renamed here only" is not the same as
+// "renamed", and silently treating them alike is what made the two drift.
+async function editLeadName() {
+  const lead = state.detail.lead;
+  const next = window.prompt("Edit this lead's first name:", lead.name || "");
+  if (next == null) return;
+  const trimmed = next.trim();
+  if (!trimmed || trimmed === lead.name) return;
+  const { cid, lid } = currentLeadIds();
+  let result;
+  try {
+    result = await apiPost(`/api/leads/${cid}/${lid}/name`, { name: trimmed });
+  } catch (e) {
+    alert("Couldn't update name: " + e.message);
+    return;
+  }
+  state.nameNote = (result && result.warning) || null;
+  lead.name = trimmed;
+  const row = currentLead();
+  if (row) row.name = trimmed;
+  renderList();
+  renderDetail();
+}
+
+// Andrew's override of the automatic rating. Picking one locks it, so the next
+// scan can't quietly overrule him — the same deal as ✎ Rename and name_locked.
+// "Let the AI decide" hands it back and re-rates on the spot.
+function renderTemperatureSelect(lead) {
+  const select = el("select", "cat-select temp-select");
+  const temp = leadTemp(lead);
+  select.title = lead.temperature_locked
+    ? "You set this rating by hand — the scan won't change it"
+    : "How hot this lead is, rated from their own messages";
+  TEMP_ORDER.forEach((value) => {
+    const opt = document.createElement("option");
+    opt.value = value;
+    opt.textContent = TEMP[value];
+    opt.selected = value === temp;
+    select.appendChild(opt);
+  });
+  const auto = document.createElement("option");
+  auto.value = "auto";
+  auto.textContent = "↻ Let the AI decide";
+  select.appendChild(auto);
+  select.addEventListener("change", () => setTemperature(select.value));
+  return select;
+}
+
+async function setTemperature(value) {
+  const { cid, lid } = currentLeadIds();
+  let result;
+  try {
+    result = await apiPost(`/api/leads/${cid}/${lid}/temperature`, { temperature: value });
+  } catch (e) {
+    alert("Couldn't change how hot this lead is: " + e.message);
+    renderDetail();  // put the dropdown back to what's actually stored
+    return;
+  }
+  const lead = state.detail.lead;
+  lead.temperature = result.temperature;
+  lead.temperature_reason = result.reason || "set by hand";
+  lead.temperature_locked = !!result.locked;
+  const row = currentLead();
+  if (row) {
+    row.temperature = lead.temperature;
+    row.temperature_reason = lead.temperature_reason;
+    row.temperature_locked = lead.temperature_locked;
+  }
+  renderDetail();
+  // The inbox is sorted by this, so the list has to be re-fetched rather than
+  // repainted: a lead that just turned 🔥 belongs at the top of it, not in the
+  // position it held a second ago. autoRefreshInbox re-finds the open lead
+  // afterwards, which a bare loadInbox would not — state.selected is an index.
+  autoRefreshInbox().catch((e) => console.error(e));
+}
+
+function renderCategorySelect(lead) {
+  const select = el("select", "cat-select");
+  const current = lead && lead.smartlead_category;
+  select.title = current
+    ? `Currently in Smartlead: ${current} — change status`
+    : "Change status in Smartlead";
+  const placeholder = document.createElement("option");
+  placeholder.textContent = current ? `Change status (currently: ${current})` : "Change status…";
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+  (state.categoryList || DEFAULT_CATEGORIES).forEach((name) => {
+    const opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
+  select.addEventListener("change", () => {
+    const name = select.value;
+    select.value = "";
+    if (name) changeCategory(name);
+  });
+  return select;
+}
+
+// Mirrors app.scheduler.norm_category_name — the account's real category is
+// "Meeting-Booked" but config/humans write it differently; compare ignoring
+// case and punctuation so either form is recognised here.
+function normCategoryName(s) {
+  return (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+const BOOKED_CATEGORY_NORM = "meetingbooked";
+
+async function changeCategory(name) {
+  // A status that starts a subsequence has its own confirmation and outcome.
+  const sequence = state.sequenceTriggers[normCategoryName(name)];
+  if (sequence) {
+    await startSequenceFromStatus(name, sequence);
+    return;
+  }
+  const restoring = name === "Interested";
+  const booking = normCategoryName(name) === BOOKED_CATEGORY_NORM;
+  const pauseNote = PAUSE_CATEGORIES.has(name) ? " and pause their sequence" : "";
+  const consequence = restoring
+    ? " This restores them to your inbox."
+    : booking ? "" : " This removes them from your inbox.";
+  if (!confirm(`Set Smartlead category to "${name}"${pauseNote}?${consequence}`)) return;
+  const { cid, lid } = currentLeadIds();
+
+  if (!booking && !restoring) {
+    await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name }));
+    return;
+  }
+
+  if (restoring) {
+    // Restoring from Archive should remove the row from that view. In the
+    // inbox it should remain visible and be re-read from the server with its
+    // new waiting/Interested state instead of using the archive animation.
+    if (state.view === "archive") {
+      await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name }));
+      return;
+    }
+    try {
+      await apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name });
+      await autoRefreshInbox();
+    } catch (e) {
+      alert(e.message);
+    }
+    return;
+  }
+
+  // A booked lead stays in the inbox with the green "Meeting booked ✅" badge
+  // instead of being archived like every other category (main.api_set_category
+  // records the booking via db.mark_lead_booked rather than archiving). Update
+  // the row in place rather than fading it out via withRowRemoval, or it
+  // disappears from view until the next scan un-archives it again.
+  const lead = currentLead();
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/category`, { category_name: name });
+  } catch (e) {
+    alert(e.message);
+    return;
+  }
+  lead.category = "booked";
+  lead.archived_at = null;
+  lead.archive_reason = null;
+  lead.snooze_until = null;
+  applyFilter();
+  const idx = state.leads.indexOf(lead);
+  if (idx === -1) {
+    // Filtered out by the status filter or search — same empty-selection
+    // path withRowRemoval takes when a row's removal empties the list.
+    state.selected = -1;
+    renderList();
+    $("detail-body").hidden = true;
+    $("detail-empty").hidden = false;
+    showMobileList();
+    return;
+  }
+  state.selected = idx;
+  renderList();
+  renderDetail();
+}
+
+async function archiveLead() {
+  const { cid, lid } = currentLeadIds();
+  await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/archive`, {}));
+}
+
+async function snoozeLead(dateStr) {
+  const { cid, lid } = currentLeadIds();
+  await withRowRemoval(() => apiPost(`/api/leads/${cid}/${lid}/snooze`, { until: dateStr }));
+}
+
+// Shared by the "Generate draft" prompt and the "Regenerate" row (never both
+// on screen at once, so the element ids are safe to reuse). Web search
+// defaults off once we already have research for this lead — it was only
+// ever a prompt-level suggestion before, so Claude could still burn tokens
+// re-running it; now the toggle controls whether the tools are even sent.
+function renderGenControls() {
+  const wrap = el("div", "gen-controls");
+
+  const modelLabel = el("label", "gen-model");
+  const select = document.createElement("select");
+  select.id = "gen-model-select";
+  select.className = "model-select";
+  fillModelSelect(select, state.defaultModel);
+  modelLabel.appendChild(select);
+  wrap.appendChild(modelLabel);
+
+  // Trying models is the point of the picker, so promoting the one that worked
+  // to "always use this" is one click right next to it, not a settings page.
+  const setDefaultBtn = el("button", "btn-secondary btn-set-default");
+  setDefaultBtn.type = "button";
+  setDefaultBtn.dataset.selectId = "gen-model-select";
+  setDefaultBtn.addEventListener("click", () => setDefaultModel(select, setDefaultBtn));
+  syncSetDefaultButton(setDefaultBtn);
+  wrap.appendChild(setDefaultBtn);
+
+  const wsLabel = el("label", "gen-websearch");
+  const wsCheckbox = document.createElement("input");
+  wsCheckbox.type = "checkbox";
+  wsCheckbox.id = "gen-websearch-toggle";
+  wsCheckbox.checked = !state.detail.lead.research_summary;
+  wsLabel.appendChild(wsCheckbox);
+  wsLabel.appendChild(document.createTextNode(" Web search"));
+  wrap.appendChild(wsLabel);
+
+  // Web search only exists on the Anthropic path (OpenRouter drafts have no
+  // tools — see app/openrouter.py), so the toggle follows the picked model
+  // rather than silently doing nothing.
+  const syncWebSearch = () => {
+    const picked = state.models.find((m) => m.id === select.value);
+    const supported = !picked || picked.web_search;
+    wsCheckbox.disabled = !supported;
+    if (!supported) wsCheckbox.checked = false;
+    wsLabel.title = supported
+      ? ""
+      : "This model has no web research — it writes from the thread and any research already saved for this lead.";
+    wsLabel.classList.toggle("is-disabled", !supported);
+  };
+  select.addEventListener("change", () => {
+    syncSetDefaultButton(setDefaultBtn);
+    syncWebSearch();
+  });
+  syncWebSearch();
+
+  return wrap;
+}
+
+function renderQuickFollowups() {
+  const wrap = el("div", "quick-followups");
+  wrap.appendChild(el("div", "quick-followups-label", "Skip generation and use a pre-written template:"));
+  const btn = el("button", "btn-secondary btn-templates", "Choose a template…");
+  btn.type = "button";
+  btn.addEventListener("click", openTemplatesModal);
+  wrap.appendChild(btn);
+  return wrap;
+}
+
+function closeTemplatesModal() {
+  const overlay = $("templates-modal-overlay");
+  if (overlay) overlay.remove();
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", onTemplatesModalKeydown);
+}
+
+function onTemplatesModalKeydown(e) {
+  if (e.key === "Escape") closeTemplatesModal();
+}
+
+// {name}/{company} are stored raw and only resolved for display — the edit form
+// deliberately shows the raw placeholders so they survive a round of editing.
+// Values come from the server (`lead.placeholders`, built by
+// message_templates.placeholders_for) so this preview is the exact string that
+// gets sent — the two used to be computed separately and only agreed by
+// accident. Anything in braces that isn't in the map is DELETED rather than
+// left alone: a template using a placeholder this app doesn't know about used
+// to mail the lead `{companyNickname}` verbatim.
+function fillPlaceholders(text) {
+  const values = ((state.detail || {}).lead || {}).placeholders || {};
+  return String(text || "")
+    .replace(/\{([A-Za-z0-9_]+)\}/g, (_, key) => (key in values ? values[key] : ""))
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/ +([,.!?])/g, "$1")
+    .trim();
+}
+
+// ---------- template client filter ----------
+// "General" templates (client left blank) work with any client; a tagged one
+// is written for a specific client's copy (see renderTemplateForm's Client
+// select). Default view is this deployment's own client + general; one click
+// switches to "All templates" so a template written for another client while
+// on this dashboard is still reachable.
+
+function loadTemplateClientFilter() {
+  try {
+    return localStorage.getItem(TEMPLATE_CLIENT_FILTER_KEY) || "default";
+  } catch (e) {
+    return "default";
+  }
+}
+
+function saveTemplateClientFilter() {
+  try {
+    localStorage.setItem(TEMPLATE_CLIENT_FILTER_KEY, state.templateClientFilter);
+  } catch (e) {
+    /* private mode / quota — the filter still works for this session */
+  }
+}
+
+function templateMatchesFilter(tpl) {
+  const tplClient = tpl.client || "";
+  switch (state.templateClientFilter) {
+    case "all":
+      return true;
+    case "general":
+      return !tplClient;
+    case "default":
+      return !tplClient || tplClient === state.templateCurrentClient;
+    default:
+      // A specific client label was chosen — that client's own templates only.
+      return tplClient === state.templateClientFilter;
+  }
+}
+
+function renderTemplateClientFilterOptions(select) {
+  select.innerHTML = "";
+  const addOption = (value, label) => {
+    const opt = el("option", null, label);
+    opt.value = value;
+    select.appendChild(opt);
+  };
+  addOption("default", `${state.templateCurrentClient} + General`);
+  addOption("all", "All templates");
+  addOption("general", "General only");
+  state.templateAvailableClients.forEach((name) => addOption(name, name));
+  // A filter saved from a client no longer in the list (or from before this
+  // deployment had a value at all) falls back to the default view.
+  const known = new Set(["default", "all", "general", ...state.templateAvailableClients]);
+  if (!known.has(state.templateClientFilter)) state.templateClientFilter = "default";
+  select.value = state.templateClientFilter;
+}
+
+async function openTemplatesModal() {
+  if ($("templates-modal-overlay")) return;
+
+  const overlay = el("div", "modal-overlay");
+  overlay.id = "templates-modal-overlay";
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeTemplatesModal();
+  });
+
+  const modal = el("div", "modal templates-modal");
+  const header = el("div", "modal-header");
+  const heading = el("div", "modal-heading");
+  heading.appendChild(el("h3", null, "Message templates"));
+  heading.appendChild(
+    el("div", "modal-sub", "Drop one straight in as a draft — no AI call. {name} and {company} are filled in automatically.")
+  );
+  header.appendChild(heading);
+  const closeBtn = el("button", "modal-close", "×");
+  closeBtn.type = "button";
+  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.addEventListener("click", closeTemplatesModal);
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  const filterRow = el("div", "template-filter-row");
+  const filterSelect = el("select", "template-client-filter");
+  filterSelect.id = "template-client-filter";
+  filterSelect.addEventListener("change", () => {
+    state.templateClientFilter = filterSelect.value;
+    saveTemplateClientFilter();
+    renderTemplatesList();
+  });
+  filterRow.appendChild(filterSelect);
+  modal.appendChild(filterRow);
+
+  const list = el("div", "templates-list");
+  list.id = "templates-list";
+  list.innerHTML = '<div class="loading-note"><span class="spinner"></span>Loading templates…</div>';
+  modal.appendChild(list);
+
+  const footer = el("div", "modal-footer");
+  const addBtn = el("button", "btn-secondary", "+ New template");
+  addBtn.type = "button";
+  addBtn.addEventListener("click", () => {
+    const form = renderTemplateForm(null);
+    $("templates-list").appendChild(form);
+    form.scrollIntoView({ block: "nearest" });
+    form.querySelector("input").focus();
+  });
+  footer.appendChild(addBtn);
+  modal.appendChild(footer);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.body.style.overflow = "hidden";
+  document.addEventListener("keydown", onTemplatesModalKeydown);
+
+  try {
+    const data = await apiGet("/api/templates");
+    state.templates = data.templates;
+    state.templateAvailableClients = data.available_clients || [];
+    state.templateCurrentClient = data.current_client || "";
+    renderTemplateClientFilterOptions(filterSelect);
+    renderTemplatesList();
+  } catch (e) {
+    list.innerHTML = `<div class="error-note">Couldn't load templates: ${e.message}</div>`;
+  }
+}
+
+function renderTemplatesList() {
+  const list = $("templates-list");
+  if (!list) return;
+  list.innerHTML = "";
+  const visible = state.templates.filter(templateMatchesFilter);
+  if (!visible.length) {
+    const msg = state.templates.length
+      ? "No templates match this filter — try \"All templates\"."
+      : "No templates yet — add one below.";
+    list.appendChild(el("div", "template-empty", msg));
+    return;
+  }
+  visible.forEach((tpl) => {
+    const index = state.templates.indexOf(tpl);
+    list.appendChild(renderTemplateCard(tpl, index, state.templates.length));
+  });
+}
+
+function renderTemplateCard(tpl, index, total) {
+  const card = el("div", "template-card");
+  const head = el("div", "template-head");
+  const labelWrap = el("div", "template-label-wrap");
+  labelWrap.appendChild(el("div", "template-label", tpl.label || "Untitled template"));
+  labelWrap.appendChild(el("span", "template-client-badge", tpl.client || "General"));
+  head.appendChild(labelWrap);
+
+  const actions = el("div", "template-actions");
+  const useBtn = el("button", "btn-send btn-quick", "Use");
+  useBtn.type = "button";
+  useBtn.addEventListener("click", () => {
+    closeTemplatesModal();
+    quickFollowup(tpl.text);
+  });
+  actions.appendChild(useBtn);
+
+  const iconBtn = (glyph, title, handler, disabled) => {
+    const b = el("button", "btn-icon", glyph);
+    b.type = "button";
+    b.title = title;
+    b.setAttribute("aria-label", title);
+    b.disabled = !!disabled;
+    if (!disabled) b.addEventListener("click", handler);
+    actions.appendChild(b);
+  };
+  iconBtn("✎", "Edit", () => card.replaceWith(renderTemplateForm(tpl)));
+  iconBtn("▲", "Move up", () => moveTemplate(tpl.id, "up"), index === 0);
+  iconBtn("▼", "Move down", () => moveTemplate(tpl.id, "down"), index === total - 1);
+  iconBtn("🗑", "Delete", () => deleteTemplate(tpl));
+  head.appendChild(actions);
+  card.appendChild(head);
+
+  // Clamped to a few lines so a long template doesn't push the rest off screen;
+  // clicking the preview expands it in place.
+  const preview = el("div", "template-preview", fillPlaceholders(tpl.text));
+  preview.title = "Click to expand";
+  preview.addEventListener("click", () => preview.classList.toggle("expanded"));
+  card.appendChild(preview);
+  return card;
+}
+
+// One form for both "edit" (tpl given) and "new" (tpl null) — same fields, the
+// only difference is PATCH vs POST and what replaces it on cancel.
+function renderTemplateForm(tpl) {
+  const form = el("div", "template-card template-form");
+
+  const labelInput = el("input");
+  labelInput.type = "text";
+  labelInput.placeholder = "Name (optional, e.g. 'Breakup — closing this file')";
+  labelInput.value = tpl ? tpl.label : "";
+  form.appendChild(labelInput);
+
+  const textArea = el("textarea");
+  textArea.placeholder = "Message text. Use {name} and {company} as placeholders.";
+  textArea.value = tpl ? tpl.text : "";
+  form.appendChild(textArea);
+
+  // Which client this template is for — blank/"General" works everywhere,
+  // a specific client tags it as that client's own copy (see the modal's
+  // filter dropdown, templateMatchesFilter).
+  const clientSelect = el("select", "template-client-select");
+  const generalOpt = el("option", null, "General (any client)");
+  generalOpt.value = "";
+  clientSelect.appendChild(generalOpt);
+  state.templateAvailableClients.forEach((name) => {
+    const opt = el("option", null, name);
+    opt.value = name;
+    clientSelect.appendChild(opt);
+  });
+  clientSelect.value = (tpl && tpl.client) || "";
+  form.appendChild(clientSelect);
+
+  const err = el("div", "error-note");
+  err.hidden = true;
+  form.appendChild(err);
+
+  const row = el("div", "template-form-actions");
+  const saveBtn = el("button", "btn-send btn-quick", "Save");
+  saveBtn.type = "button";
+  saveBtn.addEventListener("click", async () => {
+    const text = textArea.value.trim();
+    if (!text) {
+      err.textContent = "Template text is required.";
+      err.hidden = false;
+      return;
+    }
+    saveBtn.disabled = true;
+    const payload = { label: labelInput.value.trim(), text, client: clientSelect.value };
+    try {
+      const data = tpl
+        ? await apiPatch(`/api/templates/${tpl.id}`, payload)
+        : await apiPost("/api/templates", payload);
+      state.templates = data.templates;
+      state.templateAvailableClients = data.available_clients || state.templateAvailableClients;
+      state.templateCurrentClient = data.current_client || state.templateCurrentClient;
+      renderTemplatesList();
+    } catch (e) {
+      saveBtn.disabled = false;
+      err.textContent = `Couldn't save: ${e.message}`;
+      err.hidden = false;
+    }
+  });
+  row.appendChild(saveBtn);
+
+  const cancelBtn = el("button", "btn-secondary btn-quick", "Cancel");
+  cancelBtn.type = "button";
+  cancelBtn.addEventListener("click", () => (tpl ? renderTemplatesList() : form.remove()));
+  row.appendChild(cancelBtn);
+  form.appendChild(row);
+  return form;
+}
+
+async function moveTemplate(id, direction) {
+  try {
+    const data = await apiPost(`/api/templates/${id}/move`, { direction });
+    state.templates = data.templates;
+    renderTemplatesList();
+  } catch (e) {
+    alert("Couldn't reorder: " + e.message);
+  }
+}
+
+async function deleteTemplate(tpl) {
+  const name = tpl.label || fillPlaceholders(tpl.text).slice(0, 40) + "…";
+  if (!window.confirm(`Delete this template?\n\n${name}`)) return;
+  try {
+    const data = await apiDelete(`/api/templates/${tpl.id}`);
+    state.templates = data.templates;
+    renderTemplatesList();
+  } catch (e) {
+    alert("Couldn't delete: " + e.message);
+  }
+}
+
+async function quickFollowup(template) {
+  const { cid, lid } = currentLeadIds();
+  const firstName = (state.detail.lead.name || "").split(" ")[0] || "there";
+  const company = state.detail.lead.company || "your business";
+  const text = template.replace(/\{name\}/g, firstName).replace(/\{company\}/g, company);
+  // Capture the selection before replacing the section: the dropdown lives
+  // inside it and is removed by the loading state below.
+  const model = $("gen-model-select")?.value;
+  const section = $("draft-section");
+  section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Adding follow-up…</div>';
+  let data;
+  try {
+    // Send the Generate dropdown's current pick so a template is localized by
+    // the same model that would have written the draft. The server falls back
+    // to the "Translating templates" role when this is absent.
+    data = await apiPost(`/api/leads/${cid}/${lid}/quick-draft`, {
+      text,
+      model,
+    });
+  } catch (e) {
+    section.innerHTML = `<div class="error-note">Could not add follow-up: ${e.message}</div>`;
+    return;
+  }
+  // Set when the template went out in English and shouldn't have — the one
+  // failure this path has, and the only one it can't show as an error, since a
+  // draft was still created and looks perfectly fine until you read it.
+  state.draftNote = data.warning || null;
+  state.detail = data;
+  renderList();
+  const body = $("detail-body");
+  const oldPanel = $("research-panel");
+  if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
+  $("draft-section").remove();
+  renderDraftSection(body);
+}
+
+async function composeDraft() {
+  const { cid, lid } = currentLeadIds();
+  state.draftNote = null;
+  const section = $("draft-section");
+  section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Opening a blank draft…</div>';
+  let data;
+  try {
+    data = await apiPost(`/api/leads/${cid}/${lid}/compose`, {});
+  } catch (e) {
+    section.innerHTML = `<div class="error-note">Could not open a draft: ${e.message}</div>`;
+    return;
+  }
+  state.detail = data;
+  renderList();
+  $("draft-section").remove();
+  renderDraftSection($("detail-body"));
+  const editor = $("draft-editor");
+  if (editor) {
+    editor.focus();
+    // A blank manual draft opens with just the signature already in the box —
+    // put the caret at the very start so typing lands before it, not after.
+    placeCursorAtStart(editor);
+  }
+}
+
+function placeCursorAtStart(editor) {
+  const range = document.createRange();
+  range.setStart(editor, 0);
+  range.collapse(true);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+// ---------- editor formatting ----------
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// The editor the toolbar, link and image tools act on. Normally the draft
+// editor; a subsequence step editor claims it on focus (richEditor below), so
+// the same bold/link/image/resize code serves both without a second copy.
+function activeEditor() {
+  if (state.activeEditor && state.activeEditor.isConnected) return state.activeEditor;
+  return $("draft-editor");
+}
+
+function runEditorCommand(cmd, value) {
+  const editor = activeEditor();
+  editor.focus();
+  document.execCommand(cmd, false, value);
+  onEditorInput();
+}
+
+function insertLink() {
+  const editor = activeEditor();
+  editor.focus();
+  const url = window.prompt("Link URL (include https://):");
+  if (!url) return;
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !editor.contains(sel.anchorNode)) {
+    document.execCommand("insertHTML", false, `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(url)}</a>`);
+  } else {
+    document.execCommand("createLink", false, url);
+  }
+  onEditorInput();
+}
+
+// ---------- images ----------
+// Widest an image should ever render in an email client. Also the reference
+// width "100%" means in the resize bar, so a huge screenshot doesn't count as
+// 100% at 3000px and blow the layout out in Outlook.
+const MAX_EMAIL_IMG_WIDTH = 600;
+const IMAGE_URL_RE = /^https?:\/\/\S+\.(png|jpe?g|gif|webp)(\?\S*)?$/i;
+// A whole-clipboard bare URL (nothing else pasted alongside it).
+const PLAIN_URL_RE = /^(https?:\/\/|www\.)\S+$/i;
+
+function imageBaseWidth(img) {
+  return Math.min(img.naturalWidth || MAX_EMAIL_IMG_WIDTH, MAX_EMAIL_IMG_WIDTH);
+}
+
+// Outlook ignores CSS width on images, so the pixel size has to go on the
+// width *attribute* as well; the inline max-width keeps it from overflowing
+// narrow/mobile clients that do honour CSS.
+function setImageWidth(img, pct) {
+  const px = Math.max(40, Math.round((imageBaseWidth(img) * pct) / 100));
+  img.dataset.widthPct = String(pct);
+  img.setAttribute("width", String(px));
+  img.style.width = px + "px";
+  img.style.height = "auto";
+  img.style.maxWidth = "100%";
+  onEditorInput();
+  positionImageBar();
+}
+
+function insertImageAtCursor(url) {
+  const editor = activeEditor();
+  editor.focus();
+  const marker = "pending-img-" + Date.now();
+  document.execCommand(
+    "insertHTML",
+    false,
+    `<img id="${marker}" src="${escapeHtml(url)}" style="max-width:100%;height:auto;">&nbsp;`
+  );
+  const img = document.getElementById(marker);
+  if (!img) return;
+  img.removeAttribute("id");
+  // naturalWidth is 0 until the image has actually loaded, so the default
+  // sizing has to wait for it — otherwise every image would come in at 600px.
+  const apply = () => {
+    setImageWidth(img, 100);
+    selectEditorImage(img);
+  };
+  if (img.complete && img.naturalWidth) apply();
+  else img.addEventListener("load", apply, { once: true });
+  onEditorInput();
+}
+
+async function uploadAndInsertImage(file) {
+  const editor = activeEditor();
+  if (editor) editor.classList.add("uploading");
+  try {
+    const fd = new FormData();
+    fd.append("file", file);
+    const r = await fetch("/api/uploads", { method: "POST", body: fd });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.error || "Upload failed");
+    insertImageAtCursor(data.url);
+  } catch (e) {
+    alert("Couldn't upload that image: " + e.message);
+  } finally {
+    if (editor) editor.classList.remove("uploading");
+  }
+}
+
+function pickImageFile() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/png,image/jpeg,image/gif,image/webp";
+  input.addEventListener("change", () => {
+    if (input.files && input.files[0]) uploadAndInsertImage(input.files[0]);
+  });
+  input.click();
+}
+
+function firstImageFile(list) {
+  return Array.from(list || []).find((f) => f && f.type && f.type.startsWith("image/")) || null;
+}
+
+// Paste: a screenshot straight off the clipboard gets uploaded and hosted
+// here; a bare image URL (the old imgur "open image in new tab, copy address"
+// route) becomes a real <img> instead of a line of link text, so it can be
+// resized like any other image.
+async function onEditorPaste(e) {
+  const items = Array.from((e.clipboardData && e.clipboardData.items) || []);
+  const fileItem = items.find((i) => i.kind === "file" && i.type.startsWith("image/"));
+  if (fileItem) {
+    const file = fileItem.getAsFile();
+    if (file) {
+      e.preventDefault();
+      await uploadAndInsertImage(file);
+      return;
+    }
+  }
+  const text = ((e.clipboardData && e.clipboardData.getData("text/plain")) || "").trim();
+  if (IMAGE_URL_RE.test(text)) {
+    e.preventDefault();
+    insertImageAtCursor(text);
+    return;
+  }
+  // A pasted calendly/any other link should land as a clickable anchor, not
+  // as plain text the lead has to copy out by hand.
+  if (PLAIN_URL_RE.test(text) && !e.clipboardData.getData("text/html")) {
+    e.preventDefault();
+    const href = /^https?:/i.test(text) ? text : "https://" + text;
+    document.execCommand(
+      "insertHTML",
+      false,
+      `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>&nbsp;`
+    );
+    onEditorInput();
+  }
+}
+
+function onEditorDrop(e) {
+  const file = firstImageFile(e.dataTransfer && e.dataTransfer.files);
+  if (!file) return;
+  e.preventDefault();
+  uploadAndInsertImage(file);
+}
+
+// ---------- image resize bar ----------
+// A floating bar pinned above whichever image is selected. Presets cover the
+// common cases in one click; the slider is the "drag to size" fallback.
+function ensureImageBar() {
+  let bar = $("image-bar");
+  if (bar) return bar;
+  bar = el("div", "image-bar");
+  bar.id = "image-bar";
+  bar.addEventListener("mousedown", (e) => e.preventDefault()); // keep editor selection
+
+  [["S", 25], ["M", 50], ["L", 75], ["Full", 100]].forEach(([label, pct]) => {
+    const b = el("button", "image-bar-btn", label);
+    b.type = "button";
+    b.title = `Resize to ${pct}%`;
+    b.addEventListener("click", () => {
+      if (state.selectedImage) setImageWidth(state.selectedImage, pct);
+    });
+    bar.appendChild(b);
+  });
+
+  const slider = el("input");
+  slider.type = "range";
+  slider.id = "image-bar-slider";
+  slider.min = "10";
+  slider.max = "100";
+  slider.className = "image-bar-slider";
+  slider.addEventListener("input", () => {
+    if (state.selectedImage) setImageWidth(state.selectedImage, Number(slider.value));
+  });
+  bar.appendChild(slider);
+
+  const pctLabel = el("span", "image-bar-pct", "100%");
+  pctLabel.id = "image-bar-pct";
+  bar.appendChild(pctLabel);
+
+  const del = el("button", "image-bar-btn image-bar-del", "Remove");
+  del.type = "button";
+  del.addEventListener("click", () => {
+    if (!state.selectedImage) return;
+    state.selectedImage.remove();
+    deselectEditorImage();
+    onEditorInput();
+  });
+  bar.appendChild(del);
+
+  document.body.appendChild(bar);
+  return bar;
+}
+
+function selectEditorImage(img) {
+  if (state.selectedImage && state.selectedImage !== img) {
+    state.selectedImage.classList.remove("img-selected");
+  }
+  state.selectedImage = img;
+  img.classList.add("img-selected");
+  const bar = ensureImageBar();
+  bar.style.display = "flex";
+  const pct = Number(img.dataset.widthPct || 100);
+  $("image-bar-slider").value = String(pct);
+  $("image-bar-pct").textContent = pct + "%";
+  positionImageBar();
+}
+
+function deselectEditorImage() {
+  if (state.selectedImage) state.selectedImage.classList.remove("img-selected");
+  state.selectedImage = null;
+  const bar = $("image-bar");
+  if (bar) bar.style.display = "none";
+}
+
+function positionImageBar() {
+  const img = state.selectedImage;
+  const bar = $("image-bar");
+  if (!img || !bar || !img.isConnected) return;
+  const pct = Number(img.dataset.widthPct || 100);
+  $("image-bar-pct").textContent = pct + "%";
+  const r = img.getBoundingClientRect();
+  bar.style.top = Math.max(8, r.top - bar.offsetHeight - 8) + "px";
+  bar.style.left = Math.max(8, r.left) + "px";
+}
+
+function onEditorClick(e) {
+  const isDraftEditor = e.currentTarget && e.currentTarget.id === "draft-editor";
+  if (e.target && e.target.tagName === "IMG" && (!isDraftEditor || state.editMode === "original")) {
+    selectEditorImage(e.target);
+  } else {
+    deselectEditorImage();
+  }
+}
+
+document.addEventListener("click", (e) => {
+  const bar = $("image-bar");
+  const editor = activeEditor();
+  if (!state.selectedImage) return;
+  if ((bar && bar.contains(e.target)) || (editor && editor.contains(e.target))) return;
+  deselectEditorImage();
+});
+window.addEventListener("scroll", positionImageBar, true);
+window.addEventListener("resize", positionImageBar);
+
+function renderEditorToolbar(target) {
+  const bar = el("div", "editor-toolbar");
+  if (target) {
+    // A step editor's own toolbar: point the shared tools at it before any
+    // button acts, so a click never lands in a different step's email.
+    bar.addEventListener("mousedown", () => { state.activeEditor = target; }, true);
+  } else {
+    bar.id = "editor-toolbar";
+    bar.addEventListener("mousedown", () => { state.activeEditor = null; }, true);
+  }
+  const boldBtn = el("button", "toolbar-btn toolbar-bold", "B");
+  boldBtn.type = "button";
+  boldBtn.title = "Bold";
+  boldBtn.addEventListener("click", () => runEditorCommand("bold"));
+  const italicBtn = el("button", "toolbar-btn toolbar-italic", "I");
+  italicBtn.type = "button";
+  italicBtn.title = "Italic";
+  italicBtn.addEventListener("click", () => runEditorCommand("italic"));
+  const underlineBtn = el("button", "toolbar-btn toolbar-underline", "U");
+  underlineBtn.type = "button";
+  underlineBtn.title = "Underline";
+  underlineBtn.addEventListener("click", () => runEditorCommand("underline"));
+  const bulletBtn = el("button", "toolbar-btn", "• List");
+  bulletBtn.type = "button";
+  bulletBtn.title = "Bullet list";
+  bulletBtn.addEventListener("click", () => runEditorCommand("insertUnorderedList"));
+  const numberBtn = el("button", "toolbar-btn", "1. List");
+  numberBtn.type = "button";
+  numberBtn.title = "Numbered list";
+  numberBtn.addEventListener("click", () => runEditorCommand("insertOrderedList"));
+  const linkBtn = el("button", "toolbar-btn", "Link");
+  linkBtn.type = "button";
+  linkBtn.title = "Insert link";
+  linkBtn.addEventListener("click", insertLink);
+  const imgBtn = el("button", "toolbar-btn", "Image");
+  imgBtn.type = "button";
+  imgBtn.title = "Insert an image — or just paste/drag one into the message. Click an inserted image to resize it.";
+  imgBtn.addEventListener("click", pickImageFile);
+  const clearBtn = el("button", "toolbar-btn", "Clear formatting");
+  clearBtn.type = "button";
+  clearBtn.title = "Remove formatting";
+  clearBtn.addEventListener("click", () => runEditorCommand("removeFormat"));
+  [boldBtn, italicBtn, underlineBtn, bulletBtn, numberBtn, linkBtn, imgBtn, clearBtn].forEach((b) => bar.appendChild(b));
+  return bar;
+}
+
+function renderDraftSection(body) {
+  const draft = state.detail.draft;
+  deselectEditorImage(); // any previously selected <img> is about to be discarded
+  const section = el("div");
+  section.id = "draft-section";
+
+  if (!draft) {
+    // This lead has no draft, so there is nothing to revise. Clearing is not
+    // cosmetic: generate() now sends the editor's content as the draft being
+    // edited, and these persist across leads — without this, a first
+    // generation for one lead would be handed the previous lead's message.
+    state.originalHtml = "";
+    state.englishHtml = null;
+    if (state.detail.generating) {
+      section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';
+      body.appendChild(section);
+      return;
+    }
+    const prompt = el("div", "generate-prompt");
+    prompt.appendChild(renderQuickFollowups());
+    prompt.appendChild(renderGenControls());
+    const genRow = el("div", "gen-btn-row");
+    const gbtn = el("button", "btn-send", "Generate draft");
+    gbtn.addEventListener("click", () => generate($("gen-note-input").value));
+    genRow.appendChild(gbtn);
+    const wbtn = el("button", "btn-secondary", "Write directly");
+    wbtn.type = "button";
+    wbtn.title = "Skip AI generation — start from a blank message";
+    wbtn.addEventListener("click", composeDraft);
+    genRow.appendChild(wbtn);
+    prompt.appendChild(genRow);
+    const note = el("label", "gen-note");
+    const input = el("input");
+    input.type = "text";
+    input.id = "gen-note-input";
+    input.placeholder = "Optional: steer the draft (e.g. focus on pricing objection)";
+    note.appendChild(input);
+    prompt.appendChild(note);
+    section.appendChild(prompt);
+    body.appendChild(section);
+    return;
+  }
+
+  // Fresh editor state for this draft. englishHtml stays null until the
+  // English tab is actually opened, so it's always translated from whatever
+  // is currently in the Original box rather than a stale generation-time value.
+  state.editMode = "original";
+  // body_html is the message body only. The signature is shown as a separate,
+  // read-only preview below the editor (rendered once, visible in both the
+  // Original and English tabs) and appended unchanged at send time — it's never
+  // translated and never part of what the editor sends to translate/localize.
+  const bodyHtml = draft.body_html || "";
+  state.originalHtml = bodyHtml;
+  state.englishHtml = null;
+
+  const box = el("div", "draft-box");
+  box.appendChild(el("h3", null, "Draft reply"));
+
+  if (draft.status === "scheduled" && draft.scheduled_at) {
+    box.appendChild(el("span", "status-banner", `Scheduled for ${draft.scheduled_at}`));
+  }
+  if (draft.sequence_label) {
+    box.appendChild(el("div", "draft-note",
+      `🔁 ${draft.sequence_label}. It sends on its own. Edit the text and click Schedule to keep your changes, or Skip to drop this email and queue the next.`));
+  }
+  if (draft.status === "sending") {
+    box.appendChild(el("span", "status-banner", "Sending…"));
+  }
+
+  // Belongs to the draft that was just created, so it sits above the editor
+  // rather than with the lead's own details. textContent via el(), never HTML:
+  // it can quote a provider's error text.
+  if (state.draftNote) {
+    box.appendChild(el("div", "draft-note", state.draftNote));
+  }
+  if (draft.send_error) {
+    box.appendChild(el("div", "error-note", `Last send failed: ${draft.send_error}`));
+  }
+
+  // The thread above is refetched live, so it already shows anything sent from
+  // Smartlead directly — but this draft was written before that message
+  // existed and may well be answering something already said.
+  if (draft.thread_moved_on) {
+    box.appendChild(el("span", "status-banner warn",
+      "Written before the newest message in this thread — reread it above, or regenerate."));
+  }
+
+  const tabs = el("div", "edit-tabs");
+  const origTab = el("button", "edit-tab active", "Original");
+  origTab.id = "tab-original";
+  origTab.type = "button";
+  const enTab = el("button", "edit-tab", "English");
+  enTab.id = "tab-english";
+  enTab.type = "button";
+  origTab.addEventListener("click", () => setEditMode("original"));
+  enTab.addEventListener("click", () => setEditMode("english"));
+  tabs.appendChild(origTab);
+  tabs.appendChild(enTab);
+  box.appendChild(tabs);
+
+  // Formatting only applies on the Original tab — the English tab is a
+  // plain-text round trip through Sonnet (api_draft_localize strips HTML
+  // before translating back), so bold/links typed there wouldn't survive
+  // "Apply to draft" anyway. Hidden, not removed, so setEditMode can toggle it.
+  box.appendChild(renderEditorToolbar());
+
+  state.activeEditor = null;
+  const editor = el("div", "draft-editor");
+  editor.id = "draft-editor";
+  editor.addEventListener("focus", () => { state.activeEditor = null; });
+  editor.contentEditable = draft.status === "sending" ? "false" : "true";
+  editor.innerHTML = bodyHtml;
+  editor.addEventListener("input", onEditorInput);
+  editor.addEventListener("paste", onEditorPaste);
+  editor.addEventListener("dragover", (e) => e.preventDefault());
+  editor.addEventListener("drop", onEditorDrop);
+  editor.addEventListener("click", onEditorClick);
+  box.appendChild(editor);
+
+  // Read-only signature preview — always visible (both tabs), never edited or
+  // translated. It ships verbatim at send time (scheduler.compose_send_body).
+  if (draft.signature_html) {
+    const sigWrap = el("div", "sig-preview");
+    sigWrap.appendChild(el("div", "sig-preview-label", "Signature — added automatically, not editable"));
+    const sigBody = el("div", "sig-preview-body");
+    sigBody.innerHTML = draft.signature_html;
+    sigWrap.appendChild(sigBody);
+    box.appendChild(sigWrap);
+  } else {
+    // Rendering nothing here used to be indistinguishable from "no signature
+    // configured", so an unsigned send looked normal right up until it landed.
+    box.appendChild(el("span", "status-banner warn",
+      "No signature could be resolved for this thread — this email would go out unsigned."));
+  }
+
+  const applyRow = el("div", "apply-row");
+  applyRow.id = "apply-row";
+  applyRow.hidden = true;
+  const applyBtn = el("button", "btn-send", "Apply to draft");
+  applyBtn.id = "apply-btn";
+  applyBtn.type = "button";
+  applyBtn.addEventListener("click", applyEnglishEdit);
+  applyRow.appendChild(applyBtn);
+  applyRow.appendChild(el("span", "muted", "Rewrites the outgoing message in the lead's language, using the model selected below."));
+  box.appendChild(applyRow);
+
+  box.appendChild(renderQuickFollowups());
+  box.appendChild(renderGenControls());
+
+  box.appendChild(renderRecipients(draft));
+  box.appendChild(renderAttachments(draft));
+
+  const actions = el("div", "actions");
+  const sendBtn = el("button", "btn-send", "Send now");
+  sendBtn.id = "send-btn";
+  sendBtn.addEventListener("click", () => sendDraft(draft.id));
+  actions.appendChild(sendBtn);
+
+  const dt = el("input");
+  dt.type = "datetime-local";
+  dt.id = "schedule-at";
+  // Follow-ups arrive with a server-suggested send time (next weekday ~9am in
+  // the lead's campaign timezone) so "Schedule" is one click, not a decision.
+  if (draft.suggested_schedule_at) dt.value = toLocalInputValue(draft.suggested_schedule_at);
+  actions.appendChild(dt);
+  const schedBtn = el("button", "btn-secondary", "Schedule");
+  schedBtn.id = "schedule-btn";
+  schedBtn.addEventListener("click", () => scheduleDraft(draft.id));
+  actions.appendChild(schedBtn);
+
+  const noteInput = el("input");
+  noteInput.type = "text";
+  noteInput.id = "regen-note";
+  // The note is now an edit instruction against the draft on screen, not a hint
+  // for a rewrite from scratch, so the placeholder says what it does.
+  noteInput.placeholder = "What to change (e.g. shorten the 2nd paragraph). Empty = new draft.";
+  actions.appendChild(noteInput);
+  const regenBtn = el("button", "btn-secondary", "Regenerate");
+  // A sequence email is Andrew's own fixed copy; regenerating would swap it for AI text.
+  if (draft.sequence_label) { noteInput.hidden = true; regenBtn.hidden = true; }
+  regenBtn.id = "regen-btn";
+  regenBtn.title = "With an instruction: edits this draft, keeping everything else. Without one: writes a different draft.";
+  regenBtn.addEventListener("click", () => generate(noteInput.value));
+  actions.appendChild(regenBtn);
+
+  const templatesBtn = el("button", "btn-secondary", "Use a template…");
+  templatesBtn.type = "button";
+  templatesBtn.title = "Replace this draft with a pre-written template";
+  templatesBtn.addEventListener("click", openTemplatesModal);
+  actions.appendChild(templatesBtn);
+
+  const skipBtn = el("button", "btn-secondary", "Skip");
+  skipBtn.addEventListener("click", () => skipDraft(draft.id));
+  actions.appendChild(skipBtn);
+
+  const stopBtn = el("button", "btn-danger", "Stop following up");
+  stopBtn.addEventListener("click", () => stopLead(draft.id));
+  actions.appendChild(stopBtn);
+
+  if (draft.status === "sending") {
+    actions.querySelectorAll("button, input").forEach((control) => {
+      control.disabled = true;
+    });
+  }
+
+  box.appendChild(actions);
+  section.appendChild(box);
+  body.appendChild(section);
+}
+
+// Who this send actually reaches, shown right above Send/Schedule so a message
+// is never fired at an address that wasn't checked first. Both fields are sent
+// to Smartlead explicitly (to_email / cc on reply-email-thread), so what's
+// shown here IS what gets used — To defaults to the address the lead last
+// wrote from, which for outreach to a generic info@ is the real person who
+// answered, not the imported address.
+function renderRecipients(draft) {
+  const r = draft.recipients || {};
+  const wrap = el("div", "recipients");
+
+  const row = (label, id, value, placeholder) => {
+    const line = el("div", "recipient-row");
+    line.appendChild(el("span", "recipient-label", label));
+    const input = el("input");
+    input.type = "text";
+    input.id = id;
+    input.value = value || "";
+    input.placeholder = placeholder;
+    line.appendChild(input);
+    wrap.appendChild(line);
+  };
+  row("To", "recipient-to", r.to, "Recipient address");
+  row("Cc", "recipient-cc", r.cc, "Add people, comma-separated");
+
+  const notes = [];
+  if (r.lead_email && r.to && r.lead_email.toLowerCase() !== r.to.toLowerCase()) {
+    notes.push(`Replying to the address they actually wrote from (imported as ${r.lead_email}).`);
+  }
+  if (r.auto_cc && !r.cc_is_override) notes.push("Cc carried over from this thread.");
+  if (notes.length) wrap.appendChild(el("div", "recipient-note muted", notes.join(" ")));
+  return wrap;
+}
+
+function currentRecipients() {
+  const to = $("recipient-to");
+  const cc = $("recipient-cc");
+  const out = {};
+  if (to) out.to = to.value;
+  if (cc) out.cc = cc.value;
+  return out;
+}
+
+// ---- attachments ----
+//
+// Files ride along as slugs; the server resolves each one back to a real
+// file_url out of the library (main._attachment_updates). Sending the URL from
+// here instead would let a client point Smartlead's fetcher at any address it
+// liked, so the client deliberately never handles one.
+
+function currentAttachments() {
+  // Only send the key when the draft card is actually on screen — an absent
+  // key means "leave the column alone", and [] means "he removed them".
+  if (!$("attachments-row")) return {};
+  return { attachments: (state.attachments || []).map((a) => a.slug) };
+}
+
+function renderAttachments(draft) {
+  state.onAttachmentsChange = null;
+  state.attachments = (draft.attachments || []).slice();
+  const wrap = el("div", "attachments");
+  wrap.id = "attachments-row";
+  const line = el("div", "attachment-row");
+  line.appendChild(el("strong", "attachment-heading", "Attachments"));
+  const chips = el("div", "attachment-chips");
+  chips.id = "attachment-chips";
+  line.appendChild(chips);
+  wrap.appendChild(line);
+
+  const addBtn = el("button", "btn-secondary btn-attach", "+ Attach a file");
+  addBtn.type = "button";
+  addBtn.id = "attach-btn";
+  addBtn.addEventListener("click", openLibraryModal);
+  line.appendChild(addBtn);
+
+  renderAttachmentChips(chips);
+  return wrap;
+}
+
+function renderAttachmentChips(container = null) {
+  // A subsequence step opened the picker: hand the change back to that step.
+  if (state.onAttachmentsChange) {
+    state.onAttachmentsChange();
+    return;
+  }
+  const chips = container || $("attachment-chips");
+  if (!chips) return;
+  chips.innerHTML = "";
+  const list = state.attachments || [];
+  if (!list.length) {
+    chips.appendChild(el("span", "muted", "No files attached"));
+    return;
+  }
+  list.forEach((a) => {
+    const chip = el("span", "attachment-chip");
+    const link = el("a", null, a.file_name);
+    const required = a.slug === "one-body-ldn-partnership-brochure.pdf";
+    link.href = a.file_url || a.url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.title = `${a.file_name} — ${formatBytes(a.file_size)}`;
+    chip.appendChild(el("span", "attachment-file-icon", "PDF"));
+    chip.appendChild(link);
+    chip.appendChild(el("span", "attachment-detail", `${formatBytes(a.file_size)} · Included when sent${required ? " · Added automatically" : ""}`));
+    const open = el("a", "attachment-open", "Open file ↗");
+    open.href = link.href; open.target = "_blank"; open.rel = "noopener";
+    chip.appendChild(open);
+    const rm = el("button", "attachment-remove", "×");
+    rm.type = "button";
+    rm.title = "Remove from this email";
+    rm.addEventListener("click", () => {
+      state.attachments = (state.attachments || []).filter((x) => x.slug !== a.slug);
+      renderAttachmentChips();
+    });
+    if (!required) chip.appendChild(rm);
+    chips.appendChild(chip);
+  });
+}
+
+function formatBytes(n) {
+  if (!n) return "";
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${Math.round(n / 1024)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+async function openLibraryModal() {
+  if ($("library-modal-overlay")) return;
+
+  const overlay = el("div", "modal-overlay");
+  overlay.id = "library-modal-overlay";
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeLibraryModal();
+  });
+
+  const modal = el("div", "modal templates-modal");
+  const header = el("div", "modal-header");
+  const heading = el("div", "modal-heading");
+  heading.appendChild(el("h3", null, "Attach a file"));
+  heading.appendChild(
+    el("div", "modal-sub", "Files kept on the server, ready to reuse. Upload once, attach any time after.")
+  );
+  header.appendChild(heading);
+  const closeBtn = el("button", "modal-close", "×");
+  closeBtn.type = "button";
+  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.addEventListener("click", closeLibraryModal);
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  const list = el("div", "templates-list");
+  list.id = "library-list";
+  list.innerHTML = '<div class="loading-note"><span class="spinner"></span>Loading files…</div>';
+  modal.appendChild(list);
+
+  const footer = el("div", "modal-footer");
+  const upload = el("input");
+  upload.type = "file";
+  upload.id = "library-upload";
+  upload.hidden = true;
+  upload.addEventListener("change", onLibraryUpload);
+  footer.appendChild(upload);
+  const uploadBtn = el("button", "btn-secondary", "+ Upload a new file");
+  uploadBtn.type = "button";
+  uploadBtn.addEventListener("click", () => upload.click());
+  footer.appendChild(uploadBtn);
+  footer.appendChild(el("span", "muted", "PDF, Office docs and images, up to 25 MB."));
+  modal.appendChild(footer);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+  document.body.style.overflow = "hidden";
+  document.addEventListener("keydown", onLibraryModalKeydown);
+
+  await loadLibrary();
+}
+
+function onLibraryModalKeydown(e) {
+  if (e.key === "Escape") closeLibraryModal();
+}
+
+function closeLibraryModal() {
+  const overlay = $("library-modal-overlay");
+  if (overlay) overlay.remove();
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", onLibraryModalKeydown);
+}
+
+async function loadLibrary() {
+  try {
+    const data = await apiGet("/api/library");
+    renderLibraryList(data.files || []);
+  } catch (err) {
+    const list = $("library-list");
+    if (list) list.innerHTML = `<div class="status-banner warn">Could not load the file library: ${err.message}</div>`;
+  }
+}
+
+function renderLibraryList(files) {
+  const list = $("library-list");
+  if (!list) return;
+  list.innerHTML = "";
+  if (!files.length) {
+    list.appendChild(el("div", "muted", "Nothing here yet — upload a file to start the library."));
+    return;
+  }
+  const attached = new Set((state.attachments || []).map((a) => a.slug));
+  files.forEach((f) => {
+    const row = el("div", "library-item");
+    const info = el("div", "library-info");
+    const name = el("div", "library-name", f.file_name);
+    info.appendChild(name);
+    const meta = [formatBytes(f.file_size)];
+    // "Shipped" files come from clients/<slug>/source-docs in the repo, so
+    // they're on every container already and can't be deleted from here.
+    if (f.source === "shipped") meta.push("built in");
+    info.appendChild(el("div", "library-meta muted", meta.filter(Boolean).join(" · ")));
+    row.appendChild(info);
+
+    const isOn = attached.has(f.slug);
+    const pick = el("button", isOn ? "btn-secondary" : "btn-send", isOn ? "Attached" : "Attach");
+    pick.type = "button";
+    pick.disabled = isOn;
+    pick.addEventListener("click", () => {
+      if ((state.attachments || []).some((a) => a.slug === f.slug)) return;
+      state.attachments = (state.attachments || []).concat([
+        {
+          slug: f.slug,
+          file_name: f.file_name,
+          file_url: f.url,
+          file_type: f.file_type,
+          file_size: f.file_size,
+        },
+      ]);
+      renderAttachmentChips();
+      // Close on pick: attaching one file is the whole job nine times out of
+      // ten, and leaving the picker open made the common case two clicks.
+      closeLibraryModal();
+    });
+    row.appendChild(pick);
+
+    if (f.source === "uploaded") {
+      const del = el("button", "btn-danger", "Delete");
+      del.type = "button";
+      del.title = "Remove from the library for good";
+      del.addEventListener("click", async () => {
+        if (!confirm(`Delete "${f.file_name}" from the library?\n\nEmails already sent with it will stop showing the file.`)) return;
+        try {
+          const data = await apiDelete(`/api/library/${encodeURIComponent(f.slug)}`);
+          state.attachments = (state.attachments || []).filter((a) => a.slug !== f.slug);
+          renderAttachmentChips();
+          renderLibraryList(data.files || []);
+        } catch (err) {
+          alert(`Could not delete: ${err.message}`);
+        }
+      });
+      row.appendChild(del);
+    }
+    list.appendChild(row);
+  });
+}
+
+async function onLibraryUpload(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  e.target.value = "";
+  const list = $("library-list");
+  if (list) list.innerHTML = '<div class="loading-note"><span class="spinner"></span>Uploading…</div>';
+  const form = new FormData();
+  form.append("file", file);
+  try {
+    const res = await fetch("/api/library", { method: "POST", body: form });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Upload failed");
+    renderLibraryList(data.files || []);
+  } catch (err) {
+    if (list) list.innerHTML = `<div class="status-banner warn">${err.message}</div>`;
+  }
+}
+
+// The selection outline on a clicked image is a class on the <img> itself, so
+// it would otherwise ride along into body_html and out to the lead. Strip it
+// on the way out — this is the only place editor HTML is read for storage.
+function editorSerialize(editor) {
+  if (!editor.querySelector(".img-selected")) return editor.innerHTML;
+  const clone = editor.cloneNode(true);
+  clone.querySelectorAll(".img-selected").forEach((n) => {
+    n.classList.remove("img-selected");
+    if (!n.className) n.removeAttribute("class");
+  });
+  return clone.innerHTML;
+}
+
+function onEditorInput() {
+  const editor = activeEditor();
+  if (!editor) return;
+  if (editor.id !== "draft-editor") {
+    if (editor._onChange) editor._onChange();
+    return;
+  }
+  if (state.editMode === "original") {
+    state.originalHtml = editorSerialize(editor);
+    state.englishHtml = null; // invalidate — refetch fresh next time English is viewed
+  } else {
+    state.englishHtml = editor.innerHTML;
+  }
+}
+
+function toggleActionButtons(enabled) {
+  ["send-btn", "schedule-btn", "regen-btn"].forEach((id) => {
+    const b = $(id);
+    if (b) b.disabled = !enabled;
+  });
+}
+
+async function setEditMode(mode, opts = {}) {
+  if (mode === state.editMode) return;
+  const editor = $("draft-editor");
+  deselectEditorImage(); // the English tab replaces the editor's contents
+  if (!opts.skipStash) {
+    if (state.editMode === "original") state.originalHtml = editorSerialize(editor);
+    else state.englishHtml = editor.innerHTML;
+  }
+  state.editMode = mode;
+  $("tab-original").classList.toggle("active", mode === "original");
+  $("tab-english").classList.toggle("active", mode === "english");
+  $("apply-row").hidden = mode !== "english";
+  if ($("editor-toolbar")) $("editor-toolbar").hidden = mode !== "original";
+  toggleActionButtons(mode === "original");
+
+  if (mode === "english" && state.englishHtml == null) {
+    editor.setAttribute("contenteditable", "false");
+    editor.innerHTML = '<span class="muted"><span class="spinner"></span>Translating…</span>';
+    try {
+      const data = await apiPost(`/api/drafts/${state.detail.draft.id}/translate`, {
+        original_html: state.originalHtml,
+      });
+      state.englishHtml = data.english_html;
+    } catch (e) {
+      editor.innerHTML = `<span class="error-note">Translation failed: ${e.message}</span>`;
+      editor.setAttribute("contenteditable", "true");
+      return;
+    }
+    editor.setAttribute("contenteditable", "true");
+  }
+
+  editor.innerHTML = mode === "original" ? state.originalHtml : state.englishHtml;
+}
+
+async function applyEnglishEdit() {
+  const editor = $("draft-editor");
+  const englishHtml = editor.innerHTML;
+  const btn = $("apply-btn");
+  const modelSel = $("gen-model-select");
+  btn.disabled = true;
+  btn.textContent = "Rewriting in the lead's language…";
+  try {
+    const data = await apiPost(`/api/drafts/${state.detail.draft.id}/localize`, {
+      english_html: englishHtml,
+      model: modelSel ? modelSel.value : undefined,
+    });
+    state.detail.draft = data.draft;
+    state.originalHtml = data.draft.body_html;
+    state.englishHtml = englishHtml; // exactly what was just approved
+    await setEditMode("original", { skipStash: true });
+  } catch (e) {
+    alert("Couldn't rewrite the draft: " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Apply to draft";
+  }
+}
+
+// ---------- translate ----------
+// Each bubble caches its own translation (dataset.translatedHtml) so flipping a
+// message back and forth never re-calls the API. A message that arrived with a
+// cached translation (m.english) starts in English. The per-message and
+// whole-thread checkboxes share this same per-bubble state.
+function threadBubbles() {
+  return Array.from(document.querySelectorAll("#thread .bubble"));
+}
+
+function showBubbleOriginal(bubble) {
+  bubble.innerHTML = bubble.dataset.original;
+  bubble.dataset.mode = "orig";
+}
+
+function showBubbleEnglish(bubble) {
+  bubble.innerHTML = bubble.dataset.translatedHtml;
+  bubble.dataset.mode = "en";
+}
+
+// Keep the whole-thread checkbox in sync: checked only when every message is
+// currently showing English.
+function syncThreadToggle() {
+  const tcb = $("thread-english-toggle");
+  if (!tcb) return;
+  const bubbles = threadBubbles();
+  tcb.checked = bubbles.length > 0 && bubbles.every((b) => b.dataset.mode === "en");
+}
+
+// Per-message toggle. Unchecked → original; checked → English (fetched + cached
+// on first use, free thereafter).
+async function setMessageLang(bubble, cb, index) {
+  if (!cb.checked) {
+    showBubbleOriginal(bubble);
+    syncThreadToggle();
+    return;
+  }
+  if (!bubble.dataset.translatedHtml) {
+    const { cid, lid } = currentLeadIds();
+    cb.disabled = true;
+    try {
+      const data = await apiPost(`/api/leads/${cid}/${lid}/translate`, { index });
+      bubble.dataset.translatedHtml = data.html;
+    } catch (e) {
+      cb.checked = false;
+      cb.disabled = false;
+      alert("Translation failed: " + e.message);
+      return;
+    }
+    cb.disabled = false;
+  }
+  showBubbleEnglish(bubble);
+  syncThreadToggle();
+}
+
+// Whole-thread toggle. Reuses each bubble's cached translation, so only the
+// messages still missing one are requested — in a single batched call.
+async function setThreadLang(tcb) {
+  const bubbles = threadBubbles();
+  if (!bubbles.length) return;
+  const setRowChecks = (checked) =>
+    bubbles.forEach((b) => {
+      const cb = b.parentElement.querySelector(".msg-lang-cb");
+      if (cb) cb.checked = checked;
+    });
+
+  if (!tcb.checked) {
+    bubbles.forEach(showBubbleOriginal);
+    setRowChecks(false);
+    return;
+  }
+
+  const needed = [];
+  bubbles.forEach((b, i) => {
+    if (!b.dataset.translatedHtml) needed.push(i);
+  });
+
+  tcb.disabled = true;
+  try {
+    if (needed.length) {
+      const { cid, lid } = currentLeadIds();
+      const data = await apiPost(`/api/leads/${cid}/${lid}/translate-thread`, { indices: needed });
+      data.indices.forEach((idx, k) => {
+        bubbles[idx].dataset.translatedHtml = data.htmls[k];
+      });
+    }
+    bubbles.forEach(showBubbleEnglish);
+    setRowChecks(true);
+  } catch (e) {
+    alert("Translation failed: " + e.message);
+    tcb.checked = false;
+  } finally {
+    tcb.disabled = false;
+  }
+}
+
+// ---------- generate / regenerate ----------
+// generate_for_lead calls Claude with web search/fetch tools and can take
+// minutes — long enough to hit Cloudflare's ~100s tunnel timeout if held
+// open as a single request (confirmed via a real 524 in production). The
+// backend now kicks it off in a background thread and reports progress via
+// `generating` on GET /api/leads/{cid}/{lid}; poll that instead of awaiting
+// one long POST. Keyed by lead so generating on one lead doesn't stop a poll
+// already running for another.
+const genPolls = new Map();
+
+function pollGeneration(cid, lid) {
+  const key = `${cid}:${lid}`;
+  if (genPolls.has(key)) return;
+
+  const finish = (data, errorMessage) => {
+    clearInterval(genPolls.get(key));
+    genPolls.delete(key);
+    const lead = state.leads.find((l) => l.campaign_id === cid && l.lead_id === lid);
+    if (lead && data && data.draft) lead.has_draft = true;
+
+    const cur = currentLeadIds();
+    if (!cur || cur.cid !== cid || cur.lid !== lid) {
+      if (lead) renderList();
+      return; // user is looking at a different lead now — don't touch its DOM
+    }
+    const body = $("detail-body");
+    const oldSection = $("draft-section");
+    if (errorMessage) {
+      const s = el("div");
+      s.id = "draft-section";
+      // textContent, not innerHTML: this can now be the provider's own error
+      // text, relayed from OpenRouter, which is not ours to trust as markup.
+      s.appendChild(el("div", "error-note", errorMessage));
+      if (oldSection) oldSection.replaceWith(s); else body.appendChild(s);
+      return;
+    }
+    state.detail = data;
+    renderList();
+    const oldPanel = $("research-panel");
+    if (oldPanel) oldPanel.replaceWith(renderResearchPanel(state.detail.lead));
+    if (oldSection) oldSection.remove();
+    renderDraftSection(body);
+  };
+
+  const interval = setInterval(async () => {
+    let data;
+    try {
+      data = await apiGet(`/api/leads/${cid}/${lid}`);
+    } catch (e) {
+      finish(null, `Generation failed: ${e.message}`);
+      return;
+    }
+    if (data.generating) return;
+    // Say what actually went wrong when the server knows. "Could not generate a
+    // draft for this lead" was the only thing this ever printed — the same
+    // sentence for a model that ran out of reasoning budget, a missing API key
+    // and a lead with no thread, none of which have the same fix.
+    finish(
+      data,
+      data.draft
+        ? null
+        : data.generation_error || "Could not generate a draft for this lead.",
+    );
+  }, 3000);
+  genPolls.set(key, interval);
+}
+
+async function generate(note) {
+  const { cid, lid } = currentLeadIds();
+  // Read the model/web-search controls before wiping the section's innerHTML below.
+  const modelSel = $("gen-model-select");
+  const wsCheckbox = $("gen-websearch-toggle");
+  const model = modelSel ? modelSel.value : "";
+  const useWebSearch = wsCheckbox ? wsCheckbox.checked : true;
+
+  // Read the editor BEFORE the innerHTML wipe below destroys it. This is what
+  // the model revises when a steering note is given — including any edits made
+  // by hand, which a regenerate used to silently discard. Empty on a first
+  // generation, where there is nothing to revise.
+  const baseDraft = editorHtml();
+
+  // The note describes the draft being replaced, not the one coming.
+  state.draftNote = null;
+
+  const section = $("draft-section");
+  section.innerHTML = '<div class="loading-note"><span class="spinner"></span>Writing the draft — researching the lead, this can take a few minutes…</div>';
+  try {
+    await apiPost(`/api/leads/${cid}/${lid}/generate`, {
+      steering_note: note || "",
+      base_draft: baseDraft || "",
+      model: model || undefined,
+      use_web_search: useWebSearch,
+    });
+  } catch (e) {
+    section.innerHTML = `<div class="error-note">Generation failed: ${e.message}</div>`;
+    return;
+  }
+  pollGeneration(cid, lid);
+}
+
+// ---------- draft actions ----------
+function editorHtml() {
+  // Always the Original (native-language) content — never whatever happens to
+  // be displayed in the shared editor at the moment, since that could be the
+  // English tab. Send/Schedule are also disabled while on the English tab.
+  return state.originalHtml || "";
+}
+
+// Unlike skip/stop/schedule (withRowRemoval, which fades the row out and
+// auto-advances to the next lead), sending stays put on the same lead —
+// Andrew wants to keep working this thread, not get bounced to whichever
+// lead happens to be next in the list.
+async function sendDraft(id) {
+  const { cid, lid } = currentLeadIds();
+  const controls = document.querySelectorAll("#draft-section button, #draft-section input");
+  controls.forEach((control) => { control.disabled = true; });
+  const sendBtn = $("send-btn");
+  if (sendBtn) sendBtn.textContent = "Sending…";
+  try {
+    const result = await apiPost(`/api/drafts/${id}/send`, {
+      body_html: editorHtml(),
+      ...currentRecipients(),
+      ...currentAttachments(),
+    });
+    if (result.status !== "sent") {
+      await selectLead(state.selected);
+      return;
+    }
+  } catch (e) {
+    alert(e.message);
+    await selectLead(state.selected);
+    return;
+  }
+  // The send path already fetched the latest thread for its race check. Do not
+  // immediately spend a third Smartlead request just to repaint the card.
+  state.detail.draft = null;
+  state.detail.lead.category = "waiting";
+  const row = state.leads.find((l) => l.campaign_id === cid && l.lead_id === lid);
+  if (row) {
+    row.category = "waiting";
+    row.has_draft = false;
+  }
+  renderList();
+  renderDetail();
+}
+async function skipDraft(id) {
+  await withRowRemoval(() => apiPost(`/api/drafts/${id}/skip`, {}));
+}
+async function stopLead(id) {
+  if (!confirm("Stop all automated follow-ups for this lead?")) return;
+  await withRowRemoval(() => apiPost(`/api/drafts/${id}/stop`, {}));
+}
+async function scheduleDraft(id) {
+  const at = $("schedule-at").value;
+  if (!at) { alert("Pick a date/time first."); return; }
+  try {
+    // datetime-local values are browser-local wall time with no zone marker;
+    // the server treats naive timestamps as UTC, so convert explicitly here —
+    // otherwise every schedule silently fires hours late (browser-local vs UTC).
+    const atUtc = new Date(at).toISOString();
+    await apiPost(`/api/drafts/${id}/schedule`, {
+      body_html: editorHtml(),
+      scheduled_at: atUtc,
+      ...currentRecipients(),
+      ...currentAttachments(),
+    });
+    await withRowRemoval(async () => {});
+  } catch (e) {
+    alert("Schedule failed: " + e.message);
+  }
+}
+
+// Run an action, then fade+remove the affected lead row. If it was the
+// selected row, auto-advance selection to the next one; otherwise just
+// shift the selection index to account for the removed row.
+async function withRowRemoval(action, index = state.selected) {
+  const i = index;
+  try {
+    await action();
+  } catch (e) {
+    alert(e.message);
+    return;
+  }
+  const row = document.querySelector(`.lead-row[data-index="${i}"]`);
+  if (row) row.classList.add("sent-out");
+  setTimeout(() => {
+    const wasSelected = i === state.selected;
+    state.leads.splice(i, 1);
+    if (i < state.snoozedCount) state.snoozedCount -= 1;
+
+    if (!wasSelected) {
+      if (i < state.selected) state.selected -= 1;
+      renderList();
+      return;
+    }
+    if (state.leads.length === 0) {
+      state.selected = -1;
+      renderList();
+      $("detail-body").hidden = true;
+      $("detail-empty").hidden = false;
+      showMobileList();
+      return;
+    }
+    const next = Math.min(i, state.leads.length - 1);
+    selectLead(next);
+  }, 320);
+}
+
+// ---------- subsequences (app/sequences.py) ----------
+//
+// Follow-up emails Andrew writes once. Setting a lead's status to a sequence's
+// trigger category starts it; every email goes out as a threaded reply with the
+// persona's HTML signature, in the lead's morning; any reply or booking stops
+// it. The sidebar lists sequences, the right pane has two tabs: who is in it,
+// and the emails themselves.
+
+state.sequences = [];
+state.selectedSequence = null;   // id
+state.sequenceTab = "leads";     // "leads" | "builder"
+state.enrollmentFilter = "running";
+state.sequencePersonas = null;   // [{name, signature_html}] for the preview
+state.sequenceTriggers = {};     // normCategoryName(trigger) -> sequence summary
+state.activeEditor = null;
+state.onAttachmentsChange = null;
+
+const SEQUENCE_TIMEZONES = [
+  ["auto", "Automatic (from the campaign)"],
+  ["Europe/London", "London"],
+  ["Europe/Dublin", "Dublin"],
+  ["Europe/Berlin", "Berlin / Amsterdam / Paris"],
+  ["Europe/Zagreb", "Zagreb"],
+  ["Europe/Helsinki", "Helsinki"],
+  ["America/New_York", "US (8–10am Eastern)"],
+];
+
+const STOP_REASON_LABELS = {
+  replied: "Replied",
+  auto_reply: "Out of office",
+  booked: "Booked a meeting",
+  status_changed: "Status changed",
+  dnc: "Do not contact",
+  mailbox_dead: "Mailbox retired",
+  manual: "Removed by you",
+  manual_pause: "Paused by you",
+  send_failed: "Send failed",
+  lead_not_found: "Not found in Smartlead",
+};
+
+function rememberSequenceTriggers(list) {
+  state.sequenceTriggers = {};
+  (list || []).forEach((s) => {
+    state.sequenceTriggers[normCategoryName(s.trigger_category)] = s;
+  });
+}
+
+async function loadSequenceTriggers() {
+  try {
+    rememberSequenceTriggers((await apiGet("/api/sequences")).sequences);
+  } catch (e) {
+    console.error("could not load sequences", e);
+  }
+}
+
+// "Fri 19 Sep, 08:46" in the browser's own timezone.
+function formatYourTime(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d)) return "";
+  return d.toLocaleString(undefined, { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+}
+
+function zoneLabel(zone) {
+  const known = SEQUENCE_TIMEZONES.find(([z]) => z === zone);
+  if (zone === "America/New_York") return "Eastern";
+  return known ? known[1] : (zone || "").split("/").pop().replace(/_/g, " ");
+}
+
+async function loadSequences() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = "Sequences";
+  $("inbox-empty").hidden = true;
+  list.appendChild(el("li", "list-section", "Loading sequences…"));
+  const data = await apiGet("/api/sequences");
+  if (state.view !== "sequences") return data;
+  state.sequences = data.sequences || [];
+  rememberSequenceTriggers(state.sequences);
+  if (!state.categoryList) await loadCategories();
+  renderSequenceList();
+  const keep = state.sequences.find((s) => s.id === state.selectedSequence);
+  if (keep) openSequence(keep.id);
+  return data;
+}
+
+function renderSequenceList() {
+  const list = $("lead-list");
+  list.innerHTML = "";
+  $("inbox-count").textContent = `Sequences (${state.sequences.length})`;
+
+  const head = el("li", "account-switch");
+  const add = el("button", "btn-send", "+ New sequence");
+  add.type = "button";
+  add.addEventListener("click", renderNewSequenceForm);
+  head.appendChild(add);
+  list.appendChild(head);
+
+  if (!state.sequences.length) {
+    list.appendChild(el("li", "list-section", "No sequences yet"));
+    return;
+  }
+  state.sequences.forEach((s) => {
+    const li = el("li", "lead-row campaign-row sequence-row");
+    if (state.selectedSequence === s.id) li.classList.add("selected");
+    if (!s.active) li.classList.add("sequence-off");
+    const top = el("div", "lead-top");
+    top.appendChild(el("span", "lead-name", s.name));
+    if (!s.active) top.appendChild(el("span", "state-chip", "Off"));
+    li.appendChild(top);
+    const trig = el("div", "campaign-line");
+    trig.appendChild(el("span", "campaign-tag", s.trigger_category));
+    li.appendChild(trig);
+    const meta = el("div", "campaign-meta");
+    meta.appendChild(el("span", "campaign-stat", `${s.step_count} email${s.step_count === 1 ? "" : "s"} over ${s.total_days} days`));
+    const c = s.counts || {};
+    if (c.active) meta.appendChild(el("span", "campaign-stat good", `${c.active} running`));
+    if (c.paused) meta.appendChild(el("span", "campaign-stat", `${c.paused} paused`));
+    if (c.error) meta.appendChild(el("span", "campaign-stat bad", `${c.error} need attention`));
+    if (c.replied) meta.appendChild(el("span", "campaign-stat", `${c.replied} replied`));
+    if (c.booked) meta.appendChild(el("span", "campaign-stat good", `${c.booked} booked`));
+    li.appendChild(meta);
+    li.addEventListener("click", () => openSequence(s.id));
+    list.appendChild(li);
+  });
+}
+
+function sequencePane() {
+  $("detail-empty").hidden = true;
+  const body = $("detail-body");
+  body.hidden = false;
+  body.innerHTML = "";
+  if (isMobileLayout()) {
+    const back = el("button", "btn-back", "← Back");
+    back.type = "button";
+    back.addEventListener("click", () => {
+      state.selectedSequence = null;
+      renderSequenceList();
+      body.hidden = true;
+      $("detail-empty").hidden = false;
+      showMobileList();
+    });
+    body.appendChild(back);
+  }
+  showMobileDetail();
+  return body;
+}
+
+function categoryOptions(select, selected, { allowNone = false, noneLabel = "" } = {}) {
+  const names = (state.categoryList || []).slice();
+  if (selected && !names.includes(selected)) names.unshift(selected);
+  if (allowNone) {
+    const none = el("option", null, noneLabel);
+    none.value = "";
+    none.selected = !selected;
+    select.appendChild(none);
+  }
+  names.forEach((name) => {
+    const opt = el("option", null, name);
+    opt.value = name;
+    opt.selected = name === selected;
+    select.appendChild(opt);
+  });
+}
+
+function renderNewSequenceForm() {
+  state.selectedSequence = null;
+  renderSequenceList();
+  const body = sequencePane();
+  body.appendChild(el("h2", null, "New sequence"));
+  body.appendChild(el("p", "muted",
+    "Pick the Smartlead status that starts it. Setting a lead to that status (after you've sent your own message) enrolls them."));
+  const form = el("div", "seq-form");
+  const name = el("input");
+  name.type = "text";
+  name.placeholder = "e.g. Interested in the 55-minute session";
+  form.appendChild(labelled("Name", name));
+  const trigger = el("select", "cat-select");
+  categoryOptions(trigger, "", { allowNone: true, noneLabel: "Choose a status…" });
+  form.appendChild(labelled("Starts when status is set to", trigger));
+  form.appendChild(el("div", "muted small",
+    "Don't see it? Create the status in Smartlead first (Settings → Lead categories), then reload."));
+  const err = el("div", "error-note");
+  const create = el("button", "btn-send", "Create sequence");
+  create.type = "button";
+  create.addEventListener("click", async () => {
+    err.textContent = "";
+    try {
+      const data = await apiPost("/api/sequences", { name: name.value, trigger_category: trigger.value });
+      state.sequenceTab = "builder";
+      state.selectedSequence = data.sequence.id;
+      await loadSequences();
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  form.appendChild(create);
+  form.appendChild(err);
+  body.appendChild(form);
+  name.focus();
+}
+
+function labelled(text, control) {
+  const wrap = el("label", "seq-field");
+  wrap.appendChild(el("span", "seq-field-label", text));
+  wrap.appendChild(control);
+  return wrap;
+}
+
+async function openSequence(id) {
+  state.selectedSequence = id;
+  renderSequenceList();
+  const body = sequencePane();
+  body.appendChild(el("div", "loading-note", "Loading…"));
+  let data;
+  try {
+    data = await apiGet(`/api/sequences/${id}`);
+  } catch (e) {
+    body.innerHTML = "";
+    body.appendChild(el("div", "error-note", `Couldn't load this sequence: ${e.message}`));
+    return;
+  }
+  if (state.view !== "sequences" || state.selectedSequence !== id) return;
+  renderSequenceDetail(data.sequence);
+}
+
+function renderSequenceDetail(seq) {
+  const body = sequencePane();
+  const head = el("div", "campaign-head");
+  const title = el("div", "detail-header");
+  title.appendChild(el("h2", null, seq.name));
+  title.appendChild(el("span", `state-chip ${seq.active ? "cat-booked" : ""}`, seq.active ? "On" : "Off"));
+  head.appendChild(title);
+  const sub = el("div", "muted");
+  sub.appendChild(document.createTextNode("Starts when a lead's status is set to "));
+  sub.appendChild(el("strong", null, seq.trigger_category));
+  sub.appendChild(document.createTextNode(` · ${seq.step_count} email${seq.step_count === 1 ? "" : "s"} over ${seq.total_days} days`));
+  head.appendChild(sub);
+  body.appendChild(head);
+
+  if (state.categoryList && !state.categoryList.includes(seq.trigger_category)) {
+    body.appendChild(el("div", "status-banner warn",
+      `Smartlead has no "${seq.trigger_category}" status. Create it there, or no lead can start this sequence.`));
+  }
+
+  const tabs = el("div", "campaign-tabs");
+  const pane = el("div", "campaign-pane");
+  const c = seq.counts || {};
+  const running = (c.active || 0) + (c.paused || 0) + (c.error || 0);
+  [["leads", `Leads (${running} running)`], ["builder", "Emails & timing"]].forEach(([key, label]) => {
+    const b = el("button", "campaign-tab" + (state.sequenceTab === key ? " active" : ""), label);
+    b.type = "button";
+    b.addEventListener("click", () => {
+      state.sequenceTab = key;
+      renderSequenceDetail(seq);
+    });
+    tabs.appendChild(b);
+  });
+  body.appendChild(tabs);
+  body.appendChild(pane);
+  if (state.sequenceTab === "builder") renderSequenceBuilder(pane, seq);
+  else renderSequenceLeads(pane, seq);
+}
+
+// ---- leads tab ----
+
+const ENROLLMENT_FILTERS = [
+  ["running", "Running", (e) => ["active", "paused", "error"].includes(e.state)],
+  ["completed", "Finished", (e) => e.state === "completed"],
+  ["stopped", "Stopped", (e) => e.state === "stopped"],
+  ["all", "All", () => true],
+];
+
+async function renderSequenceLeads(pane, seq) {
+  pane.innerHTML = "";
+  pane.appendChild(el("div", "loading-note", "Loading leads…"));
+  let enrollments;
+  try {
+    enrollments = (await apiGet(`/api/sequences/${seq.id}/enrollments`)).enrollments || [];
+  } catch (e) {
+    pane.innerHTML = "";
+    pane.appendChild(el("div", "error-note", e.message));
+    return;
+  }
+  pane.innerHTML = "";
+
+  const filters = el("div", "convo-filter");
+  ENROLLMENT_FILTERS.forEach(([key, label, match]) => {
+    const n = enrollments.filter(match).length;
+    const chip = el("button", "chip-filter" + (state.enrollmentFilter === key ? " active" : ""), `${label} (${n})`);
+    chip.type = "button";
+    chip.addEventListener("click", () => {
+      state.enrollmentFilter = key;
+      renderSequenceLeads(pane, seq);
+    });
+    filters.appendChild(chip);
+  });
+  pane.appendChild(filters);
+
+  const match = (ENROLLMENT_FILTERS.find(([k]) => k === state.enrollmentFilter) || ENROLLMENT_FILTERS[0])[2];
+  const shown = enrollments.filter(match);
+  if (!shown.length) {
+    pane.appendChild(el("p", "muted",
+      enrollments.length
+        ? "Nobody in this group."
+        : `No leads yet. Send a lead your own message, then set their status to "${seq.trigger_category}".`));
+    return;
+  }
+  shown.forEach((e) => pane.appendChild(renderEnrollmentCard(e, () => refreshSequence(seq.id))));
+}
+
+async function refreshSequence(id) {
+  try {
+    state.sequences = (await apiGet("/api/sequences")).sequences || [];
+    rememberSequenceTriggers(state.sequences);
+  } catch (e) { /* the list just keeps its old counts */ }
+  if (state.view === "sequences") {
+    renderSequenceList();
+    openSequence(id);
+  }
+}
+
+function enrollmentStateChip(e) {
+  if (e.state === "active") return el("span", "state-chip cat-waiting", "Running");
+  if (e.state === "paused") {
+    return el("span", "state-chip cat-auto_reply", e.stop_reason === "auto_reply" ? "Paused · out of office" : "Paused");
+  }
+  if (e.state === "error") return el("span", "state-chip cat-reply", "Needs attention");
+  if (e.state === "completed") return el("span", "state-chip", "Finished");
+  const cls = e.stop_reason === "booked" ? "cat-booked" : e.stop_reason === "replied" ? "cat-followup" : "";
+  return el("span", `state-chip ${cls}`, STOP_REASON_LABELS[e.stop_reason] || "Stopped");
+}
+
+function stepDots(e) {
+  const wrap = el("span", "seq-dots");
+  wrap.title = `${e.steps_sent} of ${e.step_count} sent`;
+  for (let i = 1; i <= e.step_count; i++) {
+    wrap.appendChild(el("span", "seq-dot" + (i <= e.steps_sent ? " done" : i === e.steps_sent + 1 && e.state === "active" ? " next" : "")));
+  }
+  return wrap;
+}
+
+// One lead in a sequence. Used by the Leads tab and, compactly, on the lead's
+// own page; `onChange` re-renders whichever of the two it's in.
+function renderEnrollmentCard(e, onChange, { compact = false } = {}) {
+  const card = el("div", compact ? "seq-badge" : "convo-card seq-enrollment");
+  const top = el("div", "seq-enrollment-top");
+  if (compact) {
+    top.appendChild(el("span", "seq-badge-title", `🔁 ${e.sequence_name}`));
+  } else {
+    top.appendChild(el("span", "convo-company", e.lead_name || e.lead_email || "Lead"));
+    if (e.lead_company) top.appendChild(el("span", "muted", e.lead_company));
+  }
+  top.appendChild(enrollmentStateChip(e));
+  card.appendChild(top);
+
+  const progress = el("div", "seq-progress");
+  progress.appendChild(stepDots(e));
+  const sentText = e.steps_sent >= e.step_count
+    ? `All ${e.step_count} emails sent`
+    : `${e.steps_sent} of ${e.step_count} sent`;
+  progress.appendChild(el("span", "small", sentText));
+  card.appendChild(progress);
+
+  const lines = [];
+  if (e.state === "active" && e.next_send_at) {
+    lines.push(`Next email ${e.next_send_local} ${zoneLabel(e.lead_timezone)} time (${formatYourTime(e.next_send_at)} yours)`);
+  }
+  if (e.last_sent_at) lines.push(`Last sent ${formatYourTime(e.last_sent_at)}`);
+  if (e.state === "stopped" && e.stopped_at) {
+    lines.push(`${STOP_REASON_LABELS[e.stop_reason] || "Stopped"} ${formatYourTime(e.stopped_at)}, after email ${e.steps_sent} of ${e.step_count}`);
+  }
+  if (e.state === "completed" && e.completed_at) lines.push(`Finished ${formatYourTime(e.completed_at)}`);
+  if (e.state === "paused" && e.suggested_resume_at) lines.push(`Their autoreply says they're back ${formatDayLabel(e.suggested_resume_at)}`);
+  if (!compact && e.lead_email) lines.push(e.lead_email + (e.campaign_name ? ` · ${e.campaign_name}` : ""));
+  lines.forEach((t) => card.appendChild(el("div", "small muted", t)));
+  if (e.last_error) card.appendChild(el("div", "error-note", e.last_error));
+
+  const actions = el("div", "seq-actions");
+  const act = (label, action, body, cls = "btn-secondary", confirmText = "") => {
+    const b = el("button", cls, label);
+    b.type = "button";
+    b.addEventListener("click", async (ev) => {
+      ev.stopPropagation();
+      if (confirmText && !confirm(confirmText)) return;
+      b.disabled = true;
+      try {
+        await apiPost(`/api/enrollments/${e.id}/${action}`, body || {});
+        onChange();
+      } catch (err) {
+        alert(err.message);
+        b.disabled = false;
+      }
+    });
+    actions.appendChild(b);
+    return b;
+  };
+
+  if (e.state === "active") {
+    act("Send next email now", "send-now", null, "btn-secondary",
+      "Send the next email now? The usual checks still run first (no reply, still in this status).");
+    act("Skip this email", "skip", null, "btn-secondary", "Skip the next email and move on to the one after it?");
+    act("Pause", "pause");
+    act("Remove", "remove", null, "btn-danger", "Take this lead out of the sequence? Nothing more will be sent.");
+  } else if (e.state === "paused" || e.state === "error") {
+    if (e.suggested_resume_at) {
+      act(`Resume ${formatDayLabel(e.suggested_resume_at)}`, "resume", { resume_on: e.suggested_resume_at }, "btn-send");
+    }
+    actions.appendChild(renderResumePicker(e, onChange));
+    act("Remove", "remove", null, "btn-danger", "Take this lead out of the sequence? Nothing more will be sent.");
+  } else {
+    act("Re-enroll", "re-enroll", null, "btn-secondary",
+      "Start this sequence again from email 1? Only do this if they're waiting on nothing from you.");
+  }
+  card.appendChild(actions);
+  return card;
+}
+
+function renderResumePicker(e, onChange) {
+  const select = el("select", "cat-select");
+  const placeholder = el("option", null, "Resume…");
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+  [["now", "Resume now (next morning window)"], ["3", "In 3 days"], ["7", "In a week"], ["14", "In 2 weeks"], ["date", "On a date…"]]
+    .forEach(([value, label]) => {
+      const opt = el("option", null, label);
+      opt.value = value;
+      select.appendChild(opt);
+    });
+  select.addEventListener("click", (ev) => ev.stopPropagation());
+  select.addEventListener("change", async () => {
+    const value = select.value;
+    select.value = "";
+    let body = {};
+    if (value === "date") {
+      const picked = prompt("Resume on which date? (YYYY-MM-DD, the lead's own calendar)", dateInDays(7));
+      if (!picked) return;
+      body = { resume_on: picked.trim() };
+    } else if (value !== "now") {
+      body = { in_days: Number(value) };
+    }
+    try {
+      await apiPost(`/api/enrollments/${e.id}/resume`, body);
+      onChange();
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+  return select;
+}
+
+// The badge on a lead's own page: which sequence, which email, what's next.
+function renderLeadSequenceBadge(enrollment) {
+  const refresh = () => {
+    if (state.selected >= 0) selectLead(state.selected);
+  };
+  return renderEnrollmentCard(enrollment, refresh, { compact: true });
+}
+
+// ---- builder tab ----
+
+async function renderSequenceBuilder(pane, seq) {
+  pane.innerHTML = "";
+  if (!state.sequencePersonas) {
+    try {
+      state.sequencePersonas = (await apiGet("/api/sequences/signatures")).personas || [];
+    } catch (e) {
+      state.sequencePersonas = [];
+    }
+  }
+  pane.appendChild(renderSequenceSettings(seq));
+  pane.appendChild(renderSequenceTimeline(seq));
+
+  const steps = el("div", "seq-steps");
+  (seq.steps || []).forEach((step, i) => steps.appendChild(renderStepCard(seq, step, i)));
+  pane.appendChild(steps);
+
+  const add = el("button", "btn-secondary", "+ Add an email");
+  add.type = "button";
+  add.addEventListener("click", () => {
+    const draftStep = { id: null, position: (seq.steps || []).length + 1, delay_days: 2, body_html: "", attachments: [] };
+    const card = renderStepCard(seq, draftStep, (seq.steps || []).length);
+    steps.appendChild(card);
+    add.hidden = true;
+    const editor = card.querySelector(".step-editor");
+    if (editor) editor.focus();
+  });
+  pane.appendChild(add);
+}
+
+function renderSequenceSettings(seq) {
+  const box = el("details", "draft-box seq-settings");
+  box.open = !seq.step_count;
+  box.appendChild(el("summary", null, "Settings"));
+  const grid = el("div", "seq-form");
+
+  const name = el("input");
+  name.type = "text";
+  name.value = seq.name;
+  grid.appendChild(labelled("Name", name));
+
+  const trigger = el("select", "cat-select");
+  categoryOptions(trigger, seq.trigger_category);
+  grid.appendChild(labelled("Starts when status is set to", trigger));
+
+  const windowRow = el("div", "seq-inline");
+  const start = el("input");
+  start.type = "time";
+  start.value = seq.window_start;
+  const end = el("input");
+  end.type = "time";
+  end.value = seq.window_end;
+  windowRow.appendChild(start);
+  windowRow.appendChild(el("span", "muted", "to"));
+  windowRow.appendChild(end);
+  grid.appendChild(labelled("Send between (lead's local time)", windowRow));
+
+  const zone = el("select", "cat-select");
+  const zones = SEQUENCE_TIMEZONES.slice();
+  if (!zones.some(([z]) => z === seq.timezone_mode)) zones.push([seq.timezone_mode, seq.timezone_mode]);
+  zones.forEach(([value, label]) => {
+    const opt = el("option", null, label);
+    opt.value = value;
+    opt.selected = value === seq.timezone_mode;
+    zone.appendChild(opt);
+  });
+  grid.appendChild(labelled("Lead's timezone", zone));
+
+  const weekdays = el("input");
+  weekdays.type = "checkbox";
+  weekdays.checked = seq.weekdays_only;
+  const weekdaysLabel = el("label", "seq-check");
+  weekdaysLabel.appendChild(weekdays);
+  weekdaysLabel.appendChild(document.createTextNode(" Weekdays only"));
+  grid.appendChild(weekdaysLabel);
+
+  const finish = el("select", "cat-select");
+  categoryOptions(finish, seq.finish_category || "", { allowNone: true, noneLabel: "Leave their status as it is" });
+  grid.appendChild(labelled("After the last email, set status to", finish));
+  if (seq.finish_category && state.categoryList && !state.categoryList.includes(seq.finish_category)) {
+    grid.appendChild(el("div", "status-banner warn",
+      `Smartlead has no "${seq.finish_category}" status yet. Create it there, or finished leads keep "${seq.trigger_category}".`));
+  }
+  grid.appendChild(el("div", "muted small",
+    "US leads always get 8–10am Eastern, whatever the window says. Any reply or booked meeting stops the sequence straight away."));
+
+  const err = el("div", "error-note");
+  const row = el("div", "seq-actions");
+  const save = el("button", "btn-send", "Save settings");
+  save.type = "button";
+  save.addEventListener("click", async () => {
+    err.textContent = "";
+    try {
+      const data = await apiPatch(`/api/sequences/${seq.id}`, {
+        name: name.value,
+        trigger_category: trigger.value,
+        window_start: start.value,
+        window_end: end.value,
+        timezone_mode: zone.value,
+        weekdays_only: weekdays.checked,
+        finish_category: finish.value,
+      });
+      await refreshSequence(data.sequence.id);
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(save);
+
+  const toggle = el("button", "btn-secondary", seq.active ? "Switch off" : "Switch on");
+  toggle.type = "button";
+  toggle.title = seq.active
+    ? "Stops every queued email and lets no new lead start. Leads stay enrolled and pick up again when switched back on."
+    : "Queues the next email for every lead still in it.";
+  toggle.addEventListener("click", async () => {
+    try {
+      await apiPatch(`/api/sequences/${seq.id}`, { active: !seq.active });
+      await refreshSequence(seq.id);
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(toggle);
+
+  const del = el("button", "btn-danger", "Delete sequence");
+  del.type = "button";
+  del.addEventListener("click", async () => {
+    if (!confirm(`Delete "${seq.name}" and all its emails? This can't be undone.`)) return;
+    try {
+      await apiDelete(`/api/sequences/${seq.id}`);
+      state.selectedSequence = null;
+      await loadSequences();
+      $("detail-body").hidden = true;
+      $("detail-empty").hidden = false;
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(del);
+  grid.appendChild(row);
+  grid.appendChild(err);
+  box.appendChild(grid);
+  return box;
+}
+
+function renderSequenceTimeline(seq) {
+  const strip = el("div", "seq-timeline");
+  strip.appendChild(el("span", "seq-tl-node you", "Your email"));
+  let day = 0;
+  (seq.steps || []).forEach((s) => {
+    day += s.delay_days;
+    strip.appendChild(el("span", "seq-tl-gap", `+${s.delay_days}d`));
+    strip.appendChild(el("span", "seq-tl-node", `Email ${s.position} · day ${day}`));
+  });
+  if (seq.finish_category && seq.steps && seq.steps.length) {
+    strip.appendChild(el("span", "seq-tl-gap", "→"));
+    strip.appendChild(el("span", "seq-tl-node end", seq.finish_category));
+  }
+  return strip;
+}
+
+function sampleFill(html) {
+  const values = { name: "Jane", company: "Acme Physio Ltd", companyNickname: "Acme Physio" };
+  return (html || "").replace(/\{([A-Za-z0-9_]+)\}/g, (_, key) => escapeHtml(values[key] || ""));
+}
+
+function renderStepCard(seq, step, index) {
+  const card = el("div", "draft-box seq-step");
+  const head = el("div", "seq-step-head");
+  head.appendChild(el("h3", null, `Email ${index + 1}`));
+
+  const delayWrap = el("span", "seq-inline");
+  delayWrap.appendChild(el("span", null, "Send"));
+  const delay = el("input", "seq-delay");
+  delay.type = "number";
+  delay.min = "0";
+  delay.max = "90";
+  delay.value = String(step.delay_days);
+  delayWrap.appendChild(delay);
+  delayWrap.appendChild(el("span", null, index === 0 ? "days after your own email" : "days after the previous email"));
+  head.appendChild(delayWrap);
+
+  const tools = el("span", "template-actions");
+  const iconBtn = (glyph, title, handler, disabled) => {
+    const b = el("button", "btn-icon", glyph);
+    b.type = "button";
+    b.title = title;
+    b.setAttribute("aria-label", title);
+    b.disabled = !!disabled;
+    if (!disabled) b.addEventListener("click", handler);
+    tools.appendChild(b);
+  };
+  const total = (seq.steps || []).length;
+  if (step.id) {
+    iconBtn("▲", "Move up", () => moveStep(seq, step, "up"), index === 0);
+    iconBtn("▼", "Move down", () => moveStep(seq, step, "down"), index >= total - 1);
+    iconBtn("🗑", "Delete this email", () => deleteStep(seq, step));
+  }
+  head.appendChild(tools);
+  card.appendChild(head);
+
+  const editor = el("div", "draft-editor step-editor");
+  editor.contentEditable = "true";
+  editor.innerHTML = step.body_html || "";
+  card.appendChild(renderEditorToolbar(editor));
+  editor.addEventListener("focus", () => { state.activeEditor = editor; });
+  editor.addEventListener("mousedown", () => { state.activeEditor = editor; });
+  editor.addEventListener("input", onEditorInput);
+  editor.addEventListener("paste", (ev) => { state.activeEditor = editor; onEditorPaste(ev); });
+  editor.addEventListener("dragover", (ev) => ev.preventDefault());
+  editor.addEventListener("drop", (ev) => { state.activeEditor = editor; onEditorDrop(ev); });
+  editor.addEventListener("click", onEditorClick);
+  card.appendChild(editor);
+  card.appendChild(el("div", "muted small",
+    "Use {name}, {company} or {companyNickname} and they're filled in for each lead. The signature is added underneath automatically."));
+
+  // Files, kept per step. The shared library picker writes to
+  // state.attachments; the hook sends its changes back here instead of to a
+  // draft card.
+  let attachments = (step.attachments || []).slice();
+  const filesRow = el("div", "attachment-row");
+  filesRow.appendChild(el("span", "recipient-label", "Files"));
+  const chips = el("div", "attachment-chips");
+  filesRow.appendChild(chips);
+  const renderChips = () => {
+    chips.innerHTML = "";
+    if (!attachments.length) chips.appendChild(el("span", "muted", "None"));
+    attachments.forEach((a) => {
+      const chip = el("span", "attachment-chip");
+      const link = el("a", null, a.file_name);
+    const required = a.slug === "one-body-ldn-partnership-brochure.pdf";
+      link.href = a.file_url || a.url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      chip.appendChild(link);
+      const rm = el("button", "attachment-remove", "×");
+      rm.type = "button";
+      rm.addEventListener("click", () => {
+        attachments = attachments.filter((x) => x.slug !== a.slug);
+        renderChips();
+        markDirty();
+      });
+      chip.appendChild(rm);
+      chips.appendChild(chip);
+    });
+  };
+  const attach = el("button", "btn-secondary btn-attach", "+ Attach a file");
+  attach.type = "button";
+  attach.addEventListener("click", () => {
+    state.attachments = attachments.slice();
+    state.onAttachmentsChange = () => {
+      attachments = (state.attachments || []).slice();
+      renderChips();
+      markDirty();
+    };
+    openLibraryModal();
+  });
+  filesRow.appendChild(attach);
+  card.appendChild(filesRow);
+  renderChips();
+
+  const preview = el("div", "seq-preview");
+  preview.hidden = true;
+  const renderPreview = () => {
+    preview.innerHTML = "";
+    const personas = state.sequencePersonas || [];
+    const pick = el("select", "cat-select");
+    personas.forEach((p, i) => {
+      const opt = el("option", null, `Signature: ${p.name}`);
+      opt.value = String(i);
+      pick.appendChild(opt);
+    });
+    const shown = el("div", "seq-preview-mail");
+    const paint = () => {
+      const persona = personas[Number(pick.value || 0)];
+      shown.innerHTML = sampleFill(editorSerialize(editor)) + "<br><br>" + (persona ? persona.signature_html : "");
+    };
+    pick.addEventListener("change", paint);
+    preview.appendChild(el("div", "sig-preview-label", "Preview for a lead called Jane at Acme Physio Ltd"));
+    if (personas.length > 1) preview.appendChild(pick);
+    preview.appendChild(shown);
+    paint();
+  };
+
+  const err = el("div", "error-note");
+  const row = el("div", "seq-actions");
+  const save = el("button", "btn-send", step.id ? "Save" : "Add this email");
+  save.type = "button";
+  save.disabled = !!step.id;
+  const markDirty = () => {
+    save.disabled = false;
+    if (!preview.hidden) renderPreview();
+  };
+  editor._onChange = markDirty;
+  delay.addEventListener("input", markDirty);
+
+  save.addEventListener("click", async () => {
+    err.textContent = "";
+    const payload = {
+      delay_days: Number(delay.value),
+      body_html: editorSerialize(editor),
+      attachments: attachments.map((a) => a.slug),
+    };
+    try {
+      const data = step.id
+        ? await apiPatch(`/api/sequences/${seq.id}/steps/${step.id}`, payload)
+        : await apiPost(`/api/sequences/${seq.id}/steps`, payload);
+      await afterStepChange(data.sequence);
+    } catch (e) {
+      err.textContent = e.message;
+    }
+  });
+  row.appendChild(save);
+  const previewBtn = el("button", "btn-secondary", "Preview with signature");
+  previewBtn.type = "button";
+  previewBtn.addEventListener("click", () => {
+    preview.hidden = !preview.hidden;
+    previewBtn.textContent = preview.hidden ? "Preview with signature" : "Hide preview";
+    if (!preview.hidden) renderPreview();
+  });
+  row.appendChild(previewBtn);
+  if (!step.id) {
+    const cancel = el("button", "btn-secondary", "Cancel");
+    cancel.type = "button";
+    cancel.addEventListener("click", () => refreshSequence(seq.id));
+    row.appendChild(cancel);
+  }
+  card.appendChild(row);
+  card.appendChild(err);
+  card.appendChild(preview);
+  return card;
+}
+
+async function afterStepChange(sequence) {
+  state.sequenceTab = "builder";
+  await refreshSequence(sequence.id);
+}
+
+async function moveStep(seq, step, direction) {
+  try {
+    const data = await apiPost(`/api/sequences/${seq.id}/steps/${step.id}/move`, { direction });
+    await afterStepChange(data.sequence);
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+async function deleteStep(seq, step) {
+  if (!confirm("Delete this email from the sequence? Leads waiting for it move on to the next one.")) return;
+  try {
+    const data = await apiDelete(`/api/sequences/${seq.id}/steps/${step.id}`);
+    await afterStepChange(data.sequence);
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+// Setting a trigger status from a lead's page. The server runs every check
+// before touching Smartlead, so a refusal here leaves the lead as it was.
+async function startSequenceFromStatus(name, sequence) {
+  const count = sequence.step_count;
+  if (!confirm(
+    `Start the "${sequence.name}" sequence?\n\n` +
+    `This sets their Smartlead status to "${name}" and sends ${count} follow-up email${count === 1 ? "" : "s"} ` +
+    `automatically, each in their morning. Any reply or booked meeting stops it.`
+  )) return;
+  const { cid, lid } = currentLeadIds();
+  const post = async (reEnroll) => {
+    const r = await fetch(`/api/leads/${cid}/${lid}/category`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category_name: name, re_enroll: reEnroll }),
+    });
+    const data = await r.json().catch(() => ({}));
+    return { ok: r.ok, data };
+  };
+  let result = await post(false);
+  if (!result.ok && result.data.can_re_enroll) {
+    if (!confirm(`${result.data.error}\n\nStart it again from email 1?`)) return;
+    result = await post(true);
+  }
+  if (!result.ok) {
+    alert(result.data.error || "Couldn't start the sequence.");
+    return;
+  }
+  const e = result.data.enrollment;
+  await loadSequenceTriggers();
+  await withRowRemoval(async () => {
+    if (e && e.next_send_at) {
+      alert(`Started. Email 1 goes out ${e.next_send_local} ${zoneLabel(e.lead_timezone)} time (${formatYourTime(e.next_send_at)} yours).`);
+    }
+  });
+}
+
+// ---------- rescan ----------
+let scanPoll = null;
+async function rescan() {
+  const btn = $("rescan-btn");
+  btn.disabled = true;
+  try {
+    await apiPost("/api/scan/trigger", {});
+    $("scan-status").textContent = "↻ scanning…";
+    if (scanPoll) clearInterval(scanPoll);
+    scanPoll = setInterval(async () => {
+      const data = await loadInbox();
+      if (!data.scan_running) {
+        clearInterval(scanPoll);
+        scanPoll = null;
+        btn.disabled = false;
+        $("scan-status").textContent = "";
+      }
+    }, 4000);
+  } catch (e) {
+    btn.disabled = false;
+    alert("Rescan failed: " + e.message);
+  }
+}
+
+// ---------- keyboard ----------
+document.addEventListener("keydown", (e) => {
+  if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  if (e.target && e.target.isContentEditable) return;
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    selectLead(state.selected < 0 ? 0 : Math.min(state.selected + 1, state.leads.length - 1));
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    selectLead(Math.max(state.selected - 1, 0));
+  }
+});
+
+// ---------- search + category filter ----------
+$("lead-search").addEventListener("input", (e) => {
+  state.searchQuery = e.target.value;
+  applyFilter();
+});
+
+$("status-filter-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openStatusMenu($("status-menu").hidden);
+});
+// Ticking a box re-renders the menu's rows (the counts move), which destroys the
+// element that was clicked — so by the time that click reaches the document it
+// is no longer inside #status-filter and the outside-click handler below would
+// close the menu on every single toggle. Stop it here instead.
+$("status-menu").addEventListener("click", (e) => e.stopPropagation());
+$("status-all-btn").addEventListener("click", () => setAllStatuses(true));
+$("status-none-btn").addEventListener("click", () => setAllStatuses(false));
+
+$("campaign-filter-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openCampaignMenu($("campaign-menu").hidden);
+});
+$("campaign-menu").addEventListener("click", (e) => e.stopPropagation());
+
+$("smartlead-filter-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openSmartleadMenu($("smartlead-menu").hidden);
+});
+$("smartlead-menu").addEventListener("click", (e) => e.stopPropagation());
+
+$("date-from-input").value = state.dateFrom || "";
+$("date-to-input").value = state.dateTo || "";
+$("sort-order-select").value = state.sortOrder;
+$("date-from-input").addEventListener("change", (e) => setDateFrom(e.target.value));
+$("date-to-input").addEventListener("change", (e) => setDateTo(e.target.value));
+$("date-range-clear-btn").addEventListener("click", clearDateRange);
+$("sort-order-select").addEventListener("change", (e) => setSortOrder(e.target.value));
+
+document.addEventListener("click", () => {
+  openStatusMenu(false);
+  openCampaignMenu(false);
+  openSmartleadMenu(false);
+  openMoreMenu(false);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    openStatusMenu(false);
+    openCampaignMenu(false);
+    openSmartleadMenu(false);
+    openMoreMenu(false);
+  }
+});
+
+// ---------- init ----------
+function onMobileMqChange() {
+  closeMobileMenu();
+  if (!isMobileLayout()) showMobileList();
+}
+if (MOBILE_MQ.addEventListener) {
+  MOBILE_MQ.addEventListener("change", onMobileMqChange);
+} else if (MOBILE_MQ.addListener) {
+  MOBILE_MQ.addListener(onMobileMqChange);
+}
+
+// Paint the restored filter (counts all zero) before the inbox arrives, so the
+// button states which statuses are on even if that first load fails.
+renderStatusFilter([]);
+
+function openMobileMenu() {
+  if (!isMobileLayout()) return;
+  document.body.classList.add("mobile-menu-open");
+  $("mobile-menu-backdrop").hidden = false;
+  $("mobile-menu-btn").setAttribute("aria-expanded", "true");
+  $("mobile-menu-btn").setAttribute("aria-label", "Close navigation");
+  $("mobile-menu-close").focus();
+}
+
+function closeMobileMenu(restoreFocus = false) {
+  document.body.classList.remove("mobile-menu-open");
+  $("mobile-menu-backdrop").hidden = true;
+  $("mobile-menu-btn").setAttribute("aria-expanded", "false");
+  $("mobile-menu-btn").setAttribute("aria-label", "Open navigation");
+  if (restoreFocus && isMobileLayout()) $("mobile-menu-btn").focus();
+}
+
+$("mobile-menu-btn").addEventListener("click", () => {
+  if (document.body.classList.contains("mobile-menu-open")) closeMobileMenu();
+  else openMobileMenu();
+});
+$("mobile-menu-close").addEventListener("click", () => closeMobileMenu(true));
+$("mobile-menu-backdrop").addEventListener("click", () => closeMobileMenu(true));
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.body.classList.contains("mobile-menu-open")) {
+    closeMobileMenu(true);
+  }
+});
+
+// The Settings dropdown (desktop). On phones the same list is always open
+// inside the off-canvas menu, so the toggle simply isn't drawn there.
+function openMoreMenu(open) {
+  const menu = $("more-menu");
+  menu.classList.toggle("open", open);
+  $("more-btn").setAttribute("aria-expanded", open ? "true" : "false");
+}
+$("more-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  openMoreMenu(!$("more-menu").classList.contains("open"));
+});
+$("more-list").addEventListener("click", () => openMoreMenu(false));
+
+$("rescan-btn").addEventListener("click", () => { closeMobileMenu(true); rescan(); });
+$("models-btn").addEventListener("click", () => { closeMobileMenu(); openModelsModal(); });
+$("followup-settings-btn").addEventListener("click", () => { closeMobileMenu(); openFollowupSettings(); });
+$("view-inbox-btn").addEventListener("click", () => setView("inbox"));
+$("view-scheduled-btn").addEventListener("click", () => setView("scheduled"));
+$("view-sequences-btn").addEventListener("click", () => setView("sequences"));
+$("view-stats-btn").addEventListener("click", () => setView("stats"));
+$("view-archive-btn").addEventListener("click", () => setView("archive"));
+$("view-campaigns-btn").addEventListener("click", () => setView("campaigns"));
+$("view-health-btn").addEventListener("click", () => setView("health"));
+loadInbox().catch((e) => {
+  $("scan-status").textContent = "load failed";
+  console.error(e);
+});
+loadCategories();
+loadSequenceTriggers();
+loadModels();
+loadGoogleStatus();
+
+// Quietly re-pull the inbox so a reply that just arrived (webhook, or the
+// periodic backend scan) shows up without a manual Rescan or F5. List-only:
+// loadInbox -> renderList rebuilds #lead-list and never touches the open draft
+// editor (#detail-body), so nothing you're typing is disturbed. We keep the
+// selected lead highlighted across the refresh by matching on its id, not its
+// (possibly shifted) list index. Runs only on the inbox view and only when the
+// tab is visible.
+//
+// 15s, not the 60s this started at: a reply is the one thing in this app worth
+// seeing the moment it lands, and /api/inbox is a single SQLite read. The
+// paused-while-hidden rule is what makes that cheap — nobody is polling a
+// background tab — but it also means coming back to the tab could cost a full
+// interval, so a return to visibility refreshes straight away instead.
+const INBOX_REFRESH_MS = 15000;
+function leadKey(l) {
+  return l ? `${l.campaign_id}/${l.lead_id}` : null;
+}
+async function autoRefreshInbox() {
+  if (state.view !== "inbox" || document.hidden || state.mode === "crm") return;
+  const curKey = leadKey(state.selected >= 0 ? state.leads[state.selected] : null);
+  try {
+    await loadInbox();
+  } catch (e) {
+    return; // transient — try again next tick
+  }
+  if (curKey) {
+    const idx = state.leads.findIndex((l) => leadKey(l) === curKey);
+    if (idx !== state.selected) {
+      state.selected = idx;
+      renderList();
+    }
+  }
+}
+setInterval(autoRefreshInbox, INBOX_REFRESH_MS);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) autoRefreshInbox();
+});
+window.addEventListener("focus", autoRefreshInbox);
+
+// Webhooks write SQLite before acknowledging delivery, then emit this hint.
+// EventSource reconnects automatically; the 15-second poll above remains the
+// fallback after a deploy or a dropped connection.
+const inboxEvents = new EventSource("/api/events");
+inboxEvents.onmessage = (event) => {
+  try {
+    const data = JSON.parse(event.data);
+    if (data.type === "reply_received") autoRefreshInbox();
+  } catch (_) {
+    // A malformed hint cannot affect the authoritative inbox refresh loop.
+  }
+};

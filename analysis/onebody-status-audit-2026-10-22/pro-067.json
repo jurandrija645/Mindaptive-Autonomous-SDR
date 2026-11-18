@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8434,
+    "completion_tokens": 2162,
+    "total_tokens": 10596,
+    "cost": 0.01990248,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01990248,
+      "upstream_inference_prompt_cost": 0.01315704,
+      "upstream_inference_completions_cost": 0.00674544
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317316",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je OOO auto-odgovor. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenog zahtjeva. Više nije relevantno za praćenje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<41ed3e7308734d8c8dbcebf252872301@LOBP123MB8283.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’m OOO today.  For anything urgent, please email anthony@levintalent.com."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317251",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Neeraj osobno odgovara da više ne radi u Gunnercooke, upućuje na drugi kontakt. Nije zainteresiran za ponudu.",
+      "last_human_request_hr": "Please note that I no longer work for gunnercooke. If you have any enquiries please could you contact one of the gunnercooke team on 03330 143 401.",
+      "unresolved_hr": "Osoba je napustila tvrtku. Nema osnova za daljnje praćenje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom. Označiti kao krivu osobu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6236cf8d5cb84589a222aad3a8616380@ZR6PR09MB205882.eurprd09.prod.outlook.com>",
+          "quote": "Please note that I no longer work for gunnercooke."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317271",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je OOO auto-odgovor do 9. rujna. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ddd22512812d467dbb876e75d3295dca@IA3PR05MB11039.namprd05.prod.outlook.com>",
+          "quote": "I'm OOO until Sept 9th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317270",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je OOO auto-odgovor s povratkom 4. rujna. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e5bc05d816b7436a8d0962634e2651ae@BYAPR05MB4584.namprd05.prod.outlook.com>",
+          "quote": "I am out of the business returning the afternoon of September 4th."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317371",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je OOO auto-odgovor s povratkom 8. rujna. Nema ljudskog angažmana.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema neriješenog zahtjeva.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<9b49de2a82b844f29dcc591061418fe2@GV1PR04MB10989.eurprd04.prod.outlook.com>",
+          "quote": "I’m Out of Office returning on Tuesday 8 September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317291",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Emma osobno odgovara da je na porodiljnom dopustu i upućuje na druge kontakte. Ne pokazuje interes za ponudu u ovom trenutku.",
+      "last_human_request_hr": "I am currently out of the office on maternity leave and will have limited access to email. For any urgent matters, please contact Chris Hudson.",
+      "unresolved_hr": "Osoba je na porodiljnom. Nije prikladno za daljnje praćenje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom. Označiti kao krivu osobu (odsutna).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<99e9e3471064492e91c21a96916947e7@AS8P190MB1623.EURP190.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office on maternity leave"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317323",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Helise osobno odgovara da više ne radi u Foster Denovo i daje upute za preusmjeravanje. Nije zainteresirana za ponudu.",
+      "last_human_request_hr": "I no longer work at Foster Denovo and your email has not been forwarded.",
+      "unresolved_hr": "Osoba je napustila tvrtku. Nema osnova za daljnje praćenje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom. Označiti kao krivu osobu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5446a4fd5e1e41d29d755652282e76e3@LO7P123MB8262.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I no longer work at Foster Denovo"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317325",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Odgovor iz Fincore-a obavještava da David Watkins više ne radi tamo i upućuje na recepciju. Iako nije Dave osobno, poruka je jasna ljudska obavijest o pogrešnoj osobi.",
+      "last_human_request_hr": "David Watkins is no longer employed here. Please direct any future correspondence to our reception at reception@fincore.com",
+      "unresolved_hr": "Osoba je napustila tvrtku. Nema osnova za daljnje praćenje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim kontaktom. Označiti kao krivu osobu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<dd3f8ef7a3174ffd801cba5c7fc13d79@LO0SPRMB0048.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "David Watkins is no longer employed here."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

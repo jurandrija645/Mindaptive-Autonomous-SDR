@@ -1,0 +1,106 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7377,
+    "completion_tokens": 1484,
+    "total_tokens": 8861,
+    "cost": 0.01086225,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01086225,
+      "upstream_inference_prompt_cost": 0.00774585,
+      "upstream_inference_completions_cost": 0.0031164
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315631",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "evidence_message_id": "<8b980ad8d98a4640b92d7b122feac802@LO0P265MB9084.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatizirani odgovor: Freya je napustila tvrtku. Poruka sadrži univerzalne upute za kontaktiranje zamjena i osobni email, bez ikakvog spomena naše ponude za fizioterapiju. Nema dokaza da je stvarna osoba pročitala ili odgovorila na naš outreach.",
+      "request_hr": "none",
+      "next_action_hr": "Lead zatvoriti kao automatski odgovor 'osoba je otišla'. Ne slati na tvrtku, osobni email nije uključen jer nije angažman. Ako je Jennifer Hall ili Nuala Fisher relevantna meta, potreban je novi outreach.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315698",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "evidence_message_id": "<0b528141a92a4756ba86452ba783d35b@LOVP123MB8574.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor 'Helen Wylie no longer works at...'. Sadrži samo preusmjeravanje na drugu osobu, nema nikakvog spomena naše ponude za fizioterapiju. Ovo nije osobni odgovor zainteresirane osobe.",
+      "request_hr": "none",
+      "next_action_hr": "Lead zatvoriti kao automatski odgovor 'osoba je otišla'. Ne slati dalje. Ako je Eloise Fogarty relevantna, outreach napraviti ispočetka kao novi lead.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315696",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "evidence_message_id": "<DC27478D-D89E-4619-85AA-AEA9B79BC8A0@hawkinsbrown.com>",
+      "human_quote": "No",
+      "reason_hr": "Osoba je izravno odgovorila 'No' na našu ponudu. Ovo je jasno odbijanje (opt-out), potvrđeno osobnim potpisom Darryl Chen.",
+      "request_hr": "none",
+      "next_action_hr": "Lead postaviti kao opt-out. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315693",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "evidence_message_id": "<AS8P193MB195904660EB1D67DAD094A018ABE2@AS8P193MB1959.EURP193.PROD.OUTLOOK.COM>",
+      "human_quote": "if you could send over a few dates and times when you have availability for the 55-minute session",
+      "reason_hr": "Osoba (izvršna asistentica Cascade) potvrdila je interes i zatražila termine za sesiju. Poslan je link i kod, nakon toga slijedili su follow-upovi bez odgovora. Nema potvrde bookinga niti novog odbijanja. Čeka se na lead.",
+      "request_hr": "Zatražili su termine za 55-minutnu sesiju",
+      "next_action_hr": "Lead čeka. Posljednje poruke su naši follow-upovi. Ako je prošlo dovoljno vremena od zadnjeg follow-upa (18.9.), vlasnik može ručno provjeriti status ili zatvoriti ako nema odgovora. Ne šaljite nove automatske poruke.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316571",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "evidence_message_id": "<CW1P123MB7696CC5176746B242C500ADA81B22@CW1P123MB7696.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "all booked",
+      "reason_hr": "Chris Roberts osobno je odgovorio 'all booked' nakon primitka koda i linka. Potvrđuje da je sesija zakazana.",
+      "request_hr": "none",
+      "next_action_hr": "Lead označen kao booked. Nema daljnjih akcija osim standardne dobrodošlice/pripreme za sesiju ako je u sustavu.",
+      "bulk_group": "reply_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316482",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "high",
+      "evidence_message_id": "<CAMviJG8Tm+MOhUo5YSBZ7PmSUdth4CLY+XgYJoL7nxnqcoiDYA@mail.gmail.com>",
+      "human_quote": "Booked my first session for today",
+      "reason_hr": "Graeme Kemp-Jones osobno potvrđuje da je bukirao prvu sesiju. Nakon primitka koda i linka, poslao je ovu poruku s potvrdom bookinga.",
+      "request_hr": "none",
+      "next_action_hr": "Lead označen kao booked. Nema daljnjih akcija, sesija je održana ili u tijeku prema datumu.",
+      "bulk_group": "reply_booking",
+      "evidence_verified": true
+    }
+  ]
+}

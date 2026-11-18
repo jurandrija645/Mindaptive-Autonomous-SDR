@@ -1,0 +1,228 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11510,
+    "completion_tokens": 2679,
+    "total_tokens": 14189,
+    "cost": 0.0007976696,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 10128,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007976696,
+      "upstream_inference_prompt_cost": 0.0003100916,
+      "upstream_inference_completions_cost": 0.000487578
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316783",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovori o odsutnosti, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm out of the office'.",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office",
+        "This will be my last email, Paul."
+      ]
+    },
+    {
+      "key": "3876232/4446317863",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am currently OOO and will respond as soon as possible upon my return.'",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email, Thalia.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently OOO and will respond as soon as possible",
+        "This will be my last email, Thalia."
+      ]
+    },
+    {
+      "key": "3876232/4446316825",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am currently on maternity leave until October 2026'.",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email, Jessica-anne.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave until October 2026",
+        "This will be my last email, Jessica-anne."
+      ]
+    },
+    {
+      "key": "3876232/4446315923",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovori o odmoru i radu iz Singapura, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am on holiday today.'",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email, Andrei.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on holiday today.",
+        "This will be my last email, Andrei."
+      ]
+    },
+    {
+      "key": "3876232/4446317232",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'Please note that Simon is currently out of the office'.",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email, Simon.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that Simon is currently out of the office",
+        "This will be my last email, Simon."
+      ]
+    },
+    {
+      "key": "3876232/4446317932",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odmoru, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am currently on holiday until Monday 14th September.'",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email, Louise.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on holiday until Monday 14th September.",
+        "This will be my last email, Louise."
+      ]
+    },
+    {
+      "key": "3876232/4446318022",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o angažmanu na eventu, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am currently onsite, setting up for PropTech Connect Europe.'",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email, Catarina.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently onsite, setting up for PropTech Connect Europe.",
+        "This will be my last email, Catarina."
+      ]
+    },
+    {
+      "key": "3876232/4446316619",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am on maternity leave.'",
+      "last_outbound_summary_hr": "Završni outbound: 'This will be my last email, Julia.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on maternity leave.",
+        "This will be my last email, Julia."
+      ]
+    },
+    {
+      "key": "3930675/4520618514",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm on annual leave, returning October 5th.'",
+      "last_outbound_summary_hr": "Outbound: 'Want me to send the booking link over?'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on annual leave, returning October 5th."
+      ]
+    },
+    {
+      "key": "3930675/4520618256",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o slobodnom vremenu, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm taking a bit of time off - I’ll be back on Tuesday 22nd September'.",
+      "last_outbound_summary_hr": "Outbound: 'Want me to send the booking link over?'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm taking a bit of time off - I’ll be back on Tuesday 22nd September"
+      ]
+    },
+    {
+      "key": "3930675/4520618276",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o deaktiviranom sandučiću, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatska poruka: 'this mailbox has been deactivated and is no longer being monitored'.",
+      "last_outbound_summary_hr": "Outbound: 'Reply and I’ll send you the booking code.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "this mailbox has been deactivated and is no longer being monitored"
+      ]
+    },
+    {
+      "key": "3930675/4520613864",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o medicinskom dopustu, bez ljudske reakcije ili interesa.",
+      "next_step_hr": "Bez daljnjih radnji; thread ostaje označen kao OOO.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am currently on medical leave and will not see emails immediately.'",
+      "last_outbound_summary_hr": "Outbound: 'Mark - still happy to send that over if you want it.'",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on medical leave and will not see emails immediately."
+      ]
+    }
+  ]
+}

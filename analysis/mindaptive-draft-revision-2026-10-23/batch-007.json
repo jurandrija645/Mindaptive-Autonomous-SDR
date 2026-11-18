@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 13774,
+    "completion_tokens": 1132,
+    "total_tokens": 14906,
+    "cost": 0.0011981,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0011981,
+      "upstream_inference_prompt_cost": 0.0006887,
+      "upstream_inference_completions_cost": 0.0005094
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2738607/3025134089",
+      "ready": true,
+      "language": "de",
+      "body": "Hey Alina,\n\nes ist eine Weile her – im Dezember hatten wir kurz über einen Call gesprochen, dann wurde es ruhig.\n\nSeitdem hat sich bei uns einiges getan. Unser System findet und erreicht heute noch gezielter genau die Unternehmen, die zu einem Ansatz wie eurem passen.\n\nDamals hattest du ja gesagt, du findest uns spannend. Falls das noch so ist, lass es mich wissen – ein kurzer Call reicht, um zu sehen, ob es heute besser passt.",
+      "english": "",
+      "reason_hr": "Posljednji ljudski odgovor bio je 316 dana; kratko prepoznavanje stanke, prisjećanje teme i njezinog interesa, bez izmišljanja isprike. Nudi blagi nastavak, ne forsira termin."
+    },
+    {
+      "key": "2738607/3025135047",
+      "ready": true,
+      "language": "de",
+      "body": "Hey Matthias,\n\nes ist schon eine Weile her, dass du dir das Video ansehen wolltest. In der Zwischenzeit haben wir unser System nochmal deutlich verbessert.\n\nWeißt du noch – du sagtest, du bist immer an neuen KI-Agenten und Vertriebswegen interessiert. Falls das noch aktuell ist, sag kurz Bescheid. Dann finden wir einen Weg, zu besprechen, ob der Ansatz heute zu iCompetence passt.",
+      "english": "",
+      "reason_hr": "Posljednji razgovor prije 316 dana; Matthias je izričito tražio video koji je i poslan. Nema smisla opet pitati 'jeste li pogledali video' – stanka je preduga. Prepoznajem stanku, spominjem napredak sustava i vraćam se na njegov iskazani interes za AI alate."
+    },
+    {
+      "key": "2738671/3025251911",
+      "ready": true,
+      "language": "es",
+      "body": "Hola Francisco,\n\nhan pasado unos meses desde que te envié el vídeo. Me preguntaba si lo viste al final.\n\nRecuerdo que te interesaba especialmente el enfoque en CFOs. No sé si la idea de un sistema que localice y contacte a este perfil concreto encaja con lo que necesitáis ahora en Saima.\n\nSi quieres, podemos retomarlo con una llamada corta. Si no, lo dejamos aquí.",
+      "english": "",
+      "reason_hr": "Posljednji razgovor prije 316 dana. Francisco je konkretno pitao za CFO-e, video je poslan. Pitanje o gledanju videa je ok jer je prošlo puno vremena, ali se vraćam na njegov specifični zahtjev (CFO). Nema izmišljenih isprika."
+    },
+    {
+      "key": "2738671/3025253676",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Job,\n\nit has been a while since I sent over that video. Our system has improved a lot since then.\n\nYou said yes to seeing how we find and contact the right companies for 12Guide. If that is still something you are curious about, a short call would be the easiest way to pick it back up. If not, no problem at all – just let me know.",
+      "english": "",
+      "reason_hr": "316 dana stanke. Job je rekao 'yes' na ponudu videa, video je poslan. Priznajem stanku, spominjem napredak, ne izmišljam isprike niti ne pitam 'jeste li gledali video' kao da je jučer."
+    },
+    {
+      "key": "2732401/3016173185",
+      "ready": true,
+      "language": "en",
+      "body": "Hey Dave,\n\nit has been a while since I sent that video over. Hope things are going well at CloudBlazer.\n\nYou mentioned you were open to seeing how the system works – we have improved it a lot since then. If the idea of filling more Salesforce partner pipeline still makes sense, a quick call would be the easiest way to see if it fits now. If not, I will leave it there.",
+      "english": "",
+      "reason_hr": "Zadnji kontakt prije 317 dana, Dave je ispravio ime i tražio video koji je i poslan. Prepoznajem stanku bez isprike, spominjem napredak sustava, ostavljam otvorena vrata bez forsiranja."
+    }
+  ]
+}

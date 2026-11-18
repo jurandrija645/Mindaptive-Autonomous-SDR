@@ -1,0 +1,229 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 7657,
+    "completion_tokens": 2714,
+    "total_tokens": 10371,
+    "cost": 0.000744835,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 6125,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000744835,
+      "upstream_inference_prompt_cost": 0.000250887,
+      "upstream_inference_completions_cost": 0.000493948
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621326",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Shirley je jasno navela da više ne radi u London Film School i dala kontakt za prosljeđivanje.",
+      "next_step_hr": "Zadržati oznaku Wrong Person i ne kontaktirati je dalje na staroj adresi.",
+      "last_inbound_summary_hr": "Automatski odgovor da više ne radi u tvrtki, s kontaktima za prosljeđivanje.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am no longer working at the London Film School.",
+        "For any LFS related business, please email Financial Controller Dawn Taylor"
+      ]
+    },
+    {
+      "key": "3930675/4520621322",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Anita je potvrdila da više ne radi za LFS i dala zamjenske kontakte.",
+      "next_step_hr": "Zadržati oznaku Wrong Person i ne kontaktirati je na staroj adresi.",
+      "last_inbound_summary_hr": "Automatski odgovor da više ne radi za LFS s kontaktima za različite upite.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I no longer work for LFS.",
+        "Any queries relating to outgoing payments should be sent to accountspayable@lfs.org.uk"
+      ]
+    },
+    {
+      "key": "3930675/4520619746",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor potvrđuje da Seda više nije u organizaciji i daje kontakt zamjene.",
+      "next_step_hr": "Zadržati oznaku Wrong Person i ne kontaktirati je.",
+      "last_inbound_summary_hr": "Automatski odgovor da Seda više nije u organizaciji, s kontaktom Darya Ermolina.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Seda Ambartsumian is no longer with the organization.",
+        "Please communicate all requests to the email daryaermolina@targetglobal.vc"
+      ]
+    },
+    {
+      "key": "3930675/4520619745",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor potvrđuje da Joshua više nije u organizaciji i daje kontakt zamjene.",
+      "next_step_hr": "Zadržati oznaku Wrong Person i ne kontaktirati ga.",
+      "last_inbound_summary_hr": "Automatski odgovor da Joshua više nije u organizaciji, s kontaktom Mhegdekatte.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Joshua Stein is no longer with the organization.",
+        "Please communicate all requests to the email mhegdekatte@targetglobal.vc"
+      ]
+    },
+    {
+      "key": "3930675/4520619514",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dave je potvrdio da je napustio Mention Me i dao kontakt za prosljeđivanje.",
+      "next_step_hr": "Zadržati oznaku Wrong Person i ne kontaktirati ga.",
+      "last_inbound_summary_hr": "Odgovor da je napustio Mention Me s kontaktima za prosljeđivanje.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Mention Me.",
+        "For anything else please email: bhavin.patel@mention-me.com"
+      ]
+    },
+    {
+      "key": "3930675/4520619100",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Gina je na porodiljnom dopustu i dala kontakt za prosljeđivanje upita.",
+      "next_step_hr": "Zadržati oznaku Wrong Person i kontaktirati Studio@captify.co.uk za kampanjske upite.",
+      "last_inbound_summary_hr": "Odgovor da je na porodiljnom s kontaktom za podršku kampanjama.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on Maternity leave",
+        "For any campaign related support please reach out to Studio@captify.co.uk"
+      ]
+    },
+    {
+      "key": "3930675/4520613432",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Graham je izričito zatražio uklanjanje iz baze, što je jasan opt-out.",
+      "next_step_hr": "Zadržati oznaku Do Not Contact i ne kontaktirati ga dalje.",
+      "last_inbound_summary_hr": "Zahtjev za uklanjanje podataka iz baze.",
+      "last_outbound_summary_hr": "Podsjetnik na ponudu besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please remove my details from you database"
+      ]
+    },
+    {
+      "key": "3876232/4446317977",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dan je dva puta zatražio prestanak kontaktiranja, što je jasan opt-out.",
+      "next_step_hr": "Zadržati oznaku Do Not Contact i ne kontaktirati ga dalje.",
+      "last_inbound_summary_hr": "Zahtjev za prestanak kontaktiranja.",
+      "last_outbound_summary_hr": "Završni email s upitom je li ponuda još relevantna.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please stop contacting me now."
+      ]
+    },
+    {
+      "key": "3930675/4520611653",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Marcus je rekao da mu trenutno ne treba, ali je spomenuo mogućnost javljanja zimi.",
+      "next_step_hr": "Zadržati oznaku Not Interested i ne kontaktirati ga aktivno.",
+      "last_inbound_summary_hr": "Odgovor da mu trenutno ne treba, ali bi se mogao javiti zimi ako ponuda vrijedi.",
+      "last_outbound_summary_hr": "Podsjetnik na ponudu besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I think I'm good for the moment.",
+        "Might get back to you on this in the Winter if the offer still stands."
+      ]
+    },
+    {
+      "key": "3930675/4520613515",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Lucas je jasno rekao da mu ponuda trenutno ne treba.",
+      "next_step_hr": "Zadržati oznaku Not Interested i ne kontaktirati ga dalje.",
+      "last_inbound_summary_hr": "Odgovor da im to trenutno ne treba, uz zahvalu na ponudi.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "this isn't something we need right now, but appreciate you thinking of us."
+      ]
+    },
+    {
+      "key": "3930675/4520611365",
+      "recommended_label": "Meeting Booked",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "David je tražio sesiju i naš je posljednji email poslao booking link i kod.",
+      "next_step_hr": "Zadržati oznaku Meeting Booked dok se ne potvrdi stvarna rezervacija.",
+      "last_inbound_summary_hr": "Prihvaćanje ponude uz pitanje o obvezi i traženje masaže.",
+      "last_outbound_summary_hr": "Poslan booking link i kod OBLACCESS55 za rezervaciju.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": true,
+      "evidence": [
+        "I could do with a massage, so yes please.",
+        "The code is OBLACCESS55. Just select Shoreditch and book your free session."
+      ]
+    },
+    {
+      "key": "3930675/4520618480",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tiana je potvrdila da više ne radi u tvrtki i dala kontakt zamjene.",
+      "next_step_hr": "Zadržati oznaku Wrong Person i ne kontaktirati je.",
+      "last_inbound_summary_hr": "Odgovor da više ne radi u tvrtki, s kontaktom Tom Darnell.",
+      "last_outbound_summary_hr": "Hladni email s ponudom besplatne fizioterapije.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm no longer working at the business.",
+        "Please contact Tom Darnell at tom@iris.audio"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9335,
+    "completion_tokens": 3069,
+    "total_tokens": 12404,
+    "cost": 0.00216622,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00216622,
+      "upstream_inference_prompt_cost": 0.0013069,
+      "upstream_inference_completions_cost": 0.00085932
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520619398",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o porodiljnom dopustu do ljeta 2027., nema drugog ljudskog odgovora niti interesa.",
+      "next_step_hr": "Zadržati trenutnu oznaku Out Of Office; ponovno kontaktirati nakon povratka s dopusta 2027.",
+      "last_inbound_summary_hr": "Automatski odgovor: Jasmin je na porodiljnom dopustu do ljeta 2027.",
+      "last_outbound_summary_hr": "Poslana početna hladna e-pošta s ponudom besplatne fizioterapijske sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave and will be back in summer 2027."
+      ]
+    },
+    {
+      "key": "3930675/4520619124",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini primljeni odgovor je automatska obavijest o spajanju tvrtke, nema ljudskog odgovora koji pokazuje interes.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; pričekati ljudski odgovor ili ažurirati kontakt podatke.",
+      "last_inbound_summary_hr": "Automatska obavijest o spajanju Coller Capital i EQT, s uputama za nove adrese e-pošte.",
+      "last_outbound_summary_hr": "Poslana početna hladna e-pošta s ponudom besplatne fizioterapijske sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Coller Capital combined with EQT on 31 August 2026."
+      ]
+    },
+    {
+      "key": "3930675/4520618815",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini odgovor je automatska poruka o radnim danima, nema ljudskog odgovora niti izraženog interesa.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati radnim danom (pon, uto, čet).",
+      "last_inbound_summary_hr": "Automatski odgovor: Kevin radi ponedjeljkom, utorkom i četvrtkom.",
+      "last_outbound_summary_hr": "Poslana početna hladna e-pošta s ponudom besplatne fizioterapijske sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "My workings days are Monday, Tuesday and Thursday."
+      ]
+    },
+    {
+      "key": "3930675/4520612983",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor je automatska poruka o odsutnosti do 16. rujna, nema drugog ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati nakon 16. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor: Fiona je izvan ureda do srijede 16. rujna.",
+      "last_outbound_summary_hr": "Poslana druga e-pošta s pitanjem je li i dalje zainteresirana.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office until Wednesday 16th September."
+      ]
+    },
+    {
+      "key": "3930675/4520618726",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini odgovor je automatska poruka o godišnjem odmoru do 28. rujna, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati nakon 28. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor: Sarah je na odmoru do ponedjeljka 28. rujna.",
+      "last_outbound_summary_hr": "Poslana početna hladna e-pošta s ponudom besplatne fizioterapijske sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am OOO on holiday until Monday 28th September."
+      ]
+    },
+    {
+      "key": "3930675/4520618682",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini odgovor je automatska poruka o odsutnosti, nema ljudskog odgovora niti interesa.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor: Shreeya je izvan ureda i ne provjerava e-poštu.",
+      "last_outbound_summary_hr": "Poslana početna hladna e-pošta s ponudom besplatne fizioterapijske sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office and not checking my emails."
+      ]
+    },
+    {
+      "key": "3876232/4446317179",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Prva poruka jasno navodi da osoba više ne radi u tvrtki i preusmjerava na druge kontakte.",
+      "next_step_hr": "Promijeniti oznaku u Wrong Person; kontaktirati preporučene osobe (James.Roden ili Emily.Morris).",
+      "last_inbound_summary_hr": "Automatski odgovor: Dom Morizet više ne radi za MIS/Verisk, e-pošta proslijeđena Emily Morris.",
+      "last_outbound_summary_hr": "Poslana treća e-pošta s pitanjem je li zainteresiran, uz napomenu da je ovo posljednja.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Dom Morizet no longer works for MIS/Verisk.",
+        "Your email has been forwarded to Emily Morris"
+      ]
+    },
+    {
+      "key": "3930675/4520618718",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini odgovor je automatska poruka o odsutnosti do 28. rujna, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati nakon 28. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor: Laura je izvan ureda do 28. rujna.",
+      "last_outbound_summary_hr": "Poslana početna hladna e-pošta s ponudom besplatne fizioterapijske sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until the 28th of September."
+      ]
+    },
+    {
+      "key": "3876232/4446317993",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Oba odgovora su automatske poruke o odsutnosti (9.-24. rujna), nema ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati nakon 24. rujna.",
+      "last_inbound_summary_hr": "Automatski odgovor: Luke je izvan ureda od 9. do 24. rujna (drugi put).",
+      "last_outbound_summary_hr": "Poslana treća e-pošta s pitanjem je li zainteresiran, uz napomenu da je ovo posljednja.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be out of office from 9th September - 24th September"
+      ]
+    },
+    {
+      "key": "3930675/4520618597",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini odgovor je automatska poruka o porodiljnom dopustu do 30. studenog, nema ljudskog odgovora.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati nakon 30. studenog.",
+      "last_inbound_summary_hr": "Automatski odgovor: Sabina je na porodiljnom dopustu do 30. studenog.",
+      "last_outbound_summary_hr": "Poslana početna hladna e-pošta s ponudom besplatne fizioterapijske sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on Maternity Leave until 30th November"
+      ]
+    },
+    {
+      "key": "3876232/4446316318",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedini ljudski odgovor je automatska poruka o odsutnosti, nema drugog ljudskog odgovora niti interesa.",
+      "next_step_hr": "Zadržati oznaku Out Of Office; ponovno kontaktirati nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor: Darrin je izvan ureda, preusmjerava na finance@ubluk.com.",
+      "last_outbound_summary_hr": "Poslana treća e-pošta s pitanjem je li zainteresiran, uz napomenu da je ovo posljednja.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office."
+      ]
+    },
+    {
+      "key": "3876232/4446317197",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Prva poruka jasno navodi da Harry više ne radi u emap-u i da se njegova e-pošta ne prati.",
+      "next_step_hr": "Promijeniti oznaku u Wrong Person; kontaktirati preusmjerene osobe (Megan.Pringle, Melissa.Irving, Sophie.Fresle).",
+      "last_inbound_summary_hr": "Automatski odgovor: Harry je napustio emap, e-pošta se ne prati, s uputama za preusmjeravanje.",
+      "last_outbound_summary_hr": "Poslana treća e-pošta s pitanjem je li zainteresiran, uz napomenu da je ovo posljednja.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have finally flown the nest - and am no longer working at emap.",
+        "My inbox is not being monitored"
+      ]
+    }
+  ]
+}

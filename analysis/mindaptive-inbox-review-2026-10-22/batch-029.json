@@ -1,0 +1,255 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 29150,
+    "completion_tokens": 5061,
+    "total_tokens": 34211,
+    "cost": 0.002132592,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 11008,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.002132592,
+      "upstream_inference_prompt_cost": 0.001424052,
+      "upstream_inference_completions_cost": 0.00070854
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3278845/3734009539",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski odgovor (ticket potvrda). Nema ljudskog odgovora. Postojeći draft je 'autoreply' i nije primjeren jer pokušava prodavati na auto-odgovor. Radnja: NE poduzimati ništa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa. Lead ostaje u Auto-Reply statusu.",
+      "missing_information": [],
+      "evidence": [
+        "Thanks for getting in touch with UK Underfloor Heating. Our team are looking into your enquiry...",
+        "Automatic reply / ticket receipt, no human response."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je prodajni nudge na auto-odgovor, što nije dopušteno. Zamjenjuje se praznim draftom jer nema ljudskog interesa."
+    },
+    {
+      "key": "3278845/3734009233",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski odgovor (potvrda o primitku). Nema ljudskog odgovora. Postojeći draft je neprimjeren jer prodaje na auto-odgovor. Radnja: NE poduzimati ništa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa. Lead ostaje u Auto-Reply statusu.",
+      "missing_information": [],
+      "evidence": [
+        "Vielen Dank für Ihre Nachricht! Aufgrund der Vielzahl an Anfragen kann die Beantwortung Ihrer E-Mail etwas mehr Zeit in Anspruch nehmen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je prodajni nudge na auto-odgovor, što nije dopušteno. Zamjenjuje se praznim draftom jer nema ljudskog interesa."
+    },
+    {
+      "key": "3278845/3734009317",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Jedina primljena poruka je automatski odgovor (potvrda o primitku). Nema ljudskog odgovora. Postojeći draft je neprimjeren jer prodaje na auto-odgovor. Radnja: NE poduzimati ništa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa. Lead ostaje u Auto-Reply statusu.",
+      "missing_information": [],
+      "evidence": [
+        "Verehrter Absender, herzlichen Dank für Ihre Nachricht. Das beantworten dieser kann einige Tage Zeit in Anspruch nehmen."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je prodajni nudge na auto-odgovor, što nije dopušteno. Zamjenjuje se praznim draftom jer nema ljudskog interesa."
+    },
+    {
+      "key": "2738607/3025135905",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Joan je odgovorio da prosljeđuje odjelu prodaje. To je stvarni ljudski referral / obećanje o prosljeđivanju. Postoji već pending draft na koji čekamo odgovor. Stanje: čekamo odgovor na draft.",
+      "priority": "P2",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_DEMO",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Draft je poslan. Čekamo odgovor od Joan ili njenog prodajnog tima. Ako prođe više od 2 tjedna bez odgovora, slijediti.",
+      "missing_information": [],
+      "evidence": [
+        "Ho passo al dipartimento di vendite e commentiamo."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hola Joan,\nPerfecte, gràcies a tu per fer-ho arribar.\nPer no allargar-ho amb correus, et proposo una cosa senzilla: 15 minuts amb tu o amb qui porti el tema a vendes, i us ensenyo en directe com funcionaria l'agent per GNAHS — quins perfils contactaría, com qualificaria les respostes i com us arribarien les reunions ja concertades.\nAquí tens el meu calendari, agafa l'hora que et vagi millor: https://calendly.com/andrew-mindaptive/30min\nSi ho prefereixes, passa'm el contacte de vendes i m'hi poso jo directament.\nSalutacions,\nMia",
+      "draft_english": "Hi Joan,\nPerfect, thanks for passing it along.\nTo keep things short, I suggest a simple 15-minute call with you or whoever handles sales, and I'll show you live how the agent would work for GNAHS — which profiles it would contact, how it would qualify responses, and how meetings would arrive already booked.\nHere's my calendar, grab a time that works: https://calendly.com/andrew-mindaptive/30min\nIf you prefer, send me the sales contact and I'll reach out directly.\nCheers,\nMia",
+      "draft_language": "ca",
+      "draft_reason_hr": "Draft je na katalonskom (jeziku zadnjeg replyja), odgovara na Joanin referral i sadrži jasan CTA. Nema potrebe za izmjenom."
+    },
+    {
+      "key": "2732401/3016173187",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Dan je odgovorio s referralom: proslijedio je informacije partner timu. To je stvarni ljudski interes/obećanje. Postoji pending draft koji odgovara na to. Stanje: čekamo odgovor.",
+      "priority": "P2",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Draft je poslan. Čekamo odgovor partner tima ili Dana. Ako prođe više od 2 tjedna bez odgovora, razmotriti blagi follow-up.",
+      "missing_information": [],
+      "evidence": [
+        "I've forwarded your info to our partnership team internally. They will reach out if they think there is a good fit here between us."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hi Daniel,\nNo apology needed. Appreciate you passing it along to the partnership team. If they want to see how the engine finds and books meetings for companies like GoDeskless, I'm happy to walk them through it — zero pressure either way.\nThanks,\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Draft je na engleskom (jeziku zadnjeg replyja), odgovara na Danov referral i nudi daljnji korak. Nema potrebe za izmjenom."
+    },
+    {
+      "key": "2732401/3016173350",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Anna je odgovorila ljudski: hvala na informacijama i obećala proslijediti pravoj osobi. To je referral. Međutim, postojeći draft (iz srpnja) je prestar (skoro 4 mjeseca) i ponovno nudi poziv umjesto da jednostavno prihvati referral i pusti. Treba ga zamijeniti kraćim draftom koji ne forsira poziv.",
+      "priority": "P2",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_DEMO",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Draft je prestar. Potreban je novi, kraći draft koji priznaje referral i pita je li došlo do ikakvog napretka. Ne forsirati poziv.",
+      "missing_information": [],
+      "evidence": [
+        "I will pass the info to the right person at our team.",
+        "Thank you!"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hi Anna,\n\nJust checking in — did the info make it to the right person on your team? If they're open to a quick 15-minute intro to see how the engine works for Applied OLAP, I'm happy to do it. If it's not a priority right now, no problem at all.\n\nBest,\nMia",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je prestar i previše agresivan (ponovno nudi poziv). Novi draft je kraći, priznaje referral i pita za status bez pritiska."
+    },
+    {
+      "key": "2538823/2758495333",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Zadnja poruka je automatski odgovor (OOO). Prije toga, Dafina je odgovorila ljudski i pristala na sastanak, ali nakon 5 poslanih poruka bez odgovora (nakon OOO), lead je 'Lead Done'? Ne, jer je OOO došao nakon 5. poslane poruke, ali prije toga je bilo 4 poslane poruke i jedan ljudski odgovor. Nakon OOO, poslano je još 0 poruka. Čekamo da se vrati s OOO. Postojeći draft je zastario jer je napisan prije OOO i nudi kalendar, što je već bilo ponuđeno. Potreban je novi draft koji pozdravlja povratak.",
+      "priority": "P3",
+      "sales_state": "WAIT",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Dafina je na OOO do 14.11.2025. Od tada nema odgovora. Treba pričekati ili poslati kratki draft koji pozdravlja povratak s OOO i podsjeća na dogovor o sastanku.",
+      "missing_information": [],
+      "evidence": [
+        "Ich bin bis einschließlich den 14.11.2025 außer Haus und nicht erreichbar."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hi Dafina,\n\nWillkommen zurück! Du hattest ja im Oktober zugesagt, kurz zu sprechen. Möchtest du noch einen Termin vereinbaren? Der Kalender-Link ist noch offen: https://calendar.app.google/PL5DzwyjyC88oX167\n\nFalls sich etwas geändert hat, sag einfach Bescheid.\n\nBeste Grüße,\nMia",
+      "draft_english": "Hi Dafina,\n\nWelcome back! You had agreed in October to have a quick chat. Would you still like to schedule a time? The calendar link is still open: https://calendar.app.google/PL5DzwyjyC88oX167\n\nIf anything has changed, just let me know.\n\nBest regards,\nMia",
+      "draft_language": "de",
+      "draft_reason_hr": "Postojeći draft je napisan prije OOO i već nudi kalendar (što je već bilo ponuđeno). Novi draft pozdravlja povratak s OOO i nudi kalendar, što je prikladnije."
+    },
+    {
+      "key": "2515956/2722090113",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ed je odgovorio ljudski, pitao za cijenu, dao detalje o svom poslovanju (prosječna prodaja <$5000). To je stvarni interes. No, zadnja poruka od Eda ne sadrži odgovore na Andrewova pitanja (jednokratna ili godišnja vrijednost, tko je donositelj odluke). Vjerojatno je odgovorio 'Answers below next to your questions' ali tekst nije vidljiv. Potreban je human review da se provjere odgovori.",
+      "priority": "P1",
+      "sales_state": "PRICE_REQUESTED",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Ed je pitao za cijenu i dao kontekst. Čini se da je odgovorio na Andrewova pitanja, ali odgovori nisu vidljivi u threadu. Potrebno je provjeriti jesu li odgovori primljeni (možda u privitku ili drugom kanalu). Ako jesu, odgovoriti s cijenom. Ako nisu, poslati blagi podsjetnik.",
+      "missing_information": [
+        "Odgovori na pitanja o vrsti prodaje (jednokratna/godišnja) i donositelju odluke"
+      ],
+      "evidence": [
+        "Can you provide pricing? FYI we sell a small to midsize businesses and our average sale is typically between $1000 – $4000.",
+        "Answers below next to your questions."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći draft je prazan. Potrebno je pričekati human review kako bi se utvrdilo jesu li Edovi odgovori primljeni prije slanja bilo kakvog drafta."
+    },
+    {
+      "key": "2538823/2758495632",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Gennaro je odgovorio vrlo detaljno i ljudski. Objasnio je da ne trebaju pomoć u pronalaženju klijenata, već u širenju partnerske mreže u Hrvatskoj. To je stvarni interes, ali je promijenio smjer razgovora. Postojeći draft (Andrew) dobro odgovara na to. Status: čekamo odgovor na draft.",
+      "priority": "P1",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_DEMO",
+      "next_action": "WAIT",
+      "next_action_at": null,
+      "next_step_hr": "Draft je poslan. Čekamo Gennarov odgovor. Ako prođe više od 2 tjedna bez odgovora, razmotriti blagi follow-up.",
+      "missing_information": [],
+      "evidence": [
+        "Non abbiamo il bisogno di essere accompagnati da fornitori nell'agganciare potenziali clienti. Abbiamo un problema di overflow...",
+        "Abbiamo invece bisogno di allargare la rete di partner in ogni paese...",
+        "Mi farebbe piacere riuscire ad avviare una interlocuzione con società croate interessate a dialogare con ecosistemi dell'innovazione."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Ciao Gennaro,\ngrazie per la risposta così articolata, e nessun problema per i tempi — spero Washington sia stata produttiva.\nMi hai dato un quadro molto chiaro. Non hai bisogno di agganciare clienti (anzi, overflow), ma di allargare la rete di partner paese per paese. In pratica, far conoscere il paradigma Harmonic Innovation a realtà giuste, in posti giusti.\nIl motore che usiamo di solito per acquisizione clienti si adatta perfettamente a questo: trova potenziali partner, fa ricerca su ogni organizzazione, e scrive messaggi personalizzati per aprire conversazioni. L’ho già visto funzionare per costruire pipeline di partnership, non solo commerciali.\nSe ti va ne parliamo 20 minuti: posso farti vedere come individueremmo i partner giusti in Croazia (e non solo) e quali risultati potresti aspettarti. Nessuna presentazione, solo per capire se ha senso prima di decidere qualsiasi cosa.\nBuon rientro,\nAndrew",
+      "draft_english": "Hi Gennaro,\nthanks for the detailed response, and no worries about the timing — hope Washington was productive.\nYou've given me a very clear picture. You don't need help finding clients (in fact, overflow), but you need to expand the partner network country by country. In practice, spreading the Harmonic Innovation paradigm to the right organizations in the right places.\nThe engine we usually use for client acquisition adapts perfectly to this: it finds potential partners, researches each organization, and writes personalized messages to start conversations. I've seen it work for building partnership pipelines, not just commercial ones.\nIf you're open to it, let's talk for 20 minutes: I can show you how we would identify the right partners in Croatia (and beyond) and what results you could expect. No presentation, just to see if it makes sense before deciding anything.\nWelcome back,\nAndrew",
+      "draft_language": "it",
+      "draft_reason_hr": "Draft je na talijanskom (jeziku zadnjeg replyja), dobro odgovara na Gennarove potrebe i nudi jasan CTA. Nema potrebe za izmjenom."
+    },
+    {
+      "key": "2515956/2722089471",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Carolyn je odgovorila ljudski: rekla je da su u probnom razdoblju s LeadOnionom i da se javimo u prosincu. To je stvarni interes s vremenskim uvjetom. Postojeći draft (Mia) to poštuje. Stanje: čekamo prosinac.",
+      "priority": "P3",
+      "sales_state": "TIMING_OBJECTION",
+      "next_action": "WAIT",
+      "next_action_at": "2026-12-01T00:00:00Z",
+      "next_step_hr": "Carolyn je rekla da se javimo u prosincu (2025, pretpostavljamo 2026 s obzirom na datum). Postaviti podsjetnik za prosinac. Ne slati ništa do tada.",
+      "missing_information": [],
+      "evidence": [
+        "Until the trial is completed we won't be looking at other options. Reach back out in December."
+      ],
+      "draft_action": "KEEP_EXISTING",
+      "draft_original": "Hey Carolyn,\nThanks for the update. No worries at all — I'll reach back out in December once your trial wraps up.\nIf anything changes before then, feel free to give me a shout.\nMia",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Draft je na engleskom (jeziku zadnjeg replyja) i poštuje Carolynin zahtjev za čekanjem. Nema potrebe za izmjenom."
+    }
+  ]
+}

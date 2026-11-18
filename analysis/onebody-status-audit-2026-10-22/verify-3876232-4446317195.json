@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 5736,
+    "completion_tokens": 1283,
+    "total_tokens": 7019,
+    "cost": 0.01452565,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01452565,
+      "upstream_inference_prompt_cost": 0.00961176,
+      "upstream_inference_completions_cost": 0.00491389
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317195",
+      "genuine_engagement": false,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO0P265MB31153FD80EABA2F3D667A78086B62@LO0P265MB3115.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "Unsubscribe.",
+      "reason_hr": "Osoba je eksplicitno zatražila odjavu (unsubscribe).",
+      "request_hr": "Odjava s popisa.",
+      "next_action_hr": "Odmah ukloniti s popisa za kontakt i označiti kao odjavljenu. Ne slati daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317153",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<GV2P195MB2064B85123A467889E9B9674F0B22@GV2P195MB2064.EURP195.PROD.OUTLOOK.COM>",
+      "human_quote": "Just trying to book now but it’s asking me to pay £4.99 online, is that expected?",
+      "reason_hr": "Beth je pokazala istinski interes za ponudu, postavila pitanje o procesu rezervacije i aktivno pokušava rezervirati.",
+      "request_hr": "Pitanje o naknadi od £4.99 prilikom rezervacije.",
+      "next_action_hr": "Odgovoriti na Bethino pitanje o naknadi od £4.99 i pomoći joj da završi rezervaciju. Provjeriti u sustavu je li termin rezerviran izvan e-maila.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315629",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-09-07",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o odsutnosti do 7. rujna 2026. Nema dokaza ljudskog odgovora na našu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ponovno kontaktirati nakon 2026-09-07 s referencom na prethodnu poruku.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315513",
+      "genuine_engagement": false,
+      "verdict": "wrong_person",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Poruka da osoba više ne radi u tvrtki je generička, a ne odgovor na našu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Provjeriti valjanost nove kontakt osobe (Tom Harris) prije slanja poruke. Ne slati dalje na ovu adresu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315431",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<CWXP123MB2408C600C233EB67629ADAC4AFB72@CWXP123MB2408.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "All good, thanks Rebecca.",
+      "reason_hr": "James je odgovorio na upit o rezervaciji s potvrdom 'All good'. Nema novog pitanja ili zahtjeva za nas, a lokalni status je 'booked'. Kontekst sugerira da je rezervacija dovršena ili se smatra riješenom.",
+      "request_hr": "none",
+      "next_action_hr": "Oznaka za pregled vlasnika jer je lanac poruka moguće dovršen. Provjeriti u sustavu rezervacija je li termin zaista potvrđen (booked). Ako jest, arhivirati. Ako nije, poslati jednu kratku poruku za provjeru statusa.",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315350",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatska poruka da se sandučić više ne prati. Nema ljudskog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Kontaktirati novu osobu (Koray Saliah) na navedenoj adresi. Ne slati dalje na ovu adresu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

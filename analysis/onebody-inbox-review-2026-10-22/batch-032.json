@@ -1,0 +1,222 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8945,
+    "completion_tokens": 2628,
+    "total_tokens": 11573,
+    "cost": 0.00162985,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00162985,
+      "upstream_inference_prompt_cost": 0.00044725,
+      "upstream_inference_completions_cost": 0.0011826
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315698",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka kaže da Helen više ne radi u tvrtki, što je jasna indikacija da je osoba pogrešna.",
+      "next_step_hr": "Ručno provjeriti postoji li nova kontakt osoba Eloisa Fogarty za nastavak komunikacije ili zatvoriti lead.",
+      "last_inbound_summary_hr": "Automatska poruka o odlasku iz tvrtke Hawkins Brown Architects.",
+      "last_outbound_summary_hr": "Posljednja poruka (11.9.) je generički bump s pitanjem je li još uvijek zainteresirana.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Helen Wylie no longer works at Hawkins Brown Architects."
+      ]
+    },
+    {
+      "key": "3876232/4446315631",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka navodi da je Freya napustila Arcadiu, što znači da je pogrešna osoba za kontakt.",
+      "next_step_hr": "Razmotriti slanje ponude novoj kontakt osobi Jennifer Hall ili Nuali Fisher.",
+      "last_inbound_summary_hr": "Automatska poruka o napuštanju Arcadie i preusmjeravanju na kolege.",
+      "last_outbound_summary_hr": "Posljednja poruka (11.9.) generički bump s pitanjem je li još uvijek zainteresirana.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Arcadia so please contact Jennifer Hall"
+      ]
+    },
+    {
+      "key": "3930675/4520614322",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 13.9., nema ljudskog odgovora nakon toga.",
+      "next_step_hr": "Pričekati povratak Olivije i pratiti eventualni naknadni odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru od 10. do 13. rujna.",
+      "last_outbound_summary_hr": "Prva i jedina poruka (11.9.) s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office on annual leave 10th - 13th September."
+      ]
+    },
+    {
+      "key": "3876232/4446315352",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Shelley je automatski odgovorila da je izvan ureda do 1.9., a nakon toga nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak s godišnjeg i pratiti eventualni budući odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o izvan ureda do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednja poruka (11.9.) generički bump s pitanjem je li još uvijek zainteresirana.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office and will return on Tuesday, 1st September."
+      ]
+    },
+    {
+      "key": "3876232/4446316817",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jodi je dva puta poslala automatski odgovor s radnim vremenom i podacima kolega, nikada ljudski odgovor.",
+      "next_step_hr": "Ovo je Out Of Office – pričekati da Jodi eventualno odgovori radnim danom.",
+      "last_inbound_summary_hr": "Drugi automatski odgovor s radnim vremenom i popisom kolega.",
+      "last_outbound_summary_hr": "Posljednja poruka (11.9.) generički bump s pitanjem je li još uvijek zainteresirana.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note my working days are Monday to Thursday.",
+        "My colleagues will be on hand to support you with anything urgent."
+      ]
+    },
+    {
+      "key": "3930675/4520614200",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 21.9., nema ljudskog odgovora nakon toga.",
+      "next_step_hr": "Pričekati povratak Jasmine i pratiti eventualni naknadni odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru do 21. rujna.",
+      "last_outbound_summary_hr": "Prva i jedina poruka (11.9.) s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now on Annual Leave until 21/09/26."
+      ]
+    },
+    {
+      "key": "3930675/4520614236",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dieter je automatski odgovorio da je na dopustu do 14.9., nema ljudskog odgovora nakon toga.",
+      "next_step_hr": "Pričekati povratak Dietera i pratiti eventualni budući odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o dopustu do 14. rujna.",
+      "last_outbound_summary_hr": "Prva i jedina poruka (11.9.) s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on leave with no access to email.",
+        "I will return on Monday, Sept 14th"
+      ]
+    },
+    {
+      "key": "3930675/4520614235",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tanya je automatski odgovorila da petkom ne radi do ponedjeljka, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati ponedjeljak i pratiti eventualni odgovor Tanye.",
+      "last_inbound_summary_hr": "Automatski odgovor o neradnom danu do ponedjeljka.",
+      "last_outbound_summary_hr": "Prva i jedina poruka (11.9.) s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note Fridays are my non-working day, I will be returning on Monday."
+      ]
+    },
+    {
+      "key": "3930675/4520613997",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Paul je automatski odgovorio da je izvan ureda do 14.9., nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Paula i pratiti eventualni budući odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o izvan ureda do 14. rujna.",
+      "last_outbound_summary_hr": "Prva i jedina poruka (11.9.) s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of office and back Monday 14th September."
+      ]
+    },
+    {
+      "key": "3876232/4446315365",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sam je automatski odgovorio da je izvan ureda i vratit će se 24.6., nema ljudskog odgovora nakon toga.",
+      "next_step_hr": "Pričekati povratak Sama i pratiti eventualni odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o izvan ureda do 24. lipnja.",
+      "last_outbound_summary_hr": "Posljednja poruka (11.9.) generički bump s pitanjem je li još uvijek zainteresiran.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently out of the office and will return on Wednesday 24th June."
+      ]
+    },
+    {
+      "key": "3930675/4520614123",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Naveed je automatski odgovorio da je izvan ureda do 14.9., nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Naveeda i pratiti eventualni budući odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o izvan ureda do 14. rujna.",
+      "last_outbound_summary_hr": "Prva i jedina poruka (11.9.) s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until Monday 14 September 2026."
+      ]
+    },
+    {
+      "key": "3930675/4520613965",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Dani je automatski odgovorio da je izvan ureda bez datuma povratka, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Danija i pratiti eventualni budući odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor o izvan ureda.",
+      "last_outbound_summary_hr": "Prva i jedina poruka (11.9.) s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office."
+      ]
+    }
+  ]
+}

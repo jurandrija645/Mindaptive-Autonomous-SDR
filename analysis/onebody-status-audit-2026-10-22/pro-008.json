@@ -1,0 +1,176 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10573,
+    "completion_tokens": 2793,
+    "total_tokens": 13366,
+    "cost": 0.03089162,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.03089162,
+      "upstream_inference_prompt_cost": 0.02019443,
+      "upstream_inference_completions_cost": 0.01069719
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608051826",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ben Finlay je napustio tvrtku; automatski odgovor prosljeđuje poruku Archie Sidwellu i navodi kontakte za Customer Experience Strategy (dgandhi@stratt.co) i Commercial Transformation (nlevinson@stratt.co).",
+      "last_human_request_hr": "After three fantastic years with Stratt, I’ve moved on to the next adventure. For Customer Experience Strategy, it’s dgandhi@stratt.co, for Commercial Transformation it’s nlevinson@stratt.co.",
+      "unresolved_hr": "Ben više nije relevantna osoba. Navedeni su alternativni kontakti unutar Stratt-a, što predstavlja korisnu preporuku.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti želi li kontaktirati dgandhi@stratt.co ili nlevinson@stratt.co kao nove potencijalne klijente. Ne slati poruke na Benovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<5211654d578f416ead7cec5bd36040b7@LO2P123MB5392.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "After three fantastic years with Stratt, I’ve moved on to the next adventure. For Customer Experience Strategy, it’s dgandhi@stratt.co, for Commercial Transformation it’s nlevinson@stratt.co."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051869",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Marcus Cuthbert je postavio OOO poruku da je na godišnjem odmoru do 29. rujna. To nije odbijanje, već privremena odsutnost. Prošlo je dovoljno vremena za ponovni kontakt.",
+      "last_human_request_hr": "Please note that I'm away on holiday, returning on Tuesday 29th September. If you need urgent assistance please email SalesSupportUK@xantaro.net, otherwise I will reply to you upon my return.",
+      "unresolved_hr": "Marcus se vratio s odmora 29. rujna, ali nema daljnje komunikacije. Ponuda je i dalje otvorena. Potrebno je poslati follow-up.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati follow-up poruku Marcusu s podsjetnikom na ponudu za besplatnu fizioterapiju i pitanjem je li zainteresiran.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3e8b51aa49fc4730a15e540475db8c46@BEUP281MB3729.DEUP281.PROD.OUTLOOK.COM>",
+          "quote": "I'm away on holiday, returning on Tuesday 29th September."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051867",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Abeer Abughaith je postavila detaljnu OOO poruku, ali u njoj je dala korisnu uputu: za hitne stvari kontaktirati Nadia Ghazal, a njezin kalendar je otvoren za dogovaranje sastanka. Ovo su jasni pozivi na akciju, a ne puko odbijanje.",
+      "last_human_request_hr": "Something urgent: Nadia Ghazal, Operations Lead at MENA Alliances, has full context and can act on my behalf. recruitment@menaalliances.com | Whatsapp: +20 115 177 2337 / Want to speak with me: my calendar is open and live https://calendly.com/abeerabughaith/consultationcalls",
+      "unresolved_hr": "Abeer je dala jasan put za kontaktiranje nje ili njenog tima. Naša ponuda je i dalje relevantna. Trebamo iskoristiti navedene opcije.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Odgovoriti Abeer na njezine upute. Možemo kontaktirati Nadu Ghazal kao preporučenu osobu ili rezervirati termin za razgovor preko Abeerinog Calendly linka kako bismo predstavili ponudu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOOQdQBcZ_SRG92-uSDRsyt1YwZjHP9sXUbvW-WHFZ+4hPvDYg@mail.gmail.com>",
+          "quote": "Something urgent: Nadia Ghazal, Operations Lead at MENA Alliances,\nhas full context and can act on my behalf."
+        },
+        {
+          "message_id": "<CAOOQdQBcZ_SRG92-uSDRsyt1YwZjHP9sXUbvW-WHFZ+4hPvDYg@mail.gmail.com>",
+          "quote": "Want to speak with me: my calendar is open and live, so you can\npick a time that suits you rather than trading emails.\nhttps://calendly.com/abeerabughaith/consultationcalls"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051559",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Jamesin Seidel je eksplicitno zatražio uklanjanje sa svih lista. Ovo je jasan zahtjev za odjavu.",
+      "last_human_request_hr": "Please remove me from every list.",
+      "unresolved_hr": "Kontakt je već označen kao 'Do Not Contact' i odjavljen. Nema daljnjih radnji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Poštivati zahtjev za odjavu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<BBFA6A74-9063-4BAF-B464-25EDC378135B@chapterone.com>",
+          "quote": "Please remove me from every list."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051667",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor tvrtke VOGT Landscape navodi da Martijn Slob ne radi tamo od 1. siječnja 2026. i poruke se ne prosljeđuju. Ne postoji korisna preporuka.",
+      "last_human_request_hr": "Mr Martijn Slob has not been employed in our office since 01.January 2026. Messages sent to this address will not be forwarded.",
+      "unresolved_hr": "Kontakt je nevažeći i nema upotrebljive preporuke.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Označiti kontakt kao nevažeći.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<287f691179b44bc4ac0cd438cb42879e@GVAP278MB0104.CHEP278.PROD.OUTLOOK.COM>",
+          "quote": "Mr Martijn Slob has not been employed in our office since 01.January 2026."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051412",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila s greškom isporuke. Adresa madelaine.brody@digitalbridge.com ne postoji.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je netočna. Nema daljnjih radnji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Označiti kontakt kao bounced.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<98f2fb3a-9d58-4695-8281-35ea90243a6b@CW1P123MB8250.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to madelaine.brody@digitalbridge.com couldn't be delivered.\n\nmadelaine.brody wasn't found at digitalbridge.com."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051276",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Matthew Witham je napustio The Race Media i dao preporuku za kontaktiranje tim.scott@the-race.com ili admin@the-race.com.",
+      "last_human_request_hr": "I no longer work at The Race Media. Please forward your email to tim.scott@the-race.com or to admin@the-race.com",
+      "unresolved_hr": "Matthew više nije relevantan, ali dao je preporuku za druge kontakte unutar iste tvrtke.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti želi li kontaktirati tim.scott@the-race.com ili admin@the-race.com kao nove potencijalne klijente. Ne slati poruke na Matthewovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAAr3-pJdvQoERpU0Y3mQ8xGcqC0oZASA4bfGnvTisaUmXPfGZg@mail.gmail.com>",
+          "quote": "I no longer work at The Race Media. Please forward your email to\ntim.scott@the-race.com or to admin@the-race.com"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608051256",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka se vratila s greškom isporuke. Pošiljatelj nema dopuštenje za slanje na adam.godwin@team.telstra.com.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa ne prima poruke od našeg pošiljatelja. Nema daljnjih radnji.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne poduzimati ništa. Označiti kontakt kao bounced.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2bf9f7a3-9a21-4171-86e4-b66a4b409fbf@ME3PR01MB5688.ausprd01.prod.outlook.com>",
+          "quote": "Your message couldn't be delivered to the recipient because you don't have permission to send to it."
+        }
+      ]
+    }
+  ]
+}

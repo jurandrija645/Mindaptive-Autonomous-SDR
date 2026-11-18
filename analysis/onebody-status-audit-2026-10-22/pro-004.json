@@ -1,0 +1,172 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7451,
+    "completion_tokens": 2510,
+    "total_tokens": 9961,
+    "cost": 0.0056453,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 7424,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0056453,
+      "upstream_inference_prompt_cost": 0.0018803,
+      "upstream_inference_completions_cost": 0.003765
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "4006945/4608052818",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatski odgovor o neisporuci; adresa više nije u upotrebi. Nema ljudskog odgovora.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Adresa e-pošte je nevažeća. Nema daljnjeg praćenja na ovom kontaktu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Adresa nije isporučiva.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<715491c3aa2c4e7ca6bd5189ebda25b8@GV2PR03MB9593.eurprd03.prod.outlook.com>",
+          "quote": "Unfortunately, we can't deliver your email. The email address is no longer in use."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608052811",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je izričito zatražila da se poruka ponovno pošalje na novu e-mail adresu tvrtke StoneX. Ovo je jasan ljudski zahtjev i korisna preporuka.",
+      "last_human_request_hr": "Hello, this mailbox is no longer in use. Please re-send your message to my StoneX email address: Danny.Baldwin@StoneX.com",
+      "unresolved_hr": "Potrebno je poslati početnu ponudu na novu adresu e-pošte: Danny.Baldwin@StoneX.com.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Proslijediti originalnu ponudu (55-min fizioterapija) na Danny.Baldwin@StoneX.com i odgovoriti na ovu nit da je proslijeđeno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ee7480b6550143c2b37988b6dc6dc7b7@SJ2PR08MB8838.namprd08.prod.outlook.com>",
+          "quote": "Please re-send your message to my StoneX email address:\nDanny.Baldwin@StoneX.com"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608052788",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka 'izvan ureda' s informacijom o vremenskoj zoni i upućivanjem na drugi kontakt za hitne slučajeve. Nema ljudskog angažmana niti odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Nema ljudske interakcije. Automatski odgovor ne zahtijeva odgovor.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna radnja. Samo automatska obavijest o odsutnosti.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<21c77593d85647cfa6360e229869e766@ZR3P278MB1634.CHEP278.PROD.OUTLOOK.COM>",
+          "quote": "I am running offsites and CET + 8 so expect delays in response times"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608052676",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska obavijest o godišnjem odmoru s datumom povratka i upućivanjem na kolegu za hitne slučajeve.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Osoba se vraća 27. listopada. Moguće je poslati nastavak nakon tog datuma, ali trenutno nema ljudskog angažmana.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna trenutna radnja. Sustav će možda kasnije označiti za praćenje nakon 27.10., ali sada nema ljudskog interesa.",
+      "defer_until": "2026-10-27",
+      "evidence": [
+        {
+          "message_id": "<d2d6b9797484492cbab7e4891a8b0eaa@MR0P264MB5530.FRAP264.PROD.OUTLOOK.COM>",
+          "quote": "I am currently on leave returning on 27th October"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608052689",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Primatelj je pružio alternativnu adresu e-pošte (matt@fyxer.com) i pitao je li to bila namjera pošiljatelja. Ovo je izravno ljudsko pitanje.",
+      "last_human_request_hr": "Did you mean to email matt@fyxer.com?",
+      "unresolved_hr": "Potrebno je odgovoriti na pitanje i poslati ponudu na ispravnu adresu e-pošte.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Odgovoriti da potvrđujemo namjeru i proslijediti ponudu za fizioterapiju na matt@fyxer.com ili nastaviti razgovor na toj adresi.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAE+FhEuDdpD4aTHiLnSYJ1DdXevZEbunnjCN6CGgEuZXbXXh0g@mail.gmail.com>",
+          "quote": "This mailbox is inactive. Did you mean to email matt@fyxer.com?"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608052464",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka da osoba više nije zaposlena u tvrtki. Nema ljudskog odgovora niti prosljeđivanja kontakta.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Adresat je napustio tvrtku. Kontakt više nije valjan za ovu kampanju.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označeno kao 'Do Not Contact' je ispravno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<13abe06761f14ea8bd1c66455a950de7@DS2PR08MB081583.namprd08.prod.outlook.com>",
+          "quote": "I am no longer employed with Acoustic."
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608052538",
+      "assessment": "auto_reply",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Poruka je označena kao automatska 'izvan ureda' zbog operacije, ali pruža ime i e-poštu kolege za hitne slučajeve. To bi se moglo smatrati blagim angažmanom jer imenuje zamjenu.",
+      "last_human_request_hr": "If you require urgent assistance please email or call the central team number below and ask for Dan Warwick. daniel.warwick@kpmg.co.uk",
+      "unresolved_hr": "Nije potrebna hitna radnja jer se ne radi o hitnom slučaju. Osoba se vraća 30. listopada. Može se razmotriti praćenje nakon povratka.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Nije potrebna trenutna radnja. Postaviti podsjetnik za praćenje nakon 30.10.2026.",
+      "defer_until": "2026-10-30",
+      "evidence": [
+        {
+          "message_id": "<9712afcb286242b48f10c44aaced29cf@CW1P265MB7596.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out the office due to surgery until 30th October"
+        }
+      ]
+    },
+    {
+      "key": "4006945/4608052354",
+      "assessment": "booked",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Nakon što je primila sve informacije o ponudi i više praćenja, sugovornica je izričito potvrdila: 'I just booked my session.'",
+      "last_human_request_hr": "I just booked my session. Looking forward to it. Thanks",
+      "unresolved_hr": "Rezervacija je potvrđena. Konverzacija je uspješno završena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označeno kao 'Meeting Booked' je ispravno.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAL-430T-Vqe_Je=fy9LbEWR61mAE-OXNYiVK6E8ZynkjmQCwVg@mail.gmail.com>",
+          "quote": "I just booked my session."
+        }
+      ]
+    }
+  ]
+}

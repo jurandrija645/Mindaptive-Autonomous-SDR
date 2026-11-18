@@ -1,0 +1,221 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11368,
+    "completion_tokens": 2672,
+    "total_tokens": 14040,
+    "cost": 0.0008422232,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 9321,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0008422232,
+      "upstream_inference_prompt_cost": 0.0003559192,
+      "upstream_inference_completions_cost": 0.000486304
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317729",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovori o odsutnosti, bez ljudskog angažmana ili interesa.",
+      "next_step_hr": "Nema izmjena; pričekati eventualni ljudski odgovor po povratku.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda do ponedjeljka.",
+      "last_outbound_summary_hr": "Zadnja poruka s pitanjem je li ponuda i dalje relevantna.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office until Monday but will reply to you ASAP on my return."
+      ]
+    },
+    {
+      "key": "3876232/4446317756",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Primateljica je javila da je napustila tvrtku, a kasnija dostava je odbijena jer je račun neaktivan.",
+      "next_step_hr": "Označiti kao pogrešnu osobu; ne slati daljnje poruke na ovu adresu.",
+      "last_inbound_summary_hr": "Obavijest da je osoba napustila Vixio i upućivanje na drugi kontakt.",
+      "last_outbound_summary_hr": "Zadnja poruka nije dostavljena jer je mail račun neaktivan.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hi, I've now left Vixio, so for anything related to product marketing,",
+        "The email account that you tried to reach is inactive."
+      ]
+    },
+    {
+      "key": "3930675/4520622259",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru bez ljudskog angažmana.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primatelja.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na godišnjem odmoru do 21. rujna.",
+      "last_outbound_summary_hr": "Početna poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note I'm on annual leave returning Monday 21st September"
+      ]
+    },
+    {
+      "key": "3930675/4520622183",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 5. listopada bez ljudskog odgovora.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primatelja.",
+      "last_inbound_summary_hr": "Automatski odgovor da je odsutan s ograničenim pristupom mailu do 5. listopada.",
+      "last_outbound_summary_hr": "Početna poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently away with limited access to emails till 5th October."
+      ]
+    },
+    {
+      "key": "3930675/4520622182",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu bez ljudskog angažmana.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primateljice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na porodiljnom dopustu.",
+      "last_outbound_summary_hr": "Početna poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently away on maternity leave."
+      ]
+    },
+    {
+      "key": "3930675/4520622014",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o slobodnom vremenu do 21. rujna bez ljudskog interesa.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primateljice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je odsutna do 21. rujna.",
+      "last_outbound_summary_hr": "Početna poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will be checking in intermittently until I return on the 21st September."
+      ]
+    },
+    {
+      "key": "3930675/4520617648",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti bez ljudskog angažmana; poruka je poslana nakon drugog pokušaja.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primateljice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda i da će odgovoriti po povratku.",
+      "last_outbound_summary_hr": "Podsjetnik s ponudom besplatne sesije ili opcijom preko osiguranja.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out if the office today with no access to email."
+      ]
+    },
+    {
+      "key": "3930675/4520621720",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu do kasnije u 2026. bez ljudskog odgovora.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primateljice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na porodiljnom dopustu.",
+      "last_outbound_summary_hr": "Početna poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on Maternity Leave, returning later in 2026."
+      ]
+    },
+    {
+      "key": "3930675/4520621685",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do petka bez ljudskog angažmana.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primateljice.",
+      "last_inbound_summary_hr": "Automatski odgovor da je izvan ureda do petka.",
+      "last_outbound_summary_hr": "Početna poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office at work event until Friday."
+      ]
+    },
+    {
+      "key": "3930675/4520612643",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o ograničenom pristupu mailu zbog treninga, bez ljudskog interesa.",
+      "next_step_hr": "Nema izmjena; pričekati eventualni ljudski odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor da je na treningu s ograničenim pristupom mailu.",
+      "last_outbound_summary_hr": "Zadnja poruka s pitanjem je li ponuda i dalje relevantna.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am conducting training for the day and have limited access to my emails."
+      ]
+    },
+    {
+      "key": "3930675/4520612102",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti zbog vjenčanja do 28. rujna bez ljudskog angažmana.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primatelja.",
+      "last_inbound_summary_hr": "Automatski odgovor da je odsutan do 28. rujna.",
+      "last_outbound_summary_hr": "Zadnja poruka s pitanjem je li ponuda i dalje relevantna.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’ll be back in the office on 28 September."
+      ]
+    },
+    {
+      "key": "3930675/4520621406",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 22. rujna bez ljudskog angažmana.",
+      "next_step_hr": "Nema izmjena; pričekati povratak primatelja.",
+      "last_inbound_summary_hr": "Automatski odgovor da je odsutan do utorka 22. rujna.",
+      "last_outbound_summary_hr": "Početna poruka s ponudom besplatne fizioterapije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will respond on my return to the office, Tuesday 22nd September."
+      ]
+    }
+  ]
+}

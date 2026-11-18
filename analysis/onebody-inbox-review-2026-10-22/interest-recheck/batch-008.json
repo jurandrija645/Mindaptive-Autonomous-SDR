@@ -1,0 +1,163 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8900,
+    "completion_tokens": 1254,
+    "total_tokens": 10154,
+    "cost": 0.0010093,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0010093,
+      "upstream_inference_prompt_cost": 0.000445,
+      "upstream_inference_completions_cost": 0.0005643
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317887",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Clarence je eksplicitno odgovorio 'No' na zadnju poruku što je jasno odbijanje.",
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446317493",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Thomas je zatražio 'Unsubscribe please' što je eksplicitni opt-out. Održavamo oznaku.",
+      "evidence": [
+        "Unsubscribe please"
+      ]
+    },
+    {
+      "key": "3876232/4446316452",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Michelle je odgovorila 'No thank you' što je jasno odbijanje.",
+      "evidence": [
+        "No thank you"
+      ]
+    },
+    {
+      "key": "3930675/4520613429",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Anthony je automatski odgovor o odlasku iz tvrtke bez interesa.",
+      "evidence": [
+        "I've now left Iris.",
+        "For anything operational, please contact Ali.Proctor-Walsh@iris-worldwide.com."
+      ]
+    },
+    {
+      "key": "3930675/4520613430",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Leon je automatski odgovor o odlasku iz tvrtke bez interesa.",
+      "evidence": [
+        "I have left IRIS and no longer have access to this email account."
+      ]
+    },
+    {
+      "key": "3930675/4520612048",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Daniel je izjavio da je u Los Angelesu, što implicira lokacijsko odbijanje bez interesa.",
+      "evidence": [
+        "I am in Los Angeles Sorry"
+      ]
+    },
+    {
+      "key": "3876232/4446316903",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Warren je odgovorio da sada živi u LA-u i nije zainteresiran.",
+      "evidence": [
+        "I now live in LA - so not walking past.",
+        "Thank you for reaching out."
+      ]
+    },
+    {
+      "key": "3876232/4446318019",
+      "recommended_label": "Do Not Contact",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Cathy je zatražila 'Unsubscribe me please' što je eksplicitni opt-out. Održavamo oznaku.",
+      "evidence": [
+        "Unsubscribe me please"
+      ]
+    },
+    {
+      "key": "3930675/4520610008",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Bernard je odgovorio 'No thanks' čime izričito odbija ponudu.",
+      "evidence": [
+        "No thanks"
+      ]
+    },
+    {
+      "key": "3876232/4446317185",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Josh je odgovorio da nisu više u Hammersmithu, što implicira odbijanje na temelju lokacije bez interesa za ponudu.",
+      "evidence": [
+        "we're no longer in Hammersmith."
+      ]
+    },
+    {
+      "key": "3876232/4446318153",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Graeme je izjavio da živi u Dubaiju i rekao 'not for me thanks', što je jasno odbijanje.",
+      "evidence": [
+        "I live in Dubai so not for me thanks"
+      ]
+    },
+    {
+      "key": "3876232/4446317852",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Paul je odgovorio da nisu blizu Shoreditcha i da već imaju zdravstvenu skrb, čime odbija ponudu.",
+      "evidence": [
+        "we are not anywhere near Shoreditch, and we have our healthcare sorted",
+        "many thanks"
+      ]
+    }
+  ]
+}

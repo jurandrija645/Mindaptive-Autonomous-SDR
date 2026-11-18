@@ -19,6 +19,8 @@ const crm = {
 };
 
 function setMode(mode) {
+  cancelLeadRequest();
+  clearTimeout(leadSearchTimer);
   if (typeof closeMobileMenu === "function") closeMobileMenu(true);
   state.mode = mode === "crm" ? "crm" : "outreach";
   const inCrm = state.mode === "crm";

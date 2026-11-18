@@ -1,0 +1,38 @@
+OneBodyLDN audit - 2026-10-22, final settings
+61 Old mailboxes: cold 15/day, warmup 25-35/day. All read back and verified.
+270 new mailboxes: warmup 3-40/day. All ranges read back and verified. Cold caps unchanged.
+Daily ramp-up: isRampupEnabled=true submitted for all 270 new mailboxes; Smartlead returned success. Public read endpoints do not return that flag, so it cannot be independently read back through this API.
+Health automation: existing dashboard switch is OFF (monitor-only); it was not changed.
+All 331 SMTP/IMAP connection flags are true.
+Old warmup: 37 ACTIVE, 24 INACTIVE/blocked. New warmup: all 270 ACTIVE.
+APIVoid live response: HTTP 403, {"error":"Subscription is not active"}.
+Application calls raise_for_status before parsing the provider error, so it only shows generic HTTP 403.
+Smartlead blocked reasons embed full HTML bounce emails; the app prints this as text, causing the long red HTML seen in the screenshot.
+24 warmup blocks are dated 2026-10-16 through 2026-10-18.
+All eight affected domains currently have MX records, and all MX targets resolve to IP addresses. This does not establish that the actual mailboxes accept inbound email.
+Smartlead documented unblock flow requires an OTP sent to each blocked mailbox and verified within 10 minutes. No OTP emails were sent.
+Blocked old mailbox list:
+rebecca.bossick@onebodyldnworks.com
+rebecca@onebodyldnworks.com
+kurt.johnson@onebodyldnworks.com
+rebecca.bossick@onebodyldnrehab.com
+rebecca@onebodyldnrehab.com
+kurt@onebodyldnrehab.com
+bossick.rebecca@onebodyexpansion.com
+rebecca.bossick@onebodyexpansion.com
+kurt@onebodyexpansion.com
+rebecca.bossick@onebodylink.com
+rebecca@onebodylink.com
+kurt.johnson@onebodylink.com
+rebecca.bossick@onebodyreach.com
+johnson.kurt@onebodyreach.com
+rebecca@onebodyreach.com
+bossick.rebecca@onebodydirect.com
+rebecca.bossick@onebodydirect.com
+kurt.johnson@onebodydirect.com
+bossick.rebecca@onebodyoutbound.com
+rebecca@onebodyoutbound.com
+kurt@onebodyoutbound.com
+rebecca.bossick@onebodyconnect.com
+rebecca@onebodyconnect.com
+kurt@onebodyconnect.com

@@ -1,0 +1,258 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 49681,
+    "completion_tokens": 4143,
+    "total_tokens": 53824,
+    "cost": 0.0043484,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0043484,
+      "upstream_inference_prompt_cost": 0.00248405,
+      "upstream_inference_completions_cost": 0.00186435
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3950427/4542617773",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Tim je odgovorio s 'Yes.', što je pozitivan signal. Poslano 4 poruke nakon toga bez odgovora. Sljedeći korak: posljednji kratki follow-up da se dobije odluka.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratki follow-up (A/B pitanje) kako bi dobio odgovor da li je zainteresiran ili ne.",
+      "missing_information": [],
+      "evidence": [
+        "Yes.",
+        "Here is your new website, Tim"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hey Tim,\n\nBrzo pitanje — što je bliže?\n\nA) Razmislio bih o zamjeni trenutne stranice s ovom, ali bih želio nekoliko izmjena\n\nB) Nije dovoljno poboljšanje za nas\n\nSamo odgovori A ili B.\n\nThanks",
+      "draft_english": "Quick question, Tim —\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.\n\nThanks",
+      "draft_language": "hr",
+      "draft_reason_hr": "Postojeći draft je prazan/null, potrebno kreirati novi. Tim je vidio demo i nije odgovorio na 3 follow-upa. Sljedeći korak: kratki A/B izbor da se dobije odluka (vidi B1 uzorak)."
+    },
+    {
+      "key": "3899056/4475672680",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Yevhenii je postavio jasne uvjete (plaćanje po sastanku), zatim pitao što trebate od njega. Odgovoreno s traženjem ICP-a i linkom za booking. Nema odgovora nakon toga. Samo 1 poslana poruka nakon zadnjeg odgovora.",
+      "priority": "P2",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratki follow-up pitajući je li ICP poslan ili treba li još što.",
+      "missing_information": [],
+      "evidence": [
+        "To be honest, I receive tons of emails like this every week.",
+        "Send the ICP, that's the main thing."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Yevhenii,\n\nSamo da provjerim — jeste li imali priliku poslati ICP? To je sve što trebam da procijenim radi li ovo za CoSupport.\n\nAko imate pitanja, tu sam.",
+      "draft_english": "Hey Yevhenii,\n\nJust checking — did you get a chance to send over the ICP? That's all I need to assess whether this works for CoSupport.\n\nIf you have questions, I'm here.",
+      "draft_language": "en",
+      "draft_reason_hr": "Yevhenii je zainteresiran ali je tražio da pošalje ICP. Prošlo je 22 dana bez odgovora. Konkretan kratki follow-up može ga pokrenuti."
+    },
+    {
+      "key": "3950427/4542617388",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Rachel je odgovorila s 'send the link', zatim poslano 4 poruke bez odgovora. Još uvijek je zainteresirana jer je tražila link. Sljedeći korak: kratki posljednji follow-up.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratki A/B izbor da dobijemo odluku.",
+      "missing_information": [],
+      "evidence": [
+        "send the link",
+        "Here is your new website ->"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hey Rachel,\n\nBrzo pitanje — što je bliže?\n\nA) Razmislila bih o zamjeni trenutne stranice s ovom, ali bih željela nekoliko izmjena\n\nB) Nije dovoljno poboljšanje za nas\n\nSamo odgovori A ili B.\n\nThanks",
+      "draft_english": "Quick question, Rachel —\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.\n\nThanks",
+      "draft_language": "hr",
+      "draft_reason_hr": "Postojeći draft je prazan/null. Rachel je tražila link, demo poslan, 4 follow-upa bez odgovora. Sljedeći korak: kratki A/B izbor da dobijemo odluku (vidi B1 uzorak za tihe demoe)."
+    },
+    {
+      "key": "2538823/2758494567",
+      "recommended_label": "Uncategorizable by Ai",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": false,
+      "reason_hr": "Ovo je interni testni thread (mindaptive@gmail.com). 'Replies' su automatski testovi, a poslane poruke su API probe. Nema stvarne komercijalne vrijednosti. Potrebna ljudska provjera da se označi kao test/noćni.",
+      "priority": "P3",
+      "sales_state": "Needs human review",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Označiti kao testni thread. Bez daljnjih akcija.",
+      "missing_information": [],
+      "evidence": [
+        "This is a live API test from Mindaptive Responder verifying the reply-email-thread payload shape. Please disregard.",
+        "Performance and webhook reliability verification — 2026-09-04.",
+        "I am interested!!!"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema stvarne prodaje; testni thread. Ne treba draft."
+    },
+    {
+      "key": "3899056/4475670673",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Ben je odgovorio s pitanjem o specifičnosti, što je signal interesa. Odgovoreno detaljno. Poslane 2 poruke bez odgovora. Još je u igri.",
+      "priority": "P2",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratki follow-up pitajući je li imao vremena pogledati video ili razmisliti o ponudi.",
+      "missing_information": [],
+      "evidence": [
+        "smart ai systems and automation is so broad it doesn’t mean a lot.\nPlease can you elaborate and be more specific."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Ben,\n\nJeste li imali priliku pogledati video koji sam poslao? Pitao me jeste li razmislili o ponudi ili imate li još pitanja.\n\nAko trenutno nije prioritet, samo recite i odustajem.",
+      "draft_english": "Hey Ben,\n\nDid you get a chance to look at the video I sent? Just wondering if you've thought about the offer or have any more questions.\n\nIf it's not a priority right now, just tell me and I'll step back.",
+      "draft_language": "en",
+      "draft_reason_hr": "Ben je tražio specifične informacije, dobio ih je. Prošlo je 36 dana bez odgovora. Kratki follow-up može ga potaknuti na odgovor."
+    },
+    {
+      "key": "3562710/4080233772",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Sergio je zatražio video (signal interesa). Nakon toga, poslano 6 poruka bez odgovora. Posljednja poruka (8. kolovoza) je bila 'zatvaranje' poruka. Moguće je da je stvarno gotovo, ali bolje provjeriti.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poslana je poruka da se odustaje. Bez daljnjih akcija, osim ako se ne pojavi novi odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Sin problemas para que compartas ese clip",
+        "Voy a dejar esto por aquí, Estudio."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Posljednja poruka je bila zatvaranje. Nema potrebe za novim follow-upom."
+    },
+    {
+      "key": "3562710/4080235584",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Kirsty je pitala o cijenama. Odgovoreno je s objašnjenjem i linkom za booking. Nakon toga, poslano 5 poruka bez odgovora. Još je zainteresirana, ali nije odgovorila na pitanje o cijeni.",
+      "priority": "P3",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Poslana je poruka da je prototip napravljen i link za booking. Bez odgovora. Moguće je da nije zainteresirana. Sljedeći korak je čekanje.",
+      "missing_information": [],
+      "evidence": [
+        "What is your pricing on this?",
+        "I actually went ahead and created a prototype assistant for Eco Energy."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Poslano 5 poruka bez odgovora. Posljednja poruka je bila o prototipu. Daljnje slanje bi bilo bezvrijedno. Čekati novi odgovor."
+    },
+    {
+      "key": "2738671/3025251433",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Jamie je odgovorio s 'happy to have a chat'. Poslana mu je poruka s linkom za booking. Nema odgovora nakon toga. Samo 1 poslana poruka nakon odgovora.",
+      "priority": "P2",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratki follow-up pitajući je li imao priliku pogledati Calendly ili ima li pitanja.",
+      "missing_information": [],
+      "evidence": [
+        "Hi - happy to have a chat about this.",
+        "You can choose a slot that works best for you here:"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Jamie,\n\nSamo da provjerim — jeste li imali priliku odabrati termin za poziv?\n\nAko imate pitanja prije toga, tu sam.",
+      "draft_english": "Hey Jamie,\n\nJust checking — did you get a chance to pick a time for the call?\n\nIf you have any questions beforehand, I'm here.",
+      "draft_language": "en",
+      "draft_reason_hr": "Jamie je izrazio interes za poziv, poslan mu je Calendly link. Prošlo je 9 mjeseci. Kratki follow-up može ga podsjetiti."
+    },
+    {
+      "key": "2738671/3025253783",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Jędrzej je postavio pitanje o tržištima. Odgovoreno je s informacijama i linkom na video. Samo 1 poslana poruka nakon odgovora.",
+      "priority": "P2",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošalji kratki follow-up pitajući je li imao priliku pogledati video.",
+      "missing_information": [],
+      "evidence": [
+        "Na jakich rynkach działacie?",
+        "Zobacz krótki film, który pokazuje jak ten proces wygląda w praktyce ->"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Cześć Jędrzej,\n\nMiałeś okazję obejrzeć film? Daj znać, czy masz jakieś pytania.\n\nJeśli to nie jest teraz priorytet, daj znać, a ja się wycofam.",
+      "draft_english": "Hi Jedrzej,\n\nDid you have a chance to watch the video? Let me know if you have any questions.\n\nIf it's not a priority right now, let me know and I'll step back.",
+      "draft_language": "pl",
+      "draft_reason_hr": "Jędrzej je tražio informacije o tržištima, dobio ih je s videom. Prošlo je 10 mjeseci. Kratki follow-up na poljskom može ga potaknuti."
+    },
+    {
+      "key": "2738607/3025135572",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Andrea je odgovorio s pitanjima o vjerodostojnosti i pristupu. Odgovoreno je s videom i linkom. Potrebna ljudska procjena da li je odgovor bio dovoljan.",
+      "priority": "P2",
+      "sales_state": "TRUST_QUESTION",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Ljudska procjena da li je Andrea zadovoljan odgovorom. Moguće je poslati kratki follow-up da se provjeri.",
+      "missing_information": [],
+      "evidence": [
+        "I am a bit confused as I looked at your website and lead generation is nowhere to be found.",
+        "Please take a look at the video demo below."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Hey Andrea,\n\nJeste li imali priliku pogledati video? Pitao me mislite li da ovaj pristup odgovara myMeta?\n\nAko imate dodatnih pitanja, tu sam.",
+      "draft_english": "Hey Andrea,\n\nDid you have a chance to look at the video? I was wondering if you think this approach fits myMeta?\n\nIf you have any additional questions, I'm here.",
+      "draft_language": "en",
+      "draft_reason_hr": "Andrea je izrazio sumnju. Video je poslan, ali nema odgovora. Kratki follow-up može pomoći, ali prije toga potrebna ljudska procjena."
+    }
+  ]
+}

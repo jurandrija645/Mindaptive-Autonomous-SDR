@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8993,
+    "completion_tokens": 2168,
+    "total_tokens": 11161,
+    "cost": 0.0113457,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0113457,
+      "upstream_inference_prompt_cost": 0.0080937,
+      "upstream_inference_completions_cost": 0.003252
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315894",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je automatska OOO obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ljudske interakcije za obradu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Automatski OOO odgovor; nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<290f308355f94d84a86c900e933eb05f@AS8PR06MB7591.eurprd06.prod.outlook.com>",
+          "quote": "I will be out of the office from Aug 27, 2026 to Sep 05, 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315845",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Sve poruke su odbijene (bounce). Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Poruke se ne mogu isporučiti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "E-pošta je blokirana; nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6a9ff9cd.6dd481a1.13d4f.98f2.GMR@mx.google.com>",
+          "quote": "550 Administrative prohibition - envelope blocked"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315920",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je automatska OOO obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ljudske interakcije za obradu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Automatski OOO odgovor; nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c234621036104c4eb0685137cdf7447a@CWXP265MB1317.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am currently out of the office returning Wednesday 9th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315909",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Alex je prihvatio ponudu, podijelio je s kolegama. Posljednja poruka je naša zahvala. Status 'Lead Done'/'not_interested' je netočan jer je pokazao angažman i dobio link i kod.",
+      "last_human_request_hr": "Hi Rebecca, That's great thanks, I've shared internally. There's about 30 in our London office, so I'm sure a few people will be interested.",
+      "unresolved_hr": "Nema potvrde o rezervaciji, ali je predaja kodom dovršena. Moguće je naknadno provjeriti je li bilo rezervacija ili samo zahvaliti na preporuci.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Provjeriti jesu li njegove kolege rezervirale. Poslati kratku poruku zahvale i upitati je li bilo interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAD2dX=czsyXbyWzbX8YsqrotcuCUbdzUn5Ja6R1u4cz6v3AoKg@mail.gmail.com>",
+          "quote": "That's great thanks, I've shared internally."
+        },
+        {
+          "message_id": "<CAD2dX=f-UM9jvDXpxt2FNvnGJCAM2HyxWmUgcbFobRJtqPHNXg@mail.gmail.com>",
+          "quote": "I would be happy to share it on our London office Slack channel if that would be useful to you."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315922",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je automatska OOO obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ljudske interakcije za obradu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Automatski OOO odgovor; nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c35e4b947935487692e86169b681f0de@AS5PR06MB8968.eurprd06.prod.outlook.com>",
+          "quote": "Please note that I am OOO until 04/09/2026"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315870",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina poruka od primatelja je automatska OOO obavijest. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema ljudske interakcije za obradu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Automatski OOO odgovor; nema potrebe za daljnjim radnjama.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3c82cf7e6a2546419d3459098a5012ee@LO7P302MB0817.GBRP302.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am out of the office, returning Monday, 7th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315896",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku. Navodi: 'I have now left Brooks Macdonald'. Nema korisne preporuke.",
+      "last_human_request_hr": "I have now left Brooks Macdonald.",
+      "unresolved_hr": "Osoba više ne radi tamo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Osoba je napustila tvrtku. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d900ba2cc4dc4c2d925549b3396dcb80@LO6P265MB6332.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I have now left Brooks Macdonald."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315895",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Osoba je napustila tvrtku. Navodi: 'I have now left Brooks Macdonald'. Nema korisne preporuke.",
+      "last_human_request_hr": "I have now left Brooks Macdonald.",
+      "unresolved_hr": "Osoba više ne radi tamo.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Osoba je napustila tvrtku. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<766852e00bec4c9daf2b22b2a9c46bed@LO2P265MB0909.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I have now left Brooks Macdonald."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

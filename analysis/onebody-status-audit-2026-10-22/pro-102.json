@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7331,
+    "completion_tokens": 2232,
+    "total_tokens": 9563,
+    "cost": 0.0184002,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0184002,
+      "upstream_inference_prompt_cost": 0.01143636,
+      "upstream_inference_completions_cost": 0.00696384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315443",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor primatelja bio je automatska OOO poruka. Nema ljudskog odgovora niti angažmana. Naše naknadne poruke ostale su bez odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja; osoba nikad nije ručno odgovorila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Osoba nije pokazala interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3871cebb955944cbb69dc1dd47f89903@CH3PR17MB6291.namprd17.prod.outlook.com>",
+          "quote": "Thank you for your email. I am out of office and will respond to any emails on my return on Wednesday 2nd September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315417",
+      "assessment": "opted_out",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Primatelj je eksplicitno odgovorio \"No\" na ponudu. To je jasno odbijanje.",
+      "last_human_request_hr": "No",
+      "unresolved_hr": "Osoba je odbila ponudu. Ne treba je ponovno kontaktirati.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštujte zahtjev za prestankom kontakta. Nema daljnjih radnji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<3CB9DC5F-1CDE-4547-8C38-D7570FD602E5@bespokeconnections.com>",
+          "quote": "No"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315429",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor primatelja bila je automatska OOO poruka s godišnjeg odmora. Nema ljudskog odgovora. Naše naknadne poruke ostale su bez odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja; osoba nikad nije ručno odgovorila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Osoba nije pokazala interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<73188f1fb81f4b8fade09c0d00ced981@CW1P123MB7496.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am currently on annual leave and will return on the 3rd of Sep."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315428",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor primatelja bila je automatska OOO poruka s godišnjeg odmora. Nema ljudskog odgovora. Naše naknadne poruke ostale su bez odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja; osoba nikad nije ručno odgovorila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Osoba nije pokazala interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<dd6400561f4848efa1518a88f1317f73@LO0P123MB4906.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am on vacation with limited access to my emails."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315427",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor primatelja bila je automatska OOO poruka. Nema ljudskog odgovora. Naše naknadne poruke ostale su bez odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja; osoba nikad nije ručno odgovorila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Osoba nije pokazala interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<2eef8b36aa6d46779f8fcd576a67bc58@CWXP123MB4326.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office and will return on Tuesday 1st of September 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315366",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Odgovor primatelja bila je prazna poruka. Ne sadrži ljudski generiran tekst, pitanje ili namjeru. Ovo je vjerojatno automatski odgovor ili greška, a ne angažman.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Sadržaj poruke je prazan. Nema upita za odgovoriti.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Prazan odgovor ne ukazuje na interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<49f6a97f433f49c39e563acc3d3fc24e@LO8P123MB8061.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": ""
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315365",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor primatelja bila je automatska OOO poruka. Datum povratka (24. lipnja) je prošao. Nema naknadnog ljudskog odgovora. Naše naknadne poruke ostale su bez odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja; osoba nikad nije ručno odgovorila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Osoba nije pokazala interes.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<e91fde65995b4ac0ba3379ca6f754e4a@CWLP123MB6298.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thanks for your message. I'm currently out of the office and will return on Wednesday 24th June."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446315440",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedini odgovor primatelja bila je automatska OOO poruka s godišnjeg odmora. Datum povratka (1. rujna) je prošao. Nema naknadnog ljudskog odgovora. Naše naknadne poruke ostale su bez odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema otvorenih pitanja; osoba nikad nije ručno odgovorila.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za daljnjim radnjama. Osoba nije pokazala interes.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<08f036c7cd344c838fd09cd3cf6077b2@DB9PR01MB7338.eurprd01.prod.exchangelabs.com>",
+          "quote": "I am currently on leave with limited access to my emails, returning 1st Sept."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

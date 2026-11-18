@@ -1,0 +1,232 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 10036,
+    "completion_tokens": 2852,
+    "total_tokens": 12888,
+    "cost": 0.0007967232,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8731,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007967232,
+      "upstream_inference_prompt_cost": 0.0002776592,
+      "upstream_inference_completions_cost": 0.000519064
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616415",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti do 21. rujna, bez ljudskog odgovora ili interesa.",
+      "next_step_hr": "Nema radnje; pričekati ljudski odgovor nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 21. rujna.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office returning on 21st September.",
+        "Please reach out to Shafiat Odunewe (shafiat.odunewu@hadean.com) if urgent."
+      ]
+    },
+    {
+      "key": "3930675/4520616429",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru do 22. rujna, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; pričekati ljudski odgovor nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor: na odmoru do 22. rujna 2026.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on holiday until Tuesday 22nd September 2026.",
+        "For any help with the platform or data enquiries please reach out"
+      ]
+    },
+    {
+      "key": "3930675/4520616179",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; kontaktiranje alternativnih osoba nije indicirano za ovaj tretman.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom dopustu, kontaktirati druge.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave.",
+        "Should you need anything during this time, please contact"
+      ]
+    },
+    {
+      "key": "3930675/4520616253",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti od stola, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; pričekati ljudski odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda, odgovorit će čim bude moguće.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am away from my desk and will reply to your email as soon as I am able.",
+        "If your query is urgent please contact my clerks"
+      ]
+    },
+    {
+      "key": "3930675/4520616136",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 28. rujna, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; pričekati ljudski odgovor nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 28. rujna.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office returning Monday 28th September",
+        "For anything else please reach out to declan.k@meetcleo.com"
+      ]
+    },
+    {
+      "key": "3930675/4520616141",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti do 21. rujna, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; pričekati ljudski odgovor nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 21. rujna.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m out of the office until 21 September, checking emails periodically",
+        "While I’m away, why not have a nose around our shiny new website"
+      ]
+    },
+    {
+      "key": "3930675/4520616108",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu do srpnja 2027., bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; kontaktiranje alternativnih osoba nije indicirano za ovaj tretman.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom dopustu do srpnja 2027.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave and will have limited access to",
+        "I am due to return in July 2027."
+      ]
+    },
+    {
+      "key": "3876232/4446315609",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o festivalu, nakon toga samo naši podsjetnici, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; finalni email je poslan, čekati odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor: na festivalu s ograničenim signalom.",
+      "last_outbound_summary_hr": "Finalni email s upitom za odgovor 'da' ili 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm away at a festival this weekend with very limited signal",
+        "please bare with me on responses"
+      ]
+    },
+    {
+      "key": "3876232/4446317246",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o jednodnevnoj odsutnosti, nakon toga samo naši podsjetnici, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; finalni email je poslan, čekati odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda 7. rujna, vraća se 8. rujna.",
+      "last_outbound_summary_hr": "Finalni email s upitom za odgovor 'da' ili 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of office attending an event today, Monday 7th September",
+        "I will respond to your query when I return tomorrow"
+      ]
+    },
+    {
+      "key": "3930675/4520612647",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti od stola, nakon toga samo naš podsjetnik, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; pričekati ljudski odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda, odgovorit će čim bude moguće.",
+      "last_outbound_summary_hr": "Podsjetnik na ponudu besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm away from my desk today.",
+        "Otherwise, I'll reply as soon as possible."
+      ]
+    },
+    {
+      "key": "3930675/4520616015",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; pričekati ljudski odgovor nakon povratka.",
+      "last_inbound_summary_hr": "Automatski odgovor: na godišnjem odmoru do 14. rujna.",
+      "last_outbound_summary_hr": "Hladna inicijalna ponuda besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now on annual leave, returning to the office Tuesday 14th September.",
+        "If you need me urgently, please call my mobile"
+      ]
+    },
+    {
+      "key": "3876232/4446315550",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o prazniku, nakon toga samo naši podsjetnici, bez ljudskog odgovora.",
+      "next_step_hr": "Nema radnje; finalni email je poslan, čekati odgovor.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda zbog praznika 31. kolovoza.",
+      "last_outbound_summary_hr": "Finalni email s upitom za odgovor 'da' ili 'ne'.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "It is a public holiday in the UK on 31st August.",
+        "I will be back in the office on 1st September."
+      ]
+    }
+  ]
+}

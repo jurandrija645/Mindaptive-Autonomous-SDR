@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 11481,
+    "completion_tokens": 2876,
+    "total_tokens": 14357,
+    "cost": 0.00186825,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00186825,
+      "upstream_inference_prompt_cost": 0.00057405,
+      "upstream_inference_completions_cost": 0.0012942
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317271",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o odsutnosti, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 9. rujna.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm OOO until Sept 9th."
+      ]
+    },
+    {
+      "key": "3876232/4446316011",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o preusmjeravanju na drugu osobu izvan tvrtke, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor s preusmjeravanjem na Jamesa Kaya.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you for your email. For all enquiries, please contact James Kay (jkay@ogbroking.com)"
+      ]
+    },
+    {
+      "key": "3876232/4446316904",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka jasno navodi da osoba više ne radi u Frontieru i upućuje na drugu kontakt osobu, što je činjenično netočna osoba.",
+      "next_step_hr": "Zadržati oznaku Wrong Person; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor/obavijest da Jo Stent više ne radi u Frontieru, s preusmjeravanjem na CFO-a.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Jo Stent no longer works at Frontier, please contact our CFO Shaun Claydon"
+      ]
+    },
+    {
+      "key": "3876232/4446316879",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o odsutnosti, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti s uputama za hitne slučajeve.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office."
+      ]
+    },
+    {
+      "key": "3876232/4446316390",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka jasno navodi da osoba više ne radi u Sova Capital i upućuje na drugu adresu, što je činjenično netočna osoba.",
+      "next_step_hr": "Zadržati oznaku Wrong Person; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor/obavijest da osoba više nije u Sova Capital s preusmjeravanjem na teneosovateam@teneo.com.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that this person is no longer with Sova Capital."
+      ]
+    },
+    {
+      "key": "3876232/4446316253",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka jasno navodi da Andrew Rice je napustio posao i upućuje na drugu osobu, što je činjenično netočna osoba.",
+      "next_step_hr": "Zadržati oznaku Wrong Person; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor/obavijest da Andrew Rice je napustio posao s preusmjeravanjem na Rushi Lala.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Please note that Andrew Rice has recently left the business"
+      ]
+    },
+    {
+      "key": "3876232/4446316635",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o godišnjem odmoru, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru do 7. rujna.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you for your email, I am now on annual leave returning to work on Monday 7th September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446315850",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o odsutnosti, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 2. rujna s brojem telefona za hitne slučajeve.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m out of the office until Wednesday 2nd Sept (parenting until the schools open again!)"
+      ]
+    },
+    {
+      "key": "3876232/4446316890",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o odsutnosti, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti s obećanjem povratka.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thanks for your message. I’m currently out of the office. I’ll get back to you once I’m back online."
+      ]
+    },
+    {
+      "key": "3930675/4520615027",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o privremenoj odsutnosti, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o privremenoj odsutnosti s ponuđenim telefonskim brojem.",
+      "last_outbound_summary_hr": "Poslana samo početna e-poruka s ponudom.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently away from my desk and will be checking emails intermittently"
+      ]
+    },
+    {
+      "key": "3876232/4446316075",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o odsutnosti, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o odsutnosti do 2. rujna s listom kontakt osoba.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office, returning Wednesday 2nd of September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446316631",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jedina ljudska poruka je automatski odgovor o godišnjem odmoru, nema naknadnog ljudskog odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku; nema potrebe za daljnjom radnjom.",
+      "last_inbound_summary_hr": "Automatski odgovor o godišnjem odmoru do 3. rujna s preusmjeravanjem na tim.",
+      "last_outbound_summary_hr": "Završna poruka s ponudom kodova.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on annual leave returning on Thursday 3rd Sept."
+      ]
+    }
+  ]
+}

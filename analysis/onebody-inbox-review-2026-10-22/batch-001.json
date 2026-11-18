@@ -1,0 +1,225 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 15800,
+    "completion_tokens": 2869,
+    "total_tokens": 18669,
+    "cost": 0.00208105,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00208105,
+      "upstream_inference_prompt_cost": 0.00079,
+      "upstream_inference_completions_cost": 0.00129105
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621755",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Harry je izrazio interes i najavio termin za tjedan dana, ali još nije rezervirao.",
+      "next_step_hr": "Pričekati povratak Harryja s odmora ili njegovu rezervaciju.",
+      "last_inbound_summary_hr": "Harry je rekao da je zainteresiran, da je daleko sljedeći tjedan, ali da bi mogao doći tjedan poslije.",
+      "last_outbound_summary_hr": "Poslan je booking link i kod OBLACCESS55 s napomenom o naknadi od 4,99£.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am actually interested!",
+        "I'm away this week but maybe the week after would be good?"
+      ]
+    },
+    {
+      "key": "3930675/4520614234",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Edu je potvrdio interes i obećao rezervirati krajem idućeg tjedna ili početkom sljedećeg, stoga je i dalje zainteresiran.",
+      "next_step_hr": "Nastaviti pratiti hoće li Edu rezervirati kao što je obećao.",
+      "last_inbound_summary_hr": "Edu je rekao da je prezauzet ali da planira rezervirati za kraj idućeg tjedna ili početak sljedećeg.",
+      "last_outbound_summary_hr": "Poslan je podsjetnik s linkom i kodom te pitanje je li uspio rezervirati.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Next week is going to be possible for me to do this session",
+        "I will be able to confirm then"
+      ]
+    },
+    {
+      "key": "3876232/4446316731",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Richard je prihvatio ponudu, pitao može li navratiti već sutradan, i iako nije rezervirao, ostaje aktivan i zainteresiran.",
+      "next_step_hr": "Pričekati da Richard sam rezervira ili se javi s pitanjem.",
+      "last_inbound_summary_hr": "Richard je pitao može li navratiti sutradan u kliniku.",
+      "last_outbound_summary_hr": "Poslana je opomena da je ponuda još važeća uz link i kod.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will take you up on your offer.",
+        "Is it possible for me to pop by the studio next time I pass?"
+      ]
+    },
+    {
+      "key": "3876232/4446317153",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Beth je aktivno pokušavala rezervirati, prijavila bug s linkom i pitala o naknadi, ali još nije dovršila rezervaciju.",
+      "next_step_hr": "Pratiti hoće li Beth uspjeti rezervirati; ostaje otvoreno pitanje tehničkog buga.",
+      "last_inbound_summary_hr": "Beth je javila da link uvijek kaže 'expired' i pitala o naknadi od 4,99£.",
+      "last_outbound_summary_hr": "Poslana je završna poruka s linkom i kodom te pitanje treba li pomoć.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "the magic link always says it’s expired",
+        "Just trying to book now but it’s asking me to pay £4.99 online"
+      ]
+    },
+    {
+      "key": "3876232/4446316050",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ian je prihvatio ponudu, najavio da će se javiti kad bude mogao, a mi smo poslali link i kod, stoga je interes potvrđen.",
+      "next_step_hr": "Pričekati da Ian sam rezervira ili se javi.",
+      "last_inbound_summary_hr": "Ian je zahvalio i obećao da će se javiti 'in due course'.",
+      "last_outbound_summary_hr": "Poslan je booking link i kod OBLACCESS55 uz savjet za u međuvremenu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I will take you up on your free 55 mins physio session",
+        "Will revert in due course."
+      ]
+    },
+    {
+      "key": "4006945/4608050109",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Alex je automatski odgovorio OOO porukom, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Alexa s odmora (nakon 23.10.).",
+      "last_inbound_summary_hr": "Automatski OOO odgovor: izvan ureda od 19. do 23. listopada.",
+      "last_outbound_summary_hr": "Poslana druga poruka s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office Mon 19th to Fri 23rd Oct."
+      ]
+    },
+    {
+      "key": "4006945/4608050349",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Charlie je automatski odgovorio OOO porukom, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Charlieja (27.10.) pa ponovno kontaktirati.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor: izvan ureda do 27. listopada.",
+      "last_outbound_summary_hr": "Poslana druga poruka s pitanjem želi li besplatnu sesiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office, returning Tuesday 27th October"
+      ]
+    },
+    {
+      "key": "4006945/4608050217",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Robeel je automatski odgovorio OOO porukom, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Robeela (26.10.) pa ponovno kontaktirati.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor: na službenom putu do 26. listopada.",
+      "last_outbound_summary_hr": "Poslana druga poruka s pitanjem želi li besplatnu sesiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m on a work trip in the US (Pacific Time, eight hours behind the UK)"
+      ]
+    },
+    {
+      "key": "4006945/4608050786",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jade je automatski odgovorila OOO porukom (porodiljni dopust), nema ljudskog odgovora.",
+      "next_step_hr": "Preusmjeriti upit na lisa.timothy@takeda.com kako je navedeno u poruci.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor: na porodiljnom dopustu do rujna 2027.",
+      "last_outbound_summary_hr": "Poslana druga poruka s ponudom besplatne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on maternity leave until September 2027"
+      ]
+    },
+    {
+      "key": "4006945/4608050174",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "David je automatski odgovorio OOO porukom, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Davida (26.10.) pa ponovno kontaktirati.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor: na godišnjem odmoru do 26. listopada.",
+      "last_outbound_summary_hr": "Poslana druga poruka s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on annual leave until Mon 26th October"
+      ]
+    },
+    {
+      "key": "4006945/4608052538",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mike je automatski odgovorio OOO porukom, nema ljudskog odgovora.",
+      "next_step_hr": "Pričekati povratak Mikea (30.10.) pa ponovno kontaktirati ili kontaktirati Danna Warwicka.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor: izvan ureda zbog operacije do 30. listopada.",
+      "last_outbound_summary_hr": "Poslana prva poruka s ponudom 55-minutne sesije.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out the office due to surgery until 30th October"
+      ]
+    },
+    {
+      "key": "4006945/4608050388",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Vivek je automatski odgovorio OOO porukom, nema ljudskog odgovora.",
+      "next_step_hr": "Preusmjeriti upit na Rhea Raj ili Sivu M kako je navedeno u poruci.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor: izvan ureda, preusmjerava na kolege.",
+      "last_outbound_summary_hr": "Poslana druga poruka s pitanjem želi li besplatnu sesiju.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Hi, I am out of office."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 27737,
+    "completion_tokens": 3363,
+    "total_tokens": 31100,
+    "cost": 0.00310167,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00310167,
+      "upstream_inference_prompt_cost": 0.00249633,
+      "upstream_inference_completions_cost": 0.00060534
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3912149/3734012112",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovori o godišnjem odmoru (2x) i kasnija poruka s lažnim rokom koja nije dobila ljudski odgovor. Bez stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora - nema daljnje akcije. Poslana 3 poruke, zadnja s 'last chance' prije 30 dana. Lead je mrtav.",
+      "missing_information": [],
+      "evidence": [
+        "I'm currently on annual leave until 21st September with limited access",
+        "This is my last email. I'll take the Advance Heat's redesigned website down in a few hours"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog odgovora, postojeći nacrt je neželjeni auto-reply nudge koji ne treba koristiti."
+    },
+    {
+      "key": "3991161/4126835753",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (ticket sistema klinike) - nikakav ljudski odgovor. Poslana samo 1 poruka.",
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Poslana 1 poruka bez ljudskog odgovora. Preporuka: poslati demo link (prvi follow-up za nepotvrđenu posjetu), ali bez auto-reply nudgea. Koristiti kratki resend linka.",
+      "missing_information": [
+        "demo_url"
+      ],
+      "evidence": [
+        "Thank you for contacting Bodytonic Clinic. To cancel, reschedule...",
+        "I may not be in clinic at the time of your email correspondence."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hey Ele — dropping the link here again in case it got buried:\n\n[insert demo URL]\n\nI'd especially look at how the consultation request flow works now.\n\nMia",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći nacrt je neželjeni auto-reply nudge. Potreban je novi, kratki follow-up s demo linkom bez lažne hitnosti."
+    },
+    {
+      "key": "3991161/4126835770",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor - OOO do 30. rujna. Nikakav ljudski odgovor. Poslana samo 1 poruka.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-09-30T08:00:00.000Z",
+      "next_step_hr": "Pričekati do 30. rujna (povratak s godišnjeg), zatim poslati kratki follow-up na nizozemskom s demo linkom.",
+      "missing_information": [
+        "demo_url"
+      ],
+      "evidence": [
+        "Op woensdag 30 september ben ik weer aanwezig.",
+        "Bedankt voor uw bericht. Op dit moment kan ik uw mail niet beantwoorden."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Pričekati povratak s godišnjeg, tek onda slati sljedeći korak."
+    },
+    {
+      "key": "3950427/4542617899",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski 'away from office' odgovori, zatim poruka s lažnim rokom. Nikad ljudskog odgovora. 3 poslane poruke, zadnja prije 28 dana.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Bez ljudskog odgovora nakon 3 poruke i 'last chance' poruke. Lead je gotov.",
+      "missing_information": [],
+      "evidence": [
+        "We are away from the office and your emails can not be read.",
+        "We will be returning Tuesday 22nd September",
+        "This is my last email. I'll take the hughes roofing's redesigned website down"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog odgovora nakon više pokušaja."
+    },
+    {
+      "key": "3899056/4475674142",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor - OOO do 23. rujna s uputom na kolegu. Nikakav ljudski odgovor. Nije website-offer kampanja.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-09-24T08:00:00.000Z",
+      "next_step_hr": "OOO je istekao 23.9., poslana 2 poruke bez ljudskog odgovora. Preporuka: ne slati više na ovaj kontakt, lead je gotov nakon 2 poruke bez odgovora.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of the office through Sept. 23.",
+        "please contact Brock Sherva at brock.sherva@ndhc.net"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Lead nije pokazao interes nakon 2 poruke. preporuka za prekid."
+    },
+    {
+      "key": "3960583/3729674128",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor Zendesk sustava - nije ljudski. Poslane 2 poruke. Bez pravog ljudskog odgovora.",
+      "priority": "P3",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Ticket sustav nije ljudski kontakt. Poslana 2 poruke bez ljudskog odgovora. Preporuka: prekinuti.",
+      "missing_information": [],
+      "evidence": [
+        "Your request (460985) has been received and is being reviewed by our support staff."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Postojeći nacrt je neželjeni auto-reply nudge. Bez ljudskog odgovora, nema smisla slati dalje."
+    },
+    {
+      "key": "3899056/4475670724",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski OOO odgovori (2x), zatim poslana zadnja 'last email' poruka. Nikad ljudskog odgovora. Nije website-offer kampanja.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nakon 3 poslane poruke i 'last email' bez ljudskog odgovora, lead je gotov.",
+      "missing_information": [],
+      "evidence": [
+        "I will be out of the office until September 11, 2026.",
+        "I will be out of the office until September 14, 2026.",
+        "this will be my last email."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nema ljudskog odgovora nakon 3 poruke. Lead je gotov."
+    },
+    {
+      "key": "3899056/4475672274",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski redirect - Tristan je napustio tvrtku (zadnji dan 23.4.2025.). Uputnica na Jamesa Warrena. Generic auto-redirect jer je osoba otišla = Wrong Person.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Osoba je napustila tvrtku prije 18 mjeseci. Preporuka: označiti kao Wrong Person i zatvoriti.",
+      "missing_information": [],
+      "evidence": [
+        "PLEASE BE AWARE, MY LAST DAY WITH UNITED RENTALS WAS APRIL 23rd, 2025",
+        "Please Contact James Warren for any inquiries after my departure: jwarren@ur.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Osoba više ne radi u tvrtki."
+    },
+    {
+      "key": "3899056/4475676074",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski OOO odgovor do 21. rujna s uputom na kolege. Nikakav ljudski odgovor. Nije website-offer kampanja.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "OOO je istekao 21.9., poslana 2 poruke bez ljudskog odgovora. Preporuka: prekinuti.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of office until September 21st.",
+        "please contact Patrick at patrick@centercode.com or Dana at dana@centercode.com"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Lead nije pokazao interes nakon 2 poruke."
+    },
+    {
+      "key": "3960583/3729675040",
+      "recommended_label": "",
+      "confidence": "high",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Automatski ticket odgovor, ALI nakon toga stvarni ljudski odgovor iz supporta koji je uputio na businessdev@evgo.com. To je stvarni ljudski odgovor s preporukom - nije automatski. Poslana samo 1 poruka.",
+      "priority": "P1",
+      "sales_state": "DEMO_SENT_NO_CONFIRMED_VISIT",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Support je uputio na businessdev@evgo.com. Preporuka: poslati novu poruku direktno na businessdev@evgo.com s kratkim objašnjenjem i demo linkom. Potrebna ljudska provjera prije slanja.",
+      "missing_information": [
+        "demo_url",
+        "new_recipient_email"
+      ],
+      "evidence": [
+        "For inquiries related to business development, please feel free to reach out directly to our team at businessdev@evgo.com.",
+        "Please understand that this line is mainly for driver support and charger issues."
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hi businessdev team —\n\nI reached out to info@evgo.com and support pointed me here.\n\nI built EVgo a redesigned website with a modern look, better mobile experience, and an AI assistant for visitor questions.\n\nWould love for someone on your team to take a look:\n\n[insert demo URL]\n\nIf it's interesting, we can talk about next steps.\n\nMia",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postojeći nacrt je neželjeni auto-reply nudge. Potreban je profesionalniji pristup za business development kontakt."
+    }
+  ]
+}

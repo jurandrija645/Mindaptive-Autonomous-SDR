@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 9302,
+    "completion_tokens": 2517,
+    "total_tokens": 11819,
+    "cost": 0.0121473,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0121473,
+      "upstream_inference_prompt_cost": 0.0083718,
+      "upstream_inference_completions_cost": 0.0037755
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520613039",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena zbog Local Policy Violation - Spam. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Email adresa je odbila poruku. Nema otvorenog zadatka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije. Adresa je vratila tvrdi bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a38e24bf-0c94-4194-a6bd-1c9b4e22e703@CW1P123MB8185.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "mx08-0050eb01.pphosted.com rejected your message to the following email addresses:"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612982",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka nije isporučena jer je Mimecast detektirao spam. Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Email adresa je odbila poruku. Nema otvorenog zadatka.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnje akcije. Adresa je vratila tvrdi bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a8e3ca74-bafd-4548-a26c-f7329da39a24@LODP123MB241506.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "bateswells.co.uk suspects your message is spam, or contains a virus, and rejected it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612634",
+      "assessment": "manual_review",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Gemma je na porodiljnom i dala je referencu za Zaru Eck. To je konkretna ljudska akcija i referral.",
+      "last_human_request_hr": "Please contact zara.eck@myunidays.com",
+      "unresolved_hr": "Potrebno je kontaktirati Zaru Eck kao novu referencu. Gemmin OOO je trajan, ali referral je legitiman.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Pošalji zahvalni email Gemmi i pokreni outreach na zara.eck@myunidays.com s informacijom da dolazi po preporuci.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAC1u5EP2h2xsFhJVQaHF--=7_4wiDrpxPB3BO5t8-3AOVyTnFg@mail.gmail.com>",
+          "quote": "I am currently out of office on maternity. Please contact\nzara.eck@myunidays.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612632",
+      "assessment": "manual_review",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Tamara je na porodiljnom i dala je referencu za svoju asistenticu Christaniju. To je ljudski odgovor s referralom.",
+      "last_human_request_hr": "Please reach out to my EA, Christania McPherson (christania.mcpherson@myunidays.com), who will assist in directing your query",
+      "unresolved_hr": "Potrebno je kontaktirati Christaniju McPherson kao novu referencu. Tamarin OOO je trajan, ali referral vrijedi.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Pošalji zahvalni email Tamari i pokreni outreach na christania.mcpherson@myunidays.com s informacijom da dolazi po preporuci.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAKfYxgP7nqmigxo2dTzHZQDyKNMijQj=qiREbbJVXAeyogu=HA@mail.gmail.com>",
+          "quote": "Please reach out to my EA, Christania McPherson (christania.mcpherson@myunidays.com)"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612651",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Sian je poslala OOO do 16. rujna i rekla da će odgovoriti sljedeći tjedan. To je ljudski odgovor koji pokazuje namjeru da se kasnije bavi porukom, ali još nije odgovorila na ponudu.",
+      "last_human_request_hr": "I'm out of office until Wednesday 16th September and will get back to you next week.",
+      "unresolved_hr": "Prošlo je više od mjesec dana od 16. rujna, a nema naknadnog odgovora. Potreban je follow-up.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Pošalji follow-up s podsjetnikom na ponudu i kod za rezervaciju. Prošlo je 6 tjedana od povratka.",
+      "defer_until": null,
+      "evidence": [],
+      "rejected_evidence": [
+        {
+          "message_id": "<CANSa0nmihKAvfRr9p6_hCs97VSHw3i=Ns+LK5QOgyNMoNOVpbg@mail.gmail.com>",
+          "quote": "I'm out of office until Wednesday 16th September and will get back to you next week."
+        }
+      ],
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520612648",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Richard je poslao OOO do 22. rujna i najavio odgovor po povratku. To je ljudski odgovor s namjerom, ali nema naknadnog odgovora.",
+      "last_human_request_hr": "I'm on holiday until Friday 18th, then away at the BA Conference until Tuesday 22nd September, and will reply to emails on my return.",
+      "unresolved_hr": "Prošlo je više od mjesec dana od 22. rujna. Potreban je follow-up jer osoba nije odgovorila nakon najavljenog povratka.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Pošalji follow-up s podsjetnikom na ponudu i kod za rezervaciju. Prošlo je 5 tjedana od povratka.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMGn85-sJ_bb9V58JTq=E1fZJpzxrjtQQiSMN9s=4HOY+Mav-A@mail.gmail.com>",
+          "quote": "I'm on holiday until Friday 18th, then away at the BA Conference until\nTuesday 22nd September, and will reply to emails on my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612413",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Maximilian je napustio firmu i dao je interne kontakte za Notion-related upite. Naša ponuda nije Notion-related i osoba nije dala referral za sebe.",
+      "last_human_request_hr": "I have now left Notion Capital and joined a portfolio company - Isembard.",
+      "unresolved_hr": "Osoba je otišla iz tvrtke i nije tražila kontakt niti dala relevantan referral za fizioterapiju. Predmet zatvoren.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označi kao pogrešnu osobu. Ne šalji dalje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOp0BN=VmKpZHUcuqucS21e2NRLtLDn7VQCdSSnY8HHuMPAPQw@mail.gmail.com>",
+          "quote": "I have now left Notion Capital and joined a portfolio company - Isembard."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520612404",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Georgina je poslala OOO do 17. rujna s porukom da će odgovoriti po povratku. To je ljudski odgovor, nakon čega nije bilo odgovora.",
+      "last_human_request_hr": "I will respond to all messages when I return on the 17th of September.",
+      "unresolved_hr": "Prošlo je više od mjesec dana od 17. rujna. Potreban je follow-up jer osoba nije odgovorila.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Pošalji follow-up s podsjetnikom na ponudu i kod za rezervaciju. Lead je trenutno arhiviran, preporuča se dearhiviranje.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMQDrwrkc_XS04hPOMR6Es4LL2O8vHVXqoOwast4bmuwsXwoPA@mail.gmail.com>",
+          "quote": "I will respond to all messages when I return on the 17th of September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

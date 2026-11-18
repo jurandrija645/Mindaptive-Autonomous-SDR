@@ -1,0 +1,197 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 16896,
+    "completion_tokens": 2407,
+    "total_tokens": 19303,
+    "cost": 0.0188169,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0188169,
+      "upstream_inference_prompt_cost": 0.0152064,
+      "upstream_inference_completions_cost": 0.0036105
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316050",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ian je prihvatio ponudu, tražio link i dobio ga. Potvrdio je primitak i rekao da će se javiti. Nema odbijenice ni bookinga.",
+      "last_human_request_hr": "\"Thanks Kurt. Will revert in due course.\"",
+      "unresolved_hr": "Nema potvrde bookinga ni odustajanja. Treba provjeriti je li iskoristio kod, i ako nije, poslati nježan follow-up.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Provjeriti u TM3 je li koristio OBLACCESS55. Ako nije, poslati poruku s pitanjem kako napreduje oporavak i treba li pomoć oko bookinga.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP265MB30130A3BB23E92C81BF6A633BDB62@CWXP265MB3013.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I will take you up on your free 55 mins physio session for my leg in due course and discuss a re-hab programme."
+        }
+      ],
+      "rejected_evidence": [
+        {
+          "message_id": "<CWXP265MB30136791EEFA4DD027251598BDB62@CWXP265MB3013.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thanks Kurt. Will revert in due course."
+        }
+      ],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315968",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina 'odgovor' poruka je automatska bounce notifikacija s Office 365. Nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa odbija poruke. Nema drugog načina kontaktiranja osima putem telefona ili alternativne adrese.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti lead kao bounce. Ne slati dalje na ovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e2124601-5705-4ce2-8727-3fd3a0c50ab7@LO6P123MB6325.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to stuart.lang@resolutionproperty.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315982",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Karin je eksplicitno odbila ponudu.",
+      "last_human_request_hr": "\"Thanks for reaching out Rebecca, but it's not for me.\"",
+      "unresolved_hr": "Nema. Odbila je.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao odbijeno. Ne kontaktirati ponovno s ovom ponudom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO8P123MB77831D53EE9726146152287A89B62@LO8P123MB7783.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thanks for reaching out Rebecca, but it's not for me."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315904",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Ian Jones je prvotno bio zainteresiran, ali kasnije odbio zbog preseljenja ureda i više nema interesa.",
+      "last_human_request_hr": "\"I have moved office and not so conveniently located. Thanks for the interest however\"",
+      "unresolved_hr": "Nema. Odbio je uz obrazloženje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Poštovati odbijenicu. Arhivirati. Ne nuditi druge klinike ručno, osim ako vlasnik ne odluči drugačije.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<GV2PR08MB11943FEBF4B8B646A56BD3AC0BDBF2@GV2PR08MB11943.eurprd08.prod.outlook.com>",
+          "quote": "Yes I would be interested but had an operation yesterday so out of action for couple of weeks."
+        },
+        {
+          "message_id": "<GV2PR08MB119433B299BE9085F0055FF6ABDB92@GV2PR08MB11943.eurprd08.prod.outlook.com>",
+          "quote": "apologies I will need to pass on this – I have moved office and not so conveniently located"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315767",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Simon Evans je automatski odgovorio da je napustio tvrtku i uputio na kontaktiranje kolega. To nije rasprava o ponudi, ali daje korisnu informaciju.",
+      "last_human_request_hr": "\"I have now left BMS. Please contact Ali Trauttmansdorff or a member of the Talent Acquisition team.\"",
+      "unresolved_hr": "Nema. Lead je napustio tvrtku i nije zainteresiran. Ponuda nije relevantna.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao krivu osobu. Ne slati dalje na ovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b1f429e29b084e269d17b064beb03594@FRZPR08MB11903.eurprd08.prod.outlook.com>",
+          "quote": "I have now left BMS.\n\nPlease contact Ali Trauttmansdorff or a member of the Talent Acquisition team."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315735",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Jedina 'odgovor' poruka je automatska bounce notifikacija s Office 365. Nema ljudskog angažmana.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa odbija poruke. Nema drugog načina kontaktiranja.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti lead kao bounce. Ne slati dalje na ovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<633026c1-2985-432e-850d-ca928d91f4b8@CWLP123MB2931.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to lroberson@albion.capital couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315614",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Rhys je dva puta odgovorio da je napustio tvrtku i uputio na contact department. Nema interesa za ponudu.",
+      "last_human_request_hr": "\"I have now left Digital Science, so please resend your email to legal@digital-science.com\"",
+      "unresolved_hr": "Nema. Lead je napustio tvrtku. Ovo nije zainteresirana osoba.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti kao krivu osobu. Ne slati dalje na ovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAC5e1HuRwk4C4MeSV_+Cbedag1oqaVdcfmZox1eeUNxY0wG1GA@mail.gmail.com>",
+          "quote": "I have now left Digital Science, so please resend your email to legal@digital-science.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315699",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Prvi 'odgovor' bio je automatski OOO. Drugi pokušaj slanja rezultirao je bounce greškom. Nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa je ili blokirala pošiljatelja ili više ne postoji. Prvi OOO je bio jedini znak života.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Označiti lead kao bounce. Ne slati dalje na ovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d46987bb-3ad3-46fe-b6c8-16eecc858051@LO6P123MB7110.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to arranwright@daleuw.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7281,
+    "completion_tokens": 2018,
+    "total_tokens": 9299,
+    "cost": 0.01765452,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01765452,
+      "upstream_inference_prompt_cost": 0.01135836,
+      "upstream_inference_completions_cost": 0.00629616
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315629",
+      "assessment": "needs_our_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka je automatski OOO odgovor. Osoba nije osobno odgovorila niti postavila pitanje. OOO traje do 7. rujna 2026., što je već prošlo, ali nema ljudskog angažmana za nastavak.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ljudskog odgovora. Originalna ponuda nije dobila ljudsku reakciju. Potrebno je ponovno kontaktirati nakon što je OOO period završio.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati novi follow-up email sada kada je OOO period odavno prošao. Pitati je li zainteresirana za besplatnu sesiju i ponuditi kod.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<4405119498a34be0b48cb0c6a2150d34@LO6P265MB7351.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email. I am out of the office until Monday 7th September. I will respond to emails upon my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315513",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Carl Pearse javlja da više nije u tvrtki i upućuje na Toma Harrisa. Ovo nije odbijanje ponude, već davanje preporuke za drugu osobu (referral). To je ljudski angažman koji zahtijeva naš odgovor i akciju prema Tomu.",
+      "last_human_request_hr": "I am no longer with OakNorth for any assistance kindly reach out to Tom Harris.",
+      "unresolved_hr": "Treba zahvaliti Carlu i potvrditi da ćemo kontaktirati Toma Harrisa. Zatim treba pronaći i kontaktirati Toma Harrisa s ponudom.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Odgovoriti Carlu, zahvaliti na informaciji i potvrditi da ćemo kontaktirati Toma Harrisa. Zatim identificirati i kontaktirati Toma Harrisa (Tom Harris, OakNorth) s relevantnom ponudom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<df08b0d6633d4278a406f1c8d5e930ba@AM9PR08MB6241.eurprd08.prod.outlook.com>",
+          "quote": "I am no longer with OakNorth for any assistance kindly reach out to Tom Harris."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315557",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email nije isporučen. Automatska poruka o grešci prosljeđivanja. Nema ljudskog odgovora.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email adresa nije važeća. Lead je potrebno zatvoriti ili pronaći novi kontakt.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead označiti kao bounce. Nema daljnjeg kontakta na ovu adresu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a8e5e855-a622-4bbe-8e0e-a14cdf5f1233@AS8PR10MB6770.EURPRD10.PROD.OUTLOOK.COM>",
+          "quote": "Your email couldn't be forwarded from ajinkya.bhave@demica.com to another email address."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315523",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email adresa ne postoji. Automatska poruka o grešci.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Lead nije valjan zbog krive adrese.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Lead označiti kao bounce. Nema daljnjih akcija.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6a953068.5948071e.265cb7.1e85.GMR@mx.google.com>",
+          "quote": "Address not found"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315431",
+      "assessment": "closed_ack",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "James Lynn je dobio link i kod za booking. Nakon follow-upa odgovorio je 'All good, thanks Rebecca'. Nema novih pitanja niti zahtjeva. Ovo je finalna potvrda primitka informacija. Sustav ga već vodi kao 'booked'.",
+      "last_human_request_hr": "All good, thanks Rebecca.",
+      "unresolved_hr": "Razgovor je završen sa strane primatelja. Preporuka je da vlasnik ručno potvrdi zatvaranje ili eventualno provjeri je li se zaista bookirao, ali nema potrebe za daljnjim slanjem poruka.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Lead je već označen kao 'booked'. Preporučam ručnu provjeru je li se booking dogodio i označavanje kao zatvoreno. Nema potrebe za daljnjom komunikacijom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWXP123MB2408C600C233EB67629ADAC4AFB72@CWXP123MB2408.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "All good, thanks Rebecca."
+        },
+        {
+          "message_id": "<CWXP123MB240816AB51834E20E8FD8BFDAFA92@CWXP123MB2408.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Thanks for getting in touch."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446315350",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Oliver Ng je napustio tvrtku i proslijedio je upit na Koray Saliah. Iako je 'Do Not Contact' oznaka možda primijenjena, poruka sadrži korisnu preporuku (referral). To zahtijeva zahvalu i akciju prema novoj osobi.",
+      "last_human_request_hr": "This mailbox is no longer monitored. Please direct all future inquiries to Koray Saliah - koray.saliah@downing.co.uk",
+      "unresolved_hr": "Treba zahvaliti Oliveru (ili ignorirati njegov inbox) i kontaktirati Koray Saliah s ponudom.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Kontaktirati Koray Saliah na navedenu adresu s istom ili sličnom ponudom. Označiti Olivera kao 'wrong person' ali s uspješnim referralom.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d54a90a203ff40fabb4fa74889aef892@VI0PR06MB10985.eurprd06.prod.outlook.com>",
+          "quote": "This mailbox is no longer monitored. Please direct all future inquiries to Koray Saliah - koray.saliah@downing.co.uk"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

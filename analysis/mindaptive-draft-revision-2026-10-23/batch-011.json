@@ -1,0 +1,36 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 9788,
+    "completion_tokens": 277,
+    "total_tokens": 10065,
+    "cost": 0.000941122,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000941122,
+      "upstream_inference_prompt_cost": 0.000890708,
+      "upstream_inference_completions_cost": 5.0414e-05
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2538823/2758495403",
+      "ready": true,
+      "language": "es",
+      "body": "Hola Denis,\n\nHa pasado bastante tiempo desde nuestra última conversación, pero quería retomar el tema del vídeo que te envié para Mormedi. Me comentaste que lo compartirías con Growth para valorar si podía aportar algo a las herramientas que ya usáis.\n\nNuestro sistema ha mejorado mucho desde entonces, y el vídeo actual te da una visión general de cómo encontramos empresas adecuadas, las investigamos y comenzamos conversaciones relevantes. Aquí lo tienes por si quieres echarle un vistazo: https://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\n¿Tiene sentido retomarlo, o preferís seguir con el sistema actual?",
+      "english": "",
+      "reason_hr": "Stari B2B lead (366 dana). Reaktivacija na španjolskom, kratko priznanje pauze, podsjetnik na temu, link na verificirani B2B Loom, jedno pitanje."
+    }
+  ]
+}

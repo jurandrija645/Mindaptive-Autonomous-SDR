@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 19996,
+    "completion_tokens": 2194,
+    "total_tokens": 22190,
+    "cost": 0.03803904,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.03803904,
+      "upstream_inference_prompt_cost": 0.03119376,
+      "upstream_inference_completions_cost": 0.00684528
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520615615",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b83c0a3d-a860-4b37-bcb3-881b5593ad9d@LO8P123MB7677.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to maulik.doctor@millenniumglobal.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615503",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7b5cf904-d4f5-4d88-ad72-a8ad65adadf1@LO2P123MB7210.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to syed.hussain@lseg.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615507",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<222eef42-e2a2-453a-a08e-8f107b102da9@LOBP123MB8652.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to bhavesh.padhiar@lseg.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615509",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ae5f197f-91bd-40f5-948f-9b04071b0a5c@CWLP123MB7105.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to vanessa.digby@lseg.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615520",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<45ba0c90-8e1a-44e8-836c-3b47249163f7@CWLP123MB5964.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to stefan.reichenbach@lseg.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615519",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<122bd371-02c6-4729-9cc1-e6b076a2722d@CWLP123MB6949.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to iman.poernomo@lseg.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615527",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<a29f1fab-b022-488b-b0d5-defa0231b5de@CWLP123MB7283.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to mstuttard@lseg.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520615545",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Poruka odbijena na razini poslužitelja primatelja; nema ljudskog odgovora. Automatska obavijest o neisporučivosti.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema ništa za rješavanje. E-pošta nikad nije isporučena.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nije potrebna daljnja radnja. Označiti kao bounce.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<d1287a12-5fe0-4d38-854f-0a99ebdeb0c6@LO0P123MB4153.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to ababbar@lseg.com couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

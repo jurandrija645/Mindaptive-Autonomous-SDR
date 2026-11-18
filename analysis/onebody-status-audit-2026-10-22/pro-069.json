@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 8033,
+    "completion_tokens": 3197,
+    "total_tokens": 11230,
+    "cost": 0.008710617915,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 5791,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.008710617915,
+      "upstream_inference_prompt_cost": 0.002602685475,
+      "upstream_inference_completions_cost": 0.00610793244
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317318",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Indijin auto-odgovor kaže da putuje do 14. rujna i da će odgovoriti po povratku. Ovo nije odbijenica, već signal interesa za odgodu. Nakon toga su poslana dva follow-upa, ali nije dobiven ljudski odgovor ni potvrda rezervacije. Danas je već 22.10.2026., stoga je prošlo dovoljno vremena za novi, nježni pokušaj kontakta.",
+      "last_human_request_hr": "\"I'm travelling until 14 September and will get back to you upon my return.\"",
+      "unresolved_hr": "Nema potvrde o rezervaciji, odbijenici niti daljnjeg odgovora nakon što je istekao period putovanja. Potrebno je provjeriti postoji li interes.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Poslati jednu novu poruku s pitanjem je li još uvijek zainteresirana za besplatnu sesiju i poslati kod/link ako odgovori potvrdno. Ne započinjati nove sekvence.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<ceeb3e84f7914896b86a87d9d8b947c2@LOBP265MB8501.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I'm travelling until 14 September and will get back to you upon my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317336",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Andy Berg je pristao na ponudu, poslan mu je link i kod OBLACCESS55 10.09.2026. Status 'Meeting Booked' nije potvrđen stvarnom rezervacijom u porukama. To je predaja detalja. Budući da je prošlo više od mjesec dana bez daljnje komunikacije, potrebno ga je pratiti i provjeriti je li uspješno rezervirao.",
+      "last_human_request_hr": "\"I'd like to take you up on that offer for the 55-minute physio session. Please send the booking link over.\"",
+      "unresolved_hr": "Nema potvrde da je stvarno rezervirao. Nakon predaje linka i koda potrebno je kontaktirati ga s pitanjem je li sve prošlo u redu ili treba pomoć.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati follow-up poruku s pitanjem je li uspio rezervirati s poslanim kodom OBLACCESS55 i treba li pomoć pri odabiru termina.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CANGVV-bVD3AA7BnqFXAf3C-qb0p-+DEiNXQCCkjpPM0tiqtquw@mail.gmail.com>",
+          "quote": "I'd like to take you up on that offer for the 55-minute physio session."
+        },
+        {
+          "message_id": "<69d1ac04-8fed-slt90-43f9-a763-594ca4032286-xpd17mq@onebodyldnteam.com>",
+          "quote": "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317137",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Emily Ward je na porodičnom dopustu, ali njezin auto-odgovor sadrži ljudski zahtjev: 'za hitne upite kontaktirajte Stephena Edwarda'. Iako je proslijeđivanje upita kolegi jasna ljudska akcija, ovaj zahtjev nije ispunjen. Ovo nije obični auto-reply jer sadrži uputu za kontaktiranje druge osobe, što je potencijalno korisna preporuka.",
+      "last_human_request_hr": "\"For any urgent enquiries, please contact Stephen Edward at stephen.edward@pts.global.\"",
+      "unresolved_hr": "Nije kontaktiran Stephen Edward kako je traženo. Ovo predstavlja potencijalnu priliku za novi kontakt unutar iste tvrtke.",
+      "recommended_bulk_group": "reply_referral",
+      "recommended_action_hr": "Poslati email Stephen Edwardu s kratkim objašnjenjem ponude za Emily i pitanjem postoji li netko drugi iz tvrtke tko bi bio zainteresiran za ponudu.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<015a820b74454d0b87f6e4a1f1c87b75@LNXP265MB1196.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "For any urgent enquiries, please contact Stephen Edward at stephen.edward@pts.global."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317207",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Caiti Simpson je postavila automatsku OOO poruku s povratkom 02.09.2026. (prošlo). U poruci spominje kolegu za hitne stvari, ali za razliku od Emily Ward ovdje nema eksplicitne upute da kontaktiramo upravo tu osobu za našu vrstu upita. Radi se o klasičnom OOO. Budući da je datum povratka odavno prošao, a slijedili su follow-upovi bez ljudskog odgovora, postoji mala šansa da još uvijek postoji interes.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema ljudskog odgovora ni nakon isteka OOO perioda. Nije poznato radi li Caiti i dalje u toj tvrtki i je li vidjela follow-up poruke.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik treba odlučiti želi li poslati novu, pojedinačnu poruku s pitanjem o interesu. Ne preporučuje se slanje novih poruka na OOO adrese bez ljudske potvrde interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CALMUDerqMD9PUvoiw56oRoypAUngp64U6eqBwdDmbkuBSXX6ZQ@mail.gmail.com>",
+          "quote": "I’m out of the office, returning Wednesday\n2nd September. Please reach out to Freddie.Lawson@montresorlegal.com\nfor anything urgent"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317179",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Dominique Morizet više ne radi u toj tvrtki. Poruka eksplicitno kaže da je napustio tvrtku. Iako daje kontakt zamjena (James Roden, Emily Morris), oni su navedeni kao osobe za općenite upite, ne kao preporuka za ovu konkretnu ponudu. Ne postoji interes primatelja za našu uslugu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva za uslugom",
+      "unresolved_hr": "Osoba je napustila tvrtku, nema osnove za daljnje praćenje ovog kontakta osim eventualnog novog, zasebnog kontakta s navedenim osobama (što bi bio novi lead).",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti ovaj lead kao 'wrong_person'. Opcionalno, vlasnik može kreirati nove leadove za James.Roden i Emily.Morris, ali to su novi kontakti, ne follow-up.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<c03ee7aace3a46fdbd5f76c4b304a4a8@LNXP265MB1417.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Dom Morizet no longer works for MIS/Verisk. Please direct all queries to James.Roden@mckenzieintelligence.com"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317199",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Melissa Gleave više ne radi u Martellu. Auto-odgovor daje kontakt za općenite upite, ali sama Melissa nije iskazala nikakav interes. Ovo je obavijest o napuštanju tvrtke.",
+      "last_human_request_hr": "nema ljudskog zahtjeva za uslugom",
+      "unresolved_hr": "Osoba je napustila tvrtku, nema interesa.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead kao 'wrong_person'.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<921193562b3649018a103339e5aa2981@LO0P123MB6940.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Melissa Gleave no longer works at Martello Please email Anna Ruben (aruben@martelloglobal.com)"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317197",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Harry Bower više ne radi u emap-u. Njegova automatska poruka je obavijest o napuštanju tvrtke i ne prati interese. Iako daje kontakte za zamjenu, oni su navedeni za konkretne operativne teme, ne kao preporuka za našu uslugu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva za uslugom",
+      "unresolved_hr": "Harry Bower je napustio tvrtku.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Zatvoriti lead kao 'wrong_person'.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<7b3c13f887494477a18ab64318ba66a4@LNXP265MB2555.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I have finally flown the nest - and am no longer working at emap."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317210",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "low",
+      "reason_hr": "Steve Papanchev je postavio automatsku OOO poruku (godišnji odmor) u rujnu. Poruka kaže da će odgovoriti po povratku. To je standardna OOO, ne specifičan interes. Nakon toga poslani su follow-upovi bez ikakvog ljudskog odgovora. Prošlo je dovoljno vremena, ali vjerojatnost interesa je vrlo niska s obzirom na potpuni izostanak reakcije nakon povratka.",
+      "last_human_request_hr": "nema ljudskog odgovora",
+      "unresolved_hr": "Nema ljudskog odgovora. OOO poruka je bila generička. Ne postoji jasan razlog za daljnje praćenje.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik može odlučiti želi li uložiti trud u novu poruku s obzirom na potpuni izostanak interesa. Preporuka je ne slati daljnje poruke.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<140be1a9e64d4d258dc419b20e3fcdfe@PA1PR04MB10843.eurprd04.prod.outlook.com>",
+          "quote": "I am currently on annual leave.\n\nI will respond to your email upon my return."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

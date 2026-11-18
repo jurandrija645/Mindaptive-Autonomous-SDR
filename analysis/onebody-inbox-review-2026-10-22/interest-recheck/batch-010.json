@@ -1,0 +1,161 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 8452,
+    "completion_tokens": 1391,
+    "total_tokens": 9843,
+    "cost": 0.00104855,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00104855,
+      "upstream_inference_prompt_cost": 0.0004226,
+      "upstream_inference_completions_cost": 0.00062595
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317870",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Sara Cooper je izričito napisala 'opt out', što je jasna odjava i zahtjev za uklanjanje s popisa.",
+      "evidence": [
+        "opt out"
+      ]
+    },
+    {
+      "key": "3876232/4446318054",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Shivani Gupta više ne radi za Opinium, automatska obavijest s alternativnim kontaktom. Nema ljudskog odgovora o interesu.",
+      "evidence": [
+        "I no longer work for Opinium."
+      ]
+    },
+    {
+      "key": "3876232/4446318062",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "David Morgan više nije na ovoj adresi, automatska obavijest s preusmjeravanjem. Nema ljudskog odgovora o interesu.",
+      "evidence": [
+        "David Morgan is no longer on this email address"
+      ]
+    },
+    {
+      "key": "3876232/4446317432",
+      "recommended_label": "Interested",
+      "interest_assessment": "clear_interest",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Sarah Skelton je izravno napisala 'Yes why not, thanks', što je jasan pozitivan odgovor na ponudu. Poslan joj je booking link, ali nema potvrde rezervacije.",
+      "evidence": [
+        "Yes why not, thanks"
+      ]
+    },
+    {
+      "key": "3876232/4446315465",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Raj Dhanapala je izričito odbio ponudu: 'not something I would require'.",
+      "evidence": [
+        "it's not something I would require."
+      ]
+    },
+    {
+      "key": "3876232/4446317963",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Simen Plaha je automatski odgovorio da je napustio tvrtku s preusmjeravanjem. Nema ljudskog odgovora o interesu.",
+      "evidence": [
+        "I have now left the business."
+      ]
+    },
+    {
+      "key": "3876232/4446315408",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Joanna Mackeson je izravno odbila: 'sadly we don't have private healthcare', što implicira odbijanje ponude.",
+      "evidence": [
+        "sadly we don't have private healthcare."
+      ]
+    },
+    {
+      "key": "3876232/4446316839",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "opted_out",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Simon Batterham je napisao 'Unsubscribe', što je izričit zahtjev za odjavu.",
+      "evidence": [
+        "Unsubscribe"
+      ]
+    },
+    {
+      "key": "3876232/4446315417",
+      "recommended_label": "Not Interested",
+      "interest_assessment": "no_interest",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ankush Mehta je odgovorio s 'No', što je jasno odbijanje.",
+      "evidence": [
+        "No"
+      ]
+    },
+    {
+      "key": "3876232/4446317854",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska obavijest da je osoba napustila Lickd s preusmjeravanjem. Nema ljudskog odgovora o interesu.",
+      "evidence": [
+        "I have now left Lickd."
+      ]
+    },
+    {
+      "key": "3876232/4446317876",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Kimberley Burgess je automatski odgovorila da je napustila tvrtku. Nema ljudskog odgovora o interesu.",
+      "evidence": [
+        "I am no longer with GlobalReach Technology"
+      ]
+    },
+    {
+      "key": "3876232/4446317376",
+      "recommended_label": "Wrong Person",
+      "interest_assessment": "engaged_question",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Martyn Hill je prvo poslao OOO automatski odgovor, a zatim ljudski odgovor u kojem ispravlja lokaciju i daje prijedlog za drugu tvrtku. Postavlja pitanje o izvoru informacije ('Where did you see...'), što je angažirano pitanje, ali ne pokazuje izravan interes za ponudu.",
+      "evidence": [
+        "Where did you see info we were still in the area?",
+        "But my old agency, Firefish, is down on Tower Bridge Road, so you could try and hit them up?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12608,
+    "completion_tokens": 2906,
+    "total_tokens": 15514,
+    "cost": 0.0019381,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0019381,
+      "upstream_inference_prompt_cost": 0.0006304,
+      "upstream_inference_completions_cost": 0.0013077
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317181",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mark je pokazao interes ljudskom porukom i primio link i kod, ali naše zadnje poruke su generički podbijači bez novog odgovora s njegove strane.",
+      "next_step_hr": "Pregledaj ručno: nema novih poruka od rujna, thread je hladan.",
+      "last_inbound_summary_hr": "Mark je potvrdio primitak i rekao da su se preselili u Paddington.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s linkom i kodom uz napomenu da je ovo zadnji email.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Rebecca - a fantastic sales email - well done. However we've moved to Paddington now",
+        "The code is OBLACCESS55. Just select Paddington and book your free session."
+      ]
+    },
+    {
+      "key": "3876232/4446317001",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Fred je ljudski odgovorio s pitanjem o pripremi za utrke i dobio odgovor s linkom i kodom, ali nakon toga nema njegove reakcije.",
+      "next_step_hr": "Pregledaj ručno: thread je hladan od rujna bez novog angažmana.",
+      "last_inbound_summary_hr": "Fred je pitao rade li pripremne treninge za Hyrox i ultra maraton.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s linkom, kodom i napomenom da je ovo zadnji email.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Do happen to do prep work too? I have a hyrox and ultra marathon coming up this month so great timing!",
+        "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55."
+      ]
+    },
+    {
+      "key": "3876232/4446316214",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mav je izrazio interes ljudskom porukom i primio link i kod, ali nakon toga nema novog odgovora s njegove strane.",
+      "next_step_hr": "Pregledaj ručno: thread je hladan od rujna bez novog angažmana.",
+      "last_inbound_summary_hr": "Mav je napisao 'Keen to explore further.'",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s linkom i kodom uz napomenu da je ovo zadnji email.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Keen to explore further.",
+        "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55."
+      ]
+    },
+    {
+      "key": "4006945/4608048552",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka o otkazu e-pošte kaže da korisnik više nije dostupan, što je u skladu s oznakom 'Wrong Person'.",
+      "next_step_hr": "Zadrži trenutnu oznaku; nema potrebe za radnjom.",
+      "last_inbound_summary_hr": "Automatska poruka da korisnik više nije dostupan.",
+      "last_outbound_summary_hr": "Poslan uvodni email o besplatnoj sesiji.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "The user you are trying to reach is no longer available."
+      ]
+    },
+    {
+      "key": "3930675/4520618257",
+      "recommended_label": "Do Not Contact",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tuki je izričito zatražio uklanjanje s mailing liste, što je u skladu s oznakom 'Do Not Contact'.",
+      "next_step_hr": "Zadrži trenutnu oznaku; ne šalji više poruka.",
+      "last_inbound_summary_hr": "Tuki je napisao 'Remove me from your mailing list thank you'.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s upitom o interesu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Remove me from your mailing list thank you"
+      ]
+    },
+    {
+      "key": "3930675/4520618811",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Andrew je ljudski odgovorio da želi termin i dobio link i kod, ali thread je završio našom posljednjom porukom bez potvrde bookinga.",
+      "next_step_hr": "Pregledaj ručno: nema potvrde da je Andrew stvarno rezervirao.",
+      "last_inbound_summary_hr": "Andrew je rekao da mu termin zvuči odlično nakon penjanja na Ben Nevis.",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link i kod OBLACCESS55 te napomenula o naknadi od £4.99.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Apologies for not replying; having just come back from climbing Ben Nevis, a physio appointment sounds amazing.",
+        "Here's the booking link: https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55"
+      ]
+    },
+    {
+      "key": "3930675/4520622276",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Maya je izravno napisala da nije zainteresirana, što je u skladu s oznakom 'Not Interested'.",
+      "next_step_hr": "Zadrži trenutnu oznaku; ne šalji više poruka.",
+      "last_inbound_summary_hr": "Maya je napisala 'Thank you, but I am not interested.'",
+      "last_outbound_summary_hr": "Poslana poruka s upitom o interesu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Thank you, but I am not interested."
+      ]
+    },
+    {
+      "key": "3930675/4520615628",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Digby je ljudski odgovorio i predložio da proslijedi timu, a mi smo poslali link i kod, ali thread je završio našom porukom bez potvrde bookinga.",
+      "next_step_hr": "Pregledaj ručno: nema potvrde da je Digby ili netko iz tima rezervirao.",
+      "last_inbound_summary_hr": "Digby je rekao da mora proslijediti people teamu i nije procjenjivao osobno.",
+      "last_outbound_summary_hr": "Rebecca je poslala booking link, kod OBLACCESS55 i napomenula o naknadi od £4.99.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'd need to pass on to our people team.",
+        "Here is the booking link -> https://onebodyldn.connect.tm3app.com/book/services/physiotherapy/physiotherapy_55min_1 The code is OBLACCESS55."
+      ]
+    },
+    {
+      "key": "3930675/4520618273",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Joy je izravno odgovorila 'No thanks Rebecca', što je jasan znak nezainteresiranosti.",
+      "next_step_hr": "Zadrži trenutnu oznaku; ne šalji više poruka.",
+      "last_inbound_summary_hr": "Joy je napisala 'No thanks Rebecca'.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s upitom o interesu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "No thanks Rebecca"
+      ]
+    },
+    {
+      "key": "3930675/4520618267",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Rakhee je odgovorila s 'no', što je jasan znak nezainteresiranosti.",
+      "next_step_hr": "Zadrži trenutnu oznaku; ne šalji više poruka.",
+      "last_inbound_summary_hr": "Rakhee je napisala 'no'.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s upitom o interesu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "no"
+      ]
+    },
+    {
+      "key": "3930675/4520617452",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Ryan je izravno napisao da nije zainteresiran, što je u skladu s oznakom 'Not Interested'.",
+      "next_step_hr": "Zadrži trenutnu oznaku; ne šalji više poruka.",
+      "last_inbound_summary_hr": "Ryan je napisao 'I'm not interested, thank you.'",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s upitom o interesu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm not interested, thank you."
+      ]
+    },
+    {
+      "key": "3930675/4520616143",
+      "recommended_label": "Not Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Frances je odgovorila s 'NO', što je jasan znak nezainteresiranosti.",
+      "next_step_hr": "Zadrži trenutnu oznaku; ne šalji više poruka.",
+      "last_inbound_summary_hr": "Frances je napisala 'NO'.",
+      "last_outbound_summary_hr": "Poslana zadnja poruka s upitom o interesu.",
+      "human_replied": true,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "NO"
+      ]
+    }
+  ]
+}

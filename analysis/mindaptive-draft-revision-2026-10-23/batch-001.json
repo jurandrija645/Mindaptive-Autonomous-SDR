@@ -1,0 +1,68 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 13758,
+    "completion_tokens": 1479,
+    "total_tokens": 15237,
+    "cost": 0.00117012,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00117012,
+      "upstream_inference_prompt_cost": 0.00096306,
+      "upstream_inference_completions_cost": 0.00020706
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "drafts": [
+    {
+      "key": "2732401/3016173350",
+      "ready": true,
+      "language": "en",
+      "body": "Hi Anna,\n\nIt's been a while since we last spoke — over 10 months now. I was reviewing our older conversation and realized the outreach approach I shared back then might still be useful for Applied OLAP if the timing is better now.\n\nSince then, we've improved our system quite a bit. Here's a current overview of how we find suitable companies, research them and start relevant conversations:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf someone else on your team should see this instead, I'd appreciate the pointer.\n\nOtherwise, if you'd like to explore a short call to talk it through, let me know.\n\nThanks",
+      "english": "",
+      "reason_hr": "322 dana od zadnjeg kontakta, aneksa je ponudila da proslijedi informacije. Kratko priznanje pauze, link na B2B VSL, blag poziv na razgovor bez forsiranja."
+    },
+    {
+      "key": "2538823/2758495592",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Francesco,\n\nÈ passato un po' di tempo dalla tua richiesta — oltre un anno. Mi scuso per il ritardo nel ricollegarmi.\n\nNel frattempo il nostro sistema è migliorato parecchio. Ti lascio il video che mostra come troviamo aziende in linea con il cliente ideale e avviamo conversazioni:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nSe ancora può interessare a Mallei, fissiamo una call breve. Altrimenti, dimmi pure.\n\nGrazie",
+      "english": "Hi Francesco,\n\nIt's been a while since your request — over a year. Apologies for the late follow-up.\n\nIn the meantime our system has improved quite a bit. Here's the video showing how we find companies that fit the ideal client and start conversations:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIf it could still be relevant for Mallei, let's set up a short call. Otherwise, just let me know.\n\nThanks",
+      "reason_hr": "371 dan, odgovor je tražio prezentaciju. Dovoljno star da isprika za kašnjenje ima smisla. Talijanski jer je Francesco pisao talijanski."
+    },
+    {
+      "key": "2538823/2758495382",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Diego,\n\nÈ passato un po' di tempo da quando ti avevo promesso il video — oltre un anno. Me ne scuso.\n\nIl sistema è migliorato molto da allora. Ecco il video che mostra come l'agente trova e contatta founder e responsabili tech:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nFunziona a performance, quindi pagate solo se porta risultati.\n\nSe ancora va bene per PPK Innovation, fammi sapere. Possiamo fare una call veloce per adattarlo al vostro caso.\n\nGrazie",
+      "english": "Hi Diego,\n\nIt's been a while since I promised you the video — over a year. Sorry about that.\n\nThe system has improved a lot since then. Here's the video showing how the agent finds and contacts founders and tech leaders:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIt works on performance, so you only pay if it brings results.\n\nIf it's still a fit for PPK Innovation, let me know. We can do a quick call to adapt it to your case.\n\nThanks",
+      "reason_hr": "372 dana, tražio video. Isprika i link na B2B VSL, spomena performance modela. Talijanski."
+    },
+    {
+      "key": "2538823/2758494599",
+      "ready": true,
+      "language": "it",
+      "body": "Ciao Aleardo,\n\nÈ passato parecchio tempo dalla tua risposta — oltre un anno. Mi scuso per non aver ripreso prima.\n\nNel frattempo il nostro sistema è migliorato molto. Ti lascio comunque il video che spiega il processo, così lo guardi quando hai tempo senza bisogno di una call:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nC'è una parte che potrebbe essere utile al team di Innova, oltre ai tool che usate già?\n\nGrazie",
+      "english": "Hi Aleardo,\n\nIt's been quite a while since your reply — over a year. Apologies for not getting back sooner.\n\nIn the meantime our system has improved a lot. Here's the video explaining the process anyway, so you can watch it when you have time without needing a call:\nhttps://www.loom.com/share/66b3d9799bf6409fb25f45ef88dec54c\n\nIs there a part that could be useful for the Innova team, beyond the tools you already use?\n\nThanks",
+      "reason_hr": "379 dana, Aleardo je tražio info bez calla. Isprika, link na B2B VSL, pitanje bez forsiranja calla. Talijanski."
+    },
+    {
+      "key": "3950427/4542616557",
+      "ready": true,
+      "language": "en",
+      "body": "Quick question -\n\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.",
+      "english": "",
+      "reason_hr": "22 dana od zadnjeg odgovora (poslali su da link nije stigao, link ponovno poslan). Dva follow-upa poslana bez odgovora. Jednostavno A/B pitanje o web stranici koja je već poslana. Bez forsiranja prodaje."
+    }
+  ]
+}

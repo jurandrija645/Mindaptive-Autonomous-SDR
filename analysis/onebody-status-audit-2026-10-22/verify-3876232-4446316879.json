@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7327,
+    "completion_tokens": 1289,
+    "total_tokens": 8616,
+    "cost": 0.01758744,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01758744,
+      "upstream_inference_prompt_cost": 0.01265057,
+      "upstream_inference_completions_cost": 0.00493687
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316879",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor izvan ureda s uputama za kontaktiranje drugih osoba, nema osobne reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Nema potrebe za daljnjim kontaktom. Automatski odgovor, osoba nije pokazala interes.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316849",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-09-07",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor o godišnjem odmoru s povratkom 7. rujna 2026. Nema osobne reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Datum povratka je prošao (7.9.2026.), ali nema znakova ljudskog interesa. Ako želite, možete pokušati ponovno s novom porukom, ali trenutno nema osnove za nastavak komunikacije.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316919",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAAb7LUB-N8mBxaN09PCGMN1-uygKuurNiouk7wbfKH2AEEMMnw@mail.gmail.com>",
+      "human_quote": "I actually work from home.",
+      "reason_hr": "Osoba osobno odgovorila da radi od kuće, što je implicitno odbijanje ponude jer nije u blizini klinike.",
+      "request_hr": "none",
+      "next_action_hr": "Stu je odbio jer radi od kuće. Nema potrebe za daljnjim kontaktom.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316825",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-10-31",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Tri automatska odgovora o porodiljnom dopustu do listopada 2026. Nema osobne reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je na porodiljnom do listopada 2026. Automatski odgovori ne sadrže interes za ponudu. Preporučljivo je pokušati kontakt krajem listopada ili početkom studenog 2026. ako želite.",
+      "bulk_group": "later",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446316824",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<58D110B8-7310-4A31-B560-BB401A1AFE25@artificial.io>",
+      "human_quote": "do you have availability this week? Also I see that you accept Bupa?",
+      "reason_hr": "Osoba je pokazala interes, postavila pitanja o dostupnosti i osiguranju. Poslan link i kod za buking, ali nema potvrde da je buking obavljen. Lokalni status 'booked' može biti od prije, ali ovdje nema dokaza u niti.",
+      "request_hr": "do you have availability this week? Also I see that you accept Bupa?",
+      "next_action_hr": "Osoba je dobila link i kod za buking 15.9.2026., ali nema potvrde. Provjerite je li buking stvarno obavljen (možda izvan emaila). Ako nije, pošaljite nježni podsjetnik s pitanjem je li uspjela rezervirati.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316917",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da je osoba napustila tvrtku i mailbox se više ne prati. Nema osobne reakcije na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je napustila tvrtku, mailbox nije aktivan. Nema svrhe dalje kontaktirati na ovu adresu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

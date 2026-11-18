@@ -1,0 +1,232 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12376,
+    "completion_tokens": 3029,
+    "total_tokens": 15405,
+    "cost": 0.00198185,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00198185,
+      "upstream_inference_prompt_cost": 0.0006188,
+      "upstream_inference_completions_cost": 0.00136305
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315895",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samantha je automatski odgovorila da je napustila Brooks Macdonald, što je trajni podatak, a ne privremeni odsustvo.",
+      "next_step_hr": "Označiti kao pogrešnu osobu i prekinuti slanje poruka.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I have now left Brooks Macdonald'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Brooks Macdonald.",
+        "This will be my last email, Samantha."
+      ]
+    },
+    {
+      "key": "3876232/4446315854",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jodie je poslala samo automatski odgovor o odsustvu, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I’m out of the office until Wednesday 2nd Sept'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m out of the office until Wednesday 2nd Sept",
+        "This will be my last email, Jodie."
+      ]
+    },
+    {
+      "key": "3876232/4446315724",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samrendra je automatski odgovorio da mailbox više nije funkcionalan, što znači da poruke ne stižu do njega.",
+      "next_step_hr": "Označiti kao pogrešnu osobu i prekinuti slanje poruka.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'This Mailbox is no longer Functional'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "This Mailbox is no longer Functional.",
+        "This will be my last email, Samrendra."
+      ]
+    },
+    {
+      "key": "3876232/4446315707",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Shannon je poslala samo automatski odgovor o godišnjem odmoru, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm currently on annual leave and will return on Monday 7 September'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently on annual leave and will return on Monday 7 September.",
+        "This will be my last email, Shannon."
+      ]
+    },
+    {
+      "key": "3876232/4446315719",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Cacy je poslala samo automatski odgovor o porodiljnom dopustu, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am on Maternity Leave!'",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on Maternity Leave!",
+        "This will be my last email, Cacy."
+      ]
+    },
+    {
+      "key": "3876232/4446316249",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Mo je poslao samo automatski odgovor o ograničenoj dostupnosti, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm OOO on tours today, with limited availability'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm OOO on tours today, with limited availability.",
+        "This will be my last email, Mo."
+      ]
+    },
+    {
+      "key": "3876232/4446316728",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Jessica je poslala samo automatski odgovor o odsustvu, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I’m on leave now, returning on Friday 4th September'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m on leave now, returning on Friday 4th September.",
+        "This will be my last email, Jessica."
+      ]
+    },
+    {
+      "key": "3876232/4446315879",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Nicholas je poslao samo automatski odgovor o odsustvu, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm out of the office until 1 September'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office until 1 September",
+        "This will be my last email, Nicholas."
+      ]
+    },
+    {
+      "key": "3876232/4446315952",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Hannah je poslala samo automatski odgovor o porodiljnom dopustu do svibnja 2027., a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am currently on Maternity Leave, due to return in May 2027'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on Maternity Leave, due to return in May 2027",
+        "This will be my last email, Hannah."
+      ]
+    },
+    {
+      "key": "3876232/4446315811",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Katharine je poslala samo automatski odgovor o ograničenoj dostupnosti, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I'm out travelling to external meetings on Tuesday 1 September'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out travelling to external meetings on Tuesday 1 September",
+        "This will be my last email, Katharine."
+      ]
+    },
+    {
+      "key": "3876232/4446315712",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Llewellyn je poslao samo automatski odgovor o odsustvu, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am out of the office until 26th August'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until 26th August",
+        "This will be my last email, Llewellyn."
+      ]
+    },
+    {
+      "key": "3876232/4446316158",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Tiffany je poslala samo automatski odgovor o porodiljnom dopustu, a nijedna ljudska poruka nije uslijedila.",
+      "next_step_hr": "Zadržati trenutnu oznaku; pratiti eventualni ljudski odgovor u budućnosti.",
+      "last_inbound_summary_hr": "Automatski odgovor: 'I am now out of office on maternity leave'.",
+      "last_outbound_summary_hr": "Posljednja poruka: zadnji email s ponudom i opcijom odjave.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am now out of office on maternity leave.",
+        "This will be my last email, Tiffany."
+      ]
+    }
+  ]
+}

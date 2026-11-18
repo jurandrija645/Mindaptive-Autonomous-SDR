@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7301,
+    "completion_tokens": 1535,
+    "total_tokens": 8836,
+    "cost": 0.0088734,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0088734,
+      "upstream_inference_prompt_cost": 0.0065709,
+      "upstream_inference_completions_cost": 0.0023025
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520616436",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAHjYhC_22YjGKcFTRoXaNvG9tGSCg+f1g6NDQRsKyTezGo6nfA@mail.gmail.com>",
+      "human_quote": "It sounds amazing. Why is it free?",
+      "reason_hr": "Lead je postavio konkretno osobno pitanje o našoj ponudi, pokazujući autentičan interes.",
+      "request_hr": "Pitala je zašto je sesija besplatna.",
+      "next_action_hr": "Lead nije odgovorio nakon što smo mu poslali link i kod. Čeka se njegova daljnja akcija (booking). Naše zadnje poruke su poslane, nema otvorenih pitanja za nas.",
+      "bulk_group": "followup_general",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616475",
+      "genuine_engagement": false,
+      "verdict": "temporarily_away",
+      "confidence": "high",
+      "return_date": "2026-09-18",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor je generička automatska poruka 'izvan ureda' bez ikakvog osvrta na našu ponudu. 'Četvrtak' u odgovoru od 15.09. pada na 18.09., ali poruka sadrži i frazu 'travelling for work, until Thursday', što znači da se vraća u petak 19.09. Kasnije nema daljnjeg angažmana.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je bio privremeno odsutan. Datum povratka je prošao, ali nije bilo naknadnog odgovora. Preporučuje se ponovno slanje ponude jer je isteklo dovoljno vremena od povratka.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520616518",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LO2P265MB29435839248C9FD0B174ACCAF1BB2@LO2P265MB2943.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "Are you happy for me to share with the team who are based here?",
+      "reason_hr": "Lead je izrazila osobni interes podijeliti ponudu s timom, što je specifična reakcija na našu ponudu.",
+      "request_hr": "Pitala je smije li podijeliti ponudu s timom.",
+      "next_action_hr": "Odgovorili smo i poslali link/kod. Nakon toga smo poslali follow-up poruke, ali lead nije odgovorio niti potvrdio booking. Čeka se akcija leada.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616516",
+      "genuine_engagement": true,
+      "verdict": "booked",
+      "confidence": "medium",
+      "return_date": null,
+      "evidence_message_id": "<LO0P265MB4526DB644AE6A0A4E2A342C082BB2@LO0P265MB4526.GBRP265.PROD.OUTLOOK.COM>",
+      "human_quote": "Replying",
+      "reason_hr": "Lead je odgovorio 'Replying' u kontekstu naše ponude, što je minimalna, ali osobna ljudska reakcija. Lokalni status je 'booked', što sugerira da je sesija rezervirana izvan email komunikacije.",
+      "request_hr": "none",
+      "next_action_hr": "Sesija je rezervirana (status 'booked'). Nije potrebna daljnja akcija osim standardne potvrde termina i dobrodošlice.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520616415",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor je automatska poruka 'izvan ureda' (Out of Office) koja ne sadrži nikakav osobni osvrt na našu ponudu. Ne smatra se istinskim angažmanom.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je odgovorio samo automatikom. Datum povratka (21.09.) je prošao bez ikakvog daljnjeg osobnog odgovora. Treba ga ponovno kontaktirati s ponudom kao novi lead.",
+      "bulk_group": "followup_general",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520616207",
+      "genuine_engagement": true,
+      "verdict": "acknowledgment",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<mu1alf7l.75e29007-7fc2-4de0-a317-014bffac990c@we.are.superhuman.com>",
+      "human_quote": "Thanks very much Rebecca, I appreciate it!",
+      "reason_hr": "Nakon što smo poslali link i kod za booking, lead je zahvalio. Ovo je završna ljudska poruka koja ne postavlja nova pitanja niti zadatke.",
+      "request_hr": "none",
+      "next_action_hr": "Lead je primio upute za booking i zahvalio. Nema otvorenih pitanja. Preporučuje se pregled vlasnika radi konačne odluke o daljnjem praćenju (npr. slanje podsjetnika za booking).",
+      "bulk_group": "owner_review",
+      "evidence_verified": true
+    }
+  ]
+}

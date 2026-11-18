@@ -1,0 +1,32 @@
+[
+  {
+    "key": "3950427/4542617778",
+    "campaign_id": 3950427,
+    "lead_id": 4542617778,
+    "expected_last_message_id": "<fc1fdb2b-38b4-slt73-4083-a1b8-ac5672c76755-sylx04n@usemindaptive.com>",
+    "expected_draft_id": null,
+    "body": "Hi Remis,\n\nIs the roofing subscription idea still something you'd like to move forward with?\n\nWe can use a short call to pin down how customers subscribe and pay, then put together a quote for that scope.\n\nHere's the calendar if it's still on your list: https://calendly.com/andrew-mindaptive/website-redesign",
+    "english": "",
+    "triage": "[Mindaptive inbox audit 2026-10-22] Follow-up after a genuine human reply. Draft only, pending Andrew review. No sending or status change approved. Commercial continuation; no invented pricing, VAT, availability or completed work."
+  },
+  {
+    "key": "3960357/3928775246",
+    "campaign_id": 3960357,
+    "lead_id": 3928775246,
+    "expected_last_message_id": "<706df175-078e-slt55-489d-ba1d-2ebb3ee8d4ba-syygqu6@mindaptivegpt.com>",
+    "expected_draft_id": null,
+    "body": "Hi Todd,\n\nHere's the redesign once more:\nhttps://kool-koncepts.vercel.app\n\nIf you'd like the price, reply PRICE. If it's not for you, a quick no is fine and I'll leave it there.",
+    "english": "",
+    "triage": "[Mindaptive inbox audit 2026-10-22] Follow-up after a genuine human reply. Draft only, pending Andrew review. No sending or status change approved. Commercial continuation; no invented pricing, VAT, availability or completed work."
+  },
+  {
+    "key": "3892258/4466860359",
+    "campaign_id": 3892258,
+    "lead_id": 4466860359,
+    "expected_last_message_id": "<89b9dc28-2eb7-slt72-432a-afe6-97d30a21cd0f-fl33bhk@mindaptivehub.com>",
+    "expected_draft_id": null,
+    "body": "Hi Tom,\n\nHere's the site again:\nhttps://climate-hvac-solutions.mindaptive.ai\n\nWould you use this version as it stands, or is there one thing you'd want changed first?",
+    "english": "",
+    "triage": "[Mindaptive inbox audit 2026-10-22] Follow-up after a genuine human reply. Draft only, pending Andrew review. No sending or status change approved. Commercial continuation; no invented pricing, VAT, availability or completed work."
+  }
+]

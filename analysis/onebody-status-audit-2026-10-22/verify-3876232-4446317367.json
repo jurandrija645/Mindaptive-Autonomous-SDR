@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 6284,
+    "completion_tokens": 1059,
+    "total_tokens": 7343,
+    "cost": 0.00919745,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00919745,
+      "upstream_inference_prompt_cost": 0.006497,
+      "upstream_inference_completions_cost": 0.00270045
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446317367",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski odgovor da osoba više ne radi u Tuckers Solicitors; nije osobni odgovor na našu ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Nemojte slati daljnje poruke Harryju; ovo nije angažirani kontakt.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317280",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-09-29",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor o godišnjem odmoru do 29. rujna; nema osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Osoba je na godišnjem odmoru; ne šaljite poruke dok se ne vrati, a ni tada nema dokaza o interesu.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317284",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor o porodiljnom dopustu; nema osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne šaljite daljnje poruke; kontakt je na porodiljnom dopustu i nije pokazao interes.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317318",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": "2026-09-14",
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor o putovanju do 14. rujna; nema osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Nema dokaza o interesu; ne šaljite daljnje poruke.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3876232/4446317336",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CANGVV-bVD3AA7BnqFXAf3C-qb0p-+DEiNXQCCkjpPM0tiqtquw@mail.gmail.com>",
+      "human_quote": "I'd like to take you up on that offer for the 55-minute physio session.",
+      "reason_hr": "Osoba je jasno prihvatila ponudu i zatražila booking link; poslan joj je link i kod, nema potvrde rezervacije.",
+      "request_hr": "Please send the booking link over.",
+      "next_action_hr": "Čekajte potvrdu rezervacije; ako ne stigne, pošaljite kratki follow-up s linkom i kodom.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446317137",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Automatski OOO odgovor o porodiljnom dopustu; nema osobnog odgovora na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Ne šaljite daljnje poruke; kontakt nije aktivan i nije pokazao interes.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    }
+  ]
+}

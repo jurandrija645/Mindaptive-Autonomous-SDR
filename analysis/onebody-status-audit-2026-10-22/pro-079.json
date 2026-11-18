@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 14789,
+    "completion_tokens": 2225,
+    "total_tokens": 17014,
+    "cost": 0.03542474,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 768,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.03542474,
+      "upstream_inference_prompt_cost": 0.02690299,
+      "upstream_inference_completions_cost": 0.00852175
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316624",
+      "assessment": "negative",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Osoba je odgovorila \"no\" kad smo ponudili slanje koda.",
+      "last_human_request_hr": "no",
+      "unresolved_hr": "Ništa. Odbijanje je eksplicitno.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta (osoba je odbila).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<LO4P265MB36778332F5C9F479FBE3CF6AA7B12@LO4P265MB3677.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "no"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316578",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka da osoba više ne radi tu, nema upita ni interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema interesa za rješavanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta (osoba je napustila tvrtku, nema preporuke).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<0666fb7da5a242eb9278962c783b28eb@LO2P123MB5839.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Please note that Mark Patterson is no longer at Sucden Financial Limited."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316577",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Automatski OOO s datumom povratka (14.09.) je prošao, ali nema ljudskog odgovora. Osoba se vratila i nije odgovorila na naknadne e-mailove.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema znakova interesa ili odbijanja. Možda vrijedi jedan ručni follow-up jer je OOO mogao zatrpati inbox.",
+      "recommended_bulk_group": "followup_general",
+      "recommended_action_hr": "Vlasnik može odlučiti poslati kratki osobni follow-up: jeste li vidjeli ponudu, još uvijek vrijedi.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<025d13b950684aa3a0f67ae2021d892d@LO2P123MB5693.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office until Monday 14th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316572",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka da osoba više ne radi tu, nema upita ni interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema interesa za rješavanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta (osoba je napustila tvrtku, nema preporuke).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<28043189b22148ca8fcaf170695f7e76@CWXP123MB4552.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Please note that Toby Osborne no longer works for Sucden Financial."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316541",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "medium",
+      "reason_hr": "Osoba je napisala da je na porodiljnom do 2027. To je osobna ljudska poruka, ali nema interesa za ponudu niti zahtjeva za kontaktom nakon toga. Može se označiti za kasniji kontakt ručno, ali nije angažirana za ponudu.",
+      "last_human_request_hr": "Thanks very much for your email. I am currently on maternity leave and will return to Stand in 2027.",
+      "unresolved_hr": "Osoba je na porodiljnom do 2027. Nije pokazala interes za ponudu.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Vlasnik može odlučiti staviti podsjetnik za 2027. ili označiti kao 'wrong_person'/'negative' jer nema interesa.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e4cb75a5451541599a6ee59076f02097@AMDP190MB2658.EURP190.PROD.OUTLOOK.COM>",
+          "quote": "Thanks very much for your email. I am currently on maternity leave and will return to Stand in 2027."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316627",
+      "assessment": "wrong_person",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Automatska poruka da osoba više ne radi tu, nema upita ni interesa za ponudu.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Nema interesa za rješavanje.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta (osoba je napustila tvrtku, nema preporuke).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<6d43fe2f1f344dac9a9b1170dbae3a0e@LO0P265MB6680.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "Thank you for your email but I am no longer working at Splendid ."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316569",
+      "assessment": "bounce",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Email je vraćen s greškom 'spam or virus' od strane Mimecasta. Nije isporučen.",
+      "last_human_request_hr": "no human reply",
+      "unresolved_hr": "Email nije isporučen.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta (hard bounce).",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e5fe6fcf-4ede-44bc-9d52-53f0650ff86c@LOYP123MB2766.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "specialistrisk.com suspects your message is spam, or contains a virus, and rejected it."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316604",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Franek je poslao novu poruku s pitanjem i prijedlogom. Pitao je koliko je ljudi već rezerviralo. Na to još nismo odgovorili.",
+      "last_human_request_hr": "Hey Rebecca,\n\nI seem to have become the OneBody ambassador here at RFB, with far too many people asking me questions I don’t know the answers to, haha!\n\nI presume the promo has been quite successful? :)\n\nIf you wouldn’t mind / get a moment, I’d be super curious to find out how many people actually booked through that link!",
+      "unresolved_hr": "Treba odgovoriti Franeku koliko se ljudi prijavilo putem njegovog linka, kao što smo obećali.",
+      "recommended_bulk_group": "reply_question",
+      "recommended_action_hr": "Odgovoriti Franeku s konkretnim brojem ljudi koji su se prijavili i zahvaliti se na promociji.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<61286FAC-2EC6-4B3D-8D9D-8173295225B9@rfblegal.co.uk>",
+          "quote": "I’d be super curious to find out how many people actually booked through that link!"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

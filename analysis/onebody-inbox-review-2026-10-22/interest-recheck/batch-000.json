@@ -1,0 +1,162 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 13150,
+    "completion_tokens": 1336,
+    "total_tokens": 14486,
+    "cost": 0.001439802,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001439802,
+      "upstream_inference_prompt_cost": 0.00119665,
+      "upstream_inference_completions_cost": 0.000243152
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520621755",
+      "recommended_label": "Interested",
+      "interest_assessment": "clear_interest",
+      "confidence": "high",
+      "manual_review": true,
+      "reason_hr": "Harry je izričito izrazio interes i naveo razlog (oporavak od slomljenog gležnja) te traži termin nakon povratka s odmora. Poslan mu je booking link.",
+      "evidence": [
+        "I am actually interested!",
+        "I've been recovering from a broken ankle and my NHS physio is coming to an end so looking for some extra support to get back to normal.",
+        "I'm away this week but maybe the week after would be good?"
+      ]
+    },
+    {
+      "key": "4006945/4608048943",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da više ne radi u Airshipu i da inbox nije aktivan; preusmjerava na kolege, nema osobnog interesa.",
+      "evidence": [
+        "I am no longer with Airship and this inbox is no longer actively monitored."
+      ]
+    },
+    {
+      "key": "3876232/4446317756",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da je napustio Vixio i daje kontakt kolege. Kasnije bounce poruka (račun neaktivan). Nema izraženog interesa.",
+      "evidence": [
+        "Hi, I've now left Vixio, so for anything related to product marketing, please contact lheavens@vixio.com going forward."
+      ]
+    },
+    {
+      "key": "3930675/4520620950",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor s preusmjeravanjem na kolege; nema osobnog interesa za ponudu.",
+      "evidence": [
+        "Unfortunately, I'm out of the office. Please send all request to Unity Link Accounts accounts@unitylink.com."
+      ]
+    },
+    {
+      "key": "3876232/4446317052",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Višestruki automatski odgovori da više ne radi u Lantumu i preusmjerava na glen.mccracken@lantum.com; nema osobnog interesa.",
+      "evidence": [
+        "I am no longer working at Lantum. Please redirect your email through to glen.mccracken@lantum.com."
+      ]
+    },
+    {
+      "key": "3930675/4520613050",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor (godišnji odmor) koji obećava odgovor po povratku; nema izraženog interesa ni pitanja o ponudi.",
+      "evidence": [
+        "I am currently on annual leave with no access to emails or Slack. I will revert to your message on my return."
+      ]
+    },
+    {
+      "key": "3876232/4446317772",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da više ne radi u Rokstoneu i preusmjerava na Jacka O'Sullivana; nema osobnog interesa.",
+      "evidence": [
+        "Please note that I no longer work at Rokstone and my emails will be forwarded to Jack O’Sullivan."
+      ]
+    },
+    {
+      "key": "3876232/4446316127",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor s datumom povratka; naknadno poslane poruke nisu dobile ljudski odgovor. Nema izraženog interesa.",
+      "evidence": [
+        "I am currently out of office due to return on Monday the 7th of September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446316784",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor (godišnji odmor) s preusmjeravanjem; nema osobnog interesa ni odgovora nakon povratka.",
+      "evidence": [
+        "Thanks for your email, I'm on annual leave, back on Monday 7th September"
+      ]
+    },
+    {
+      "key": "3876232/4446316020",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor da više ne radi za gunnercooke; nema osobnog interesa ni preusmjeravanja na relevantnu osobu za ponudu.",
+      "evidence": [
+        "I no longer work for gunnercooke."
+      ]
+    },
+    {
+      "key": "3876232/4446316384",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o ograničenom pristupu mailu s alternativnim kontaktom; nema izraženog interesa ni pitanja o ponudi.",
+      "evidence": [
+        "Please note that I may only have periodic access to this Ortecha email account."
+      ]
+    },
+    {
+      "key": "3876232/4446317082",
+      "recommended_label": "Out Of Office",
+      "interest_assessment": "automated_only",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski OOO odgovor s periodom odsutnosti i preusmjeravanjem na kolege; nema osobnog interesa.",
+      "evidence": [
+        "I am currently out of the office until Wednesday 9th September"
+      ]
+    }
+  ]
+}

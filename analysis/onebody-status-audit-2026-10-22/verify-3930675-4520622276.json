@@ -1,0 +1,112 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7204,
+    "completion_tokens": 1366,
+    "total_tokens": 8570,
+    "cost": 0.0085326,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0085326,
+      "upstream_inference_prompt_cost": 0.0064836,
+      "upstream_inference_completions_cost": 0.002049
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520622276",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CABp2PrHY9D6hASronmA46HZiZOSkYx2yoZdZLew=7ySsEe6mAg@mail.gmail.com>",
+      "human_quote": "Thank you, but I am not interested.",
+      "reason_hr": "Osoba je izravno odbila ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Nema daljnjih radnji. Lead je odbijen.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621757",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<CAEXUhMa=PUhfZ+rqrEWXJCpjn13GMX3KNALs5fak3GxiPbhTLg@mail.gmail.com>",
+      "human_quote": "Sounds great.\nWould love to give it a try.\n\nLet me know what steps we need to take.",
+      "reason_hr": "Potencijalni klijent je prihvatio ponudu i zatražio upute. Nakon toga je poslan link i kod za booking, ali nema potvrde o zakazivanju niti odbijanja.",
+      "request_hr": "Poslao sam link i kod za booking; čekam potvrdu o zakazanom terminu ili povratnu informaciju.",
+      "next_action_hr": "Provjeriti je li termin zakazan u sustavu (možda i izvan emaila). Ako nije, poslati kratki osobni follow-up s pitanjem treba li pomoć pri odabiru termina.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520621578",
+      "genuine_engagement": false,
+      "verdict": "auto_only",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": null,
+      "human_quote": "",
+      "reason_hr": "Odgovor 'Thanks for your email. I am in a hearing today and will respond as soon as I can.' je generička automatska poruka, a ne osobni odgovor na ponudu.",
+      "request_hr": "none",
+      "next_action_hr": "Pričekati pravi ljudski odgovor. Ovo nije stvarni angažman.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": false
+    },
+    {
+      "key": "3930675/4520621302",
+      "genuine_engagement": true,
+      "verdict": "negative",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<286EECC2-251D-4F3F-A3D0-8DD7CFB2DFAF@fixradio.co.uk>",
+      "human_quote": "I actually only spend 1 or 2 days a week in London, and outside of my job I’m pretty active, so other than the odd occasion when one of my rotator cuffs is playing up I’m in pretty good shape",
+      "reason_hr": "Osoba je pristojno odbila ponudu, objašnjavajući da je rijetko u Londonu i da nema potrebe za fizioterapijom.",
+      "request_hr": "none",
+      "next_action_hr": "Nema daljnjih radnji. Lead je odbijen.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520620399",
+      "genuine_engagement": true,
+      "verdict": "opt_out",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<DEDFFFC2-77D2-4EA4-89AA-908EC543AEB6@indicium.ai>",
+      "human_quote": "Stop",
+      "reason_hr": "Osoba je eksplicitno zatražila prekid komunikacije ('Stop'). Također je označena kao 'Do Not Contact'.",
+      "request_hr": "none",
+      "next_action_hr": "Poštivati zahtjev za prekidom komunikacije. Ne kontaktirati dalje.",
+      "bulk_group": "no_outreach",
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520619273",
+      "genuine_engagement": true,
+      "verdict": "waiting_on_lead",
+      "confidence": "high",
+      "return_date": null,
+      "evidence_message_id": "<LOYP123MB2960ACC69EC47C9C9EA0A038B1872@LOYP123MB2960.GBRP123.PROD.OUTLOOK.COM>",
+      "human_quote": "Yes please Rebecca.",
+      "reason_hr": "Potencijalni klijent je prihvatio ponudu. Poslan mu je link i kod za booking, ali od tada nema odgovora. Nema potvrde o zakazivanju ni odbijanja.",
+      "request_hr": "Poslao sam link, kod i nekoliko follow-upova; čekam da lead zakaže termin ili odgovori.",
+      "next_action_hr": "Lead nije odgovorio na follow-upove. Posljednji email je bio naš. Nema potrebe za daljnjim akcijama osim ako se ne dobije novi odgovor.",
+      "bulk_group": "followup_booking",
+      "evidence_verified": true
+    }
+  ]
+}

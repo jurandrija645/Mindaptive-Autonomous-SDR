@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "created_at": "2022-08-30T12:32:48.645Z",
+    "name": "Interested",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 2,
+    "created_at": "2022-08-30T12:32:55.159Z",
+    "name": "Meeting Request",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 3,
+    "created_at": "2022-08-30T12:33:02.286Z",
+    "name": "Not Interested",
+    "sentiment_type": "negative"
+  },
+  {
+    "id": 4,
+    "created_at": "2022-08-30T12:33:09.895Z",
+    "name": "Do Not Contact",
+    "sentiment_type": "negative"
+  },
+  {
+    "id": 5,
+    "created_at": "2022-08-30T12:33:16.204Z",
+    "name": "Information Request",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 6,
+    "created_at": "2022-08-30T12:33:22.323Z",
+    "name": "Out Of Office",
+    "sentiment_type": null
+  },
+  {
+    "id": 7,
+    "created_at": "2022-08-30T12:33:28.519Z",
+    "name": "Wrong Person",
+    "sentiment_type": null
+  },
+  {
+    "id": 8,
+    "created_at": "2024-10-25T17:38:36.931Z",
+    "name": "Uncategorizable by Ai",
+    "sentiment_type": null
+  },
+  {
+    "id": 9,
+    "created_at": "2025-03-20T22:07:34.290Z",
+    "name": "Sender Originated Bounce",
+    "sentiment_type": null
+  },
+  {
+    "id": 177154,
+    "created_at": "2026-09-02T12:51:02.971Z",
+    "name": "Meeting Booked",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 181015,
+    "created_at": "2026-09-16T10:39:44.954Z",
+    "name": "DirectInterestedIn55",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 181940,
+    "created_at": "2026-09-18T09:48:25.635Z",
+    "name": "Lead Done",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 181941,
+    "created_at": "2026-09-18T09:48:49.492Z",
+    "name": "Lead Opted Out",
+    "sentiment_type": "positive"
+  },
+  {
+    "id": 181942,
+    "created_at": "2026-09-18T09:49:01.667Z",
+    "name": "We Opted Out",
+    "sentiment_type": "positive"
+  }
+]

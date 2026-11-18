@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 12953,
+    "completion_tokens": 2565,
+    "total_tokens": 15518,
+    "cost": 0.0018019,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0018019,
+      "upstream_inference_prompt_cost": 0.00064765,
+      "upstream_inference_completions_cost": 0.00115425
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316061",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon povratka s godišnjeg.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor o odsutnosti do daljnjeg.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office and unable to respond."
+      ]
+    },
+    {
+      "key": "3876232/4446315755",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon povratka s godišnjeg.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor s uputama za kontakt.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office until Tuesday 1st September 2026"
+      ]
+    },
+    {
+      "key": "3876232/4446315852",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon povratka s godišnjeg.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor s kontakt podacima.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m OOO, please contact:"
+      ]
+    },
+    {
+      "key": "3876232/4446315753",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon povratka s paternitija.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor zbog paternitija.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office on paternity leave."
+      ]
+    },
+    {
+      "key": "3876232/4446316572",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka kaže da Toby više ne radi u tvrtki – to je trajna promjena, ne privremena odsutnost.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više poruke na ovu adresu.",
+      "last_inbound_summary_hr": "Automatska obavijest da Toby Osborne više ne radi u Sucden Financial.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Toby Osborne no longer works for Sucden Financial."
+      ]
+    },
+    {
+      "key": "3876232/4446316865",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka kaže da se mailbox više ne prati – trajna promjena, ne privremena odsutnost.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više poruke na ovu adresu.",
+      "last_inbound_summary_hr": "Automatska obavijest da mailbox više nije pod nadzorom.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "This mailbox is no longer monitored."
+      ]
+    },
+    {
+      "key": "3876232/4446316346",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon povratka s putovanja.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor zbog poslovnog putovanja.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I’m currently traveling for work and may be slower than usual to respond."
+      ]
+    },
+    {
+      "key": "3876232/4446315723",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon povratka s godišnjeg.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor s datumom povratka i kontakt podacima.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of the office returning on 1 September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446315628",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon 1. rujna.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor s datumom povratka 1. rujna.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office until 1st Sept and won't being checking email."
+      ]
+    },
+    {
+      "key": "3876232/4446315964",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka kaže da je Sanj napustio tvrtku – trajna promjena, ne privremena odsutnost.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više poruke na ovu adresu.",
+      "last_inbound_summary_hr": "Automatska obavijest da Sanj Sharma više ne radi u tvrtki.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "Sanj Sharma has now left the business, please forward all correspondence to James Seals"
+      ]
+    },
+    {
+      "key": "3876232/4446316104",
+      "recommended_label": "Wrong Person",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatska poruka kaže da je Nabil napustio tvrtku – trajna promjena, ne privremena odsutnost.",
+      "next_step_hr": "Označiti kao Wrong Person; ne slati više poruke na ovu adresu.",
+      "last_inbound_summary_hr": "Automatska obavijest da Nabil više ne radi u Leadenhall Law Group.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I have now left Leadenhall Law Group and this inbox will not be monitored"
+      ]
+    },
+    {
+      "key": "3876232/4446315870",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski OOO odgovor, nema ljudskog interesa niti odgovora.",
+      "next_step_hr": "Zadržati trenutnu oznaku i pratiti hoće li se javiti nakon 7. rujna.",
+      "last_inbound_summary_hr": "Automatski OOO odgovor s datumom povratka 7. rujna.",
+      "last_outbound_summary_hr": "Posljednji bump s ponudom besplatne sesije uz zahtjev za odgovor.",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office, returning Monday, 7th September."
+      ]
+    }
+  ]
+}

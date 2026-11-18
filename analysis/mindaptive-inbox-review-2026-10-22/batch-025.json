@@ -1,0 +1,249 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 31381,
+    "completion_tokens": 2868,
+    "total_tokens": 34249,
+    "cost": 0.00285965,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 8192,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00285965,
+      "upstream_inference_prompt_cost": 0.00156905,
+      "upstream_inference_completions_cost": 0.0012906
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3562710/4080234076",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (zaprimanje zahtjeva). Nikakav ljudski odgovor ili interes. Postoji stara poruka drafta za automatski odgovor koju ne treba slati.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa. Samo automatski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Vi har nu registrerat ditt ärende och du kommer inom kort bli kontaktad av oss på Kundsupport."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "sv",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora niti interesa."
+    },
+    {
+      "key": "3562710/4080233744",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (podrška). Nema ljudskog odgovora. Postoji stara poruka drafta koju ne treba slati.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "We've received your message and will get back to you within 48 hours."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    },
+    {
+      "key": "3562710/4080233814",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (traženje podataka o korisniku). Nikakav ljudski odgovor. Poslana je jedna poruka nakon automatskog odgovora (ironija), ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Um dein Anliegen einem Kundenkonto zuordnen zu können, sende uns bitte drei der folgenden Informationen:"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    },
+    {
+      "key": "3562710/4080232637",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s brojem tiketa. Nikakav ljudski odgovor. Poslana je jedna poruka nakon automatskog odgovora (ironija), ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Deine Anfrage ist im MAXENERGY Kundenservice eingegangen und wird dort unter dem Ticket 421568721116 bearbeitet."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "de",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    },
+    {
+      "key": "3562710/4080232913",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (radno vrijeme). Nikakav ljudski odgovor. Poslana je jedna poruka nakon automatskog odgovora (ironija), ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Please note this inbox is actively monitored during regular business hours only."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    },
+    {
+      "key": "3562710/4080232927",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (5 radnih dana). Nikakav ljudski odgovor. Poslana je jedna poruka nakon automatskog odgovora (ironija), ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Wij streven ernaar om elke vraag binnen vijf werkdagen te beantwoorden."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    },
+    {
+      "key": "3562710/4080233076",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (Zendesk s člancima). Nikakav ljudski odgovor. Poslana je jedna poruka nakon automatskog odgovora (ironija), ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Wij hebben jouw bericht ontvangen. Wij doen ons best je zo spoedig mogelijk een reactie te sturen."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    },
+    {
+      "key": "3562710/4080233274",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (2 radna dana). Nikakav ljudski odgovor. Poslana je jedna poruka nakon automatskog odgovora (ironija), ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "Wij streven ernaar om binnen 2 werkdagen op uw bericht te reageren."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "nl",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    },
+    {
+      "key": "3562710/4080233201",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor s preusmjeravanjem na prodaju. Zatim bounce (domena nije pronađena). Nikakav ljudski odgovor.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Adresa nije važeća. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "If you are inquiring about a new installation, please email sales at contact@upvolt-energy.com.",
+        "Your message wasn't delivered to support=upvolt-energy.com@transactional.eu1.hs-send.com because the domain transactional.eu1.hs-send.com couldn't be found."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora, adresa nije važeća."
+    },
+    {
+      "key": "3562710/4080233044",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Samo automatski odgovor (visoka količina e-pošte). Nikakav ljudski odgovor. Poslana je jedna poruka nakon automatskog odgovora (ironija), ali nema ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema ljudskog interesa. Ne slati ništa.",
+      "missing_information": [],
+      "evidence": [
+        "We are currently experiencing a high volume of emails and it is taking slightly longer for us to respond."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Samo automatski odgovor, nema ljudskog odgovora."
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 30326,
+    "completion_tokens": 3588,
+    "total_tokens": 33914,
+    "cost": 0.003412682,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.003412682,
+      "upstream_inference_prompt_cost": 0.002759666,
+      "upstream_inference_completions_cost": 0.000653016
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3912149/3734011321",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Lee je zatražio link na demo i posjetio ga, ali nije odgovorio na naknadne upite. Postoji jedan posjet, ali bez komercijalnog napretka nakon toga.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošaljite kratki follow-up s opcijom A/B (želi promjene vs. nije dovoljno poboljšanje). Bez otkrivanja praćenja posjeta.",
+      "missing_information": [],
+      "evidence": [
+        "Seems odd, But ok send me the link",
+        "Let me know what you think."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Quick question, Lee —\n\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postoji jedan posjet demo stranici bez odgovora nakon nekoliko follow-upa. Vrijeme je za kratki, lak za odgovoriti, A/B follow-up."
+    },
+    {
+      "key": "3950427/4542617094",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": true,
+      "human_interest": true,
+      "reason_hr": "Korisnik je pozitivno odgovorio i pitao za cijenu: \"Yh I like it, how much would something like that cost , money is tight for me at the minute it's quiet for me.\" Cijena je poslana, ali je korisnik spomenuo financijsku ograničenost, što zahtijeva ljudsku procjenu.",
+      "priority": "P0",
+      "sales_state": "PRICE_SENT_WAITING",
+      "next_action": "HUMAN_REVIEW",
+      "next_action_at": null,
+      "next_step_hr": "Cijena je već poslana i sadržavala je opcije. Ljudska procjena je potrebna zbog budžetskog prigovora. Razmislite o tome da li ponuditi manji opseg, kao što je Missed-Call Text-Back, uz već poslanu ponudu.",
+      "missing_information": [],
+      "evidence": [
+        "Ok send the link let me have a look",
+        "Yh I like it, how much would something like that cost , money is tight for me at the minute it's quiet for me."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Nacrt nije potreban jer je cijena već poslana, a radi se o budžetskom prigovoru koji zahtijeva ljudsku procjenu, a ne generički follow-up."
+    },
+    {
+      "key": "3960583/3729673474",
+      "recommended_label": "Interested",
+      "confidence": "medium",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Korisnik je izrazio interes, primio link i posjetio ga, ali nije odgovorio na naknadne upite. Postoji jedan posjet, ali bez komercijalnog napretka nakon toga.",
+      "priority": "P2",
+      "sales_state": "DEMO_VISITED_SILENT",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošaljite kratki follow-up s opcijom A/B (želi promjene vs. nije dovoljno poboljšanje). Bez otkrivanja praćenja posjeta.",
+      "missing_information": [],
+      "evidence": [
+        "Worth a look",
+        "Just reply if you like the site and I'll send over the pricing and next steps."
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Quick question, Josh —\n\nWhich is closer?\n\nA) I'd consider replacing the current site with this, but I'd want a few things changed\n\nB) It's not enough of an improvement for us\n\nJust reply A or B.",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Postoji jedan posjet demo stranici bez odgovora nakon nekoliko follow-upa. Vrijeme je za kratki, lak za odgovoriti, A/B follow-up."
+    },
+    {
+      "key": "3599203/4126837403",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Rodi je tražio sastanak, primio Calendly link, ali ga nije zakazao. Postoji stari nacrt za zatvaranje, ali je preuranjen s obzirom na raniji interes.",
+      "priority": "P2",
+      "sales_state": "MEETING_REQUESTED",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošaljite blagi follow-up na francuskom ili engleskom, pitajući je li link za sastanak radio i nudeći izravan odabir termina. Nemojte koristiti stari nacrt o zatvaranju.",
+      "missing_information": [],
+      "evidence": [
+        "When can we setup a meeting?",
+        "Feel free to select a time that works for you: [link: https://calendly.com/andrew-mindaptive/30min] https://calendly.com/andrew-mindaptive/30min"
+      ],
+      "draft_action": "REPLACE",
+      "draft_original": "Hey Rodi,\n\nJust checking if the Calendly link worked for you. If it didn't, just tell me a time that suits you and we'll set it up.\n\nThanks,\nAndrew",
+      "draft_english": "",
+      "draft_language": "en",
+      "draft_reason_hr": "Stari nacrt je preuranjen i ne odgovara na posljednji trag razgovora nakon zahtjeva za sastanak. Potreban je novi nacrt koji se odnosi na taj zahtjev."
+    },
+    {
+      "key": "3599203/4126836451",
+      "recommended_label": "Interested",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": true,
+      "reason_hr": "Evi je izričito zamolio da se javimo nakon 20. kolovoza, što je i učinjeno, ali bez odgovora. Interes je još uvijek validan.",
+      "priority": "P2",
+      "sales_state": "POSITIVE_REPLY_WAITING_FOR_DEMO",
+      "next_action": "FOLLOWUP_DUE",
+      "next_action_at": null,
+      "next_step_hr": "Pošaljite kratki follow-up na grčkom, pitajući je li link za sastanak radio i nudeći izravan odabir termina.",
+      "missing_information": [],
+      "evidence": [
+        "Να το δούμε μετά τις 20 Αυγούστου",
+        "Στο μεταξύ έφτιαξα ήδη έναν πρωτότυπο AI Agent για το Healthy Derma Clinics"
+      ],
+      "draft_action": "CREATE",
+      "draft_original": "Γεια σου Εύη,\n\nΉθελα να δω αν δούλεψε ο σύνδεσμος για το meeting. Αν δεν δούλεψε, πες μου μια ώρα που σε βολεύει και το κανονίζουμε.\n\nΕυχαριστώ,\nMia",
+      "draft_english": "Hi Evi,\n\nJust wanted to check if the meeting link worked. If it didn't, just tell me a time that suits you and we'll set it up.\n\nThanks,\nMia",
+      "draft_language": "el",
+      "draft_reason_hr": "Nakon izričitog zahtjeva za kontakt nakon 20. kolovoza i slanja linka, nema odgovora. Vrijeme je za kratki follow-up koji se odnosi na link."
+    },
+    {
+      "key": "4194540/4126836521",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o odsutnosti (OOO). Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-11-06T00:00:00.000Z",
+      "next_step_hr": "Pričekajte do povratka s odmora 6. studenog. Nakon toga, pošaljite početni follow-up.",
+      "missing_information": [],
+      "evidence": [
+        "I'll be away from Thursday 22nd October, returning on Friday 6th November."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Radi se o automatskom odgovoru. Nema ljudskog interesa za obradu, već je potrebno pričekati."
+    },
+    {
+      "key": "4194540/4126836863",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o godišnjem odmoru. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-10-26T00:00:00.000Z",
+      "next_step_hr": "Pričekajte do povratka s odmora 26. listopada. Nakon toga, pošaljite početni follow-up.",
+      "missing_information": [],
+      "evidence": [
+        "I am currently out of the office on annual leave and will have limited access to email until Friday 23rd October 2026.",
+        "I will respond to your message as soon as possible upon my return Monday 26.10.2026."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Radi se o automatskom odgovoru. Nema ljudskog interesa za obradu, već je potrebno pričekati."
+    },
+    {
+      "key": "4194540/4126836947",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o odsutnosti (OOO). Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-10-26T00:00:00.000Z",
+      "next_step_hr": "Pričekajte do povratka s odmora 26. listopada. Nakon toga, pošaljite početni follow-up.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of office from 16/10 until 26/10"
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Radi se o automatskom odgovoru. Nema ljudskog interesa za obradu, već je potrebno pričekati."
+    },
+    {
+      "key": "4194540/4126836830",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor o odsutnosti (OOO). Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "WAIT",
+      "next_action_at": "2026-11-03T00:00:00.000Z",
+      "next_step_hr": "Pričekajte do povratka s odmora 3. studenog. Nakon toga, pošaljite početni follow-up.",
+      "missing_information": [],
+      "evidence": [
+        "I am out of the office until Tuesday 3 November 2026."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Radi se o automatskom odgovoru. Nema ljudskog interesa za obradu, već je potrebno pričekati."
+    },
+    {
+      "key": "4194540/4126834491",
+      "recommended_label": "Auto-Reply",
+      "confidence": "high",
+      "manual_review": false,
+      "human_interest": false,
+      "reason_hr": "Automatski odgovor koji potvrđuje primitak upita. Nema stvarnog ljudskog interesa.",
+      "priority": "P3",
+      "sales_state": "COLD_NO_REPLY",
+      "next_action": "NO_ACTION",
+      "next_action_at": null,
+      "next_step_hr": "Nema radnje dok se ne dobije stvarni ljudski odgovor.",
+      "missing_information": [],
+      "evidence": [
+        "Thank you for contacting Bupa Dental Care Plymstock - we'll respond to your email as soon as we can."
+      ],
+      "draft_action": "NONE",
+      "draft_original": "",
+      "draft_english": "",
+      "draft_language": "",
+      "draft_reason_hr": "Radi se o automatskom odgovoru. Nema ljudskog interesa za obradu."
+    }
+  ]
+}

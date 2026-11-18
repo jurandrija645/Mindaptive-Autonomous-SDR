@@ -1,0 +1,220 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 10018,
+    "completion_tokens": 2646,
+    "total_tokens": 12664,
+    "cost": 0.0016916,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0016916,
+      "upstream_inference_prompt_cost": 0.0005009,
+      "upstream_inference_completions_cost": 0.0011907
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446315596",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 2. rujna.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Kurt šalje zadnji email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of the office with limited access to messages until Wednesday 2nd September."
+      ]
+    },
+    {
+      "key": "3876232/4446315427",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nikakav ljudski odgovor.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Kurt šalje zadnji email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office and will return on Tuesday 1st of September 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446317524",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda, povratak 16. kolovoza (očito stari datum).",
+      "last_outbound_summary_hr": "Posljednji kontakt: Rebecca šalje zadnji email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm currently out of office and returning 16th August."
+      ]
+    },
+    {
+      "key": "3876232/4446315440",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Samo automatski odgovor o odsutnosti, nikakav ljudski odgovor.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: na dopustu do 1. rujna.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Kurt šalje zadnji email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on leave with limited access to my emails, returning 1st Sept."
+      ]
+    },
+    {
+      "key": "3930675/4520613505",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o roditeljskom dopustu, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: na roditeljskom dopustu do 30. studenog.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Rebecca šalje prvi email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of office on parental leave returning on 30 November 2026."
+      ]
+    },
+    {
+      "key": "3876232/4446317495",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 21. rujna.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Kurt šalje zadnji email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office, returning 21st September."
+      ]
+    },
+    {
+      "key": "3876232/4446317377",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: na dobrotvornoj vožnji biciklom do 14. rujna.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Kurt šalje zadnji email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am on away on a Charity Cycle Ride for Demalza, returning Monday September 14 2026"
+      ]
+    },
+    {
+      "key": "3876232/4446317451",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: dobrodošlica novorođenčeta do sredine listopada.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Rebecca šalje zadnji email (11. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am out of the office welcoming our baby daughter into the world!"
+      ]
+    },
+    {
+      "key": "3930675/4520612634",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom, kontaktirati kolegu.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Rebecca šalje prvi email (10. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently out of office on maternity."
+      ]
+    },
+    {
+      "key": "3930675/4520612632",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o porodiljnom dopustu, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: na porodiljnom, kontaktirati EA.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Kurt šalje prvi email (10. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I am currently on maternity leave and will be offline during this period."
+      ]
+    },
+    {
+      "key": "3930675/4520612651",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: izvan ureda do 16. rujna.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Rebecca šalje prvi email (10. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm out of office until Wednesday 16th September and will get back to you next week."
+      ]
+    },
+    {
+      "key": "3930675/4520612648",
+      "recommended_label": "Out Of Office",
+      "confidence": "high",
+      "manual_review": false,
+      "reason_hr": "Automatski odgovor o odsutnosti, bez ljudskog odgovora.",
+      "next_step_hr": "Nema daljnjih radnji; lead ostaje u Out Of Office.",
+      "last_inbound_summary_hr": "Automatski odgovor: na odmoru do 22. rujna.",
+      "last_outbound_summary_hr": "Posljednji kontakt: Rebecca šalje prvi email (10. rujna).",
+      "human_replied": false,
+      "ooo_then_human": false,
+      "handover_complete": false,
+      "evidence": [
+        "I'm on holiday until Friday 18th, then away at the BA Conference until Tuesday 22nd September"
+      ]
+    }
+  ]
+}

@@ -939,11 +939,17 @@ def mark_lead_booked(conn, lead_id: int, campaign_id: int) -> None:
     says "not now" rather than "put this away", and a booking answers that; it
     also carries no timestamp of its own to age against."""
     stop_sequence_enrollments(conn, lead_id, campaign_id, "booked")
-    conn.execute(
-        """UPDATE drafts SET status = 'stale'
-           WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending', 'scheduled')""",
+    from app import aftercare  # explicit owner approval; never an outreach exemption
+    for draft in conn.execute(
+        "SELECT * FROM drafts WHERE lead_id = ? AND campaign_id = ? AND status IN ('pending', 'scheduled')",
         (lead_id, campaign_id),
-    )
+    ).fetchall():
+        # A blank message the operator is writing must survive periodic booking
+        # sweeps; scheduled and generated outreach remains stopped.
+        if draft["kind"] == "manual" and draft["status"] == "pending":
+            continue
+        if aftercare.approval_for(conn, draft) is None:
+            update_draft(conn, draft["id"], status="stale")
     conn.execute(
         """UPDATE candidates SET status = 'dismissed', reason = 'meeting booked', updated_at = ?
            WHERE lead_id = ? AND campaign_id = ? AND status IN ('open', 'generating')""",

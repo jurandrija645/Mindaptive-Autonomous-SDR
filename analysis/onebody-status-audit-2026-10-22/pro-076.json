@@ -1,0 +1,188 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 10972,
+    "completion_tokens": 2732,
+    "total_tokens": 13704,
+    "cost": 0.023273376,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.023273376,
+      "upstream_inference_prompt_cost": 0.015536352,
+      "upstream_inference_completions_cost": 0.007737024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3876232/4446316649",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Sve poruke su automatski odgovor o odbijanju (bounce). Nema ljudskog odgovora.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "E-pošta nije isporučena. Nema potvrde da je osoba vidjela poruku.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta. Adresa e-pošte blokirana od strane primateljeve sigurnosne politike.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<85278844-50c7-4900-9e93-6c4dedc195aa@LO9P123MB7915.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Your message to karen.baker@octopusbooks.co.uk couldn't be delivered."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316741",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Gloria je odgovorila da više ne radi u Locke Staffing i uputila na kolegicu Tracey Smith. Ne pokazuje interes za ponudu.",
+      "last_human_request_hr": "Hi - I no longer work at Locke Staffing. Please contact Tracey Smith at t.smith@locke-staffing.com for any queries or support.",
+      "unresolved_hr": "Osoba je napustila tvrtku. Nema upita o ponudi. Potencijalno je Tracey Smith novi kontakt, ali iz ove poruke nije jasno traži li Gloria da se ponuda proslijedi njoj osobno.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Provjeriti želi li vlasnik poslati ponudu Tracey Smith kao novom kontaktu u Locke Staffing. Trenutni razgovor s Gloriom zatvoriti bez daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<00c0206cda0d4e5eb6b11b936e602e8b@CWLP123MB4468.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Hi - I no longer work at Locke Staffing. Please contact Tracey Smith at t.smith@locke-staffing.com for any queries or support."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316723",
+      "assessment": "no_human_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Prvi odgovor je automatska obavijest 'više ne radim ovdje'. Kasnije poruke su bounce. Nije bilo ljudskog angažmana, osim što je prvotni OOO sadržavao uputu za kontakt, ali to je generička poruka.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "E-pošta blokirana. Osoba je napustila tvrtku i dala je generičku obavijest, ali nije pokazala interes za ponudu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Bez daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<e23e6bf853314085bcf5fad9654e6f81@DU4PR07MB11595.eurprd07.prod.outlook.com>",
+          "quote": "Please note that I no longer work at GuarantCo Management Company."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316789",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka s godišnjeg odmora. Ljudski angažman nije dokazan. Međutim, poruke su isporučene, a osoba se trebala vratiti 7. rujna. Posljednja naša poruka poslana je 11. rujna. Nema izričitog odbijanja, pa postoji mogućnost naknadnog interesa.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema potvrde je li osoba vidjela ponudu nakon povratka s odmora. Postoji mogućnost naknadnog interesa.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Manualna odluka vlasnika: poslati još jedan kratki followup s obzirom da se osoba vratila s odmora prije više od mjesec dana, ili zatvoriti bez daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<50305d02790040b6989d9a857c24793a@CWLP265MB6420.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I out of the office on annual leave, and will return Monday 7th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316635",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka s godišnjeg odmora. Ljudski angažman nije dokazan. Poruke su isporučene, osoba se trebala vratiti 7. rujna. Posljednja naša poruka poslana je 14. rujna. Nema izričitog odbijanja.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Nema potvrde je li osoba vidjela ponudu nakon povratka s odmora.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Manualna odluka vlasnika: slanje još jednog kratkog followupa ili zatvaranje bez daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAOW_Pm5xr8UAAKJS_tMki+wp7qQKgvh+Hg=zPsS-cgrstjZ6Zw@mail.gmail.com>",
+          "quote": "I am now on annual leave returning to work\non Monday 7th September 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316730",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka o porodiljnom dopustu do proljeća 2027. Ljudski angažman nije dokazan. Poruke su isporučene. Osoba je dugoročno odsutna.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba je na porodiljnom dopustu do proljeća 2027. Nema smisla slati followupove prije tog datuma.",
+      "recommended_bulk_group": "later",
+      "recommended_action_hr": "Odgoditi kontakt do proljeća 2027. godine.",
+      "defer_until": "2027-04-01",
+      "evidence": [
+        {
+          "message_id": "<d08b673cced240c8ae12eb5ae3846ef8@LO0P123MB4250.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I am now on maternity leave until Spring 2027."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316729",
+      "assessment": "followup_candidate",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Dan je izrazio jasan interes ('Sounds good. I have lots of aches & pains.'). Poslali smo mu link i kod OBLACCESS55 te više followupova. Nije potvrdio booking niti odbio. Posljednja naša poruka je od 25. rujna.",
+      "last_human_request_hr": "Hi Kurt. Apologies, I’ve been on holiday and have been being strict about not checking my work email. Sounds good. I have lots of aches & pains. Thanks, Dan",
+      "unresolved_hr": "Dan je pokazao interes, ali nije potvrdio da je rezervirao termin. Potreban je followup jer je posljednja naša poruka od 25. rujna, a on nije odgovorio.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati kratki followup s pitanjem je li uspio rezervirati ili mu treba pomoć. Ponuditi novi kod VIP8401 ako OBLACCESS55 više nije aktivan.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CWLP123MB214861A612824273115279DD9DBF2@CWLP123MB2148.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "Sounds good. I have lots of aches & pains."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3876232/4446316728",
+      "assessment": "followup_candidate",
+      "human_engaged": false,
+      "confidence": "medium",
+      "reason_hr": "Jedini odgovor je automatska OOO poruka s godišnjeg odmora. Ljudski angažman nije dokazan. Poruke su isporučene, osoba se trebala vratiti 4. rujna. Posljednja naša poruka poslana je 14. rujna. Nema izričitog odbijanja.",
+      "last_human_request_hr": "Nema ljudskog odgovora.",
+      "unresolved_hr": "Osoba se vratila s odmora, ali nije odgovorila na naše poruke. Nije potvrđen interes.",
+      "recommended_bulk_group": "owner_review",
+      "recommended_action_hr": "Manualna odluka vlasnika: slanje još jednog kratkog followupa ili zatvaranje bez daljnjeg kontakta.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<b3416a8e67444249905624bc823503ba@CWLP123MB4897.GBRP123.PROD.OUTLOOK.COM>",
+          "quote": "I’m on leave now, returning on Friday 4th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}

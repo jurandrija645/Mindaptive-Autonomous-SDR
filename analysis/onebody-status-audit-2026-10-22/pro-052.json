@@ -1,0 +1,192 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "usage": {
+    "prompt_tokens": 7480,
+    "completion_tokens": 2568,
+    "total_tokens": 10048,
+    "cost": 0.010584,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.010584,
+      "upstream_inference_prompt_cost": 0.006732,
+      "upstream_inference_completions_cost": 0.003852
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "decisions": [
+    {
+      "key": "3930675/4520614587",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljena automatska poruka 'izvan ureda', nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Nema dokaza o interesu; OOO do 14. rujna 2026. je davno prošao, ali nije bilo naknadnog ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke jer nije bilo ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CA+CaRsn1eUGtOKfHJew7ggfPZDx7XAgB72i0nc5-b=9OZMWGAA@mail.gmail.com>",
+          "quote": "I'm out of office until 14th September"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614322",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljena automatska poruka 'izvan ureda', nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Nema dokaza o interesu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke jer nije bilo ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAKa-iZq3WzRHiB-Tbg1euSoUkViArKHe4mydHTF-v2hQX_tz7A@mail.gmail.com>",
+          "quote": "I am out of the office on annual leave 10th - 13th September."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614200",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljena automatska poruka 'izvan ureda', nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Nema dokaza o interesu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke jer nije bilo ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<59326191c4f74fcd9e6bc9b144e31d19@AS2PR09MB6573.eurprd09.prod.outlook.com>",
+          "quote": "I am now on Annual Leave until 21/09/26."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614181",
+      "assessment": "wrong_person",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Colin Miller je odgovorio da više ne radi tamo i dao referalu za kolegu. Iako nije kupac, ljudski je angažiran i uputio je na drugu osobu.",
+      "last_human_request_hr": "Thanks for your message, I no longer work for Monterosa. Please contact richard@monterosa.co.uk in my absence.",
+      "unresolved_hr": "Colin je napustio firmu. Ponuda nije relevantna za njega, ali je dao korisnu referalu (richard@monterosa.co.uk).",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Ne slati poruku Colinu. Ne obrađivati automatski referalu jer se radi o novoj osobi na istoj domeni.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAMWP0d06byRcNiaq6z5KwaYE3KXGaQ8A-YYoG+Evoejnve3=6g@mail.gmail.com>",
+          "quote": "I no longer work for Monterosa.\n\nPlease contact richard@monterosa.co.uk in my absence."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614236",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljena automatska poruka 'izvan ureda', nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Nema dokaza o interesu; OOO do 14. rujna 2026. je davno prošao, ali nije bilo naknadnog ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke jer nije bilo ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAK5CTPc3_3zQJWvt0OSfegcXM8k7c6xdizKNUwYZ9DiLobHYFA@mail.gmail.com>",
+          "quote": "I am currently on leave with no access to email.\nI will return on Monday, Sept 14th"
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614235",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljena automatska poruka 'neradni dan', nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Nema dokaza o interesu.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke jer nije bilo ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CALb4+58uXzruJoLCEhMPVPhRzW+w6-JXhhGuL7Z7rf3LSFx8gw@mail.gmail.com>",
+          "quote": "Please note Fridays are my non-working day, I will be returning on Monday."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614234",
+      "assessment": "needs_our_reply",
+      "human_engaged": true,
+      "confidence": "high",
+      "reason_hr": "Edu Sampedro je izrazio interes, pitao za cijenu. Dobio je link i kod. Nakon niza follow-upova, posljednja poruka je njegova ljudska poruka od 18. rujna u kojoj potvrđuje namjeru bukiranja i planira to učiniti. Nakon toga smo mi poslali dvije follow-up poruke (21. i 23. rujna) na koje on nije odgovorio. Budući da je potvrdio namjeru, a na naše zadnje poruke nije odgovorio, potrebno je provjeriti status.",
+      "last_human_request_hr": "Next week is going to be possible for me to do this session, more towards the end of the week. I will be able to confirm then, I will put a calendar on my side on Thursday to remind myself to hopefully book it for Friday if all goes well workwise. Otherwise it may have to be the following week. Hope this works for you.",
+      "unresolved_hr": "Edu je prihvatio ponudu, planirao bukirati, ali nije odgovorio na posljednje follow-upove. Nije eksplicitno bukirao. Potreban je dodatni kontakt.",
+      "recommended_bulk_group": "followup_booking",
+      "recommended_action_hr": "Poslati follow-up poruku s podsjetnikom na ponudu i provjerom da li je uspio bukirati ili mu treba pomoć. Ponuda (OBLACCESS55) je još uvijek moguće aktivna.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<CAHra=S56tqFkSS1s1BqHPToUsK6HDw0phNSnV=fxK3ig9P7QgA@mail.gmail.com>",
+          "quote": "Thanks for reaching out. Your email comes at the right time, as I have been dealing with a very stiff neck for a while now and am looking for treatment."
+        },
+        {
+          "message_id": "<CAHra=S7qL0poX0Sp6jYSN5vB1gWQ6UdJabfZvvP_-7YG_rRpug@mail.gmail.com>",
+          "quote": "Next week is going to be possible for me to do this session, more towards the end of the week."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    },
+    {
+      "key": "3930675/4520614123",
+      "assessment": "auto_reply",
+      "human_engaged": false,
+      "confidence": "high",
+      "reason_hr": "Primljena automatska poruka 'izvan ureda', nema ljudskog odgovora na ponudu.",
+      "last_human_request_hr": "nema ljudskog zahtjeva",
+      "unresolved_hr": "Nema dokaza o interesu; OOO do 14. rujna 2026. je davno prošao, ali nije bilo naknadnog ljudskog odgovora.",
+      "recommended_bulk_group": "no_outreach",
+      "recommended_action_hr": "Nema potrebe za slanjem poruke jer nije bilo ljudskog angažmana.",
+      "defer_until": null,
+      "evidence": [
+        {
+          "message_id": "<92418f896a3b422e8b4cf70420a6b62d@LO2P265MB3564.GBRP265.PROD.OUTLOOK.COM>",
+          "quote": "I am out of the office until Monday 14 September 2026."
+        }
+      ],
+      "rejected_evidence": [],
+      "evidence_verified": true
+    }
+  ]
+}
