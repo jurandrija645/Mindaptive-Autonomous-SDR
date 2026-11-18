@@ -98,6 +98,16 @@ If the lead wants 45-minute massage at an otherwise eligible location outside
 the priority list, offer 20-minute massage there or 45-minute massage at a listed clinic that suits
 them. Do not claim 45-minute massage is available at every clinic.
 
+The "Nearest Clinic - Walk 15min - 18 Nov" campaign (Smartlead 4649171, from
+18 November 2026) names the lead's nearest clinic, which is usually NOT a
+priority clinic. Its `offer` custom field is `physio` or `massage20`:
+`physio` → the 45-minute physio link (with the £4.99 fee line);
+`massage20` → the 20-minute sports massage link. Never send these leads the
+45-minute massage link unless they ask for it and accept a priority clinic.
+Step 4 of this campaign asks whether a colleague would use the offer; if the
+lead replies with a colleague's name or asks to pass it on, send the link and
+`VIP8401` with the share line so they can forward it.
+
 ## Priority locations
 
 Bookings are wanted across the eligible network. Prioritise these quieter
