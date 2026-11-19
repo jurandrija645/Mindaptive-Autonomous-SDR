@@ -98,6 +98,14 @@ If the lead wants 45-minute massage at an otherwise eligible location outside
 the priority list, offer 20-minute massage there or 45-minute massage at a listed clinic that suits
 them. Do not claim 45-minute massage is available at every clinic.
 
+"Priority locations" in this file means the nine clinics on the 45-minute
+massage link. On 18 November 2026 Kurt gave a separate list of twelve clinics
+to fill first in cold email (West Kensington, Stratford, Southfields,
+Monument, Moorgate, Wimbledon, Bank, Charing Cross, City of London, Clapham,
+Fitzrovia, Fulham). That list is for targeting only: it does not add
+45-minute massage at Stratford, Monument, Bank, Charing Cross, City of
+London, Clapham, Fitzrovia or Fulham.
+
 The "Nearest Clinic - Walk 15min - 18 Nov" campaign (Smartlead 4649171, from
 18 November 2026) names the lead's nearest clinic, which is usually NOT a
 priority clinic. Its `offer` custom field is `physio` or `massage20`:
