@@ -85,6 +85,23 @@ def test_presend_rejects_modified_draft_new_messages_and_negative_live_category(
         assert not auto_replies.presend(draft, thread)
 
 
+def test_presend_allows_stale_out_of_office_category(state):
+    """An earlier auto-responder leaves 'Out Of Office' on the lead; a later real
+    interested reply must still go out automatically."""
+    draft_id, thread = state
+    auto_replies.set_enabled(True)
+    with patch.object(reply_classifier, "classify", return_value=(reply_classifier.INTERESTED, "ok")):
+        assert auto_replies.schedule_reviewed(draft_id, thread)
+    with db.db_session() as conn:
+        draft = dict(db.get_draft(conn, draft_id))
+    cats = {"Interested": 1, "Out Of Office": 6, "Not Interested": 3}
+    for cid, ok in ((6, True), (3, False)):
+        overview = {"email_campaign_leads_mappings": [{"email_campaign_id": 10, "is_active": True, "lead_category_id": cid}]}
+        with patch.object(smartlead, "get_lead_campaign_overview", return_value=overview), \
+             patch.object(smartlead, "fetch_categories", return_value=cats):
+            assert bool(auto_replies.presend(draft, thread)) is ok
+
+
 def test_classifier_unavailable_fails_closed_for_automation():
     with patch.object(reply_classifier.llm, "complete_for", side_effect=RuntimeError("offline")):
         assert reply_classifier.classify("Yes", fail_closed=True)[0] == reply_classifier.UNKNOWN

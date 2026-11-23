@@ -7,7 +7,7 @@ from app.config import settings
 
 PHYSIO_LINK = "https://onebodyldn.connect.tm3app.com/book/partnerships/physiotherapy_1/physiotherapy_assessment_treatment_45_min"
 M20_LINK = "https://onebodyldn.connect.tm3app.com/book/partnerships/sports_massage_2/sports_massage_20_min"
-CATEGORIES = {"Interested": 1, "Do Not Contact": 4, "Information Request": 5, "Meeting Booked": 177154,
+CATEGORIES = {"Interested": 1, "Do Not Contact": 4, "Information Request": 5, "Out Of Office": 6, "Meeting Booked": 177154,
               "Interested in 45 Physio": 197614, "Interested in 45 Sports": 197615}
 CAMPAIGNS = [{"id": 100, "parent_campaign_id": None}, {"id": 101, "parent_campaign_id": 100},
              {"id": 102, "parent_campaign_id": 100}, {"id": 200, "parent_campaign_id": None}]
@@ -59,6 +59,7 @@ def test_plain_interested_moves(env, link, target_id):
 def test_uncategorised_and_information_request_move(env):
     assert run(PHYSIO_LINK, overview(None))[1].called
     assert run(PHYSIO_LINK, overview(5))[1].called
+    assert run(PHYSIO_LINK, overview(6))[1].called  # stale Out Of Office
 
 
 @pytest.mark.parametrize("category", [4, 177154, 197614, 197615])

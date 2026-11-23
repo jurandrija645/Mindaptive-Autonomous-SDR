@@ -12,8 +12,8 @@ went out and contains a partnership booking link, and the link decides which cat
     /book/partnerships/sports_massage...  -> Interested in 45 Sports
 
 It never touches a lead that
-  - sits in any category other than plain Interested / Meeting Request / Information Request
-    (Do Not Contact, Meeting Booked, the two subsequence categories, anything set by hand), or
+  - sits in any category other than plain Interested / Meeting Request / Information Request /
+    Out Of Office / Auto Reply (Do Not Contact, Meeting Booked, the two subsequence categories, anything set by hand), or
   - has already been in a subsequence of this campaign (Andrija keeps those in plain
     Interested on purpose, 23 Nov 2026), or
   - is in a campaign that has no subsequence at all.
@@ -30,8 +30,9 @@ log = logging.getLogger(__name__)
 
 PHYSIO = "Interested in 45 Physio"
 SPORTS = "Interested in 45 Sports"
-# Categories a fresh positive reply can carry before we answer it.
-MOVABLE = {"interested", "meetingrequest", "informationrequest"}
+# Categories a fresh positive reply can carry before we answer it. Out Of Office / Auto
+# Reply stay on a lead after an earlier auto-responder even when the person later writes back.
+MOVABLE = {"interested", "meetingrequest", "informationrequest", "outofoffice", "autoreply"}
 REPLY_KINDS = {"reply", "auto_response"}
 
 _LINK = re.compile(r"/book/partnerships/(physiotherapy|sports_massage)", re.I)

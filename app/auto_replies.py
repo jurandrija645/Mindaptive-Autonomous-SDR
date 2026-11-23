@@ -122,7 +122,11 @@ def presend(draft, thread):
         return False
     def norm(value):
         return "".join(c for c in str(value or "").lower() if c.isalnum())
-    blocked = {"donotcontact", "notinterested", "unsubscribed", "leadoptedout", "weoptedout", "bounced", "wrongperson", "blacklisted", "meetingbooked", "outofoffice", "autoreply"}
+    # "Out Of Office" / "Auto Reply" are not blocked: Smartlead keeps that label from an
+    # earlier auto-responder even after the person writes back for real, and the reply
+    # being answered here was already classified INTERESTED and is still the newest
+    # message (checked above). Alisa Khodyryeva, 23 Nov 2026, sat unanswered for this.
+    blocked = {"donotcontact", "notinterested", "unsubscribed", "leadoptedout", "weoptedout", "bounced", "wrongperson", "blacklisted", "meetingbooked"}
     category_names = {str(value): norm(name) for name, value in categories.items()}
     for mapping in mappings:
         cid = mapping.get("lead_category_id")
