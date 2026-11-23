@@ -263,6 +263,12 @@ assert.deepEqual(state.leads, rows);
         self.assertEqual(draft["status"], "aborted")
         self.assertIn("email account not found", draft["send_error"])
 
+    def test_email_date_header_timestamp_is_parsed(self):
+        from app import detector
+        dt = detector._parse_timestamp("Thu, 5 Nov 2026 00:22:45 -0800")
+        self.assertEqual(dt, datetime(2026, 11, 5, 8, 22, 45, tzinfo=timezone.utc))
+        self.assertEqual(detector._parse_timestamp("2026-11-05T08:22:45Z"), dt)
+
     def test_transient_smartlead_error_keeps_the_draft_scheduled(self):
         draft_id = self._scheduled_followup()
         err = smartlead.SmartleadError("POST x failed: 503 unavailable", status_code=503)

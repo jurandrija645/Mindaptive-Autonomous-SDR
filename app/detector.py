@@ -4,6 +4,7 @@ Kept free of network/DB calls so it can be reasoned about and tested in isolatio
 """
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from enum import Enum
 
 from app.config import settings
@@ -44,7 +45,13 @@ def _parse_timestamp(raw: str | None) -> datetime:
         return datetime.now(timezone.utc)
     if raw.endswith("Z"):
         raw = raw[:-1] + "+00:00"
-    dt = datetime.fromisoformat(raw)
+    try:
+        dt = datetime.fromisoformat(raw)
+    except ValueError:
+        # Some messages carry the email Date header instead of ISO 8601,
+        # e.g. 'Thu, 5 Nov 2026 00:22:45 -0800' (One Body, Nov 2026). One such
+        # message used to crash the whole reply-catch scan.
+        dt = parsedate_to_datetime(raw)
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone.utc)
     return dt
