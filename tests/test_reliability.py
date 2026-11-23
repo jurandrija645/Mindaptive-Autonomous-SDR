@@ -183,6 +183,19 @@ assert.deepEqual(state.leads, rows);
                                  received_at="2026-10-02T09:00:00+00:00")
             self.assertIsNone(db.get_lead_state(conn, 20, 10)["snooze_until"])
 
+    def test_reply_in_subsequence_inherits_booking_from_parent_campaign(self):
+        with db.db_session() as conn:
+            db.upsert_lead_state(conn, 20, 10, interested=1)
+            db.mark_lead_booked(conn, 20, 10)
+            db.mark_lead_replied(conn, 20, 11, preview="Booked in for Wednesday!",
+                                 received_at="2026-11-23T10:02:00+00:00")
+            row = db.get_lead_state(conn, 20, 11)
+            self.assertEqual(row["status"], "booked")
+            self.assertEqual(row["last_message_preview"], "Booked in for Wednesday!")
+            db.mark_lead_replied(conn, 21, 11, preview="Sounds good",
+                                 received_at="2026-11-23T10:02:00+00:00")
+            self.assertEqual(db.get_lead_state(conn, 21, 11)["status"], "awaiting_reply")
+
     def test_bulk_history_splits_large_campaign_and_preserves_all_threads(self):
         def respond(method, path, **kwargs):
             ids = kwargs["json"]["lead_ids"]

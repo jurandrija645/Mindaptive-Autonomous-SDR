@@ -273,6 +273,12 @@ class Settings:
     # SMARTLEAD_WEBHOOK_SECRET. Blank disables the route's secret check, which
     # is fine for local testing but should always be set once this is public.
     booking_webhook_secret: str = os.getenv("BOOKING_WEBHOOK_SECRET", "")
+    # Slack bot token (chat:write, reactions:write) for app/slack_links.py:
+    # marks the n8n reply notification in Slack as answered / booked / held.
+    # n8n links each notification through POST /webhooks/slack-posted, which
+    # uses SMARTLEAD_WEBHOOK_SECRET. Blank: links are still recorded, nothing
+    # is posted until a token is set.
+    slack_bot_token: str = os.getenv("SLACK_BOT_TOKEN", "")
     # Bearer token for POST /api/prospect-contacts (app/prospect_contacts.py):
     # WebsiteGenerator's cli/contacts.mjs pushes the WhatsApp/phone/email/social
     # contacts it scraped from a prospect's site. Blank disables the route.

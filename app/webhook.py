@@ -359,6 +359,34 @@ async def calendly_booking(request: Request):
     }
 
 
+@router.post("/webhooks/slack-posted")
+async def slack_posted(request: Request):
+    """n8n calls this right after it posts a lead's reply to Slack, so the bot
+    can later mark that exact message answered / booked / held
+    (app/slack_links.py). Same secret as /webhooks/smartlead.
+
+    Body: channel, ts (the Slack message), campaign_id, lead_id, email."""
+    if settings.smartlead_webhook_secret:
+        provided = request.headers.get("x-webhook-secret") or request.query_params.get("secret")
+        if provided != settings.smartlead_webhook_secret:
+            raise HTTPException(status_code=401, detail="invalid webhook secret")
+    from app import slack_links
+    body = await request.json()
+    try:
+        with db.db_session() as conn:
+            created = slack_links.record_post(
+                conn,
+                channel=str(body.get("channel") or ""),
+                ts=str(body.get("ts") or ""),
+                campaign_id=body.get("campaign_id"),
+                lead_id=body.get("lead_id") or body.get("sl_email_lead_id"),
+                email=str(body.get("email") or ""),
+            )
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    return {"status": "recorded" if created else "duplicate"}
+
+
 @router.post("/webhooks/booking-confirmed")
 async def booking_confirmed(request: Request):
     """External automations (e.g. an n8n flow watching a booking-confirmation

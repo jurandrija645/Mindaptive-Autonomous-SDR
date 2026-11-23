@@ -1562,6 +1562,13 @@ def _mark_lead_waiting_on_them(
     db.upsert_lead_state(conn, lead_id, campaign_id, **fields)
 
 
+def _sender_name(draft: dict, sender_email: str | None) -> str:
+    """'Kurt' for kurt.johnson@..., used in the Slack 'answered' note."""
+    local = (sender_email or draft.get("sender_email") or "").split("@")[0]
+    first = re.split(r"[._\-+]", local)[0] if local else ""
+    return first.capitalize()
+
+
 def _send_due_draft(draft: dict, *, manual_click: bool = False) -> str:
     lead_id, campaign_id = draft["lead_id"], draft["campaign_id"]
     from app import aftercare
@@ -1731,6 +1738,12 @@ def _send_due_draft(draft: dict, *, manual_click: bool = False) -> str:
         _mark_lead_waiting_on_them(conn, lead_id, campaign_id, keep_category=is_sequence)
         if is_sequence:
             sequences.on_step_sent(conn, draft, sent_at)
+    try:
+        from app import slack_links
+        with db.db_session() as conn:
+            slack_links.mark_answered(conn, draft, sent_at, sender=_sender_name(draft, sender_email))
+    except Exception:
+        log.exception("could not record the Slack 'answered' mark for draft %s", draft["id"])
     log.info("sent draft %s to lead %s", draft["id"], lead_id)
     return "sent"
 
@@ -1764,6 +1777,9 @@ def start_scheduler() -> BackgroundScheduler:
         next_run_time=datetime.now(timezone.utc),
     )
     sched.add_job(batch_gen.poll_gen_batches, "interval", minutes=5, id="gen_batch_poll")
+    from app import slack_links
+    sched.add_job(slack_links.run_sync, "interval", minutes=1, id="slack_links_sync",
+                  max_instances=1, coalesce=True)
     if settings.deliverability_health_enabled and settings.mailbox_health_check_hours > 0:
         sched.add_job(
             deliverability_health.run_health_check,

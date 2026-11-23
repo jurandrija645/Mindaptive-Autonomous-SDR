@@ -382,4 +382,7 @@ def store_draft_result(conn, lead: dict, kind: str, thread, result, model: str |
         db.set_setting(conn, f"onebody_review_warning:{draft_id}", review_warning)
         if kind == "reply" and last_message.message_id:
             onebody_review.set_hold(lead["campaign_id"], lead["id"], last_message.message_id, conn)
+        if kind == "reply":
+            from app import slack_links  # writes only; Slack is posted by its own job
+            slack_links.mark_held(conn, lead["id"], lead.get("email"), review_warning)
     return draft_id

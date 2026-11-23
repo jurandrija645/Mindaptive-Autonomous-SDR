@@ -117,6 +117,27 @@
       "name": "Relevant reply - owner",
       "webhookId": "623b64b6-0539-4da1-9c5a-37c16ac19701",
       "credentials": {"slackApi": {"id": "mNInovdtpAnmStOr", "name": "Slack account 2"}}
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://onebody.mindaptive.ai/webhooks/slack-posted",
+        "sendHeaders": true,
+        "headerParameters": {"parameters": [{"name": "X-Webhook-Secret", "value": "={{ $env.ONEBODY_WEBHOOK_SECRET }}"}]},
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ channel: $json.channel || ($json.message && $json.message.channel) || 'C0BN1FR0NAH', ts: $json.ts || ($json.message && $json.message.ts), campaign_id: $('Webhook').item.json.body.campaign_id, lead_id: $('Webhook').item.json.body.sl_email_lead_id || $('Webhook').item.json.body.lead_id, email: $('Webhook').item.json.body.to_email }) }}",
+        "options": {"timeout": 10000}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [720, 656],
+      "id": "7d3c9a52-6a1e-4f0b-9d1e-2b8f5f0c4a17",
+      "name": "Link Slack post to OneBody",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
     }
   ],
   "connections": {
@@ -133,7 +154,8 @@
     "Prevedi poruku": {"main": [[
       {"node": "Relevant reply - channel", "type": "main", "index": 0},
       {"node": "Relevant reply - owner", "type": "main", "index": 0}
-    ]]}
+    ]]},
+    "Relevant reply - channel": {"main": [[{"node": "Link Slack post to OneBody", "type": "main", "index": 0}]]}
   },
   "pinData": {},
   "settings": {"executionOrder": "v1"}

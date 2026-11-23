@@ -636,6 +636,8 @@ def init_db() -> None:
         crm.ensure_table(conn)
         from app import lead_touches  # imports db; deferred to avoid a cycle
         lead_touches.ensure_table(conn)
+        from app import slack_links  # imports db; deferred to avoid a cycle
+        slack_links.ensure_table(conn)
         if needs_template_seed:
             _seed_message_templates(conn)
 
@@ -1205,6 +1207,25 @@ def mark_lead_replied(
         fields["snooze_until"] = None
 
     upsert_lead_state(conn, lead_id, campaign_id, **fields)
+
+    # Same person, already booked in another campaign. Smartlead keeps one
+    # lead_id across a parent campaign and its "Interested in 45 ..."
+    # subsequence, but each mapping is its own leads_state row. A booking
+    # recorded on the parent before the lead replied inside the subsequence
+    # left the subsequence row "awaiting reply" with no booked badge
+    # (Justin Gold and Jonathan Tinne, 23 Nov 2026). The booking is about the
+    # person, so carry it over.
+    if not (existing and existing["status"] == "booked") and booked_in_other_campaign(
+        conn, lead_id, campaign_id
+    ):
+        mark_lead_booked(conn, lead_id, campaign_id)
+
+
+def booked_in_other_campaign(conn, lead_id: int, campaign_id: int) -> bool:
+    return conn.execute(
+        "SELECT 1 FROM leads_state WHERE lead_id = ? AND campaign_id != ? AND status = 'booked' LIMIT 1",
+        (lead_id, campaign_id),
+    ).fetchone() is not None
 
 
 def sort_replied_lead(
