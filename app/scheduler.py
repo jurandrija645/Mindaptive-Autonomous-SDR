@@ -1738,6 +1738,10 @@ def _send_due_draft(draft: dict, *, manual_click: bool = False) -> str:
         _mark_lead_waiting_on_them(conn, lead_id, campaign_id, keep_category=is_sequence)
         if is_sequence:
             sequences.on_step_sent(conn, draft, sent_at)
+    # OneBody: a reply carrying the booking link puts the lead in its
+    # "Interested in 45 ..." category so the subsequence follows up.
+    from app import onebody_subsequence
+    onebody_subsequence.after_reply_sent(draft, send_body)
     try:
         from app import slack_links
         with db.db_session() as conn:
