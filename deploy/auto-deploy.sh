@@ -9,6 +9,12 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# One deploy at a time. A build takes longer than the 2-minute cron interval,
+# and two overlapping runs recreated the same containers at once: "container
+# name ... is already in use" (26 Oct and 18 Nov 2026).
+exec 9>/tmp/mindaptive-responder-deploy.lock
+flock -n 9 || exit 0
+
 # Cron has a minimal PATH — docker / docker compose often live outside it.
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH:-}"
 
@@ -23,6 +29,15 @@ git fetch origin main --quiet
 
 LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse origin/main)
+
+# Code on the droplet comes only from git. Files copied in by hand (or with
+# CRLF line endings from Windows) made every pull abort from 18 Nov 2026 while
+# the log only said "Aborting". Say why, loudly, and stop.
+if [ -n "$(git status --porcelain --untracked-files=normal)" ]; then
+    echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC') — ERROR: working tree is not clean, not deploying:" >&2
+    git status --short >&2
+    exit 1
+fi
 
 if [ "$LOCAL" != "$REMOTE" ]; then
     echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC') — new commit detected ($LOCAL -> $REMOTE), pulling"
@@ -41,7 +56,8 @@ echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC') — building/redeploying $DEPLOYED -> 
 # "Running" and left them on the old code (seen 2026-09-23: a push built at
 # 07:02 while every app container still dated from the day before), so the
 # app services are recreated explicitly. cloudflared is left alone.
-docker compose up -d --build
+docker compose build
 docker compose up -d --force-recreate --no-deps $(docker compose config --services | grep '^app')
+docker compose up -d
 echo "$LOCAL" > "$DEPLOYED_SHA_FILE"
 echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC') — deploy complete ($LOCAL)"

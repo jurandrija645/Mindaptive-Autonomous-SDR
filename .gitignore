@@ -7,6 +7,8 @@
 __pycache__/
 *.pyc
 data/
+# Per-client data volumes (docker-compose.yml): databases, uploads, library.
+/data-*/
 # Anchored to the repo root ON PURPOSE. A bare `exports/` matches at any depth,
 # which silently swallowed the whole app/exports/ PACKAGE — lead_export.py was
 # never committed and so was never in the Docker image. Harmless while nothing
