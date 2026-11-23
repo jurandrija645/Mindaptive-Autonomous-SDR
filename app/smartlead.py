@@ -40,7 +40,9 @@ def use_account(api_key: str | None):
 
 
 class SmartleadError(RuntimeError):
-    pass
+    def __init__(self, message: str, status_code: int | None = None):
+        super().__init__(message)
+        self.status_code = status_code
 
 
 _clients: dict[str, httpx.Client] = {}
@@ -166,7 +168,8 @@ def _request(
             continue
         if resp.status_code >= 400:
             raise SmartleadError(
-                f"{method} {path} failed: {resp.status_code} {resp.text[:500]}"
+                f"{method} {path} failed: {resp.status_code} {resp.text[:500]}",
+                status_code=resp.status_code,
             )
         total = time.perf_counter() - total_started
         if total >= 1.0:

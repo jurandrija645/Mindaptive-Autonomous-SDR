@@ -1536,8 +1536,20 @@ def run_due_send_loop() -> None:
                     db.update_draft(conn, draft["id"], kind="reply", status="pending", scheduled_at=None, send_error="Automatic send stopped; review required: " + str(exc)[:400])
                 elif current["kind"] == "sequence":
                     sequences.on_send_failed(conn, current, str(exc))
+                elif _permanent_send_error(exc):
+                    # Retrying cannot help: the mailbox or campaign is gone in
+                    # Smartlead. Five revive follow-ups whose mailboxes had been
+                    # removed were retried every minute for four weeks
+                    # (21,500 failures in 72 h, Nov 2026).
+                    db.update_draft(conn, draft["id"], status="aborted", send_error=str(exc)[:500])
                 else:
                     db.update_draft(conn, draft["id"], status="scheduled", send_error=str(exc)[:500])
+
+
+def _permanent_send_error(exc: Exception) -> bool:
+    """A Smartlead 400/404/422: the request itself is invalid, so the same
+    send will fail the same way next minute. 401/403/429/5xx may clear up."""
+    return isinstance(exc, smartlead.SmartleadError) and getattr(exc, "status_code", None) in (400, 404, 422)
 
 
 def _mark_lead_waiting_on_them(

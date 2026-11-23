@@ -241,6 +241,36 @@ assert.deepEqual(state.leads, rows);
         settings.db_path = self.old_db_path
         self.tmp.cleanup()
 
+    def _scheduled_followup(self) -> int:
+        with db.db_session() as conn:
+            return db.create_draft(conn, lead_id=20, campaign_id=10, kind="followup",
+                                   body_html="<p>Hi</p>", status="scheduled",
+                                   scheduled_at="2020-01-01T00:00:00+00:00")
+
+    def test_permanent_smartlead_error_stops_retrying_the_draft(self):
+        draft_id = self._scheduled_followup()
+        err = smartlead.SmartleadError(
+            'POST /campaigns/10/reply-email-thread failed: 400 {"message":"Invalid campaign id (or) email account not found!"}',
+            status_code=400,
+        )
+        with patch.object(scheduler, "_send_due_draft", side_effect=err):
+            scheduler.run_due_send_loop()
+        with patch.object(scheduler, "_send_due_draft") as send:
+            scheduler.run_due_send_loop()
+        send.assert_not_called()
+        with db.db_session() as conn:
+            draft = db.get_draft(conn, draft_id)
+        self.assertEqual(draft["status"], "aborted")
+        self.assertIn("email account not found", draft["send_error"])
+
+    def test_transient_smartlead_error_keeps_the_draft_scheduled(self):
+        draft_id = self._scheduled_followup()
+        err = smartlead.SmartleadError("POST x failed: 503 unavailable", status_code=503)
+        with patch.object(scheduler, "_send_due_draft", side_effect=err):
+            scheduler.run_due_send_loop()
+        with db.db_session() as conn:
+            self.assertEqual(db.get_draft(conn, draft_id)["status"], "scheduled")
+
     def test_sender_without_persona_calendar_does_not_override_client_booking_link(self):
         message = drafter._build_user_message(
             "reply",
