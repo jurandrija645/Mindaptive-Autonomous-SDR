@@ -40,6 +40,23 @@ def test_review_failure_never_returns_unchecked_draft(response):
         call_review(draft(), response)
 
 
+def test_follow_up_after_handover_may_skip_brochure_and_fee():
+    """Once the thread holds VIP8401, a short human follow-up passes without repeats."""
+    short = "No rush, Chris. The link from my last email works whenever you're ready."
+    response = json.dumps({"decision": "pass", "body": short})
+    with patch.object(onebody_review, "enabled", return_value=True), \
+         patch.object(onebody_review.models_registry, "provider_for", return_value="openrouter"), \
+         patch.object(onebody_review.openrouter, "complete", return_value=response):
+        reviewed = onebody_review.review(
+            drafter.DraftResult("", short, "", ""),
+            "[sent] Here's the link, use VIP8401. £4.99 fee.\n[reply] I'll book when I know my office days",
+            {"name": "Chris"}, "vendor/model")
+    assert reviewed.body_original == short
+    # The same short reply without an earlier handover is still held.
+    with pytest.raises(onebody_review.ReviewError):
+        call_review(drafter.DraftResult("", short, "", ""), response)
+
+
 def test_other_clients_do_not_call_reviewer():
     result = draft()
     with patch.object(onebody_review, "enabled", return_value=False), \
