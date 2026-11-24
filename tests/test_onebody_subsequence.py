@@ -85,6 +85,14 @@ def test_only_replies(env, kind):
     assert result is None and not update.called
 
 
+def test_signature_link_is_ignored(env):
+    """The signature's own physio 'Book a session' link must not make a massage reply ambiguous."""
+    d = {**draft(), "body_html": f"<p>Here you go: {M20_LINK}</p>"}
+    result, update = run(f"<p>Here you go: {M20_LINK}</p><table>{PHYSIO_LINK}</table>", overview(1), d)
+    assert result == sub.SPORTS
+    update.assert_called_once_with(100, 7, 197615, pause_lead=False)
+
+
 def test_reply_without_link_left_alone(env):
     result, update = run("Fair question, happy to help.", overview(1))
     assert result is None and not update.called

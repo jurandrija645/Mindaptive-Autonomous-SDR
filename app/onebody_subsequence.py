@@ -69,7 +69,10 @@ def after_reply_sent(draft: dict, body: str) -> str | None:
     """Move the lead to its subsequence category. Returns the category set, or None."""
     if not available() or draft.get("kind") not in REPLY_KINDS:
         return None
-    target = target_for(body)
+    # Read the message itself, not the signature: Kurt's and Rebecca's signatures carry
+    # their own "Book a session" partnership link, which made every massage reply look
+    # like it had both links (Eliziana Bregu, Ellie Sedgwick, 24 Nov 2026).
+    target = target_for(draft.get("body_html") or body)
     if not target:
         return None
     campaign_id, lead_id = int(draft["campaign_id"]), int(draft["lead_id"])
