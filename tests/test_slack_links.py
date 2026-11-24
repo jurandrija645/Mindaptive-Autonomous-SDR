@@ -134,3 +134,16 @@ class SlackLinksTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_full_text_keeps_whole_reply_without_signature_or_history():
+    from app import slack_links
+    html = ("<p>Hi Steve,</p><p>No problem at all.</p><p>Here's the link: "
+            "https://onebodyldn.connect.tm3app.com/book/partnerships/sports_massage_2/sports_massage_20_min</p>"
+            "<p>Use code VIP8401.</p>" + "<p>" + "word " * 60 + "</p>")
+    out = slack_links._full_text(html)
+    assert out.startswith("> Hi Steve,")
+    assert "VIP8401" in out and "sports_massage_20_min" in out and "…" not in out
+    plain = "Hi Tom, No catch really. Use code VIP8401 . Kurt in ig Kurt Johnson Co-Founder @ One Body LDN On Mon, 23 Nov wrote: old"
+    out = slack_links._full_text(plain)
+    assert "VIP8401" in out and "Co-Founder" not in out and "old" not in out

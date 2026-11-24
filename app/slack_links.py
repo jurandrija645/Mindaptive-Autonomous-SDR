@@ -101,9 +101,8 @@ def mark_answered(conn, draft: dict, sent_at: str, *, sender: str = "") -> int:
     if (draft.get("kind") or "") == "sequence":
         return 0
     how = "automatski" if draft.get("kind") == "auto_response" else "iz dashboarda"
-    preview = _first_words(draft.get("body_html") or "", 160)
     who = f" ({sender})" if sender else ""
-    note = f"Odgovoreno {how}{who}, {_london(sent_at)}: \"{preview}\""
+    note = f"Odgovoreno {how}{who}, {_london(sent_at)}:\n{_full_text(draft.get('body_html') or '')}"
     n = 0
     for post in _open_posts(conn, draft.get("lead_id"), draft.get("lead_email")):
         if post["posted_at"] <= sent_at:
@@ -212,8 +211,8 @@ def _detect_outside_replies() -> None:
             conn.execute("UPDATE slack_posts SET last_checked_at = ? WHERE id = ?", (db.now_iso(), post["id"]))
             if ours:
                 m = ours[-1]
-                note = (f"Odgovoreno direktno iz Smartleada, {_london(m.timestamp.isoformat())}: "
-                        f"\"{_first_words(m.body, 160)}\"")
+                note = (f"Odgovoreno direktno iz Smartleada, {_london(m.timestamp.isoformat())}:\n"
+                        f"{_full_text(m.body)}")
                 conn.execute(
                     "UPDATE slack_posts SET answered_at = ?, answered_note = ? WHERE id = ? AND answered_at IS NULL",
                     (m.timestamp.isoformat(), note, post["id"]),
@@ -242,9 +241,32 @@ def _london(raw) -> str:
     return dt.astimezone(LONDON).strftime("%d.%m. %H:%M") if dt else ""
 
 
-def _first_words(html: str, limit: int) -> str:
-    text = re.sub(r"<(br|/p|/div)[^>]*>", " ", html or "", flags=re.I)
-    text = unescape(re.sub(r"<[^>]+>", " ", text))
+# The signature block as Smartlead returns it in plain text ("Kurt in ig Kurt Johnson
+# Co-Founder @ One Body LDN …"): everything from there on is not the reply itself.
+_SIGNATURE = re.compile(r"\s(?:Kurt|Rebecca)\s+(?:in\s+)?(?:f\s+)?ig\s+(?:Kurt|Rebecca)\b|Co-Founder\s*(?:&|@)", re.I)
+# Slack allows far more; this only stops a pathological body from flooding the thread.
+FULL_LIMIT = 3500
+
+
+def _full_text(html: str) -> str:
+    """The whole reply we sent, as quoted Slack lines (Andrija, 24 Nov 2026: the thread
+    must show the complete answer, not its first words). Quoted history and the
+    signature are dropped; paragraph breaks are kept."""
+    text = re.sub(r"<(br|/p|/div|/li)[^>]*>", "\n", html or "", flags=re.I)
+    text = unescape(re.sub(r"<[^>]+>", "", text))
     text = re.split(r"On .{5,120}?wrote:", text)[0]
-    text = " ".join(text.split())
-    return text if len(text) <= limit else text[:limit].rsplit(" ", 1)[0] + "…"
+    text = _SIGNATURE.split(text)[0]
+    lines = [" ".join(line.split()) for line in text.splitlines()]
+    out, blank = [], False
+    for line in lines:
+        if not line:
+            blank = bool(out)
+            continue
+        if blank:
+            out.append("")
+        out.append(line)
+        blank = False
+    text = "\n".join(out).strip()
+    if len(text) > FULL_LIMIT:
+        text = text[:FULL_LIMIT].rsplit(" ", 1)[0] + "…"
+    return "\n".join("> " + line if line else ">" for line in text.splitlines())
