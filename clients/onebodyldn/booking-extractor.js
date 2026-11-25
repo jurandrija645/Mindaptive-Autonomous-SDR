@@ -1,5 +1,5 @@
 // n8n Code node, run once for all items. Keep the embedded workflow copy in sync.
-const approvedCodes = new Set(['VIP8401', 'OBLACCESS55', 'OBLACCESS25']);
+const approvedCodes = new Set(['VIP8401', 'OBLACCESS55', 'OBLACCESS25', 'WATERLOOWORK', 'WATERLOOHOME']);
 const labels = ['Client Name', 'Email', 'Discount Code', 'Discount Code Value',
   'Location', 'Date', 'Time', 'Appointment Date', 'Appointment Time'];
 const results = [];

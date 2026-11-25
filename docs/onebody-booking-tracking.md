@@ -6,7 +6,10 @@ As of 2026-10-22, all three partnership appointments use `VIP8401`.
 Booking tracking depends on runtime configuration and the live n8n workflow;
 editing the offer knowledge alone does not update either of these.
 
-- Server `.env.onebodyldn`: `BOOKING_MATCH_CODES=VIP8401,OBLACCESS55,OBLACCESS25`.
+- Server `.env.onebodyldn`: `BOOKING_MATCH_CODES=VIP8401,OBLACCESS55,OBLACCESS25,WATERLOOWORK,WATERLOOHOME`.
+  `WATERLOOWORK` (office packs) and `WATERLOOHOME` (leaflets) are the Waterloo direct-mail
+  codes, added 2026-11-25 before anything was posted. A new mail code must go here, in the
+  extractor, and in OneBodyLDN `scripts/refresh.py` `MAIL_CODES`, or its bookings are dropped.
   Retain the old codes to catch bookings from already-sent offers.
 - Active n8n workflow: `Booking notification`, ID `4RX1d7HRFweHRjLH`.
 - Outlook trigger polls every minute for `noreply@onebodyldn.com`, uses Raw

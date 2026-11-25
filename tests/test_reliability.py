@@ -1043,11 +1043,14 @@ Discount Code: OBLACCESS55
             {"id": "empty-code", "body": {"content": "Client Name: Other Person\nEmail: other@example.com\nDiscount Code:\nDiscount Code Value: 0\nLocation: Aldgate East"}},
             {"id": "legacy", "body": {"content": "Client Name: Legacy Person\nEmail: old@example.com\nDiscount Code: OBLACCESS55"}},
             {"id": "unrelated", "body": {"content": "Client Name: Other Person\nDiscount Code: ANOTHER"}},
+            {"id": "mail-office", "body": {"content": "Client Name: Pat Office\nEmail: pat@example.com\nDiscount Code: waterloowork\nLocation: One Body LDN - Waterloo"}},
+            {"id": "mail-home", "body": {"content": "Client Name: Kim Home\nEmail: kim@example.com\nDiscount Code: WATERLOOHOME"}},
         ]
         runner = "const run = new Function('$input', " + json.dumps(source) + "); console.log(JSON.stringify(run({all: () => " + json.dumps([{"json": m} for m in messages]) + "})));"
         result = subprocess.run(["node", "-e", runner], capture_output=True, text=True, check=True)
         parsed = json.loads(result.stdout)
-        self.assertEqual([r["json"]["booking_id"] for r in parsed], ["vip-1", "vip-2", "legacy"])
+        self.assertEqual([r["json"]["booking_id"] for r in parsed], ["vip-1", "vip-2", "legacy", "mail-office", "mail-home"])
+        self.assertEqual(parsed[3]["json"]["discount_code"], "WATERLOOWORK")
         self.assertEqual(parsed[0]["json"]["discount_code"], "VIP8401")
         self.assertEqual(parsed[0]["json"]["email"], "alex@example.com")
         self.assertEqual(parsed[1]["json"]["date"], "24 October")
