@@ -26,7 +26,7 @@ from app import candidates as candidates_module
 from app import client_assets, db, deliverability_health, drafter, google_oauth, lead_research, lead_temperature, library, message_templates, models_registry
 from app import booking_guard, crm, events, lead_touches, pipeline, placement, scheduler, sequences, signatures, smartlead
 from app import offer_events, prospect_contacts, site_feedback, site_visits, translator, uploads, webhook
-from app import subsequence_overview, onebody_review
+from app import subsequence_overview, onebody_review, daily_review
 from app.exports import sheet_export
 from app.auth import install_session_middleware, is_authed, require_auth
 from app.config import settings
@@ -55,6 +55,7 @@ app.include_router(site_visits.router)
 app.include_router(site_feedback.router)
 app.include_router(offer_events.router)
 app.include_router(crm.router)
+app.include_router(daily_review.router)
 
 
 @app.middleware("http")

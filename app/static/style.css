@@ -1846,3 +1846,58 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
 .attachment-file-icon { font-size: 11px; font-weight: 700; padding: 3px 6px; border: 1px solid currentColor; border-radius: 4px; }
 .attachment-detail { width: 100%; font-size: 12px; opacity: .8; }
 .attachments .attachment-open { text-decoration: underline; font-size: 13px; }
+
+/* ---------- Pregled (static/review.js): the morning review of conversations ---------- */
+.review-page { height: calc(100vh - var(--header-h)); overflow-y: auto; padding: 16px 20px 40px; }
+.has-priority-notice > .review-page { height: auto; }
+.rv-wrap { max-width: 1100px; margin: 0 auto; }
+.rv-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.rv-title { margin: 0 8px 0 0; font-size: 20px; }
+.rv-day { padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); }
+.rv-meta { font-size: 12px; flex-basis: 100%; }
+.rv-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.rv-tile { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.rv-tile-value { font-size: 24px; font-weight: 700; }
+.rv-tile-label { font-size: 13px; }
+.rv-tile-sub { font-size: 12px; }
+.rv-tile-warn { border-color: var(--followup); background: var(--followup-bg); }
+.rv-tile-bad { border-color: var(--reply); background: var(--reply-bg); }
+.rv-tile-good { border-color: var(--booked); background: var(--booked-bg); }
+.rv-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.rv-check { font-size: 13px; margin-left: 8px; white-space: nowrap; }
+.rv-search { max-width: 260px; margin-left: auto; }
+.rv-help { font-size: 13px; margin: 6px 0 10px; }
+.rv-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
+.rv-card-problem { border-left: 4px solid var(--reply); }
+.rv-card-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+.rv-card-title { font-weight: 700; }
+.rv-card-sub { font-size: 12px; }
+.rv-links { display: flex; gap: 10px; margin-left: auto; font-size: 13px; }
+.rv-chip { font-size: 12px; padding: 1px 8px; border-radius: 10px; background: var(--waiting-bg); color: var(--waiting); }
+.rv-chip-owner { background: var(--booked-bg); color: var(--booked); }
+.rv-score-1, .rv-score-2 { background: var(--reply-bg); color: var(--reply); }
+.rv-score-3 { background: var(--followup-bg); color: var(--followup); }
+.rv-score-4, .rv-score-5 { background: var(--booked-bg); color: var(--booked); }
+.rv-line { font-size: 13px; margin: 4px 0; }
+.rv-bad { color: var(--reply); font-weight: 600; }
+.rv-msg { border-radius: 8px; padding: 8px 10px; margin: 6px 0; font-size: 13px; }
+.rv-them { background: var(--waiting-bg); margin-right: 40px; }
+.rv-us { background: #f3efe8; margin-left: 40px; }
+.rv-auto { opacity: 0.6; }
+.rv-msg-head { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.rv-msg-text { white-space: pre-wrap; word-break: break-word; }
+.rv-review { border-top: 1px dashed var(--border); margin-top: 8px; padding-top: 8px; font-size: 13px; }
+.rv-review-title { font-weight: 700; margin-top: 4px; }
+.rv-flags { margin: 4px 0 6px 18px; padding: 0; }
+.rv-flags li { margin: 2px 0; }
+.rv-toggle { margin-top: 6px; }
+.rv-full { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 4px; }
+.rv-loading, .rv-empty, .rv-error { padding: 20px 0; }
+.rv-error { color: var(--reply); }
+@media (max-width: 760px) {
+  .review-page { flex: 1; min-height: 0; height: auto; padding: 12px 12px 24px; width: 100%; }
+  .rv-them { margin-right: 0; }
+  .rv-us { margin-left: 0; }
+  .rv-search { margin-left: 0; max-width: none; flex-basis: 100%; }
+  .rv-links { margin-left: 0; }
+}

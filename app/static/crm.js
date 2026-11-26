@@ -35,6 +35,11 @@ function setMode(mode) {
   $("followup-settings-btn").hidden = inCrm;
   document.querySelector(".layout").hidden = inCrm;
   $("crm-page").hidden = !inCrm;
+  // The review workspace (static/review.js) is closed by either of the other two.
+  document.body.classList.remove("review-mode");
+  if ($("review-page")) $("review-page").hidden = true;
+  $("subnav").hidden = false;
+  if ($("mode-review-btn")) $("mode-review-btn").classList.remove("active");
   if (inCrm) {
     if (crm.dealId) openCrmDeal(crm.dealId);
     else loadCrmBoard();

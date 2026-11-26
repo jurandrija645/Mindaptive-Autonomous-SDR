@@ -41,6 +41,7 @@
       <div class="mode-switch" id="mode-switch" role="tablist" aria-label="Workspace">
         <button id="mode-outreach-btn" class="mode-tab active" type="button">Outreach</button>
         <button id="mode-crm-btn" class="mode-tab" type="button">CRM</button>
+        <button id="mode-review-btn" class="mode-tab" type="button" title="Morning review of every conversation after a positive reply">Pregled</button>
       </div>
       <button id="rescan-btn" class="btn-secondary" type="button">Rescan now</button>
       <!-- Settings and log out: needed rarely, so they collapse into one
@@ -174,7 +175,9 @@
 </div>
 
 <main class="crm-page" id="crm-page" hidden></main>
+<main class="review-page" id="review-page" hidden></main>
 
 <script src="/static/app.js?v={{ static_version }}" defer></script>
 <script src="/static/crm.js?v={{ static_version }}" defer></script>
+<script src="/static/review.js?v={{ static_version }}" defer></script>
 {% endblock %}
