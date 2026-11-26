@@ -192,7 +192,7 @@ function renderReview() {
       list.appendChild(rvCard(w.ref, (box) => {
         box.appendChild(rvLine(`Čeka ${w.hours} h (od ${w.at})`, w.hours >= 20 ? "rv-bad" : ""));
         if (w.why && w.why.length) box.appendChild(rvLine("Zašto: " + w.why.join(" · "), "muted"));
-        box.appendChild(rvMsg({ type: "them", kind: "open", at: w.at, text: w.text }));
+        box.appendChild(rvMsg({ type: "them", kind: "open", at: w.at, text: w.text, text_hr: w.text_hr }));
       }));
     }
   } else if (rv.section === "replies") {
@@ -203,8 +203,8 @@ function renderReview() {
         const resp = x.response_h == null ? "još bez našeg odgovora" : `prvi naš odgovor nakon ${x.response_h} h`;
         box.appendChild(rvLine((x.first_reply ? "Prvi odgovor na kampanju · " : "Odgovor u razgovoru · ") + resp,
           x.response_h == null ? "rv-bad" : ""));
-        for (const m of x.their) box.appendChild(rvMsg({ type: "them", kind: m.kind, at: m.at, text: m.text }));
-        for (const m of x.ours_after) box.appendChild(rvMsg({ type: "us", kind: m.kind, at: m.at, text: m.text }));
+        for (const m of x.their) box.appendChild(rvMsg({ type: "them", kind: m.kind, at: m.at, text: m.text, text_hr: m.text_hr }));
+        for (const m of x.ours_after) box.appendChild(rvMsg({ type: "us", kind: m.kind, at: m.at, text: m.text, text_hr: m.text_hr }));
       }));
     }
   } else if (rv.section === "followups") {
@@ -215,7 +215,7 @@ function renderReview() {
         const since = f.days_since_their_last == null ? "" : ` · ${f.days_since_their_last} d od njihove zadnje poruke`;
         box.appendChild(rvLine(`Tog dana poslano: ${f.sent.length} · zadnjih 7 dana: ${f.ours_last7} · ukupno nakon kampanje: ${f.ours_total}${since}`,
           f.ours_last7 >= 4 || f.sent.length >= 2 ? "rv-bad" : ""));
-        for (const m of f.sent) box.appendChild(rvMsg({ type: "us", kind: m.kind, at: m.at, text: m.text }));
+        for (const m of f.sent) box.appendChild(rvMsg({ type: "us", kind: m.kind, at: m.at, text: m.text, text_hr: m.text_hr }));
       }));
     }
   } else if (rv.section === "due") {
@@ -243,7 +243,7 @@ function renderReview() {
       shown++;
       const c = rvEl("div", "rv-card");
       c.append(rvEl("div", "rv-card-title", `${n.company || n.name || n.email} · ${n.email} · ${n.category || "bez kategorije"}`),
-        rvMsg({ type: "them", kind: "no", at: n.at, text: n.text }));
+        rvMsg({ type: "them", kind: "no", at: n.at, text: n.text, text_hr: n.text_hr }));
       list.appendChild(c);
     }
   }
@@ -261,7 +261,21 @@ function rvMsg(m) {
   const box = rvEl("div", "rv-msg " + (us ? "rv-us" : "rv-them") + (m.kind === "auto" ? " rv-auto" : ""));
   const label = us ? (RV_KIND[m.kind] || "Mi") : (RV_KIND[m.kind] || "Lead");
   const who = m.from && us ? ` · ${m.from}` : "";
-  box.append(rvEl("div", "rv-msg-head", `${m.at} · ${label}${who}`), rvEl("div", "rv-msg-text", m.text || "(prazno)"));
+  // Croatian first (owner, 26 Nov 2026: the threads are in languages the team does not read);
+  // the original is one click away.
+  const hr = m.text_hr && m.text_hr.trim() && m.text_hr.trim() !== (m.text || "").trim() ? m.text_hr : "";
+  box.append(rvEl("div", "rv-msg-head", `${m.at} · ${label}${who}`), rvEl("div", "rv-msg-text", hr || m.text || "(prazno)"));
+  if (hr) {
+    const orig = rvEl("div", "rv-msg-text rv-orig", m.text);
+    orig.hidden = true;
+    const btn = rvEl("button", "link-btn rv-orig-btn", "Original");
+    btn.type = "button";
+    btn.addEventListener("click", () => {
+      orig.hidden = !orig.hidden;
+      btn.textContent = orig.hidden ? "Original" : "Sakrij original";
+    });
+    box.append(btn, orig);
+  }
   return box;
 }
 

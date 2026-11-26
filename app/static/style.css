@@ -1901,3 +1901,5 @@ details.translation .translation-body { margin-top: 8px; font-size: 13px; color:
   .rv-search { margin-left: 0; max-width: none; flex-basis: 100%; }
   .rv-links { margin-left: 0; }
 }
+.rv-orig-btn { font-size: 11px; margin-top: 4px; }
+.rv-orig { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); color: var(--muted); }
